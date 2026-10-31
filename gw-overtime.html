@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>공무원 초과근무수당 계산기 2027 | 직급별 시간외 시급</title>
+<meta name="description" content="9급 10,949원 등 직급별 시간외근무 단가로 평일·휴일·야간 초과근무수당을 계산해요. 일반직·경찰·소방·교사 2026·2027년 기준.">
+<link rel="canonical" href="https://85hongdongwoo-sys.github.io/gw-overtime.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="공무원 초과근무수당 계산기 2027 | 직급별 시간외 시급">
+<meta property="og:description" content="9급 10,949원 등 직급별 시간외근무 단가로 평일·휴일·야간 초과근무수당을 계산해요. 일반직·경찰·소방·교사 2026·2027년 기준.">
+<meta property="og:url" content="https://85hongdongwoo-sys.github.io/gw-overtime.html">
+<meta name="theme-color" content="#0B1F3F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{color-scheme:light;
+  --bg:#0F2A52;--paper:#fff;--ink:#0F1B2D;--muted:#5A6678;--line:#DDE2EA;--soft:#EEF1F5;
+  --accent:#12305C;--accent-soft:#EAF0F8;--gold:#E8C27A;--gold-d:#B8862B;--tax:#C2362B;--up:#13795B;
+  --f:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:linear-gradient(180deg,#0F2A52 0,#0C2347 600px,#0A1E3E 100%) fixed;color:var(--ink);font:15px/1.6 var(--f);letter-spacing:-.005em;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08)}
+.brandbar .in{max-width:1040px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none}
+.logo i{width:26px;height:26px;border-radius:6px;background:var(--gold-d);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;color:#AEBBD0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px 48px}
+header.top{padding:28px 0 14px;border-bottom:1px solid rgba(255,255,255,.14);display:flex;flex-wrap:wrap;gap:8px 20px;align-items:flex-end;justify-content:space-between}
+h1{margin:0;font-weight:800;font-size:clamp(24px,4.4vw,32px);letter-spacing:-.025em;color:#fff;text-wrap:balance}
+h1 b{color:var(--gold);font-weight:800}
+.sub{margin:6px 0 0;color:#BFCBE0;font-size:14.5px;max-width:64ch}
+.stamp{font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,.1);border-radius:4px;padding:5px 10px;white-space:nowrap}
+nav.tabs{position:sticky;top:0;z-index:5;background:#0F2A52;padding:12px 0 10px;border-bottom:1px solid rgba(255,255,255,.14)}
+.tabs .row{display:flex;gap:6px;flex-wrap:wrap}
+.tabs a{font-size:14.5px;font-weight:600;padding:8px 16px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:#DCE4F2;text-decoration:none}
+.tabs a:hover{border-color:rgba(255,255,255,.45);color:#fff}
+.tabs a[aria-current="page"]{background:#fff;border-color:#fff;color:#0F2A52}
+.panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:20px}
+@media (max-width:820px){.panel{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--paper);border-radius:8px;padding:22px}
+.form{display:grid;gap:14px;align-content:start}
+.form h2,.res h2{margin:0;font-size:20px;font-weight:700;letter-spacing:-.02em}
+.lead{margin:-4px 0 4px;color:var(--muted);font-size:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field{display:grid;gap:4px;min-width:0}
+.field label{font-size:13px;font-weight:600;color:#3A4659}
+.field input,.field select{width:100%;font:500 16px var(--mono);color:var(--ink);background:#FBFCFD;border:1px solid #C9D1DC;border-radius:4px;padding:10px 12px}
+.field select{font-family:var(--f);font-size:15px}
+.field input:focus,.field select:focus{border-color:var(--accent);background:#fff;outline:none;box-shadow:0 0 0 3px rgba(18,48,92,.12)}
+.hint{margin:0;font-size:12.5px;color:var(--muted)}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:14px}
+.check input{margin-top:4px}
+.group{display:grid;gap:12px;padding-top:14px;border-top:1px solid var(--line)}
+.group h3{margin:0;font-size:13.5px;font-weight:700;color:var(--accent)}
+.res{align-self:start;border-top:4px solid var(--gold);position:sticky;top:76px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media (max-width:820px){.res{position:static}}
+.kicker{margin:0 0 4px;font-size:12px;font-weight:700;color:var(--muted)}
+.big{font:600 clamp(26px,5vw,34px)/1.2 var(--mono);color:var(--accent);margin:4px 0 2px;letter-spacing:-.02em}
+.bigsub{margin:0;font-size:13.5px;color:var(--muted)}
+.up{color:var(--up);font-weight:600}.down{color:var(--tax);font-weight:600}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-variant-numeric:tabular-nums}
+td,th{padding:8px 0;border-bottom:1px solid var(--soft);font-size:14px;vertical-align:top;text-align:left}
+th{font-size:12px;color:var(--muted);font-weight:600}
+td.n,th.n{text-align:right;font-family:var(--mono);white-space:nowrap;padding-left:10px}
+td .c{display:block;font-size:12px;color:var(--muted);font-family:var(--f);white-space:normal}
+tr.g td{padding-top:14px;font-size:12px;font-weight:700;color:var(--muted);border-bottom:0}
+tr.t td{border-top:2px solid var(--ink);border-bottom:0;font-weight:700}
+tr.minus td.n{color:var(--tax)}
+.blk{margin-top:18px}
+.blk h3{margin:0;font-size:15px}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:4px;background:var(--accent-soft);color:var(--accent);vertical-align:2px}
+.chip.est{background:#FFF4DC;color:#8A5A00}
+.note{margin:10px 0 0;font-size:12.5px;color:var(--muted)}
+.help{margin-top:24px}
+.help h2{margin:0 0 6px;font-size:20px}
+.help h3{margin:16px 0 4px;font-size:15.5px;color:var(--accent)}
+.help p{margin:0 0 8px;line-height:1.75}
+.help dl{margin:0;display:grid;gap:10px}.help dt{font-weight:700}.help dd{margin:2px 0 0;color:#3A4659}
+.basis td{font-size:13px}
+.ad{margin-top:24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:640px){.ad{grid-template-columns:1fr}}
+.ad .card{padding:14px 16px;display:grid;gap:8px}
+.ad .tag{font-size:11px;font-weight:600;color:#8590A0}
+.ad img{width:100%;border-radius:6px;border:1px solid var(--line);display:block}
+.ad .disc{margin:0;font-size:11.5px;color:#8F99A8}
+.ad ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+footer{margin-top:24px;background:var(--paper);border-radius:8px;padding:18px 20px;font-size:12.5px;color:var(--muted);display:grid;gap:6px}
+footer nav{font-weight:600}
+@media (max-width:480px){.row3{grid-template-columns:1fr 1fr}.card{padding:18px}}
+</style>
+<script>window.START_TAB="ot";</script>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 투자계산기</a><span class="meta">2027년 보수 예산안 기준 · 무료</span></div></div>
+<div class="wrap">
+<header class="top">
+  <div>
+    <h1 id="h1">공무원 <b>초과근무수당 계산기</b></h1>
+    <p class="sub" id="lede">일반직 9~6급, 경찰·소방 순경~경감, 교사 1~40호봉의 2027년 실수령액과 초과근무수당, 공무원연금 예상액을 한 곳에서 계산해요.</p>
+  </div>
+  <span class="stamp">2027 인상률 3.9% (예산안) · 10/31 확인</span>
+</header>
+
+<nav class="tabs" aria-label="공무원 계산기">
+  <div class="row">
+    <a href="gw-pay.html" data-t="pay">실수령액</a>
+    <a href="gw-overtime.html" data-t="ot" aria-current="page">초과근무수당</a>
+    <a href="gw-pension.html" data-t="pen">공무원연금</a>
+  </div>
+</nav>
+
+<!-- ===== 1. 실수령액 ===== -->
+<section class="panel" id="t-pay" hidden>
+  <div class="card form">
+    <h2>2027년 내 월급, 손에 얼마 남을까</h2>
+    <p class="lead">직종·직급·호봉을 고르면 2027 봉급표(추정)로 세전 보수와 공제 후 실수령액을 계산해요.</p>
+    <div class="row2">
+      <div class="field"><label for="job">직종</label>
+        <select id="job"><option value="gen">일반직 (행정 등)</option><option value="pol">경찰</option><option value="fire">소방</option><option value="tea">교사 (유·초·중·고)</option></select></div>
+      <div class="field"><label for="rank">직급·계급</label><select id="rank"></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="hob">호봉 (2027.1.1. 승급 후)</label><select id="hob"></select></div>
+      <div class="field"><label for="yrs">근무연수 (년)</label><input id="yrs" inputmode="numeric" value="2"></div>
+    </div>
+    <p class="hint" id="hobHint">2026년 호봉에서 1호봉 올려서 고르면 돼요. 근무연수는 정근수당 계산에 쓰여요.</p>
+    <div class="row2">
+      <div class="field"><label for="raise">2027 인상률 (%)</label><input id="raise" inputmode="decimal" value="3.9"></div>
+      <div class="field" id="rankAllowWrap"><label for="rankAllow">직급보조비 (월, 원)</label><input id="rankAllow" inputmode="numeric" value="175,000"></div>
+    </div>
+    <label class="check" id="reformWrap"><input type="checkbox" id="reform" checked><span>보수위원회 수당 개편 권고 반영 <span class="hint">(직급보조비 인상·초과근무 지급률 60%, 확정 전)</span></span></label>
+
+    <div class="group" id="jobGroup">
+      <h3 id="jobGroupTitle">직종 수당</h3>
+      <div id="polBox">
+        <label class="check"><input type="checkbox" id="danger" checked><span>위험근무수당 월 80,000원 <span class="hint">(2026년 7만→8만 원)</span></span></label>
+        <label class="check"><input type="checkbox" id="special"><span>특수업무수당 월 80,000원 <span class="hint">(인파관리 경찰·긴급구조통제단 소방)</span></span></label>
+      </div>
+      <div id="teaBox">
+        <label class="check"><input type="checkbox" id="homeroom" checked><span>담임수당 월 200,000원</span></label>
+        <label class="check"><input type="checkbox" id="head"><span>보직교사(부장) 수당 월 150,000원</span></label>
+        <p class="hint">교직수당 월 250,000원과 교원연구비(5년 미만 75,000원, 이후 60,000원, 비과세)는 자동으로 넣어요.</p>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3>가족</h3>
+      <div class="row3">
+        <div class="field"><label for="spouse">배우자</label><select id="spouse"><option value="0">없음</option><option value="1">있음</option></select></div>
+        <div class="field"><label for="kids">자녀 (19세 미만)</label><input id="kids" inputmode="numeric" value="0"></div>
+        <div class="field"><label for="others">그 밖의 부양가족</label><input id="others" inputmode="numeric" value="0"></div>
+      </div>
+      <div class="field"><label for="ctk">자녀세액공제 대상 자녀 수 (8~20세)</label><input id="ctk" inputmode="numeric" value="0"></div>
+    </div>
+
+    <div class="group">
+      <h3>초과근무·성과금·기타</h3>
+      <div class="row2">
+        <div class="field"><label for="otH">월 초과근무 시간 (정액분 제외)</label><input id="otH" inputmode="numeric" value="10"></div>
+        <div class="field" id="bonusGradeWrap"><label for="bonusGrade">성과상여금 등급</label>
+          <select id="bonusGrade"><option value="none">해당 없음 (신규 첫해 등)</option><option value="S">S등급</option><option value="A">A등급</option><option value="B" selected>B등급</option><option value="C">C등급</option></select></div>
+        <div class="field" id="bonusAmtWrap"><label for="bonusAmt">성과상여금 (연, 원)</label><input id="bonusAmt" inputmode="numeric" value="0"></div>
+      </div>
+      <label class="check"><input type="checkbox" id="flat" checked><span>시간외 정액분 10시간 <span class="hint">(15일 이상 출근하면 지급)</span></span></label>
+      <div class="row2">
+        <div class="field"><label for="otherM">기타 월 수당 (원)</label><input id="otherM" inputmode="numeric" value="0"></div>
+        <div class="field"><label for="otherD">기타 월 공제 (원)</label><input id="otherD" inputmode="numeric" value="0"></div>
+      </div>
+      <p class="hint">야간·휴일 교대근무 수당, 특수업무수당처럼 부서마다 다른 수당은 기타 월 수당에 넣어요. 노조비·공제회비·급식비 등은 기타 월 공제에 넣어요.</p>
+    </div>
+  </div>
+  <div class="card res" aria-live="polite" id="payOut"></div>
+</section>
+
+<!-- ===== 2. 초과근무수당 ===== -->
+<section class="panel" id="t-ot">
+  <div class="card form">
+    <h2>초과근무수당, 시간당 얼마일까</h2>
+    <p class="lead">직급별 시간외근무 단가(봉급기준액 × 지급률 × 1.5 ÷ 209)로 이번 달 초과근무수당을 계산해요.</p>
+    <div class="row2">
+      <div class="field"><label for="oJob">직종</label>
+        <select id="oJob"><option value="gen">일반직</option><option value="pol">경찰</option><option value="fire">소방</option><option value="tea">교사</option></select></div>
+      <div class="field"><label for="oRank">직급·계급</label><select id="oRank"></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="oYear">기준 연도</label><select id="oYear"><option value="2027" selected>2027년 (추정)</option><option value="2026">2026년 (현행)</option></select></div>
+      <div class="field"><label for="oRate">지급률</label><select id="oRate"><option value="auto" selected>자동 (직급별)</option><option value="0.60">60%</option><option value="0.55">55%</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="oWeek">평일 초과근무 (월, 시간)</label><input id="oWeek" inputmode="numeric" value="20"></div>
+      <div class="field"><label for="oHol">토·공휴일 근무 (월, 시간)</label><input id="oHol" inputmode="numeric" value="8"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="oNight">야간 근무 (22~06시, 월 시간)</label><input id="oNight" inputmode="numeric" value="0"></div>
+      <div class="field"><label for="oCap">월 인정 상한 (시간)</label><input id="oCap" inputmode="numeric" value="57"></div>
+    </div>
+    <label class="check"><input type="checkbox" id="oFlat" checked><span>정액분 10시간 포함</span></label>
+    <div class="field"><label for="oOverride">시간당 단가 직접 입력 (원, 비우면 자동)</label><input id="oOverride" inputmode="numeric" value=""></div>
+    <p class="hint">평일은 하루 초과근무에서 1시간을 뺀 시간을 넣어요. 야간근무수당은 교대근무자의 22시~06시 근무에 시급의 50%를 더 주는 방식으로 계산했어요.</p>
+  </div>
+  <div class="card res" aria-live="polite" id="otOut"></div>
+</section>
+
+<!-- ===== 3. 공무원연금 ===== -->
+<section class="panel" id="t-pen" hidden>
+  <div class="card form">
+    <h2>공무원연금, 매달 얼마 받을까</h2>
+    <p class="lead">일반직·경찰·소방·국공립 교사 모두 같은 공무원연금법으로 계산해요. 임용·퇴직 시점과 평균 소득을 넣어 주세요.</p>
+    <div class="row3">
+      <div class="field"><label for="sy">임용 연도</label><input id="sy" inputmode="numeric" value="2027"></div>
+      <div class="field"><label for="sm">임용 월</label><input id="sm" inputmode="numeric" value="1"></div>
+      <div class="field"><label for="by">출생 연도</label><input id="by" inputmode="numeric" value="1997"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="ey">퇴직 연도</label><input id="ey" inputmode="numeric" value="2057"></div>
+      <div class="field"><label for="em">퇴직 월</label><input id="em" inputmode="numeric" value="12"></div>
+    </div>
+    <div class="field"><label for="B">재직기간 평균 기준소득월액 (원)</label><input id="B" inputmode="numeric" value="4,800,000"></div>
+    <p class="hint">기준소득월액은 세전 연봉(비과세 제외) ÷ 12 정도예요. 9급 초임이면 약 330만 원, 6급 20년 차면 약 600만 원 안팎이에요.</p>
+    <div class="row2">
+      <div class="field"><label for="Bf">퇴직 직전 기준소득월액 (원)</label><input id="Bf" inputmode="numeric" value="6,500,000"></div>
+      <div class="field" id="pWrap"><label for="P">2009년 이전 평균 보수월액</label><input id="P" inputmode="numeric" value="3,500,000"></div>
+    </div>
+    <div class="group">
+      <h3>기준값 (기본값은 추정치, 공단 공지값으로 바꿔 주세요)</h3>
+      <div class="row2">
+        <div class="field"><label for="A">전체 공무원 평균 기준소득월액 (A값)</label><input id="A" inputmode="numeric" value="5,710,000"></div>
+        <div class="field"><label for="cap">소득 상한 (A값의 배수)</label><input id="cap" inputmode="decimal" value="1.6"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card res" aria-live="polite" id="penOut"></div>
+</section>
+
+<div class="ad" id="adRow">
+  <div class="card" id="adCoupang"></div>
+  <div class="card"><span class="tag">함께 보면 좋은 계산기</span>
+    <ul>
+      <li><a href="yet.html">연말정산 환급 계산기</a></li>
+      <li><a href="pen.html">연금저축·IRP 세액공제 계산기</a></li>
+      <li><a href="dsr.html">DSR 대출 한도 계산기</a></li>
+      <li><a href="score.html">청약 가점 계산기</a></li>
+    </ul>
+  </div>
+</div>
+
+<section class="card help" id="help"></section>
+
+<footer>
+  <nav><a href="./">전체 계산기</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></nav>
+  <div><b>봉급표 기준</b> · 공무원보수규정 별표 3(일반직)·별표 10(경찰·소방, 2026.1.2. 개정)과 2026년 교원 봉급표에 2027년 예산안 인상률 3.9%를 곱해 100원 단위로 반올림한 추정치예요. 2027년 봉급표는 국회 예산 확정 뒤 연말에 공표돼요.</div>
+  <div><b>공제 기준</b> · 공무원연금 기여금 9%, 건강보험 3.595%(2027년 보험료율 7.19% 동결), 장기요양 건강보험료의 13.14%, 소득세는 연말정산까지 반영한 연 결정세액 추정. 정액급식비·교원연구비는 비과세.</div>
+  <div>계산 결과는 참고용 추정치예요. 실제 지급액은 소속 기관 급여명세서와 공무원연금공단 모의계산이 기준이에요.</div>
+</footer>
+</div>
+
+<script src="ads.js"></script>
+<script>
+/* ================= 데이터 ================= */
+const T26 = {
+  gen: {
+    '9급':[2133000,2147600,2168000,2194000,2226100,2264600,2309900,2367500,2456700,2542700,2624400,2705900,2783900,2859800,2932300,3002300,3070800,3134500,3197300,3257000,3313400,3367600,3419200,3468800,3516000,3558700,3595600,3631000,3665100,3698400,3731100],
+    '8급':[2162100,2195700,2233800,2276600,2331700,2412900,2519600,2622400,2720300,2813000,2902700,2990300,3074500,3155100,3232400,3307100,3376800,3444300,3509300,3571100,3630200,3686900,3740800,3792900,3842300,3890300,3930200,3968700,4005100,4040300,4074600],
+    '7급':[2317100,2367900,2423800,2485200,2567100,2682600,2798700,2915800,3027100,3133300,3233400,3331900,3425300,3514500,3599900,3680600,3758100,3832100,3902000,3968400,4031800,4091600,4149600,4204500,4256500,4306500,4348700,4388000,4426100,4462400,4496500],
+    '6급':[2389500,2500700,2615200,2732400,2853100,2977100,3101500,3226200,3351300,3468700,3580000,3689600,3792700,3890000,3983600,4071300,4154900,4234100,4309100,4379600,4447600,4511500,4571300,4628500,4682800,4734100,4782800,4823700,4861900,4899800,4934800,4967800]
+  },
+  pol: {
+    '순경':[2133000,2155600,2187500,2229200,2281100,2343900,2418400,2505600,2595100,2680900,2762900,2844100,2922200,2998100,3070500,3140600,3209100,3273000,3335700,3395400,3451600,3506000,3557600,3607200,3654200,3697100,3733900,3769300,3803400,3836800,3869200],
+    '경장':[2215300,2245500,2290400,2350700,2427500,2522200,2628900,2731700,2829500,2922200,3012000,3099500,3183800,3264300,3341600,3416300,3486000,3553600,3618500,3680400,3739400,3796100,3850000,3902200,3951600,3999600,4039500,4078000,4114300,4149600,4183800],
+    '경사':[2472100,2493100,2539000,2610800,2710600,2826000,2942100,3059100,3170300,3276600,3376800,3475200,3568600,3657900,3743200,3823900,3901400,3975500,4045300,4111700,4175200,4235000,4293000,4347900,4399900,4449900,4492000,4531300,4569300,4605800,4639900],
+    '경위':[2507700,2567700,2640000,2758200,2879500,3001800,3125400,3249000,3373300,3490700,3600800,3709400,3812400,3909100,4002700,4090100,4173700,4252700,4327900,4399300,4467200,4531200,4592000,4650300,4705700,4756500,4800000,4841900,4881500,4918600,4954300],
+    '경감':[2698600,2814700,2933000,3054900,3178700,3305500,3435100,3565700,3697600,3820800,3937600,4051200,4158400,4261000,4357000,4449500,4535400,4618100,4695400,4768800,4837900,4904700,4965900,5025200,5081100,5134000,5183300,5225600,5264800,5303200,5338600,5372500]
+  },
+  tea: {
+    '교사':[2041500,2103300,2166000,2228500,2291500,2354400,2416600,2478600,2495600,2516700,2538300,2585900,2657500,2773700,2889700,3006200,3121000,3241500,3361200,3481000,3600700,3733600,3865300,3997500,4129400,4261900,4400100,4538000,4682100,4826800,4971100,5115200,5261600,5407500,5553600,5699100,5825700,5952500,6079500,6205700]
+  }
+};
+T26.fire = {'소방사':T26.pol['순경'],'소방교':T26.pol['경장'],'소방장':T26.pol['경사'],'소방위':T26.pol['경위'],'소방경':T26.pol['경감']};
+/* 직급 대응 (직급보조비·지급률·성과금 기준호봉) */
+const LEVEL = {'9급':9,'8급':8,'7급':7,'6급':6,'순경':9,'경장':8,'경사':7,'경위':6,'경감':5,'소방사':9,'소방교':8,'소방장':7,'소방위':6,'소방경':5,'교사':0};
+const RANK_ALLOW = {9:175000,8:175000,7:180000,6:185000,5:250000,0:0};
+const RANK_UP = {9:20000,8:20000,7:25000,6:35000,5:0,0:0};
+const BONUS_REF = {'9급':10,'8급':12,'7급':15,'6급':18};
+const BONUS_RATE = {S:1.725,A:1.25,B:0.85,C:0};
+const MEAL = 160000;
+
+/* ================= 공통 ================= */
+const $ = id => document.getElementById(id);
+const won = n => Math.round(n).toLocaleString('ko-KR') + '원';
+const man = n => (Math.round(n/1000)/10).toLocaleString('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1}) + '만원';
+const r100 = x => Math.round(x/100)*100;
+function num(id, lo, hi, d){ let v=parseFloat(String($(id).value).replace(/,/g,'')); if(isNaN(v)) v=d; return Math.min(Math.max(v,lo),hi); }
+function fmtInputs(){ document.querySelectorAll('input[inputmode="numeric"]').forEach(el=>el.addEventListener('blur',()=>{ const raw=String(el.value).replace(/,/g,'').trim(); if(raw!==''&&isFinite(raw)&&Math.abs(+raw)>=1000) el.value=(+raw).toLocaleString('ko-KR'); })); }
+function tblFor(job, rank, year, raise){ const t=T26[job][rank]; return year===2027 ? t.map(v=>r100(v*(1+raise/100))) : t.slice(); }
+function geunRate(y){ if(y<2)return .10; if(y<5)return .20; if(y<6)return .25; if(y<7)return .30; if(y<8)return .35; if(y<9)return .40; if(y<10)return .45; return .50; }
+function geunGasan(y){ if(y<5)return 30000; if(y<7)return 40000; if(y<10)return 50000; if(y<15)return 60000; if(y<20)return 80000; if(y<25)return 110000; return 130000; }
+function family(sp,k,o){ let s=0; for(let i=1;i<=k;i++) s+= i===1?50000:i===2?80000:120000; const slots=Math.max(0,4-k); const nk=(sp?1:0)+o; const paid=Math.min(nk,slots); const spp=sp&&paid>=1?1:0; return s+spp*40000+(paid-spp)*20000; }
+function childCredit(n){ if(n<=0)return 0; if(n===1)return 250000; if(n===2)return 550000; return 550000+(n-2)*400000; }
+function incomeTax(g, pen, hc, deps, kids){
+  let d; if(g<=5e6)d=g*.7; else if(g<=15e6)d=3.5e6+(g-5e6)*.4; else if(g<=45e6)d=7.5e6+(g-15e6)*.15; else if(g<=1e8)d=12e6+(g-45e6)*.05; else d=14.75e6+(g-1e8)*.02;
+  d=Math.min(d,2e7); const base=Math.max(0,g-d-1.5e6*(1+deps)-pen-hc);
+  let t; if(base<=14e6)t=base*.06; else if(base<=5e7)t=84e4+(base-14e6)*.15; else if(base<=88e6)t=624e4+(base-5e7)*.24; else if(base<=15e7)t=1536e4+(base-88e6)*.35; else t=3706e4+(base-15e7)*.38;
+  let cr=t<=13e5?t*.55:715000+(t-13e5)*.3; let cap; if(g<=33e6)cap=74e4; else if(g<=7e7)cap=Math.max(66e4,74e4-(g-33e6)*.008); else if(g<=12e7)cap=Math.max(5e5,66e4-(g-7e7)*.5); else cap=Math.max(2e5,5e5-(g-12e7)*.5);
+  cr=Math.min(cr,cap); const dec=Math.max(0,t-cr-childCredit(kids)-130000); return {nat:Math.round(dec), loc:Math.round(dec*.1)};
+}
+/* 시간외 시급: 봉급기준액(해당 직급 10호봉) × 지급률 × 1.5 ÷ 209 */
+function otRate(job, rank, year, raise, reform, rateSel){
+  const t=tblFor(job,rank,year,raise); const lv=LEVEL[rank];
+  let p = rateSel && rateSel!=='auto' ? +rateSel : ((lv===9||lv===8)?0.60:0.55);
+  if(year===2027 && reform && lv>=5 && (!rateSel||rateSel==='auto')) p=0.60;
+  return {hourly:Math.floor(t[9]*p*1.5/209), pct:p, base:t[9]};
+}
+
+/* ================= 실수령액 ================= */
+function fillRanks(sel, job){ sel.innerHTML=Object.keys(T26[job]).map(k=>`<option>${k}</option>`).join(''); }
+let yrsTouched=false;
+function fillHob(keep){
+  const job=$('job').value, rank=$('rank').value, t=tblFor(job,rank,2027,num('raise',0,15,3.9));
+  const cur= keep ? +$('hob').value : (job==='tea'?9:3);
+  $('hob').innerHTML=t.map((v,i)=>`<option value="${i+1}">${i+1}호봉 (2027 봉급 ${v.toLocaleString('ko-KR')}원)</option>`).join('');
+  $('hob').value=Math.min(Math.max(cur||1,1),t.length);
+}
+function autoYears(){ if(yrsTouched) return; const job=$('job').value, h=+$('hob').value; $('yrs').value = Math.max(0, job==='tea' ? h-9 : h-1); }
+function syncJobUI(){
+  const job=$('job').value, rank=$('rank').value, lv=LEVEL[rank];
+  $('polBox').hidden = !(job==='pol'||job==='fire');
+  $('teaBox').hidden = job!=='tea';
+  $('jobGroup').hidden = job==='gen';
+  $('jobGroupTitle').textContent = job==='tea' ? '교원 수당' : '경찰·소방 수당';
+  $('rankAllowWrap').hidden = job==='tea';
+  $('reformWrap').hidden = job==='tea';
+  $('bonusGradeWrap').hidden = job!=='gen';
+  $('bonusAmtWrap').hidden = job==='gen';
+  $('hobHint').textContent = job==='tea' ? '교사는 보통 8~9호봉으로 시작해요(군 경력 등 가산). 근무연수는 정근수당·교원연구비 계산에 쓰여요.' : '2026년 호봉에서 1호봉 올려서 고르면 돼요. 근무연수는 정근수당 계산에 쓰여요.';
+  if(!$('rankAllow').dataset.touched) $('rankAllow').value = (RANK_ALLOW[lv]||0).toLocaleString('ko-KR');
+}
+function computePay(year){
+  const job=$('job').value, rank=$('rank').value, lv=LEVEL[rank], raise=num('raise',0,15,3.9);
+  const t=tblFor(job,rank,year,raise), h=Math.min(+$('hob').value||1,t.length), salary=t[h-1];
+  const yrs=num('yrs',0,45,0), reform=$('reform').checked && job!=='tea';
+  const rankAllow = job==='tea'?0 : num('rankAllow',0,2e6,0) + (year===2027&&reform?RANK_UP[lv]||0:0) - (year===2026?0:0);
+  const ot=otRate(job,rank,year,raise,reform,'auto');
+  const otHours=Math.min(num('otH',0,200,0),57)+($('flat').checked?10:0);
+  const overtime=ot.hourly*otHours;
+  const fam=family($('spouse').value==='1',Math.round(num('kids',0,8,0)),Math.round(num('others',0,4,0)));
+  let jobAllow=[], nonTaxJob=0;
+  if(job==='pol'||job==='fire'){ if($('danger').checked) jobAllow.push(['위험근무수당','월 80,000원',80000]); if($('special').checked) jobAllow.push(['특수업무수당','월 80,000원',80000]); }
+  if(job==='tea'){ jobAllow.push(['교직수당','월 250,000원',250000]); if($('homeroom').checked) jobAllow.push(['담임수당','월 200,000원',200000]); if($('head').checked) jobAllow.push(['보직교사수당','월 150,000원',150000]);
+    const res = yrs<5?75000:60000; jobAllow.push(['교원연구비','근무 '+(yrs<5?'5년 미만':'5년 이상')+' · 비과세',res]); nonTaxJob=res; }
+  const jobSum=jobAllow.reduce((a,x)=>a+x[2],0);
+  const otherM=num('otherM',0,1e7,0);
+  let gasan=0; for(let m=0;m<12;m++) gasan+=geunGasan(yrs+m/12);
+  const gJan=Math.floor(salary*geunRate(yrs)), gJul=Math.floor(salary*geunRate(yrs+.5)), hol=Math.floor(salary*.6);
+  let bonus=0, bonusNote='';
+  if(job==='gen'){ const g=$('bonusGrade').value; if(g!=='none'){ const ref=t[BONUS_REF[rank]-1]; bonus=Math.floor(ref*BONUS_RATE[g]); bonusNote=`${g}등급 · 기준호봉 봉급 ${won(ref)} × ${Math.round(BONUS_RATE[g]*1000)/10}%`; } }
+  else { bonus=num('bonusAmt',0,1e8,0); bonusNote='직접 입력'; }
+  const monthly = salary+MEAL+rankAllow+fam+jobSum+otherM+overtime;
+  const annual = monthly*12 + gasan + gJan + gJul + hol*2 + bonus;
+  const nonTax = (MEAL+nonTaxJob)*12, taxable=annual-nonTax;
+  const pen=Math.round(taxable*.09), hl=Math.round(taxable*.03595), care=Math.round(hl*.1314);
+  const deps=($('spouse').value==='1'?1:0)+Math.round(num('kids',0,8,0))+Math.round(num('others',0,4,0));
+  const tx=incomeTax(taxable,pen,hl+care,deps,Math.round(num('ctk',0,8,0)));
+  const otherD=num('otherD',0,1e7,0)*12;
+  const net=annual-pen-hl-care-tx.nat-tx.loc-otherD;
+  const rate = taxable>0 ? (tx.nat+tx.loc)/taxable : 0, f=1-.09-.03595-.03595*.1314-rate;
+  const regular=Math.round((salary+rankAllow+fam+jobSum-nonTaxJob+otherM+overtime+gasan/12)*f + MEAL + nonTaxJob - num('otherD',0,1e7,0));
+  return {job,rank,h,salary,rankAllow,ot,otHours,overtime,fam,jobAllow,otherM,gasan,gJan,gJul,hol,bonus,bonusNote,annual,taxable,pen,hl,care,tx,otherD,net,regular,f,yrs};
+}
+function renderPay(){
+  const r=computePay(2027), b=computePay(2026);
+  const d=Math.round(r.net/12-b.net/12), dp=b.net?d/(b.net/12)*100:0;
+  const label=`${r.rank} ${r.h}호봉`;
+  const row=(a,c,v)=>`<tr><td>${a}${c?`<span class="c">${c}</span>`:''}</td><td class="n">${won(v)}<span class="c">월 ${won(v/12)}</span></td></tr>`;
+  const mrow=(a,c,v)=>`<tr class="minus"><td>${a}${c?`<span class="c">${c}</span>`:''}</td><td class="n">−${won(v)}<span class="c">월 −${won(v/12)}</span></td></tr>`;
+  let s='<tr class="g"><td colspan="2">매월 받는 항목</td></tr>';
+  s+=row('봉급 (2027 봉급표)',`${label} ${won(r.salary)} = 2026년 ${won(T26[r.job][r.rank][r.h-1])} + ${num('raise',0,15,3.9)}%`,r.salary*12);
+  s+=row('정액급식비','월 160,000원 · 비과세',MEAL*12);
+  if(r.rankAllow) s+=row('직급보조비',`월 ${won(r.rankAllow)}`,r.rankAllow*12);
+  r.jobAllow.forEach(x=>s+=row(x[0],x[1],x[2]*12));
+  if(r.fam) s+=row('가족수당',`월 ${won(r.fam)}`,r.fam*12);
+  if(r.overtime) s+=row('시간외근무수당',`시급 ${won(r.ot.hourly)} × ${r.otHours}시간`,r.overtime*12);
+  if(r.otherM) s+=row('기타 월 수당',`월 ${won(r.otherM)}`,r.otherM*12);
+  s+=row('정근수당 가산금','근무연수 구간별 월 3만~13만원',r.gasan);
+  s+='<tr class="g"><td colspan="2">목돈으로 받는 항목</td></tr>';
+  s+=row('정근수당 (1월)',`월봉급 × ${Math.round(geunRate(r.yrs)*100)}%`,r.gJan);
+  s+=row('정근수당 (7월)',`월봉급 × ${Math.round(geunRate(r.yrs+.5)*100)}%`,r.gJul);
+  s+=row('명절휴가비 (설·추석)','각각 월봉급 × 60%',r.hol*2);
+  if(r.bonus) s+=row('성과상여금',r.bonusNote,r.bonus);
+  s+=`<tr class="t"><td>세전 합계</td><td class="n">${won(r.annual)}<span class="c">월 평균 ${won(r.annual/12)}</span></td></tr>`;
+  let dd=mrow('공무원연금 기여금','과세 보수의 9%',r.pen)+mrow('건강보험료','3.595% (2027 요율 7.19% 동결)',r.hl)+mrow('장기요양보험료','건강보험료의 13.14%',r.care)+mrow('소득세','연말정산 반영 연 결정세액 추정',r.tx.nat)+mrow('지방소득세','소득세의 10%',r.tx.loc);
+  if(r.otherD) dd+=mrow('기타 공제','직접 입력',r.otherD);
+  dd+=`<tr class="t"><td>실수령 합계</td><td class="n">${won(r.net)}<span class="c">월 평균 ${won(r.net/12)}</span></td></tr>`;
+  const n=x=>Math.round(x*r.f);
+  let mm=`<tr><td>평소 달<span class="c">봉급·수당·시간외 등</span></td><td class="n">${won(r.regular)}</td></tr>`+
+    `<tr><td>1월<span class="c">평소 + 정근수당</span></td><td class="n">${won(r.regular+n(r.gJan))}</td></tr>`+
+    `<tr><td>설날 무렵 (2027.2.6.)<span class="c">평소 + 명절휴가비</span></td><td class="n">${won(r.regular+n(r.hol))}</td></tr>`+
+    `<tr><td>7월<span class="c">평소 + 정근수당</span></td><td class="n">${won(r.regular+n(r.gJul))}</td></tr>`+
+    `<tr><td>추석 무렵 (2027.9.15.)<span class="c">평소 + 명절휴가비</span></td><td class="n">${won(r.regular+n(r.hol))}</td></tr>`;
+  if(r.bonus) mm+=`<tr><td>성과상여금 받는 달<span class="c">평소 + 성과상여금</span></td><td class="n">${won(r.regular+n(r.bonus))}</td></tr>`;
+  $('payOut').innerHTML=`<p class="kicker">${label} · 2027년 월 평균 실수령액 <span class="chip est">추정</span></p>
+    <p class="big">${won(r.net/12)}</p>
+    <p class="bigsub">연 실수령 ${won(r.net)} · 같은 호봉 2026년 대비 <span class="${d>=0?'up':'down'}">${d>=0?'+':''}${won(d)} (${d>=0?'+':''}${dp.toFixed(1)}%)</span></p>
+    <p class="bigsub">세전 월 평균 ${won(r.annual/12)} · 연 ${won(r.annual)}</p>
+    <div class="blk"><h3>언제 얼마 들어올까 (세후)</h3><table>${mm}</table></div>
+    <div class="blk"><h3>공제 내역</h3><table>${dd}</table></div>
+    <div class="blk"><h3>세전 명세</h3><table>${s}</table></div>
+    <p class="note">2027 봉급표는 아직 공표 전이라 2026년 공식 봉급표에 인상률을 곱한 추정이에요. 소득세는 카드·의료·교육 공제를 넣지 않은 기본 추정이라 실제로는 조금 적을 수 있어요.</p>`;
+}
+
+/* ================= 초과근무수당 ================= */
+function renderOT(){
+  const job=$('oJob').value, rank=$('oRank').value, year=+$('oYear').value, raise=num('raise',0,15,3.9);
+  const o=otRate(job,rank,year,raise,true,$('oRate').value);
+  const ov=String($('oOverride').value).replace(/,/g,'').trim();
+  const hourly = ov!=='' && isFinite(ov) ? +ov : o.hourly;
+  const cap=num('oCap',0,200,57), wk=num('oWeek',0,300,0), hol=num('oHol',0,300,0), night=num('oNight',0,300,0);
+  const raw=wk+hol, counted=Math.min(raw,cap), flat=$('oFlat').checked?10:0;
+  const nightPay=Math.floor(hourly/1.5*0.5)*night;
+  const otPay=hourly*(counted+flat);
+  const month=otPay+nightPay;
+  const lv=LEVEL[rank];
+  $('otOut').innerHTML=`<p class="kicker">${rank} · ${year}년 시간외근무 단가 ${year===2027?'<span class="chip est">추정</span>':''}</p>
+    <p class="big">${won(hourly)}<span style="font-size:15px;color:var(--muted)"> / 시간</span></p>
+    <p class="bigsub">${ov!==''?'직접 입력한 단가':`봉급기준액 ${won(o.base)} × ${Math.round(o.pct*100)}% × 1.5 ÷ 209`}</p>
+    <div class="blk"><h3>이번 달 초과근무수당</h3><table>
+      <tr><td>인정 시간<span class="c">평일 ${wk} + 휴일 ${hol} = ${raw}시간${raw>cap?` → 상한 ${cap}시간 적용`:''}${flat?' + 정액분 10시간':''}</span></td><td class="n">${counted+flat}시간</td></tr>
+      <tr><td>시간외근무수당<span class="c">${won(hourly)} × ${counted+flat}시간</span></td><td class="n">${won(otPay)}</td></tr>
+      ${night?`<tr><td>야간근무수당<span class="c">시급의 50% 가산 × ${night}시간</span></td><td class="n">${won(nightPay)}</td></tr>`:''}
+      <tr class="t"><td>월 합계 (세전)</td><td class="n">${won(month)}</td></tr>
+      <tr><td>1년 환산<span class="c">매달 같은 시간 근무 가정</span></td><td class="n">${won(month*12)}</td></tr>
+    </table></div>
+    ${raw>cap?`<p class="note">상한을 넘은 ${raw-cap}시간은 수당 대신 대체휴무로 쓰는 경우가 많아요. 기관 지침을 확인하세요.</p>`:''}
+    <p class="note">${lv===9||lv===8?'9·8급(순경·경장, 소방사·소방교)은 2026년부터 지급률 60%를 적용해요.':'7급 이상은 현행 55%이고, 2027년 보수위원회 권고(5급 이하 60%)가 반영되면 60%가 돼요.'} 경찰·소방·교원 단가는 해당 봉급표 10호봉을 기준으로 한 추정이라 실제 공표 단가와 다를 수 있어요. 급여명세서의 단가가 있으면 직접 입력하세요.</p>`;
+}
+
+/* ================= 공무원연금 ================= */
+const RATE3={2016:1.878,2017:1.856,2018:1.834,2019:1.812,2020:1.79,2021:1.78,2022:1.77,2023:1.76,2024:1.75,2025:1.74,2026:1.736,2027:1.732,2028:1.728,2029:1.724,2030:1.72,2031:1.716,2032:1.712,2033:1.708,2034:1.704};
+const rate3=y=>y<=2016?1.878:y>=2035?1.7:RATE3[y];
+function contrib(y){ if(y<2010)return 5.5; if(y<2016)return 7; return ({2016:7.5,2017:8,2018:8.5,2019:8.75})[y]||9; }
+function startAge(sy,ey){ if(sy>=2010)return 65; if(ey<=2021)return 60; if(ey<=2023)return 61; if(ey<=2026)return 62; if(ey<=2029)return 63; if(ey<=2032)return 64; return 65; }
+function allowRate(y){ return y>=20?.39:y>=15?.325:y>=10?.2925:y>=5?.2275:y>=1?.065:0; }
+function renderPen(){
+  const sy=num('sy',1970,2070,2026), sm=num('sm',1,12,1), ey=num('ey',1970,2090,2050), em=num('em',1,12,12), by=num('by',1940,2010,1985);
+  const A=num('A',1e6,2e7,5710000), cap=num('cap',1,3,1.6), Braw=num('B',0,5e7,0), Bf=num('Bf',0,5e7,0), P=num('P',0,5e7,0);
+  $('pWrap').hidden = !(sy<2010);
+  const s=sy*12+(sm-1), e=ey*12+(em-1);
+  if(e<s){ $('penOut').innerHTML='<p class="kicker">입력 확인</p><p>퇴직 시점이 임용 시점보다 빨라요.</p>'; return; }
+  const months=e-s+1, years=months/12, B=Math.min(Braw,A*cap), capped=Braw>B, pm=Math.min(months,432);
+  let m1=0,p2=0,p3=0,ct=0,y2=0,y3=0;
+  for(let i=0;i<pm;i++){ const y=Math.floor((s+i)/12); ct+=contrib(y)/100*B;
+    if(y<2010) m1++; else if(y<2016){ p2+=.019*B/12; y2++; }
+    else { const rr=rate3(y)/100; p3+= (i/12<30) ? (.010*(A+B)/2+(rr-.010)*B)/12 : rr*B/12; y3++; } }
+  const y1=m1/12, p1=y1>0?P*(y1<20?y1*.025:.5+(y1-20)*.02):0, monthly=p1+p2+p3, ok=years>=10;
+  const sa=startAge(sy,ey), styr=by+sa, allow=Bf*years*allowRate(years);
+  let h='';
+  if(ok){ h+=`<p class="kicker">월 예상 퇴직연금 (세전, 현재 가치) <span class="chip est">추정</span></p><p class="big">${won(monthly)}</p><p class="bigsub">연 ${man(monthly*12)} · ${sa}세(${styr}년)부터 받아요</p>`; }
+  else { h+=`<p class="kicker">월 예상 퇴직연금</p><p class="big">해당 없음</p><p class="bigsub">재직 10년 미만이면 연금 대신 퇴직일시금을 받아요</p>`; }
+  h+=`<div class="blk"><h3>재직 요약</h3><table>
+    <tr><td>재직기간</td><td class="n">${Math.floor(years)}년 ${months%12}개월${months>432?' (36년 인정)':''}</td></tr>
+    <tr><td>퇴직 나이</td><td class="n">${ey-by}세</td></tr>
+    <tr><td>반영한 평균 기준소득월액</td><td class="n">${won(B)}${capped?' (상한)':''}</td></tr></table></div>`;
+  if(ok){
+    h+=`<div class="blk"><h3>구간별 연금 (월)</h3><table><tr><th>구간</th><th class="n">인정 연수</th><th class="n">월 연금</th></tr>`+
+      (y1>0?`<tr><td>2009년 이전</td><td class="n">${y1.toFixed(1)}년</td><td class="n">${won(p1)}</td></tr>`:'')+
+      (y2>0?`<tr><td>2010~2015년</td><td class="n">${(y2/12).toFixed(1)}년</td><td class="n">${won(p2)}</td></tr>`:'')+
+      (y3>0?`<tr><td>2016년 이후</td><td class="n">${(y3/12).toFixed(1)}년</td><td class="n">${won(p3)}</td></tr>`:'')+
+      `<tr class="t"><td>합계</td><td class="n">${(pm/12).toFixed(1)}년</td><td class="n">${won(monthly)}</td></tr></table></div>`;
+    h+=`<div class="blk"><h3>조기수령 비교 (1년당 5% 감액)</h3><table>`+[0,1,2,3,4,5].map(k=>`<tr><td>${sa-k}세${k?'':' (정상)'}</td><td class="n">${won(monthly*(1-.05*k))}</td><td class="n">${k*5}%</td></tr>`).join('')+`</table></div>`;
+    h+=`<div class="blk"><h3>낸 돈 vs 받는 돈</h3><table>
+      <tr><td>본인 기여금 총액 (추정)</td><td class="n">${won(ct)}</td></tr>
+      <tr><td>85세까지 받는 연금</td><td class="n">${won(monthly*12*Math.max(0,85-sa))}</td></tr>
+      <tr><td>90세까지 받는 연금</td><td class="n">${won(monthly*12*Math.max(0,90-sa))}</td></tr>
+      <tr><td>기여금 회수 나이</td><td class="n">${monthly>0?(sa+ct/(monthly*12)).toFixed(1)+'세':'-'}</td></tr></table></div>`;
+  }
+  h+=`<div class="blk"><h3>퇴직수당 (국가·지자체 부담)</h3><table><tr><td>지급비율</td><td class="n">${(allowRate(years)*100).toFixed(2).replace(/\.?0+$/,'')}%</td></tr><tr class="t"><td>예상 퇴직수당</td><td class="n">${won(allow)}</td></tr></table></div>`;
+  h+=`<p class="note">2016년 이후 지급률은 연도별 법정 일정(2016년 1.878% → 2026년 1.736% → 2035년 1.7%)을 그대로 적용했어요. 물가 반영, 휴직, 연금소득세는 반영하지 않았어요.${sy<1996?' 1995년 이전 임용자는 별도 규정이 있어요.':''}</p>`;
+  $('penOut').innerHTML=h;
+}
+
+/* ================= 도움말 ================= */
+const HELP={
+ pay:{h:'2027 공무원 실수령액 계산기',p:['2027년 공무원 보수는 정부 예산안 기준 3.9% 인상이에요. 2027년 봉급표는 국회에서 예산이 확정된 뒤 연말에 공표되기 때문에, 이 계산기는 2026년 공식 봉급표에 인상률을 곱해 미리 계산해요.','일반직 9~6급, 경찰 순경~경감, 소방 소방사~소방경, 유·초·중·고 교사 1~40호봉을 고를 수 있어요. 직종별 수당(위험근무수당, 교직·담임수당 등)과 정근수당, 명절휴가비, 성과상여금까지 넣고 연금 기여금·건강보험·세금을 빼서 실수령액을 보여줘요.'],
+  f:[['2027년 9급 1호봉 월급은 얼마예요?','2026년 9급 1호봉 봉급 2,133,000원에 3.9%를 더하면 약 2,216,200원이에요. 정액급식비·직급보조비·정근수당 등을 합친 월 평균 보수는 약 300만 원 안팎이에요.'],['경찰·소방 봉급은 일반직과 다른가요?','네, 공무원보수규정 별표 10의 경찰·소방 봉급표를 따로 써요. 순경 1호봉은 9급 1호봉과 같지만 경장·경사부터는 같은 연차 일반직보다 조금 높아요. 여기에 위험근무수당(월 8만 원)이 붙어요.'],['교사는 어떤 수당을 받나요?','교직수당 월 25만 원, 담임을 맡으면 담임수당 월 20만 원, 부장교사는 보직교사수당 월 15만 원을 받아요. 교원연구비는 근무 5년 미만 7만 5천 원, 이후 6만 원이고 비과세예요.'],['실제 급여명세서와 왜 다른가요?','매달 떼는 소득세는 간이세액표로 계산되고 연말정산에서 정산돼요. 이 계산기는 1년 결정세액을 12로 나눈 평균이라 달마다 조금씩 차이가 나요.']]},
+ ot:{h:'공무원 초과근무수당 계산기',p:['공무원 시간외근무수당은 직급별 봉급기준액(해당 직급 10호봉 봉급)에 지급률을 곱하고 1.5배를 한 뒤 209시간으로 나눈 금액을 시간당 단가로 써요. 9·8급은 지급률 60%, 7급 이상은 55%예요.','평일은 하루 초과근무 시간에서 1시간을 뺀 시간을, 토·공휴일은 근무한 시간을 모두 합쳐요. 한 달에 인정되는 시간에는 상한이 있고, 15일 이상 출근하면 초과근무를 하지 않아도 정액분 10시간을 받아요.'],
+  f:[['2026년 9급 초과근무 시급은 얼마예요?','9급 10호봉 봉급 2,542,700원 × 60% × 1.5 ÷ 209로 시간당 10,949원이에요.'],['초과근무는 한 달에 몇 시간까지 인정돼요?','일반적으로 월 57시간까지 수당으로 인정되고, 넘는 시간은 대체휴무 등으로 처리해요. 기관이나 업무에 따라 상한이 다를 수 있어요.'],['교대근무 야간수당은요?','경찰·소방 교대근무자는 22시부터 06시 사이 근무에 야간근무수당을 따로 받아요. 이 계산기는 시급의 50%를 더하는 방식으로 추정해요.']]},
+ pen:{h:'공무원연금 계산기',p:['공무원연금은 재직기간을 2009년 이전, 2010~2015년, 2016년 이후 세 구간으로 나눠 계산해요. 2016년 이후 구간은 해마다 지급률이 조금씩 낮아져 2035년에 1.7%가 되고, 전체 공무원 평균소득(A값)을 일부 섞는 소득재분배가 들어가요.','2010년 이후 임용자는 65세부터 연금을 받아요. 최대 5년 일찍 받을 수 있지만 1년마다 5%씩 평생 깎여요. 재직 10년 이상이어야 연금을 받을 수 있어요.'],
+  f:[['경찰·소방·교사도 같은 공무원연금이에요?','국가·지방직 일반직, 경찰, 소방, 국공립학교 교사는 모두 공무원연금법을 적용받아 계산 방식이 같아요. 사립학교 교사는 사학연금이지만 계산 구조가 비슷해요.'],['연금은 언제부터 받나요?','2010년 이후 임용자는 65세부터예요. 1996~2009년 임용자는 퇴직 연도에 따라 60~65세로 단계적으로 늦춰져요.'],['퇴직수당은 따로 받나요?','네, 퇴직수당은 국가·지자체가 전액 부담해서 연금과 별도로 한 번에 받아요. 재직 20년 이상이면 퇴직 직전 기준소득월액 × 재직연수 × 39%예요.']]}
+};
+function renderHelp(k){ const h=HELP[k]; const e=t=>t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  $('help').innerHTML=`<h2>${e(h.h)} 사용법</h2>${h.p.map(x=>`<p>${e(x)}</p>`).join('')}<h3>자주 묻는 질문</h3><dl>${h.f.map(([q,a])=>`<div><dt>Q. ${e(q)}</dt><dd>A. ${e(a)}</dd></div>`).join('')}</dl>`; }
+
+/* ================= 광고 (ads.js의 쿠팡 설정 사용) ================= */
+function renderAd(){
+  try{
+    const a=ADS.coupang_all, items=(a.items||[]).filter(x=>/^https:\/\//.test(x.url||'')&&!x.off); if(!items.length){ $('adCoupang').hidden=true; return; }
+    const it=items[Math.floor(Math.random()*items.length)];
+    $('adCoupang').innerHTML=`<span class="tag">AD · 쿠팡</span><a href="${it.url}" target="_blank" rel="noopener sponsored">${it.banner?`<img src="${it.banner}" alt="${it.title}">`:`<b>${it.title}</b>`}</a><p class="disc">${a.disclosure}</p>`;
+  }catch(e){ $('adCoupang').hidden=true; }
+}
+
+/* ================= 탭 ================= */
+const TABS={pay:'t-pay',ot:'t-ot',pen:'t-pen'};
+function show(k){ if(!TABS[k]) k='pay'; Object.entries(TABS).forEach(([t,id])=>$(id).hidden=t!==k); document.querySelectorAll('.tabs a').forEach(a=>a.toggleAttribute('aria-current',a.dataset.t===k)); document.querySelectorAll('.tabs a[aria-current]').forEach(a=>a.setAttribute('aria-current','page')); renderHelp(k); }
+
+/* ================= 시작 ================= */
+fillRanks($('rank'),'gen'); fillHob(false); syncJobUI(); autoYears();
+fillRanks($('oRank'),'gen');
+$('job').addEventListener('change',()=>{ fillRanks($('rank'),$('job').value); $('rankAllow').dataset.touched=''; fillHob(false); syncJobUI(); autoYears(); renderPay(); });
+$('rank').addEventListener('change',()=>{ $('rankAllow').dataset.touched=''; fillHob(true); syncJobUI(); renderPay(); });
+$('hob').addEventListener('change',()=>{ autoYears(); renderPay(); });
+$('yrs').addEventListener('input',()=>{ yrsTouched=true; renderPay(); });
+$('rankAllow').addEventListener('input',()=>{ $('rankAllow').dataset.touched='1'; renderPay(); });
+$('raise').addEventListener('input',()=>{ fillHob(true); renderPay(); renderOT(); });
+['reform','danger','special','homeroom','head','spouse','kids','others','ctk','otH','bonusGrade','bonusAmt','flat','otherM','otherD'].forEach(id=>{ $(id).addEventListener('input',renderPay); $(id).addEventListener('change',renderPay); });
+$('oJob').addEventListener('change',()=>{ fillRanks($('oRank'),$('oJob').value); renderOT(); });
+['oRank','oYear','oRate','oWeek','oHol','oNight','oCap','oFlat','oOverride'].forEach(id=>{ $(id).addEventListener('input',renderOT); $(id).addEventListener('change',renderOT); });
+['sy','sm','ey','em','by','B','Bf','P','A','cap'].forEach(id=>{ $(id).addEventListener('input',renderPen); $(id).addEventListener('change',renderPen); });
+document.querySelectorAll('.tabs a').forEach(a=>a.addEventListener('click',e=>{ if(e.metaKey||e.ctrlKey) return; e.preventDefault(); show(a.dataset.t); try{ history.replaceState(null,'',a.getAttribute('href')); }catch(_){} window.scrollTo({top:0,behavior:'smooth'}); }));
+fmtInputs(); renderPay(); renderOT(); renderPen(); renderAd();
+show(window.START_TAB || (location.hash||'').slice(1) || 'pay');
+</script>
+</body>
+</html>
