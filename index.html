@@ -1356,7 +1356,7 @@ nav.tabs{background:#0F2A52;border-bottom-color:rgba(255,255,255,.14)}
 
 <div class="tabfoot">
   <div class="ad-slot" id="ad-a" data-ad="coupang"></div>
-  <div class="ad-slot" id="ad-b" data-ad="toss"></div>
+  <div class="ad-slot" id="ad-b" data-ad="related"></div>
   <div class="guide" id="guide" aria-live="polite"></div>
 </div>
 
@@ -1428,7 +1428,7 @@ function renderAds(){
   document.querySelectorAll('.ad-slot').forEach(slot=>renderSlot(slot));
 }
 function renderSlot(slot, rotate){
-    let k = slot.dataset.ad; if(k==='auto'){ const sec=slot.closest('.panel'); k = TAB_AD[sec?sec.id.slice(2):''] || 'coupang'; } let a = ADS[k]; if(!a) return;
+    let k = slot.dataset.ad; if(k==='auto'){ const sec=slot.closest('.panel'); k = TAB_AD[sec?sec.id.slice(2):''] || 'coupang'; } let a = ADS[k]; if(!a){ renderFallback(slot); return; }
     const todayS=new Date().toISOString().slice(0,10);
     const ok=x=>/^https:\/\//.test(x.url||'') && !x.off && (!x.until || x.until>=todayS);
     const shop = (k.startsWith('toss') && k!=='toss_shop' && ADS.toss_shop) ? (ADS.toss_shop.items||[]).filter(ok).map(x=>({button:ADS.toss_shop.button,disclosure:ADS.toss_shop.disclosure,shop:true,...x})) : [];
@@ -2288,8 +2288,7 @@ const GUIDE={
 };
 function tabAds(k){
   const coup = ['buy','apt','score','safe','rent','auc','yield'].includes(k)?'coupang_home':'coupang_book';
-  const toss = ['apt','dsr','refi','yield','buy','rent','auc','dist','safe'].includes(k)?'toss_loan' : ['int','fin','eitc','nhis','ptax','gift','yet','nps','fire','score'].includes(k)?'toss_bank':'toss_stock';
-  return [coup,toss];
+  return [coup,'related'];
 }
 function renderTabFoot(k){
   const [a,b]=tabAds(k);

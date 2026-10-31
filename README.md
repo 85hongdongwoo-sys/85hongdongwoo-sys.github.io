@@ -11,7 +11,7 @@
 ## 올리기 전에 바꿀 것
 1. 모든 파일의 `YOUR-DOMAIN` → 실제 주소 (예: `hongcalc.github.io` 또는 구매한 도메인)
 2. `about.html`의 "문의용 이메일" 자리 → 공개해도 되는 문의용 이메일
-3. `ads.js` → 쿠팡 파트너스·토스쇼핑 링크와 상품 (이 파일만 고치면 모든 광고 칸에 반영)
+3. `ads.js` → 쿠팡 파트너스 링크와 상품 (이 파일만 고치면 모든 광고 칸에 반영)
 
 ## GitHub Pages로 무료 배포 (약 10분)
 1. github.com 가입 → 새 저장소(New repository) 만들기, Public 선택
