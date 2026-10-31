@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>자동차 소모품 교체 주기·비용 계산기 | 엔진오일·타이어·브레이크</title>
+<meta name="description" content="차급과 주행거리로 엔진오일·타이어·브레이크 패드·배터리 등 소모품 교체 주기와 부품값+공임 연간 비용을 계산해요.">
+<link rel="canonical" href="https://85hongdongwoo-sys.github.io/car-parts.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="자동차 소모품 교체 주기·비용 계산기 | 엔진오일·타이어·브레이크">
+<meta property="og:description" content="차급과 주행거리로 엔진오일·타이어·브레이크 패드·배터리 등 소모품 교체 주기와 부품값+공임 연간 비용을 계산해요.">
+<meta property="og:url" content="https://85hongdongwoo-sys.github.io/car-parts.html">
+<meta name="theme-color" content="#0B1F3F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{color-scheme:light;--paper:#fff;--ink:#0F1B2D;--muted:#5A6678;--line:#DDE2EA;--soft:#EEF1F5;--accent:#12305C;--accent-soft:#EAF0F8;--gold:#E8C27A;--gold-d:#B8862B;--tax:#C2362B;--up:#13795B;
+  --c1:#12305C;--c2:#B8862B;--c3:#3E7CB1;--c4:#13795B;--c5:#8A5A9E;--c6:#9AA6B6;
+  --f:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:linear-gradient(180deg,#0F2A52 0,#0C2347 600px,#0A1E3E 100%) fixed;color:var(--ink);font:15px/1.6 var(--f);letter-spacing:-.005em;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08)}
+.brandbar .in{max-width:1040px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none}
+.logo i{width:26px;height:26px;border-radius:6px;background:var(--gold-d);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;color:#AEBBD0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px 48px}
+header.top{padding:28px 0 14px;border-bottom:1px solid rgba(255,255,255,.14);display:flex;flex-wrap:wrap;gap:8px 20px;align-items:flex-end;justify-content:space-between}
+h1{margin:0;font-weight:800;font-size:clamp(24px,4.4vw,32px);letter-spacing:-.025em;color:#fff;text-wrap:balance}
+h1 b{color:var(--gold);font-weight:800}
+.sub{margin:6px 0 0;color:#BFCBE0;font-size:14.5px;max-width:64ch}
+.stamp{font-size:12px;font-weight:600;color:#fff;background:rgba(255,255,255,.1);border-radius:4px;padding:5px 10px;white-space:nowrap}
+nav.tabs{position:sticky;top:0;z-index:5;background:#0F2A52;padding:12px 0 10px;border-bottom:1px solid rgba(255,255,255,.14)}
+.tabs .row{display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:640px){.tabs .row{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}}
+.tabs a{flex:0 0 auto;font-size:14px;font-weight:600;padding:7px 14px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:#DCE4F2;text-decoration:none}
+.tabs a:hover{border-color:rgba(255,255,255,.45);color:#fff}
+.tabs a[aria-current="page"]{background:#fff;border-color:#fff;color:#0F2A52}
+.panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:20px}
+@media (max-width:820px){.panel{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--paper);border-radius:8px;padding:22px}
+.form{display:grid;gap:14px;align-content:start}
+.form h2{margin:0;font-size:20px;font-weight:700;letter-spacing:-.02em}
+.lead{margin:-4px 0 4px;color:var(--muted);font-size:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field{display:grid;gap:4px;min-width:0}
+.field label{font-size:13px;font-weight:600;color:#3A4659}
+.field input,.field select{width:100%;font:500 16px var(--mono);color:var(--ink);background:#FBFCFD;border:1px solid #C9D1DC;border-radius:4px;padding:10px 12px}
+.field select{font-family:var(--f);font-size:15px}
+.field input:focus,.field select:focus{border-color:var(--accent);background:#fff;outline:none;box-shadow:0 0 0 3px rgba(18,48,92,.12)}
+.hint{margin:0;font-size:12.5px;color:var(--muted)}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:14px}.check input{margin-top:4px}
+.group{display:grid;gap:12px;padding-top:14px;border-top:1px solid var(--line)}
+.group h3{margin:0;font-size:13.5px;font-weight:700;color:var(--accent)}
+.spec{font-size:13px;color:var(--muted);background:var(--soft);border-radius:4px;padding:8px 10px;margin:0}
+.res{align-self:start;border-top:4px solid var(--gold);position:sticky;top:70px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media (max-width:820px){.res{position:static}}
+.kicker{margin:0 0 4px;font-size:12px;font-weight:700;color:var(--muted)}
+.big{font:600 clamp(26px,5vw,34px)/1.2 var(--mono);color:var(--accent);margin:4px 0 2px;letter-spacing:-.02em}
+.bigsub{margin:0;font-size:13.5px;color:var(--muted)}
+.up{color:var(--up);font-weight:600}.down{color:var(--tax);font-weight:600}
+table{width:100%;border-collapse:collapse;margin-top:8px;font-variant-numeric:tabular-nums}
+td,th{padding:8px 0;border-bottom:1px solid var(--soft);font-size:14px;vertical-align:top;text-align:left}
+th{font-size:12px;color:var(--muted);font-weight:600}
+td.n,th.n{text-align:right;font-family:var(--mono);white-space:nowrap;padding-left:10px}
+td .c{display:block;font-size:12px;color:var(--muted);font-family:var(--f);white-space:normal}
+tr.t td{border-top:2px solid var(--ink);border-bottom:0;font-weight:700}
+.blk{margin-top:18px}.blk h3{margin:0;font-size:15px}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:4px;background:#FFF4DC;color:#8A5A00;vertical-align:2px}
+.note{margin:10px 0 0;font-size:12.5px;color:var(--muted)}
+.bar{display:flex;height:14px;border-radius:3px;overflow:hidden;margin-top:10px;background:var(--soft)}
+.bar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);margin-top:8px}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.help{margin-top:24px}.help h2{margin:0 0 6px;font-size:20px}.help h3{margin:16px 0 4px;font-size:15.5px;color:var(--accent)}
+.help p{margin:0 0 8px;line-height:1.75}.help dl{margin:0;display:grid;gap:10px}.help dt{font-weight:700}.help dd{margin:2px 0 0;color:#3A4659}
+.ad{margin-top:24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:640px){.ad{grid-template-columns:1fr}}
+.ad .card{padding:14px 16px;display:grid;gap:8px;align-content:start}
+.ad .tag{font-size:11px;font-weight:600;color:#8590A0}
+.ad img{width:100%;border-radius:6px;border:1px solid var(--line);display:block}
+.ad .disc{margin:0;font-size:11.5px;color:#8F99A8}
+.ad ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+footer{margin-top:24px;background:var(--paper);border-radius:8px;padding:18px 20px;font-size:12.5px;color:var(--muted);display:grid;gap:6px}
+footer nav{font-weight:600}
+@media (max-width:480px){.row3{grid-template-columns:1fr 1fr}.card{padding:18px}}
+</style>
+<script>window.START_TAB="parts";</script>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 투자계산기</a><span class="meta">2026년 10월 기준 · 무료</span></div></div>
+<div class="wrap">
+<header class="top">
+  <div>
+    <h1 id="h1">자동차 <b>소모품 교체비</b></h1>
+    <p class="sub">국산·수입 100여 종을 고르면 배기량·연비가 자동으로 들어가요. 기름값, 자동차세, 보험료, 소모품 교체비까지 내 차에 드는 돈을 한 번에 계산해요.</p>
+  </div>
+  <span class="stamp">휘발유 1,855.7원 · 경유 1,842.1원 (10월 넷째 주)</span>
+</header>
+
+<nav class="tabs" aria-label="자동차 계산기">
+  <div class="row">
+    <a href="car-cost.html" data-t="cost">월 유지비</a>
+    <a href="car-commute.html" data-t="com">출퇴근 비용</a>
+    <a href="car-tax.html" data-t="tax">자동차세</a>
+    <a href="car-buy.html" data-t="buy">취등록세</a>
+    <a href="car-parts.html" data-t="parts" aria-current="page">소모품 교체비</a>
+    <a href="car-ev.html" data-t="ev">전기차 vs 휘발유</a>
+  </div>
+</nav>
+
+<!-- 1. 유지비 -->
+<section class="panel" id="t-cost" hidden>
+  <div class="card form">
+    <h2>내 차, 한 달에 얼마 들까</h2>
+    <p class="lead">차종과 1년 주행거리를 넣으면 기름값·세금·보험·소모품을 모두 더한 월 유지비가 나와요.</p>
+    <div class="field"><label for="cModel">차종</label><select id="cModel" class="model"></select></div>
+    <p class="spec" id="cSpec"></p>
+    <div class="row2">
+      <div class="field"><label for="cKm">1년 주행거리 (km)</label><input id="cKm" inputmode="numeric" value="15,000"></div>
+      <div class="field"><label for="cReg">최초 등록 연도</label><input id="cReg" inputmode="numeric" value="2023"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="cEff">실연비 (km/L 또는 km/kWh)</label><input id="cEff" inputmode="decimal" value=""></div>
+      <div class="field"><label for="cPrice">연료 단가 (원/L·kWh)</label><input id="cPrice" inputmode="decimal" value=""></div>
+    </div>
+    <p class="hint">실연비는 공인 복합연비의 90%로 자동으로 넣어요. 내 차 실제 연비를 알면 고쳐 주세요.</p>
+    <div class="group">
+      <h3>보험·기타 (연, 원)</h3>
+      <div class="row2">
+        <div class="field"><label for="cIns">자동차보험료 (연)</label><input id="cIns" inputmode="numeric" value=""></div>
+        <div class="field"><label for="cParkM">주차비 (월)</label><input id="cParkM" inputmode="numeric" value="0"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="cToll">통행료 (월)</label><input id="cToll" inputmode="numeric" value="20,000"></div>
+        <div class="field"><label for="cWash">세차·기타 (월)</label><input id="cWash" inputmode="numeric" value="15,000"></div>
+      </div>
+      <div class="field"><label for="cLoan">할부금 (월, 있으면)</label><input id="cLoan" inputmode="numeric" value="0"></div>
+      <p class="hint">보험료 기본값은 차급별 평균 참고값이에요. 나이·경력·할인에 따라 몇 배씩 달라지니 실제 보험료를 넣어 주세요.</p>
+    </div>
+  </div>
+  <div class="card res" aria-live="polite" id="costOut"></div>
+</section>
+
+<!-- 2. 출퇴근 -->
+<section class="panel" id="t-com" hidden>
+  <div class="card form">
+    <h2>출퇴근, 차 vs 대중교통</h2>
+    <p class="lead">편도 거리와 출근 일수를 넣으면 자차 출퇴근 비용과 대중교통 비용을 비교해요.</p>
+    <div class="field"><label for="mModel">차종</label><select id="mModel" class="model"></select></div>
+    <div class="row3">
+      <div class="field"><label for="mDist">편도 거리 (km)</label><input id="mDist" inputmode="decimal" value="20"></div>
+      <div class="field"><label for="mDays">월 출근일</label><input id="mDays" inputmode="numeric" value="21"></div>
+      <div class="field"><label for="mEff">실연비</label><input id="mEff" inputmode="decimal" value=""></div>
+    </div>
+    <div class="row3">
+      <div class="field"><label for="mPrice">연료 단가</label><input id="mPrice" inputmode="decimal" value=""></div>
+      <div class="field"><label for="mToll">하루 통행료</label><input id="mToll" inputmode="numeric" value="0"></div>
+      <div class="field"><label for="mPark">월 주차비</label><input id="mPark" inputmode="numeric" value="0"></div>
+    </div>
+    <label class="check"><input type="checkbox" id="mWear" checked><span>소모품 마모비 포함 <span class="hint">(타이어·오일 등 km당 비용)</span></span></label>
+    <div class="group">
+      <h3>대중교통</h3>
+      <div class="row2">
+        <div class="field"><label for="mFare">편도 요금 (원)</label><input id="mFare" inputmode="numeric" value="1,750"></div>
+        <div class="field"><label for="mKpass">K-패스 환급</label>
+          <select id="mKpass"><option value="0">안 씀</option><option value="0.2" selected>일반 20%</option><option value="0.3">청년 30%</option><option value="0.53">저소득 53%</option></select></div>
+      </div>
+      <p class="hint">수도권 지하철 기본요금은 1,550원이고 거리에 따라 추가돼요. 버스 환승이 있으면 편도 총액을 넣어 주세요.</p>
+    </div>
+  </div>
+  <div class="card res" aria-live="polite" id="comOut"></div>
+</section>
+
+<!-- 3. 자동차세 -->
+<section class="panel" id="t-tax" hidden>
+  <div class="card form">
+    <h2>자동차세, 올해 얼마 낼까</h2>
+    <p class="lead">배기량과 차령으로 정해지는 자동차세를 계산하고, 1월 연납 할인까지 보여줘요.</p>
+    <div class="field"><label for="xModel">차종</label><select id="xModel" class="model"></select></div>
+    <div class="row3">
+      <div class="field"><label for="xCc">배기량 (cc)</label><input id="xCc" inputmode="numeric" value=""></div>
+      <div class="field"><label for="xReg">최초 등록 연도</label><input id="xReg" inputmode="numeric" value="2023"></div>
+      <div class="field"><label for="xYear">과세 연도</label><input id="xYear" inputmode="numeric" value="2027"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="xKind">차 종류</label>
+        <select id="xKind"><option value="car">승용 (휘발유·경유·LPG·하이브리드)</option><option value="ev">전기·수소 승용</option><option value="truck">화물 1톤 이하 (포터·봉고)</option><option value="van">승합 (11인승 이상)</option></select></div>
+      <div class="field"><label for="xDisc">연납 할인율 (%)</label><input id="xDisc" inputmode="decimal" value="5"></div>
+    </div>
+    <p class="hint">연납 할인율은 2026년 5%예요. 2027년 할인율은 아직 확정되지 않았어요.</p>
+  </div>
+  <div class="card res" aria-live="polite" id="taxOut"></div>
+</section>
+
+<!-- 4. 취등록세 -->
+<section class="panel" id="t-buy" hidden>
+  <div class="card form">
+    <h2>차 살 때 취등록세</h2>
+    <p class="lead">신차는 부가세를 뺀 차값, 중고차는 시가표준액에 세율을 곱해요. 경차·전기차 감면까지 계산해요.</p>
+    <div class="field"><label for="bModel">차종</label><select id="bModel" class="model"></select></div>
+    <div class="row2">
+      <div class="field"><label for="bType">구매 방식</label><select id="bType"><option value="new">신차</option><option value="used">중고차</option></select></div>
+      <div class="field"><label for="bKind">세율 구분</label>
+        <select id="bKind"><option value="car">승용 7%</option><option value="light">경차 4%</option><option value="ev">전기·수소 7% (감면)</option><option value="cv">화물·승합 5%</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="bPrice" id="bPriceLabel">차값 (부가세 포함, 원)</label><input id="bPrice" inputmode="numeric" value=""></div>
+      <div class="field"><label for="bYear">취득 연도</label><select id="bYear"><option value="2026">2026년</option><option value="2027" selected>2027년</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="bBond">공채 할인 비용 (원)</label><input id="bBond" inputmode="numeric" value="0"></div>
+      <div class="field"><label for="bEtc">번호판·탁송 등 (원)</label><input id="bEtc" inputmode="numeric" value="50,000"></div>
+    </div>
+    <p class="hint">공채(지역개발·도시철도채권) 매입액은 지역과 배기량마다 달라요. 바로 팔아 할인받으면 보통 수만 원 수준이에요.</p>
+  </div>
+  <div class="card res" aria-live="polite" id="buyOut"></div>
+</section>
+
+<!-- 5. 소모품 -->
+<section class="panel" id="t-parts">
+  <div class="card form">
+    <h2>소모품 교체 주기와 비용</h2>
+    <p class="lead">차급과 주행거리에 맞춰 엔진오일·타이어·브레이크 패드 등을 1년에 몇 번 바꾸는지, 부품값과 공임을 합쳐 계산해요.</p>
+    <div class="field"><label for="pModel">차종</label><select id="pModel" class="model"></select></div>
+    <div class="row2">
+      <div class="field"><label for="pKm">1년 주행거리 (km)</label><input id="pKm" inputmode="numeric" value="15,000"></div>
+      <div class="field"><label for="pShop">정비 장소</label><select id="pShop"><option value="1">일반 정비소 (기준)</option><option value="1.3">직영·공식 서비스센터 (+30%)</option><option value="0.75">부품 직접 구매 후 공임만 (−25%)</option></select></div>
+    </div>
+    <p class="hint">가격은 2026년 일반 정비소 평균 수준의 참고값이에요(부품+공임). 지역·정비소·부품 브랜드마다 차이가 커요.</p>
+  </div>
+  <div class="card res" aria-live="polite" id="partsOut"></div>
+</section>
+
+<!-- 6. 전기차 비교 -->
+<section class="panel" id="t-ev" hidden>
+  <div class="card form">
+    <h2>전기차 vs 내연기관, 뭐가 이득일까</h2>
+    <p class="lead">같은 거리를 달릴 때 충전비·기름값·세금·소모품 차이와 차값 차이를 회수하는 데 몇 년 걸리는지 계산해요.</p>
+    <div class="row2">
+      <div class="field"><label for="eA">내연기관·하이브리드</label><select id="eA" class="model" data-filter="ice"></select></div>
+      <div class="field"><label for="eB">전기차</label><select id="eB" class="model" data-filter="ev"></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="eKm">1년 주행거리 (km)</label><input id="eKm" inputmode="numeric" value="15,000"></div>
+      <div class="field"><label for="eKwh">충전 단가 (원/kWh)</label><input id="eKwh" inputmode="decimal" value="310"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="eGap">실구매가 차이 (원, 보조금 반영)</label><input id="eGap" inputmode="numeric" value="8,000,000"></div>
+      <div class="field"><label for="eYears">보유 기간 (년)</label><input id="eYears" inputmode="numeric" value="7"></div>
+    </div>
+    <p class="hint">충전 단가는 집·완속 위주면 295원, 급속 위주면 325~348원 정도예요(환경부 공공 요금 기준). 보조금을 받은 뒤 실제로 내는 차값 차이를 넣어 주세요.</p>
+  </div>
+  <div class="card res" aria-live="polite" id="evOut"></div>
+</section>
+
+<div class="ad">
+  <div class="card" id="adCoupang"></div>
+  <div class="card"><span class="tag">함께 보면 좋은 계산기</span>
+    <ul><li><a href="refi.html">대출 갈아타기 계산기</a></li><li><a href="buy.html">집 살 때 비용 계산기</a></li><li><a href="gw-pay.html">2027 공무원 실수령액</a></li><li><a href="yet.html">연말정산 환급 계산기</a></li></ul>
+  </div>
+</div>
+
+<section class="card help" id="help"></section>
+
+<footer>
+  <nav><a href="./">전체 계산기</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></nav>
+  <div><b>기준</b> · 기름값은 오피넷 10월 넷째 주 전국 평균(휘발유 1,855.7원·경유 1,842.1원), 충전 요금은 환경부 공공 충전기 요금(2026.8.1.), 자동차세는 지방세법 비영업용 승용 세율(1,000cc 이하 80원·1,600cc 이하 140원·초과 200원/cc, 지방교육세 30%, 3년 차부터 해마다 5%·최대 50% 경감).</div>
+  <div>차종별 배기량·연비는 대표 트림의 공인 복합연비 기준 참고값이에요. 보험료·소모품 가격은 평균 참고값이라 실제와 다를 수 있으니 내 차 정보로 고쳐서 쓰세요.</div>
+</footer>
+</div>
+
+<script src="ads.js"></script>
+<script>
+/* ===== 차종 데이터: [이름, 차급, 연료, 배기량cc, 복합연비(km/L·km/kWh), 신차가(만원)] =====
+   차급: L경차 S소형 C준중형 M중형 F준대형 X대형 SS소형SUV MS중형SUV LS대형SUV V승합·MPV T화물 I수입  */
+const CARS=[
+ ['현대 캐스퍼 1.0','L','휘발유',998,14.3,1500],['현대 캐스퍼 일렉트릭','L','전기',0,5.6,2900],
+ ['기아 모닝 1.0','L','휘발유',998,15.1,1300],['기아 레이 1.0','L','휘발유',998,13.0,1600],['기아 레이 EV','L','전기',0,5.1,2800],
+ ['현대 아반떼 1.6','C','휘발유',1598,15.0,2200],['현대 아반떼 하이브리드','C','하이브리드',1580,21.1,2800],['현대 아반떼 N','C','휘발유',1998,10.1,3600],
+ ['현대 쏘나타 2.0','M','휘발유',1999,13.0,3000],['현대 쏘나타 1.6T','M','휘발유',1598,13.5,3200],['현대 쏘나타 하이브리드','M','하이브리드',1999,19.4,3500],['현대 쏘나타 2.0 LPi','M','LPG',1999,9.8,2900],
+ ['현대 그랜저 2.5','F','휘발유',2497,11.7,4000],['현대 그랜저 3.5','F','휘발유',3470,10.4,4600],['현대 그랜저 하이브리드','F','하이브리드',1598,18.0,4500],['현대 그랜저 3.5 LPi','F','LPG',3470,7.4,3900],
+ ['현대 베뉴 1.6','SS','휘발유',1598,13.7,2100],['현대 코나 1.6T','SS','휘발유',1598,13.6,2700],['현대 코나 하이브리드','SS','하이브리드',1580,19.8,3100],['현대 코나 일렉트릭','SS','전기',0,5.5,4400],
+ ['현대 투싼 1.6T','MS','휘발유',1598,12.5,3000],['현대 투싼 하이브리드','MS','하이브리드',1598,16.2,3500],['현대 투싼 2.0 디젤','MS','경유',1998,14.8,3100],
+ ['현대 싼타페 2.5T','MS','휘발유',2497,11.0,3700],['현대 싼타페 하이브리드','MS','하이브리드',1598,15.5,4100],
+ ['현대 팰리세이드 2.5T','LS','휘발유',2497,9.9,4600],['현대 팰리세이드 하이브리드','LS','하이브리드',2497,14.1,5100],['현대 팰리세이드 2.2 디젤(구형)','LS','경유',2199,12.4,4300],
+ ['현대 스타리아 2.2 디젤','V','경유',2199,10.8,3600],['현대 스타리아 LPi','V','LPG',3470,6.9,3300],['현대 스타리아 하이브리드','V','하이브리드',1598,13.0,4300],
+ ['현대 포터2 2.5 디젤','T','경유',2497,9.9,2200],['현대 포터2 일렉트릭','T','전기',0,3.1,4300],
+ ['현대 아이오닉5','MS','전기',0,5.2,5200],['현대 아이오닉6','M','전기',0,6.2,5300],['현대 아이오닉9','LS','전기',0,4.2,7000],
+ ['기아 K5 2.0','M','휘발유',1999,13.0,2900],['기아 K5 1.6T','M','휘발유',1598,13.7,3100],['기아 K5 하이브리드','M','하이브리드',1999,19.8,3400],['기아 K5 2.0 LPi','M','LPG',1999,9.8,2800],
+ ['기아 K8 2.5','F','휘발유',2497,11.8,4000],['기아 K8 3.5','F','휘발유',3470,10.4,4500],['기아 K8 하이브리드','F','하이브리드',1598,18.0,4500],['기아 K9 3.3T','X','휘발유',3342,8.7,6500],
+ ['기아 셀토스 1.6T','SS','휘발유',1598,12.8,2600],['기아 니로 하이브리드','SS','하이브리드',1580,20.8,3100],['기아 니로 EV','SS','전기',0,5.3,4800],
+ ['기아 스포티지 1.6T','MS','휘발유',1598,12.3,3000],['기아 스포티지 하이브리드','MS','하이브리드',1598,16.3,3500],['기아 스포티지 2.0 디젤','MS','경유',1998,14.6,3100],
+ ['기아 쏘렌토 2.5T','MS','휘발유',2497,10.8,3700],['기아 쏘렌토 하이브리드','MS','하이브리드',1598,15.7,4100],['기아 쏘렌토 2.2 디젤','MS','경유',2151,13.6,3900],
+ ['기아 카니발 3.5','V','휘발유',3470,9.0,4000],['기아 카니발 하이브리드','V','하이브리드',1598,13.5,4600],['기아 카니발 2.2 디젤(구형)','V','경유',2151,12.3,3800],
+ ['기아 모하비 3.0 디젤','LS','경유',2959,9.4,5200],['기아 타스만 2.5T','LS','휘발유',2497,8.9,4200],['기아 봉고3 2.5 디젤','T','경유',2497,9.9,2100],
+ ['기아 EV3','SS','전기',0,5.4,4300],['기아 EV4','C','전기',0,5.8,4500],['기아 EV6','MS','전기',0,5.0,5200],['기아 EV9','LS','전기',0,4.2,7500],
+ ['제네시스 G70 2.5T','I','휘발유',2497,10.2,4400],['제네시스 G80 2.5T','I','휘발유',2497,10.1,5900],['제네시스 G80 3.5T','I','휘발유',3470,8.9,6500],['제네시스 G90 3.5T','I','휘발유',3470,8.4,9500],
+ ['제네시스 GV70 2.5T','I','휘발유',2497,9.8,5300],['제네시스 GV80 2.5T','I','휘발유',2497,9.1,7000],['제네시스 GV60','I','전기',0,5.0,6500],
+ ['KGM 티볼리 1.5T','SS','휘발유',1497,12.0,2100],['KGM 토레스 1.5T','MS','휘발유',1497,10.4,3000],['KGM 액티언 1.5T','MS','휘발유',1497,10.9,3500],['KGM 토레스 하이브리드','MS','하이브리드',1497,15.0,3600],['KGM 렉스턴 2.2 디젤','LS','경유',2157,10.8,4000],['KGM 토레스 EVX','MS','전기',0,4.8,4500],
+ ['르노 아르카나 1.6','SS','휘발유',1598,13.4,2400],['르노 아르카나 하이브리드','SS','하이브리드',1598,17.4,3000],['르노 QM6 2.0 LPe','MS','LPG',1998,8.9,2900],['르노 그랑 콜레오스 2.0T','MS','휘발유',1999,10.5,3600],['르노 그랑 콜레오스 하이브리드','MS','하이브리드',1499,15.7,4100],
+ ['쉐보레 트랙스 크로스오버','SS','휘발유',1341,12.7,2300],['쉐보레 트레일블레이저','SS','휘발유',1341,12.9,2600],
+ ['테슬라 모델3','I','전기',0,5.6,5300],['테슬라 모델Y','I','전기',0,5.2,5600],['BYD 아토3','SS','전기',0,4.8,3200],
+ ['BMW 320i','I','휘발유',1998,11.7,5600],['BMW 520i','I','휘발유',1998,11.5,6900],['BMW X3 20','I','휘발유',1998,10.2,7400],['BMW X5 40i','I','휘발유',2998,8.4,11000],
+ ['벤츠 C200','I','휘발유',1496,11.0,6400],['벤츠 E200','I','휘발유',1999,11.2,7400],['벤츠 E300','I','휘발유',1999,10.6,8800],['벤츠 GLC 300','I','휘발유',1999,9.9,8000],['벤츠 S500','I','휘발유',2999,8.6,18000],
+ ['아우디 A6 45 TFSI','I','휘발유',1984,10.7,7500],['아우디 Q5 45 TFSI','I','휘발유',1984,9.8,7600],['볼보 XC60 B5','I','휘발유',1969,10.0,6800],['볼보 XC90 B6','I','휘발유',1969,8.6,9200],
+ ['렉서스 ES300h','I','하이브리드',2487,17.2,6800],['토요타 캠리 하이브리드','I','하이브리드',2487,17.1,4800],['토요타 RAV4 하이브리드','I','하이브리드',2487,15.6,4700],
+ ['혼다 어코드 하이브리드','I','하이브리드',1993,16.7,5300],['폭스바겐 티구안 2.0 TDI','I','경유',1968,14.0,5000],['미니 쿠퍼 C','I','휘발유',1499,13.3,4400],['포르쉐 카이엔','I','휘발유',2995,7.9,14000]
+];
+/* 차급별 보험료(연, 평균 참고값)와 소모품 비용 등급 */
+const CLS={L:{n:'경차',ins:600000,t:0},S:{n:'소형',ins:750000,t:1},C:{n:'준중형',ins:800000,t:1},M:{n:'중형',ins:950000,t:2},F:{n:'준대형',ins:1150000,t:3},X:{n:'대형',ins:1400000,t:3},
+  SS:{n:'소형 SUV',ins:800000,t:1},MS:{n:'중형 SUV',ins:1000000,t:2},LS:{n:'대형 SUV',ins:1250000,t:3},V:{n:'승합·MPV',ins:1150000,t:3},T:{n:'화물(1톤)',ins:700000,t:2},I:{n:'수입·고급',ins:1700000,t:4}};
+const PRICE={gas:1855.7,diesel:1842.1,lpg:1050,ev:310};
+const FUELKEY={'휘발유':'gas','하이브리드':'gas','경유':'diesel','LPG':'lpg','전기':'ev'};
+/* 소모품: [이름, 교체주기 km, 최소 주기(년, 시간 기준), 등급별 가격(경/소·준중형/중형/대형/수입), 적용 연료] */
+const PARTS=[
+ ['엔진오일·필터',10000,1,[50000,65000,80000,100000,160000],'ice'],
+ ['에어컨 필터',15000,1,[20000,20000,25000,25000,45000],'all'],
+ ['엔진 에어클리너',20000,2,[20000,25000,30000,35000,60000],'ice'],
+ ['와이퍼 (앞 1세트)',0,1,[25000,30000,30000,35000,50000],'all'],
+ ['브레이크 패드 (앞)',40000,0,[80000,110000,140000,180000,320000],'all'],
+ ['브레이크 오일',40000,2,[50000,50000,55000,60000,90000],'all'],
+ ['타이어 4개',50000,5,[320000,450000,600000,800000,1200000],'all'],
+ ['배터리 (12V)',60000,4,[100000,120000,150000,200000,300000],'all'],
+ ['냉각수 (부동액)',40000,2,[50000,60000,70000,80000,120000],'all'],
+ ['미션오일',60000,0,[120000,150000,180000,220000,350000],'ice'],
+ ['점화플러그',80000,0,[60000,80000,100000,150000,250000],'gasonly']
+];
+
+/* ===== 공통 ===== */
+const $=id=>document.getElementById(id);
+const won=n=>Math.round(n).toLocaleString('ko-KR')+'원';
+const man=n=>(Math.round(n/1000)/10).toLocaleString('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1})+'만원';
+function num(id,lo,hi,d){ let v=parseFloat(String($(id).value).replace(/,/g,'')); if(isNaN(v)) v=d; return Math.min(Math.max(v,lo),hi); }
+const car=i=>{ const c=CARS[i]; return {name:c[0],cls:c[1],fuel:c[2],cc:c[3],eff:c[4],price:c[5]*10000,ev:c[2]==='전기'}; };
+function unit(c){ return c.ev?'km/kWh':'km/L'; }
+function fuelPrice(c){ return PRICE[FUELKEY[c.fuel]]; }
+const CUR_YEAR=2026;
+
+/* 자동차세 (비영업용) */
+function carTax(c, regYear, year, kind){
+  kind = kind || (c.ev?'ev':(c.cls==='T'?'truck':'car'));
+  if(kind==='ev') return {base:100000,edu:30000,red:0,total:130000,rate:'정액 10만 원',age:year-regYear+1};
+  if(kind==='truck') return {base:28500,edu:0,red:0,total:28500,rate:'화물 1톤 이하 정액',age:year-regYear+1};
+  if(kind==='van') return {base:65000,edu:0,red:0,total:65000,rate:'승합 비영업 정액',age:year-regYear+1};
+  const cc=c.cc, per= cc<=1000?80: cc<=1600?140:200;
+  const raw=cc*per, age=year-regYear+1, redPct = age>=3 ? Math.min((age-2)*0.05,0.5) : 0;
+  const base=Math.floor(raw*(1-redPct)/10)*10, edu=Math.floor(base*0.3/10)*10;
+  return {base,edu,red:redPct,total:base+edu,rate:`${cc.toLocaleString('ko-KR')}cc × ${per}원`,age,raw};
+}
+/* 소모품 연간 비용 */
+function partsCost(c, km, mult){
+  const tier=CLS[c.cls].t; let rows=[], sum=0;
+  PARTS.forEach(([nm,iv,yr,pr,app])=>{
+    if(app==='ice'&&c.ev) return; if(app==='gasonly'&&(c.ev||c.fuel==='경유')) return;
+    let ivk=iv; if(c.ev&&nm.startsWith('타이어')) ivk=40000; if(c.ev&&nm.startsWith('브레이크 패드')) ivk=80000;
+    let perYear = ivk? km/ivk : 0; if(yr) perYear=Math.max(perYear, 1/yr);
+    if(!ivk && yr) perYear=1/yr;
+    const price=pr[tier]*mult, cost=price*perYear; sum+=cost;
+    rows.push([nm, ivk?`${(ivk/10000).toLocaleString('ko-KR')}만 km${yr?` 또는 ${yr}년`:''}`:`${yr}년마다`, price, perYear, cost]);
+  });
+  return {rows,sum};
+}
+
+/* 차종 선택 채우기 */
+function fillModels(){
+  document.querySelectorAll('select.model').forEach(sel=>{
+    const f=sel.dataset.filter; let groups={};
+    CARS.forEach((c,i)=>{ if(f==='ev'&&c[2]!=='전기') return; if(f==='ice'&&c[2]==='전기') return; const brand=c[0].split(' ')[0]; (groups[brand]=groups[brand]||[]).push(`<option value="${i}">${c[0]}</option>`); });
+    sel.innerHTML=Object.entries(groups).map(([b,o])=>`<optgroup label="${b}">${o.join('')}</optgroup>`).join('');
+  });
+  const pick=(id,name)=>{ const i=CARS.findIndex(c=>c[0]===name); if(i>=0) $(id).value=i; };
+  pick('cModel','현대 아반떼 1.6'); pick('mModel','현대 아반떼 1.6'); pick('xModel','현대 쏘나타 2.0'); pick('bModel','기아 쏘렌토 하이브리드'); pick('pModel','현대 아반떼 1.6'); pick('eA','기아 쏘렌토 하이브리드'); pick('eB','현대 아이오닉5');
+}
+function setModelDefaults(prefix){
+  const c=car(+$(prefix+'Model').value);
+  if($(prefix+'Eff')) $(prefix+'Eff').value=(Math.round(c.eff*0.9*10)/10);
+  if($(prefix+'Price')) $(prefix+'Price').value=fuelPrice(c).toLocaleString('ko-KR');
+}
+
+/* ===== 1. 유지비 ===== */
+function renderCost(){
+  const c=car(+$('cModel').value), km=num('cKm',0,200000,15000), reg=num('cReg',1990,2030,2023);
+  $('cSpec').textContent=`${CLS[c.cls].n} · ${c.fuel}${c.cc?` · ${c.cc.toLocaleString('ko-KR')}cc`:''} · 공인 복합연비 ${c.eff} ${unit(c)}`;
+  const eff=num('cEff',0.5,40,c.eff*.9), fp=num('cPrice',0,5000,fuelPrice(c));
+  const fuel=km/eff*fp;
+  const tx=carTax(c,reg,CUR_YEAR+1);
+  const ins=num('cIns',0,2e7,CLS[c.cls].ins);
+  const parts=partsCost(c,km,1).sum;
+  const park=num('cParkM',0,1e7,0)*12, toll=num('cToll',0,1e7,0)*12, wash=num('cWash',0,1e7,0)*12, loan=num('cLoan',0,1e8,0)*12;
+  const run=fuel+tx.total+ins+parts+park+toll+wash, total=run+loan;
+  const segs=[[fuel,c.ev?'충전비':'기름값','c1'],[ins,'보험료','c2'],[parts,'소모품','c3'],[tx.total,'자동차세','c4'],[park+toll+wash,'주차·통행·세차','c5'],[loan,'할부','c6']].filter(s=>s[0]>0);
+  const bar=segs.map(s=>`<i style="width:${(s[0]/total*100).toFixed(2)}%;background:var(--${s[2]})" title="${s[1]}"></i>`).join('');
+  const leg=segs.map(s=>`<span><b style="background:var(--${s[2]})"></b>${s[1]} ${Math.round(s[0]/total*100)}%</span>`).join('');
+  const row=(a,cmt,v)=>`<tr><td>${a}<span class="c">${cmt}</span></td><td class="n">${won(v/12)}<span class="c">연 ${won(v)}</span></td></tr>`;
+  $('costOut').innerHTML=`<p class="kicker">${c.name} · 연 ${km.toLocaleString('ko-KR')}km</p>
+   <p class="big">월 ${won(total/12)}</p><p class="bigsub">연 ${man(total)} · 1km당 ${won(run/Math.max(km,1))} (할부 제외)</p>
+   <div class="bar" role="img" aria-label="유지비 구성">${bar}</div><div class="legend">${leg}</div>
+   <div class="blk"><h3>항목별 (월 / 연)</h3><table>
+   ${row(c.ev?'충전비':'기름값',`${km.toLocaleString('ko-KR')}km ÷ ${eff} ${unit(c)} × ${fp.toLocaleString('ko-KR')}원`,fuel)}
+   ${row('자동차보험료',ins===CLS[c.cls].ins?`${CLS[c.cls].n} 평균 참고값`:'직접 입력',ins)}
+   ${row('소모품 교체',`엔진오일·타이어·브레이크 등 연평균`,parts)}
+   ${row('자동차세',`${CUR_YEAR+1}년 · 차령 ${tx.age}년${tx.red?` · ${Math.round(tx.red*100)}% 경감`:''} · 지방교육세 포함`,tx.total)}
+   ${park?row('주차비','직접 입력',park):''}${toll?row('통행료','직접 입력',toll):''}${wash?row('세차·기타','직접 입력',wash):''}${loan?row('할부금','직접 입력',loan):''}
+   <tr class="t"><td>합계</td><td class="n">${won(total/12)}<span class="c">연 ${won(total)}</span></td></tr></table></div>
+   <p class="note">보험료와 소모품은 평균 참고값이에요. 소모품 상세는 <a href="car-parts.html">소모품 교체비</a>, 세금 상세는 <a href="car-tax.html">자동차세</a> 탭에서 볼 수 있어요.</p>`;
+}
+
+/* ===== 2. 출퇴근 ===== */
+function renderCom(){
+  const c=car(+$('mModel').value), d=num('mDist',0,500,20), days=num('mDays',0,31,21);
+  const eff=num('mEff',0.5,40,c.eff*.9), fp=num('mPrice',0,5000,fuelPrice(c));
+  const kmM=d*2*days, fuel=kmM/eff*fp, toll=num('mToll',0,1e6,0)*days, park=num('mPark',0,1e7,0);
+  const wear=$('mWear').checked ? partsCost(c,15000,1).sum/15000*kmM : 0;
+  const carM=fuel+toll+park+wear;
+  const fare=num('mFare',0,1e5,1750), k=+$('mKpass').value, ptRaw=fare*2*days, pt=ptRaw*(1-k);
+  const diff=carM-pt;
+  $('comOut').innerHTML=`<p class="kicker">${c.name} · 하루 왕복 ${d*2}km · 월 ${days}일</p>
+   <p class="big">${diff>=0?'대중교통이':'차가'} 월 ${won(Math.abs(diff))} 아껴요</p>
+   <p class="bigsub">1년이면 ${man(Math.abs(diff)*12)} 차이</p>
+   <div class="blk"><h3>자차 출퇴근 (월)</h3><table>
+    <tr><td>${c.ev?'충전비':'기름값'}<span class="c">${kmM.toLocaleString('ko-KR')}km ÷ ${eff} × ${fp.toLocaleString('ko-KR')}원</span></td><td class="n">${won(fuel)}</td></tr>
+    ${toll?`<tr><td>통행료<span class="c">하루 ${won(toll/days)} × ${days}일</span></td><td class="n">${won(toll)}</td></tr>`:''}
+    ${park?`<tr><td>주차비</td><td class="n">${won(park)}</td></tr>`:''}
+    ${wear?`<tr><td>소모품 마모비<span class="c">km당 ${won(wear/kmM)}</span></td><td class="n">${won(wear)}</td></tr>`:''}
+    <tr class="t"><td>합계</td><td class="n">${won(carM)}</td></tr></table></div>
+   <div class="blk"><h3>대중교통 (월)</h3><table>
+    <tr><td>교통비<span class="c">편도 ${won(fare)} × 2 × ${days}일</span></td><td class="n">${won(ptRaw)}</td></tr>
+    ${k?`<tr><td>K-패스 환급<span class="c">${Math.round(k*100)}%</span></td><td class="n">−${won(ptRaw*k)}</td></tr>`:''}
+    <tr class="t"><td>합계</td><td class="n">${won(pt)}</td></tr></table></div>
+   <p class="note">보험료·자동차세는 출퇴근을 안 해도 나가는 고정비라 뺐어요. 차를 아예 없애는 경우까지 보려면 <a href="car-cost.html">월 유지비</a>와 비교해 보세요. K-패스는 월 15회 이상 이용해야 환급돼요.</p>`;
+}
+
+/* ===== 3. 자동차세 ===== */
+function renderTax(){
+  const c=car(+$('xModel').value); const cc=num('xCc',0,10000,c.cc), reg=num('xReg',1980,2030,2023), year=num('xYear',2000,2040,2027), kind=$('xKind').value;
+  const cc2={...c,cc}; const t=carTax(cc2,reg,year,kind);
+  const disc=num('xDisc',0,20,5)/100, yearly=t.total*(1-disc*11/12);
+  const half=Math.round(t.total/2);
+  $('taxOut').innerHTML=`<p class="kicker">${c.name} · ${year}년 자동차세</p>
+   <p class="big">연 ${won(t.total)}</p><p class="bigsub">6월·12월 ${won(half)}씩 · 1월 연납하면 ${won(yearly)} (${won(t.total-yearly)} 절약)</p>
+   <div class="blk"><h3>계산 과정</h3><table>
+    ${t.raw?`<tr><td>기본 세액<span class="c">${t.rate}</span></td><td class="n">${won(t.raw)}</td></tr>
+    <tr><td>차령 경감<span class="c">차령 ${t.age}년 (3년 차부터 해마다 5%, 최대 50%)</span></td><td class="n">−${Math.round(t.red*100)}%</td></tr>`:`<tr><td>세액<span class="c">${t.rate}</span></td><td class="n">${won(t.base)}</td></tr>`}
+    <tr><td>자동차세</td><td class="n">${won(t.base)}</td></tr>
+    <tr><td>지방교육세<span class="c">${t.edu?'자동차세의 30%':'해당 없음'}</span></td><td class="n">${won(t.edu)}</td></tr>
+    <tr class="t"><td>합계</td><td class="n">${won(t.total)}</td></tr></table></div>
+   <div class="blk"><h3>연납 신청 시기별 (할인율 ${Math.round(disc*1000)/10}%)</h3><table>
+    <tr><th>신청 달</th><th class="n">납부액</th><th class="n">절약</th></tr>
+    ${[[1,'1월',11],[3,'3월',9],[6,'6월',6],[9,'9월',3]].map(([m,l,mo])=>{ const pay=t.total*(1-disc*mo/12) - (m>=6?t.total/2:0)*(m===9?0:0); return `<tr><td>${l}<span class="c">남은 ${mo}개월분 할인</span></td><td class="n">${won(t.total-t.total*disc*mo/12)}</td><td class="n">${won(t.total*disc*mo/12)}</td></tr>`; }).join('')}
+   </table></div>
+   <p class="note">연납 할인은 1·3·6·9월 16일~말일에 위택스·이택스나 ARS로 신청해요. 실제 세액은 10원 단위 절사 방식에 따라 몇십 원 차이가 날 수 있어요.</p>`;
+}
+
+/* ===== 4. 취등록세 ===== */
+function renderBuy(){
+  const c=car(+$('bModel').value), used=$('bType').value==='used', kind=$('bKind').value, year=+$('bYear').value;
+  $('bPriceLabel').textContent = used ? '시가표준액 (원)' : '차값 (부가세 포함, 원)';
+  const p=num('bPrice',0,5e9,c.price);
+  const base= used ? p : Math.round(p/1.1);
+  const rate= kind==='light'?0.04 : kind==='cv'?0.05 : 0.07;
+  let tax=Math.floor(base*rate/10)*10, red=0, note='';
+  if(kind==='light'){ red=Math.min(tax,750000); note='경차 취득세 감면 최대 75만 원'; }
+  if(kind==='ev'){ const lim= year>=2027?700000:1400000; red=Math.min(tax,lim); note=`전기·수소차 감면 최대 ${lim/10000}만 원${year>=2027?' (2027년 정부안, 국회 확정 전)':''}`; }
+  const payTax=tax-red, bond=num('bBond',0,1e8,0), etc=num('bEtc',0,1e8,50000), total=payTax+bond+etc;
+  $('buyOut').innerHTML=`<p class="kicker">${c.name} · ${used?'중고차':'신차'} 취득</p>
+   <p class="big">${won(total)}</p><p class="bigsub">취득세 ${won(payTax)} + 공채·부대비용 ${won(bond+etc)}</p>
+   <div class="blk"><h3>계산 과정</h3><table>
+    <tr><td>과세표준<span class="c">${used?'시가표준액':`차값 ${won(p)} ÷ 1.1 (부가세 제외)`}</span></td><td class="n">${won(base)}</td></tr>
+    <tr><td>취득세율<span class="c">${kind==='light'?'경차 4%':kind==='cv'?'화물·승합 5%':'비영업용 승용 7% (지방교육세 포함)'}</span></td><td class="n">${won(tax)}</td></tr>
+    ${red?`<tr><td>감면<span class="c">${note}</span></td><td class="n">−${won(red)}</td></tr>`:''}
+    <tr><td>낼 취득세</td><td class="n">${won(payTax)}</td></tr>
+    ${bond?`<tr><td>공채 할인 비용</td><td class="n">${won(bond)}</td></tr>`:''}
+    <tr><td>번호판·탁송 등</td><td class="n">${won(etc)}</td></tr>
+    <tr class="t"><td>차값 외 추가 비용</td><td class="n">${won(total)}</td></tr></table></div>
+   <p class="note">취득세는 차를 받은 날부터 60일 안에 내요. 하이브리드 취득세 감면은 2024년 말로 끝났어요. 다자녀(18세 미만 자녀 3명 이상) 가구는 추가 감면이 있으니 위택스에서 확인하세요. 기본 차값은 대표 트림 참고값이에요.</p>`;
+}
+
+/* ===== 5. 소모품 ===== */
+function renderParts(){
+  const c=car(+$('pModel').value), km=num('pKm',0,200000,15000), mult=+$('pShop').value;
+  const r=partsCost(c,km,mult);
+  $('partsOut').innerHTML=`<p class="kicker">${c.name} · ${CLS[c.cls].n} · 연 ${km.toLocaleString('ko-KR')}km</p>
+   <p class="big">연 ${won(r.sum)}</p><p class="bigsub">월 ${won(r.sum/12)} · 1km당 ${won(r.sum/Math.max(km,1))}</p>
+   <div class="blk"><h3>항목별 (부품+공임)</h3><table><tr><th>항목 · 교체 주기</th><th class="n">1회</th><th class="n">연 비용</th></tr>
+   ${r.rows.map(x=>`<tr><td>${x[0]}<span class="c">${x[1]} · 연 ${x[3].toFixed(2)}회</span></td><td class="n">${won(x[2])}</td><td class="n">${won(x[4])}</td></tr>`).join('')}
+   <tr class="t"><td>합계</td><td></td><td class="n">${won(r.sum)}</td></tr></table></div>
+   <p class="note">${c.ev?'전기차는 엔진오일·미션오일·점화플러그가 없는 대신, 무게 때문에 타이어가 더 빨리 닳아 4만 km 주기로 잡았어요. 회생제동 덕분에 브레이크 패드는 오래 써요. ':''}연간 비용은 교체 주기를 1년 주행거리로 나눈 평균이라, 실제로는 교체하는 해에 몰아서 나가요. 제조사 정비 안내서의 주기가 우선이에요.</p>`;
+}
+
+/* ===== 6. 전기차 비교 ===== */
+function renderEV(){
+  const a=car(+$('eA').value), b=car(+$('eB').value), km=num('eKm',0,200000,15000), kwh=num('eKwh',0,2000,310), gap=num('eGap',-1e9,1e9,8e6), yrs=num('eYears',1,20,7);
+  const fa=km/(a.eff*.9)*fuelPrice(a), fb=km/(b.eff*.9)*kwh;
+  const ta=carTax(a,2027,2027).total, tb=carTax(b,2027,2027).total;
+  const pa=partsCost(a,km,1).sum, pb=partsCost(b,km,1).sum;
+  const sa=fa+ta+pa, sb=fb+tb+pb, save=sa-sb, payback= save>0 ? gap/save : Infinity, net=save*yrs-gap;
+  const row=(l,x,y)=>`<tr><td>${l}</td><td class="n">${won(x)}</td><td class="n">${won(y)}</td></tr>`;
+  $('evOut').innerHTML=`<p class="kicker">연 ${km.toLocaleString('ko-KR')}km 기준 1년 운영비 차이</p>
+   <p class="big">${save>=0?'전기차가':'내연기관이'} 연 ${won(Math.abs(save))} 저렴</p>
+   <p class="bigsub">${save>0&&isFinite(payback)?`차값 차이 ${man(gap)}은 약 <b>${payback.toFixed(1)}년</b>이면 회수 · ${yrs}년 보유 시 ${net>=0?'전기차가':'내연기관이'} ${man(Math.abs(net))} 이득`:'운영비로는 차값 차이를 회수하기 어려워요'}</p>
+   <div class="blk"><h3>1년 운영비 비교</h3><table><tr><th>항목</th><th class="n">${a.name.replace(/^\S+ /,'')}</th><th class="n">${b.name.replace(/^\S+ /,'')}</th></tr>
+    ${row('연료·충전비',fa,fb)}${row('자동차세',ta,tb)}${row('소모품',pa,pb)}
+    <tr class="t"><td>합계</td><td class="n">${won(sa)}</td><td class="n">${won(sb)}</td></tr></table></div>
+   <p class="note">연비는 공인 복합연비의 90%, 기름값은 ${fuelPrice(a).toLocaleString('ko-KR')}원으로 계산했어요. 보험료는 전기차가 조금 비싼 편이라 차이가 줄어들 수 있어요. 겨울에는 전기차 주행거리가 20~30% 줄어 충전비가 늘어요.</p>`;
+}
+
+/* ===== 도움말 ===== */
+const HELP={
+ cost:{h:'자동차 유지비 계산기',p:['자동차 유지비는 기름값, 자동차보험료, 소모품 교체비, 자동차세가 대부분이에요. 1년에 1만 5천 km를 타는 준중형 휘발유차라면 보통 한 달에 40~50만 원 정도가 들어요.','차종을 고르면 배기량과 공인 연비가 자동으로 들어가고, 실제 연비는 공인 연비의 90%로 잡아요. 보험료와 소모품 가격은 차급별 평균 참고값이라 내 차 정보로 바꾸면 더 정확해져요.'],
+  f:[['아반떼 한 달 유지비는 얼마예요?','1년 1만 5천 km 기준으로 기름값 약 15만 원, 보험료 약 7만 원, 소모품 약 3만 원, 자동차세 약 2만 원을 더해 주차비 빼고 월 30만 원 안팎이에요.'],['유지비를 줄이는 방법은?','자동차세 1월 연납, 보험 마일리지 특약(적게 타면 환급), 주유 할인 카드, 소모품은 정비 안내서 주기대로만 교체하는 게 효과가 커요.'],['경차 혜택은 뭐가 있어요?','취득세 감면(최대 75만 원), 유류세 환급(연 최대 30만 원), 공영주차장 50% 할인, 통행료 50% 할인이 있어요.']]},
+ com:{h:'출퇴근 비용 계산기',p:['출퇴근 비용은 왕복 거리 × 출근일수 ÷ 연비 × 기름값에 통행료와 주차비를 더해 계산해요. 대중교통은 편도 요금 × 2 × 출근일수에서 K-패스 환급을 빼요.','보험료와 자동차세는 차를 갖고만 있어도 나가는 돈이라 출퇴근 비교에서는 뺐어요. 차를 팔 생각까지 한다면 월 유지비 전체와 비교해야 해요.'],
+  f:[['편도 20km 출퇴근 기름값은?','왕복 40km × 21일 = 월 840km예요. 실연비 13.5km/L, 휘발유 1,855원이면 월 약 11만 5천 원이에요.'],['K-패스 환급은 얼마나 돼요?','일반 20%, 청년(19~34세) 30%, 저소득층 53%를 돌려받아요. 월 15회 이상 이용해야 하고, 최대 60회까지 환급돼요.'],['자차가 더 싼 경우는?','대중교통으로 갈아타기가 많거나 거리가 아주 멀어 요금이 비싸고, 연비 좋은 하이브리드·전기차를 타면 자차가 더 싸기도 해요.']]},
+ tax:{h:'자동차세 계산기',p:['비영업용 승용차 자동차세는 배기량 1cc당 1,000cc 이하 80원, 1,600cc 이하 140원, 1,600cc 초과 200원이에요. 여기에 지방교육세 30%가 붙어요.','차를 산 지 3년 차부터 해마다 5%씩 줄어서 12년 차 이후에는 50%까지 깎여요. 전기차는 배기량이 없어 정액 10만 원(교육세 포함 13만 원)이에요.'],
+  f:[['2,000cc 차 자동차세는 얼마예요?','1,999cc × 200원 = 39만 9,800원에 지방교육세 30%를 더해 약 52만 원이에요. 3년 차부터 해마다 5%씩 줄어요.'],['연납하면 얼마나 아껴요?','2026년 기준 1월에 1년 치를 미리 내면 남은 11개월분의 5%를 깎아줘서 연세액의 약 4.6%를 아껴요. 2027년 할인율은 아직 정해지지 않았어요.'],['자동차세는 언제 내요?','6월과 12월에 반씩 내요. 1·3·6·9월에 연납을 신청할 수 있어요.']]},
+ buy:{h:'자동차 취등록세 계산기',p:['신차 취득세는 부가세를 뺀 차값의 7%(비영업용 승용, 지방교육세 포함)예요. 경차는 4%이고 75만 원까지 감면돼 대부분 내지 않아요.','전기·수소차는 취득세를 최대 140만 원까지 감면받는데, 정부는 2027년부터 감면 한도를 70만 원으로 줄이는 안을 국회에 냈어요. 중고차는 실제 거래가가 아니라 시가표준액이 기준이에요.'],
+  f:[['4천만 원짜리 차 취득세는?','부가세를 뺀 약 3,636만 원의 7%로 약 254만 원이에요.'],['전기차 취득세 감면은 언제까지예요?','감면 제도는 2029년까지 연장하는 안이 나왔고, 한도는 2026년까지 140만 원, 2027년부터 70만 원으로 줄어드는 정부안이에요.'],['취득세는 언제 내요?','차를 받은 날부터 60일 안에 내야 하고, 보통 등록할 때 함께 내요.']]},
+ parts:{h:'자동차 소모품 교체 주기·비용 계산기',p:['엔진오일은 1만 km 또는 1년, 타이어는 5만 km, 브레이크 패드는 4만 km 정도가 일반적인 교체 주기예요. 1년 주행거리로 나누면 해마다 소모품에 얼마를 써야 하는지 알 수 있어요.','가격은 부품값과 공임을 합친 일반 정비소 평균 참고값이에요. 공식 서비스센터는 더 비싸고, 부품을 직접 사서 공임만 내면 더 싸요.'],
+  f:[['엔진오일은 언제 갈아요?','요즘 차는 1만~1만 5천 km 또는 1년마다가 일반적이에요. 짧은 거리를 자주 타거나 정체가 심하면 더 일찍 갈아요.'],['타이어 교체 시기는?','트레드 깊이 1.6mm가 법정 한계예요. 보통 4~5만 km 또는 5~6년이 지나면 바꿔요.'],['전기차도 소모품이 들어요?','엔진오일·미션오일·점화플러그가 없어 훨씬 적게 들어요. 대신 무게 때문에 타이어가 빨리 닳아요.']]},
+ ev:{h:'전기차 vs 내연기관 비교 계산기',p:['전기차는 차값이 비싸지만 충전비, 자동차세, 소모품비가 싸요. 1년에 많이 탈수록 차이가 커져서 차값 차이를 빨리 회수해요.','완속 충전 위주(295원/kWh)면 같은 거리 기준 휘발유의 3분의 1 수준, 급속 위주(348원)면 절반 이하 정도예요.'],
+  f:[['전기차 충전비는 얼마나 싸요?','아이오닉5로 1만 5천 km를 타면 완속 기준 연 약 95만 원, 같은 크기 휘발유 SUV는 연 220만 원 안팎이에요.'],['몇 년 타야 이득이에요?','연 1만 5천 km, 보조금 받은 뒤 차값 차이 800만 원이면 보통 5~7년이에요. 많이 탈수록 빨라져요.'],['전기차 자동차세는?','배기량과 상관없이 연 13만 원(지방교육세 포함)이에요.']]}
+};
+function renderHelp(k){ const h=HELP[k]; const e=t=>t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  $('help').innerHTML=`<h2>${e(h.h)} 사용법</h2>${h.p.map(x=>`<p>${e(x)}</p>`).join('')}<h3>자주 묻는 질문</h3><dl>${h.f.map(([q,a])=>`<div><dt>Q. ${e(q)}</dt><dd>A. ${e(a)}</dd></div>`).join('')}</dl>`; }
+function renderAd(){ try{ const a=ADS.coupang_all, items=(a.items||[]).filter(x=>/^https:\/\//.test(x.url||'')&&!x.off); if(!items.length){ $('adCoupang').hidden=true; return; }
+  const it=items[Math.floor(Math.random()*items.length)];
+  $('adCoupang').innerHTML=`<span class="tag">AD · 쿠팡</span><a href="${it.url}" target="_blank" rel="noopener sponsored">${it.banner?`<img src="${it.banner}" alt="${it.title}">`:`<b>${it.title}</b>`}</a><p class="disc">${a.disclosure}</p>`; }catch(e){ $('adCoupang').hidden=true; } }
+
+/* ===== 탭 ===== */
+const TABS={cost:['t-cost',renderCost],com:['t-com',renderCom],tax:['t-tax',renderTax],buy:['t-buy',renderBuy],parts:['t-parts',renderParts],ev:['t-ev',renderEV]};
+function show(k){ if(!TABS[k]) k='cost'; Object.entries(TABS).forEach(([t,[id]])=>$(id).hidden=t!==k);
+  document.querySelectorAll('.tabs a').forEach(a=>{ if(a.dataset.t===k) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); }); renderHelp(k); }
+
+/* ===== 시작 ===== */
+fillModels(); setModelDefaults('c'); setModelDefaults('m');
+$('cIns').value=CLS[car(+$('cModel').value).cls].ins.toLocaleString('ko-KR');
+function syncTax(){ const c=car(+$('xModel').value); $('xCc').value=c.cc; $('xKind').value= c.ev?'ev': c.cls==='T'?'truck':'car'; }
+function syncBuy(){ const c=car(+$('bModel').value); $('bPrice').value=c.price.toLocaleString('ko-KR'); $('bKind').value= c.ev?'ev': c.cls==='L'&&c.cc<=1000?'light': c.cls==='T'?'cv':'car'; }
+syncTax(); syncBuy();
+$('cModel').addEventListener('change',()=>{ setModelDefaults('c'); $('cIns').value=CLS[car(+$('cModel').value).cls].ins.toLocaleString('ko-KR'); renderCost(); });
+$('mModel').addEventListener('change',()=>{ setModelDefaults('m'); renderCom(); });
+$('xModel').addEventListener('change',()=>{ syncTax(); renderTax(); });
+$('bModel').addEventListener('change',()=>{ syncBuy(); renderBuy(); });
+const bind=(ids,fn)=>ids.forEach(id=>{ $(id).addEventListener('input',fn); $(id).addEventListener('change',fn); });
+bind(['cKm','cReg','cEff','cPrice','cIns','cParkM','cToll','cWash','cLoan'],renderCost);
+bind(['mDist','mDays','mEff','mPrice','mToll','mPark','mWear','mFare','mKpass'],renderCom);
+bind(['xCc','xReg','xYear','xKind','xDisc'],renderTax);
+bind(['bType','bKind','bPrice','bYear','bBond','bEtc'],renderBuy);
+bind(['pModel','pKm','pShop'],renderParts);
+bind(['eA','eB','eKm','eKwh','eGap','eYears'],renderEV);
+document.querySelectorAll('input[inputmode="numeric"]').forEach(el=>el.addEventListener('blur',()=>{ const raw=String(el.value).replace(/,/g,'').trim(); if(raw!==''&&isFinite(raw)&&Math.abs(+raw)>=1000) el.value=(+raw).toLocaleString('ko-KR'); }));
+document.querySelectorAll('.tabs a').forEach(a=>a.addEventListener('click',e=>{ if(e.metaKey||e.ctrlKey) return; e.preventDefault(); show(a.dataset.t); try{ history.replaceState(null,'',a.getAttribute('href')); }catch(_){} window.scrollTo({top:0,behavior:'smooth'}); }));
+Object.values(TABS).forEach(([,fn])=>fn()); renderAd();
+show(window.START_TAB || (location.hash||'').slice(1) || 'cost');
+</script>
+</body>
+</html>
