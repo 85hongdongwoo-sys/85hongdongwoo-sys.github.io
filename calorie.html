@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>칼로리 계산기 | 음식 482가지 한 끼·하루 칼로리, 탄단지, 운동 시간</title>
+<meta name="description" content="짜장면·비빔밥·삼겹살 등 식약처 자료 음식 482가지를 골라 담으면 한 끼·하루 칼로리와 탄수화물·단백질·지방·나트륨, 하루 필요 열량, 걷기·달리기 소모 시간을 계산해요.">
+<link rel="canonical" href="https://85hongdongwoo-sys.github.io/calorie.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="칼로리 계산기 | 음식 482가지 한 끼·하루 칼로리">
+<meta property="og:description" content="음식을 골라 담으면 칼로리·탄단지·나트륨과 운동 소모 시간을 계산해요.">
+<meta property="og:url" content="https://85hongdongwoo-sys.github.io/calorie.html">
+<meta name="theme-color" content="#0B1F3F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="g.css">
+<style>
+.search{display:grid;grid-template-columns:minmax(0,1fr) 140px;gap:8px}
+.results{list-style:none;margin:0;padding:0;max-height:320px;overflow:auto;border:1px solid var(--line);border-radius:6px}
+.results li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-bottom:1px solid var(--soft)}
+.results li:last-child{border-bottom:0}
+.results .nm{flex:1;min-width:0;font-size:14.5px}.results .nm small{display:block;font-size:12px;color:var(--muted)}
+.results .kc{font:500 13px var(--mono);color:var(--muted);white-space:nowrap}
+.btn{font:600 13.5px var(--f);padding:6px 12px;border-radius:4px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:#fff;color:var(--accent)}
+.meal{list-style:none;margin:0;padding:0}
+.meal li{display:grid;grid-template-columns:minmax(0,1fr) 92px 78px 28px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--soft);font-size:14px}
+.meal li a{color:var(--ink);text-decoration:none}.meal li a:hover{text-decoration:underline}
+.meal select{font:500 14px var(--f);padding:5px 6px;border:1px solid #C9D1DC;border-radius:4px;background:#FBFCFD;width:100%}
+.meal .k{font-family:var(--mono);text-align:right;white-space:nowrap}
+.meal .x{border:0;background:none;color:var(--muted);font-size:18px;cursor:pointer;line-height:1}
+.empty{color:var(--muted);font-size:14px;padding:10px 0}
+.bar{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;margin-top:4px}.bar i{display:block;height:100%;background:var(--gold-d)}.bar.na i{background:var(--tax)}
+.blk{margin-top:18px}.blk h3{margin:0;font-size:15px}
+.group{display:grid;gap:12px;padding-top:14px;border-top:1px solid var(--line)}.group h3{margin:0;font-size:13.5px;font-weight:700;color:var(--accent)}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:4px;background:#EAF0F8;color:var(--accent);vertical-align:2px}
+.ad{margin-top:24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}@media (max-width:640px){.ad{grid-template-columns:1fr}}
+.ad .card{padding:14px 16px;display:grid;gap:8px}.ad .tag{font-size:11px;font-weight:600;color:#8590A0}.ad img{width:100%;border-radius:6px;border:1px solid var(--line);display:block}.ad .disc{margin:0;font-size:11.5px;color:#8F99A8}.ad ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+@media (max-width:480px){.row3{grid-template-columns:1fr 1fr}.search{grid-template-columns:1fr}.meal li{grid-template-columns:minmax(0,1fr) 84px 70px 24px;gap:6px}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"칼로리 계산기의 음식 자료는 어디서 가져왔나요?","acceptedAnswer":{"@type":"Answer","text":"식품의약품안전처 식품영양성분 데이터베이스의 음식 자료(공공데이터포털 전국통합식품영양성분정보표준데이터)를 썼어요. 1인분은 식약처가 정한 1회 제공량이에요."}},{"@type":"Question","name":"하루 필요 열량은 어떻게 계산해요?","acceptedAnswer":{"@type":"Answer","text":"성별·나이·키·몸무게로 기초대사량(Mifflin-St Jeor 공식)을 구하고, 활동량 계수(1.2~1.725)를 곱해 지금 체중을 유지하는 데 필요한 열량을 추정해요."}},{"@type":"Question","name":"운동 소모 시간은 어떻게 계산해요?","acceptedAnswer":{"@type":"Answer","text":"운동 강도(MET) × 3.5 × 몸무게(kg) ÷ 200으로 1분에 쓰는 열량을 구하고, 먹은 칼로리를 그 값으로 나눠요."}}]}</script>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 계산기</a><span class="langs"><a href="calorie.html" aria-current="page">칼로리 계산기</a><a href="kcal/">음식 칼로리표</a></span></div></div>
+<div class="wrap">
+<header class="top">
+  <h1>음식 <b>칼로리 계산기</b></h1>
+  <p class="sub">먹은 음식을 골라 담으면 한 끼·하루 칼로리와 탄수화물·단백질·지방·나트륨, 걷기·달리기로 쓰는 시간까지 계산해요. 식약처 자료 음식 482가지.</p>
+</header>
+
+<section class="panel">
+  <div class="card form">
+    <h2 style="margin:0;font-size:20px">1. 먹은 음식 담기</h2>
+    <div class="search">
+      <div class="field"><label for="q">음식 이름</label><input id="q" placeholder="예: 짜장면, 김치찌개, 삼겹살" autocomplete="off"></div>
+      <div class="field"><label for="cat">분류</label><select id="cat"><option value="">전체</option></select></div>
+    </div>
+    <ul class="results" id="results"></ul>
+    <p class="hint" id="rcount"></p>
+
+    <div class="group">
+      <h3>내가 담은 음식</h3>
+      <ul class="meal" id="meal"></ul>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost" type="button" id="clear">모두 비우기</button></div>
+    </div>
+
+    <div class="group">
+      <h3>2. 내 정보 (하루 필요 열량·운동 시간 계산용)</h3>
+      <div class="row3">
+        <div class="field"><label for="sex">성별</label><select id="sex"><option value="m">남성</option><option value="f">여성</option></select></div>
+        <div class="field"><label for="age">나이</label><input id="age" inputmode="numeric" value="40"></div>
+        <div class="field"><label for="ht">키 (cm)</label><input id="ht" inputmode="decimal" value="172"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="wt">몸무게 (kg)</label><input id="wt" inputmode="decimal" value="70"></div>
+        <div class="field"><label for="act">활동량</label><select id="act"><option value="1.2">거의 앉아서 생활</option><option value="1.375" selected>가벼운 활동 (주 1~3회 운동)</option><option value="1.55">보통 활동 (주 3~5회 운동)</option><option value="1.725">많은 활동 (거의 매일 운동)</option></select></div>
+      </div>
+      <p class="hint">입력한 정보는 이 기기 브라우저에만 저장돼요.</p>
+    </div>
+  </div>
+
+  <div class="card res" aria-live="polite" id="out"></div>
+</section>
+
+<div class="ad" id="adRow">
+  <div class="card" id="adCoupang"></div>
+  <div class="card"><span class="tag">함께 보면 좋은 페이지</span>
+    <ul>
+      <li><a href="kcal/">음식 칼로리표 482가지</a></li>
+      <li><a href="kcal/f103168000000.html">짜장면 칼로리</a></li>
+      <li><a href="kcal/f108382000000.html">삼겹살 칼로리</a></li>
+      <li><a href="en/bmi-calculator.html">BMI calculator (English)</a></li>
+    </ul>
+  </div>
+</div>
+
+<section class="card help">
+  <h2>칼로리 계산기 사용법</h2>
+  <p>음식 이름을 검색하거나 분류를 골라 [담기]를 누르면 오른쪽에 합계가 바로 나와요. 담은 음식마다 반 인분부터 3인분까지 양을 바꿀 수 있어요. 아침·점심·저녁을 모두 담으면 하루 섭취 칼로리가 돼요.</p>
+  <p>내 정보를 넣으면 지금 몸무게를 유지하는 데 필요한 하루 열량과 비교해 주고, 먹은 칼로리를 걷기·달리기·자전거로 쓰려면 몇 분이 걸리는지도 계산해요.</p>
+  <h3>자주 묻는 질문</h3>
+  <dl>
+    <div><dt>Q. 음식 자료는 어디서 가져왔나요?</dt><dd>A. 식품의약품안전처 식품영양성분 데이터베이스의 음식 자료(공공데이터포털 「전국통합식품영양성분정보표준데이터」, 2026년 9월 29일 기준)를 썼어요. 1인분은 식약처가 정한 1회 제공량이에요.</dd></div>
+    <div><dt>Q. 하루 필요 열량은 어떻게 계산해요?</dt><dd>A. 성별·나이·키·몸무게로 기초대사량(Mifflin-St Jeor 공식)을 구하고 활동량 계수를 곱해요. 체중을 유지하는 데 필요한 열량의 추정치예요.</dd></div>
+    <div><dt>Q. 운동 소모 시간은 어떻게 계산해요?</dt><dd>A. 운동 강도(MET) × 3.5 × 몸무게(kg) ÷ 200이 1분 동안 쓰는 열량이에요. 먹은 칼로리를 이 값으로 나눠 시간을 구해요.</dd></div>
+    <div><dt>Q. 집에서 만든 음식도 같은가요?</dt><dd>A. 재료와 기름 양, 그릇 크기에 따라 칼로리가 크게 달라져요. 계산 결과는 참고용으로 봐 주세요.</dd></div>
+  </dl>
+</section>
+
+<footer>
+  <nav><a href="./">전체 계산기</a> · <a href="kcal/">음식 칼로리표</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></nav>
+  <div><b>자료 출처</b> · 식품의약품안전처 식품영양성분 데이터베이스(음식) — 공공데이터포털 「전국통합식품영양성분정보표준데이터」(2026-09-29 기준).</div>
+  <div><b>기준치</b> · 「식품 등의 표시기준」 1일 영양성분 기준치(열량 2,000kcal, 탄수화물 324g, 단백질 55g, 지방 54g, 당류 100g, 나트륨 2,000mg). 운동 MET 값은 신체활동 열량 소모 자료(Compendium of Physical Activities) 기준이에요.</div>
+  <div>계산 결과는 참고용 추정치이며 의학적 조언이 아니에요. 질환이 있거나 식단 조절이 필요하면 의사·영양사와 상의하세요.</div>
+</footer>
+</div>
+
+<script src="kcal/foods.js"></script>
+<script src="ads.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var DV={kcal:2000,c:324,p:55,f:54,s:100,na:2000};
+var EX=[['걷기 (보통 속도)',3.5],['빠르게 걷기',5.0],['달리기 (8km/h)',8.3],['자전거 (보통)',6.8],['수영 (천천히)',5.8],['계단 오르기',8.8]];
+var BY={}; FOODS.forEach(function(f){BY[f[0]]=f;});
+var f0=function(x){return Math.round(x).toLocaleString('ko-KR')};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var store={get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+var meal=store.get('kcal_meal',null);
+if(!Array.isArray(meal)) meal=[['101018000000',1],['106275000000',1]];
+meal=meal.filter(function(m){return BY[m[0]]});
+var prof=store.get('kcal_prof',null);
+if(prof){['sex','age','ht','wt','act'].forEach(function(k){if(prof[k]!=null)$(k).value=prof[k];});}
+var p=new URLSearchParams(location.search).get('add');
+if(p&&BY[p]&&!meal.some(function(m){return m[0]===p})) meal.push([p,1]);
+
+Object.keys(FOOD_CAT).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=FOOD_CAT[k];$('cat').appendChild(o);});
+function norm(s){return String(s).replace(/\s+/g,'').toLowerCase()}
+function search(){
+  var q=norm($('q').value), c=$('cat').value, terms=[q];
+  Object.keys(FOOD_ALIAS).forEach(function(a){ if(q&&norm(a).indexOf(q)>=0||q&&q.indexOf(norm(a))>=0) FOOD_ALIAS[a].split(' ').forEach(function(t){terms.push(norm(t))}); });
+  var list=FOODS.filter(function(f){ if(c&&f[2]!==c) return false; if(!q) return true; var n=norm(f[1])+'|'+norm(f[10]); return terms.some(function(t){return t&&n.indexOf(t)>=0}); });
+  if(q) list.sort(function(a,b){var x=norm(a[1]).indexOf(q),y=norm(b[1]).indexOf(q);x=x<0?99:x;y=y<0?99:y;return x-y||a[1].length-b[1].length;});
+  var shown=list.slice(0,40);
+  $('results').innerHTML=shown.length?shown.map(function(f){return '<li><span class="nm">'+esc(f[1])+'<small>'+FOOD_CAT[f[2]]+' · 1인분 '+f0(f[9])+'g</small></span><span class="kc">'+f0(f[3]*f[9]/100)+'kcal</span><button class="btn" type="button" data-add="'+f[0]+'">담기</button></li>'}).join(''):'<li class="empty">찾는 음식이 없어요. 비슷한 이름(예: 계란→달걀, 치킨→닭)으로 찾아보세요.</li>';
+  $('rcount').textContent=list.length>40?'검색 결과 '+list.length+'개 중 40개를 보여줘요. 이름을 더 입력해 보세요.':'';
+}
+function totals(){
+  var t={kcal:0,c:0,p:0,f:0,s:0,na:0,g:0};
+  meal.forEach(function(m){var f=BY[m[0]],g=f[9]*m[1];t.g+=g;t.kcal+=f[3]*g/100;t.p+=f[4]*g/100;t.f+=f[5]*g/100;t.c+=f[6]*g/100;t.s+=f[7]*g/100;t.na+=f[8]*g/100;});
+  return t;
+}
+function need(){
+  var sex=$('sex').value, a=+$('age').value||40, h=parseFloat($('ht').value)||170, w=parseFloat($('wt').value)||65, act=+$('act').value;
+  var bmr=10*w+6.25*h-5*a+(sex==='m'?5:-161);
+  return {bmr:bmr,tdee:bmr*act,w:w};
+}
+function render(){
+  store.set('kcal_meal',meal);
+  store.set('kcal_prof',{sex:$('sex').value,age:$('age').value,ht:$('ht').value,wt:$('wt').value,act:$('act').value});
+  var opts=[0.5,1,1.5,2,2.5,3];
+  $('meal').innerHTML=meal.length?meal.map(function(m,i){var f=BY[m[0]];return '<li><a href="kcal/f'+f[0]+'.html">'+esc(f[1])+'</a><select data-i="'+i+'">'+opts.map(function(o){return '<option value="'+o+'"'+(o===m[1]?' selected':'')+'>'+o+'인분</option>'}).join('')+'</select><span class="k">'+f0(f[3]*f[9]*m[1]/100)+'kcal</span><button class="x" type="button" aria-label="빼기" data-del="'+i+'">×</button></li>'}).join(''):'<li class="empty">아직 담은 음식이 없어요. 위에서 검색해 [담기]를 눌러 주세요.</li>';
+  var t=totals(), n=need(), mk=(t.c*4+t.p*4+t.f*9)||1;
+  var bar=function(lab,key,v,unit){var pc=v/DV[key]*100;return '<tr><td>'+lab+'<div class="bar'+(key==='na'?' na':'')+'"><i style="width:'+Math.min(100,pc).toFixed(1)+'%"></i></div></td><td class="n">'+(unit==='mg'?f0(v):v.toFixed(1))+unit+'<span class="c">기준치의 '+Math.round(pc)+'%</span></td></tr>'};
+  var ex=EX.map(function(e){return '<tr><td>'+e[0]+'</td><td class="n">'+(t.kcal?Math.round(t.kcal/(e[1]*3.5*n.w/200)):0)+'분</td></tr>'}).join('');
+  var pct=n.tdee?t.kcal/n.tdee*100:0;
+  $('out').innerHTML='<p class="kicker">담은 음식 '+meal.length+'가지 · 합계</p>'+
+    '<p class="big">'+f0(t.kcal)+'kcal</p>'+
+    '<p class="bigsub">하루 필요 열량 약 '+f0(n.tdee)+'kcal의 '+Math.round(pct)+'% · 기초대사량 '+f0(n.bmr)+'kcal</p>'+
+    '<div class="bar" style="height:10px;margin-top:10px"><i style="width:'+Math.min(100,pct).toFixed(1)+'%"></i></div>'+
+    '<div class="blk"><h3>영양 성분 <span class="chip">탄:단:지 '+Math.round(t.c*4/mk*100)+':'+Math.round(t.p*4/mk*100)+':'+Math.round(t.f*9/mk*100)+'</span></h3><table>'+
+      bar('탄수화물','c',t.c,'g')+bar('단백질','p',t.p,'g')+bar('지방','f',t.f,'g')+bar('당류','s',t.s,'g')+bar('나트륨','na',t.na,'mg')+'</table></div>'+
+    '<div class="blk"><h3>이 칼로리를 쓰려면 (몸무게 '+f0(n.w)+'kg)</h3><table>'+ex+'</table></div>'+
+    '<p class="note">하루 필요 열량은 지금 몸무게를 유지하는 기준의 추정치예요. 음식 칼로리는 조리법과 양에 따라 달라질 수 있어요.</p>';
+}
+document.addEventListener('click',function(e){
+  var a=e.target.closest('[data-add]'); if(a){var c=a.dataset.add, ex=meal.find(function(m){return m[0]===c}); if(ex) ex[1]=Math.min(3,ex[1]+1); else meal.push([c,1]); render(); a.textContent='담았어요'; setTimeout(function(){a.textContent='담기'},900); return;}
+  var d=e.target.closest('[data-del]'); if(d){meal.splice(+d.dataset.del,1);render();}
+});
+$('meal').addEventListener('change',function(e){var s=e.target.closest('select[data-i]'); if(s){meal[+s.dataset.i][1]=+s.value;render();}});
+$('clear').addEventListener('click',function(){meal=[];render();});
+$('q').addEventListener('input',search); $('cat').addEventListener('change',search);
+['sex','age','ht','wt','act'].forEach(function(k){$(k).addEventListener('input',render);$(k).addEventListener('change',render);});
+try{var ad=ADS.coupang_all,it=(ad.items||[]).filter(function(x){return /^https:\/\//.test(x.url||'')&&!x.off});if(it.length){var x=it[Math.floor(Math.random()*it.length)];$('adCoupang').innerHTML='<span class="tag">AD · 쿠팡</span><a href="'+x.url+'" target="_blank" rel="noopener sponsored">'+(x.banner?'<img src="'+x.banner+'" alt="'+esc(x.title)+'">':'<b>'+esc(x.title)+'</b>')+'</a><p class="disc">'+ad.disclosure+'</p>';}else $('adCoupang').hidden=true;}catch(e){$('adCoupang').hidden=true;}
+search(); render();
+})();
+</script>
+</body>
+</html>
