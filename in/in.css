@@ -63,3 +63,8 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
 .grid a i{font-style:normal;font-size:22px;display:block;margin-bottom:6px}
 footer{max-width:1100px;margin:0 auto;padding:18px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
 footer a{color:var(--muted)}
+
+.brand .in{flex-wrap:nowrap}
+.brand a.logo{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.brand .flag{white-space:nowrap;flex-shrink:0}
+@media(max-width:560px){.brand .flag{display:none}.brand a.logo{font-size:15px}.two .f>span{min-height:2.75em;display:flex;align-items:flex-end}}
