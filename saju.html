@@ -132,6 +132,20 @@ footer.site{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);fo
       <small>학파마다 달라요. 23시 이전 출생이면 결과가 같아요.</small></div>
   </div>
   <label class="chk"><input type="checkbox" id="dst" checked><span>서머타임·옛 표준시 자동 보정 (1948~1961, 1987~1988년 출생)</span></label>
+
+  <label class="chk" style="margin-top:10px;font-weight:700"><input type="checkbox" id="withB"><span>💞 상대방과 사주 궁합도 보기</span></label>
+  <fieldset id="bBox" hidden style="border:1px dashed var(--line);border-radius:12px;padding:12px;margin:10px 0 0">
+    <legend style="font-weight:700;padding:0 6px">상대방 정보</legend>
+    <div class="grid">
+      <div class="f"><span class="lb">달력</span><div class="seg"><label><input type="radio" name="b_cal" value="solar" checked><span>양력</span></label><label><input type="radio" name="b_cal" value="lunar"><span>음력</span></label></div><label class="chk"><input type="checkbox" id="b_leap"><span>윤달</span></label></div>
+      <div class="f"><label for="b_yy">생년월일</label><div class="ymd"><input id="b_yy" type="number" inputmode="numeric" min="1901" max="2099" value="1988" aria-label="년"><input id="b_mm" type="number" inputmode="numeric" min="1" max="12" value="11" aria-label="월"><input id="b_dd" type="number" inputmode="numeric" min="1" max="31" value="3" aria-label="일"></div></div>
+      <div class="f"><label for="b_hm">태어난 시각</label><input id="b_hm" type="time" value="14:00"><label class="chk"><input type="checkbox" id="b_noTime"><span>시간을 몰라요</span></label></div>
+      <div class="f"><span class="lb">성별</span><div class="seg"><label><input type="radio" name="b_sex" value="1" checked><span>남</span></label><label><input type="radio" name="b_sex" value="0"><span>여</span></label></div></div>
+      <div class="f"><label for="b_city">태어난 곳</label><select id="b_city">
+        <option value="126.978">서울 (−32분)</option><option value="126.705">인천 (−33분)</option><option value="127.009">수원·경기 (−32분)</option><option value="127.729">춘천 (−29분)</option><option value="128.876">강릉 (−25분)</option><option value="127.489">청주 (−30분)</option><option value="127.385">대전 (−30분)</option><option value="127.148">전주 (−31분)</option><option value="126.852">광주 (−33분)</option><option value="128.601">대구 (−26분)</option><option value="129.311">울산 (−23분)</option><option value="129.075">부산 (−24분)</option><option value="128.681">창원 (−25분)</option><option value="129.365">포항 (−23분)</option><option value="126.531">제주 (−34분)</option><option value="135">보정 안 함 (시계 시각 그대로)</option>
+      </select></div>
+    </div>
+  </fieldset>
   <div style="margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">사주 보기</button><span class="note" id="msg"></span></div>
 </form>
 
@@ -242,40 +256,45 @@ function gzH(g,z){return GAN[g]+ZHI[z]}
 /* 입력 */
 document.querySelectorAll('input[name=cal]').forEach(function(r){r.addEventListener('change',function(){$('leapWrap').hidden=document.querySelector('input[name=cal]:checked').value!=='lunar'})});
 $('noTime').addEventListener('change',function(){$('hm').disabled=this.checked});
+$('b_noTime').addEventListener('change',function(){$('b_hm').disabled=this.checked});
+$('withB').addEventListener('change',function(){$('bBox').hidden=!this.checked;document.querySelector('#form .btn').textContent=this.checked?'사주 + 궁합 보기':'사주 보기'});
 $('form').addEventListener('submit',function(e){e.preventDefault();run()});
 
-function run(){
-  $('msg').textContent='';
-  var v=[+$('yy').value,+$('mm').value,+$('dd').value];if(!(v[0]>=1901&&v[0]<=2099&&v[1]>=1&&v[1]<=12&&v[2]>=1&&v[2]<=31)){$('msg').innerHTML='<span class="err">생년월일을 1901~2099년 사이로 정확히 넣어 주세요.</span>';return}
-  var noTime=$('noTime').checked,hm=noTime?[12,0]:($('hm').value||'12:00').split(':').map(Number);
-  var isLunar=document.querySelector('input[name=cal]:checked').value==='lunar';
+function compute(px,msgEl){
+  function q(id){return $(px+id)}
+  function rv(n){return document.querySelector('input[name='+px+n+']:checked').value}
+  var v=[+q('yy').value,+q('mm').value,+q('dd').value];if(!(v[0]>=1901&&v[0]<=2099&&v[1]>=1&&v[1]<=12&&v[2]>=1&&v[2]<=31)){msgEl.innerHTML='<span class="err">생년월일을 1901~2099년 사이로 정확히 넣어 주세요.</span>';return null}
+  var noTime=q('noTime').checked,hm=noTime?[12,0]:(q('hm').value||'12:00').split(':').map(Number);
+  var isLunar=rv('cal')==='lunar';
   var y=v[0],m=v[1],d=v[2];
   var lunarNote='';
   if(isLunar){
-    try{var L0=Lunar.fromYmd(y,$('leap').checked?-m:m,d);var s0=L0.getSolar();lunarNote='음력 '+y+'년 '+($('leap').checked?'윤':'')+m+'월 '+d+'일 → 양력 '+s0.getYear()+'.'+s0.getMonth()+'.'+s0.getDay();y=s0.getYear();m=s0.getMonth();d=s0.getDay()}
-    catch(err){$('msg').innerHTML='<span class="err">그 해에는 음력 '+($('leap').checked?'윤':'')+m+'월 '+d+'일이 없어요. 날짜나 윤달 여부를 확인해 주세요.</span>';return}
+    try{var L0=Lunar.fromYmd(y,q('leap').checked?-m:m,d);var s0=L0.getSolar();lunarNote='음력 '+y+'년 '+(q('leap').checked?'윤':'')+m+'월 '+d+'일 → 양력 '+s0.getYear()+'.'+s0.getMonth()+'.'+s0.getDay();y=s0.getYear();m=s0.getMonth();d=s0.getDay()}
+    catch(err){msgEl.innerHTML='<span class="err">그 해에는 음력 '+(q('leap').checked?'윤':'')+m+'월 '+d+'일이 없어요. 날짜나 윤달 여부를 확인해 주세요.</span>';return null}
   }
-  // 시계 시각 → UTC
-  var clock=Date.UTC(y,m-1,d,hm[0],hm[1]);var chk=new Date(clock);if(chk.getUTCMonth()!==m-1||chk.getUTCDate()!==d){$('msg').innerHTML='<span class="err">'+y+'년 '+m+'월에는 '+d+'일이 없어요.</span>';return}
+  var clock=Date.UTC(y,m-1,d,hm[0],hm[1]);var chk=new Date(clock);if(chk.getUTCMonth()!==m-1||chk.getUTCDate()!==d){msgEl.innerHTML='<span class="err">'+y+'년 '+m+'월에는 '+d+'일이 없어요.</span>';return null}
   var off=$('dst').checked?offsetAt(clock):540;
   var utcMs=clock-off*60000;
-  var lon=+$('city').value;
-  var lmtMs=lon===135?clock-(off-540)*60000:utcMs+lon*4*60000; // 보정 안 함: 서머타임만 제거
+  var lon=+q('city').value;
+  var lmtMs=lon===135?clock-(off-540)*60000:utcMs+lon*4*60000;
   var bjMs=utcMs+480*60000;
   function sol(ms){var t=new Date(ms);return Solar.fromYmdHms(t.getUTCFullYear(),t.getUTCMonth()+1,t.getUTCDate(),t.getUTCHours(),t.getUTCMinutes(),0)}
-  var sL=sol(lmtMs),sB=sol(bjMs);
-  var eL=sL.getLunar().getEightChar(),eB=sB.getLunar().getEightChar();
+  var eL=sol(lmtMs).getLunar().getEightChar(),eB=sol(bjMs).getLunar().getEightChar();
   var sect=+$('sect').value;eL.setSect(sect);eB.setSect(sect);
   var P={y:[gi(eB.getYearGan()),zi(eB.getYearZhi())],m:[gi(eB.getMonthGan()),zi(eB.getMonthZhi())],d:[gi(eL.getDayGan()),zi(eL.getDayZhi())],t:noTime?null:[gi(eL.getTimeGan()),zi(eL.getTimeZhi())]};
-  var sex=+document.querySelector('input[name=sex]:checked').value;
-  var yun=eB.getYun(sex,2);
-  var lunarOfBirth=Solar.fromYmd(y,m,d).getLunar();
-  var adj=Math.round((lmtMs-clock)/60000);
-  render({P:P,yun:yun,noTime:noTime,sex:sex,y:y,m:m,d:d,hm:hm,lunar:lunarOfBirth,lunarNote:lunarNote,adj:adj,off:off,lon:lon,lmt:new Date(lmtMs)});
-  try{gtag('event','saju_run')}catch(e){}
+  var sex=+rv('sex');
+  return {P:P,yun:eB.getYun(sex,2),noTime:noTime,sex:sex,y:y,m:m,d:d,hm:hm,lunar:Solar.fromYmd(y,m,d).getLunar(),lunarNote:lunarNote,adj:Math.round((lmtMs-clock)/60000),off:off,lon:lon,lmt:new Date(lmtMs)};
+}
+function run(){
+  $('msg').textContent='';
+  var A=compute('',$('msg'));if(!A)return;
+  var B=null;
+  if($('withB').checked){B=compute('b_',$('msg'));if(!B)return}
+  render(A,B);
+  try{gtag('event',B?'saju_gunghap':'saju_run')}catch(e){}
 }
 
-function render(o){
+function render(o,B){
   var P=o.P,dg=P.d[0];
   var cols=[['시주','time',P.t],['일주','day',P.d],['월주','month',P.m],['년주','year',P.y]];
   var h='';
@@ -346,11 +365,85 @@ function render(o){
   h+=daeun(o,dg);
   // 세운
   h+=seun(o,dg);
+  if(B)h=gunghap(o,B)+h;
   h+='<p class="note">이 결과는 재미와 자기 이해를 위한 참고 자료예요. 사주 해석은 학파·해석자에 따라 다를 수 있어요.</p>';
   $('result').innerHTML=h;$('result').hidden=false;
   $('result').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function pad(n){return String(n).padStart(2,'0')}
+
+/* ===== 사주 궁합 ===== */
+var GENREL=function(a,b){ // 오행 a→b 관계
+  if(a===b)return 'same';if((a+1)%5===b)return 'gen';if((b+1)%5===a)return 'genby';if((a+2)%5===b)return 'ctrl';return 'ctrlby'};
+function elCount(P){var c=[0,0,0,0,0];['y','m','d','t'].forEach(function(k){if(P[k]){c[GE[P[k][0]]]++;c[ZE[P[k][1]]]++}});return c}
+function zrel(a,b){var k=key(a,b),r=[];if(ZH6[k])r.push(['육합',+1]);SAM.forEach(function(s){if(s[0].indexOf(a)>=0&&s[0].indexOf(b)>=0&&a!==b)r.push(['삼합('+s[1]+')',+1])});if(ZCH[k])r.push(['충',-1]);if(ZWJ[k])r.push(['원진',-1]);if(ZHAE[k])r.push(['해',-0.5]);if(ZPA[k])r.push(['파',-0.5]);if(k==='0-3')r.push(['형',-0.5]);if(a===b)r.push(['같은 지지',0.3]);return r}
+function gunghap(A,B){
+  var a=A.P,b=B.P,ga=a.d[0],gb=b.d[0],items=[],total=0;
+  function add(name,score,max,txt,detail){items.push([name,score,max,txt,detail]);total+=score}
+  // 1. 일간 관계 (20)
+  var hapk=key(ga,gb),s1,t1;var ea=GE[ga],eb=GE[gb],rel=GENREL(ea,eb);
+  if(GH[hapk]){s1=20;t1='두 사람의 일간이 <b>천간합('+GAN[ga]+GAN[gb]+' 합 '+GH[hapk]+')</b>이에요. 사주 궁합에서 가장 좋은 신호로, 처음 만나도 끌리고 서로를 자연스럽게 받아들이는 인연이라고 봐요.'}
+  else if(rel==='gen'||rel==='genby'){s1=16;t1=(rel==='gen'?'내 일간('+ELK[EL[ea]]+')이 상대('+ELK[EL[eb]]+')를 낳아 주는':'상대 일간('+ELK[EL[eb]]+')이 나('+ELK[EL[ea]]+')를 낳아 주는')+' <b>상생</b> 관계예요. 한쪽이 자연스럽게 챙기고 다른 쪽은 힘을 얻는 편안한 흐름이에요.'}
+  else if(rel==='same'){s1=13;t1='같은 '+ELK[EL[ea]]+' 오행의 일간이에요. 생각과 속도가 비슷해 친구처럼 잘 통하지만, 고집이 부딪치면 둘 다 물러서지 않을 수 있어요.'}
+  else {s1=8;t1=(rel==='ctrl'?'내 일간이 상대를':'상대 일간이 나를')+' 누르는 <b>상극</b>('+ELK[EL[ea]]+'·'+ELK[EL[eb]]+') 관계예요. 강한 끌림과 긴장이 함께 있어서, 존중하는 대화 규칙을 정하면 오히려 서로를 단단하게 만들어요.'}
+  if(GC[hapk]){s1-=3;t1+=' 다만 천간충('+GAN[ga]+GAN[gb]+')이라 의견 충돌이 잦을 수 있어요.'}
+  add('일간 케미 (성격의 끌림)',s1,20,t1);
+  // 2. 일지 = 배우자궁 (20)
+  var zr=zrel(a.d[1],b.d[1]),s2=12,t2='';
+  zr.forEach(function(r){s2+=r[1]*6});s2=Math.max(2,Math.min(20,Math.round(s2)));
+  t2='두 사람의 일지(배우자 자리) '+ZHI[a.d[1]]+'·'+ZHI[b.d[1]]+(zr.length?'는 <b>'+zr.map(function(r){return r[0]}).join('·')+'</b> 관계예요. ':'는 특별한 합·충 없이 무난해요. ');
+  if(zr.some(function(r){return r[1]>0}))t2+='함께 살 때 생활 리듬이 잘 맞고 정이 깊어지는 구조예요.';
+  else if(zr.some(function(r){return r[0]==='충'}))t2+='생활 방식이 달라 부딪치기 쉽지만, 충은 변화와 자극이기도 해서 각자 공간을 존중하면 오히려 활기찬 관계가 돼요.';
+  else if(zr.some(function(r){return r[0]==='원진'}))t2+='이유 없이 서운해지는 순간이 생길 수 있어요. 섭섭함은 바로바로 말로 푸는 것이 좋아요.';
+  else t2+='큰 마찰 없이 무난하게 맞춰 가는 사이예요.';
+  add('배우자궁 케미 (함께 사는 궁합)',s2,20,t2);
+  // 3. 띠 궁합 (15)
+  var yr=zrel(a.y[1],b.y[1]),s3=9;yr.forEach(function(r){s3+=r[1]*5});s3=Math.max(2,Math.min(15,Math.round(s3)));
+  add('띠 궁합 ('+ANIMAL[a.y[1]]+'띠 × '+ANIMAL[b.y[1]]+'띠)',s3,15,ANIMAL[a.y[1]]+'띠와 '+ANIMAL[b.y[1]]+'띠는 '+(yr.length?'<b>'+yr.map(function(r){return r[0]}).join('·')+'</b> 관계예요. ':'특별한 합·충이 없는 무난한 띠 궁합이에요. ')+(yr.some(function(r){return r[1]>0})?'집안·주변 사람들과의 관계까지 잘 어우러진다고 봐요.':yr.some(function(r){return r[1]<0})?'가족·환경의 차이를 서로 이해하려는 노력이 필요해요.':''));
+  // 4. 오행 보완 (25)
+  var ca=elCount(a),cb=elCount(b),s4=10,fill=[],dup=[];
+  for(var i=0;i<5;i++){if(ca[i]===0&&cb[i]>=2)fill.push(['나',EL[i]]);if(cb[i]===0&&ca[i]>=2)fill.push(['상대',EL[i]]);if(ca[i]>=3&&cb[i]>=3)dup.push(EL[i])}
+  s4+=fill.length*5-dup.length*3;var lackBoth=[];for(i=0;i<5;i++)if(ca[i]===0&&cb[i]===0)lackBoth.push(EL[i]);s4-=lackBoth.length*2;s4=Math.max(3,Math.min(25,s4));
+  var t4=fill.length?fill.map(function(f){return (f[0]==='나'?'내게 없는':'상대에게 없는')+' <b class="t-'+f[1]+'">'+jo(ELK[f[1]],'을','를')+'</b> '+(f[0]==='나'?'상대가':'내가')+' 넉넉히 가지고 있어요'}).join('. ')+'. 서로의 빈자리를 채워 주는 보완형 궁합이에요.':'오행을 서로 채워 주는 부분은 크지 않아요.';
+  if(dup.length)t4+=' 둘 다 '+dup.map(function(e){return ELK[e]}).join('·')+' 기운이 강해서 같은 방향으로 과열되기 쉬워요.';
+  if(lackBoth.length)t4+=' 두 사람 모두 '+jo(lackBoth.map(function(e){return ELK[e]}).join('·'),'이','가')+' 없어서 함께 보완하면 좋아요(예: '+ELTIP[lackBoth[0]][2]+').';
+  add('오행 보완 (서로 채워 주는 힘)',s4,25,t4,[ca,cb]);
+  // 5. 배우자성 (20): 상대 일간이 나에게 어떤 십성인가
+  var ssAB=shishen(ga,gb),ssBA=shishen(gb,ga);
+  var good={'정관':1,'편관':0.8,'정재':1,'편재':0.8,'정인':0.7,'식신':0.7};
+  var star=A.sex===1?['정재','편재']:['정관','편관'],starB=B.sex===1?['정재','편재']:['정관','편관'];
+  var s5=6;if(star.indexOf(ssAB)>=0)s5+=7;else if(good[ssAB])s5+=4;if(starB.indexOf(ssBA)>=0)s5+=7;else if(good[ssBA])s5+=4;s5=Math.min(20,s5);
+  add('배우자성 (서로에게 어떤 존재인가)',s5,20,'상대는 나에게 <b>'+ssAB+'</b>('+SSDESC[ssAB][0].replace(/ \(.*\)/,'')+'), 나는 상대에게 <b>'+ssBA+'</b>('+SSDESC[ssBA][0].replace(/ \(.*\)/,'')+') 관계예요. '+(star.indexOf(ssAB)>=0||starB.indexOf(ssBA)>=0?'전통적으로 배우자를 뜻하는 별('+(A.sex===1?'남성에게 재성':'여성에게 관성')+')에 해당해 연인·부부 인연으로 잘 맞는다고 봐요.':'배우자 별 관계는 아니지만, '+ssRole(ssAB)+'.'));
+  var score=Math.round(total);
+  var tier=score>=85?['천생연분','💘']:score>=72?['찰떡 궁합','✨']:score>=60?['맞춰 가면 좋은 궁합','🌱']:score>=48?['노력형 궁합','🤝']:['서로 배우는 궁합','📚'];
+  var C=2*Math.PI*54,off=C*(1-score/100);
+  var h='<section class="card" style="border-top:5px solid var(--red)"><h2>💞 사주 궁합</h2><div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center"><div style="position:relative;width:140px;height:140px"><svg width="140" height="140" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="54" fill="none" stroke="var(--tint)" stroke-width="14"/><circle cx="75" cy="75" r="54" fill="none" stroke="var(--red)" stroke-width="14" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><div style="position:absolute;inset:0;display:grid;place-items:center;text-align:center"><div><b style="font-size:40px;line-height:1">'+score+'</b><div class="note">/ 100</div></div></div></div>';
+  h+='<div><span class="tag on" style="font-size:15px">'+tier[1]+' '+tier[0]+'</span><p style="margin:8px 0 0"><b>나</b> '+gzH(a.d[0],a.d[1])+'일주 ('+GK[ga]+ELK[EL[ea]]+') ♥ <b>상대</b> '+gzH(b.d[0],b.d[1])+'일주 ('+GK[gb]+ELK[EL[eb]]+')</p><p class="note" style="margin:4px 0 0">상대 원국: '+['y','m','d','t'].map(function(k){return b[k]?gzH(b[k][0],b[k][1]):'(시 모름)'}).reverse().join(' ')+' · '+(B.lunarNote||('양력 '+B.y+'.'+B.m+'.'+B.d))+'</p></div></div>';
+  h+='<h3>항목별 케미</h3>';
+  items.forEach(function(it){h+='<div style="padding:10px 0;border-top:1px dashed var(--line)"><div style="display:flex;justify-content:space-between;gap:10px"><b>'+it[0]+'</b><b style="color:var(--red);white-space:nowrap">'+it[1]+' / '+it[2]+'</b></div><div class="ohrow" style="grid-template-columns:1fr;margin:4px 0"><div class="bar"><i style="width:'+(it[1]/it[2]*100)+'%;background:var(--red)"></i></div></div><div style="font-size:14.8px">'+it[3]+'</div>';
+    if(it[4])h+='<div class="scroll" style="margin-top:8px"><table><tr><th></th>'+EL.map(function(e){return '<th class="t-'+e+'">'+ELK[e]+'</th>'}).join('')+'</tr><tr><td>나</td>'+it[4][0].map(function(n){return '<td>'+n+'</td>'}).join('')+'</tr><tr><td>상대</td>'+it[4][1].map(function(n){return '<td>'+n+'</td>'}).join('')+'</tr><tr><td><b>합계</b></td>'+it[4][0].map(function(n,i){return '<td><b>'+(n+it[4][1][i])+'</b></td>'}).join('')+'</tr></table></div>';
+    h+='</div>'});
+  // 생활 케미 상세
+  var sa=strengthOf(a),sb=strengthOf(b);
+  h+='<h3>생활 속 케미</h3><div class="two">'+
+   '<div class="box"><h3>🗣️ 대화·갈등</h3>'+talkChem(ga,gb)+'</div>'+
+   '<div class="box"><h3>💰 돈 관리</h3>'+moneyChem(a,b)+'</div>'+
+   '<div class="box"><h3>⚖️ 주도권</h3>'+(sa>sb+0.12?'기운이 더 강한 <b>내</b>가 이끌고 상대가 받쳐 주는 구조예요.':sb>sa+0.12?'기운이 더 강한 <b>상대</b>가 이끌고 내가 섬세하게 조율하는 구조예요.':'두 사람의 기운이 비슷해 대등한 파트너 관계예요. 역할 분담을 미리 정해 두면 좋아요.')+'</div>'+
+   '<div class="box"><h3>🌿 함께하면 좋은 것</h3>'+togetherTip(ca,cb)+'</div></div>';
+  // 올해 둘의 흐름
+  var Y=new Date().getFullYear(),yg=((Y-4)%10+10)%10,yz=((Y-4)%12+12)%12;
+  h+='<h3>'+Y+'년 두 사람의 흐름</h3><p style="margin:0">'+Y+'년('+gzH(yg,yz)+')은 나에게 <b>'+shishen(ga,yg)+'</b>의 해, 상대에게 <b>'+shishen(gb,yg)+'</b>의 해예요. '+(ZCH[key(yz,a.d[1])]||ZCH[key(yz,b.d[1])]?'한 사람의 일지가 올해와 충이라 이사·이직 같은 변화가 생기기 쉬워요. 큰 결정은 함께 상의하세요.':(ZH6[key(yz,a.d[1])]||ZH6[key(yz,b.d[1])])?'올해 기운이 배우자 자리와 합을 이뤄 관계가 깊어지기 좋은 해예요.':'관계에 큰 변수는 적은 해예요.')+'</p>';
+  h+='<p class="note" style="margin:10px 0 0">점수 = 일간 20 + 배우자궁 20 + 띠 15 + 오행 보완 25 + 배우자성 20. 전통 궁합 요소를 이 페이지 규칙으로 점수화한 재미용 결과예요.</p></section>';
+  return h;
+}
+function jo(w,a,b){var c=w.charCodeAt(w.length-1)-44032;return w+((c>=0&&c%28)?a:b)}
+function ssRole(s){return ({'비견':'친구·동료처럼 대등하게 기대는 사이예요','겁재':'서로 자극을 주며 함께 달리는 라이벌 같은 사이예요','식신':'함께 있으면 편하고 즐거운 사이예요','상관':'서로의 재능과 표현을 끌어내는 사이예요','편재':'활동적이고 현실적인 도움을 주고받는 사이예요','정재':'안정과 실속을 함께 쌓는 사이예요','편관':'긴장감 속에서 서로를 단련시키는 사이예요','정관':'서로에게 기준과 책임을 주는 사이예요','편인':'생각과 영감을 나누는 사이예요','정인':'돌봄과 배움을 주는 사이예요'})[s]}
+function strengthOf(P){var me=GE[P.d[0]],s=0,all=0;[[P.m[1],3,'z'],[P.d[1],1.5,'z'],[P.m[0],1,'g'],[P.y[0],.8,'g'],[P.y[1],.8,'z']].concat(P.t?[[P.t[0],1,'g'],[P.t[1],1,'z']]:[]).forEach(function(p){var e=p[2]==='g'?GE[p[0]]:ZE[p[0]];all+=p[1];if(e===me||e===(me+4)%5)s+=p[1]});return s/all}
+function talkChem(ga,gb){var ya=ga%2===0,yb=gb%2===0;return (ya&&yb?'둘 다 양(陽)의 일간이라 솔직하고 직선적이에요. 시원하게 말하고 빨리 풀지만, 다툴 땐 목소리가 커질 수 있어요.':!ya&&!yb?'둘 다 음(陰)의 일간이라 섬세하고 속으로 생각하는 편이에요. 서운함이 쌓이기 전에 먼저 꺼내는 규칙을 정해 두세요.':'양과 음의 일간이 만나 한 사람은 직설적으로, 한 사람은 부드럽게 말해요. 서로의 말투를 오해하지 않는 것이 핵심이에요.')}
+function moneyChem(a,b){function cnt(P,g){var n=0;['y','m','t'].forEach(function(k){if(P[k]){var s=shishen(g,P[k][0]);if(s==='편재'||s==='정재')n++}});['y','m','d','t'].forEach(function(k){if(P[k]){var s=ssZhi(g,P[k][1]);if(s==='편재'||s==='정재')n++}});return n}
+  var na=cnt(a,a.d[0]),nb=cnt(b,b.d[0]);return na>nb?'재성이 더 많은 <b>내</b>가 현실 감각이 좋아 가계부·투자를 맡으면 좋아요.':nb>na?'재성이 더 많은 <b>상대</b>가 돈의 흐름을 잘 읽어요. 큰 지출은 상대 의견을 들어 보세요.':'재물 감각이 비슷해요. 공동 목표(저축액·여행 자금)를 숫자로 정하면 잘 굴러가요.'}
+function togetherTip(ca,cb){var t=ca.map(function(n,i){return n+cb[i]}),lo=0;for(var i=1;i<5;i++)if(t[i]<t[lo])lo=i;return '두 사람 합쳐 가장 약한 기운은 <b class="t-'+EL[lo]+'">'+jo(ELK[EL[lo]],'이에요','예요')+'</b>. 함께 '+ELTIP[EL[lo]][2]+' 같은 걸 해 보세요. 데이트 색으로는 '+ELTIP[EL[lo]][0]+'이 어울려요.'}
+
 
 function elementStory(cnt,w,wt,dg){
   var hi=0,lo=0;for(var i=1;i<5;i++){if(w[i]>w[hi])hi=i;if(w[i]<w[lo])lo=i}

@@ -167,6 +167,7 @@ h1{font-weight:800}.typebox .t,.pair,.gauge .num b,.top3 b,.dhero .big,.stats b,
 .fn div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 4px;text-align:center;font-size:12.5px;color:var(--muted)}
 .fn b{display:block;font-size:17px;color:var(--ink)}
 .fn div:first-child{border-color:var(--primary)}.fn div:first-child b{color:var(--primary)}
+@media(max-width:520px){.top3[style]{grid-template-columns:1fr 1fr!important}}
 .heat{border-collapse:separate;border-spacing:2px;font-size:11.5px;width:auto;min-width:100%}
 .heat th{background:transparent;padding:2px;font-size:11px;font-weight:700;text-align:center}
 .heat td{padding:0;text-align:center;border:0;border-radius:4px;min-width:34px;height:28px;cursor:pointer;font-variant-numeric:tabular-nums;color:#0F1B2D}
@@ -357,6 +358,29 @@ function fnPair(a,b){
   if(!out.length)out.push(['서로 다른 언어','주기능·보조기능이 겹치지 않아요. 같은 상황도 전혀 다르게 받아들일 수 있으니, "너는 이걸 어떻게 봤어?" 하고 묻는 습관이 큰 도움이 돼요.']);
   return out;
 }
+
+function chem(a,b){
+  var E=[a[0],b[0]],S=[a[1],b[1]],T=[a[2],b[2]],J=[a[3],b[3]];
+  var same=function(x){return x[0]===x[1]},has=function(x,l){return x.indexOf(l)>=0},both=function(x,l){return x[0]===l&&x[1]===l};
+  var c=[];
+  function add(icon,name,score,txt){c.push([icon,name,Math.max(30,Math.min(98,Math.round(score))),txt])}
+  add('🗣️','대화 케미',50+(same(S)?30:0)+(same(T)?10:0)+(both(E,'E')?6:0),same(S)?(both(S,'N')?'"만약에~" 같은 상상 이야기, 미래 계획, 아이디어로 밤새 대화가 이어져요.':'오늘 있었던 일, 맛집, 현실적인 고민 이야기가 술술 통해요.'):'한 명은 구체적인 사실, 한 명은 큰 그림으로 말해요. "예를 들면?"과 "그래서 결론은?"을 서로 물어 주면 대화가 확 편해져요.');
+  add('💗','감정 교류',both(T,'F')?90:both(T,'T')?58:68+(same(S)?4:0),both(T,'F')?'서로의 감정을 섬세하게 알아채고 공감해 줘요. 둘 다 상처도 잘 받으니 서운함은 쌓아 두지 마세요.':both(T,'T')?'감정보다 이성적인 대화가 편한 커플이에요. "고마워·좋아해" 같은 말을 일부러 자주 해 주세요.':'공감형과 해결형이 만나 서로에게 없는 시선을 줘요. 고민을 말할 때 "들어만 줘" / "같이 방법 찾아 줘"를 먼저 알려 주세요.');
+  add('🎡','데이트 취향',(same(E)&&same(S))?92:(same(E)||same(S))?72:52,(same(E)&&same(S))?'가고 싶은 곳과 노는 방식이 거의 같아요. 데이트 코스 짜기가 제일 쉬운 커플이에요.':same(E)?'에너지 레벨은 맞지만 취향(현실 체험 vs 새로운 경험)이 달라요. 번갈아 고르면 서로의 세계가 넓어져요.':same(S)?'좋아하는 건 비슷한데 한 명은 밖에서, 한 명은 조용히 충전해요. 외출 데이트 다음엔 집 데이트로 균형을 맞춰 보세요.':'취향과 체력이 모두 달라요. 서로가 좋아하는 데이트를 한 번씩 "체험"해 보면 의외의 즐거움을 찾을 수 있어요.');
+  add('⚡','갈등 해결',(both(T,'F')?70:both(T,'T')?66:60)+(same(J)?8:0)+(!same(E)?4:0),both(T,'T')?'논리로 정면 승부해요. 누가 맞았는지보다 "우리가 어떻게 할지"로 결론을 내면 빨리 풀려요.':both(T,'F')?'둘 다 상처받기 싫어 갈등을 피하다 쌓일 수 있어요. 작은 서운함도 그날 바로 말하기로 약속하세요.':'한 명은 따지고 한 명은 서운해해요. 싸움이 길어지면 30분 쉬었다가 "내가 느낀 것"으로 다시 이야기해 보세요.');
+  add('🏠','생활 습관 (동거·결혼)',both(J,'J')?90:both(J,'P')?70:64+(same(S)?6:0),both(J,'J')?'청소·가계부·일정 관리가 척척 맞아요. 다만 계획이 틀어지면 둘 다 예민해질 수 있어요.':both(J,'P')?'자유롭고 즐거운 생활! 대신 공과금·예약·마감은 담당을 정해 두는 게 안전해요.':'계획파와 즉흥파의 만남이에요. 큰일(돈·여행 예약)은 J가, 생활의 재미는 P가 맡으면 최고의 팀이 돼요.');
+  add('📱','연락 빈도',same(E)?86:60,both(E,'E')?'둘 다 수시로 연락하고 일상을 공유하는 걸 좋아해요.':both(E,'I')?'둘 다 연락이 많지 않아도 서운해하지 않아요. 편안한 거리감이 장점이에요.':'외향형은 자주, 내향형은 필요할 때 연락하는 편이에요. "답장이 늦어도 마음이 식은 건 아니야"를 미리 말해 두세요.');
+  add('🔭','미래 계획',(both(S,'N')?84:both(S,'S')?80:60)+(has(J,'J')?6:0),same(S)?(both(S,'N')?'함께 꿈꾸는 미래 그림이 잘 맞아요. 다만 실행 계획은 구체적으로 적어 두세요.':'현실적인 목표(집·저축·일정)를 차근차근 같이 세울 수 있어요.'):'한 명은 5년 뒤의 꿈, 한 명은 이번 달 계획을 봐요. 둘을 합치면 "꿈 + 실행"이 완성돼요.');
+  var fc=(T[0]==='F')+(T[1]==='F'),ec=(E[0]==='E')+(E[1]==='E');
+  add('🤗','애정 표현',52+fc*14+ec*8+(same(T)?6:0),fc===2?'애정 표현이 풍부하고 다정한 커플이에요.':fc===1?'한 명은 말과 표현으로, 한 명은 행동으로 사랑을 보여 줘요. 서로의 "사랑의 언어"를 알아 두면 오해가 줄어요.':'표현은 담백하지만 행동으로 믿음을 줘요. 기념일만큼은 말로 꼭 표현해 보세요.');
+  return c;
+}
+function modes(a,b){
+  var s=function(i){return a[i]===b[i]};
+  function sc(w){var x=w.base;['E','S','T','J'].forEach(function(k,i){var idx=[0,1,2,3][i];x+=s(idx)?w[k][0]:w[k][1]});return Math.min(98,x)}
+  return [['💘 연인',pairScore(a,b).score],['👫 친구',sc({base:34,E:[16,8],S:[22,6],T:[12,8],J:[10,6]})],['💍 결혼·동거',sc({base:30,E:[8,10],S:[22,4],T:[12,10],J:[24,6]})],['💼 직장 동료',sc({base:36,E:[8,10],S:[14,8],T:[10,14],J:[20,6]})]];
+}
+
 function heatColor(s){const t=(s-52)/(95-52);const r=Math.round(230-t*120),g=Math.round(236-t*40),b=Math.round(245-t*100);return 'rgb('+r+','+g+','+b+')'}
 
 /* ---------- 날짜 ---------- */
@@ -552,7 +576,10 @@ function seasonEvents(today) {
   function renderMore(){
     var A=S.a,B=S.b,na=esc(S.na),nb=esc(S.nb);
     function prof(t,n){var p=PROF[t];return '<div class="card"><h2>'+n+' · '+t+' 연애 프로필</h2><div class="fn">'+STACK[t].map(function(f,i){return '<div><b>'+f+'</b>'+['주기능','보조','3차','열등'][i]+'</div>'}).join('')+'</div><p class="small" style="margin:0 0 8px">주기능 '+STACK[t][0]+': '+FN[STACK[t][0]]+'</p><div class="mini"><div class="box"><h3>💗 연애 스타일</h3>'+p[0]+'</div><div class="box"><h3>✨ 매력 포인트</h3>'+p[1]+'</div><div class="box"><h3>⚡ 서운해지는 순간</h3>'+p[2]+'</div><div class="box"><h3>🎁 마음이 열리는 것</h3>'+p[3]+'</div></div></div>'}
-    var h='<div class="card"><h2>🧠 인지기능 궁합</h2>'+fnPair(A,B).map(function(x){return '<div class="axrow" style="grid-template-columns:1fr"><div class="an">'+x[0]+'</div><div class="tx" style="grid-column:1">'+x[1]+'</div></div>'}).join('')+'<p class="small" style="margin:8px 0 0">'+A+': '+STACK[A].join(' → ')+' · '+B+': '+STACK[B].join(' → ')+'</p></div>';
+    var ch=chem(A,B),md=modes(A,B);
+    var h='<div class="card"><h2>🔍 세부 케미 8가지</h2>'+ch.map(function(c){return '<div class="axrow" style="grid-template-columns:1fr auto"><div class="an">'+c[0]+' '+c[1]+'</div><div class="pts">'+c[2]+'점</div><div class="bar" style="grid-column:1/-1;height:10px;margin:2px 0"><i style="width:'+c[2]+'%"></i></div><div class="tx" style="grid-column:1/-1">'+c[3]+'</div></div>'}).join('')+'</div>';
+    h+='<div class="card"><h2>🎭 관계별 궁합</h2><div class="top3" style="grid-template-columns:repeat(4,1fr)">'+md.map(function(m){return '<div><span>'+m[0]+'</span><b>'+m[1]+'점</b></div>'}).join('')+'</div><p class="small" style="margin:0">같은 두 사람도 연인·친구·부부·동료로 만나면 중요한 지표가 달라요. 예를 들어 결혼·동거는 생활 리듬(J/P)과 대화 코드(S/N)의 비중을, 직장은 서로 다른 판단 방식(T/F)이 보완되는 점을 더 크게 봤어요.</p></div>';
+    h+='<div class="card"><h2>🧠 인지기능 궁합</h2>'+fnPair(A,B).map(function(x){return '<div class="axrow" style="grid-template-columns:1fr"><div class="an">'+x[0]+'</div><div class="tx" style="grid-column:1">'+x[1]+'</div></div>'}).join('')+'<p class="small" style="margin:8px 0 0">'+A+': '+STACK[A].join(' → ')+' · '+B+': '+STACK[B].join(' → ')+'</p></div>';
     h+='<div class="grid2" style="gap:0 12px">'+prof(A,na)+prof(B,nb)+'</div>';
     h+='<div class="card"><h2>📊 16×16 MBTI 궁합표</h2><p class="small" style="margin:0 0 6px">칸을 누르면 그 조합으로 바로 바뀌어요. 색이 진할수록 점수가 높아요.</p><div class="scroll"><table class="heat"><tr><th></th>'+TYPES.map(function(t){return '<th class="'+(t===B?'me':'')+'">'+t+'</th>'}).join('')+'</tr>'+
       TYPES.map(function(r){return '<tr class="'+(r===A?'me':'')+'"><th>'+r+'</th>'+TYPES.map(function(c){var s=pairScore(r,c).score;return '<td data-a="'+r+'" data-b="'+c+'" class="'+(r===A&&c===B?'sel':'')+'" style="background:'+heatColor(s)+'" title="'+r+' × '+c+' '+s+'점">'+s+'</td>'}).join('')+'</tr>'}).join('')+'</table></div></div>';
