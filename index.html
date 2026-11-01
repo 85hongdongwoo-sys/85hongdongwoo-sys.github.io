@@ -9,11 +9,11 @@
 <meta charset="utf-8">
 <meta name="naver-site-verification" content="9dd8345221a046c23d3f8d30ca6f5c1decb99590" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>투자계산기 28가지 | 주식 세금·연금·청약·대출 한 번에 - 홍라이프</title>
+<title>홍라이프 계산기 | 주식 세금·연금·청약·대출·공무원·자동차·칼로리 계산기 모음</title>
 <meta name="description" content="주식·ETF 매도 세금, 배당금, 연금저축 세액공제, 연말정산 환급, DSR 대출 한도, 청약 가점, 전세 안전도, 증여세까지 2026년 세법 기준 무료 투자계산기 28가지.">
 <link rel="canonical" href="https://honglife.co.kr/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="홍라이프 투자계산기 - 세금·연금·부동산 계산기 28가지">
+<meta property="og:title" content="홍라이프 계산기 - 세금·연금·부동산 계산기 28가지">
 <meta property="og:description" content="2026년 세법 기준. 주식 세금부터 청약·대출·증여세까지 한 곳에서 계산하세요.">
 <meta property="og:url" content="https://honglife.co.kr/">
 <meta name="theme-color" content="#0F6656">
@@ -252,11 +252,11 @@ nav.tabs{background:#0F2A52;border-bottom-color:rgba(255,255,255,.14)}
 .calc-index{margin-top:28px;background:var(--paper);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:20px 22px}.calc-index h2{font-size:17px;margin:0 0 12px;color:var(--ink)}.ci-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.ci-grid b{font-size:13.5px;color:var(--accent)}.ci-grid ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ci-grid a{color:#2C3A4F;text-decoration:none;font-size:14px}.ci-grid a:hover{color:var(--accent);text-decoration:underline}@media (max-width:900px){.ci-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.ci-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.receipt{position:static}.form,.receipt,.help{padding:18px}}
 </style>
-<div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 투자계산기</a><span class="meta">2026년 세법 기준 · 무료</span></div></div>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 계산기</a><span class="meta">2026년 세법 기준 · 무료</span></div></div>
 <div class="wrap">
 <header class="top">
   <div>
-    <h1>홍라이프 <b>투자계산기</b></h1>
+    <h1>홍라이프 <b>계산기</b></h1>
     <p class="sub">주식·ETF 세금부터 연금·은퇴, 청약·전세·대출·경매까지 투자할 때 필요한 계산기 28가지, 탭마다 사용법과 자주 묻는 질문까지</p>
   </div>
   <span class="stamp" id="cfg-stamp">2026년 세법 기준 · 10/25 확인</span>
@@ -1426,7 +1426,7 @@ function renderFallback(slot){
   const pick=list[(slot.id==='ad-b'?1:0)%list.length];
   const btn=document.querySelector(`.subtabs button[data-tab="${pick}"]`); const name=btn?btn.textContent:'';
   const box=document.createElement('div'); box.className='ad rec';
-  box.innerHTML=`<span class="tag">함께 보면 좋은 계산기</span><a class="cta" href="#${pick}"><span><b></b><br><small>홍라이프 투자계산기</small></span><em>열기</em></a>`;
+  box.innerHTML=`<span class="tag">함께 보면 좋은 계산기</span><a class="cta" href="#${pick}"><span><b></b><br><small>홍라이프 계산기</small></span><em>열기</em></a>`;
   box.querySelector('b').textContent=name;
   box.querySelector('a').addEventListener('click',e=>{ e.preventDefault(); showTab(pick); window.scrollTo({top:0,behavior:'smooth'}); });
   slot.dataset.pool=0; slot.replaceChildren(box);

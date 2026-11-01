@@ -8,11 +8,11 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>적립식 복리 계산기 2026 | 홍라이프 투자계산기</title>
+<title>적립식 복리 계산기 2026 | 홍라이프 계산기</title>
 <meta name="description" content="매달 일정 금액을 꾸준히 투자하면 시간이 갈수록 불어난 돈이 넣은 돈을 앞지르기 시작해요. 연도별 막대 그래프로 넣은 돈과 불어난 돈을 나눠 보여줘요.">
 <link rel="canonical" href="https://honglife.co.kr/grow.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="적립식 복리 계산기 2026 | 홍라이프 투자계산기">
+<meta property="og:title" content="적립식 복리 계산기 2026 | 홍라이프 계산기">
 <meta property="og:description" content="매달 일정 금액을 꾸준히 투자하면 시간이 갈수록 불어난 돈이 넣은 돈을 앞지르기 시작해요. 연도별 막대 그래프로 넣은 돈과 불어난 돈을 나눠 보여줘요.">
 <meta property="og:url" content="https://honglife.co.kr/grow.html">
 <meta name="theme-color" content="#0F6656">
@@ -253,7 +253,7 @@ nav.tabs{background:#0F2A52;border-bottom-color:rgba(255,255,255,.14)}
 .calc-index{margin-top:28px;background:var(--paper);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:20px 22px}.calc-index h2{font-size:17px;margin:0 0 12px;color:var(--ink)}.ci-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.ci-grid b{font-size:13.5px;color:var(--accent)}.ci-grid ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ci-grid a{color:#2C3A4F;text-decoration:none;font-size:14px}.ci-grid a:hover{color:var(--accent);text-decoration:underline}@media (max-width:900px){.ci-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.ci-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.receipt{position:static}.form,.receipt,.help{padding:18px}}
 </style>
-<div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 투자계산기</a><span class="meta">2026년 세법 기준 · 무료</span></div></div>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 계산기</a><span class="meta">2026년 세법 기준 · 무료</span></div></div>
 <div class="wrap">
 <header class="top">
   <div>
@@ -1427,7 +1427,7 @@ function renderFallback(slot){
   const pick=list[(slot.id==='ad-b'?1:0)%list.length];
   const btn=document.querySelector(`.subtabs button[data-tab="${pick}"]`); const name=btn?btn.textContent:'';
   const box=document.createElement('div'); box.className='ad rec';
-  box.innerHTML=`<span class="tag">함께 보면 좋은 계산기</span><a class="cta" href="#${pick}"><span><b></b><br><small>홍라이프 투자계산기</small></span><em>열기</em></a>`;
+  box.innerHTML=`<span class="tag">함께 보면 좋은 계산기</span><a class="cta" href="#${pick}"><span><b></b><br><small>홍라이프 계산기</small></span><em>열기</em></a>`;
   box.querySelector('b').textContent=name;
   box.querySelector('a').addEventListener('click',e=>{ e.preventDefault(); showTab(pick); window.scrollTo({top:0,behavior:'smooth'}); });
   slot.dataset.pool=0; slot.replaceChildren(box);
