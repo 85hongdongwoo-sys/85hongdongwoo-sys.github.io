@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>여행경비 계산기 2026 | 도쿄·오사카·방콕·다낭·파리·뉴욕 여행 예산 항공·숙박·식비</title>
+<meta name="description" content="여행지를 고르면 항공·숙박·식비·교통·관광·수수료·예비비까지 항목별 예상 경비를 채워 주고, 인원과 일정에 맞춰 총액과 1인 1일 경비를 계산해 주는 무료 여행경비 계산기. 일본 숙박세 자동 계산, 환율 반영.">
+<link rel="canonical" href="https://honglife.co.kr/travel.html">
+<meta property="og:title" content="여행경비 계산기 | 홍라이프 계산기"><meta property="og:description" content="여행지별 항공·숙박·식비·수수료·예비비 한 번에"><meta property="og:url" content="https://honglife.co.kr/travel.html">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --bg:#EDF2F8; --surface:#FFFFFF; --ink:#12213B; --muted:#55657D; --line:#D3DCE8;
+  --primary:#1A5DA8; --primary-ink:#FFFFFF; --tint:#E4EDF8; --amber:#F3B61F;
+  --pos:#17703F; --neg:#B3261E; --warn-bg:#FFF6DC; --warn-line:#E5C766;
+  --c1:#1A5DA8; --c2:#4FA3C7; --c3:#F3B61F; --c4:#8B6BB8; --c5:#7A8AA0;
+  --font:'Gothic A1','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1726; --surface:#142339; --ink:#E8EEF6; --muted:#9FB0C7; --line:#28405E;
+    --primary:#6AB0F0; --primary-ink:#08203A; --tint:#183252; --amber:#F3C74C;
+    --pos:#5FD08D; --neg:#FF8A80; --warn-bg:#2C2712; --warn-line:#7A6A2A;
+    --c1:#6AB0F0; --c2:#4FA3C7; --c3:#F3C74C; --c4:#B79BE0; --c5:#8FA0B8;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1726; --surface:#142339; --ink:#E8EEF6; --muted:#9FB0C7; --line:#28405E;
+  --primary:#6AB0F0; --primary-ink:#08203A; --tint:#183252; --amber:#F3C74C;
+  --pos:#5FD08D; --neg:#FF8A80; --warn-bg:#2C2712; --warn-line:#7A6A2A;
+  --c1:#6AB0F0; --c2:#4FA3C7; --c3:#F3C74C; --c4:#B79BE0; --c5:#8FA0B8;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16.5px;line-height:1.75;-webkit-text-size-adjust:100%;word-break:keep-all;overflow-wrap:anywhere}
+.wrap{max-width:760px;margin:0 auto;padding:26px 16px 80px}
+h1{font-size:28px;line-height:1.35;margin:10px 0 8px;font-weight:700;letter-spacing:-0.01em}
+h2{font-size:20px;margin:0 0 6px;font-weight:700}
+h3{font-size:17px;margin:0 0 6px;font-weight:700}
+p{margin:0 0 12px}
+.asof{display:inline-block;margin:0;padding:3px 10px;border:1px solid var(--line);border-radius:99px;font-size:13.5px;color:var(--muted);background:var(--surface)}
+.deck{font-size:17px;color:var(--muted);margin:0 0 16px}
+.notice{border:1px solid var(--warn-line);background:var(--warn-bg);border-radius:10px;padding:11px 14px;font-size:15px;line-height:1.7;margin:0 0 18px}
+.small{font-size:13.5px;color:var(--muted);line-height:1.6}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--primary);outline-offset:2px;border-radius:4px}
+.chip{display:inline-block;font-size:12.5px;line-height:1;padding:3px 7px;border-radius:5px;margin-right:6px;vertical-align:1px;white-space:nowrap;font-weight:500}
+.chip.fact{border:1.5px solid var(--primary);color:var(--primary)}
+.chip.est{border:1.5px dotted var(--muted);color:var(--muted)}
+.chip.rec{border:1.5px dashed var(--amber);color:var(--ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 16px 18px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}.grid.g3{grid-template-columns:1fr 1fr 1fr}}
+.f label,.f .lb{display:block;font-size:14.5px;font-weight:500;margin-bottom:4px}
+.f small{display:block;color:var(--muted);font-size:12.8px;line-height:1.5;margin-top:3px}
+.f input[type=number],.f select{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);min-height:44px}
+.seg{display:flex;gap:8px}
+.seg label{flex:1;margin:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:10px 6px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);font-weight:500;cursor:pointer;min-height:44px}
+.seg input:checked+span{border-color:var(--primary);background:var(--tint);color:var(--primary);font-weight:700}
+.seg input:focus-visible+span{outline:3px solid var(--primary);outline-offset:2px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.55;padding:4px 0}
+.chk input{width:20px;height:20px;margin-top:3px;accent-color:var(--primary);flex:none}
+.btn{font:inherit;font-weight:500;padding:10px 14px;border-radius:10px;border:1.5px solid var(--primary);background:transparent;color:var(--primary);cursor:pointer;min-height:44px}
+.btn:hover{background:var(--tint)}
+.notes{margin:12px 0 0;padding:0;list-style:none}
+.notes li{font-size:14.5px;line-height:1.65;margin:0 0 6px}
+
+/* boarding-pass result */
+.pass{display:grid;grid-template-columns:1fr;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:6px 0 14px}
+@media(min-width:640px){.pass{grid-template-columns:1.5fr 1fr}}
+.pass .main{padding:18px 18px 16px;background:var(--tint)}
+.pass .stub{padding:18px;border-top:2px dashed var(--line)}
+@media(min-width:640px){.pass .stub{border-top:0;border-left:2px dashed var(--line)}}
+.pass .lab{font-size:14px;color:var(--muted);margin:0}
+.pass .big{font-size:34px;line-height:1.2;font-weight:700;margin:2px 0 6px;font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+.pass .kv{display:flex;justify-content:space-between;gap:10px;font-size:15px;padding:3px 0;font-variant-numeric:tabular-nums}
+.pass .kv b{font-weight:700}
+.bar{display:flex;gap:2px;height:22px;border-radius:6px;overflow:hidden;margin:8px 0 8px}
+.bar i{display:block;height:100%;min-width:2px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13.5px;color:var(--muted);margin:0}
+.legend b{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:0 0 12px}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.55}
+th,td{padding:8px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--tint);font-weight:700}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td .cal{display:block;font-size:12.8px;color:var(--muted);line-height:1.45;font-weight:400}
+tr.grp td{background:var(--tint);font-weight:700;font-size:14px;padding:6px 12px}
+tr.tot td{font-weight:700;background:var(--tint);border-top:2px solid var(--ink)}
+tr:last-child td{border-bottom:0}
+details{margin:10px 0}
+summary{cursor:pointer;font-weight:500}
+details li{font-size:14.5px;line-height:1.7;margin:3px 0}
+@media(max-width:520px){h1{font-size:24px}.pass .big{font-size:29px}body{font-size:16px}}
+
+/* 홍라이프 공통 디자인 */
+:root{--bg:#EEF1F5;--surface:#FFFFFF;--ink:#0F1B2D;--muted:#5A6678;--line:#DDE2EA;--primary:#12305C;--tint:#E6ECF5;--amber:#E8C27A;--gold:#E8C27A;--c1:#12305C;--c2:#3F7CC9;--c3:#E8C27A;--c4:#C2362B;--c5:#8A96A8;
+ --font:"Pretendard Variable",Pretendard,system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B1322;--surface:#121C2E;--ink:#E6ECF5;--muted:#9AA8BE;--line:#24324A;--primary:#8FB4F0;--tint:#1A2A45;--c1:#8FB4F0;--c2:#4F8FD9;--c3:#E8C27A;--c4:#F0776F;--c5:#8FA0B8}}
+body{-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08);color:#fff}
+.brandbar .in{max-width:760px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brandbar .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none;white-space:nowrap}
+.brandbar .logo i{width:26px;height:26px;border-radius:6px;background:var(--gold);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;color:#AEBBD0;white-space:nowrap}
+@media(max-width:520px){.brandbar .meta{display:none}}
+.hero{background:linear-gradient(180deg,#0B1F3F,#14305A);color:#fff;padding:26px 0 28px}
+.hero .in{max-width:760px;margin:0 auto;padding:0 16px}
+.hero h1{font-weight:800;font-size:clamp(26px,5vw,36px);letter-spacing:-.02em;margin:0;color:#fff}
+.hero h1 b{color:var(--gold);font-weight:800}
+.hero .deck{margin:8px 0 0;color:#C9D5EE}
+.hero .asof{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:#C9D5EE;margin-top:12px}
+.wrap{padding-top:18px}
+.pass .main{background:linear-gradient(180deg,#0B1F3F,#14305A);color:#fff}
+.pass .main .lab{color:#C9D5EE}.pass .main .big{color:var(--gold)}.pass .main .legend{color:#C9D5EE}
+footer.site{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted);line-height:1.7}
+footer.site a{color:var(--primary)}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta">환율 2026.10.30 기준 · 무료</span></div></div>
+<div class="hero"><div class="in">
+  <h1>여행경비 <b>계산기</b></h1>
+  <p class="deck">여행지를 고르면 항공·숙박·식비·교통·관광·수수료·예비비까지 항목별로 채워 드려요. 숫자는 전부 직접 고칠 수 있어요.</p>
+  <p class="asof">기준일 2026년 11월 1일 · 환율 10월 30일 기준</p>
+</div></div>
+<div class="wrap">
+<div class="notice"><strong>먼저 알아 두세요</strong> 환율은 10월 30일 기준이고, 정책·세금(일본 출국세·숙박세, 미국 ESTA 등)은 2026년 9~11월에 확인한 내용이에요. 호텔·식비·교통 같은 <u>기본 금액은 확인된 가격이 아니라 조사 자료와 일반 시세로 잡은 추정 기준값</u>이라, 예약 화면과 최근 후기에서 본 실제 가격으로 바꿔서 쓰세요.
+  <br><span class="chip fact">확인</span>확인한 사실 <span class="chip rec">주의</span>확정 전이거나 확인이 더 필요한 내용 <span class="chip est">추정</span>제가 잡은 기준값</div>
+
+<section class="card" id="basic">
+  <h2>1. 여행 기본 정보</h2>
+  <div class="grid">
+    <div class="f"><label for="dest">여행지</label>
+      <select id="dest">
+        <optgroup label="일본"><option value="tokyo" selected>도쿄</option><option value="osaka">오사카</option><option value="kyoto">교토 (간사이 공항 이용)</option><option value="fukuoka">후쿠오카</option></optgroup>
+        <optgroup label="동남아·대만"><option value="bangkok">방콕</option><option value="danang">다낭</option><option value="taipei">타이베이</option><option value="singapore">싱가포르</option></optgroup>
+        <optgroup label="유럽·미국"><option value="paris">파리 (유럽)</option><option value="newyork">뉴욕</option></optgroup>
+        <optgroup label="국내"><option value="jeju">제주</option></optgroup>
+      </select></div>
+    <div class="f"><span class="lb">여행 스타일</span>
+      <div class="seg" role="radiogroup" aria-label="여행 스타일">
+        <label><input type="radio" name="style" value="a"><span>알뜰</span></label>
+        <label><input type="radio" name="style" value="m" checked><span>보통</span></label>
+        <label><input type="radio" name="style" value="h"><span>여유</span></label>
+      </div><small>숙박·식비·교통·관광·쇼핑 기본값이 스타일에 맞게 바뀌어요.</small></div>
+    <div class="f"><label for="persons">인원 (명)</label><input type="number" id="persons" min="1" max="10" step="1" value="2"></div>
+    <div class="f"><label for="nights">숙박 (박)</label><input type="number" id="nights" min="0" max="30" step="1" value="3"></div>
+    <div class="f"><label for="days">현지 활동 일수 (일)</label><input type="number" id="days" min="1" max="31" step="1" value="4"><small>식비·교통·관광·보험 계산에 쓰여요. 기본은 박수+1이에요.</small></div>
+    <div class="f"><label for="rooms">객실 수</label><input type="number" id="rooms" min="1" max="10" step="1" value="1"><small>기본은 2명당 1실이에요.</small></div>
+  </div>
+  <div style="margin-top:12px"><button class="btn" id="reset" type="button">기본값 다시 불러오기</button> <span class="small">여행지·스타일을 바꿔도 자동으로 다시 채워져요.</span></div>
+  <ul class="notes" id="notes" aria-live="polite"></ul>
+</section>
+
+<section class="card" id="pre">
+  <h2>2. 출발 전에 내는 돈</h2>
+  <div class="grid">
+    <div class="f"><label for="flight">항공권 (1인 왕복, 세금·유류할증료 포함)</label><input type="number" id="flight" min="0" step="10000"><small>비교할 때는 세금·할증료까지 붙은 총액으로 봐요.</small></div>
+    <div class="f"><label for="bag">수하물·좌석·기내식 추가 (1인)</label><input type="number" id="bag" min="0" step="1000"><small>저가항공은 위탁수하물이 추가 요금인 경우가 많아요.</small></div>
+    <div class="f"><label for="hotelRoom">숙박 1박 객실 요금 (객실당)</label><input type="number" id="hotelRoom" min="0" step="5000"></div>
+    <div class="f"><label for="hotelTaxPct">숙박 세금·봉사료 (%)</label><input type="number" id="hotelTaxPct" min="0" max="40" step="0.05"><small>표시 요금에 세금이 별도로 붙는 곳만 넣어요.</small></div>
+    <div class="f"><label for="hotelExtra">객실당 1박 추가 요금 (원)</label><input type="number" id="hotelExtra" min="0" step="1000"><small>리조트 피, 청소비, 객실당 정액 수수료 등.</small></div>
+    <div class="f"><label for="lodgeTax">숙박세 (1인 1박, 원)</label><input type="number" id="lodgeTax" min="0" step="500">
+      <label class="chk" style="padding:6px 0 0"><input type="checkbox" id="lodgeAuto"><span>객실 요금으로 자동 계산 (일본)<small id="lodgeInfo"></small></span></label></div>
+    <div class="f"><label for="ins">여행자보험 (1인 1일)</label><input type="number" id="ins" min="0" step="500"></div>
+    <div class="f"><label for="esim">eSIM·유심·로밍 (1인)</label><input type="number" id="esim" min="0" step="1000"></div>
+    <div class="f"><label for="entry">비자·전자입국 허가 수수료 (1인)</label><input type="number" id="entry" min="0" step="1000"></div>
+    <div class="f"><label for="domestic">국내 공항 이동·주차 (1인 왕복)</label><input type="number" id="domestic" min="0" step="1000"></div>
+    <div class="f"><label for="gear">준비물·기타 (전체)</label><input type="number" id="gear" min="0" step="10000"><small>변환 플러그, 상비약, 캐리어 등.</small></div>
+  </div>
+</section>
+
+<section class="card" id="local">
+  <h2>3. 현지에서 쓰는 돈</h2>
+  <div class="grid">
+    <div class="f"><label for="food">식비 (1인 1일)</label><input type="number" id="food" min="0" step="1000"></div>
+    <div class="f"><label for="tip">식비 팁·서비스료 (%)</label><input type="number" id="tip" min="0" max="40" step="1"></div>
+    <div class="f"><label for="transit">현지 대중교통 (1인 1일)</label><input type="number" id="transit" min="0" step="1000"></div>
+    <div class="f"><label for="team">택시·렌터카 등 (전체 1일)</label><input type="number" id="team" min="0" step="5000"><small>렌터카는 보험·유류비·주차비까지 넣어요.</small></div>
+    <div class="f"><label for="airport">현지 공항 ↔ 숙소 (1인 왕복)</label><input type="number" id="airport" min="0" step="1000"></div>
+    <div class="f"><label for="attr">관광·체험·입장료 (1인 1일)</label><input type="number" id="attr" min="0" step="1000"><small>테마파크나 시티패스는 실제 입장료를 더해서 고쳐 주세요.</small></div>
+    <div class="f"><label for="shop">쇼핑·기념품 (1인)</label><input type="number" id="shop" min="0" step="10000"></div>
+    <div class="f"><label for="refund">택스리펀드 환급률 (쇼핑 대비 %)</label><input type="number" id="refund" min="0" max="20" step="0.5"><small>수수료를 뗀 뒤 실제로 돌려받는 비율로 넣어요.</small></div>
+    <div class="f"><label for="etc">그 밖의 현지 지출 (전체)</label><input type="number" id="etc" min="0" step="10000"><small>짐 보관, 세탁, 마사지, 팁 등.</small></div>
+  </div>
+</section>
+
+<section class="card" id="money">
+  <h2>4. 환율·수수료·예비비</h2>
+  <div class="grid">
+    <div class="f"><label for="rate" id="rateLabel">환율 (원)</label><input type="number" id="rate" min="0" step="0.01"><small id="rateHint"></small></div>
+    <div class="f"><label for="feePct">환전·카드 수수료 (%)</label><input type="number" id="feePct" min="0" max="10" step="0.1" value="1"><small>현지 지출에 붙는 환전·해외결제 수수료예요.</small></div>
+    <div class="f"><label for="fxPct">환율 변동 여유분 (%)</label><input type="number" id="fxPct" min="0" max="20" step="0.5" value="3"><small>결제 시점 환율이 오를 때를 대비해요.</small></div>
+    <div class="f"><label for="reservePct">예비비 (%)</label><input type="number" id="reservePct" min="0" max="50" step="1" value="10"><small>항공 지연, 병원비, 예상 밖 지출용이에요.</small></div>
+  </div>
+</section>
+
+<section aria-live="polite" id="result"></section>
+
+<details>
+  <summary>계산식과 가정 보기</summary>
+  <ul>
+    <li>숙박 = 객실 요금 × 객실 수 × 박수, 숙박 세금·봉사료 = 숙박 × %, 추가 요금 = 객실당 금액 × 객실 수 × 박수.</li>
+    <li>일본 숙박세는 1인 1박 숙박료(객실 요금 × 객실 수 ÷ 인원)를 엔으로 바꿔 구간표에 넣어요. 도쿄는 1만엔 미만 0, 1만~1.5만엔 100엔, 1.5만엔 이상 200엔이에요. 교토(2026.3.1. 개정)는 6천엔 미만 200엔, 6천~2만엔 400엔, 2만~5만엔 1천엔, 5만~10만엔 4천엔, 10만엔 이상 1만엔이에요. 오사카부는 5천~1.5만엔 200엔, 1.5만~2만엔 400엔이고 2만엔 이상은 500엔으로 추정했어요. 후쿠오카는 1박 200엔으로 잡았어요 <span class="chip est">추정</span></li>
+    <li>식비 = 1인 1일 금액 × 활동 일수 × 인원 × (1+팁%), 교통·관광 = 1인 1일 금액 × 활동 일수 × 인원, 택시·렌터카 = 전체 1일 금액 × 활동 일수.</li>
+    <li>환전·카드 수수료와 환율 여유분은 현지 지출 합계에 곱해요. 예비비는 그 앞의 모든 항목 합계에 곱해요.</li>
+    <li>현지 통화 환산액은 현지 지출 합계를 위에 넣은 환율로 나눈 값이에요. 현금으로 준비할 금액을 정할 때 참고하세요.</li>
+  </ul>
+</details>
+
+<details>
+  <summary>빠지기 쉬운 항목 체크리스트</summary>
+  <ul>
+    <li>항공: 위탁수하물, 좌석 지정, 기내식, 결제 수수료, 유류할증료</li>
+    <li>숙박: 숙박세·관광세, 리조트 피, 청소비, 보증금(디파짓), 조식, 늦은 체크인, 짐 보관</li>
+    <li>이동: 공항 왕복, 심야·새벽 택시, 렌터카 보험·주차·톨비, 도시 간 이동</li>
+    <li>현지 결제: 현지 통화 결제(원화로 결제하면 환율이 불리해요), ATM 인출 수수료, 팁·봉사료</li>
+    <li>출발 전: 여권 유효기간, 비자·전자입국 허가, 여행자보험, 예방접종, 통신</li>
+    <li>귀국 후: 카드 청구일과 그때 환율, 면세 한도·세관 신고, 택스리펀드 실제 환급액</li>
+  </ul>
+</details>
+
+<p class="small" style="margin-top:14px">이 계산기는 예산을 잡기 위한 추정 도구예요. 실제 결제 금액은 예약 화면, 환율, 예약 시점, 시즌에 따라 달라져요.</p>
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="/exam.html">자격증 시험달력</a> · <a href="/clock.html">초시계·서버시간</a> · <a href="/budget/">가계부</a> · <a href="/privacy.html">개인정보처리방침</a></div>
+  <div>환율 출처: 하나은행 매매기준율(2026.10.30, 서울외환시장 마감). 숙박·식비·교통 기본값은 추정치예요.</div>
+</footer>
+</div>
+
+<script>
+/* ===== 여행경비 계산기 – 핵심 로직 =====
+   환율: 2026.10.30 하나은행 고시(달러·엔·유로), 바트·동·대만달러·싱가포르달러는 10월 30일 달러 환율로 환산한 대략값
+   정책·세금: 일본 출국세·숙박세·면세 개편, 미국 ESTA 등은 2026.9월 확인한 내용
+   항목별 기본 금액(호텔·식비·교통 등)은 확인된 가격이 아니라 조사 자료와 일반 시세로 잡은 추정 기준값 */
+
+const STYLES = { a: '알뜰', m: '보통', h: '여유' };
+
+const CUR = {
+  KRW: { code: 'KRW', name: '원', unit: '1원', rate: 1 },
+  JPY: { code: 'JPY', name: '엔', unit: '1엔', rate: 8.4696 },
+  THB: { code: 'THB', name: '바트', unit: '1바트', rate: 39.5 },
+  VND: { code: 'VND', name: '동', unit: '1,000동', rate: 51 },       // 1,000동 = 약 51원
+  TWD: { code: 'TWD', name: '대만달러', unit: '1대만달러', rate: 43.5 },
+  SGD: { code: 'SGD', name: '싱가포르달러', unit: '1싱가포르달러', rate: 1035 },
+  EUR: { code: 'EUR', name: '유로', unit: '1유로', rate: 1493.08 },
+  USD: { code: 'USD', name: '달러', unit: '1달러', rate: 1334.3 }
+};
+/* VND는 1,000동 단위 환율이라 환산 시 1000으로 나눠 씀 */
+function toLocal(krw, cur, rate) {
+  const per = cur === 'VND' ? 1000 : 1;
+  return krw / rate * per;
+}
+
+const D = (o) => Object.assign({
+  bag: 0, tip: 0, team: 0, hotelTaxPct: 0, hotelExtra: 0, lodgeTax: 0, taxMode: 'none',
+  ins: 3000, entry: 0, domestic: 20000, gear: 0, shopRefund: 0, notes: []
+}, o);
+
+const DEST = {
+  tokyo: D({ name: '도쿄', country: '일본', cur: 'JPY', taxMode: 'tokyo',
+    flight: 350000, hotel: { a: 100000, m: 170000, h: 300000 }, food: { a: 35000, m: 60000, h: 100000 },
+    transit: { a: 8000, m: 10000, h: 14000 }, attr: { a: 10000, m: 25000, h: 50000 }, airport: 50000, esim: 12000 }),
+  osaka: D({ name: '오사카', country: '일본', cur: 'JPY', taxMode: 'osaka',
+    flight: 300000, hotel: { a: 80000, m: 140000, h: 250000 }, food: { a: 35000, m: 55000, h: 95000 },
+    transit: { a: 7000, m: 9000, h: 13000 }, attr: { a: 10000, m: 25000, h: 50000 }, airport: 25000, esim: 12000 }),
+  kyoto: D({ name: '교토 (간사이 공항 이용)', country: '일본', cur: 'JPY', taxMode: 'kyoto',
+    flight: 300000, hotel: { a: 90000, m: 160000, h: 300000 }, food: { a: 35000, m: 55000, h: 95000 },
+    transit: { a: 7000, m: 8000, h: 12000 }, attr: { a: 10000, m: 25000, h: 50000 }, airport: 55000, esim: 12000 }),
+  fukuoka: D({ name: '후쿠오카', country: '일본', cur: 'JPY', taxMode: 'fukuoka',
+    flight: 250000, hotel: { a: 70000, m: 120000, h: 220000 }, food: { a: 30000, m: 50000, h: 85000 },
+    transit: { a: 5000, m: 6000, h: 9000 }, attr: { a: 8000, m: 20000, h: 40000 }, airport: 5000, esim: 12000 }),
+  bangkok: D({ name: '방콕', country: '태국', cur: 'THB', tip: 5,
+    flight: 500000, hotel: { a: 60000, m: 120000, h: 250000 }, food: { a: 20000, m: 40000, h: 80000 },
+    transit: { a: 8000, m: 10000, h: 15000 }, attr: { a: 15000, m: 30000, h: 60000 }, airport: 25000, esim: 10000 }),
+  danang: D({ name: '다낭', country: '베트남', cur: 'VND',
+    flight: 400000, hotel: { a: 70000, m: 130000, h: 280000 }, food: { a: 20000, m: 40000, h: 80000 },
+    transit: { a: 8000, m: 12000, h: 18000 }, attr: { a: 15000, m: 30000, h: 60000 }, airport: 12000, esim: 10000 }),
+  taipei: D({ name: '타이베이', country: '대만', cur: 'TWD', tip: 3,
+    flight: 350000, hotel: { a: 90000, m: 150000, h: 280000 }, food: { a: 30000, m: 50000, h: 90000 },
+    transit: { a: 7000, m: 9000, h: 14000 }, attr: { a: 15000, m: 25000, h: 50000 }, airport: 15000, esim: 10000 }),
+  singapore: D({ name: '싱가포르', country: '싱가포르', cur: 'SGD', tip: 10,
+    flight: 600000, hotel: { a: 150000, m: 270000, h: 500000 }, food: { a: 35000, m: 60000, h: 110000 },
+    transit: { a: 10000, m: 13000, h: 20000 }, attr: { a: 30000, m: 50000, h: 90000 }, airport: 6000, esim: 12000 }),
+  paris: D({ name: '파리', country: '프랑스(유럽)', cur: 'EUR', lodgeTax: 5000, entry: 31800,
+    flight: 1300000, hotel: { a: 180000, m: 300000, h: 600000 }, food: { a: 45000, m: 80000, h: 150000 },
+    transit: { a: 10000, m: 13000, h: 20000 }, attr: { a: 25000, m: 45000, h: 90000 }, airport: 45000, esim: 18000 }),
+  newyork: D({ name: '뉴욕', country: '미국', cur: 'USD', tip: 20, hotelTaxPct: 14.75, hotelExtra: 5000, entry: 55300,
+    flight: 1800000, hotel: { a: 250000, m: 400000, h: 800000 }, food: { a: 60000, m: 100000, h: 180000 },
+    transit: { a: 12000, m: 16000, h: 25000 }, attr: { a: 30000, m: 60000, h: 120000 }, airport: 60000, esim: 25000 }),
+  jeju: D({ name: '제주', country: '국내', cur: 'KRW', ins: 0, domestic: 10000,
+    flight: 100000, hotel: { a: 60000, m: 120000, h: 250000 }, food: { a: 30000, m: 50000, h: 90000 },
+    transit: { a: 0, m: 0, h: 0 }, team: 60000, attr: { a: 10000, m: 25000, h: 50000 }, airport: 0, esim: 0 })
+};
+const SHOP = { a: 50000, m: 100000, h: 300000 };
+const SHOP_JEJU = { a: 30000, m: 60000, h: 150000 };
+
+/* 일본 숙박세 (1인 1박, 엔) — 숙박료는 1인 1박 기준, 세금 별도 */
+function jpLodgingTax(mode, perPersonJPY) {
+  const p = perPersonJPY;
+  if (mode === 'tokyo') return p < 10000 ? 0 : p < 15000 ? 100 : 200;
+  if (mode === 'kyoto') return p < 6000 ? 200 : p < 20000 ? 400 : p < 50000 ? 1000 : p < 100000 ? 4000 : 10000;
+  if (mode === 'osaka') return p < 5000 ? 0 : p < 15000 ? 200 : p < 20000 ? 400 : 500;
+  if (mode === 'fukuoka') return 200;
+  return 0;
+}
+
+/* 입력값 → 결과 */
+function calcTrip(o) {
+  const d = DEST[o.dest];
+  const n = Math.max(1, o.persons), nights = Math.max(0, o.nights), days = Math.max(1, o.days), rooms = Math.max(1, o.rooms);
+  const rate = o.rate;
+  const r = {};
+
+  // 사전 결제
+  r.flight = o.flight * n;
+  r.bag = o.bag * n;
+  r.hotel = o.hotelRoom * rooms * nights;
+  r.hotelTax = r.hotel * (o.hotelTaxPct / 100);
+  r.hotelExtra = o.hotelExtra * rooms * nights;
+  let lodgePP = o.lodgeTax;
+  let autoInfo = null;
+  if (o.lodgeAuto && d.taxMode !== 'none') {
+    const ppKrw = o.hotelRoom * rooms / n;
+    const ppJpy = ppKrw / rate;
+    const tax = jpLodgingTax(d.taxMode, ppJpy);
+    lodgePP = tax * rate;
+    autoInfo = { ppJpy: Math.round(ppJpy), tax: tax };
+  }
+  r.lodgeTax = Math.round(lodgePP) * n * nights;
+  r.ins = o.ins * days * n;
+  r.esim = o.esim * n;
+  r.entry = o.entry * n;
+  r.domestic = o.domestic * n;
+  r.gear = o.gear;
+  r.pre = r.flight + r.bag + r.hotel + r.hotelTax + r.hotelExtra + r.lodgeTax + r.ins + r.esim + r.entry + r.domestic + r.gear;
+
+  // 현지 지출
+  r.food = o.food * days * n * (1 + o.tip / 100);
+  r.transit = o.transit * days * n;
+  r.team = o.team * days;
+  r.airport = o.airport * n;
+  r.attr = o.attr * days * n;
+  r.shopGross = o.shop * n;
+  r.refund = -r.shopGross * (o.refund / 100);
+  r.etc = o.etc;
+  r.local = r.food + r.transit + r.team + r.airport + r.attr + r.shopGross + r.refund + r.etc;
+
+  // 수수료·예비비
+  r.fee = r.local * (o.feePct / 100);
+  r.fx = r.local * (o.fxPct / 100);
+  const sub = r.pre + r.local + r.fee + r.fx;
+  r.reserve = sub * (o.reservePct / 100);
+  r.total = sub + r.reserve;
+  r.perPerson = r.total / n;
+  r.perPersonDay = r.total / n / days;
+  r.localCur = toLocal(r.local, d.cur, rate);
+  r.autoInfo = autoInfo;
+  return r;
+}
+
+
+
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var won = function(n){ return Math.round(n).toLocaleString('ko-KR') + '원'; };
+  var num = function(id, lo, hi, d){ var v = parseFloat($(id).value); if (isNaN(v)) v = d; return Math.min(Math.max(v, lo), hi); };
+  var style = function(){ return document.querySelector('input[name=style]:checked').value; };
+
+  var NOTES = {
+    common: [
+      ['fact','환율은 10월 30일 하나은행 고시 기준으로 달러 1,334.30원, 100엔 846.96원, 1유로 1,493.08원이에요. 바트·동·대만달러·싱가포르달러는 같은 날 달러 환율로 환산한 대략값이라 출발 전에 확인해 주세요.'],
+      ['rec','유류할증료는 국제유가에 따라 매달 바뀌어요. 항공권은 세금·할증료까지 붙은 총액으로 비교하세요.']
+    ],
+    japan: [
+      ['fact','일본 국제관광여객세(출국세)가 2026년 7월 1일부터 3,000엔이에요. 발권일 기준이고 보통 항공권 가격에 포함돼요. 6월 30일까지 발권한 표는 1,000엔이었어요.'],
+      ['fact','일본 면세는 2026년 11월 1일부터 "전액 결제 후 출국 시 공항에서 소비세 10%를 환급받는" 사후환급 방식으로 바뀌었어요. 환급받을 금액은 택스리펀드 환급률 칸에 직접 넣어 보세요.'],
+      ['fact','숙박세는 2026년 3월 1일부터 호텔이 체크인 때 따로 받는 방식(예약 시점에 따라 다름)으로 바뀌었어요. 아래 "자동 계산"이 도시별 구간표로 넣어 줘요. 오사카부는 2027년 4월부터 정률 3%로 바뀐다는 안내가 있어요.']
+    ],
+    bangkok: [
+      ['rec','태국 관광세(입국세)는 아직 시행 전이에요. 300바트(항공 입국) 안과 450바트 안이 오가고, 2027년 1분기 도입을 목표로 한다는 보도가 있어요. 출발 전에 시행 여부를 확인하세요.'],
+      ['fact','올해 6월 태국 주요 공항 국제선 이용료가 50% 넘게 올랐다는 보도가 있어요. 보통 항공권 총액에 포함돼요.'],
+      ['rec','태국의 외국인 무비자 체류 기간 변경 소식(5월 보도)이 있어서, 한국인 조건은 출발 전에 외교부 안내로 확인하는 게 안전해요.']
+    ],
+    danang: [['rec','베트남 입국 조건(무비자 체류 기간, 전자입국 신고)은 바뀔 수 있어요. 출발 전에 외교부 해외안전여행 안내로 확인하세요.']],
+    taipei: [['est','대만 물가는 야시장·로컬 식당 위주면 알뜰, 호텔 레스토랑이 많으면 크게 올라요. 식비를 스타일에 맞게 조절하세요.']],
+    singapore: [['est','싱가포르 식당 메뉴는 서비스료 10%와 세금(GST)이 따로 붙는 "++" 표기가 많아요. 팁·서비스료 칸에 반영했어요.'],['est','호텔 요금도 세금·서비스료 별도 표기인지 예약 화면에서 확인해서 숙박 세금 칸에 넣어 주세요.']],
+    paris: [
+      ['rec','유럽 전자여행허가(ETIAS)는 시행 시점이 2026년 말로 미뤄졌다는 보도가 있고, 수수료는 20유로로 안내돼요. 기본값에 넣어 두었으니 여행 시점에 시행 전이면 0으로 바꾸세요.'],
+      ['est','도시 숙박세는 숙소 등급에 따라 달라요. 1인 1박 5,000원 안팎으로 잡았으니 예약 화면에서 확인해 고쳐 주세요.']
+    ],
+    newyork: [
+      ['fact','미국 ESTA 수수료는 2025년 9월 30일부터 40달러예요. 승인되면 2년간 유효하고 관광·상용 90일 이내 체류에 쓸 수 있어요.'],
+      ['est','뉴욕 호텔은 표시 요금에 세금(약 14.75%)과 객실당 정액 수수료가 별도로 붙는 경우가 많아 기본값에 넣었어요. 식당 팁은 15~20%가 관행이라 20%로 잡았어요.']
+    ],
+    jeju: [['est','제주는 렌터카를 쓰면 "택시·렌터카 등" 칸에 하루 요금·보험·유류비를 넣어 주세요. 렌터카를 안 쓰면 0으로 두고 버스·택시 비용을 그 칸에 넣으세요.']]
+  };
+
+  var touched = { days: false, rooms: false };
+
+  function fillSelect(){}
+
+  function applyPreset(){
+    var k = $('dest').value, d = DEST[k], s = style();
+    var cur = CUR[d.cur];
+    $('flight').value = d.flight; $('bag').value = d.bag;
+    $('hotelRoom').value = d.hotel[s]; $('hotelTaxPct').value = d.hotelTaxPct; $('hotelExtra').value = d.hotelExtra;
+    $('lodgeTax').value = d.lodgeTax; $('lodgeAuto').checked = d.taxMode !== 'none'; $('lodgeAuto').disabled = d.taxMode === 'none';
+    $('ins').value = d.ins; $('esim').value = d.esim; $('entry').value = d.entry; $('domestic').value = d.domestic; $('gear').value = d.gear;
+    $('food').value = d.food[s]; $('tip').value = d.tip; $('transit').value = d.transit[s]; $('team').value = d.team;
+    $('airport').value = d.airport; $('attr').value = d.attr[s];
+    $('shop').value = (k === 'jeju' ? SHOP_JEJU : SHOP)[s]; $('refund').value = 0; $('etc').value = 0;
+    $('rate').value = cur.rate;
+    updateRateLabels();
+    renderNotes();
+  }
+  function updateRateLabels(){
+    var d = DEST[$('dest').value], c = CUR[d.cur];
+    $('rateLabel').textContent = d.cur === 'KRW' ? '환율 (국내 여행이라 1원 = 1원)' : '환율 (' + c.unit + ' = 몇 원)';
+    $('rate').disabled = d.cur === 'KRW';
+    $('rateHint').textContent = d.cur === 'KRW' ? '' : (d.cur === 'JPY' || d.cur === 'USD' || d.cur === 'EUR' ? '10월 30일 하나은행 고시 기준이에요.' : '10월 30일 달러 환율로 환산한 대략값이에요. 출발 전에 다시 확인하세요.');
+  }
+  function renderNotes(){
+    var d = DEST[$('dest').value], key = $('dest').value, list = NOTES.common.slice();
+    if (d.country === '일본') list = list.concat(NOTES.japan);
+    if (NOTES[key]) list = list.concat(NOTES[key]);
+    var chip = { fact: '<span class="chip fact">확인</span>', rec: '<span class="chip rec">주의</span>', est: '<span class="chip est">추정</span>' };
+    $('notes').innerHTML = list.map(function(n){ return '<li>' + chip[n[0]] + n[1] + '</li>'; }).join('');
+  }
+
+  function readOpts(){
+    var k = $('dest').value, nn = Math.round(num('persons',1,10,1)), nights = Math.round(num('nights',0,30,0));
+    return {
+      dest: k, persons: nn, nights: nights, days: Math.round(num('days',1,31,nights+1)), rooms: Math.round(num('rooms',1,10,1)),
+      rate: num('rate',0.0001,100000,CUR[DEST[k].cur].rate),
+      flight: num('flight',0,1e9,0), bag: num('bag',0,1e8,0), hotelRoom: num('hotelRoom',0,1e8,0),
+      hotelTaxPct: num('hotelTaxPct',0,40,0), hotelExtra: num('hotelExtra',0,1e7,0),
+      lodgeTax: num('lodgeTax',0,1e6,0), lodgeAuto: $('lodgeAuto').checked && !$('lodgeAuto').disabled,
+      ins: num('ins',0,1e6,0), esim: num('esim',0,1e6,0), entry: num('entry',0,1e6,0), domestic: num('domestic',0,1e6,0), gear: num('gear',0,1e8,0),
+      food: num('food',0,1e7,0), tip: num('tip',0,40,0), transit: num('transit',0,1e7,0), team: num('team',0,1e7,0),
+      airport: num('airport',0,1e7,0), attr: num('attr',0,1e7,0), shop: num('shop',0,1e8,0), refund: num('refund',0,20,0), etc: num('etc',0,1e8,0),
+      feePct: num('feePct',0,10,1), fxPct: num('fxPct',0,20,3), reservePct: num('reservePct',0,50,10)
+    };
+  }
+
+  function row(label, cal, amt){ return '<tr><td>' + label + (cal ? '<span class="cal">' + cal + '</span>' : '') + '</td><td class="num">' + won(amt) + '</td></tr>'; }
+
+  function render(){
+    var o = readOpts(), d = DEST[o.dest], r = calcTrip(o), c = CUR[d.cur];
+    $('lodgeTax').disabled = o.lodgeAuto;
+    if (r.autoInfo) { $('lodgeInfo').textContent = '1인 1박 숙박료 약 ' + r.autoInfo.ppJpy.toLocaleString('ko-KR') + '엔 → 숙박세 ' + r.autoInfo.tax.toLocaleString('ko-KR') + '엔'; }
+    else $('lodgeInfo').textContent = d.taxMode === 'none' ? '이 여행지는 자동 계산 대상이 아니에요.' : '';
+
+    var rows = '';
+    rows += '<tr class="grp"><td colspan="2">출발 전에 내는 돈</td></tr>';
+    rows += row('항공권', '1인 ' + won(o.flight) + ' × ' + o.persons + '명', r.flight);
+    if (r.bag) rows += row('수하물·좌석·기내식', '1인 ' + won(o.bag) + ' × ' + o.persons + '명', r.bag);
+    rows += row('숙박', '객실 ' + won(o.hotelRoom) + ' × ' + o.rooms + '실 × ' + o.nights + '박', r.hotel);
+    if (r.hotelTax) rows += row('숙박 세금·봉사료', o.hotelTaxPct + '%', r.hotelTax);
+    if (r.hotelExtra) rows += row('숙박 추가 요금', '객실당 1박 ' + won(o.hotelExtra), r.hotelExtra);
+    if (r.lodgeTax) rows += row('숙박세', o.lodgeAuto ? '객실 요금 기준 자동 계산' : '1인 1박 ' + won(o.lodgeTax), r.lodgeTax);
+    if (r.ins) rows += row('여행자보험', '1인 1일 ' + won(o.ins) + ' × ' + o.days + '일', r.ins);
+    if (r.esim) rows += row('eSIM·유심·로밍', '1인 ' + won(o.esim), r.esim);
+    if (r.entry) rows += row('비자·전자입국 수수료', '1인 ' + won(o.entry), r.entry);
+    if (r.domestic) rows += row('국내 공항 이동·주차', '1인 왕복 ' + won(o.domestic), r.domestic);
+    if (r.gear) rows += row('준비물·기타', '', r.gear);
+    rows += '<tr class="tot"><td>출발 전 합계</td><td class="num">' + won(r.pre) + '</td></tr>';
+    rows += '<tr class="grp"><td colspan="2">현지에서 쓰는 돈</td></tr>';
+    rows += row('식비', '1인 1일 ' + won(o.food) + ' × ' + o.days + '일 × ' + o.persons + '명' + (o.tip ? ' + 팁·서비스료 ' + o.tip + '%' : ''), r.food);
+    if (r.transit) rows += row('현지 대중교통', '1인 1일 ' + won(o.transit), r.transit);
+    if (r.team) rows += row('택시·렌터카 등', '1일 ' + won(o.team) + ' × ' + o.days + '일', r.team);
+    if (r.airport) rows += row('현지 공항 ↔ 숙소', '1인 왕복 ' + won(o.airport), r.airport);
+    rows += row('관광·체험·입장료', '1인 1일 ' + won(o.attr), r.attr);
+    if (r.shopGross) rows += row('쇼핑·기념품', '1인 ' + won(o.shop), r.shopGross);
+    if (r.refund) rows += row('택스리펀드', '환급률 ' + o.refund + '%', r.refund);
+    if (r.etc) rows += row('그 밖의 현지 지출', '', r.etc);
+    rows += '<tr class="tot"><td>현지 지출 합계</td><td class="num">' + won(r.local) + '</td></tr>';
+    rows += '<tr class="grp"><td colspan="2">수수료·예비비</td></tr>';
+    rows += row('환전·카드 수수료', '현지 지출 × ' + o.feePct + '%', r.fee);
+    rows += row('환율 변동 여유분', '현지 지출 × ' + o.fxPct + '%', r.fx);
+    rows += row('예비비', '전체 × ' + o.reservePct + '%', r.reserve);
+    rows += '<tr class="tot"><td>총 예상 경비</td><td class="num">' + won(r.total) + '</td></tr>';
+
+    var seg = [
+      ['항공·이동', r.flight + r.bag + r.domestic + r.transit + r.team + r.airport, 'c1'],
+      ['숙박', r.hotel + r.hotelTax + r.hotelExtra + r.lodgeTax, 'c2'],
+      ['식비', r.food, 'c3'],
+      ['관광·쇼핑', r.attr + r.shopGross + r.refund + r.etc, 'c4'],
+      ['보험·통신·입국·수수료·예비비', r.ins + r.esim + r.entry + r.gear + r.fee + r.fx + r.reserve, 'c5']
+    ];
+    var bar = '', leg = '';
+    seg.forEach(function(s){ if (s[1] <= 0) return; var w = s[1] / r.total * 100;
+      bar += '<i style="width:' + w.toFixed(2) + '%;background:var(--' + s[2] + ')" title="' + s[0] + ' ' + w.toFixed(1) + '%"></i>';
+      leg += '<span><b style="background:var(--' + s[2] + ')"></b>' + s[0] + ' ' + w.toFixed(1) + '%</span>'; });
+
+    var localTxt = d.cur === 'KRW' ? won(r.local) : Math.round(r.localCur).toLocaleString('ko-KR') + ' ' + c.name + ' (약 ' + won(r.local) + ')';
+    var html = '';
+    html += '<div class="pass"><div class="main"><p class="lab">' + d.name + ' · ' + o.persons + '명 · ' + o.nights + '박 ' + o.days + '일 · ' + { a:'알뜰', m:'보통', h:'여유' }[style()] + '</p>' +
+      '<p class="lab" style="margin-top:8px">총 예상 경비</p><p class="big">' + won(r.total) + '</p>' +
+      '<div class="bar" role="img" aria-label="경비 구성">' + bar + '</div><p class="legend">' + leg + '</p></div>' +
+      '<div class="stub"><div class="kv"><span>1인 총액</span><b>' + won(r.perPerson) + '</b></div>' +
+      '<div class="kv"><span>1인 1일</span><b>' + won(r.perPersonDay) + '</b></div>' +
+      '<div class="kv"><span>출발 전 결제</span><b>' + won(r.pre) + '</b></div>' +
+      '<div class="kv"><span>현지 지출</span><b>' + won(r.local) + '</b></div>' +
+      '<p class="small" style="margin:10px 0 0">현지 지출을 현지 통화로 보면 ' + localTxt + '이에요. 현금·카드 준비 규모를 잡을 때 참고하세요.</p></div></div>';
+    html += '<div class="scroll"><table><tr><th>항목</th><th class="num">금액</th></tr>' + rows + '</table></div>';
+    $('result').innerHTML = html;
+  }
+
+  function onDestOrStyle(){ touched.days = false; touched.rooms = false; applyPreset(); autoDaysRooms(); render(); }
+  function autoDaysRooms(){
+    if (!touched.days) $('days').value = Math.round(num('nights',0,30,0)) + 1;
+    if (!touched.rooms) $('rooms').value = Math.ceil(Math.round(num('persons',1,10,1)) / 2);
+  }
+  $('dest').addEventListener('change', onDestOrStyle);
+  Array.prototype.forEach.call(document.querySelectorAll('input[name=style]'), function(el){ el.addEventListener('change', onDestOrStyle); });
+  $('reset').addEventListener('click', onDestOrStyle);
+  $('days').addEventListener('input', function(){ touched.days = true; render(); });
+  $('rooms').addEventListener('input', function(){ touched.rooms = true; render(); });
+  $('nights').addEventListener('input', function(){ autoDaysRooms(); render(); });
+  $('persons').addEventListener('input', function(){ autoDaysRooms(); render(); });
+  ['flight','bag','hotelRoom','hotelTaxPct','hotelExtra','lodgeTax','lodgeAuto','ins','esim','entry','domestic','gear','food','tip','transit','team','airport','attr','shop','refund','etc','rate','feePct','fxPct','reservePct'].forEach(function(id){
+    var el = $(id); el.addEventListener('input', render); el.addEventListener('change', render);
+  });
+
+  applyPreset(); autoDaysRooms(); render();
+})();
+</script>
+</body>
+</html>
