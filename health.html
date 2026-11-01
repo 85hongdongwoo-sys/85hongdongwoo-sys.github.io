@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>건강나이·예상수명 계산기 | 흡연·수면·운동·가족력·얼굴 사진으로 보는 내 몸 나이</title>
+<meta name="description" content="키·몸무게·허리둘레, 흡연·음주·운동·수면·식습관, 혈압·혈당, 부모·조부모 장수와 가족력을 넣으면 2024년 통계청 생명표 기준으로 건강나이와 예상 수명, 80세·90세 생존 확률, 습관별로 늘어나는 수명을 계산해요. 얼굴 사진 나이 추정(기기 안에서만 처리)도 지원.">
+<link rel="canonical" href="https://honglife.co.kr/health.html">
+<meta property="og:title" content="건강나이·예상수명 계산기 | 홍라이프 계산기"><meta property="og:description" content="생활습관과 가족력으로 보는 내 건강나이와 예상 수명"><meta property="og:url" content="https://honglife.co.kr/health.html">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{--bg:#EEF1F5;--paper:#FFFFFF;--ink:#0F1B2D;--muted:#5A6678;--line:#DDE2EA;--accent:#12305C;--tint:#E6ECF5;--gold:#E8C27A;--red:#C2362B;--green:#1E7A4F;
+ --font:"Pretendard Variable",Pretendard,system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B1322;--paper:#121C2E;--ink:#E6ECF5;--muted:#9AA8BE;--line:#24324A;--accent:#8FB4F0;--tint:#1A2A45;--green:#6BCB98;--red:#F0776F}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--accent)}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08);color:#fff}
+.brandbar .in{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brandbar .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none;white-space:nowrap}
+.brandbar .logo i{width:26px;height:26px;border-radius:6px;background:var(--gold);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;white-space:nowrap}.brandbar .meta a{color:#DCE4F2;text-decoration:none;margin-left:10px}
+@media(max-width:520px){.brandbar .meta{display:none}}
+.hero{background:linear-gradient(180deg,#0B1F3F,#14305A);color:#fff;padding:26px 0 28px}
+.hero .in{max-width:900px;margin:0 auto;padding:0 16px}
+.hero h1{font-weight:800;font-size:clamp(26px,5vw,36px);letter-spacing:-.02em;margin:0}
+.hero h1 b{color:var(--gold)}
+.hero p{margin:8px 0 0;color:#C9D5EE}
+.wrap{max-width:900px;margin:0 auto;padding:18px 16px 60px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px;margin:0 0 14px}
+h2{font-size:19px;margin:0 0 12px;letter-spacing:-.01em}
+h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+h3{font-size:16px;margin:14px 0 6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px}
+.f label,.f .lb{display:block;font-size:14px;font-weight:600;margin-bottom:4px}
+.f small{display:block;color:var(--muted);font-size:12.6px;line-height:1.5;margin-top:3px}
+.f input,.f select{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);min-height:44px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:64px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:9px 6px;border:1.5px solid var(--line);border-radius:9px;background:var(--bg);cursor:pointer;min-height:44px;font-size:14.5px}
+.seg input:checked+span{border-color:var(--accent);background:var(--tint);color:var(--accent);font-weight:700}
+.note{font-size:13.5px;color:var(--muted);line-height:1.65}
+.warn{border:1px solid #E5C766;background:#FFF6DC;color:#3B2E00;border-radius:10px;padding:10px 14px;font-size:14px;margin:0 0 14px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .warn{background:#2C2712;color:#F2E3B0;border-color:#7A6A2A}}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 22px;border-radius:10px;border:0;background:var(--red);color:#fff;cursor:pointer;min-height:48px}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+/* 결과 */
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.score div{border-radius:14px;padding:16px;background:linear-gradient(180deg,#0B1F3F,#14305A);color:#fff}
+.score span{display:block;font-size:13.5px;color:#C9D5EE}
+.score b{display:block;font-size:40px;line-height:1.15;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.score em{font-style:normal;font-size:14px;color:#fff}
+.factor{display:grid;grid-template-columns:150px 1fr 76px;gap:10px;align-items:center;padding:7px 0;border-top:1px dashed var(--line);font-size:14.5px}
+.factor:first-of-type{border-top:0}
+.track{position:relative;height:14px;background:var(--tint);border-radius:99px}
+.track::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:var(--muted)}
+.track i{position:absolute;top:0;height:100%;border-radius:99px}
+.factor b{text-align:right;font-variant-numeric:tabular-nums}
+.plus{color:var(--red)}.minus{color:var(--green)}
+@media(max-width:560px){.factor{grid-template-columns:1fr 70px}.factor .track{grid-column:1/-1;order:3}}
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.tips div{background:var(--tint);border-radius:12px;padding:12px 14px}
+.tips b{display:block;font-size:22px;color:var(--green)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center}
+th{background:var(--tint);font-size:13px}
+td.l{text-align:left}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.photo{display:grid;grid-template-columns:160px 1fr;gap:14px;align-items:center}
+@media(max-width:520px){.photo{grid-template-columns:1fr}}
+.photo .pv{width:160px;height:160px;border-radius:14px;background:var(--tint);display:grid;place-items:center;overflow:hidden;color:var(--muted);font-size:13px;text-align:center;position:relative}
+.photo .pv img{width:100%;height:100%;object-fit:cover}
+.drop{display:inline-block;padding:10px 16px;border-radius:10px;border:1.5px dashed var(--accent);color:var(--accent);font-weight:700;cursor:pointer}
+.drop input{display:none}
+.curve{width:100%;height:auto;display:block}
+details{margin:8px 0}summary{cursor:pointer;font-weight:700}
+footer.site{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="calorie.html">칼로리</a><a href="saju.html">사주팔자</a><a href="mbti.html">MBTI 궁합</a></span></div></div>
+<div class="hero"><div class="in">
+  <h1>건강나이·<b>예상수명</b> 계산기</h1>
+  <p>체격, 생활습관, 혈압·혈당, 부모·조부모 가족력으로 내 몸의 나이와 예상 수명을 계산해요. 2024년 통계청 생명표를 기준으로 연구에서 확인된 위험도를 반영했어요.</p>
+</div></div>
+<div class="wrap">
+<div class="warn"><b>건강 참고용이에요.</b> 개인의 실제 수명을 예측하는 의료 진단이 아니라, 같은 조건의 사람들이 평균적으로 어떤지 보여 주는 통계 추정이에요. 걱정되는 수치가 있으면 건강검진과 의사 상담을 받아 보세요. 입력값과 사진은 이 기기 밖으로 전송되지 않아요.</div>
+
+<form id="form" autocomplete="off">
+<section class="card"><h2>1. 기본 정보</h2>
+  <div class="grid">
+    <div class="f"><span class="lb">성별</span><div class="seg"><label><input type="radio" name="sex" value="M" checked><span>남</span></label><label><input type="radio" name="sex" value="F"><span>여</span></label></div></div>
+    <div class="f"><label for="age">나이 (만)</label><input id="age" type="number" inputmode="numeric" min="20" max="95" value="42"></div>
+    <div class="f"><label for="ht">키 (cm)</label><input id="ht" type="number" inputmode="decimal" min="120" max="220" value="172"></div>
+    <div class="f"><label for="wt">몸무게 (kg)</label><input id="wt" type="number" inputmode="decimal" min="30" max="250" value="74"><small id="bmiTxt"></small></div>
+    <div class="f"><label for="waist">허리둘레 (cm, 선택)</label><input id="waist" type="number" inputmode="decimal" min="40" max="200" placeholder="예: 86"><small>배꼽 높이에서 숨을 내쉰 상태로 재요.</small></div>
+  </div>
+</section>
+
+<section class="card"><h2>2. 생활습관</h2>
+  <div class="grid">
+    <div class="f"><label for="smoke">흡연</label><select id="smoke">
+      <option value="never">피운 적 없음</option><option value="q10">끊은 지 10년 이상</option><option value="q5">끊은 지 1~10년</option><option value="q1">끊은 지 1년 미만</option><option value="ecig">전자담배만 피움</option><option value="s1">하루 10개비 미만</option><option value="s2">하루 10~19개비</option><option value="s3">하루 20개비(한 갑) 이상</option></select></div>
+    <div class="f"><label for="alc">음주</label><select id="alc">
+      <option value="none">거의 안 마심</option><option value="mod" selected>주 1~2회, 한 번에 소주 반 병 이하</option><option value="freq">주 3회 이상 또는 한 번에 소주 1병 이상</option><option value="heavy">거의 매일 또는 폭음이 잦음</option></select></div>
+    <div class="f"><label for="ex">운동 (숨찰 정도의 활동)</label><select id="ex">
+      <option value="0">거의 안 함</option><option value="1">주 1~2회, 합쳐서 1시간 미만</option><option value="2" selected>주 150분 정도 (권장량)</option><option value="3">주 300분 이상 또는 근력운동 병행</option></select></div>
+    <div class="f"><label for="sleep">하루 평균 수면</label><select id="sleep">
+      <option value="5">5시간 미만</option><option value="6">5~6시간</option><option value="7" selected>7~8시간</option><option value="9">9시간 이상</option></select></div>
+    <div class="f"><label for="sit">하루 앉아 있는 시간</label><select id="sit"><option value="0">8시간 미만</option><option value="1">8~10시간</option><option value="2">10시간 이상</option></select></div>
+    <div class="f"><span class="lb">채소·과일 매일 먹나요?</span><div class="seg"><label><input type="radio" name="veg" value="1" checked><span>네</span></label><label><input type="radio" name="veg" value="0"><span>아니요</span></label></div></div>
+    <div class="f"><span class="lb">가공육·패스트푸드·단 음료 주 3회 이상?</span><div class="seg"><label><input type="radio" name="junk" value="1"><span>네</span></label><label><input type="radio" name="junk" value="0" checked><span>아니요</span></label></div></div>
+  </div>
+</section>
+
+<section class="card"><h2>3. 건강 지표·마음</h2>
+  <div class="grid">
+    <div class="f"><label for="bp">혈압</label><select id="bp"><option value="ok">정상 (120/80 미만)</option><option value="pre">주의 (120~139 / 80~89)</option><option value="ctrl">고혈압, 약으로 조절 중</option><option value="high">고혈압인데 치료 안 함 (140/90 이상)</option><option value="unk">모름</option></select></div>
+    <div class="f"><label for="glu">혈당</label><select id="glu"><option value="ok">정상</option><option value="pre">당뇨 전단계 (공복 100~125)</option><option value="dm">당뇨</option><option value="unk">모름</option></select></div>
+    <div class="f"><label for="stress">스트레스·우울감</label><select id="stress"><option value="0">낮음</option><option value="1" selected>보통</option><option value="2">높음 (자주 지치고 우울)</option></select></div>
+    <div class="f"><label for="social">가족·친구와 교류</label><select id="social"><option value="0">자주 (주 1회 이상)</option><option value="1">가끔</option><option value="2">거의 없음, 외로움</option></select></div>
+    <div class="f"><span class="lb">2년마다 건강검진 받나요?</span><div class="seg"><label><input type="radio" name="chk" value="1" checked><span>네</span></label><label><input type="radio" name="chk" value="0"><span>아니요</span></label></div></div>
+  </div>
+</section>
+
+<section class="card"><h2>4. 가족력 <small>부모·조부모</small></h2>
+  <div class="grid">
+    <div class="f"><label for="parLong">부모님 중 85세 이상 사셨거나 살아 계신 분</label><select id="parLong"><option value="0">없음·아직 모름</option><option value="1">1명</option><option value="2">2명</option></select><small>부모가 아직 젊으면 '모름'으로 두세요.</small></div>
+    <div class="f"><label for="gpLong">조부모님 중 85세 이상 사신 분</label><select id="gpLong"><option value="0">없음·모름</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명</option></select></div>
+    <div class="f"><span class="lb">부모·형제 중 60세 전에 심장병·뇌졸중·암?</span><div class="seg"><label><input type="radio" name="early" value="1"><span>있음</span></label><label><input type="radio" name="early" value="0" checked><span>없음</span></label></div></div>
+    <div class="f"><span class="lb">함께 사는 가족(할아버지·할머니 등)의 흡연·간접흡연</span><div class="seg"><label><input type="radio" name="shs" value="1"><span>있음</span></label><label><input type="radio" name="shs" value="0" checked><span>없음</span></label></div><small>집이나 차 안에서 담배 연기에 자주 노출되는지예요.</small></div>
+  </div>
+</section>
+
+<section class="card"><h2>5. 얼굴 사진 <small>선택 · 재미용</small></h2>
+  <div class="photo"><div class="pv" id="pv">사진 없음</div>
+    <div><label class="drop">📷 얼굴 사진 고르기<input type="file" id="photo" accept="image/*"></label>
+      <p class="note" style="margin:10px 0 0">정면 얼굴 사진을 고르면 이 기기 안에서 AI 얼굴 인식 모델(face-api, 오픈소스)이 <b>겉보기 나이</b>를 추정해요. 사진은 서버로 전송되거나 저장되지 않아요. 조명·화장·각도에 따라 ±5~8살 정도 차이가 날 수 있어서 건강나이 계산에는 넣지 않고 따로 보여 드려요.</p>
+      <p id="faceMsg" class="note" style="margin:6px 0 0;font-weight:700"></p></div></div>
+</section>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px"><button class="btn" type="submit">건강나이 계산하기</button><button class="btn ghost" type="reset">처음부터</button></div>
+</form>
+
+<div id="result"></div>
+
+<section class="card">
+  <h2>이렇게 계산해요</h2>
+  <p><b>기준 수명</b>은 통계청 「2024년 생명표」(2025년 12월 발표)예요. 출생아 기대수명 남자 80.8세·여자 86.6세, 40세 기대여명 남 41.9년·여 47.4년, 60세 기대여명 남 23.7년·여 28.4년, 80세까지 생존 확률 남 64.4%·여 82.2%에 맞춘 연령별 사망률 곡선(곰퍼츠-메이컴 모형)을 써요.</p>
+  <p><b>건강나이</b>는 생활습관과 가족력으로 바뀐 사망 위험이 같은 성별의 몇 살 평균 위험과 같은지로 계산해요. 한국인의 사망 위험은 나이가 한 살 많아질 때마다 약 12~14%씩 늘어나서, 위험이 2배가 되면 건강나이가 약 5~6살 많아져요.</p>
+  <p><b>예상 수명</b>은 지금 나이까지 살아 있다는 조건에서, 조정된 사망률로 앞으로 평균 몇 년을 더 사는지(기대여명)를 더한 값이에요.</p>
+  <details><summary>항목별 위험도 근거 보기</summary>
+  <div class="scroll"><table><tr><th class="l">항목</th><th>반영한 위험도(배)</th><th class="l">근거</th></tr>
+  <tr><td class="l">흡연</td><td>1.1~2.8</td><td class="l">현재 흡연자는 비흡연자보다 사망 위험 2~3배, 평균 약 10년 수명 단축. 끊으면 위험이 빠르게 줄어 40세 전 금연 시 대부분 회복 (Jha 외, NEJM 2013)</td></tr>
+  <tr><td class="l">체질량지수(BMI)</td><td>1.0~1.5</td><td class="l">동아시아인 114만 명 분석: 22.6~27.5에서 위험 최저, 저체중·고도비만에서 상승 (Zheng 외, NEJM 2011)</td></tr>
+  <tr><td class="l">허리둘레</td><td>1.2</td><td class="l">남 90cm·여 85cm 이상 복부비만(대한비만학회 기준)은 BMI와 별개로 사망 위험 증가</td></tr>
+  <tr><td class="l">운동</td><td>0.85~1.35</td><td class="l">주 150분 이상 중강도 활동은 사망 위험 약 20~30% 감소 (WHO 신체활동 지침 2020)</td></tr>
+  <tr><td class="l">수면</td><td>1.0~1.3</td><td class="l">6시간 미만 약 1.12배, 9시간 이상 약 1.3배 (Cappuccio 외 메타분석, Sleep 2010)</td></tr>
+  <tr><td class="l">음주</td><td>1.0~1.6</td><td class="l">주당 100g(소주 약 1.5병) 넘는 음주부터 기대여명 감소 (Wood 외, Lancet 2018)</td></tr>
+  <tr><td class="l">혈압·혈당</td><td>1.1~1.8</td><td class="l">미치료 고혈압·당뇨는 심뇌혈관 사망의 주요 원인 (질병관리청 만성질환 통계)</td></tr>
+  <tr><td class="l">사회적 교류</td><td>1.0~1.3</td><td class="l">사회적 고립은 사망 위험 약 1.3배 (Holt-Lunstad 외 메타분석 2015)</td></tr>
+  <tr><td class="l">부모·조부모 장수</td><td>0.75~1.0</td><td class="l">부모가 장수할수록 자녀의 심혈관 사망 위험 감소 (Atkins 외, JACC 2016)</td></tr>
+  <tr><td class="l">조기 가족력·간접흡연</td><td>1.15~1.3</td><td class="l">부모·형제의 조기 심혈관질환과 가정 내 간접흡연은 위험 증가 요인</td></tr></table></div>
+  <p class="note">여러 항목의 위험도는 서로 곱해 반영하되, 겹치는 영향을 고려해 전체 0.55~5배 범위로 제한했어요. 연구마다 수치가 달라 대표값을 쓴 추정이에요.</p></details>
+</section>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="calorie.html">칼로리 계산기</a> · <a href="saju.html">사주팔자</a> · <a href="mbti.html">MBTI 궁합</a> · <a href="privacy.html">개인정보처리방침</a></div>
+  <div>출처: 통계청 2024년 생명표 · 얼굴 나이 추정: @vladmandic/face-api (MIT 라이선스, 기기 내 처리)</div>
+</footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+function rv(n){var e=document.querySelector('input[name='+n+']:checked');return e?e.value:''}
+/* 2024 생명표에 맞춘 곰퍼츠-메이컴 사망률: mu(x)=A+B*exp(Cx) */
+var GM={M:{A:0.00045481,B:3.37193e-6,C:0.1198262,e0:80.8},F:{A:0.00030512,B:2.90104e-7,C:0.1420988,e0:86.6}};
+function remain(sex,age,hr){ // 조건부 기대여명
+  var g=GM[sex],S=1,sum=0,dt=0.1;
+  for(var x=age;x<120;x+=dt){var mu=(g.A+g.B*Math.exp(g.C*(x+dt/2)))*hr;var S2=S*Math.exp(-mu*dt);sum+=(S+S2)/2*dt;S=S2;if(S<1e-6)break}
+  return sum}
+function surv(sex,age,to,hr){var g=GM[sex],S=1,dt=0.1;for(var x=age;x<to;x+=dt){S*=Math.exp(-(g.A+g.B*Math.exp(g.C*(x+dt/2)))*hr*dt)}return S}
+
+function factors(){
+  var sex=rv('sex'),age=+$('age').value,ht=+$('ht').value/100,wt=+$('wt').value,waist=+$('waist').value;
+  var bmi=wt/(ht*ht),F=[];
+  function add(name,hr,txt,fix){F.push({name:name,hr:hr,txt:txt,fix:fix})}
+  var sm={never:[1,'피운 적 없음'],q10:[1.1,'끊은 지 10년 이상'],q5:[1.3,'끊은 지 1~10년'],q1:[1.6,'최근 금연'],ecig:[1.4,'전자담배(장기 영향 연구 부족, 추정)'],s1:[1.9,'하루 10개비 미만'],s2:[2.3,'하루 10~19개비'],s3:[2.8,'하루 한 갑 이상']}[$('smoke').value];
+  add('흡연',sm[0],sm[1],sm[0]>1.3?['금연하기',($('smoke').value==='ecig'?1:1.1)]:null);
+  var bh=bmi<18.5?1.4:bmi<23?1.0:bmi<25?0.98:bmi<30?1.08:bmi<35?1.35:1.6;
+  add('체질량지수 '+bmi.toFixed(1),bh,bmi<18.5?'저체중':bmi<23?'정상':bmi<25?'과체중(아시아 기준)':bmi<30?'비만 1단계':'고도비만',bh>1.05?['적정 체중 만들기',1.0]:null);
+  if(waist>0){var wl=sex==='M'?90:85;add('허리둘레 '+waist+'cm',waist>=wl?1.2:1.0,waist>=wl?'복부비만 기준('+wl+'cm) 이상':'기준 미만',waist>=wl?['뱃살 줄이기 ('+wl+'cm 미만)',1.0]:null)}
+  var ex=[1.35,1.15,1.0,0.88][+$('ex').value];add('운동',ex,['거의 안 함','주 1~2회','주 150분','주 300분 이상'][+$('ex').value],ex>1?['주 150분 운동',1.0]:null);
+  var sl={5:[1.15,'5시간 미만'],6:[1.08,'5~6시간'],7:[1,'7~8시간'],9:[1.3,'9시간 이상']}[$('sleep').value];add('수면',sl[0],sl[1],sl[0]>1?['7~8시간 자기',1.0]:null);
+  var al={none:[1,'거의 안 마심'],mod:[1,'적당히'],freq:[1.25,'자주 또는 많이'],heavy:[1.6,'매일·폭음']}[$('alc').value];add('음주',al[0],al[1],al[0]>1?['주 1~2회 적당히',1.0]:null);
+  var si=[1,1.08,1.18][+$('sit').value];add('앉아 있는 시간',si,['8시간 미만','8~10시간','10시간 이상'][+$('sit').value],si>1?['1시간마다 일어나 걷기',1.0]:null);
+  var veg=rv('veg')==='1',junk=rv('junk')==='1';var dh=(veg?0.94:1.06)*(junk?1.1:1);add('식습관',dh,(veg?'채소·과일 매일':'채소·과일 부족')+(junk?', 가공식품 잦음':''),dh>0.95?['채소 매일 + 가공식품 줄이기',0.94]:null);
+  var bp={ok:1,pre:1.1,ctrl:1.15,high:1.5,unk:1.05}[$('bp').value];add('혈압',bp,{ok:'정상',pre:'주의 단계',ctrl:'치료로 조절 중',high:'미치료 고혈압',unk:'모름'}[$('bp').value],$('bp').value==='high'?['고혈압 치료 시작',1.15]:$('bp').value==='unk'?['혈압 재 보기',1.0]:null);
+  var gl={ok:1,pre:1.1,dm:1.8,unk:1.05}[$('glu').value];add('혈당',gl,{ok:'정상',pre:'당뇨 전단계',dm:'당뇨',unk:'모름'}[$('glu').value],$('glu').value==='pre'?['당뇨 전단계 관리',1.0]:$('glu').value==='unk'?['혈당 검사',1.0]:null);
+  var st=[1,1.05,1.2][+$('stress').value];add('스트레스',st,['낮음','보통','높음'][+$('stress').value],st>1.1?['스트레스 관리·상담',1.05]:null);
+  var so=[1,1.1,1.3][+$('social').value];add('사회적 교류',so,['자주','가끔','거의 없음'][+$('social').value],so>1.1?['주 1회 사람 만나기',1.0]:null);
+  var ck=rv('chk')==='1'?0.97:1.05;add('건강검진',ck,rv('chk')==='1'?'정기 검진':'검진 안 받음',ck>1?['2년마다 건강검진',0.97]:null);
+  var pl=[1,0.88,0.78][+$('parLong').value],gp=Math.pow(0.97,+$('gpLong').value);add('부모·조부모 장수',pl*gp,'부모 '+$('parLong').value+'명, 조부모 '+$('gpLong').value+'명이 85세 이상',null);
+  if(rv('early')==='1')add('조기 가족력',1.3,'부모·형제 60세 전 심혈관질환·암',null);
+  if(rv('shs')==='1')add('간접흡연',1.15,'가족 흡연에 노출',['집 안 금연 약속',1.0]);
+  return {sex:sex,age:age,bmi:bmi,F:F};
+}
+function calc(){
+  var d=factors();
+  if(!(d.age>=20&&d.age<=95)||!(d.bmi>10&&d.bmi<80)){$('result').innerHTML='<div class="card"><b style="color:var(--red)">나이(20~95세)와 키·몸무게를 확인해 주세요.</b></div>';return}
+  var g=GM[d.sex],hr=1;d.F.forEach(function(f){hr*=f.hr});hr=Math.max(0.55,Math.min(5,hr));
+  var hAge=d.age+Math.log(hr)/g.C;
+  var base=d.age+remain(d.sex,d.age,1),mine=d.age+remain(d.sex,d.age,hr);
+  var p80=d.age<80?surv(d.sex,d.age,80,hr):1,p90=d.age<90?surv(d.sex,d.age,90,hr):1,p100=surv(d.sex,d.age,100,hr);
+  var diff=hAge-d.age;
+  var h='<section class="card"><h2>결과</h2><div class="score">'+
+    '<div><span>나의 건강나이</span><b>'+hAge.toFixed(1)+'세</b><em>'+(Math.abs(diff)<0.5?'실제 나이와 거의 같아요':diff>0?'실제보다 '+diff.toFixed(1)+'살 많아요':'실제보다 '+(-diff).toFixed(1)+'살 젊어요')+'</em></div>'+
+    '<div><span>나의 예상 수명</span><b>'+mine.toFixed(1)+'세</b><em>같은 나이 '+(d.sex==='M'?'남성':'여성')+' 평균 '+base.toFixed(1)+'세 ('+(mine-base>=0?'+':'')+(mine-base).toFixed(1)+'년)</em></div>'+
+    '<div><span>80세까지 살 확률</span><b>'+Math.round(p80*100)+'%</b><em>90세 '+Math.round(p90*100)+'% · 100세 '+(p100*100).toFixed(1)+'%</em></div></div>';
+  h+='<p class="note" style="margin:10px 0 0">전체 사망 위험도: 같은 나이·성별 평균의 <b>'+hr.toFixed(2)+'배</b>. 2024년 생명표 기준 '+(d.sex==='M'?'남성':'여성')+' 출생아 기대수명은 '+g.e0+'세예요.</p>';
+  h+=curveSVG(d,hr)+'</section>';
+  // 항목별 영향
+  var rows=d.F.map(function(f){return {f:f,yr:Math.log(f.hr)/g.C}}).sort(function(a,b){return Math.abs(b.yr)-Math.abs(a.yr)});
+  var mx=Math.max(3,Math.max.apply(null,rows.map(function(r){return Math.abs(r.yr)})));
+  h+='<section class="card"><h2>항목별로 더하고 뺀 나이</h2>'+rows.map(function(r){var w=Math.abs(r.yr)/mx*50;return '<div class="factor"><div><b style="text-align:left;display:block">'+r.f.name+'</b><span class="note">'+r.f.txt+'</span></div><div class="track"><i style="'+(r.yr>=0?'left:50%':'right:50%')+';width:'+w.toFixed(1)+'%;background:'+(r.yr>0.05?'var(--red)':r.yr<-0.05?'var(--green)':'var(--muted)')+'"></i></div><b class="'+(r.yr>0.05?'plus':r.yr<-0.05?'minus':'')+'">'+(r.yr>=0?'+':'')+r.yr.toFixed(1)+'살</b></div>'}).join('')+'<p class="note" style="margin:8px 0 0">빨간색은 건강나이를 올리는 항목, 초록색은 낮추는 항목이에요.</p></section>';
+  // 바꾸면 늘어나는 수명
+  var gains=d.F.filter(function(f){return f.fix}).map(function(f){var nh=hr/f.hr*f.fix[1];nh=Math.max(0.55,Math.min(5,nh));return {name:f.fix[0],yr:remain(d.sex,d.age,nh)-remain(d.sex,d.age,hr),age:Math.log(f.hr/f.fix[1])/g.C}}).filter(function(x){return x.yr>0.05}).sort(function(a,b){return b.yr-a.yr});
+  if(gains.length){
+    var allHr=hr;d.F.forEach(function(f){if(f.fix)allHr=allHr/f.hr*f.fix[1]});allHr=Math.max(0.55,Math.min(5,allHr));
+    h+='<section class="card"><h2>이걸 바꾸면 이만큼 젊어져요</h2><div class="tips">'+gains.slice(0,6).map(function(x){return '<div><span class="note">'+x.name+'</span><b>수명 +'+x.yr.toFixed(1)+'년</b><span class="note">건강나이 −'+x.age.toFixed(1)+'살</span></div>'}).join('')+'</div>'+
+      '<p style="margin:12px 0 0">모두 실천하면 예상 수명이 <b style="color:var(--green)">'+(d.age+remain(d.sex,d.age,allHr)).toFixed(1)+'세</b>, 건강나이는 <b style="color:var(--green)">'+(d.age+Math.log(allHr)/g.C).toFixed(1)+'세</b>가 돼요.</p></section>';
+  } else h+='<section class="card"><h2>지금처럼만 하세요 👍</h2><p style="margin:0">바꿀 만한 위험 습관이 거의 없어요. 정기 검진과 지금의 생활습관을 유지하는 것이 가장 좋아요.</p></section>';
+  if(faceAge!=null)h+='<section class="card"><h2>얼굴 나이 (재미용)</h2><p style="margin:0">사진 속 얼굴의 겉보기 나이는 약 <b>'+Math.round(faceAge)+'세</b>로 추정돼요. 실제 나이('+d.age+'세)보다 '+(faceAge<d.age?Math.round(d.age-faceAge)+'살 어려 보여요':faceAge>d.age?Math.round(faceAge-d.age)+'살 들어 보여요':'딱 제 나이로 보여요')+'. 피부 노화에는 자외선·흡연·수면이 크게 작용해요.</p><p class="note" style="margin:6px 0 0">AI 추정이라 ±5~8살 오차가 있고 건강나이 계산에는 반영하지 않았어요.</p></section>';
+  $('result').innerHTML=h;$('result').scrollIntoView({behavior:'smooth',block:'start'});
+  try{gtag('event','health_age')}catch(e){}
+}
+function curveSVG(d,hr){
+  var W=640,H=220,pl=40,pr=12,pt=14,pb=28,x0=d.age,x1=105;
+  function X(a){return pl+(a-x0)/(x1-x0)*(W-pl-pr)}function Y(p){return pt+(1-p)*(H-pt-pb)}
+  function path(h){var s='M'+X(x0)+','+Y(1);for(var a=x0+1;a<=x1;a++)s+=' L'+X(a).toFixed(1)+','+Y(surv(d.sex,d.age,a,h)).toFixed(1);return s}
+  var grid='';[0,.25,.5,.75,1].forEach(function(p){grid+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Y(p)+'" y2="'+Y(p)+'" stroke="var(--line)"/><text x="'+(pl-6)+'" y="'+(Y(p)+4)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+p*100+'%</text>'});
+  for(var a=Math.ceil(x0/10)*10;a<=x1;a+=10)grid+='<text x="'+X(a)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="var(--muted)">'+a+'세</text>';
+  return '<h3>앞으로 살아 있을 확률</h3><svg class="curve" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="나이별 생존 확률 그래프">'+grid+'<path d="'+path(1)+'" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 4"/><path d="'+path(hr)+'" fill="none" stroke="var(--red)" stroke-width="3"/></svg><p class="note" style="margin:0"><span style="color:var(--red);font-weight:700">━ 나</span> &nbsp; <span style="font-weight:700">┅ 같은 나이 평균</span></p>';
+}
+/* 체질량지수 표시 */
+function bmiShow(){var b=+$('wt').value/Math.pow(+$('ht').value/100,2);$('bmiTxt').textContent=isFinite(b)&&b>0?'BMI '+b.toFixed(1)+(b<18.5?' · 저체중':b<23?' · 정상':b<25?' · 과체중':' · 비만'):''}
+$('wt').addEventListener('input',bmiShow);$('ht').addEventListener('input',bmiShow);bmiShow();
+$('form').addEventListener('submit',function(e){e.preventDefault();calc()});
+$('form').addEventListener('reset',function(){setTimeout(function(){$('result').innerHTML='';faceAge=null;$('pv').textContent='사진 없음';$('faceMsg').textContent='';bmiShow()},0)});
+/* 얼굴 나이 (기기 내 처리) */
+var faceAge=null,faceReady=null;
+var FA='https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/';
+function loadFace(){if(faceReady)return faceReady;faceReady=new Promise(function(res,rej){var s=document.createElement('script');s.src=FA+'dist/face-api.js';s.onload=function(){Promise.all([faceapi.nets.tinyFaceDetector.loadFromUri(FA+'model/'),faceapi.nets.ageGenderNet.loadFromUri(FA+'model/')]).then(res,rej)};s.onerror=rej;document.head.appendChild(s)});return faceReady}
+$('photo').addEventListener('change',function(){
+  var f=this.files&&this.files[0];if(!f)return;
+  var url=URL.createObjectURL(f);var img=new Image();img.onload=function(){
+    $('pv').innerHTML='';$('pv').appendChild(img);$('faceMsg').textContent='얼굴을 분석하는 중… (처음 한 번은 모델을 내려받느라 몇 초 걸려요)';
+    loadFace().then(function(){return faceapi.detectSingleFace(img,new faceapi.TinyFaceDetectorOptions({inputSize:416,scoreThreshold:0.4})).withAgeAndGender()}).then(function(r){
+      if(!r){faceAge=null;$('faceMsg').textContent='얼굴을 찾지 못했어요. 정면에서 밝게 찍은 사진으로 다시 골라 주세요.';return}
+      faceAge=r.age;$('faceMsg').textContent='겉보기 나이 약 '+Math.round(r.age)+'세로 추정했어요. 아래 계산하기를 누르면 결과에 함께 보여 드려요.';
+      if($('result').innerHTML)calc();
+    }).catch(function(){$('faceMsg').textContent='얼굴 분석 모델을 불러오지 못했어요. 인터넷 연결을 확인해 주세요.'});
+  };img.src=url;img.alt='선택한 얼굴 사진 미리보기';
+});
+})();
+</script>
+</body>
+</html>
