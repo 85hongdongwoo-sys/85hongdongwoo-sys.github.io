@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://honglife.co.kr/sitemap.xml
+# 2026-11-01T09:11:19Z
