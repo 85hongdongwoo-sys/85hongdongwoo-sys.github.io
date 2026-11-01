@@ -251,13 +251,17 @@ nav.tabs{background:#0F2A52;border-bottom-color:rgba(255,255,255,.14)}
 .receipt{border-top-color:#E8C27A}
 .calc-index{margin-top:28px;background:var(--paper);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:20px 22px}.calc-index h2{font-size:17px;margin:0 0 12px;color:var(--ink)}.ci-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.ci-grid b{font-size:13.5px;color:var(--accent)}.ci-grid ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ci-grid a{color:#2C3A4F;text-decoration:none;font-size:14px}.ci-grid a:hover{color:var(--accent);text-decoration:underline}@media (max-width:900px){.ci-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.ci-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.receipt{position:static}.form,.receipt,.help{padding:18px}}
+.subtabs a.sublink{flex:0 0 auto;font:500 13.5px var(--f-body);text-decoration:none;border-radius:4px;padding:6px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:#DCE4F2}
+.subtabs a.sublink:hover{border-color:#E8C27A;color:#fff}
+.subtabs a.sublink::after{content:" ›";color:#E8C27A}
+.groups{overflow-x:auto;scrollbar-width:none}.groups::-webkit-scrollbar{display:none}
 </style>
 <div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 계산기</a><span class="meta">2026년 세법 기준 · 무료</span></div></div>
 <div class="wrap">
 <header class="top">
   <div>
     <h1>홍라이프 <b>계산기</b></h1>
-    <p class="sub">주식·ETF 세금부터 연금·은퇴, 청약·전세·대출·경매까지 투자할 때 필요한 계산기 28가지, 탭마다 사용법과 자주 묻는 질문까지</p>
+    <p class="sub">주식·ETF 세금, 연금·청약·대출부터 공무원·자동차·건강, 여행경비·시험달력까지 계산기와 도구 40가지 이상</p>
   </div>
   <span class="stamp" id="cfg-stamp">2026년 세법 기준 · 10/25 확인</span>
 </header>
@@ -267,6 +271,11 @@ nav.tabs{background:#0F2A52;border-bottom-color:rgba(255,255,255,.14)}
     <button role="tab" data-group="stock" aria-selected="false">주식·ETF</button>
     <button role="tab" data-group="save" aria-selected="false">저축·연금</button>
     <button role="tab" data-group="estate" aria-selected="false">부동산·대출</button>
+    <button role="tab" data-group="gw" data-links="1" aria-selected="false">공무원</button>
+    <button role="tab" data-group="car" data-links="1" aria-selected="false">자동차</button>
+    <button role="tab" data-group="health" data-links="1" aria-selected="false">건강</button>
+    <button role="tab" data-group="tools" data-links="1" aria-selected="false">생활·도구</button>
+    <button role="tab" data-group="global" data-links="1" aria-selected="false">Global</button>
   </div>
   <div class="subtabs" role="tablist" aria-label="계산기">
     <button role="tab" data-tab="sell" data-group="stock" aria-selected="false">매도 세금</button>
@@ -297,6 +306,36 @@ nav.tabs{background:#0F2A52;border-bottom-color:rgba(255,255,255,.14)}
     <button role="tab" data-tab="yield" data-group="estate" aria-selected="false">임대 수익률</button>
     <button role="tab" data-tab="auc" data-group="estate" aria-selected="false">부동산 경매</button>
     <button role="tab" data-tab="dist" data-group="estate" aria-selected="false">경매 배당표</button>
+
+    <a class="sublink" data-group="gw" href="gw-pay.html" hidden>2027 공무원 실수령액</a>
+    <a class="sublink" data-group="gw" href="gw-overtime.html" hidden>초과근무수당</a>
+    <a class="sublink" data-group="gw" href="gw-pension.html" hidden>공무원연금</a>
+    <a class="sublink" data-group="car" href="car-cost.html" hidden>자동차 유지비</a>
+    <a class="sublink" data-group="car" href="car-commute.html" hidden>출퇴근 비용</a>
+    <a class="sublink" data-group="car" href="car-tax.html" hidden>자동차세</a>
+    <a class="sublink" data-group="car" href="car-buy.html" hidden>취등록세</a>
+    <a class="sublink" data-group="car" href="car-parts.html" hidden>소모품 교체비</a>
+    <a class="sublink" data-group="car" href="car-ev.html" hidden>전기차 vs 휘발유</a>
+    <a class="sublink" data-group="health" href="calorie.html" hidden>칼로리 계산기</a>
+    <a class="sublink" data-group="health" href="kcal/" hidden>음식 칼로리표 482가지</a>
+    <a class="sublink" data-group="tools" href="travel.html" hidden>여행경비 계산기</a>
+    <a class="sublink" data-group="tools" href="exam.html" hidden>자격증 시험달력</a>
+    <a class="sublink" data-group="tools" href="clock.html" hidden>초시계·서버시간</a>
+    <a class="sublink" data-group="tools" href="budget/" hidden>가계부</a>
+    <a class="sublink" data-group="tools" href="shorts/" hidden>쇼츠 메이커 (영문)</a>
+    <a class="sublink" data-group="global" href="us/" hidden>🇺🇸 US</a>
+    <a class="sublink" data-group="global" href="uk/" hidden>🇬🇧 UK</a>
+    <a class="sublink" data-group="global" href="ca/" hidden>🇨🇦 Canada</a>
+    <a class="sublink" data-group="global" href="au/" hidden>🇦🇺 Australia</a>
+    <a class="sublink" data-group="global" href="jp/" hidden>🇯🇵 日本</a>
+    <a class="sublink" data-group="global" href="fr/" hidden>🇫🇷 France</a>
+    <a class="sublink" data-group="global" href="es/" hidden>🇪🇸 España</a>
+    <a class="sublink" data-group="global" href="mx/" hidden>🇲🇽 México</a>
+    <a class="sublink" data-group="global" href="br/" hidden>🇧🇷 Brasil</a>
+    <a class="sublink" data-group="global" href="in/" hidden>🇮🇳 India</a>
+    <a class="sublink" data-group="global" href="de/" hidden>🇩🇪 Deutschland</a>
+    <a class="sublink" data-group="global" href="id/" hidden>🇮🇩 Indonesia</a>
+    <a class="sublink" data-group="global" href="en/" hidden>English</a>
   </div>
 </nav>
 
@@ -2353,6 +2392,7 @@ function showTab(k){
   lastInGroup[g]=k;
   document.querySelectorAll('.groups button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.group===g)));
   document.querySelectorAll('.subtabs button').forEach(b=>{ b.hidden=b.dataset.group!==g; b.setAttribute('aria-selected',String(b.dataset.tab===k)); });
+  document.querySelectorAll('.subtabs a.sublink').forEach(a=>a.hidden=true);
   Object.keys(calcs).forEach(x=>$('p-'+x).hidden = x!==k);
   document.querySelectorAll('footer [data-for]').forEach(d=>d.hidden = !d.dataset.for.split(' ').includes(k));
   renderTabFoot(k); renderHelp(k);
@@ -2360,7 +2400,9 @@ function showTab(k){
 }
 document.querySelectorAll('.subtabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 document.querySelectorAll('.groups button').forEach(b=>b.addEventListener('click',()=>{
-  const g=b.dataset.group; showTab(lastInGroup[g] || document.querySelector(`.subtabs button[data-group="${g}"]`).dataset.tab);
+  const g=b.dataset.group;
+  if(b.dataset.links){document.querySelectorAll('.groups button').forEach(x=>x.setAttribute('aria-selected',String(x===b)));document.querySelectorAll('.subtabs button').forEach(x=>x.hidden=true);document.querySelectorAll('.subtabs a.sublink').forEach(a=>a.hidden=a.dataset.group!==g);return}
+  showTab(lastInGroup[g] || document.querySelector(`.subtabs button[data-group="${g}"]`).dataset.tab);
 }));
 buildDistRows(); applyConfig();
 document.querySelectorAll('.panel').forEach(sec=>{
