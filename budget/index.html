@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>무료 가계부 – 웹 가계부 앱, 설치 없이 바로 쓰기 | 홍라이프</title>
+<meta name="description" content="설치·가입 없이 바로 쓰는 무료 웹 가계부. 수입·지출 기록, 카테고리별 분석, 월 예산 경고, 6개월 추이, 엑셀(CSV) 내보내기. 데이터는 내 기기에만 저장됩니다.">
+<link rel="canonical" href="https://honglife.co.kr/budget/"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/budget/"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/budget/en.html"><link rel="alternate" hreflang="id" href="https://honglife.co.kr/budget/id.html"><link rel="alternate" hreflang="es" href="https://honglife.co.kr/budget/es.html"><link rel="alternate" hreflang="de" href="https://honglife.co.kr/budget/de.html"><link rel="alternate" hreflang="ja" href="https://honglife.co.kr/budget/ja.html"><link rel="alternate" hreflang="pt" href="https://honglife.co.kr/budget/pt.html"><link rel="alternate" hreflang="fr" href="https://honglife.co.kr/budget/fr.html"><link rel="alternate" hreflang="vi" href="https://honglife.co.kr/budget/vi.html"><link rel="alternate" hreflang="th" href="https://honglife.co.kr/budget/th.html"><link rel="alternate" hreflang="hi" href="https://honglife.co.kr/budget/hi.html"><link rel="alternate" hreflang="x-default" href="https://honglife.co.kr/budget/en.html">
+<meta property="og:title" content="무료 가계부 – 웹 가계부 앱, 설치 없이 바로 쓰기 | 홍라이프"><meta property="og:description" content="설치·가입 없이 바로 쓰는 무료 웹 가계부. 수입·지출 기록, 카테고리별 분석, 월 예산 경고, 6개월 추이, 엑셀(CSV) 내보내기. 데이터는 내 기기에만 저장됩니다."><meta property="og:url" content="https://honglife.co.kr/budget/">
+<meta name="theme-color" content="#1E3A8A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563EB'/%3E%3Cpath d='M8 22V12m6 10V8m6 14v-7m6 7V11' stroke='%23fff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="budget.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "무료 가계부", "url": "https://honglife.co.kr/budget/", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0"}}</script>
+</head>
+<body>
+<header class="top"><div class="in"><div class="row"><a class="logo" href="/">Honglife</a><select id="langSel" aria-label="Language" onchange="location.href=this.value"><option value="./" selected>한국어</option><option value="en.html">English</option><option value="id.html">Indonesia</option><option value="es.html">Español</option><option value="de.html">Deutsch</option><option value="ja.html">日本語</option><option value="pt.html">Português</option><option value="fr.html">Français</option><option value="vi.html">Tiếng Việt</option><option value="th.html">ไทย</option><option value="hi.html">हिन्दी</option></select></div><h1>무료 가계부</h1><p>가입 없이 바로 쓰는 가계부. 기록은 이 기기에만 저장돼요.</p></div></header>
+<main class="wrap">
+<section class="card">
+  <div class="mnav"><button id="prev" aria-label="prev">‹</button><h2 id="month"></h2><button id="next" aria-label="next">›</button></div>
+  <div class="sum"><div><span>수입</span><b class="pos" id="sumIn">0</b></div><div><span>지출</span><b class="neg" id="sumOut">0</b></div><div><span>잔액</span><b id="sumBal">0</b></div></div>
+  <div class="bud" id="budgetBar" hidden><div class="b"><i id="budgetFill"></i></div><p id="budgetTxt"></p></div>
+</section>
+<section class="card"><form id="form" autocomplete="off">
+  <select id="type" aria-label="type"><option value="out">지출</option><option value="in">수입</option></select>
+  <input id="date" type="date" aria-label="date">
+  <select id="cat" aria-label="category"></select>
+  <input id="amt" inputmode="decimal" placeholder="금액" aria-label="금액">
+  <input id="memo" placeholder="메모(선택)" aria-label="memo">
+  <button class="add" type="submit">추가</button>
+</form></section>
+<div class="grid2">
+<section class="card"><h3>카테고리별 지출</h3><div id="cats"></div></section>
+<section class="card"><h3>최근 6개월</h3><div class="trend" id="trend"></div></section>
+</div>
+<section class="card"><h3>내역</h3><ul id="list"></ul></section>
+<section class="card"><div class="tools">
+  <label class="f">월 예산<input id="budget" type="number" min="0" inputmode="decimal"></label>
+  <label class="f">통화<select id="currency"><option>KRW</option><option>USD</option><option>EUR</option><option>JPY</option><option>GBP</option><option>IDR</option><option>INR</option><option>BRL</option><option>MXN</option><option>VND</option><option>THB</option><option>PHP</option><option>AUD</option><option>CAD</option></select></label>
+  <button class="btn" id="csv">CSV 내보내기</button><label class="btn">CSV 가져오기<input type="file" id="csvIn" accept=".csv" hidden></label><button class="btn" id="reset">전체 삭제</button>
+</div></section>
+<article class="card help"><h2>가계부 쓰는 법</h2><ul><li>금액과 카테고리를 고르고 <b>추가</b>를 누르면 끝.</li><li>월 예산을 넣으면 남은 금액과 하루 사용 가능액을 알려줘요.</li><li>기록은 이 브라우저에만 저장됩니다. 기기를 바꾸기 전엔 CSV로 내보내 두세요.</li></ul><h3>돈 모으는 팁</h3><p>지출을 고정비(주거·통신·보험)와 변동비(식비·쇼핑)로 나눠 보고, 변동비부터 예산을 정하면 효과가 큽니다. 월급의 20%를 먼저 저축하는 “선저축 후지출”도 추천해요.</p></article>
+</main>
+<div id="toast" hidden></div>
+<footer><a href="/">Honglife</a> · <a href="/en/">Calculators</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></footer>
+<script>window.L={"locale": "ko-KR", "cur": "KRW", "catsOut": ["식비", "카페·간식", "교통", "주거·관리비", "통신", "쇼핑", "의료·건강", "교육", "문화·여가", "경조사·선물", "기타"], "catsIn": ["월급", "부수입", "용돈", "이자·배당", "기타"], "reset": "전체 삭제", "confirm": "한 번 더 누르면 삭제", "noData": "아직 기록이 없어요", "over": "예산 초과 {x}", "left": "남은 예산 {x}", "perDay": "하루 {x}", "imported": "{n}건 가져옴", "del": "삭제"};</script>
+<script src="budget.js"></script>
+</body>
+</html>

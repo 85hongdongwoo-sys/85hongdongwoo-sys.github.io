@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>無料家計簿 – 登録不要のWeb家計簿アプリ | Honglife</title>
+<meta name="description" content="登録不要ですぐ使える無料Web家計簿。収入・支出の記録、カテゴリ別分析、月予算アラート、6か月推移、CSV出力。データはこの端末にだけ保存されます。">
+<link rel="canonical" href="https://honglife.co.kr/budget/ja.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/budget/"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/budget/en.html"><link rel="alternate" hreflang="id" href="https://honglife.co.kr/budget/id.html"><link rel="alternate" hreflang="es" href="https://honglife.co.kr/budget/es.html"><link rel="alternate" hreflang="de" href="https://honglife.co.kr/budget/de.html"><link rel="alternate" hreflang="ja" href="https://honglife.co.kr/budget/ja.html"><link rel="alternate" hreflang="pt" href="https://honglife.co.kr/budget/pt.html"><link rel="alternate" hreflang="fr" href="https://honglife.co.kr/budget/fr.html"><link rel="alternate" hreflang="vi" href="https://honglife.co.kr/budget/vi.html"><link rel="alternate" hreflang="th" href="https://honglife.co.kr/budget/th.html"><link rel="alternate" hreflang="hi" href="https://honglife.co.kr/budget/hi.html"><link rel="alternate" hreflang="x-default" href="https://honglife.co.kr/budget/en.html">
+<meta property="og:title" content="無料家計簿 – 登録不要のWeb家計簿アプリ | Honglife"><meta property="og:description" content="登録不要ですぐ使える無料Web家計簿。収入・支出の記録、カテゴリ別分析、月予算アラート、6か月推移、CSV出力。データはこの端末にだけ保存されます。"><meta property="og:url" content="https://honglife.co.kr/budget/ja.html">
+<meta name="theme-color" content="#1E3A8A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563EB'/%3E%3Cpath d='M8 22V12m6 10V8m6 14v-7m6 7V11' stroke='%23fff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="budget.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "無料Web家計簿", "url": "https://honglife.co.kr/budget/ja.html", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0"}}</script>
+</head>
+<body>
+<header class="top"><div class="in"><div class="row"><a class="logo" href="/">Honglife</a><select id="langSel" aria-label="Language" onchange="location.href=this.value"><option value="./">한국어</option><option value="en.html">English</option><option value="id.html">Indonesia</option><option value="es.html">Español</option><option value="de.html">Deutsch</option><option value="ja.html" selected>日本語</option><option value="pt.html">Português</option><option value="fr.html">Français</option><option value="vi.html">Tiếng Việt</option><option value="th.html">ไทย</option><option value="hi.html">हिन्दी</option></select></div><h1>無料Web家計簿</h1><p>登録不要、すぐに使える家計簿。データはこの端末だけに保存されます。</p></div></header>
+<main class="wrap">
+<section class="card">
+  <div class="mnav"><button id="prev" aria-label="prev">‹</button><h2 id="month"></h2><button id="next" aria-label="next">›</button></div>
+  <div class="sum"><div><span>収入</span><b class="pos" id="sumIn">0</b></div><div><span>支出</span><b class="neg" id="sumOut">0</b></div><div><span>残高</span><b id="sumBal">0</b></div></div>
+  <div class="bud" id="budgetBar" hidden><div class="b"><i id="budgetFill"></i></div><p id="budgetTxt"></p></div>
+</section>
+<section class="card"><form id="form" autocomplete="off">
+  <select id="type" aria-label="type"><option value="out">支出</option><option value="in">収入</option></select>
+  <input id="date" type="date" aria-label="date">
+  <select id="cat" aria-label="category"></select>
+  <input id="amt" inputmode="decimal" placeholder="金額" aria-label="金額">
+  <input id="memo" placeholder="メモ（任意）" aria-label="memo">
+  <button class="add" type="submit">追加</button>
+</form></section>
+<div class="grid2">
+<section class="card"><h3>カテゴリ別支出</h3><div id="cats"></div></section>
+<section class="card"><h3>直近6か月</h3><div class="trend" id="trend"></div></section>
+</div>
+<section class="card"><h3>履歴</h3><ul id="list"></ul></section>
+<section class="card"><div class="tools">
+  <label class="f">月の予算<input id="budget" type="number" min="0" inputmode="decimal"></label>
+  <label class="f">通貨<select id="currency"><option>KRW</option><option>USD</option><option>EUR</option><option>JPY</option><option>GBP</option><option>IDR</option><option>INR</option><option>BRL</option><option>MXN</option><option>VND</option><option>THB</option><option>PHP</option><option>AUD</option><option>CAD</option></select></label>
+  <button class="btn" id="csv">CSV出力</button><label class="btn">CSV読込<input type="file" id="csvIn" accept=".csv" hidden></label><button class="btn" id="reset">全削除</button>
+</div></section>
+<article class="card help"><h2>使い方</h2><ul><li>金額とカテゴリを選んで<b>追加</b>を押すだけ。</li><li>月の予算を入れると、残りと1日あたり使える金額が分かります。</li><li>データはこのブラウザにだけ保存されます。機種変更の前にCSVで書き出してください。</li></ul><h3>節約のコツ</h3><p>固定費（家賃・通信・保険）を先に見直すと効果が長く続きます。</p></article>
+</main>
+<div id="toast" hidden></div>
+<footer><a href="/">Honglife</a> · <a href="/en/">Calculators</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></footer>
+<script>window.L={"locale": "ja-JP", "cur": "JPY", "catsOut": ["食費", "カフェ・おやつ", "交通費", "住居・光熱費", "通信費", "買い物", "医療", "教育", "趣味・娯楽", "交際費", "その他"], "catsIn": ["給与", "副収入", "おこづかい", "利息・配当", "その他"], "reset": "全削除", "confirm": "もう一度押すと削除", "noData": "まだ記録がありません", "over": "予算オーバー {x}", "left": "残り {x}", "perDay": "1日 {x}", "imported": "{n}件読み込みました", "del": "削除"};</script>
+<script src="budget.js"></script>
+</body>
+</html>

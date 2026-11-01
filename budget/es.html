@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Control de Gastos Gratis – App de Presupuesto Personal Online | Honglife</title>
+<meta name="description" content="Lleva tu presupuesto gratis y sin registro: ingresos y gastos, gastos por categoría, presupuesto mensual, tendencia de 6 meses y exportación CSV. Los datos se quedan en tu dispositivo.">
+<link rel="canonical" href="https://honglife.co.kr/budget/es.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/budget/"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/budget/en.html"><link rel="alternate" hreflang="id" href="https://honglife.co.kr/budget/id.html"><link rel="alternate" hreflang="es" href="https://honglife.co.kr/budget/es.html"><link rel="alternate" hreflang="de" href="https://honglife.co.kr/budget/de.html"><link rel="alternate" hreflang="ja" href="https://honglife.co.kr/budget/ja.html"><link rel="alternate" hreflang="pt" href="https://honglife.co.kr/budget/pt.html"><link rel="alternate" hreflang="fr" href="https://honglife.co.kr/budget/fr.html"><link rel="alternate" hreflang="vi" href="https://honglife.co.kr/budget/vi.html"><link rel="alternate" hreflang="th" href="https://honglife.co.kr/budget/th.html"><link rel="alternate" hreflang="hi" href="https://honglife.co.kr/budget/hi.html"><link rel="alternate" hreflang="x-default" href="https://honglife.co.kr/budget/en.html">
+<meta property="og:title" content="Control de Gastos Gratis – App de Presupuesto Personal Online | Honglife"><meta property="og:description" content="Lleva tu presupuesto gratis y sin registro: ingresos y gastos, gastos por categoría, presupuesto mensual, tendencia de 6 meses y exportación CSV. Los datos se quedan en tu dispositivo."><meta property="og:url" content="https://honglife.co.kr/budget/es.html">
+<meta name="theme-color" content="#1E3A8A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563EB'/%3E%3Cpath d='M8 22V12m6 10V8m6 14v-7m6 7V11' stroke='%23fff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="budget.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Control de Gastos Gratis", "url": "https://honglife.co.kr/budget/es.html", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0"}}</script>
+</head>
+<body>
+<header class="top"><div class="in"><div class="row"><a class="logo" href="/">Honglife</a><select id="langSel" aria-label="Language" onchange="location.href=this.value"><option value="./">한국어</option><option value="en.html">English</option><option value="id.html">Indonesia</option><option value="es.html" selected>Español</option><option value="de.html">Deutsch</option><option value="ja.html">日本語</option><option value="pt.html">Português</option><option value="fr.html">Français</option><option value="vi.html">Tiếng Việt</option><option value="th.html">ไทย</option><option value="hi.html">हिन्दी</option></select></div><h1>Control de Gastos Gratis</h1><p>Registra ingresos y gastos en segundos. Sin registro: tus datos no salen de este dispositivo.</p></div></header>
+<main class="wrap">
+<section class="card">
+  <div class="mnav"><button id="prev" aria-label="prev">‹</button><h2 id="month"></h2><button id="next" aria-label="next">›</button></div>
+  <div class="sum"><div><span>Ingresos</span><b class="pos" id="sumIn">0</b></div><div><span>Gastos</span><b class="neg" id="sumOut">0</b></div><div><span>Saldo</span><b id="sumBal">0</b></div></div>
+  <div class="bud" id="budgetBar" hidden><div class="b"><i id="budgetFill"></i></div><p id="budgetTxt"></p></div>
+</section>
+<section class="card"><form id="form" autocomplete="off">
+  <select id="type" aria-label="type"><option value="out">Gasto</option><option value="in">Ingreso</option></select>
+  <input id="date" type="date" aria-label="date">
+  <select id="cat" aria-label="category"></select>
+  <input id="amt" inputmode="decimal" placeholder="Importe" aria-label="Importe">
+  <input id="memo" placeholder="Nota (opcional)" aria-label="memo">
+  <button class="add" type="submit">Añadir</button>
+</form></section>
+<div class="grid2">
+<section class="card"><h3>Gastos por categoría</h3><div id="cats"></div></section>
+<section class="card"><h3>Últimos 6 meses</h3><div class="trend" id="trend"></div></section>
+</div>
+<section class="card"><h3>Movimientos</h3><ul id="list"></ul></section>
+<section class="card"><div class="tools">
+  <label class="f">Presupuesto mensual<input id="budget" type="number" min="0" inputmode="decimal"></label>
+  <label class="f">Moneda<select id="currency"><option>KRW</option><option>USD</option><option>EUR</option><option>JPY</option><option>GBP</option><option>IDR</option><option>INR</option><option>BRL</option><option>MXN</option><option>VND</option><option>THB</option><option>PHP</option><option>AUD</option><option>CAD</option></select></label>
+  <button class="btn" id="csv">Exportar CSV</button><label class="btn">Importar CSV<input type="file" id="csvIn" accept=".csv" hidden></label><button class="btn" id="reset">Borrar todo</button>
+</div></section>
+<article class="card help"><h2>Cómo usarlo</h2><ul><li>Escribe el importe, elige categoría y pulsa <b>Añadir</b>.</li><li>Fija un presupuesto mensual para ver lo que te queda y cuánto puedes gastar al día.</li><li>Los datos se guardan solo en este navegador: exporta un CSV antes de cambiar de móvil.</li></ul><h3>Regla 50/30/20</h3><p>50% para necesidades, 30% para caprichos y 20% para ahorro.</p></article>
+</main>
+<div id="toast" hidden></div>
+<footer><a href="/">Honglife</a> · <a href="/en/">Calculators</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></footer>
+<script>window.L={"locale": "es-ES", "cur": "EUR", "catsOut": ["Supermercado y comida", "Café y antojos", "Transporte", "Vivienda y suministros", "Móvil e internet", "Compras", "Salud", "Educación", "Ocio", "Regalos", "Otros"], "catsIn": ["Sueldo", "Ingresos extra", "Asignación", "Intereses y dividendos", "Otros"], "reset": "Borrar todo", "confirm": "Pulsa otra vez para borrar", "noData": "Aún no hay movimientos", "over": "Te pasaste {x}", "left": "Quedan {x}", "perDay": "{x} al día", "imported": "{n} movimientos importados", "del": "Borrar"};</script>
+<script src="budget.js"></script>
+</body>
+</html>
