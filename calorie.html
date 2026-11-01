@@ -48,7 +48,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"칼로리 계산기의 음식 자료는 어디서 가져왔나요?","acceptedAnswer":{"@type":"Answer","text":"식품의약품안전처 식품영양성분 데이터베이스의 음식 자료(공공데이터포털 전국통합식품영양성분정보표준데이터)를 썼어요. 1인분은 식약처가 정한 1회 제공량이에요."}},{"@type":"Question","name":"하루 필요 열량은 어떻게 계산해요?","acceptedAnswer":{"@type":"Answer","text":"성별·나이·키·몸무게로 기초대사량(Mifflin-St Jeor 공식)을 구하고, 활동량 계수(1.2~1.725)를 곱해 지금 체중을 유지하는 데 필요한 열량을 추정해요."}},{"@type":"Question","name":"운동 소모 시간은 어떻게 계산해요?","acceptedAnswer":{"@type":"Answer","text":"운동 강도(MET) × 3.5 × 몸무게(kg) ÷ 200으로 1분에 쓰는 열량을 구하고, 먹은 칼로리를 그 값으로 나눠요."}}]}</script>
 </head>
 <body>
-<div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 계산기</a><span class="langs"><a href="calorie.html" aria-current="page">칼로리 계산기</a><a href="kcal/">음식 칼로리표</a></span></div></div>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 계산기</a><span class="langs"><a href="calorie.html" aria-current="page">칼로리 계산기</a><a href="saju.html">사주팔자</a></span></div></div>
 <div class="wrap">
 <header class="top">
   <h1>음식 <b>칼로리 계산기</b></h1>
@@ -93,9 +93,8 @@
   <div class="card" id="adCoupang"></div>
   <div class="card"><span class="tag">함께 보면 좋은 페이지</span>
     <ul>
-      <li><a href="kcal/">음식 칼로리표 482가지</a></li>
-      <li><a href="kcal/f103168000000.html">짜장면 칼로리</a></li>
-      <li><a href="kcal/f108382000000.html">삼겹살 칼로리</a></li>
+      <li><a href="saju.html">사주팔자 풀이</a></li>
+      <li><a href="mbti.html">MBTI 궁합</a></li>
       <li><a href="en/bmi-calculator.html">BMI calculator (English)</a></li>
     </ul>
   </div>
@@ -115,14 +114,14 @@
 </section>
 
 <footer>
-  <nav><a href="./">전체 계산기</a> · <a href="kcal/">음식 칼로리표</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></nav>
+  <nav><a href="./">전체 계산기</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></nav>
   <div><b>자료 출처</b> · 식품의약품안전처 식품영양성분 데이터베이스(음식) — 공공데이터포털 「전국통합식품영양성분정보표준데이터」(2026-09-29 기준).</div>
   <div><b>기준치</b> · 「식품 등의 표시기준」 1일 영양성분 기준치(열량 2,000kcal, 탄수화물 324g, 단백질 55g, 지방 54g, 당류 100g, 나트륨 2,000mg). 운동 MET 값은 신체활동 열량 소모 자료(Compendium of Physical Activities) 기준이에요.</div>
   <div>계산 결과는 참고용 추정치이며 의학적 조언이 아니에요. 질환이 있거나 식단 조절이 필요하면 의사·영양사와 상의하세요.</div>
 </footer>
 </div>
 
-<script src="kcal/foods.js"></script>
+<script src="assets/foods.js"></script>
 <script src="ads.js"></script>
 <script>
 (function(){
@@ -166,7 +165,7 @@ function render(){
   store.set('kcal_meal',meal);
   store.set('kcal_prof',{sex:$('sex').value,age:$('age').value,ht:$('ht').value,wt:$('wt').value,act:$('act').value});
   var opts=[0.5,1,1.5,2,2.5,3];
-  $('meal').innerHTML=meal.length?meal.map(function(m,i){var f=BY[m[0]];return '<li><a href="kcal/f'+f[0]+'.html">'+esc(f[1])+'</a><select data-i="'+i+'">'+opts.map(function(o){return '<option value="'+o+'"'+(o===m[1]?' selected':'')+'>'+o+'인분</option>'}).join('')+'</select><span class="k">'+f0(f[3]*f[9]*m[1]/100)+'kcal</span><button class="x" type="button" aria-label="빼기" data-del="'+i+'">×</button></li>'}).join(''):'<li class="empty">아직 담은 음식이 없어요. 위에서 검색해 [담기]를 눌러 주세요.</li>';
+  $('meal').innerHTML=meal.length?meal.map(function(m,i){var f=BY[m[0]];return '<li><span>'+esc(f[1])+'</span><select data-i="'+i+'">'+opts.map(function(o){return '<option value="'+o+'"'+(o===m[1]?' selected':'')+'>'+o+'인분</option>'}).join('')+'</select><span class="k">'+f0(f[3]*f[9]*m[1]/100)+'kcal</span><button class="x" type="button" aria-label="빼기" data-del="'+i+'">×</button></li>'}).join(''):'<li class="empty">아직 담은 음식이 없어요. 위에서 검색해 [담기]를 눌러 주세요.</li>';
   var t=totals(), n=need(), mk=(t.c*4+t.p*4+t.f*9)||1;
   var bar=function(lab,key,v,unit){var pc=v/DV[key]*100;return '<tr><td>'+lab+'<div class="bar'+(key==='na'?' na':'')+'"><i style="width:'+Math.min(100,pc).toFixed(1)+'%"></i></div></td><td class="n">'+(unit==='mg'?f0(v):v.toFixed(1))+unit+'<span class="c">기준치의 '+Math.round(pc)+'%</span></td></tr>'};
   var ex=EX.map(function(e){return '<tr><td>'+e[0]+'</td><td class="n">'+(t.kcal?Math.round(t.kcal/(e[1]*3.5*n.w/200)):0)+'분</td></tr>'}).join('');
