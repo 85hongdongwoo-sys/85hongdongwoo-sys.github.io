@@ -12,7 +12,8 @@
 <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 /* Layout: 수험표 느낌의 한 줄 목록 — 왼쪽 D-day 도장, 가운데 시험 정보, 오른쪽 접수 버튼. 상단 검색·분류 칩, 목록/달력 전환 */
 :root{
@@ -112,14 +113,37 @@ footer a{color:var(--accent)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
-
-<div class="wrap">
-  <header>
-    <p style="margin:0 0 8px"><a href="/" style="color:var(--accent);text-decoration:none;font-weight:600">← 홍라이프 계산기</a></p>
-    <h1>자격증 시험달력</h1>
+<style>
+/* 홍라이프 공통 디자인 */
+:root{--bg:#EEF1F5;--paper:#FFFFFF;--ink:#0F1B2D;--muted:#5A6678;--line:#DDE2EA;--accent:#12305C;--accent-soft:#E6ECF5;--stamp:#C2362B;--stamp-soft:#FBE9E7;--gold:#E8C27A;
+ --f-display:"Pretendard Variable",Pretendard,system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;--f-body:var(--f-display)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B1322;--paper:#121C2E;--ink:#E6ECF5;--muted:#9AA8BE;--line:#24324A;--accent:#8FB4F0;--accent-soft:#1A2A45}}
+body{-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08);color:#fff}
+.brandbar .in{max-width:960px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brandbar .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none;white-space:nowrap}
+.brandbar .logo i{width:26px;height:26px;border-radius:6px;background:var(--gold);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;color:#AEBBD0;white-space:nowrap}
+@media(max-width:520px){.brandbar .meta{display:none}}
+.hero{background:linear-gradient(180deg,#0B1F3F,#14305A);color:#fff;padding:26px 0 28px}
+.hero .in{max-width:960px;margin:0 auto;padding:0 16px}
+.hero h1{font-family:var(--f-display);font-weight:800;font-size:clamp(26px,5vw,36px);letter-spacing:-.02em;margin:0;color:#fff}
+.hero h1 b{color:var(--gold);font-weight:800}
+.hero p{margin:8px 0 0;color:#C9D5EE}
+.hero .asof{color:#AEBBD0;margin-top:6px}
+.wrap{padding-block:18px 48px}
+.controls{background:var(--bg)}
+.btn.primary{background:var(--stamp);border-color:var(--stamp)}
+.card{border-radius:14px}
+</style>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta">2026년 일정 기준 · 무료</span></div></div>
+<div class="hero"><div class="in">
+    <h1>자격증 <b>시험달력</b></h1>
     <p>국가기술·국가전문자격, 한국사, 토익·JLPT, 전산회계·컴활 일정을 한곳에서 보고 바로 접수하세요.</p>
     <div class="asof">일정 기준일 2026.11.01 · 오늘 <span id="today"></span></div>
-  </header>
+</div></div>
+<div class="wrap">
+  
 
   <div class="summary" id="summary"></div>
 
