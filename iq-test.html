@@ -63,6 +63,7 @@
 <div id="result" hidden></div>
 <section class="card faq"><h2>이 테스트에 대해</h2>
 <p>문항은 모두 홍라이프가 직접 만든 것이고, 실제 지능검사(웩슬러, 레이븐 등)의 문항을 쓰지 않았어요. <b>추정 IQ</b>는 대규모 표본으로 표준화한 점수가 아니라 정답률을 평균 100, 표준편차 15인 분포에 대략 맞춘 값이라 참고용이에요. 정확한 지능 평가는 임상심리 전문가의 표준화 검사로 받아야 해요.</p>
+<p><b>점수 보정:</b> 테스트를 마치면 이름·연락처 없이 정답 수, 영역별 점수, 걸린 시간만 Google 애널리틱스로 익명 집계해요. 응시자가 충분히 모이면 이 분포에 맞춰 추정 IQ 계산식을 다시 보정할게요.</p>
 <p>영역별 점수는 어떤 유형의 사고가 강하고 약한지 보는 데 쓰면 좋아요. 도형 행렬은 패턴 추론, 수열은 수리적 규칙 발견, 언어 유추는 개념 관계 파악, 수리·논리는 문제 해결력을 봐요.</p></section>
 <footer class="site"><div><a href="/">홍라이프 계산기</a> · <a href="mbti-test.html">성격유형 검사</a> · <a href="health.html">건강나이</a> · <a href="privacy.html">개인정보처리방침</a></div></footer>
 </div>
@@ -105,7 +106,7 @@ $('finish').onclick=function(){var left=st.ans.filter(function(x){return x<0}).l
 function confirmLeft(n){var b=$('finish');if(b.dataset.sure)return true;b.dataset.sure=1;b.textContent='안 푼 '+n+'문항 있어요. 그래도 채점';setTimeout(function(){delete b.dataset.sure;b.textContent='채점하기'},4000);return false}
 function tick(){if(!st.limit){$('timer').textContent='무제한';return}var left=LIMIT-(Date.now()-st.start);if(left<=0){$('timer').textContent='0:00';finish();return}var m=Math.floor(left/60000),s=Math.floor(left%60000/1000);$('timer').textContent=m+':'+String(s).padStart(2,'0')}
 function begin(){$('intro').hidden=true;$('test').hidden=false;$('result').hidden=true;render();tick();clearInterval(tm);tm=setInterval(tick,1000)}
-$('start').onclick=function(){if(!st.start||st.done){st={ans:new Array(Q.length).fill(-1),cur:0,start:Date.now(),limit:!$('noLimit').checked,done:false};save()}begin();try{gtag('event','iq_start')}catch(e){}};
+$('start').onclick=function(){if(!st.start||st.done){st={ans:new Array(Q.length).fill(-1),cur:0,start:Date.now(),limit:!$('noLimit').checked,done:false,sent:0};save()}begin();try{gtag('event','iq_start')}catch(e){}};
 function ncdf(z){var t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2),p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-p:p}
 function finish(){
   clearInterval(tm);st.done=true;save();
@@ -127,7 +128,7 @@ function finish(){
     var lab=function(j){return j<0?'(안 품)':q.k==='mat'?'보기 '+'ABCDEF'[j]:'ABCDE'[j]+'. '+String(q.o[j])};
     var body=q.k==='seq'?'<div class="seqbox">'+q.q.map(function(x){return '<span>'+x+'</span>'}).join('')+'<span class="q">?</span></div>':q.k==='mat'?'<div class="matrix">'+q.g.map(function(c){return '<div>'+shapeSVG(c,100)+'</div>'}).join('')+'<div>'+shapeSVG(q.o[q.a],100)+'</div></div>':'<p><b>'+q.q+'</b></p>';
     $('review').innerHTML='<div class="qcard"><p class="meta">'+(i+1)+'번 · '+KN[q.k]+'</p>'+body+'<p>내 답: '+lab(a)+' · <b style="color:var(--green)">정답: '+lab(q.a)+'</b></p></div>'});
-  try{gtag('event','iq_done',{score:tot})}catch(e){}
+  if(!st.sent){st.sent=1;save();try{gtag('event','iq_done',{iq_score:tot,iq_weighted:Math.round(p*1000)/10,iq_minutes:used,iq_timed:st.limit?1:0,iq_seq:area.seq[0],iq_mat:area.mat[0],iq_verbal:area.verbal[0],iq_logic:area.logic[0],iq_answered:st.ans.filter(function(x){return x>=0}).length})}catch(e){}}
 }
 if(st.start&&!st.done){$('start').textContent='이어서 풀기';}
 if(st.done&&st.start){finish()}

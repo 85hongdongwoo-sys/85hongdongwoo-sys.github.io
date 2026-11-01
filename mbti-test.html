@@ -124,7 +124,7 @@ function showResult(){
   $('result').innerHTML=h;$('result').hidden=false;$('test').hidden=true;$('intro').hidden=true;window.scrollTo(0,0);
   $('again').onclick=function(){ans=new Array(120).fill(0);page=0;save();$('result').hidden=true;$('test').hidden=false;$('intro').hidden=false;renderPage()};
   $('share').onclick=function(){var t='나의 성격유형은 '+type+' ('+I[0]+')! 홍라이프 성격유형 검사 → https://honglife.co.kr/mbti-test.html';try{navigator.clipboard.writeText(t).then(function(){$('toast').textContent='복사했어요!'})}catch(e){$('toast').textContent=t}};
-  try{gtag('event','mbti_test_done',{type:type})}catch(e){}
+  try{gtag('event','mbti_test_done',{mbti_type:type,mbti_ei:Math.round(50+sc.EI/60*50),mbti_sn:Math.round(50+sc.SN/60*50),mbti_tf:Math.round(50+sc.TF/60*50),mbti_jp:Math.round(50+sc.JP/60*50)})}catch(e){}
 }
 renderPage();
 if(ans.every(Boolean))showResult();
