@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>가족 간 금전 대여 계산기 | 차용증 적정이자 4.6%, 무이자 2억1천만원 한도, 증여세</title>
+<meta name="description" content="부모·자녀 등 가족에게 돈을 빌려줄 때 적정이자율 4.6%와 실제 이자의 차이로 증여 이익을 계산해요. 연 1,000만원 미만이면 증여세가 없어 무이자로 약 2억1,739만원까지 빌려줄 수 있어요. 이자 지급 시 27.5% 원천징수도 함께 계산.">
+<link rel="canonical" href="https://honglife.co.kr/tax/loan.html">
+<meta property="og:title" content="가족 간 대여 계산기 | 홍라이프 계산기"><meta property="og:description" content="부모·자녀 등 가족에게 돈을 빌려줄 때 적정이자율 4.6%와 실제 이자의 차이로 증여 이익을 계산해요. 연 1,000만원 미만이면 증여세가 없어 무이자로 약 2억1,739만원까지 빌려줄 수 있어요. 이자 지급 시 27.5% 원천징수도 함께 계산."><meta property="og:url" content="https://honglife.co.kr/tax/loan.html">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tax.css">
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="./">세금 계산기 모음</a></span></div></div>
+<div class="hero"><div class="in"><h1>가족 간 <b>금전 대여</b> 계산기</h1><p>가족끼리 돈을 빌려줄 때 증여세가 나오는지, 이자를 얼마나 받아야 안전한지 계산해요.</p><span class="asof">상속세및증여세법 제41조의4 · 적정이자율 4.6% 기준</span></div></div>
+<div class="wrap">
+
+<form id="form" onsubmit="return false">
+<section class="card"><div class="grid">
+<div class="f"><label for="amt">빌려주는 금액</label><input id="amt" data-money inputmode="numeric" value="300,000,000"></div>
+<div class="f"><label for="rate">약정 이자율 (연 %)</label><input id="rate" inputmode="decimal" value="0"><small>무이자면 0</small></div>
+<div class="f"><label for="rel">빌리는 사람</label><select id="rel"><option value="adult">성년 자녀·손자녀 (부모→자녀)</option><option value="minor">미성년 자녀</option><option value="spouse">배우자</option><option value="other">그 밖의 친족</option></select></div>
+<div class="f"><label for="gifted">최근 10년 내 같은 사람에게 증여한 금액</label><input id="gifted" data-money inputmode="numeric" value="0"></div></div></section>
+</form>
+<div id="out"></div>
+<section class="card faq"><h2>가족 간 대여, 이렇게 판단해요</h2>
+<p>특수관계인에게 돈을 무이자나 낮은 이자로 빌려주면, <b>적정이자(연 4.6%)와 실제 받은 이자의 차이</b>를 빌린 사람이 증여받은 것으로 봐요. 이 이익이 <b>1년에 1,000만원 미만이면 증여세를 매기지 않아요</b>. 그래서 무이자로는 약 2억 1,739만원, 이자를 받으면 그보다 더 큰 금액도 가능해요.</p>
+<p>빌려준 돈 자체가 증여로 의심받지 않으려면 차용증(금액·이자·상환일), 실제 이자 이체 기록, 원금 상환 기록을 남겨야 해요. 빌려준 사람이 받은 이자는 '비영업대금 이익'이라 빌린 사람이 이자의 27.5%(소득세 25% + 지방세 2.5%)를 원천징수해 신고해야 해요.</p>
+<p>대여 기간이 정해지지 않으면 1년으로 보고 해마다 다시 계산해요.</p></section>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="./">세금 계산기 모음</a> · <a href="/gift.html">증여세</a> · <a href="inherit.html">상속세</a> · <a href="/privacy.html">개인정보처리방침</a></div>
+  <div>근거: 상속세및증여세법 제41조의4(금전 무상대출 등에 따른 이익의 증여), 시행령 제31조의4, 시행규칙 제10조의5(적정이자율 4.6%), 소득세법 제129조(비영업대금 이익 25%)</div>
+  <div>이 계산기는 예상 세액을 보여 주는 참고 도구예요. 실제 신고 전에는 홈택스 모의계산이나 세무 전문가와 확인하세요.</div>
+</footer>
+</div>
+<script src="tax.js"></script>
+<script>
+
+var $=TX.$,num=TX.num,won=TX.won;
+TX.bind('form',function(){
+  var a=num('amt'),r=num('rate')/100,rel=$('rel').value,benefit=Math.max(0,a*(0.046-r)),paidInt=a*r;
+  var ded={adult:5e7,minor:2e7,spouse:6e8,other:1e7}[rel],prev=num('gifted');
+  var taxed=benefit>=1e7,gv=taxed?benefit:0,remain=Math.max(0,ded-prev),base=Math.max(0,gv+prev-ded),giftTax=0;
+  if(taxed){var tot=Math.floor(TX.prog(base,TX.GIFT).tax),prevTax=Math.floor(TX.prog(Math.max(0,prev-ded),TX.GIFT).tax);giftTax=Math.floor(Math.max(0,tot-prevTax)*0.97)}
+  var safeRate=Math.max(0,0.046-1e7/Math.max(a,1)),maxFree=1e7/0.046;
+  var h=TX.score([[taxed?'1년 증여세 (예상)':'증여세',won(giftTax),taxed?'증여 이익 '+won(benefit)+' (연 1천만원 이상)':'연 증여 이익 '+won(benefit)+' < 1,000만원'],['무이자로 빌려줄 수 있는 한도',TX.man(maxFree),'적정이자 4.6% 기준'],['증여세 없이 받아야 할 최소 이자율',(a<=maxFree?'0%':(safeRate*100).toFixed(2)+'%'),a<=maxFree?'무이자도 가능':'연 이자 약 '+won(a*safeRate)+' 이상']]);
+  h+=TX.kv([['빌려준 금액',won(a)],['적정이자 (4.6%)',won(a*0.046)],['실제 받는 이자 ('+(r*100).toFixed(2)+'%)','−'+won(paidInt)],['증여 이익 (1년)',won(benefit),'t'],['과세 여부',taxed?'과세 (1천만원 이상)':'과세 안 함']]);
+  if(taxed)h+='<div class="warn">증여 이익이 연 1,000만원 이상이라 전액이 증여재산이 돼요. 증여재산공제 남은 한도 '+won(remain)+'를 반영한 예상 증여세는 '+won(giftTax)+'(신고세액공제 3% 반영)이에요. 이자율을 '+(safeRate*100).toFixed(2)+'% 이상으로 정하면 피할 수 있어요.</div>';
+  if(paidInt>0)h+='<p class="note">이자를 받으면 빌린 사람이 이자의 27.5%('+won(Math.floor(paidInt*0.25/10)*10+Math.floor(paidInt*0.025/10)*10)+')를 원천징수해 다음 달 10일까지 신고·납부해야 해요. 빌려준 사람의 이자소득이 연 2천만원을 넘으면 종합과세 대상이에요.</p>';
+  $('out').innerHTML='<section class="card"><h2>결과 (1년 기준)</h2>'+h+'</section>';
+});
+
+</script>
+</body>
+</html>

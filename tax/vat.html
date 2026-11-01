@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>부가가치세 계산기 2026 | 공급가액·부가세 분리, 일반과세·간이과세 납부세액, 카드매출 공제</title>
+<meta name="description" content="합계금액에서 공급가액과 부가세를 나누고, 일반과세자·간이과세자 부가세 납부세액을 계산해요. 업종별 부가가치율, 매입세액 공제, 신용카드 매출세액공제 1.3%(연 1천만원 한도), 간이과세 납부면제 4,800만원 기준까지 2026년 세법 반영.">
+<link rel="canonical" href="https://honglife.co.kr/tax/vat.html">
+<meta property="og:title" content="부가가치세 계산기 | 홍라이프 계산기"><meta property="og:description" content="합계금액에서 공급가액과 부가세를 나누고, 일반과세자·간이과세자 부가세 납부세액을 계산해요. 업종별 부가가치율, 매입세액 공제, 신용카드 매출세액공제 1.3%(연 1천만원 한도), 간이과세 납부면제 4,800만원 기준까지 2026년 세법 반영."><meta property="og:url" content="https://honglife.co.kr/tax/vat.html">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tax.css">
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="./">세금 계산기 모음</a></span></div></div>
+<div class="hero"><div class="in"><h1>부가가치세 <b>계산기</b></h1><p>공급가액·부가세 분리부터 일반과세·간이과세 납부세액, 간이 vs 일반 비교까지 한 번에 계산해요.</p><span class="asof">2026년 귀속 부가가치세법 기준</span></div></div>
+<div class="wrap">
+
+<div class="tabs" role="tablist"><button data-p="t1" aria-selected="true">공급가액 ↔ 부가세</button><button data-p="t2" aria-selected="false">일반과세자 납부세액</button><button data-p="t3" aria-selected="false">간이과세자 납부세액</button></div>
+<form id="form" onsubmit="return false">
+<section class="card" id="t1"><h2>금액 나누기</h2><div class="grid">
+<div class="f"><label for="amt">금액 (원)</label><input id="amt" data-money inputmode="numeric" value="1,100,000"></div>
+<div class="f"><label for="kind">이 금액은</label><select id="kind"><option value="total">부가세 포함 합계(공급대가)</option><option value="supply">공급가액 (부가세 별도)</option></select></div></div>
+<div id="r1" style="margin-top:14px"></div></section>
+<section class="card" id="t2" hidden><h2>일반과세자 (한 과세기간 = 6개월)</h2><div class="grid">
+<div class="f"><label for="gSales">매출 공급가액 (부가세 별도)</label><input id="gSales" data-money inputmode="numeric" value="60,000,000"><small>세금계산서·카드·현금영수증·현금 매출 모두 합친 금액</small></div>
+<div class="f"><label for="gCard">그중 카드·현금영수증 매출 (부가세 포함)</label><input id="gCard" data-money inputmode="numeric" value="40,000,000"></div>
+<div class="f"><label for="gBuy">매입 공급가액 (공제 가능분)</label><input id="gBuy" data-money inputmode="numeric" value="30,000,000"><small>세금계산서·사업용 카드로 받은 매입. 접대비·비영업용 승용차 등은 빼요.</small></div>
+<div class="f"><label for="gUsed">올해 이미 받은 카드매출 공제 (원)</label><input id="gUsed" data-money inputmode="numeric" value="0"><small>1기 확정신고에서 받은 금액 (연 1천만원 한도 계산용)</small></div></div>
+<label class="chk"><input type="checkbox" id="gSmall" checked><span>개인사업자이고 직전 연도 공급가액이 10억원 이하예요 (카드매출 세액공제 대상)</span></label>
+<div id="r2" style="margin-top:10px"></div></section>
+<section class="card" id="t3" hidden><h2>간이과세자 (1년 = 1과세기간)</h2><div class="grid">
+<div class="f"><label for="sInd">업종</label><select id="sInd"><option value="15">소매업·음식점업·재생용 재료 수집 (15%)</option><option value="20">제조업·농임어업·소화물 운송 (20%)</option><option value="25">숙박업 (25%)</option><option value="30" selected>건설·운수창고·정보통신·그 밖의 서비스 (30%)</option><option value="40">금융보험·전문과학기술·사업지원·부동산임대 (40%)</option></select></div>
+<div class="f"><label for="sSales">연 매출 (공급대가, 부가세 포함)</label><input id="sSales" data-money inputmode="numeric" value="70,000,000"></div>
+<div class="f"><label for="sCard">그중 카드·현금영수증 매출</label><input id="sCard" data-money inputmode="numeric" value="50,000,000"></div>
+<div class="f"><label for="sBuy">매입 공급대가 (세금계산서·카드 수취, 부가세 포함)</label><input id="sBuy" data-money inputmode="numeric" value="22,000,000"></div></div>
+<div id="r3" style="margin-top:14px"></div></section>
+</form>
+<section class="card faq"><h2>부가세 기준 정리 (2026년)</h2>
+<h3>세율과 계산</h3><p>부가세는 공급가액의 10%예요. 합계(공급대가)에서 나눌 때는 공급가액 = 합계 ÷ 1.1, 부가세 = 합계 − 공급가액이에요. 일반과세자 납부세액 = 매출세액 − 매입세액 − 각종 공제예요.</p>
+<h3>신용카드 매출세액공제</h3><p>직전 연도 공급가액 10억원 이하 개인사업자가 카드·현금영수증으로 매출하면 발행금액(부가세 포함)의 1.3%를 연 1,000만원 한도로 빼 줘요. 이 우대율과 한도는 2026년 12월 31일까지이고, 2027년부터는 줄어드는 개정안이 국회에서 논의 중이에요. 공제액은 납부할 세액을 넘을 수 없어요.</p>
+<h3>간이과세자</h3><p>직전 연도 공급대가가 1억 400만원 미만인 개인사업자가 대상이에요. 납부세액 = 공급대가 × 업종별 부가가치율 × 10%이고, 매입 세금계산서 등 공급대가의 0.5%와 카드매출 공제를 빼요. 해당 연도 공급대가가 4,800만원 미만이면 납부의무가 면제돼요.</p>
+<div class="scroll"><table><tr><th>업종</th><th>부가가치율</th></tr><tr><td>소매업, 재생용 재료수집·판매업, 음식점업</td><td>15%</td></tr><tr><td>제조업, 농업·임업·어업, 소화물 전문 운송업</td><td>20%</td></tr><tr><td>숙박업</td><td>25%</td></tr><tr><td>건설업, 운수·창고업, 정보통신업, 그 밖의 서비스업</td><td>30%</td></tr><tr><td>금융·보험, 전문·과학·기술 서비스, 사업시설관리·사업지원·임대서비스, 부동산 관련 서비스·임대업</td><td>40%</td></tr></table></div>
+<h3>신고 기한</h3><p>일반과세자(개인) 1기 확정 7월 25일, 2기 확정 다음 해 1월 25일. 간이과세자는 다음 해 1월 25일에 1년치를 신고해요.</p></section>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="./">세금 계산기 모음</a> · <a href="income.html">종합소득세</a> · <a href="freelancer.html">프리랜서 3.3%</a> · <a href="/privacy.html">개인정보처리방침</a></div>
+  <div>근거: 부가가치세법 제30·37·46·61·63·69조, 시행령 제111조(업종별 부가가치율), 조세특례제한법 관련 규정</div>
+  <div>이 계산기는 예상 세액을 보여 주는 참고 도구예요. 실제 신고 전에는 홈택스 모의계산이나 세무 전문가와 확인하세요.</div>
+</footer>
+</div>
+<script src="tax.js"></script>
+<script>
+
+var $=TX.$,num=TX.num,won=TX.won;TX.tabs();
+TX.bind('form',function(){
+  var a=num('amt'),k=$('kind').value,sup,vat;if(k==='total'){sup=Math.round(a/1.1);vat=a-sup}else{sup=a;vat=Math.round(a*0.1)}
+  $('r1').innerHTML=TX.score([['공급가액',won(sup)],['부가세 (10%)',won(vat)],['합계 (공급대가)',won(sup+vat)]])+'<p class="note">원 단위 반올림. 세금계산서에는 공급가액과 세액을 나눠 적어요.</p>';
+  // 일반
+  var s=num('gSales'),c=num('gCard'),b=num('gBuy'),used=num('gUsed');
+  var out=s*0.1,inn=b*0.1,pre=out-inn,cap=Math.max(0,1e7-used);
+  var card=$('gSmall').checked?Math.min(c*0.013,cap,Math.max(0,pre)):0,pay=pre-card;
+  $('r2').innerHTML=TX.score([[pay>=0?'납부할 부가세':'돌려받을 부가세 (환급)',won(Math.abs(pay))],['카드매출 세액공제',won(card),'발행액 '+won(c)+' × 1.3%']])+TX.kv([['매출세액','+'+won(out),'','공급가액 '+won(s)+' × 10%'],['매입세액','−'+won(inn),'','공급가액 '+won(b)+' × 10%'],['신용카드 매출세액공제','−'+won(card),'','연 1천만원 한도, 남은 한도 '+won(cap)],[pay>=0?'납부세액':'환급세액',won(Math.abs(pay)),'t']])+(pre<0?'<div class="good">매입이 더 많아 환급이 나와요. 카드매출 공제는 환급을 늘리지는 못해요.</div>':'');
+  // 간이
+  var ss=num('sSales'),sc=num('sCard'),sb=num('sBuy'),r=+$('sInd').value/100;
+  var base=ss*r*0.1,bc=sb*0.005,cc=ss<48e6?0:Math.min(sc*0.013,1e7),spay=Math.max(0,base-bc-cc);
+  if(ss>=48e6){cc=Math.min(cc,Math.max(0,base-bc));spay=Math.max(0,base-bc-cc)}
+  var h='';
+  if(ss>=104e6)h+='<div class="warn">연 매출 '+TX.man(ss)+'은 간이과세 기준(1억 400만원)을 넘어서, 다음 해 7월부터 일반과세자로 바뀌어요.</div>';
+  if(ss<48e6){h+=TX.score([['납부할 부가세','0원','연 매출 4,800만원 미만 → 납부의무 면제']])+'<div class="good">신고는 해야 하지만 세금은 내지 않아요. 다만 매입세금계산서 공제로 환급받을 수는 없어요.</div>'}
+  else{h+=TX.score([['간이과세 납부세액',won(spay)],['같은 매출 일반과세라면',won(Math.max(0,(ss/1.1*0.1)-(sb/1.1*0.1)-Math.min(sc*0.013,1e7))),'매출·매입의 10% 차액 − 카드공제']])+TX.kv([['공급대가 × 부가가치율 × 10%',won(base),'',TX.man(ss)+' × '+(r*100)+'% × 10%'],['매입세금계산서 등 공제','−'+won(bc),'','매입 공급대가 '+won(sb)+' × 0.5%'],['신용카드 매출세액공제','−'+won(cc),'','카드매출 '+won(sc)+' × 1.3% (납부세액 한도)'],['납부세액',won(spay),'t']])}
+  $('r3').innerHTML=h;
+});
+
+</script>
+</body>
+</html>

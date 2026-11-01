@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>프리랜서 3.3% 계산기 | 사업소득 원천징수·실수령액 역산, 기타소득 8.8% 비교</title>
+<meta name="description" content="프리랜서·강사·크리에이터 사업소득 3.3% 원천징수액과 실수령액을 계산하고, 실수령액에서 지급액을 거꾸로 계산해요. 기타소득 8.8%와 비교하고 5월 종합소득세 환급 가능성도 바로 확인해요.">
+<link rel="canonical" href="https://honglife.co.kr/tax/freelancer.html">
+<meta property="og:title" content="프리랜서 3.3% 계산기 | 홍라이프 계산기"><meta property="og:description" content="프리랜서·강사·크리에이터 사업소득 3.3% 원천징수액과 실수령액을 계산하고, 실수령액에서 지급액을 거꾸로 계산해요. 기타소득 8.8%와 비교하고 5월 종합소득세 환급 가능성도 바로 확인해요."><meta property="og:url" content="https://honglife.co.kr/tax/freelancer.html">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tax.css">
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="./">세금 계산기 모음</a></span></div></div>
+<div class="hero"><div class="in"><h1>프리랜서 <b>3.3% 계산기</b></h1><p>지급액 → 실수령액, 실수령액 → 지급액(역산)을 바로 계산하고 기타소득 8.8%와 비교해요.</p><span class="asof">2026년 소득세법 기준</span></div></div>
+<div class="wrap">
+
+<form id="form" onsubmit="return false">
+<section class="card"><div class="grid">
+<div class="f"><label for="dir">계산 방향</label><select id="dir"><option value="gross">지급액(세전) → 실수령액</option><option value="net">실수령액 → 지급액(세전)</option></select></div>
+<div class="f"><label for="amt" id="amtLb">지급액 (세전)</label><input id="amt" data-money inputmode="numeric" value="3,000,000"></div>
+<div class="f"><label for="type">소득 종류</label><select id="type"><option value="biz">사업소득 3.3% (계속·반복 활동)</option><option value="etc">기타소득 8.8% (일시적 강연·원고 등)</option></select><small>같은 일을 계속 반복하면 사업소득이에요.</small></div>
+<div class="f"><label for="months">이렇게 받는 달 수 (연)</label><input id="months" type="number" min="1" max="12" value="12"></div></div></section>
+</form>
+<div id="out"></div>
+<section class="card faq"><h2>3.3%와 8.8%의 차이</h2>
+<p><b>사업소득 3.3%</b>: 지급액의 3% 소득세 + 0.3% 지방소득세를 떼요. 다음 해 5월 종합소득세 신고 때 실제 세금과 정산해서 대부분의 소득이 적은 프리랜서는 일부를 돌려받아요.</p>
+<p><b>기타소득 8.8%</b>: 강연료·원고료처럼 일시적인 소득은 지급액의 60%를 필요경비로 인정하고 남은 40%에 22%(소득세 20% + 지방세 2%)를 떼서 결과적으로 8.8%예요. 기타소득금액이 연 300만원 이하면 분리과세로 끝낼 수 있고, 건당 기타소득금액 5만원(지급액 12만 5천원) 이하는 세금을 떼지 않아요.</p>
+<p>3.3% 세금은 원 단위를 버리고(10원 미만 절사) 계산해요.</p></section>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="./">세금 계산기 모음</a> · <a href="income.html">종합소득세</a> · <a href="vat.html">부가세</a> · <a href="/privacy.html">개인정보처리방침</a></div>
+  <div>근거: 소득세법 제127·129조(원천징수 세율 3%, 기타소득 20%), 제21·37조(기타소득 필요경비 60%), 지방세법(지방소득세 10%)</div>
+  <div>이 계산기는 예상 세액을 보여 주는 참고 도구예요. 실제 신고 전에는 홈택스 모의계산이나 세무 전문가와 확인하세요.</div>
+</footer>
+</div>
+<script src="tax.js"></script>
+<script>
+
+var $=TX.$,num=TX.num,won=TX.won;
+function cut(x){return Math.floor(x/10)*10}
+function calc(g,t){if(t==='biz'){var it=cut(g*0.03),lt=cut(it*0.1);return {it:it,lt:lt,net:g-it-lt}}var inc=g*0.4;if(inc<=5e4)return {it:0,lt:0,net:g};var it2=cut(inc*0.2),lt2=cut(it2*0.1);return {it:it2,lt:lt2,net:g-it2-lt2}}
+TX.bind('form',function(){
+  var d=$('dir').value,t=$('type').value,a=num('amt'),m=Math.max(1,num('months'));$('amtLb').textContent=d==='gross'?'지급액 (세전)':'실수령액 (세후)';
+  var g=a;if(d==='net'){var lo=a,hi=a*1.2;for(var i=0;i<60;i++){var mid=(lo+hi)/2;if(calc(mid,t).net<a)lo=mid;else hi=mid}g=Math.ceil(hi);while(calc(g-1,t).net>=a)g--;}
+  var r=calc(g,t),o=calc(g,t==='biz'?'etc':'biz');
+  var h=TX.score([[d==='gross'?'실수령액':'세전 지급액 (계약 금액)',won(d==='gross'?r.net:g)],['떼는 세금 합계',won(r.it+r.lt),'소득세 '+won(r.it)+' + 지방세 '+won(r.lt)],['연간 (×'+m+'개월)',won(r.net*m),'세금 '+won((r.it+r.lt)*m)]]);
+  h+=TX.kv([['지급액',won(g)],[t==='biz'?'소득세 3%':'소득세 (지급액 × 40% × 20%)','−'+won(r.it)],['지방소득세 (소득세의 10%)','−'+won(r.lt)],['실수령액',won(r.net),'t']]);
+  h+='<p class="note">같은 금액을 '+(t==='biz'?'기타소득(8.8%)':'사업소득(3.3%)')+'으로 받으면 실수령액 '+won(o.net)+'이에요.</p>';
+  if(t==='biz'){var year=g*m,simple=year*(1-0.641),tb=Math.max(0,simple-1.5e6),tax=Math.max(0,TX.prog(tb,TX.INCOME).tax-7e4),paid=r.it*m;
+    h+='<div class="'+(paid>tax?'good':'warn')+'">이 소득만 있고 단순경비율 64.1%(940909)를 적용하면 연 결정세액은 약 '+won(tax)+'이에요. 이미 뗀 소득세 '+won(paid)+'와 비교하면 5월에 약 '+won(Math.abs(paid-tax))+(paid>tax?' 환급':' 추가 납부')+' 예상이에요(지방세 별도). <a href="income.html">종합소득세 계산기로 자세히 보기</a></div>'}
+  $('out').innerHTML='<section class="card"><h2>결과</h2>'+h+'</section>';
+});
+
+</script>
+</body>
+</html>
