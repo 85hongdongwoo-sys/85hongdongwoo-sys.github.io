@@ -178,7 +178,7 @@ footer.site a{color:var(--primary)}
 </style>
 </head>
 <body>
-<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="saju.html">사주팔자</a><a href="mbti.html">MBTI 궁합</a></span></div></div>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="mbti-test.html">성격유형 검사</a><a href="saju.html">사주팔자</a></span></div></div>
 <div class="top"><div class="in"><h1>MBTI <b>궁합</b></h1><p>16유형 256가지 조합의 궁합 점수, 지표별 케미, 인지기능 궁합, 연애 스타일, 그리고 100일·1000일 기념일까지 한 번에 확인해요.</p></div></div>
 <div class="wrap">
 <header>
@@ -197,7 +197,7 @@ footer.site a{color:var(--primary)}
     <div class="card who" id="whoA"></div>
     <div class="card who b" id="whoB"></div>
   </div>
-  <p class="small" style="margin:-4px 0 12px">MBTI를 모르면 각 줄에서 "나답다"고 느끼는 쪽을 눌러 보세요. 정식 검사 결과가 있다면 그 결과대로 고르면 돼요.</p>
+  <p class="small" style="margin:-4px 0 12px"><a href="mbti-test.html"><b>내 유형을 모르면 120문항 성격유형 검사부터 →</b></a> MBTI를 모르면 각 줄에서 "나답다"고 느끼는 쪽을 눌러 보세요. 정식 검사 결과가 있다면 그 결과대로 고르면 돼요.</p>
   <div id="mbtiResult" aria-live="polite"></div>
   <div id="mbtiMore"></div>
 </section>
@@ -712,6 +712,7 @@ function seasonEvents(today) {
   $('remember').addEventListener('change', save);
 
   load();
+  try{var qs=new URLSearchParams(location.search),qa=(qs.get('a')||'').toUpperCase(),qb=(qs.get('b')||'').toUpperCase();if(/^[EI][SN][TF][JP]$/.test(qa))S.a=qa;if(/^[EI][SN][TF][JP]$/.test(qb))S.b=qb;}catch(e){}
   buildPickers();
   renderMbti();
   renderDays();
