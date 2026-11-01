@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>날짜 계산기 | D-day·만 나이·날짜 더하기·근무일수(공휴일 제외)·전역일 계산</title>
+<meta name="description" content="D-day와 두 날짜 사이 일수, 만 나이·연 나이, 며칠 뒤 날짜, 공휴일·대체공휴일을 뺀 영업일(근무일수), 군 전역일까지 한 페이지에서 계산해요. 2025~2027년 한국 공휴일 반영.">
+<link rel="canonical" href="https://honglife.co.kr/date.html">
+<meta property="og:title" content="날짜 계산기 | 홍라이프 계산기"><meta property="og:description" content="D-day와 두 날짜 사이 일수, 만 나이·연 나이, 며칠 뒤 날짜, 공휴일·대체공휴일을 뺀 영업일(근무일수), 군 전역일까지 한 페이지에서 계산해요. 2025~2027년 한국 공휴일 반영."><meta property="og:url" content="https://honglife.co.kr/date.html">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="tax/tax.css">
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="wage.html">주휴수당</a><a href="unemp.html">실업급여</a><a href="parental.html">육아휴직</a><a href="date.html">날짜 계산</a></span></div></div>
+<div class="hero"><div class="in"><h1>날짜 <b>계산기</b></h1><p>D-day, 만 나이, 날짜 더하기, 공휴일을 뺀 근무일수, 전역일을 한 곳에서 계산해요.</p><span class="asof">2025~2027년 공휴일·대체공휴일 반영</span></div></div>
+<div class="wrap">
+
+<div class="tabs" role="tablist"><button data-p="t1" aria-selected="true">D-day·일수</button><button data-p="t2" aria-selected="false">만 나이</button><button data-p="t3" aria-selected="false">날짜 더하기</button><button data-p="t4" aria-selected="false">근무일수</button><button data-p="t5" aria-selected="false">전역일</button></div>
+<form id="form" onsubmit="return false">
+<section class="card" id="t1"><div class="grid"><div class="f"><label for="a1">시작 날짜</label><input id="a1" type="date"></div><div class="f"><label for="a2">목표 날짜</label><input id="a2" type="date" value="2027-01-01"></div></div><label class="chk"><input type="checkbox" id="inc"><span>시작일을 1일로 세기 (기념일 방식)</span></label><div id="r1"></div></section>
+<section class="card" id="t2" hidden><div class="grid"><div class="f"><label for="b1">생년월일</label><input id="b1" type="date" value="1984-03-15"></div><div class="f"><label for="b2">기준 날짜</label><input id="b2" type="date"></div></div><div id="r2"></div></section>
+<section class="card" id="t3" hidden><div class="grid"><div class="f"><label for="c1">기준 날짜</label><input id="c1" type="date"></div><div class="f"><label for="cn">더할 값 (빼려면 음수)</label><input id="cn" type="number" value="100"></div><div class="f"><label for="cu">단위</label><select id="cu"><option value="d">일</option><option value="w">주</option><option value="m">개월</option><option value="y">년</option><option value="bd">영업일 (주말·공휴일 제외)</option></select></div></div><div id="r3"></div></section>
+<section class="card" id="t4" hidden><div class="grid"><div class="f"><label for="d1">시작 날짜</label><input id="d1" type="date" value="2026-11-01"></div><div class="f"><label for="d2">끝 날짜</label><input id="d2" type="date" value="2026-12-31"></div></div><label class="chk"><input type="checkbox" id="sat"><span>토요일도 근무해요</span></label><div id="r4"></div></section>
+<section class="card" id="t5" hidden><div class="grid"><div class="f"><label for="e1">입대일</label><input id="e1" type="date" value="2026-03-02"></div><div class="f"><label for="e2">복무 형태</label><select id="e2"><option value="18">육군·해병대 (18개월)</option><option value="20">해군 (20개월)</option><option value="21">공군 (21개월)</option><option value="21s">사회복무요원 (21개월)</option><option value="36">산업기능요원·전문연구요원 (34~36개월)</option></select></div></div><div id="r5"></div></section>
+</form>
+<section class="card faq"><h2>계산 기준</h2><p><b>D-day</b>는 목표일까지 남은 날수예요. 기념일은 보통 시작일을 1일로 세요. <b>만 나이</b>는 생일이 지나야 한 살이 늘어요(2023년 6월부터 법적·사회적 나이는 만 나이로 통일). <b>근무일수</b>는 토·일요일과 관공서 공휴일, 대체공휴일, 선거일을 뺀 날이에요(근로자의 날은 회사마다 달라 포함하지 않았어요). <b>전역일</b>은 입대일에 복무 개월 수를 더한 날의 전날이에요.</p>
+<div class="scroll"><table><tr><th>연도</th><th>반영한 공휴일·대체공휴일</th></tr><tr><td>2025</td><td style="text-align:left">1/1, 1/27(임시), 1/28~30 설, 3/1·3/3(대체), 5/5·5/6(대체), 6/3 대선, 6/6, 8/15, 10/3, 10/5~7 추석·10/8(대체), 10/9, 12/25</td></tr><tr><td>2026</td><td style="text-align:left">1/1, 2/16~18 설, 3/1·3/2(대체), 5/5, 5/24·5/25(대체), 6/3 지방선거, 6/6, 8/15·8/17(대체), 9/24~26 추석, 10/3·10/5(대체), 10/9, 12/25</td></tr><tr><td>2027</td><td style="text-align:left">1/1, 2/6~8 설·2/9(대체), 3/1, 5/5, 5/13, 6/6, 8/15·8/16(대체), 9/14~16 추석, 10/3·10/4(대체), 10/9·10/11(대체), 12/25·12/27(대체)</td></tr></table></div></section>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="wage.html">주휴수당</a> · <a href="exam.html">자격증 시험달력</a> · <a href="/privacy.html">개인정보처리방침</a></div>
+  <div>근거: 관공서의 공휴일에 관한 규정, 연령 계산 및 나이 표시에 관한 법률(2023.6.28), 병역법 시행령</div>
+  <div>예상 금액을 보여 주는 참고용 계산기예요. 실제 지급액은 고용24·고용센터·회사 급여 담당자와 확인하세요.</div>
+</footer>
+</div>
+<script src="tax/tax.js"></script>
+<script>
+
+var $=TX.$,num=TX.num;TX.tabs();
+var HOL='2025-01-01 2025-01-27 2025-01-28 2025-01-29 2025-01-30 2025-03-01 2025-03-03 2025-05-05 2025-05-06 2025-06-03 2025-06-06 2025-08-15 2025-10-03 2025-10-05 2025-10-06 2025-10-07 2025-10-08 2025-10-09 2025-12-25 2026-01-01 2026-02-16 2026-02-17 2026-02-18 2026-03-01 2026-03-02 2026-05-05 2026-05-24 2026-05-25 2026-06-03 2026-06-06 2026-08-15 2026-08-17 2026-09-24 2026-09-25 2026-09-26 2026-10-03 2026-10-05 2026-10-09 2026-12-25 2027-01-01 2027-02-06 2027-02-07 2027-02-08 2027-02-09 2027-03-01 2027-05-05 2027-05-13 2027-06-06 2027-08-15 2027-08-16 2027-09-14 2027-09-15 2027-09-16 2027-10-03 2027-10-04 2027-10-09 2027-10-11 2027-12-25 2027-12-27'.split(' ');
+var HS={};HOL.forEach(function(d){HS[d]=1});
+var DOW='일월화수목금토';
+function P(s){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');return m?Date.UTC(+m[1],m[2]-1,+m[3]):NaN}
+function F(t){var d=new Date(t);return d.getUTCFullYear()+'년 '+(d.getUTCMonth()+1)+'월 '+d.getUTCDate()+'일 ('+DOW[d.getUTCDay()]+')'}
+function iso(t){return new Date(t).toISOString().slice(0,10)}
+function addM(t,n){var d=new Date(t),y=d.getUTCFullYear(),m=d.getUTCMonth()+n,day=d.getUTCDate();var last=new Date(Date.UTC(y,m+1,0)).getUTCDate();return Date.UTC(y,m,Math.min(day,last))}
+var D=864e5,now=new Date(),today=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
+['a1','b2','c1'].forEach(function(id){$(id).value=iso(today)});
+function work(t,sat){var w=new Date(t).getUTCDay();if(w===0||(w===6&&!sat))return false;return !HS[iso(t)]}
+TX.bind('form',function(){
+  var a=P($('a1').value),b=P($('a2').value);
+  if(!isNaN(a)&&!isNaN(b)){var n=Math.round((b-a)/D),inc=$('inc').checked;$('r1').innerHTML=TX.score([[n>=0?'목표일까지':'지난 날',n===0?'D-day':(n>0?'D-'+n:'D+'+(-n)),F(b)],['두 날짜 사이',(Math.abs(n)+(inc?1:0)).toLocaleString()+'일',inc?'시작일 포함':'시작일 제외'],['주·개월로',Math.floor(Math.abs(n)/7)+'주 '+Math.abs(n)%7+'일','약 '+(Math.abs(n)/30.4375).toFixed(1)+'개월']])}
+  var bb=P($('b1').value),bt=P($('b2').value);
+  if(!isNaN(bb)&&!isNaN(bt)){var x=new Date(bb),y=new Date(bt),age=y.getUTCFullYear()-x.getUTCFullYear();if(y.getUTCMonth()<x.getUTCMonth()||(y.getUTCMonth()===x.getUTCMonth()&&y.getUTCDate()<x.getUTCDate()))age--;
+    var nb=Date.UTC(y.getUTCFullYear(),x.getUTCMonth(),x.getUTCDate());if(nb<bt)nb=Date.UTC(y.getUTCFullYear()+1,x.getUTCMonth(),x.getUTCDate());var left=Math.round((nb-bt)/D);
+    $('r2').innerHTML=TX.score([['만 나이',age+'세',left===0?'오늘이 생일이에요 🎂':'다음 생일까지 '+left+'일'],['연 나이',(y.getUTCFullYear()-x.getUTCFullYear())+'세','병역·청소년보호법 등'],['살아온 날',Math.round((bt-bb)/D).toLocaleString()+'일',F(bb)+'생']])}
+  var c=P($('c1').value),cn=Math.round(num('cn')),cu=$('cu').value,res;
+  if(!isNaN(c)){if(cu==='d')res=c+cn*D;else if(cu==='w')res=c+cn*7*D;else if(cu==='m')res=addM(c,cn);else if(cu==='y')res=addM(c,cn*12);else{res=c;var k=0,st=cn>=0?1:-1;while(k<Math.abs(cn)){res+=st*D;if(work(res,false))k++}}
+    $('r3').innerHTML=TX.score([['계산한 날짜',F(res),iso(c)+' '+(cn>=0?'+ ':'− ')+Math.abs(cn)+{d:'일',w:'주',m:'개월',y:'년',bd:'영업일'}[cu]]])}
+  var s=P($('d1').value),e=P($('d2').value),sat=$('sat').checked;
+  if(!isNaN(s)&&!isNaN(e)&&e>=s){var tot=0,wd=0,hol=[],we=0;for(var t=s;t<=e;t+=D){tot++;var w=new Date(t).getUTCDay();if(HS[iso(t)]&&!(w===0||(w===6&&!sat)))hol.push(iso(t).slice(5).replace('-','/'));if(w===0||(w===6&&!sat))we++;if(work(t,sat))wd++}
+    $('r4').innerHTML=TX.score([['근무일수',wd+'일','시작·끝 날짜 포함'],['전체 일수',tot+'일','주말 '+we+'일'],['평일 공휴일',hol.length+'일',hol.join(', ')||'없음']])}
+  var en=P($('e1').value),ty=$('e2').value,mo=ty==='21s'?21:+ty;
+  if(!isNaN(en)){var out=addM(en,mo)-D,served=Math.max(0,Math.round((today-en)/D)),totd=Math.round((out-en)/D)+1,pct=Math.min(100,served/totd*100);
+    $('r5').innerHTML=TX.score([['전역(소집해제) 예정일',F(out),mo+'개월 복무'],['오늘 기준',today>out?'전역 완료':'D-'+Math.round((out-today)/D),served+'일 복무'],['복무율',pct.toFixed(1)+'%','전체 '+totd+'일']])+'<p class="note">휴가·징계·질병 등에 따라 실제 전역일은 달라질 수 있어요. 산업기능요원·전문연구요원은 편입 형태에 따라 34~36개월이에요.</p>'}
+});
+
+</script>
+</body>
+</html>
