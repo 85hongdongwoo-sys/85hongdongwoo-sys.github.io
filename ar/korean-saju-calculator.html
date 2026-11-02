@@ -359,7 +359,7 @@ function render(o,B,scroll){
   row('نايين',function(p){return NAYIN[Math.floor(jiazi(p[0],p[1])/2)]});
   h+='</div>';
   var lu=o.lunar,de=EL[GE[dg]];
-  h+='<div class="summary"><div><span>سيد اليوم (الرمز الذي يمثّلك)</span><b class="t-'+de+'">'+GAN[dg]+' '+GR[dg]+' · '+ELN[de]+' '+yy(dg)+'</b><br><span>'+DAYMASTER[dg][0]+'</span></div>'+
+  h+='<div class="summary"><div data-share-result><span>سيد اليوم (الرمز الذي يمثّلك)</span><b class="t-'+de+'">'+GAN[dg]+' '+GR[dg]+' · '+ELN[de]+' '+yy(dg)+'</b><br><span>'+DAYMASTER[dg][0]+'</span></div>'+
     '<div><span>حيوان البرج (من إيبتشون)</span><b>'+gzH(P.y[0],P.y[1])+' '+gzR(P.y[0],P.y[1])+'</b><br><span>عام '+ANIMAL[P.y[1]]+'</span></div>'+
     '<div><span>التاريخ الميلادي / القمري</span><b>'+o.y+'-'+pad(o.m)+'-'+pad(o.d)+'</b><br><span>قمري '+lu.getYear()+'-'+(lu.getMonth()<0?'كبيس '+(-lu.getMonth()):lu.getMonth())+'-'+lu.getDay()+'</span></div>'+
     '<div><span>الوقت المعتمد لليوم والساعة</span><b>'+(o.noTime?'الوقت غير معروف':pad(o.lmt.getUTCHours())+':'+pad(o.lmt.getUTCMinutes()))+'</b><br><span>'+(o.noTime?'تم تخطي عمود الساعة':'المُدخل '+pad(o.hm[0])+':'+pad(o.hm[1])+' ← '+(o.adj>=0?'+':'')+o.adj+' دقيقة'+(o.off!==o.std?' (يشمل التوقيت الصيفي)':''))+'</span></div></div>';
@@ -580,5 +580,6 @@ window.__saju={compute:compute,CL:CL,tzOffset:tzOffset,wallToUtc:wallToUtc};
 run(false);
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>
