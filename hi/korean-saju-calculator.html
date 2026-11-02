@@ -351,7 +351,7 @@ function render(o,B,scroll){
   row('नायिन',function(p){return NAYIN[Math.floor(jiazi(p[0],p[1])/2)]});
   h+='</div>';
   var lu=o.lunar,de=EL[GE[dg]];
-  h+='<div class="summary"><div><span>दिवस-स्वामी (आपका प्रतिनिधि अक्षर)</span><b class="t-'+de+'">'+GAN[dg]+' '+GR[dg]+' · '+yy(dg)+' '+ELN[de]+'</b><br><span>'+cap(DAYMASTER[dg][0])+'</span></div>'+
+  h+='<div class="summary"><div data-share-result><span>दिवस-स्वामी (आपका प्रतिनिधि अक्षर)</span><b class="t-'+de+'">'+GAN[dg]+' '+GR[dg]+' · '+yy(dg)+' '+ELN[de]+'</b><br><span>'+cap(DAYMASTER[dg][0])+'</span></div>'+
     '<div><span>राशि-पशु (इपचुन से)</span><b>'+gzH(P.y[0],P.y[1])+' '+gzR(P.y[0],P.y[1])+'</b><br><span>'+ANIMAL[P.y[1]]+' का वर्ष</span></div>'+
     '<div><span>ग्रेगोरियन / चांद्र तिथि</span><b>'+o.y+'-'+pad(o.m)+'-'+pad(o.d)+'</b><br><span>चांद्र '+lu.getYear()+'-'+(lu.getMonth()<0?'अधिक '+(-lu.getMonth()):lu.getMonth())+'-'+lu.getDay()+'</span></div>'+
     '<div><span>दिन और घंटे के लिए लिया गया समय</span><b>'+(o.noTime?'समय अज्ञात':pad(o.lmt.getUTCHours())+':'+pad(o.lmt.getUTCMinutes()))+'</b><br><span>'+(o.noTime?'घंटे का स्तंभ छोड़ा गया':'डाला गया '+pad(o.hm[0])+':'+pad(o.hm[1])+' → '+(o.adj>=0?'+':'')+o.adj+' मिनट'+(o.off!==o.std?' (DST सहित)':''))+'</span></div></div>';
@@ -572,5 +572,6 @@ window.__saju={compute:compute,CL:CL,tzOffset:tzOffset,wallToUtc:wallToUtc};
 run(false);
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>

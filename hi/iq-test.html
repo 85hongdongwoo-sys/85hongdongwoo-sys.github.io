@@ -134,7 +134,7 @@ function finish(){
   var p=ws/wt,iq=Math.round(100+15*(p-0.58)/0.16);iq=Math.max(70,Math.min(145,iq));if(!st.limit)iq=Math.min(iq,130);
   var pct=ncdf((iq-100)/15)*100,used=Math.round((Date.now()-st.start)/60000);
   var desc=iq>=130?'अति श्रेष्ठ (लगभग शीर्ष 2%)':iq>=120?'श्रेष्ठ':iq>=110?'औसत से ऊपर':iq>=90?'औसत':iq>=80?'औसत से थोड़ा कम':'औसत से कम';
-  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">अनुमानित IQ (मनोरंजन के लिए)</p><div class="big">'+iq+'</div><h2 style="margin:4px 0">'+desc+'</h2><p style="margin:0"><b>120 में से '+tot+'</b> सही · '+(pct>=50?'शीर्ष ~'+Math.max(0.1,100-pct).toFixed(1):'निचले ~'+Math.max(0.1,pct).toFixed(1))+'% में · '+(st.limit?used+' मिनट लगे':'बिना समय-सीमा')+'</p></section>';
+  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">अनुमानित IQ (मनोरंजन के लिए)</p><div class="big" data-share-result>'+iq+'</div><h2 style="margin:4px 0" data-share-result>'+desc+'</h2><p style="margin:0" data-share-result><b>120 में से '+tot+'</b> सही · '+(pct>=50?'शीर्ष ~'+Math.max(0.1,100-pct).toFixed(1):'निचले ~'+Math.max(0.1,pct).toFixed(1))+'% में · '+(st.limit?used+' मिनट लगे':'बिना समय-सीमा')+'</p></section>';
   h+='<section class="card"><h2>खंडवार स्कोर</h2>'+Object.keys(area).map(function(k){var a=area[k],r=a[1]?a[0]/a[1]:0;return '<div class="area"><span>'+KN[k]+'</span><div class="b"><i style="width:'+(r*100)+'%"></i></div><b>'+a[0]+'/'+a[1]+'</b></div>'}).join('');
   var best=Object.keys(area).sort(function(x,y){return area[y][0]/area[y][1]-area[x][0]/area[x][1]})[0];
   h+='<p style="margin:10px 0 0">आपका सबसे मज़बूत खंड: <b>'+KN[best]+'</b>. '+({mat:'आप दृश्य तर्क में अच्छे हैं — पैटर्न में छिपे नियम जल्दी पकड़ लेते हैं।',seq:'संख्याओं की श्रृंखला के पीछे का नियम ढूँढने की आपकी समझ तेज़ है।',verbal:'आप अवधारणाओं के बीच के संबंध बारीकी से समझ लेते हैं।',logic:'आप शर्तों को व्यवस्थित करके तर्क से सही जवाब तक पहुँचने में अच्छे हैं।'})[best]+'</p></section>';
@@ -153,5 +153,6 @@ if(st.start&&!st.done){$('start').textContent='टेस्ट जारी र�
 if(st.done&&st.start){finish()}
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>
