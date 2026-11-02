@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MBTI Compatibility Calculator — 16×16 Chart for Love, Friends and Work</title>
+<meta name="description" content="Pick two personality types to see a compatibility score, 8 detailed chemistry scores, cognitive function match, love styles and a 16×16 chart of all 256 pairs. Free and for fun.">
+<link rel="canonical" href="https://honglife.co.kr/en/mbti-compatibility.html"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/mbti-compatibility.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/mbti.html">
+<meta property="og:type" content="website"><meta property="og:title" content="MBTI Compatibility Calculator — 16×16 Chart for Love, Friends and Work"><meta property="og:description" content="Pick two personality types to see a compatibility score, 8 detailed chemistry scores, cognitive function match, love styles and a 16×16 chart of all 256 pairs. Free and for fun."><meta property="og:url" content="https://honglife.co.kr/en/mbti-compatibility.html">
+<meta name="theme-color" content="#0B1F3F"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../g.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is MBTI compatibility scientifically proven?", "acceptedAnswer": {"@type": "Answer", "text": "No. There is little evidence that personality type alone predicts relationship success. This calculator uses its own simple rules and is meant as a fun way to talk about differences."}}, {"@type": "Question", "name": "How is the compatibility score calculated?", "acceptedAnswer": {"@type": "Answer", "text": "Every pair starts at 30 points. Matching S/N adds 25, matching T/F adds 14 (10 if different), different E/I adds 14 (6 if same) and different J/P adds 12 (6 if same), so scores range from 52 to 95."}}, {"@type": "Question", "name": "Does a low score mean we are a bad match?", "acceptedAnswer": {"@type": "Answer", "text": "No. Couples with very different types often misunderstand each other at first, but once they learn each other's style they can complement each other well."}}]}</script>
+<style>
+/* page-specific styles (ported from mbti.html, light theme to match g.css) */
+:root{--bg:#EEF1F5;--surface:#FFFFFF;--primary:#12305C;--primary-ink:#FFFFFF;--tint:#E6ECF5;--heart:#C2362B;--mint:#128A6E;--amber:#E8C27A;--amber-ink:#3B2E00;--warn-bg:#FFF6DC;--warn-line:#E5C766}
+body{font-size:16px;line-height:1.7;overflow-wrap:anywhere}
+.mb h2{font-size:19px;margin:0 0 8px;font-weight:700;color:var(--ink)}
+.mb h3{font-size:16px;margin:0 0 6px;font-weight:700}
+.mb p{margin:0 0 12px}
+.mb{margin-top:20px}
+.notice{border:1px solid var(--warn-line);background:var(--warn-bg);color:#3B2E00;border-radius:8px;padding:11px 14px;font-size:14.5px;line-height:1.7;margin:0 0 16px}
+.small{font-size:13.5px;color:var(--muted);line-height:1.6}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--gold-d);outline-offset:2px;border-radius:6px}
+.mb .card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;margin:0 0 14px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media(max-width:600px){.grid2{grid-template-columns:minmax(0,1fr)}}
+/* MBTI picker */
+.who{border-top:6px solid var(--primary)!important}
+.who.b{border-top-color:var(--heart)!important}
+.who .nm{width:100%;font:inherit;font-weight:700;font-size:17px;border:0;border-bottom:2px solid var(--line);background:transparent;color:var(--ink);padding:4px 2px;min-height:40px;margin-bottom:8px}
+.ax{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 0 6px}
+.ax button{font:inherit;text-align:center;padding:8px 4px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);cursor:pointer;min-height:56px;line-height:1.25}
+.ax button b{display:block;font-weight:800;font-size:22px}
+.ax button span{font-size:12px;color:var(--muted)}
+.ax button[aria-pressed=true]{border-color:var(--primary);background:var(--tint)}
+.ax button[aria-pressed=true] b{color:var(--primary)}
+.who.b .ax button[aria-pressed=true]{border-color:var(--heart)}
+.who.b .ax button[aria-pressed=true] b{color:var(--heart)}
+.typebox{text-align:center;margin-top:8px}
+.typebox .t{font-weight:800;font-size:34px;line-height:1.1;letter-spacing:.06em}
+.typebox .n{font-size:13.5px;color:var(--muted);margin-top:2px}
+/* gauge */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+@media(max-width:520px){.hero{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.gauge{position:relative;width:150px;height:150px}
+.gauge svg{transform:rotate(-90deg)}
+.gauge .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gauge .num b{font-weight:800;font-size:44px;line-height:1}
+.gauge .num span{font-size:12.5px;color:var(--muted)}
+.gauge circle.bg{stroke:var(--tint)}
+.gauge circle.fg{stroke:var(--heart);transition:stroke-dashoffset .8s ease}
+@media(prefers-reduced-motion:reduce){.gauge circle.fg{transition:none}}
+.tier{display:inline-block;background:var(--amber);color:var(--amber-ink);font-weight:700;padding:3px 12px;border-radius:99px;font-size:15px;margin-bottom:6px}
+.pair{font-weight:800;font-size:22px;line-height:1.3;margin:0 0 4px!important}
+.axrow{display:grid;grid-template-columns:120px 1fr auto;gap:4px 10px;align-items:start;padding:10px 0;border-top:1px dashed var(--line)}
+.axrow:first-of-type{border-top:0}
+.axrow .an{font-weight:700;font-size:15px}
+.axrow .lt{font-weight:800;font-size:19px}
+.axrow .tx{font-size:14.5px;line-height:1.6;color:var(--ink);grid-column:2/-1}
+.pts{font-weight:700;font-variant-numeric:tabular-nums;color:var(--primary);white-space:nowrap}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;border:1px solid var(--line);margin-left:4px;color:var(--muted)}
+.tag.same{border-color:var(--mint);color:var(--mint)}
+.tag.diff{border-color:var(--heart);color:var(--heart)}
+.mini{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+@media(max-width:600px){.mini{grid-template-columns:minmax(0,1fr)}}
+.mini .box{background:var(--tint);border-radius:10px;padding:10px 12px;font-size:14.8px;line-height:1.65}
+.mini .box h3{font-size:15px;margin:0 0 4px}
+ul.tips{margin:0;padding-left:18px}
+ul.tips li{margin:2px 0}
+.top3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:6px 0 8px}
+@media(max-width:480px){.top3{grid-template-columns:minmax(0,1fr)}}
+.top3 div{background:var(--tint);border-radius:10px;padding:8px 10px;text-align:center}
+.top3 b{font-weight:800;font-size:22px;display:block}
+.top3 span{font-size:13px;color:var(--muted)}
+.top3.modes{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:520px){.top3.modes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mb table{border-collapse:collapse;width:100%;font-size:14.5px;margin:0}
+.mb th,.mb td{padding:6px 10px;text-align:left;border-bottom:1px solid var(--line)}
+.mb th{background:var(--tint)}
+.mb td.n,.mb th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:inherit}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface);margin:8px 0}
+details{margin:8px 0}
+summary{cursor:pointer;font-weight:700;font-size:15px}
+details li{font-size:14.5px;line-height:1.7}
+.bar{height:10px;background:var(--tint);border-radius:99px;overflow:hidden;margin:2px 0}
+.bar i{display:block;height:100%;background:var(--heart);border-radius:99px}
+.fn{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:6px 0 4px}
+.fn div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 4px;text-align:center;font-size:12.5px;color:var(--muted)}
+.fn b{display:block;font-size:17px;color:var(--ink)}
+.fn div:first-child{border-color:var(--primary)}.fn div:first-child b{color:var(--primary)}
+.heat{border-collapse:separate!important;border-spacing:2px;font-size:11.5px!important;width:auto!important;min-width:100%}
+.mb .heat th{background:transparent;padding:2px;font-size:11px;font-weight:700;text-align:center;border:0}
+.mb .heat td{padding:0;text-align:center;border:0;border-radius:4px;min-width:34px;height:28px;cursor:pointer;font-variant-numeric:tabular-nums;color:#0F1B2D;font-size:11.5px}
+.heat td.sel{outline:3px solid var(--heart);outline-offset:-1px;font-weight:800}
+.heat tr.me th:first-child,.heat th.me{color:var(--heart)}
+@media(max-width:520px){.axrow{grid-template-columns:96px 1fr auto}}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>%</i>홍라이프 계산기</a><nav class="langs"><a href="mbti-compatibility.html" hreflang="en" aria-current="true">English</a><a href="../mbti.html" hreflang="ko">한국어</a></nav></div></div>
+<div class="wrap">
+<header class="top"><h1>MBTI <b>Compatibility</b> Calculator</h1><p class="sub">Compatibility scores for all 256 combinations of the 16 types — plus 8 detailed chemistry scores, love vs. friendship vs. work, cognitive functions and love styles.</p></header>
+<nav class="tabs"><div class="row"><a href="mbti-compatibility.html" aria-current="page">MBTI compatibility</a><a href="life-expectancy-calculator.html">Life expectancy</a><a href="age-calculator.html">Age</a><a href="bmi-calculator.html">BMI</a><a href="loan-calculator.html">Loan</a><a href="compound-interest-calculator.html">Compound interest</a><a href="percentage-calculator.html">Percentage</a><a href="korea-salary-calculator.html">Korea salary</a></div></nav>
+
+<main class="mb">
+<div class="notice"><strong>Just for fun.</strong> The compatibility score comes from <u>simple rules this page made up</u>. There is little scientific evidence that personality type predicts whether a relationship will work. This is an unofficial, independent tool. MBTI, Myers-Briggs and Myers-Briggs Type Indicator are registered trademarks of their owner (The Myers &amp; Briggs Foundation); this site is not affiliated with or endorsed by them.</div>
+
+<section aria-label="Choose two types">
+  <div class="grid2">
+    <div class="card who" id="whoA"></div>
+    <div class="card who b" id="whoB"></div>
+  </div>
+  <div class="card"><p class="small" style="margin:0">Not sure of your type? On each row, tap the side that feels more like you. If you have taken an official assessment, use that result.</p></div>
+  <div id="mbtiResult" aria-live="polite"></div>
+  <div id="mbtiMore"></div>
+</section>
+
+<section class="card help"><h2>How this calculator works</h2>
+<p>Each type is four letters: Extraversion/Introversion (E/I), Sensing/Intuition (S/N), Thinking/Feeling (T/F) and Judging/Perceiving (J/P). The main score starts at 30 points and adds points for each letter pair. Sharing S or N matters most here (+25), because it shapes how two people talk about the world. Sharing T or F adds +14 (+10 if different). Having <em>different</em> E/I (+14) and J/P (+12) letters scores higher than matching ones (+6), on the idea that opposite energy and planning styles can balance each other. Scores therefore range from 52 to 95.</p>
+<p>The 8 detailed chemistry scores (conversation, emotional connection, dates, conflict, living together, texting, future plans and affection) and the friendship, marriage and coworker scores reweight the same four letters for each situation. The cognitive function section compares each type's function stack (dominant, auxiliary, tertiary, inferior) from Jung's theory.</p>
+<h3>Frequently asked questions</h3><dl><div><dt>Is MBTI compatibility scientifically proven?</dt><dd>No. There is little evidence that personality type alone predicts relationship success. This calculator uses its own simple rules and is meant as a fun way to talk about differences.</dd></div><div><dt>How is the compatibility score calculated?</dt><dd>Every pair starts at 30 points. Matching S/N adds 25, matching T/F adds 14 (10 if different), different E/I adds 14 (6 if same) and different J/P adds 12 (6 if same), so scores range from 52 to 95.</dd></div><div><dt>Does a low score mean we are a bad match?</dt><dd>No. Couples with very different types often misunderstand each other at first, but once they learn each other's style they can complement each other well.</dd></div></dl>
+<p class="note">Tip: share a link with your type pre-selected, e.g. <code>mbti-compatibility.html?a=INTJ&amp;b=ENFP</code>.</p>
+</section>
+</main>
+<footer><nav><a href="./">All calculators</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></nav><div>For entertainment only. Compatibility scores are not a basis for judging or deciding anything about a real relationship — people are far more varied than 16 types. MBTI is a trademark of its owner; this is an unofficial tool.</div></footer>
+</div>
+<script src="../g.js"></script>
+<script>
+/* ===== MBTI compatibility – core logic (identical to mbti.html) ===== */
+const AXES = [
+  { key: 'SN', a: 'S', b: 'N', name: 'Conversation', same: 25, diff: 0 },
+  { key: 'TF', a: 'T', b: 'F', name: 'Decisions & empathy', same: 14, diff: 10 },
+  { key: 'EI', a: 'E', b: 'I', name: 'Energy', same: 6, diff: 14 },
+  { key: 'JP', a: 'J', b: 'P', name: 'Daily rhythm', same: 6, diff: 12 }
+];
+const BASE = 30;
+const TYPES = ['ISTJ','ISFJ','INFJ','INTJ','ISTP','ISFP','INFP','INTP','ESTP','ESFP','ENFP','ENTP','ESTJ','ESFJ','ENFJ','ENTJ'];
+const NICK = {
+  ISTJ: 'The reliable one who shows up on time without a reminder',
+  ISFJ: 'The quiet guardian who takes care of everything',
+  INFJ: 'The deep, perceptive partner',
+  INTJ: 'The strategist with a relationship roadmap',
+  ISTP: 'Few words, lots of action — the fixer',
+  ISFP: 'The gentle artist recharging in quiet',
+  INFP: 'The romantic writing a novel in their head',
+  INTP: 'The thinker who analyzes even love',
+  ESTP: '"Let\'s just go!" — master of spontaneous dates',
+  ESFP: 'The life of every party',
+  ENFP: 'The partner whose interests spark in every direction',
+  ENTP: 'The idea machine who debates for fun',
+  ESTJ: 'The leader whose plans run like clockwork',
+  ESFJ: 'The social star who never forgets an anniversary',
+  ENFJ: 'The caring leader who checks how you are first',
+  ENTJ: 'The driven partner with crystal-clear goals'
+};
+function pairScore(a, b) {
+  const parts = [];
+  let score = BASE;
+  AXES.forEach((ax, i) => {
+    const la = a[axisIndex(ax.key)], lb = b[axisIndex(ax.key)];
+    const same = la === lb;
+    const pts = same ? ax.same : ax.diff;
+    score += pts;
+    parts.push({ key: ax.key, name: ax.name, la, lb, same, pts });
+  });
+  return { score, parts };
+}
+function axisIndex(key) { return { EI: 0, SN: 1, TF: 2, JP: 3 }[key]; }
+function tierOf(score) {
+  if (score >= 90) return { name: 'Soulmate level', emoji: '💘', line: 'Are you sure this isn\'t fate? Your wavelengths line up almost perfectly.' };
+  if (score >= 80) return { name: 'Great match', emoji: '✨', line: 'Comfortable and fun together. Mind the small differences and this can go the distance.' };
+  if (score >= 70) return { name: 'Great with a little effort', emoji: '🌱', line: 'Your differences are part of the attraction. Sync up how you talk and things get much better.' };
+  if (score >= 60) return { name: 'Learning from each other', emoji: '📚', line: 'You think quite differently, so getting to know each other is half the fun.' };
+  return { name: 'Bring a translator', emoji: '🔍', line: 'You express yourselves very differently — but you also have the most to learn from each other!' };
+}
+function allScores(me) {
+  return TYPES.map(t => ({ type: t, score: pairScore(me, t).score }))
+    .sort((x, y) => (y.score - x.score) || x.type.localeCompare(y.type));
+}
+function dateStyle(t) {
+  const e = t[0] === 'E', s = t[1] === 'S';
+  if (e && s) return { key: 'ES', text: 'trendy restaurants, pop-ups and hands-on experiences' };
+  if (e && !s) return { key: 'EN', text: 'exhibitions, live shows and exploring new neighborhoods' };
+  if (!e && s) return { key: 'IS', text: 'favorite local spots, movies and easy walks' };
+  return { key: 'IN', text: 'bookstores, quiet cafés and long talks after a gallery visit' };
+}
+function datePlan(a, b) {
+  const da = dateStyle(a), db = dateStyle(b);
+  if (da.key === db.key) return 'Your tastes are similar. Try ' + da.text + '.';
+  return 'One of you prefers ' + da.text + '; the other prefers ' + db.text + '. Take turns: plan one date in one style, the next in the other.';
+}
+function loveTips(t) {
+  const tips = [];
+  tips.push(t[2] === 'F' ? 'Acknowledge the feeling first — "That must have hurt."' : 'Help find a way forward — "What if we tried this?"');
+  tips.push(t[3] === 'J' ? 'Share times and plans in advance; it puts them at ease.' : 'Leave room to change plans — "We can decide on the day."');
+  tips.push(t[0] === 'E' ? 'Ask first — "What do you feel like doing today?"' : 'Respect their alone time — "Tell me if you need some time to yourself."');
+  tips.push(t[1] === 'S' ? 'Praise specifics — "That choice you made today was great."' : 'Show curiosity about their ideas and what-ifs.');
+  return tips;
+}
+function fightTip(a, b) {
+  const ta = a[2], tb = b[2];
+  if (ta === 'T' && tb === 'T') return 'Two logical minds can debate forever. Whoever asks "What am I missing?" first wins — and add one sentence about how you feel.';
+  if (ta === 'F' && tb === 'F') return 'Two empathizers may expect the other to just sense the hurt. Say "I felt hurt" out loud before it snowballs.';
+  return 'One of you wants solutions, the other wants empathy. Before talking, ask "Do you need a fix or a listening ear right now?" — it cuts arguments in half.';
+}
+/* ---------- cognitive functions & profiles ---------- */
+const STACK={ISTJ:['Si','Te','Fi','Ne'],ISFJ:['Si','Fe','Ti','Ne'],INFJ:['Ni','Fe','Ti','Se'],INTJ:['Ni','Te','Fi','Se'],ISTP:['Ti','Se','Ni','Fe'],ISFP:['Fi','Se','Ni','Te'],INFP:['Fi','Ne','Si','Te'],INTP:['Ti','Ne','Si','Fe'],ESTP:['Se','Ti','Fe','Ni'],ESFP:['Se','Fi','Te','Ni'],ENFP:['Ne','Fi','Te','Si'],ENTP:['Ne','Ti','Fe','Si'],ESTJ:['Te','Si','Ne','Fi'],ESFJ:['Fe','Si','Ne','Ti'],ENFJ:['Fe','Ni','Se','Ti'],ENTJ:['Te','Ni','Se','Fi']};
+const FN={Se:'living in the moment, the senses',Si:'familiar experience, memory and routine',Ne:'new possibilities, connecting ideas',Ni:'insight, the big picture, foresight',Te:'efficiency, structure, getting results',Ti:'analyzing how things work, logical consistency',Fe:'group harmony and the mood in the room',Fi:'personal values and authenticity'};
+const PROF={
+ISTJ:['Shows love by keeping promises rather than with words. Once things are stable, they are steady as a rock.','Reliability, responsibility, consistency','Sudden changes of plan and spontaneous demands wear them out.','Sticking to plans together, practical help'],
+ISFJ:['Remembers your preferences and every anniversary, and quietly takes care of them.','Devotion, thoughtfulness, a sense of security','If their care goes unthanked, they quietly pile up hurt feelings.','Remembering the little things, warm words'],
+INFJ:['Values deep conversation and emotional connection. Once they commit, they are serious.','Insight, empathy, sincerity','If they sense your values clash, they may suddenly close the door.','Heart-to-heart talks, serious conversations about the future'],
+INTJ:['Not great at showing feelings, but grows the relationship as seriously as a long-term plan.','Independence, steady growth, trustworthiness','Steps back from pointless conflict and emotional attacks.','Recognition of their competence, goals to grow toward together'],
+ISTP:['Shows care through shared activities and practical help rather than words.','Calm, problem-solving, easygoing freedom','Pulls away when quizzed about feelings or micromanaged.','Respect for personal time, a hobby you share'],
+ISFP:['Quiet but warm; loves sharing beautiful, emotional moments.','Kindness, acceptance, an eye for beauty','Gets hurt silently by criticism or pressure.','Being accepted as they are, small thoughtful gifts'],
+INFP:['Dreams of an ideal love and tries to understand their partner deeply.','Empathy, sincerity, imagination','Deeply hurt when their values are dismissed, then works through it alone.','A heartfelt letter or words, support for their dreams'],
+INTP:['Can talk endlessly with someone they find interesting. Awkward at showing it, but sincere.','Intellectual curiosity, fairness, a relaxed vibe','Freezes when emotional demands pile up all at once.','Conversations that respect their ideas, time alone'],
+ESTP:['Keeps the relationship lively with fun, spontaneous dates.','Energy, quick reflexes, street smarts','Wants to escape boredom and emotionally heavy moods.','Doing activities together, compliments'],
+ESFP:['The mood-maker who makes every moment fun, and is open with affection.','Brightness, warmth, expressiveness','Feels stifled by nonstop serious planning or criticism.','Time spent having fun together, instant reactions'],
+ENFP:['Expresses feelings with passion and cheers on their partner\'s potential.','Passion, creativity, empathy','Feels trapped by repetitive routines and control.','New experiences, genuine interest'],
+ENTP:['Conversation and debate are their love language — never a dull moment.','Wit, ideas, adaptability','May brush off feelings too lightly and leave their partner hurt.','Intellectual conversation, a relationship with room to breathe'],
+ESTJ:['Takes responsible lead in the relationship and always keeps their word.','Drive, dependability, practical care','Gets frustrated when plans fall apart or decisions drag on.','Keeping promises, recognition of their effort'],
+ESFJ:['A caring partner who looks after you and everyone around you.','Thoughtfulness, sociability, devotion','Deeply hurt by indifference or no response.','Openly expressed affection, time with friends and family'],
+ENFJ:['Helps their partner grow and leads the relationship with warmth.','Leadership, empathy, encouragement','Takes on their partner\'s problems as their own and burns out.','Expressions of gratitude, planning the future together'],
+ENTJ:['Goal-oriented in love; wants a partner to grow with.','Decisiveness, drive, diligence','Can seem cold by leading with solutions before feelings.','Recognition of their abilities, goals that point the same way']};
+function fnPair(a,b){
+  const A=STACK[a],B=STACK[b],out=[];
+  if(A[0]===B[0])out.push(['Same dominant function ('+A[0]+')','You see the world through the same lens, so talking clicks from day one — but you may share a blind spot. Both of you should mind '+FN[A[3]]+'.']);
+  if(A[0]===B[1]&&B[0]===A[1])out.push(['Dominant and auxiliary cross over','What one of you does best is the other\'s second strength. You understand each other easily while each takes the lead in a different area.']);
+  if(A[0]===B[3]||B[0]===A[3]){const w=A[0]===B[3]?[a,b,A[0]]:[b,a,B[0]];out.push(['Inferior function trigger',w[0]+'\'s dominant function ('+w[2]+', '+FN[w[2]]+') is '+w[1]+'\'s weakest area. It feels fascinating at first, but when you\'re both tired this is where you\'re most likely to clash.'])}
+  const shareJ=A.slice(0,2).filter(f=>B.slice(0,2).includes(f));
+  if(shareJ.length&&!(A[0]===B[0])&&!(A[0]===B[1]&&B[0]===A[1]))out.push(['Shared function '+shareJ.join(' · '),'You both lean on '+shareJ.map(f=>FN[f]).join(' and ')+', so conversations in this area feel easy.']);
+  if(!out.length)out.push(['Different languages','Your top two functions don\'t overlap, so you may read the same situation very differently. Making a habit of asking "How did you see it?" helps a lot.']);
+  return out;
+}
+function chem(a,b){
+  var E=[a[0],b[0]],S=[a[1],b[1]],T=[a[2],b[2]],J=[a[3],b[3]];
+  var same=function(x){return x[0]===x[1]},has=function(x,l){return x.indexOf(l)>=0},both=function(x,l){return x[0]===l&&x[1]===l};
+  var c=[];
+  function add(icon,name,score,txt){c.push([icon,name,Math.max(30,Math.min(98,Math.round(score))),txt])}
+  add('🗣️','Conversation',50+(same(S)?30:0)+(same(T)?10:0)+(both(E,'E')?6:0),same(S)?(both(S,'N')?'"What if…" stories, future plans and wild ideas — you can talk all night.':'What happened today, great places to eat, real-life worries — the talk just flows.'):'One of you speaks in concrete facts, the other in big pictures. Asking each other "For example?" and "So what\'s the bottom line?" makes it much easier.');
+  add('💗','Emotional connection',both(T,'F')?90:both(T,'T')?58:68+(same(S)?4:0),both(T,'F')?'You pick up on each other\'s feelings and empathize naturally. You both bruise easily too, so don\'t let hurt feelings pile up.':both(T,'T')?'You\'re more comfortable with reasoned talk than with feelings. Make a point of saying "thank you" and "I love you" often.':'An empathizer and a problem-solver give each other a view the other lacks. When sharing a worry, say up front: "just listen" or "help me find a fix".');
+  add('🎡','Date preferences',(same(E)&&same(S))?92:(same(E)||same(S))?72:52,(same(E)&&same(S))?'You like the same places and the same ways to have fun — planning dates is easy for you two.':same(E)?'Your energy levels match but your tastes differ (real-world experiences vs. something new). Take turns choosing and both your worlds get bigger.':same(S)?'You like similar things, but one recharges out and about, the other at home. Balance a night out with a night in.':'Your tastes and stamina both differ. Try "experiencing" each other\'s favorite kind of date — you may be pleasantly surprised.');
+  add('⚡','Conflict resolution',(both(T,'F')?70:both(T,'T')?66:60)+(same(J)?8:0)+(!same(E)?4:0),both(T,'T')?'You go head-to-head with logic. Focus on "what we\'ll do now" instead of who was right, and it resolves faster.':both(T,'F')?'You both avoid conflict to avoid getting hurt, so things can build up. Agree to mention even small hurts the same day.':'One of you argues the point, the other feels hurt. If it drags on, take a 30-minute break and come back with "here\'s how I felt".');
+  add('🏠','Living together',both(J,'J')?90:both(J,'P')?70:64+(same(S)?6:0),both(J,'J')?'Cleaning, budgets and schedules line up neatly. But when plans go sideways, you may both get tense.':both(J,'P')?'A free and fun household! Just assign who handles bills, bookings and deadlines.':'A planner meets a free spirit. Let the J handle the big stuff (money, travel bookings) and the P bring the fun — a great team.');
+  add('📱','Texting & calls',same(E)?86:60,both(E,'E')?'You both like checking in often and sharing your day.':both(E,'I')?'Neither of you minds a quiet phone. That easy distance is a strength.':'The extravert texts often; the introvert texts when there\'s a reason. Say it early: "A slow reply doesn\'t mean I care less."');
+  add('🔭','Future plans',(both(S,'N')?84:both(S,'S')?80:60)+(has(J,'J')?6:0),same(S)?(both(S,'N')?'You dream about the same kind of future. Just write the action steps down concretely.':'You can build practical goals — a home, savings, a timeline — step by step together.'):'One of you looks five years ahead, the other at this month\'s plan. Put them together and you get "dream + execution".');
+  var fc=(T[0]==='F')+(T[1]==='F'),ec=(E[0]==='E')+(E[1]==='E');
+  add('🤗','Affection',52+fc*14+ec*8+(same(T)?6:0),fc===2?'A warm, openly affectionate couple.':fc===1?'One of you shows love in words, the other in actions. Learning each other\'s "love language" prevents misunderstandings.':'Low-key in words, but you build trust through actions. On special days at least, say it out loud.');
+  return c;
+}
+function modes(a,b){
+  var s=function(i){return a[i]===b[i]};
+  function sc(w){var x=w.base;['E','S','T','J'].forEach(function(k,i){var idx=[0,1,2,3][i];x+=s(idx)?w[k][0]:w[k][1]});return Math.min(98,x)}
+  return [['💘 Romance',pairScore(a,b).score],['👫 Friendship',sc({base:34,E:[16,8],S:[22,6],T:[12,8],J:[10,6]})],['💍 Marriage',sc({base:30,E:[8,10],S:[22,4],T:[12,10],J:[24,6]})],['💼 Coworkers',sc({base:36,E:[8,10],S:[14,8],T:[10,14],J:[20,6]})]];
+}
+function heatColor(s){const t=(s-52)/(95-52);const r=Math.round(230-t*120),g=Math.round(236-t*40),b=Math.round(245-t*100);return 'rgb('+r+','+g+','+b+')'}
+
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+  var S = { a: 'ENFP', b: 'INFJ', na: 'Me', nb: 'Partner' };
+
+  var AXD = [
+    { i: 0, a: ['E','Recharge with people'], b: ['I','Recharge alone'] },
+    { i: 1, a: ['S','Facts & experience'], b: ['N','Ideas & possibilities'] },
+    { i: 2, a: ['T','Logic & solutions'], b: ['F','Empathy & feelings'] },
+    { i: 3, a: ['J','Stick to the plan'], b: ['P','Go with the flow'] }
+  ];
+  function pickerHTML(side){
+    var key = side === 'A' ? 'a' : 'b', nkey = side === 'A' ? 'na' : 'nb';
+    var h = '<input class="nm" data-side="' + side + '" value="' + esc(S[nkey]) + '" maxlength="12" aria-label="' + (side === 'A' ? 'Your name' : 'Partner\'s name') + '">';
+    AXD.forEach(function(ax){
+      var cur = S[key][ax.i];
+      h += '<div class="ax">' +
+        [ax.a, ax.b].map(function(o){ return '<button type="button" data-side="' + side + '" data-i="' + ax.i + '" data-l="' + o[0] + '" aria-pressed="' + (cur === o[0]) + '"><b>' + o[0] + '</b><span>' + o[1] + '</span></button>'; }).join('') + '</div>';
+    });
+    h += '<div class="typebox"><div class="t" id="type' + side + '">' + S[key] + '</div><div class="n" id="nick' + side + '">' + NICK[S[key]] + '</div></div>';
+    return h;
+  }
+  function buildPickers(){ $('whoA').innerHTML = pickerHTML('A'); $('whoB').innerHTML = pickerHTML('B'); }
+  function setLetter(side, i, l){
+    var key = side === 'A' ? 'a' : 'b', s = S[key].split('');
+    s[i] = l; S[key] = s.join('');
+    var box = $(side === 'A' ? 'whoA' : 'whoB');
+    Array.prototype.forEach.call(box.querySelectorAll('button[data-i="' + i + '"]'), function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-l') === l ? 'true' : 'false'); });
+    $('type' + side).textContent = S[key]; $('nick' + side).textContent = NICK[S[key]];
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('.ax button'); if (!b) return;
+    setLetter(b.getAttribute('data-side'), +b.getAttribute('data-i'), b.getAttribute('data-l'));
+    renderMbti();
+  });
+  document.addEventListener('input', function(e){
+    if (e.target.classList && e.target.classList.contains('nm')) {
+      if (e.target.getAttribute('data-side') === 'A') S.na = e.target.value.trim() || 'Me'; else S.nb = e.target.value.trim() || 'Partner';
+      renderMbti();
+    }
+  });
+
+  var AXTXT = {
+    SN: { S: 'Two realists! Talk about what\'s in front of you and real experiences flows easily.', N: 'Two dreamers! Time flies when you talk about the future and big ideas.', D: 'One thinks "now and concrete", the other "future and possible". The same words can land differently, so a bit of translating helps.' },
+    TF: { T: 'Logic meets logic! Conversations are clean, but make an effort to express feelings.', F: 'Empathy meets empathy! Your hearts connect, but say hurt feelings out loud so they don\'t pile up.', D: 'One wants solutions, the other empathy — easy to mishear each other. Ask: "Do you need a fix or support?"' },
+    EI: { E: 'Two social batteries! Your calendars overflow, so schedule quiet days for just the two of you.', I: 'Two quiet rechargers! Comfortable, but how often you meet and text may naturally drift down.', D: 'One recharges out, one recharges in. Sync your date rhythm and you fill each other\'s gaps.' },
+    JP: { J: 'Two planners! Schedules click, but you may both get tense when surprises hit.', P: 'Two free spirits! Trips are fun — just decide who handles bookings and deadlines.', D: 'A planner and an improviser. Let J own the structure and P own the fun for great balance.' }
+  };
+  function renderMbti(){
+    var r = pairScore(S.a, S.b), tier = tierOf(r.score);
+    var na = esc(S.na), nb = esc(S.nb);
+    var C = 2 * Math.PI * 54, off = C * (1 - r.score / 100);
+    var h = '<div class="card"><div class="hero"><div class="gauge" role="img" aria-label="Compatibility score ' + r.score + ' out of 100">' +
+      '<svg width="150" height="150" viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="54" fill="none" stroke-width="14"/><circle class="fg" cx="75" cy="75" r="54" fill="none" stroke-width="14" stroke-linecap="round" stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '"/></svg>' +
+      '<div class="num"><b>' + r.score + '</b><span>Compatibility</span></div></div>' +
+      '<div><span class="tier">' + tier.emoji + ' ' + tier.name + '</span><p class="pair">' + na + ' ' + S.a + ' ♥ ' + nb + ' ' + S.b + '</p><p style="margin:0">' + tier.line + '</p></div></div></div>';
+
+    h += '<div class="card"><h2>Chemistry on the 4 letters</h2>';
+    r.parts.forEach(function(p){
+      var txt = p.same ? AXTXT[p.key][p.la] : AXTXT[p.key].D;
+      h += '<div class="axrow"><div class="an">' + p.name + '</div><div><span class="lt">' + p.la + ' · ' + p.lb + '</span><span class="tag ' + (p.same ? 'same' : 'diff') + '">' + (p.same ? 'same' : 'different') + '</span></div><div class="pts">+' + p.pts + ' pts</div><div class="tx">' + txt + '</div></div>';
+    });
+    h += '<p class="small" style="margin:8px 0 0">Base of ' + BASE + ' points plus the points for each letter. See "How the score works" below.</p></div>';
+
+    h += '<div class="card"><h2>Quick tips for this couple</h2><div class="mini">' +
+      '<div class="box"><h3>🗓️ Date ideas</h3>' + datePlan(S.a, S.b) + '</div>' +
+      '<div class="box"><h3>🌧️ Making up after a fight</h3>' + fightTip(S.a, S.b) + '</div>' +
+      '<div class="box"><h3>💬 What works with ' + nb + '</h3><ul class="tips">' + loveTips(S.b).map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="box"><h3>💬 What works with ' + na + '</h3><ul class="tips">' + loveTips(S.a).map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul></div>' +
+      '</div></div>';
+
+    var all = allScores(S.a), top = all.slice(0, 3), low = all.slice(-3).reverse();
+    h += '<div class="card"><h2>Top 3 matches for ' + na + ' (' + S.a + ')</h2><div class="top3">' +
+      top.map(function(x, i){ return '<div><b>' + (i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : '🥉 ') + x.type + '</b><span>' + x.score + ' pts</span></div>'; }).join('') + '</div>' +
+      '<p class="small" style="margin:0 0 4px">Lowest-scoring types: ' + low.map(function(x){ return x.type + ' ' + x.score; }).join(', ') + ' (plenty of these couples get along great).</p>' +
+      '<details><summary>See scores for all 16 types</summary><div class="scroll"><table><tr><th>Type</th><th>Love nickname</th><th class="n">Score</th></tr>' +
+      all.map(function(x){ return '<tr><td><b>' + x.type + '</b></td><td>' + NICK[x.type] + '</td><td class="n">' + x.score + '</td></tr>'; }).join('') + '</table></div></details></div>';
+
+    h += '<details class="card"><summary>How the score works</summary><ul>' +
+      '<li>Start at ' + BASE + ' points.</li>' +
+      AXES.map(function(ax){ return '<li><strong>' + ax.name + ' (' + ax.a + '/' + ax.b + ')</strong>: +' + ax.same + ' if the same, +' + ax.diff + ' if different</li>'; }).join('') +
+      '<li>So scores run from 52 to 95, and the 16 × 16 = 256 combinations spread evenly across 16 score levels.</li>' +
+      '<li>The top pairing shares S/N and T/F but differs on E/I and J/P — the idea being that you understand each other while balancing each other\'s rhythm.</li>' +
+      '<li>These rules were <strong>made up for fun</strong>, not taken from research, and may differ from other compatibility charts.</li></ul></details>';
+    $('mbtiResult').innerHTML = h;
+    renderMore();
+  }
+  function renderMore(){
+    var A=S.a,B=S.b,na=esc(S.na),nb=esc(S.nb);
+    function prof(t,n){var p=PROF[t];return '<div class="card"><h2>'+n+' · '+t+' love profile</h2><div class="fn">'+STACK[t].map(function(f,i){return '<div><b>'+f+'</b>'+['Dominant','Auxiliary','Tertiary','Inferior'][i]+'</div>'}).join('')+'</div><p class="small" style="margin:0 0 8px">Dominant '+STACK[t][0]+': '+FN[STACK[t][0]]+'</p><div class="mini"><div class="box"><h3>💗 Love style</h3>'+p[0]+'</div><div class="box"><h3>✨ Charm points</h3>'+p[1]+'</div><div class="box"><h3>⚡ What hurts</h3>'+p[2]+'</div><div class="box"><h3>🎁 What wins them over</h3>'+p[3]+'</div></div></div>'}
+    var ch=chem(A,B),md=modes(A,B);
+    var h='<div class="card"><h2>🔍 8 detailed chemistry scores</h2>'+ch.map(function(c){return '<div class="axrow" style="grid-template-columns:1fr auto"><div class="an">'+c[0]+' '+c[1]+'</div><div class="pts">'+c[2]+'</div><div class="bar" style="grid-column:1/-1"><i style="width:'+c[2]+'%"></i></div><div class="tx" style="grid-column:1/-1">'+c[3]+'</div></div>'}).join('')+'</div>';
+    h+='<div class="card"><h2>🎭 Compatibility by relationship</h2><div class="top3 modes">'+md.map(function(m){return '<div><span>'+m[0]+'</span><b>'+m[1]+'</b></div>'}).join('')+'</div><p class="small" style="margin:0">The same two people weigh things differently as partners, friends, spouses or coworkers. For marriage and living together, daily rhythm (J/P) and conversation style (S/N) count more; at work, complementary decision styles (T/F) count more.</p></div>';
+    h+='<div class="card"><h2>🧠 Cognitive function match</h2>'+fnPair(A,B).map(function(x){return '<div class="axrow" style="grid-template-columns:1fr"><div class="an">'+x[0]+'</div><div class="tx" style="grid-column:1">'+x[1]+'</div></div>'}).join('')+'<p class="small" style="margin:8px 0 0">'+A+': '+STACK[A].join(' → ')+' · '+B+': '+STACK[B].join(' → ')+'</p></div>';
+    h+='<div class="grid2" style="gap:0 12px">'+prof(A,na)+prof(B,nb)+'</div>';
+    h+='<div class="card"><h2>📊 16×16 MBTI compatibility chart</h2><p class="small" style="margin:0 0 6px">Tap any cell to switch to that pair. Darker = higher score. Rows are '+na+', columns are '+nb+'.</p><div class="scroll"><table class="heat"><tr><th></th>'+TYPES.map(function(t){return '<th class="'+(t===B?'me':'')+'">'+t+'</th>'}).join('')+'</tr>'+
+      TYPES.map(function(r){return '<tr class="'+(r===A?'me':'')+'"><th>'+r+'</th>'+TYPES.map(function(c){var s=pairScore(r,c).score;return '<td data-a="'+r+'" data-b="'+c+'" class="'+(r===A&&c===B?'sel':'')+'" style="background:'+heatColor(s)+'" title="'+r+' × '+c+': '+s+'">'+s+'</td>'}).join('')+'</tr>'}).join('')+'</table></div></div>';
+    $('mbtiMore').innerHTML=h;
+  }
+  document.addEventListener('click',function(e){var td=e.target.closest('.heat td');if(!td)return;S.a=td.getAttribute('data-a');S.b=td.getAttribute('data-b');buildPickers();renderMbti();});
+
+  try{var qs=new URLSearchParams(location.search),qa=(qs.get('a')||'').toUpperCase(),qb=(qs.get('b')||'').toUpperCase();if(/^[EI][SN][TF][JP]$/.test(qa))S.a=qa;if(/^[EI][SN][TF][JP]$/.test(qb))S.b=qb;}catch(e){}
+  buildPickers();
+  renderMbti();
+})();
+</script>
+</body>
+</html>

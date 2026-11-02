@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Electricity Cost Calculator — Appliance kWh &amp; Running Cost</title>
+<meta name="description" content="Work out how much your appliances cost to run: watts × hours × days to kWh, then cost per day, month and year using 2026 household electricity prices for the US, UK, Canada, Australia, Europe, Asia and more.">
+<link rel="canonical" href="https://honglife.co.kr/en/electricity-cost-calculator.html"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/electricity-cost-calculator.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/elec.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Electricity Cost Calculator — Appliance kWh &amp; Running Cost"><meta property="og:description" content="Work out how much your appliances cost to run: watts × hours × days to kWh, then cost per day, month and year using 2026 household electricity prices for the US, UK, Canada, Australia, Europe, Asia and more."><meta property="og:url" content="https://honglife.co.kr/en/electricity-cost-calculator.html">
+<meta name="theme-color" content="#0B1F3F"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../g.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much does it cost to run a 1,000-watt appliance?", "acceptedAnswer": {"@type": "Answer", "text": "A 1,000 W (1 kW) appliance uses 1 kWh per hour. Running it 1 hour a day for 30 days uses 30 kWh, which costs 30 × your price per kWh — about US$5.50 at the US average of 18.34 cents."}}, {"@type": "Question", "name": "How do I convert watts to kWh?", "acceptedAnswer": {"@type": "Answer", "text": "Multiply watts by hours of use and divide by 1,000. A 60 W laptop used 6 hours a day uses 0.36 kWh per day, or about 10.8 kWh in a 30-day month."}}, {"@type": "Question", "name": "Why is my bill higher than the calculator result?", "acceptedAnswer": {"@type": "Answer", "text": "Bills add fixed daily or monthly charges, and many tariffs have tiers, time-of-use pricing or local taxes. The calculator shows the usage cost of the appliances you list, so enter the unit rate from your own bill for the closest result."}}]}</script>
+<style>
+.tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px}
+.tools button{font:600 14px var(--f);padding:8px 14px;border-radius:4px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#DCE4F2;cursor:pointer}
+.tools button[aria-selected="true"]{background:var(--gold);border-color:var(--gold);color:#0B1F3F}
+.btn{font:700 14.5px var(--f);padding:10px 16px;border-radius:4px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:42px}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn.gold{background:var(--gold-d);border-color:var(--gold-d);color:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font:600 13px var(--f);padding:6px 10px;border-radius:99px;border:1px solid #C9D1DC;background:#F6F8FB;color:var(--accent);cursor:pointer}
+.chips button:hover{border-color:var(--accent)}
+.field input[type=date],.field input[type=time]{min-height:44px}
+
+.stack{display:grid;gap:16px;margin-top:20px}
+.card h2{margin:0 0 12px;font-size:17px;color:var(--accent)}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px 14px}
+.field small{font-size:12px;color:var(--muted);line-height:1.45}
+.apps{width:100%;border-collapse:collapse;font-size:14px;margin-top:0}
+.apps th{background:var(--soft);font-size:12px;padding:7px 6px;text-align:left;color:#3A4659}
+.apps td{padding:6px;border-bottom:1px solid var(--line);vertical-align:middle}
+.apps td input{width:100%;font:500 15px var(--mono);border:1px solid #C9D1DC;border-radius:4px;padding:7px 8px;background:#FBFCFD;text-align:right;min-width:0}
+.apps td input.nm{font-family:var(--f);text-align:left}
+.apps td.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+.apps .x{border:0;background:transparent;color:var(--muted);font-size:22px;cursor:pointer;width:32px;line-height:1}
+@media(max-width:700px){.apps thead{display:none}.apps tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}
+ .apps td{border:0;padding:0;min-width:0}.apps td:first-child{grid-column:1/-1}.apps td.n{grid-column:1/4;text-align:left;align-self:center}
+ .apps td[data-l]::before{content:attr(data-l);display:block;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.apps td input{text-align:left}}
+.add{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 0}
+.add select{flex:1 1 220px;min-width:0;font:15px var(--f);border:1px solid #C9D1DC;border-radius:4px;padding:9px 10px;background:#FBFCFD}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.score div{border-radius:8px;padding:14px 16px;background:#0B1F3F;color:#fff;min-width:0}
+.score span{display:block;font-size:12.5px;color:#BFCBE0}
+.score b{display:block;font:600 clamp(22px,4vw,28px)/1.25 var(--mono);color:var(--gold);word-break:break-word}
+.score em{font-style:normal;font-size:12.5px;color:#DCE4F2}
+.bars .row{display:grid;grid-template-columns:130px minmax(0,1fr) 110px;gap:10px;align-items:center;font-size:13.5px;margin:5px 0}
+.bars .row .b{height:12px;border-radius:99px;background:var(--soft);overflow:hidden}
+.bars .row .b i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.bars .row.me .b i{background:var(--gold-d)}.bars .row.me span{font-weight:700}
+.bars .row b{text-align:right;font:600 13px var(--mono)}
+@media(max-width:520px){.bars .row{grid-template-columns:96px minmax(0,1fr) 84px;font-size:12.5px}}
+.warn{border:1px solid #E5C766;background:#FFF6DC;color:#3B2E00;border-radius:6px;padding:10px 14px;font-size:13.5px;margin:10px 0 0}
+.src{font-size:12.5px;color:var(--muted);margin:6px 0 0}
+.srcs{width:100%;font-size:13px}.srcs td{padding:7px 4px;vertical-align:top}.srcs td:nth-child(2){white-space:nowrap;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>%</i>홍라이프 계산기</a><nav class="langs"><a href="../en/electricity-cost-calculator.html" hreflang="en" aria-current="true">English</a><a href="../elec.html" hreflang="ko">한국어</a></nav></div></div>
+<div class="wrap">
+<header class="top"><h1>Electricity <b>Cost Calculator</b></h1><p class="sub">Add your appliances, pick a country and see the kWh and running cost per day, month and year. Override the price with the rate from your own bill.</p></header>
+<nav class="tabs"><div class="row"><a href="korea-salary-calculator.html">Korea salary</a><a href="korea-severance-pay-calculator.html">Korea severance</a><a href="korea-pension-refund-calculator.html">Pension refund</a><a href="loan-calculator.html">Loan</a><a href="compound-interest-calculator.html">Compound interest</a><a href="percentage-calculator.html">Percentage</a><a href="age-calculator.html">Age</a><a href="bmi-calculator.html">BMI</a><a href="date-calculator.html">Date</a><a href="travel-budget-calculator.html">Travel budget</a><a href="electricity-cost-calculator.html" aria-current="page">Electricity cost</a><a href="stopwatch.html">Stopwatch</a></div></nav>
+<div class="stack" id="form">
+<section class="card">
+ <h2>1. Appliances and usage</h2>
+ <table class="apps"><thead><tr><th>Appliance</th><th>Power (W)</th><th>Hours per day</th><th>Days per month</th><th>Qty</th><th>kWh / month</th><th></th></tr></thead><tbody id="rows"></tbody></table>
+ <div class="add"><select id="preset" aria-label="Add an appliance"></select><button class="btn" type="button" id="addBtn">+ Add</button><button class="btn ghost" type="button" id="addCustom">Custom</button><button class="btn ghost" type="button" id="clearBtn">Clear all</button></div>
+ <p class="hint" style="margin-top:8px">Use the rated power on the label or in the manual. Fridges, freezers and air conditioners cycle on and off, so the presets use average running power. If your fridge label shows kWh per year, divide it by 8.76 to get average watts.</p>
+</section>
+
+<section class="card">
+ <h2>2. Electricity price</h2>
+ <div class="fg">
+  <div class="field"><label for="country">Country</label><select id="country"></select></div>
+  <div class="field"><label for="price" id="priceLabel">Price per kWh</label><input id="price" type="number" inputmode="decimal" min="0" step="any"><small id="priceHint"></small></div>
+ </div>
+ <p class="src" id="srcLine"></p>
+ <div id="krOpts" hidden style="margin-top:12px">
+  <label class="check"><input type="checkbox" id="kepco" checked><span>Use the KEPCO progressive residential tariff (low voltage, incl. climate &amp; fuel charges, VAT and fund)</span></label>
+  <div class="fg" style="margin-top:10px">
+   <div class="field"><label for="kbase">Other household use (kWh / month)</label><input id="kbase" type="number" inputmode="numeric" min="0" value="250"><small>From your last bill. Decides which price tier the extra usage falls into.</small></div>
+   <div class="field"><label for="season">Season</label><select id="season"><option value="etc">Spring / autumn (Mar–Jun, Sep–Nov)</option><option value="summer">Summer (Jul–Aug)</option><option value="winter">Winter (Dec–Feb)</option></select></div>
+  </div>
+ </div>
+</section>
+
+<section class="card" id="result" aria-live="polite"></section>
+</div>
+<section class="card help"><h2>How to calculate electricity cost</h2>
+<p><b>Energy (kWh) = power (W) × hours per day × days ÷ 1,000.</b> <b>Cost = kWh × price per kWh.</b> For example, a 1,000 W heater used 1 hour a day for 30 days uses 30 kWh; at US$0.18 per kWh that is about US$5.40 a month.</p>
+<p>The default prices are typical all-in household rates (energy plus taxes where the source includes them) and do not include fixed daily or monthly charges. Your own rate can be very different by state, province, supplier, plan or time of day, so type the unit rate from your bill into the price box to override it.</p>
+<p><b>South Korea</b> uses a progressive tariff: the price per kWh depends on the household's total monthly use. With the KEPCO option on, the calculator works out the bill with and without your appliances (tiers 120.0 / 214.6 / 307.3 won per kWh, climate charge 9.0 won, Q4 2026 fuel adjustment +5.0 won, 10% VAT and the 2.7% power fund) and shows the difference.</p>
+<h3>Default prices and sources</h3>
+<div style="overflow-x:auto"><table class="srcs" id="srcTbl"></table></div>
+<p class="note">US-dollar equivalents use ECB euro reference rates of 30 October 2026. GlobalPetrolPrices figures are household averages for 2023–2025 (Q4 2025 update), converted from US dollars at the same rates.</p><h3>Frequently asked questions</h3><dl><div><dt>How much does it cost to run a 1,000-watt appliance?</dt><dd>A 1,000 W (1 kW) appliance uses 1 kWh per hour. Running it 1 hour a day for 30 days uses 30 kWh, which costs 30 × your price per kWh — about US$5.50 at the US average of 18.34 cents.</dd></div><div><dt>How do I convert watts to kWh?</dt><dd>Multiply watts by hours of use and divide by 1,000. A 60 W laptop used 6 hours a day uses 0.36 kWh per day, or about 10.8 kWh in a 30-day month.</dd></div><div><dt>Why is my bill higher than the calculator result?</dt><dd>Bills add fixed daily or monthly charges, and many tariffs have tiers, time-of-use pricing or local taxes. The calculator shows the usage cost of the appliances you list, so enter the unit rate from your own bill for the closest result.</dd></div></dl></section>
+<footer><nav><a href="./">All calculators</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></nav><div>Results are estimates for information only, not financial, tax or legal advice.</div></footer>
+</div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+/* ECB euro reference rates, 30 Oct 2026: 1 EUR = x */
+const EURX={USD:1.1172,EUR:1,GBP:0.8338,JPY:175.68,AUD:1.5904,CAD:1.5606,INR:106.084,KRW:1491.76,IDR:20275.17,MXN:21.1237,BRL:6.0692,ZAR:18.6455,PHP:71.143};
+const toUSD=(v,c)=>v*EURX.USD/EURX[c];
+const LOC={USD:'en-US',GBP:'en-GB',CAD:'en-CA',AUD:'en-AU',EUR:'de-DE',JPY:'ja-JP',KRW:'ko-KR',INR:'en-IN',PHP:'en-PH',IDR:'id-ID',MXN:'es-MX',BRL:'pt-BR',ZAR:'en-ZA'};
+const money=(v,c,d)=>{const z=(c==='JPY'||c==='KRW'||c==='IDR');const dd=d!=null?d:(z?0:2);try{return new Intl.NumberFormat('en-US',{style:'currency',currency:c,currencyDisplay:'narrowSymbol',minimumFractionDigits:dd,maximumFractionDigits:dd}).format(v)}catch(e){return c+' '+v.toFixed(dd)}};
+/* [id, name, currency, default price per kWh, unit hint, source, langs] */
+const C=[
+ ['us','United States','USD',0.1834,'US average residential price, June 2026 (18.34¢/kWh, preliminary).','U.S. EIA, Electric Power Monthly, Table 5.3 (released Oct 2026)',['en-US']],
+ ['uk','United Kingdom','GBP',0.2632,'Ofgem price cap, 1 Oct–31 Dec 2026, Direct Debit, GB average. Plus a standing charge of 54.83p/day (not included).','Ofgem energy price cap, Oct–Dec 2026',['en-GB']],
+ ['ca','Canada','CAD',0.172,'National household average; provinces range from about 8¢ (Québec, Manitoba) to over 30¢ (territories).','GlobalPetrolPrices household average US$0.123/kWh (2023–25, Q4 2025 update), converted',['en-CA','fr-CA']],
+ ['au','Australia','AUD',0.30,'Median flat usage rate across NEM states incl. GST, Oct 2026 (NSW 33¢, VIC 27¢, QLD 28¢, SA 42¢). Daily supply charge not included.','AER Energy Made Easy plan data, median as of 16 Oct 2026 (via WhySolar)',['en-AU']],
+ ['de','Germany','EUR',0.373,'Average household price 2026 (3,500 kWh/year), all taxes and levies included.','BDEW Strompreisanalyse, October 2026',['de']],
+ ['fr','France','EUR',0.2001,'EDF Tarif Bleu, Base option, 6 kVA, incl. taxes, from 1 Aug 2026. Subscription €190.32/year not included.','CRE / EDF regulated tariff, 1 August 2026',['fr']],
+ ['jp','Japan','JPY',31,'Standard reference unit price; the average of the 10 regional utilities’ standard plans is about ¥31 (¥26–41 by region).','Japan Home Appliance Fair Trade Council reference price; Selectra Japan, Nov 2026',['ja']],
+ ['kr','South Korea','KRW',151,'Flat rate shown = tier 1 (120.0 won) + climate 9.0 + fuel adj. 5.0, plus VAT and fund. Tick the KEPCO option for the real progressive bill.','KEPCO residential tariff (since 9 Nov 2023), fuel adjustment Q4 2026 +5.0 won',['ko']],
+ ['in','India','INR',7.31,'National household average; actual slab rates vary widely by state and usage.','GlobalPetrolPrices household average US$0.077/kWh (2023–25, Q4 2025 update), converted',['en-IN','hi']],
+ ['ph','Philippines','PHP',15.0615,'Meralco overall rate for a typical 200 kWh household, October 2026.','Meralco via Philstar, 14 Oct 2026',['en-PH','fil','tl']],
+ ['id','Indonesia','IDR',1444.70,'PLN non-subsidised R-1 1,300–2,200 VA, Q4 2026 (unchanged Oct–Dec). 900 VA: Rp1,352; ≥3,500 VA: Rp1,699.53.','PLN tariff adjustment Q4 2026 (Metro TV, Oct 2026)',['id']],
+ ['mx','Mexico','MXN',1.369,'CFE Tariff 1 intermediate block (June 2026). Basic block 1.125, excess block 4.004 pesos/kWh.','CFE domestic tariff 1, June 2026 (UnoTV)',['es-MX']],
+ ['br','Brazil','BRL',0.875,'National household average incl. taxes; varies by distributor and the monthly tariff flag (bandeira).','GlobalPetrolPrices household average US$0.161/kWh (2023–25, Q4 2025 update), converted',['pt-BR','pt']],
+ ['za','South Africa','ZAR',3.40,'Typical metro block-1 rate from 1 July 2026 (Johannesburg ~R3.34, Cape Town R3.43); Eskom direct ~R2.26. VAT incl., fixed charges excluded.','OurPower.co.za, 2026/27 municipal tariffs (July 2026)',['en-ZA','af']],
+ ['other','Other (enter your rate)','USD',0.20,'Enter your own price per kWh.','—',[]]
+];
+/* presets: [name, W, hours/day, days/month] */
+const P=[
+['Central air conditioner (3-ton)',3500,8,30],['Window / room AC',900,8,30],['Mini-split heat pump (cooling)',1000,8,30],['Portable space heater',1500,4,30],['Oil-filled radiator',1500,5,30],['Electric blanket',100,8,30],['Dehumidifier',300,8,30],['Air purifier',40,12,30],['Humidifier (ultrasonic)',30,10,30],['Ceiling fan',40,8,30],['Pedestal fan',45,8,30],
+['Refrigerator (modern, average)',50,24,30],['Refrigerator (older, side-by-side)',90,24,30],['Chest freezer',30,24,30],['Electric oven',2400,1,15],['Induction cooktop (1 zone)',1800,1,30],['Microwave',1100,0.3,30],['Air fryer',1500,0.5,15],['Electric kettle',2000,0.2,30],['Coffee maker',1000,0.3,30],['Dishwasher',1200,1,20],['Rice cooker (cook + keep warm)',150,8,30],
+['Washing machine (warm wash)',500,1,12],['Clothes dryer (electric, vented)',3000,1,12],['Heat-pump dryer',900,1.2,12],['Electric water heater (tank)',4000,3,30],['Hair dryer',1500,0.2,30],
+['TV 65" LED',120,5,30],['TV 43" LED',60,5,30],['Game console',150,3,30],['Desktop PC',250,6,30],['Gaming PC',500,4,30],['Laptop',60,6,30],['Monitor 27"',35,6,30],['Wi-Fi router',10,24,30],
+['LED bulbs (10 × 10 W)',100,6,30],['Robot vacuum (charging)',40,1.5,30],['Pool pump',1100,8,30],['EV charging, Level 2 (7.2 kW)',7200,2,20],['E-bike / scooter charging',300,2,15]];
+let rows=[],userPrice=false;
+const kwh=r=>r.w*r.h*r.d*r.q/1000;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* KEPCO residential low voltage (since 2023-11-09) */
+const HOME={base:[910,1600,7300],rate:[120.0,214.6,307.3],sup:736.2},CLIMATE=9.0,FUEL=5.0,FUND=0.027;
+function homeBill(k,season){k=Math.max(0,Math.round(k));const lim=season==='summer'?[300,450]:[200,400];const tier=k<=lim[0]?0:k<=lim[1]?1:2;
+  let e=Math.min(k,lim[0])*HOME.rate[0]+Math.max(0,Math.min(k,lim[1])-lim[0])*HOME.rate[1];let top=Math.max(0,k-lim[1]),sup=0;if(season!=='etc'&&k>1000){sup=k-1000;top-=sup}
+  e+=top*HOME.rate[2]+sup*HOME.sup;e=Math.floor(e);const base=HOME.base[tier],cl=Math.floor(k*CLIMATE),fu=Math.floor(k*FUEL);
+  const sub=Math.floor(base+e+cl+fu),vat=Math.round(sub*0.1),fund=Math.floor(sub*FUND/10)*10,total=Math.floor((sub+vat+fund)/10)*10;return{k,tier,total,sup}}
+const cty=()=>C[+$('country').value];
+function renderRows(){
+  $('rows').innerHTML=rows.map((r,i)=>'<tr><td><input class="nm" data-i="'+i+'" data-k="n" value="'+esc(r.n)+'" aria-label="Appliance name"></td><td data-l="Watts"><input data-i="'+i+'" data-k="w" type="number" inputmode="decimal" min="0" value="'+r.w+'" aria-label="Power in watts"></td><td data-l="Hours/day"><input data-i="'+i+'" data-k="h" type="number" inputmode="decimal" min="0" max="24" step="0.1" value="'+r.h+'" aria-label="Hours per day"></td><td data-l="Days/month"><input data-i="'+i+'" data-k="d" type="number" inputmode="numeric" min="0" max="31" value="'+r.d+'" aria-label="Days per month"></td><td data-l="Qty"><input data-i="'+i+'" data-k="q" type="number" inputmode="numeric" min="1" value="'+r.q+'" aria-label="Quantity"></td><td class="n">'+kwh(r).toFixed(1)+' kWh</td><td><button class="x" type="button" data-del="'+i+'" aria-label="Remove">×</button></td></tr>').join('')||'<tr><td colspan="7" class="hint">Add an appliance below.</td></tr>';
+}
+function render(full){
+  if(full!==false)renderRows();
+  const c=cty(),cur=c[2],add=rows.reduce((s,r)=>s+kwh(r),0),M=v=>money(v,cur);
+  const kr=c[0]==='kr'&&$('kepco').checked;
+  $('price').disabled=kr;
+  let cost,detail='',rate=+$('price').value||0;
+  if(kr){const se=$('season').value,b=Math.max(0,+$('kbase').value||0),b0=homeBill(b,se),b1=homeBill(b+add,se);cost=b1.total-b0.total;rate=add?cost/add:0;
+    detail='<p class="note">KEPCO bill for the household goes from <b>'+M(b0.total)+'</b> ('+b0.k+' kWh, tier '+(b0.tier+1)+') to <b>'+M(b1.total)+'</b> ('+b1.k+' kWh, tier '+(b1.tier+1)+'). Effective price of the extra usage: '+money(rate,'KRW',1)+' per kWh.</p>'+(b1.tier>b0.tier?'<div class="warn">These appliances push the household into tier '+(b1.tier+1)+': the basic charge rises from '+M(HOME.base[b0.tier])+' to '+M(HOME.base[b1.tier])+' and extra kWh cost '+HOME.rate[b1.tier]+' won each.</div>':'')+(b1.sup?'<div class="warn">'+b1.sup+' kWh above 1,000 kWh in '+se+' is charged at the super-user rate of '+HOME.sup+' won.</div>':'');
+  }else cost=add*rate;
+  const usd=toUSD(cost,cur);
+  let h='<h2>Result · '+esc(c[1])+'</h2><div class="score">'+
+   '<div><span>Cost per month</span><b id="mcost">'+M(cost)+'</b><em>'+(cur!=='USD'?'≈ '+money(usd,'USD')+' · ':'')+'<span id="mkwh" style="display:inline;color:inherit;font-size:inherit">'+add.toFixed(1)+' kWh</span></em></div>'+
+   '<div><span>Cost per day</span><b>'+M(cost/30)+'</b><em>'+(add/30).toFixed(2)+' kWh per day (30-day month)</em></div>'+
+   '<div><span>Cost per year</span><b>'+M(cost*12)+'</b><em>'+(add*12).toFixed(0)+' kWh per year</em></div></div>'+detail;
+  if(rows.length&&add>0){h+='<h3 style="margin:18px 0 6px;font-size:15.5px;color:var(--accent)">By appliance</h3><table><tr><td><b>Appliance</b></td><td class="n"><b>kWh / mo</b></td><td class="n"><b>Cost / mo</b></td></tr>'+
+    rows.map(r=>'<tr><td>'+esc(r.n)+'<span class="c">'+r.w+' W × '+r.h+' h × '+r.d+' days'+(r.q>1?' × '+r.q:'')+'</span></td><td class="n">'+kwh(r).toFixed(1)+'</td><td class="n">'+M(kwh(r)/add*cost)+'</td></tr>').join('')+
+    '<tr class="t"><td>Total</td><td class="n">'+add.toFixed(1)+'</td><td class="n">'+M(cost)+'</td></tr></table>';
+   const list=C.filter(x=>x[0]!=='other').map(x=>{let v=x[0]==='kr'?toUSD(homeBill(add,'etc').total,'KRW'):toUSD(add*x[3],x[2]);return [x[1],v,x[0]===c[0]]}).sort((a,b)=>b[1]-a[1]),mx=list[0][1]||1;
+   h+='<h3 style="margin:20px 0 6px;font-size:15.5px;color:var(--accent)">The same '+add.toFixed(0)+' kWh in other countries (US$ / month)</h3><div class="bars">'+list.map(x=>'<div class="row'+(x[2]?' me':'')+'"><span>'+x[0]+'</span><div class="b"><i style="width:'+(x[1]/mx*100).toFixed(1)+'%"></i></div><b>'+money(x[1],'USD')+'</b></div>').join('')+'</div><p class="note">Default household prices converted at ECB rates of 30 Oct 2026. South Korea uses the KEPCO bill for this usage alone (spring/autumn).</p>';}
+  $('result').innerHTML=h;
+}
+function setPrice(){const c=cty();if(!userPrice)$('price').value=c[3];$('priceLabel').textContent='Price per kWh ('+c[2]+')';
+  $('priceHint').textContent='Default '+money(c[3],c[2],c[2]==='KRW'?0:(c[3]<10?4:2)).replace(/(\.\d*?)0+$/,'$1')+'/kWh. '+c[4]+' Type your own rate to override.';
+  $('srcLine').innerHTML=c[5]!=='—'?'Source: '+esc(c[5])+' · <a href="#" id="resetPrice">reset to default</a>':'';
+  $('krOpts').hidden=c[0]!=='kr';
+  const rp=$('resetPrice');if(rp)rp.onclick=e=>{e.preventDefault();userPrice=false;setPrice();render()}}
+function srcTable(){$('srcTbl').innerHTML='<tr><td><b>Country</b></td><td><b>Default / kWh</b></td><td><b>Source</b></td></tr>'+C.filter(x=>x[0]!=='other').map(x=>'<tr><td>'+x[1]+'</td><td>'+money(x[3],x[2],x[2]==='KRW'||x[2]==='JPY'?0:(x[3]<10?4:2)).replace(/(\.\d*?)0+$/,'$1').replace(/\.$/,'')+(x[2]!=='USD'?'<br><small style="color:var(--muted)">≈ '+money(toUSD(x[3],x[2]),'USD',3)+'</small>':'')+'</td><td>'+esc(x[5])+'</td></tr>').join('')}
+$('country').innerHTML=C.map((c,i)=>'<option value="'+i+'">'+c[1]+'</option>').join('');
+$('preset').innerHTML=P.map((p,i)=>'<option value="'+i+'">'+p[0]+' · '+p[1].toLocaleString('en-US')+' W</option>').join('');
+// default country: saved choice, else browser language
+let ci=0;try{const s=localStorage.getItem('hl_elec_country');const f=C.findIndex(c=>c[0]===s);if(f>=0)ci=f;else throw 0}catch(e){const langs=(navigator.languages||[navigator.language||'en-US']);outer:for(const l of langs){for(let i=0;i<C.length;i++){if(C[i][6].some(x=>x.toLowerCase()===l.toLowerCase())){ci=i;break outer}}for(let i=0;i<C.length;i++){if(C[i][6].some(x=>x.toLowerCase()===l.toLowerCase().split('-')[0])){ci=i;break outer}}}}
+$('country').value=ci;
+const m=new Date().getMonth()+1;$('season').value=(m===7||m===8)?'summer':(m===12||m<=2)?'winter':'etc';
+const DEF=(m>=5&&m<=9)?[1,11,27]:(m>=11||m<=3)?[3,11,27]:[11,27,30];DEF.forEach(i=>{const p=P[i];rows.push({n:p[0],w:p[1],h:p[2],d:p[3],q:1})});
+$('addBtn').addEventListener('click',()=>{const p=P[+$('preset').value];rows.push({n:p[0],w:p[1],h:p[2],d:p[3],q:1});render()});
+$('addCustom').addEventListener('click',()=>{rows.push({n:'My appliance',w:1000,h:1,d:30,q:1});render()});
+$('clearBtn').addEventListener('click',()=>{rows=[];render()});
+$('rows').addEventListener('input',e=>{const t=e.target,i=t.dataset.i;if(i===undefined)return;const k=t.dataset.k;rows[i][k]=k==='n'?t.value:Math.max(0,parseFloat(t.value)||0);t.closest('tr').querySelector('.n').textContent=kwh(rows[i]).toFixed(1)+' kWh';render(false)});
+$('rows').addEventListener('click',e=>{const d=e.target.dataset.del;if(d===undefined)return;rows.splice(+d,1);render()});
+$('country').addEventListener('change',()=>{userPrice=false;setPrice();render();try{localStorage.setItem('hl_elec_country',cty()[0])}catch(e){}});
+$('price').addEventListener('input',()=>{userPrice=true;render(false)});
+['kepco','kbase','season'].forEach(id=>{$(id).addEventListener('input',()=>render(false));$(id).addEventListener('change',()=>render(false))});
+setPrice();srcTable();render();
+window.__elec={rows:()=>rows,homeBill};
+})();
+</script>
+</body>
+</html>

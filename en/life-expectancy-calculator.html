@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Life Expectancy Calculator — Health Age, Lifespan and Odds of Reaching 90</title>
+<meta name="description" content="Estimate your health age, life expectancy and chance of reaching 80, 90 or 100 from your habits, blood pressure and family history, using UN 2024 data for your country. Optional private face-age check.">
+<link rel="canonical" href="https://honglife.co.kr/en/life-expectancy-calculator.html"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/life-expectancy-calculator.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/health.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Life Expectancy Calculator — Health Age, Lifespan and Odds of Reaching 90"><meta property="og:description" content="Estimate your health age, life expectancy and chance of reaching 80, 90 or 100 from your habits, blood pressure and family history, using UN 2024 data for your country. Optional private face-age check."><meta property="og:url" content="https://honglife.co.kr/en/life-expectancy-calculator.html">
+<meta name="theme-color" content="#0B1F3F"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../g.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How accurate is a life expectancy calculator?", "acceptedAnswer": {"@type": "Answer", "text": "It gives a statistical average for people with similar habits and risk factors, not a prediction for you. Real lifespans vary widely, so treat the result as a guide to which habits matter most."}}, {"@type": "Question", "name": "What is health age?", "acceptedAnswer": {"@type": "Answer", "text": "Health age is the age at which an average person of your sex has the same risk of dying as you do, given your habits and family history. Because mortality rises about 12-14% per year of age, doubling your risk adds roughly 5-6 years of health age."}}, {"@type": "Question", "name": "Is my face photo uploaded?", "acceptedAnswer": {"@type": "Answer", "text": "No. The optional face-age estimate runs entirely in your browser with the open-source face-api model. The photo never leaves your device and is not used in the health age calculation."}}]}</script>
+<style>
+/* page-specific styles (ported from health.html) */
+:root{--bg:#EEF1F5;--tint:#E6ECF5;--red:#C2362B;--green:#1E7A4F}
+body{font-size:16px;line-height:1.7;overflow-wrap:anywhere}
+.lx{margin-top:20px}
+.lx .card{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:18px;margin:0 0 14px}
+.lx h2{font-size:19px;margin:0 0 12px;letter-spacing:-.01em;color:var(--ink)}
+.lx h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+.lx h3{font-size:16px;margin:14px 0 6px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px}
+.f label,.f .lb{display:block;font-size:14px;font-weight:600;margin-bottom:4px}
+.f small{display:block;color:var(--muted);font-size:12.6px;line-height:1.5;margin-top:3px}
+.f input,.f select{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);min-height:44px}
+.f .two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:64px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:9px 6px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);cursor:pointer;min-height:44px;font-size:14.5px}
+.seg input:checked+span{border-color:var(--accent);background:var(--tint);color:var(--accent);font-weight:700}
+.seg input:focus-visible+span{outline:3px solid var(--gold-d);outline-offset:2px}
+.lx .note{font-size:13.5px;color:var(--muted);line-height:1.65;margin:0}
+.warn{border:1px solid #E5C766;background:#FFF6DC;color:#3B2E00;border-radius:8px;padding:10px 14px;font-size:14px;margin:0 0 14px}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 22px;border-radius:8px;border:0;background:var(--red);color:#fff;cursor:pointer;min-height:48px}
+.btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}
+/* results */
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.score div{border-radius:10px;padding:16px;background:linear-gradient(180deg,#0B1F3F,#14305A);color:#fff}
+.score span{display:block;font-size:13.5px;color:#C9D5EE}
+.score b{display:block;font-size:40px;line-height:1.15;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.score em{font-style:normal;font-size:14px;color:#fff}
+.factor{display:grid;grid-template-columns:170px 1fr 76px;gap:10px;align-items:center;padding:7px 0;border-top:1px dashed var(--line);font-size:14.5px}
+.factor:first-of-type{border-top:0}
+.track{position:relative;height:14px;background:var(--tint);border-radius:99px}
+.track::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:var(--muted)}
+.track i{position:absolute;top:0;height:100%;border-radius:99px}
+.factor b{text-align:right;font-variant-numeric:tabular-nums}
+.plus{color:var(--red)}.minus{color:var(--green)}
+@media(max-width:560px){.factor{grid-template-columns:1fr 76px}.factor .track{grid-column:1/-1;order:3}}
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.tips div{background:var(--tint);border-radius:10px;padding:12px 14px}
+.tips b{display:block;font-size:22px;color:var(--green)}
+.lx table{border-collapse:collapse;width:100%;font-size:14px;margin:0}
+.lx th,.lx td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center;font-size:14px;vertical-align:top}
+.lx th{background:var(--tint);font-size:13px}
+.lx td.l,.lx th.l{text-align:left}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.photo{display:grid;grid-template-columns:160px minmax(0,1fr);gap:14px;align-items:center}
+@media(max-width:520px){.photo{grid-template-columns:minmax(0,1fr)}}
+.photo .pv{width:160px;height:160px;border-radius:10px;background:var(--tint);display:grid;place-items:center;overflow:hidden;color:var(--muted);font-size:13px;text-align:center;position:relative}
+.photo .pv img{width:100%;height:100%;object-fit:cover}
+.drop{display:inline-block;padding:10px 16px;border-radius:8px;border:1.5px dashed var(--accent);color:var(--accent);font-weight:700;cursor:pointer}
+.drop input{position:absolute;opacity:0;width:1px;height:1px}
+.drop:focus-within{outline:3px solid var(--gold-d);outline-offset:2px}
+.curve{width:100%;height:auto;display:block}
+details{margin:8px 0}summary{cursor:pointer;font-weight:700}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>%</i>홍라이프 계산기</a><nav class="langs"><a href="life-expectancy-calculator.html" hreflang="en" aria-current="true">English</a><a href="../health.html" hreflang="ko">한국어</a></nav></div></div>
+<div class="wrap">
+<header class="top"><h1>Life Expectancy &amp; <b>Health Age</b> Calculator</h1><p class="sub">See your health age, expected lifespan and odds of reaching 80, 90 or 100 based on your body, habits, blood pressure, blood sugar and family history — calibrated to the latest UN life expectancy for your country.</p></header>
+<nav class="tabs"><div class="row"><a href="life-expectancy-calculator.html" aria-current="page">Life expectancy</a><a href="bmi-calculator.html">BMI</a><a href="age-calculator.html">Age</a><a href="mbti-compatibility.html">MBTI compatibility</a><a href="loan-calculator.html">Loan</a><a href="compound-interest-calculator.html">Compound interest</a><a href="percentage-calculator.html">Percentage</a><a href="korea-salary-calculator.html">Korea salary</a></div></nav>
+
+<main class="lx">
+<div class="warn"><b>For general information only — not medical advice.</b> This is a statistical estimate of how people with similar characteristics fare on average, not a diagnosis or a prediction of your own lifespan. If any of your numbers worry you, talk to a doctor. Your answers and photo never leave this device.</div>
+
+<form id="form" autocomplete="off">
+<section class="card"><h2>1. About you</h2>
+  <div class="fgrid">
+    <div class="f"><label for="country">Country</label><select id="country"></select><small>Sets the baseline life expectancy.</small></div>
+    <div class="f"><span class="lb">Sex</span><div class="seg"><label><input type="radio" name="sex" value="M" checked><span>Male</span></label><label><input type="radio" name="sex" value="F"><span>Female</span></label></div></div>
+    <div class="f"><label for="age">Age (years)</label><input id="age" type="number" inputmode="numeric" min="20" max="95" value="40"></div>
+    <div class="f"><span class="lb">Units</span><div class="seg"><label><input type="radio" name="unit" value="metric" checked><span>kg / cm</span></label><label><input type="radio" name="unit" value="us"><span>lb / ft-in</span></label></div></div>
+    <div class="f" id="htMetric"><label for="ht">Height (cm)</label><input id="ht" type="number" inputmode="decimal" min="120" max="220" value="172"></div>
+    <div class="f" id="htUS" hidden><span class="lb">Height (ft, in)</span><div class="two"><input id="htFt" type="number" inputmode="numeric" min="3" max="7" value="5" aria-label="Height feet"><input id="htIn" type="number" inputmode="decimal" min="0" max="11.9" step="0.5" value="8" aria-label="Height inches"></div></div>
+    <div class="f"><label for="wt" id="wtLb">Weight (kg)</label><input id="wt" type="number" inputmode="decimal" min="30" max="550" value="74"><small id="bmiTxt"></small></div>
+    <div class="f"><label for="waist" id="waistLb">Waist (cm, optional)</label><input id="waist" type="number" inputmode="decimal" min="15" max="200" placeholder="e.g. 86"><small>Measure at belly-button height after breathing out.</small></div>
+  </div>
+</section>
+
+<section class="card"><h2>2. Lifestyle</h2>
+  <div class="fgrid">
+    <div class="f"><label for="smoke">Smoking</label><select id="smoke">
+      <option value="never">Never smoked</option><option value="q10">Quit 10+ years ago</option><option value="q5">Quit 1–10 years ago</option><option value="q1">Quit less than a year ago</option><option value="ecig">Vape / e-cigarettes only</option><option value="s1">Fewer than 10 cigarettes a day</option><option value="s2">10–19 cigarettes a day</option><option value="s3">20+ a day (a pack or more)</option></select></div>
+    <div class="f"><label for="alc">Alcohol</label><select id="alc">
+      <option value="none">Rarely or never</option><option value="mod" selected>1–2 times a week, 1–2 drinks each time</option><option value="freq">3+ times a week, or 4+ drinks at a time</option><option value="heavy">Almost daily, or frequent binge drinking</option></select></div>
+    <div class="f"><label for="ex">Exercise (enough to get out of breath)</label><select id="ex">
+      <option value="0">Rarely</option><option value="1">1–2 times a week, under 1 hour total</option><option value="2" selected>About 150 minutes a week (recommended)</option><option value="3">300+ minutes a week, or with strength training</option></select></div>
+    <div class="f"><label for="sleep">Average sleep per night</label><select id="sleep">
+      <option value="5">Less than 5 hours</option><option value="6">5–6 hours</option><option value="7" selected>7–8 hours</option><option value="9">9+ hours</option></select></div>
+    <div class="f"><label for="sit">Time spent sitting per day</label><select id="sit"><option value="0">Less than 8 hours</option><option value="1">8–10 hours</option><option value="2">10+ hours</option></select></div>
+    <div class="f"><span class="lb">Vegetables and fruit every day?</span><div class="seg"><label><input type="radio" name="veg" value="1" checked><span>Yes</span></label><label><input type="radio" name="veg" value="0"><span>No</span></label></div></div>
+    <div class="f"><span class="lb">Processed meat, fast food or sugary drinks 3+ times a week?</span><div class="seg"><label><input type="radio" name="junk" value="1"><span>Yes</span></label><label><input type="radio" name="junk" value="0" checked><span>No</span></label></div></div>
+  </div>
+</section>
+
+<section class="card"><h2>3. Health markers &amp; wellbeing</h2>
+  <div class="fgrid">
+    <div class="f"><label for="bp">Blood pressure</label><select id="bp"><option value="ok">Normal (below 120/80)</option><option value="pre">Elevated (120–139 / 80–89)</option><option value="ctrl">High, controlled with medication</option><option value="high">High and untreated (140/90+)</option><option value="unk">Don't know</option></select></div>
+    <div class="f"><label for="glu">Blood sugar</label><select id="glu"><option value="ok">Normal</option><option value="pre">Prediabetes (fasting 100–125 mg/dL)</option><option value="dm">Diabetes</option><option value="unk">Don't know</option></select></div>
+    <div class="f"><label for="stress">Stress / low mood</label><select id="stress"><option value="0">Low</option><option value="1" selected>Moderate</option><option value="2">High (often exhausted or down)</option></select></div>
+    <div class="f"><label for="social">Time with family and friends</label><select id="social"><option value="0">Often (weekly or more)</option><option value="1">Sometimes</option><option value="2">Rarely — often lonely</option></select></div>
+    <div class="f"><span class="lb">Regular health check-ups (every 1–2 years)?</span><div class="seg"><label><input type="radio" name="chk" value="1" checked><span>Yes</span></label><label><input type="radio" name="chk" value="0"><span>No</span></label></div></div>
+  </div>
+</section>
+
+<section class="card"><h2>4. Family history <small>parents &amp; grandparents</small></h2>
+  <div class="fgrid">
+    <div class="f"><label for="parLong">Parents who lived (or are living) to 85+</label><select id="parLong"><option value="0">None / not known yet</option><option value="1">1</option><option value="2">2</option></select><small>If your parents are still young, choose "not known yet".</small></div>
+    <div class="f"><label for="gpLong">Grandparents who lived to 85+</label><select id="gpLong"><option value="0">None / don't know</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+    <div class="f"><span class="lb">Parent or sibling with heart disease, stroke or cancer before 60?</span><div class="seg"><label><input type="radio" name="early" value="1"><span>Yes</span></label><label><input type="radio" name="early" value="0" checked><span>No</span></label></div></div>
+    <div class="f"><span class="lb">Secondhand smoke from someone you live with?</span><div class="seg"><label><input type="radio" name="shs" value="1"><span>Yes</span></label><label><input type="radio" name="shs" value="0" checked><span>No</span></label></div><small>Regular exposure to smoke at home or in the car.</small></div>
+  </div>
+</section>
+
+<section class="card"><h2>5. Face photo <small>optional · just for fun</small></h2>
+  <div class="photo"><div class="pv" id="pv">No photo</div>
+    <div><label class="drop">📷 Choose a face photo<input type="file" id="photo" accept="image/*"></label>
+      <p class="note" style="margin:10px 0 0">Pick a front-facing photo and an open-source AI model (face-api) estimates your <b>apparent age</b> right here in your browser. The photo is never uploaded or stored. Lighting, make-up and angle can shift the estimate by ±5–8 years, so it's shown separately and not used in your health age.</p>
+      <p id="faceMsg" class="note" style="margin:6px 0 0;font-weight:700" role="status"></p></div></div>
+</section>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px"><button class="btn" type="submit">Calculate my health age</button><button class="btn ghost" type="reset">Start over</button></div>
+</form>
+
+<div id="result" aria-live="polite"></div>
+
+<section class="card help">
+  <h2>How it works</h2>
+  <p><b>Baseline.</b> Mortality by age follows a Gompertz–Makeham curve, μ(x) = A + B·e<sup>Cx</sup>, originally fitted to Statistics Korea's 2024 complete life table (men: A = 0.00045481, B = 3.37193×10⁻⁶, C = 0.1198262; women: A = 0.00030512, B = 2.90104×10⁻⁷, C = 0.1420988). For each country and sex the page solves for a single factor <i>k</i> and uses μ(x) = k·A + √k·B·e<sup>Cx</sup>, so that the model's life expectancy at birth matches the UN figure below to within 0.1 years (checked in your browser when the page loads). Scaling the age-independent part more than the old-age part reflects that countries with lower life expectancy lose more years to deaths at younger ages.</p>
+  <p><b>Health age</b> converts your combined risk into years: since the risk of dying rises by about 12–14% for each year of age, a risk ratio R adds ln(R) ÷ C years. Doubling your risk adds roughly 5–6 years. <b>Life expectancy</b> is your current age plus your expected remaining years, assuming you have reached your current age, with the adjusted mortality rates.</p>
+  <h3>Baseline life expectancy at birth by country</h3>
+  <div class="scroll"><table id="leTable"><tr><th class="l">Country</th><th>Men</th><th>Women</th><th>Model k (men / women)</th></tr></table></div>
+  <p class="note" style="margin-top:8px">Source: United Nations, Department of Economic and Social Affairs, Population Division (2024). <i>World Population Prospects 2024</i>, medium-variant life expectancy at birth for 2026 (<a href="https://population.un.org/wpp/" rel="noopener">population.un.org/wpp</a>), as tabulated by <a href="https://statisticstimes.com/demographics/countries-by-life-expectancy.php" rel="noopener">StatisticsTimes</a>. Period life expectancy describes current death rates, not a guarantee for any one person.</p>
+  <details><summary>Risk factors and evidence</summary>
+  <div class="scroll"><table><tr><th class="l">Factor</th><th>Risk ratio used</th><th class="l">Evidence</th></tr>
+  <tr><td class="l">Smoking</td><td>1.1–2.8</td><td class="l">Current smokers have 2–3× the death rate of never-smokers and lose about 10 years on average; quitting before 40 recovers most of it (Jha et al., NEJM 2013).</td></tr>
+  <tr><td class="l">Body mass index</td><td>1.0–1.6</td><td class="l">Lowest risk at roughly BMI 22.5–27.5 with higher risk for underweight and severe obesity (Zheng et al., NEJM 2011; Global BMI Mortality Collaboration, Lancet 2016).</td></tr>
+  <tr><td class="l">Waist size</td><td>1.2</td><td class="l">Abdominal obesity raises risk independently of BMI. Thresholds: men ≥102 cm (40 in), women ≥88 cm (35 in); for Asian countries men ≥90 cm, women ≥80 cm (85 cm for Korea).</td></tr>
+  <tr><td class="l">Exercise</td><td>0.88–1.35</td><td class="l">150+ minutes a week of moderate activity lowers mortality by about 20–30% (WHO physical activity guidelines 2020).</td></tr>
+  <tr><td class="l">Sleep</td><td>1.0–1.3</td><td class="l">Short sleep about 1.12×, 9+ hours about 1.3× (Cappuccio et al., meta-analysis, Sleep 2010).</td></tr>
+  <tr><td class="l">Alcohol</td><td>1.0–1.6</td><td class="l">Life expectancy falls above about 100 g of alcohol a week — roughly 7 US or 12 UK drinks (Wood et al., Lancet 2018).</td></tr>
+  <tr><td class="l">Blood pressure &amp; sugar</td><td>1.1–1.8</td><td class="l">Untreated hypertension and diabetes are leading causes of cardiovascular death.</td></tr>
+  <tr><td class="l">Social connection</td><td>1.0–1.3</td><td class="l">Social isolation raises mortality by about 30% (Holt-Lunstad et al., meta-analysis 2015).</td></tr>
+  <tr><td class="l">Long-lived parents &amp; grandparents</td><td>0.75–1.0</td><td class="l">Parental longevity is linked to lower cardiovascular mortality in offspring (Atkins et al., JACC 2016).</td></tr>
+  <tr><td class="l">Early family history, secondhand smoke</td><td>1.15–1.3</td><td class="l">Early heart disease in close relatives and secondhand smoke at home both raise risk.</td></tr></table></div>
+  <p class="note" style="margin-top:8px">Risk ratios are multiplied together and capped at 0.55–5× overall to allow for overlap between factors. Studies differ, so representative values are used. The model cannot capture child mortality separately, so in countries where many deaths happen in childhood (e.g. Nigeria) adult estimates are approximate.</p></details>
+  <h3>Frequently asked questions</h3><dl><div><dt>How accurate is a life expectancy calculator?</dt><dd>It gives a statistical average for people with similar habits and risk factors, not a prediction for you. Real lifespans vary widely, so treat the result as a guide to which habits matter most.</dd></div><div><dt>What is health age?</dt><dd>Health age is the age at which an average person of your sex has the same risk of dying as you do, given your habits and family history. Because mortality rises about 12–14% per year of age, doubling your risk adds roughly 5–6 years of health age.</dd></div><div><dt>Is my face photo uploaded?</dt><dd>No. The optional face-age estimate runs entirely in your browser with the open-source face-api model. The photo never leaves your device and is not used in the health age calculation.</dd></div></dl>
+  <p class="note" style="margin-top:10px">Face age: <a href="https://github.com/vladmandic/face-api" rel="noopener">@vladmandic/face-api</a> 1.7.15 (MIT license), processed on your device.</p>
+</section>
+</main>
+<footer><nav><a href="./">All calculators</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></nav><div>Results are statistical estimates for information only — not medical advice, diagnosis or treatment.</div></footer>
+</div>
+<script src="../g.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+function rv(n){var e=document.querySelector('input[name='+n+']:checked');return e?e.value:''}
+/* Gompertz–Makeham mortality fitted to Korea's 2024 life table: mu(x)=A+B*exp(Cx) */
+var GM={M:{A:0.00045481,B:3.37193e-6,C:0.1198262},F:{A:0.00030512,B:2.90104e-7,C:0.1420988}};
+/* UN World Population Prospects 2024, life expectancy at birth, 2026 (medium variant): [men, women] */
+var CT=[
+ ['WLD','World average',71.18,76.44],['USA','United States',77.39,82.23],['GBR','United Kingdom',79.89,83.57],['CAN','Canada',80.94,85.16],
+ ['AUS','Australia',82.59,86.07],['IND','India',71.16,74.39],['PHL','Philippines',67.20,73.24],['DEU','Germany',79.62,84.11],
+ ['FRA','France',80.87,86.42],['JPN','Japan',82.13,88.18],['KOR','South Korea',81.56,87.51],['IDN','Indonesia',69.42,73.77],
+ ['MEX','Mexico',72.82,78.35],['BRA','Brazil',73.33,79.46],['NGA','Nigeria',54.60,55.31],['ZAF','South Africa',63.12,70.16]];
+var ASIA={IND:1,PHL:1,JPN:1,KOR:1,IDN:1};
+var CMAP={};CT.forEach(function(c){CMAP[c[0]]=c});
+/* model for a country & sex: mu(x)=k*A + sqrt(k)*B*exp(Cx) */
+function mk(sex,k){var g=GM[sex];return {A:g.A*k,B:g.B*Math.sqrt(k),C:g.C,k:k}}
+function remainM(m,age,hr){var S=1,sum=0,dt=0.1;for(var x=age;x<120;x+=dt){var mu=(m.A+m.B*Math.exp(m.C*(x+dt/2)))*hr;var S2=S*Math.exp(-mu*dt);sum+=(S+S2)/2*dt;S=S2;if(S<1e-6)break}return sum}
+function survM(m,age,to,hr){var S=1,dt=0.1;for(var x=age;x<to;x+=dt){S*=Math.exp(-(m.A+m.B*Math.exp(m.C*(x+dt/2)))*hr*dt)}return S}
+var cache={};
+function model(code,sex){
+  var key=code+sex;if(cache[key])return cache[key];
+  var target=CMAP[code][sex==='M'?2:3],lo=Math.log(0.05),hi=Math.log(500);
+  for(var i=0;i<60;i++){var mid=(lo+hi)/2;if(remainM(mk(sex,Math.exp(mid)),0,1)>target)lo=mid;else hi=mid}
+  var m=mk(sex,Math.exp((lo+hi)/2));m.e0=remainM(m,0,1);m.target=target;m.ok=Math.abs(m.e0-target)<0.1;
+  if(!m.ok&&window.console)console.warn('LE fit off for',code,sex,m.e0,target);
+  return cache[key]=m;
+}
+window.__leModel=model;window.__leCountries=CT;
+/* country select + defaults */
+var sel=$('country');sel.innerHTML=CT.map(function(c){return '<option value="'+c[0]+'">'+c[1]+'</option>'}).join('');
+var guess='WLD';try{var reg=((navigator.language||'').split('-')[1]||'').toUpperCase();guess={US:'USA',GB:'GBR',UK:'GBR',CA:'CAN',AU:'AUS',IN:'IND',PH:'PHL',DE:'DEU',FR:'FRA',JP:'JPN',KR:'KOR',ID:'IDN',MX:'MEX',BR:'BRA',NG:'NGA',ZA:'ZAF'}[reg]||'WLD'}catch(e){}
+sel.value=guess;
+/* units */
+var unit='metric';
+function setUnit(u,convert){
+  if(convert&&u!==unit){
+    var w=+$('wt').value,wa=+$('waist').value;
+    if(u==='us'){var cm=+$('ht').value;if(cm>0){var ti=cm/2.54;var ft=Math.floor(ti/12);$('htFt').value=ft;$('htIn').value=Math.round((ti-ft*12)*2)/2}if(w>0)$('wt').value=Math.round(w*2.20462);if(wa>0)$('waist').value=Math.round(wa/2.54*2)/2}
+    else{var cm2=(+$('htFt').value*12+ +$('htIn').value)*2.54;if(cm2>0)$('ht').value=Math.round(cm2);if(w>0)$('wt').value=Math.round(w/2.20462*10)/10;if(wa>0)$('waist').value=Math.round(wa*2.54)}
+  }
+  unit=u;var us=u==='us';
+  $('htMetric').hidden=us;$('htUS').hidden=!us;
+  $('wtLb').textContent=us?'Weight (lb)':'Weight (kg)';
+  $('waistLb').textContent=us?'Waist (inches, optional)':'Waist (cm, optional)';
+  $('waist').placeholder=us?'e.g. 34':'e.g. 86';
+  document.querySelector('input[name=unit][value='+u+']').checked=true;
+  bmiShow();
+}
+function heightM(){return unit==='us'?(+$('htFt').value*12+ +$('htIn').value)*0.0254:+$('ht').value/100}
+function weightKg(){return unit==='us'?+$('wt').value/2.20462:+$('wt').value}
+function waistCm(){var v=+$('waist').value;return v>0?(unit==='us'?v*2.54:v):0}
+function bmiCat(b){return b<18.5?'underweight':b<25?'healthy weight':b<30?'overweight':b<35?'obesity class 1':'obesity class 2+'}
+function bmiShow(){var b=weightKg()/Math.pow(heightM(),2);$('bmiTxt').textContent=isFinite(b)&&b>0?'BMI '+b.toFixed(1)+' · '+bmiCat(b):''}
+
+function factors(){
+  var sex=rv('sex'),age=+$('age').value,code=sel.value,ht=heightM(),wt=weightKg(),waist=waistCm();
+  var bmi=wt/(ht*ht),F=[],asia=!!ASIA[code];
+  function add(name,hr,txt,fix){F.push({name:name,hr:hr,txt:txt,fix:fix})}
+  var sm={never:[1,'Never smoked'],q10:[1.1,'Quit 10+ years ago'],q5:[1.3,'Quit 1–10 years ago'],q1:[1.6,'Recently quit'],ecig:[1.4,'Vaping (long-term data limited; estimate)'],s1:[1.9,'Under 10 a day'],s2:[2.3,'10–19 a day'],s3:[2.8,'A pack or more a day']}[$('smoke').value];
+  add('Smoking',sm[0],sm[1],sm[0]>1.3?['Quit smoking',($('smoke').value==='ecig'?1:1.1)]:null);
+  var bh=bmi<18.5?1.4:bmi<23?1.0:bmi<25?0.98:bmi<30?1.08:bmi<35?1.35:1.6;
+  add('BMI '+bmi.toFixed(1),bh,bmi<18.5?'Underweight':bmi<23?'Healthy weight':bmi<25?(asia?'Healthy (overweight by Asian cut-offs)':'Healthy weight'):bmi<30?'Overweight':bmi<35?'Obesity class 1':'Obesity class 2+',bh>1.05?['Reach a healthy weight',1.0]:null);
+  if(waist>0){var wl=code==='KOR'?(sex==='M'?90:85):asia?(sex==='M'?90:80):(sex==='M'?102:88);var wls=unit==='us'?(Math.round(wl/2.54))+' in':wl+' cm',wv=unit==='us'?(+$('waist').value)+' in':Math.round(waist)+' cm';
+    add('Waist '+wv,waist>=wl?1.2:1.0,waist>=wl?'At or above the '+wls+' threshold':'Below the '+wls+' threshold',waist>=wl?['Trim your waist (below '+wls+')',1.0]:null)}
+  var ex=[1.35,1.15,1.0,0.88][+$('ex').value];add('Exercise',ex,['Rarely','1–2 times a week','150 min a week','300+ min a week'][+$('ex').value],ex>1?['Exercise 150 min a week',1.0]:null);
+  var sl={5:[1.15,'Under 5 hours'],6:[1.08,'5–6 hours'],7:[1,'7–8 hours'],9:[1.3,'9+ hours']}[$('sleep').value];add('Sleep',sl[0],sl[1],sl[0]>1?['Sleep 7–8 hours',1.0]:null);
+  var al={none:[1,'Rarely or never'],mod:[1,'Moderate'],freq:[1.25,'Often or heavy'],heavy:[1.6,'Daily or binge drinking']}[$('alc').value];add('Alcohol',al[0],al[1],al[0]>1?['Cut back to 1–2 times a week',1.0]:null);
+  var si=[1,1.08,1.18][+$('sit').value];add('Sitting time',si,['Under 8 hours','8–10 hours','10+ hours'][+$('sit').value],si>1?['Stand up and walk every hour',1.0]:null);
+  var veg=rv('veg')==='1',junk=rv('junk')==='1';var dh=(veg?0.94:1.06)*(junk?1.1:1);add('Diet',dh,(veg?'Daily fruit & veg':'Not enough fruit & veg')+(junk?', frequent processed food':''),dh>0.95?['Daily veg + less processed food',0.94]:null);
+  var bp={ok:1,pre:1.1,ctrl:1.15,high:1.5,unk:1.05}[$('bp').value];add('Blood pressure',bp,{ok:'Normal',pre:'Elevated',ctrl:'Controlled with treatment',high:'Untreated high blood pressure',unk:'Unknown'}[$('bp').value],$('bp').value==='high'?['Start blood pressure treatment',1.15]:$('bp').value==='unk'?['Get your blood pressure checked',1.0]:null);
+  var gl={ok:1,pre:1.1,dm:1.8,unk:1.05}[$('glu').value];add('Blood sugar',gl,{ok:'Normal',pre:'Prediabetes',dm:'Diabetes',unk:'Unknown'}[$('glu').value],$('glu').value==='pre'?['Manage prediabetes',1.0]:$('glu').value==='unk'?['Get a blood sugar test',1.0]:null);
+  var st=[1,1.05,1.2][+$('stress').value];add('Stress',st,['Low','Moderate','High'][+$('stress').value],st>1.1?['Manage stress / get support',1.05]:null);
+  var so=[1,1.1,1.3][+$('social').value];add('Social connection',so,['Often','Sometimes','Rarely'][+$('social').value],so>1.1?['See people at least weekly',1.0]:null);
+  var ck=rv('chk')==='1'?0.97:1.05;add('Check-ups',ck,rv('chk')==='1'?'Regular check-ups':'No regular check-ups',ck>1?['Get a check-up every 1–2 years',0.97]:null);
+  var pl=[1,0.88,0.78][+$('parLong').value],gp=Math.pow(0.97,+$('gpLong').value);add('Long-lived family',pl*gp,$('parLong').value+' parent(s), '+$('gpLong').value+' grandparent(s) reached 85+',null);
+  if(rv('early')==='1')add('Early family history',1.3,'Parent/sibling with heart disease, stroke or cancer before 60',null);
+  if(rv('shs')==='1')add('Secondhand smoke',1.15,'Exposed to a household smoker',['Make your home smoke-free',1.0]);
+  return {sex:sex,age:age,bmi:bmi,F:F,code:code};
+}
+function yrs(v){return (v>=0?'+':'−')+Math.abs(v).toFixed(1)+' yrs'}
+function calc(){
+  var d=factors();
+  if(!(d.age>=20&&d.age<=95)||!(d.bmi>10&&d.bmi<80)){$('result').innerHTML='<div class="card"><b style="color:var(--red)">Please check your age (20–95), height and weight.</b></div>';return}
+  var g=model(d.code,d.sex),cname=CMAP[d.code][1],who=d.sex==='M'?'men':'women';
+  var hr=1;d.F.forEach(function(f){hr*=f.hr});hr=Math.max(0.55,Math.min(5,hr));
+  var hAge=d.age+Math.log(hr)/g.C;
+  var base=d.age+remainM(g,d.age,1),mine=d.age+remainM(g,d.age,hr);
+  var p80=d.age<80?survM(g,d.age,80,hr):1,p90=d.age<90?survM(g,d.age,90,hr):1,p100=survM(g,d.age,100,hr);
+  var diff=hAge-d.age;
+  var h='<section class="card"><h2>Your results</h2><div class="score">'+
+    '<div><span>Your health age</span><b>'+hAge.toFixed(1)+'</b><em>'+(Math.abs(diff)<0.5?'About the same as your real age':diff>0?diff.toFixed(1)+' years older than your real age':(-diff).toFixed(1)+' years younger than your real age')+'</em></div>'+
+    '<div><span>Your life expectancy</span><b>'+mine.toFixed(1)+'</b><em>Average for '+who+' your age in '+cname+': '+base.toFixed(1)+' ('+(mine-base>=0?'+':'−')+Math.abs(mine-base).toFixed(1)+' yrs)</em></div>'+
+    '<div><span>Chance of reaching 80</span><b>'+Math.round(p80*100)+'%</b><em>90: '+Math.round(p90*100)+'% · 100: '+(p100*100).toFixed(1)+'%</em></div></div>';
+  h+='<p class="note" style="margin:10px 0 0">Your overall mortality risk is <b>'+hr.toFixed(2)+'×</b> the average for your age and sex. Baseline: life expectancy at birth for '+who+' in '+cname+' is '+g.target.toFixed(1)+' years (UN WPP 2024, 2026); the model reproduces '+g.e0.toFixed(1)+'.</p>';
+  h+=curveSVG(d,g,hr)+'</section>';
+  var rows=d.F.map(function(f){return {f:f,yr:Math.log(f.hr)/g.C}}).sort(function(a,b){return Math.abs(b.yr)-Math.abs(a.yr)});
+  var mx=Math.max(3,Math.max.apply(null,rows.map(function(r){return Math.abs(r.yr)})));
+  h+='<section class="card"><h2>What adds or takes off years</h2>'+rows.map(function(r){var w=Math.abs(r.yr)/mx*50;return '<div class="factor"><div><b style="text-align:left;display:block">'+r.f.name+'</b><span class="note">'+r.f.txt+'</span></div><div class="track"><i style="'+(r.yr>=0?'left:50%':'right:50%')+';width:'+w.toFixed(1)+'%;background:'+(r.yr>0.05?'var(--red)':r.yr<-0.05?'var(--green)':'var(--muted)')+'"></i></div><b class="'+(r.yr>0.05?'plus':r.yr<-0.05?'minus':'')+'">'+yrs(r.yr)+'</b></div>'}).join('')+'<p class="note" style="margin:8px 0 0">Red items raise your health age; green items lower it.</p></section>';
+  var gains=d.F.filter(function(f){return f.fix}).map(function(f){var nh=hr/f.hr*f.fix[1];nh=Math.max(0.55,Math.min(5,nh));return {name:f.fix[0],yr:remainM(g,d.age,nh)-remainM(g,d.age,hr),age:Math.log(f.hr/f.fix[1])/g.C}}).filter(function(x){return x.yr>0.05}).sort(function(a,b){return b.yr-a.yr});
+  if(gains.length){
+    var allHr=hr;d.F.forEach(function(f){if(f.fix)allHr=allHr/f.hr*f.fix[1]});allHr=Math.max(0.55,Math.min(5,allHr));
+    h+='<section class="card"><h2>Change these to get younger</h2><div class="tips">'+gains.slice(0,6).map(function(x){return '<div><span class="note">'+x.name+'</span><b>+'+x.yr.toFixed(1)+' years of life</b><span class="note">Health age −'+x.age.toFixed(1)+' yrs</span></div>'}).join('')+'</div>'+
+      '<p style="margin:12px 0 0">Do all of them and your life expectancy becomes <b style="color:var(--green)">'+(d.age+remainM(g,d.age,allHr)).toFixed(1)+'</b> and your health age <b style="color:var(--green)">'+(d.age+Math.log(allHr)/g.C).toFixed(1)+'</b>.</p></section>';
+  } else h+='<section class="card"><h2>Keep doing what you\'re doing 👍</h2><p style="margin:0">There are hardly any risky habits left to change. Regular check-ups and your current lifestyle are your best bet.</p></section>';
+  if(faceAge!=null)h+='<section class="card"><h2>Face age (just for fun)</h2><p style="margin:0">The face in your photo looks about <b>'+Math.round(faceAge)+'</b>. '+(faceAge<d.age?'That\'s '+Math.round(d.age-faceAge)+' years younger than your real age ('+d.age+')':faceAge>d.age?'That\'s '+Math.round(faceAge-d.age)+' years older than your real age ('+d.age+')':'Right on your real age ('+d.age+')')+'. Sun exposure, smoking and sleep play a big part in skin ageing.</p><p class="note" style="margin:6px 0 0">AI estimate with a ±5–8 year margin; not included in your health age.</p></section>';
+  $('result').innerHTML=h;$('result').scrollIntoView({behavior:'smooth',block:'start'});
+  try{gtag('event','health_age',{lang:'en',country:d.code})}catch(e){}
+}
+function curveSVG(d,g,hr){
+  var W=640,H=220,pl=40,pr=12,pt=14,pb=28,x0=d.age,x1=105;
+  function X(a){return pl+(a-x0)/(x1-x0)*(W-pl-pr)}function Y(p){return pt+(1-p)*(H-pt-pb)}
+  function path(h){var s='M'+X(x0)+','+Y(1);for(var a=x0+1;a<=x1;a++)s+=' L'+X(a).toFixed(1)+','+Y(survM(g,d.age,a,h)).toFixed(1);return s}
+  var grid='';[0,.25,.5,.75,1].forEach(function(p){grid+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Y(p)+'" y2="'+Y(p)+'" stroke="var(--line)"/><text x="'+(pl-6)+'" y="'+(Y(p)+4)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+p*100+'%</text>'});
+  for(var a=Math.ceil(x0/10)*10;a<=x1;a+=10)grid+='<text x="'+X(a)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="var(--muted)">'+a+'</text>';
+  return '<h3>Chance of being alive at each age</h3><svg class="curve" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Survival probability by age">'+grid+'<path d="'+path(1)+'" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 4"/><path d="'+path(hr)+'" fill="none" stroke="var(--red)" stroke-width="3"/></svg><p class="note" style="margin:0"><span style="color:var(--red);font-weight:700">━ You</span> &nbsp; <span style="font-weight:700">┅ Average at your age</span></p>';
+}
+/* country table */
+(function(){var t=$('leTable');CT.forEach(function(c){var m=model(c[0],'M'),f=model(c[0],'F');var tr=document.createElement('tr');tr.innerHTML='<td class="l">'+c[1]+'</td><td>'+c[2].toFixed(1)+'</td><td>'+c[3].toFixed(1)+'</td><td>'+m.k.toFixed(2)+' / '+f.k.toFixed(2)+'</td>';t.appendChild(tr)})})();
+['wt','ht','htFt','htIn'].forEach(function(id){$(id).addEventListener('input',bmiShow)});
+Array.prototype.forEach.call(document.querySelectorAll('input[name=unit]'),function(r){r.addEventListener('change',function(){setUnit(this.value,true)})});
+setUnit(guess==='USA'?'us':'metric',true);
+$('form').addEventListener('submit',function(e){e.preventDefault();calc()});
+$('form').addEventListener('reset',function(){setTimeout(function(){$('result').innerHTML='';faceAge=null;$('pv').textContent='No photo';$('faceMsg').textContent='';sel.value=guess;unit='metric';setUnit(guess==='USA'?'us':'metric',true)},0)});
+/* face age (on-device) */
+var faceAge=null,faceReady=null;
+var FA='https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/';
+function loadFace(){if(faceReady)return faceReady;faceReady=new Promise(function(res,rej){var s=document.createElement('script');s.src=FA+'dist/face-api.js';s.onload=function(){Promise.all([faceapi.nets.tinyFaceDetector.loadFromUri(FA+'model/'),faceapi.nets.ageGenderNet.loadFromUri(FA+'model/')]).then(res,rej)};s.onerror=rej;document.head.appendChild(s)});faceReady.catch(function(){faceReady=null});return faceReady}
+$('photo').addEventListener('change',function(){
+  var f=this.files&&this.files[0];if(!f)return;
+  var url=URL.createObjectURL(f);var img=new Image();img.onload=function(){
+    $('pv').innerHTML='';$('pv').appendChild(img);$('faceMsg').textContent='Analyzing your face… (the first time takes a few seconds to download the model)';
+    loadFace().then(function(){return faceapi.detectSingleFace(img,new faceapi.TinyFaceDetectorOptions({inputSize:416,scoreThreshold:0.4})).withAgeAndGender()}).then(function(r){
+      if(!r){faceAge=null;$('faceMsg').textContent='No face found. Try a brighter, front-facing photo.';return}
+      faceAge=r.age;$('faceMsg').textContent='Apparent age: about '+Math.round(r.age)+'. Press Calculate to see it with your results.';
+      if($('result').innerHTML)calc();
+    }).catch(function(){$('faceMsg').textContent='Couldn\'t load the face model. Check your internet connection and try again.'});
+  };img.onerror=function(){$('faceMsg').textContent='That file couldn\'t be opened as an image.'};img.src=url;img.alt='Preview of the selected face photo';
+});
+})();
+</script>
+</body>
+</html>

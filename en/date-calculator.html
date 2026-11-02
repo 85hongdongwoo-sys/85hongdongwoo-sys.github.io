@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Date Calculator — Days Between Dates, Add Days &amp; Countdown</title>
+<meta name="description" content="Count the days between two dates, add or subtract days, weeks or months, count down to any date (D-day) and find the day of the week for any date.">
+<link rel="canonical" href="https://honglife.co.kr/en/date-calculator.html"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/date-calculator.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/date.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Date Calculator — Days Between Dates, Add Days &amp; Countdown"><meta property="og:description" content="Count the days between two dates, add or subtract days, weeks or months, count down to any date (D-day) and find the day of the week for any date."><meta property="og:url" content="https://honglife.co.kr/en/date-calculator.html">
+<meta name="theme-color" content="#0B1F3F"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../g.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How many days are there between two dates?", "acceptedAnswer": {"@type": "Answer", "text": "Subtract the start date from the end date. This calculator does it for you and also shows the result in weeks, months and business days. Tick “Include the end date” if you want to count both the first and last day."}}, {"@type": "Question", "name": "What date is 90 days from today?", "acceptedAnswer": {"@type": "Answer", "text": "Open “Add / subtract days”, keep today as the start date and choose 90 days. The result updates instantly, together with the day of the week."}}, {"@type": "Question", "name": "What does D-day mean in a countdown?", "acceptedAnswer": {"@type": "Answer", "text": "D-day is the event day itself. D-10 means 10 days before the event and D+10 means 10 days after it. The countdown tab shows the D-day label for your date."}}]}</script>
+<style>
+.tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px}
+.tools button{font:600 14px var(--f);padding:8px 14px;border-radius:4px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#DCE4F2;cursor:pointer}
+.tools button[aria-selected="true"]{background:var(--gold);border-color:var(--gold);color:#0B1F3F}
+.btn{font:700 14.5px var(--f);padding:10px 16px;border-radius:4px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:42px}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn.gold{background:var(--gold-d);border-color:var(--gold-d);color:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font:600 13px var(--f);padding:6px 10px;border-radius:99px;border:1px solid #C9D1DC;background:#F6F8FB;color:var(--accent);cursor:pointer}
+.chips button:hover{border-color:var(--accent)}
+.field input[type=date],.field input[type=time]{min-height:44px}
+
+.panel{margin-top:14px}
+.res .big{font-size:clamp(22px,4.6vw,32px)}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>%</i>홍라이프 계산기</a><nav class="langs"><a href="../en/date-calculator.html" hreflang="en" aria-current="true">English</a><a href="../date.html" hreflang="ko">한국어</a></nav></div></div>
+<div class="wrap">
+<header class="top"><h1>Date <b>Calculator</b></h1><p class="sub">Days between dates, add or subtract days, a D-day countdown and a day-of-the-week finder in one place.</p></header>
+<nav class="tabs"><div class="row"><a href="korea-salary-calculator.html">Korea salary</a><a href="korea-severance-pay-calculator.html">Korea severance</a><a href="korea-pension-refund-calculator.html">Pension refund</a><a href="loan-calculator.html">Loan</a><a href="compound-interest-calculator.html">Compound interest</a><a href="percentage-calculator.html">Percentage</a><a href="age-calculator.html">Age</a><a href="bmi-calculator.html">BMI</a><a href="date-calculator.html" aria-current="page">Date</a><a href="travel-budget-calculator.html">Travel budget</a><a href="electricity-cost-calculator.html">Electricity cost</a><a href="stopwatch.html">Stopwatch</a></div></nav>
+<div class="tools" role="tablist" aria-label="Date tools">
+<button role="tab" data-t="between" aria-selected="true">Days between dates</button>
+<button role="tab" data-t="add" aria-selected="false">Add / subtract days</button>
+<button role="tab" data-t="dday" aria-selected="false">Countdown (D-day)</button>
+<button role="tab" data-t="weekday" aria-selected="false">Day of the week</button>
+</div>
+
+<section class="panel" id="p-between">
+ <div class="card form">
+  <div class="row2"><div class="field"><label for="a1">Start date</label><input id="a1" type="date"></div><div class="field"><label for="a2">End date</label><input id="a2" type="date"></div></div>
+  <label class="check"><input type="checkbox" id="inc"><span>Include the end date (count both days)</span></label>
+  <p class="hint">Ages in years, months and days are on the <a href="age-calculator.html">Age Calculator</a>.</p>
+ </div>
+ <div class="card res" id="r-between" aria-live="polite"></div>
+</section>
+
+<section class="panel" id="p-add" hidden>
+ <div class="card form">
+  <div class="field"><label for="c1">Start date</label><input id="c1" type="date"></div>
+  <div class="row2"><div class="field"><label for="cop">Operation</label><select id="cop"><option value="1">Add (+)</option><option value="-1">Subtract (−)</option></select></div>
+  <div class="field"><label for="cn">Amount</label><input id="cn" type="number" inputmode="numeric" min="0" step="1" value="90"></div></div>
+  <div class="field"><label for="cu">Unit</label><select id="cu"><option value="d">Days</option><option value="w">Weeks</option><option value="m">Months</option><option value="y">Years</option><option value="bd">Business days (Mon–Fri)</option></select></div>
+  <div class="chips" aria-label="Quick amounts"><button type="button" data-n="30" data-u="d">30 days</button><button type="button" data-n="60" data-u="d">60 days</button><button type="button" data-n="90" data-u="d">90 days</button><button type="button" data-n="100" data-u="d">100 days</button><button type="button" data-n="180" data-u="d">180 days</button><button type="button" data-n="6" data-u="m">6 months</button><button type="button" data-n="1" data-u="y">1 year</button></div>
+ </div>
+ <div class="card res" id="r-add" aria-live="polite"></div>
+</section>
+
+<section class="panel" id="p-dday" hidden>
+ <div class="card form">
+  <div class="field"><label for="ev">Event name (optional)</label><input id="ev" type="text" maxlength="60" placeholder="e.g. Vacation, Exam, Wedding" style="font-family:var(--f)"></div>
+  <div class="field"><label for="d1">Event date</label><input id="d1" type="date"></div>
+  <div class="chips" aria-label="Popular dates"><button type="button" data-q="newyear">New Year's Day</button><button type="button" data-q="valentine">Valentine's Day</button><button type="button" data-q="halloween">Halloween</button><button type="button" data-q="christmas">Christmas</button></div>
+  <p class="hint">Counted from today (<span id="todayTxt"></span>, your device's date).</p>
+ </div>
+ <div class="card res" id="r-dday" aria-live="polite"></div>
+</section>
+
+<section class="panel" id="p-weekday" hidden>
+ <div class="card form">
+  <div class="field"><label for="w1">Date</label><input id="w1" type="date"></div>
+  <p class="hint">Works for any date from year 1 to 9999 (proleptic Gregorian calendar).</p>
+ </div>
+ <div class="card res" id="r-weekday" aria-live="polite"></div>
+</section>
+<section class="card help"><h2>How the date calculator works</h2>
+<p><b>Days between dates</b> counts calendar days from the start date to the end date. By default the start date is day 0, so Monday to Friday is 4 days; tick “Include the end date” to count both days (5). Business days are Monday–Friday and do not exclude public holidays, which vary by country.</p>
+<p><b>Add / subtract</b> moves a date by days, weeks, months, years or business days. When you add months and the target month is shorter (for example 31 January + 1 month), the result is the last day of that month (28 or 29 February).</p>
+<p><b>Countdown</b> shows how many days are left until an event, the way a “D-day” counter does (D-30 means 30 days to go). <b>Day of the week</b> tells you the weekday, ISO week number and day of the year for any date.</p><h3>Frequently asked questions</h3><dl><div><dt>How many days are there between two dates?</dt><dd>Subtract the start date from the end date. This calculator does it for you and also shows the result in weeks, months and business days. Tick “Include the end date” if you want to count both the first and last day.</dd></div><div><dt>What date is 90 days from today?</dt><dd>Open “Add / subtract days”, keep today as the start date and choose 90 days. The result updates instantly, together with the day of the week.</dd></div><div><dt>What does D-day mean in a countdown?</dt><dd>D-day is the event day itself. D-10 means 10 days before the event and D+10 means 10 days after it. The countdown tab shows the D-day label for your date.</dd></div></dl></section>
+<footer><nav><a href="./">All calculators</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></nav><div>Results are estimates for information only, not financial, tax or legal advice.</div></footer>
+</div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const D=864e5;
+const P=s=>{const m=/^(\d{4,})-(\d{2})-(\d{2})$/.exec(s||'');if(!m)return NaN;const d=new Date(0);d.setUTCFullYear(+m[1],m[2]-1,+m[3]);d.setUTCHours(0,0,0,0);return d.getTime()};
+const iso=t=>{const d=new Date(t);return String(d.getUTCFullYear()).padStart(4,'0')+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0')};
+const F=t=>new Date(t).toLocaleDateString('en-US',{timeZone:'UTC',weekday:'long',year:'numeric',month:'long',day:'numeric'});
+const FS=t=>new Date(t).toLocaleDateString('en-US',{timeZone:'UTC',weekday:'short',year:'numeric',month:'short',day:'numeric'});
+const nf=n=>Number(n).toLocaleString('en-US');
+const pl=(n,w)=>nf(n)+' '+w+(Math.abs(n)===1?'':'s');
+const dim=(y,m)=>{const d=new Date(0);d.setUTCFullYear(y,m+1,0);return d.getUTCDate()};
+function addM(t,n){const d=new Date(t),y=d.getUTCFullYear(),m=d.getUTCMonth()+n,day=d.getUTCDate();const r=new Date(0);r.setUTCFullYear(y,m,1);r.setUTCHours(0,0,0,0);r.setUTCDate(Math.min(day,dim(r.getUTCFullYear(),r.getUTCMonth())));return r.getTime()}
+function ymd(a,b){const A=new Date(a),B=new Date(b);let y=B.getUTCFullYear()-A.getUTCFullYear(),m=B.getUTCMonth()-A.getUTCMonth(),d=B.getUTCDate()-A.getUTCDate();
+  if(d<0){m--;const pm=B.getUTCMonth()-1;d+=dim(pm<0?B.getUTCFullYear()-1:B.getUTCFullYear(),(pm+12)%12)}if(m<0){y--;m+=12}return [y,m,d]}
+function bizBetween(a,b){ // weekdays in [a,b)
+  const n=Math.round((b-a)/D);if(n<=0)return 0;const full=Math.floor(n/7);let c=full*5;const w0=new Date(a).getUTCDay();for(let i=0;i<n%7;i++){const w=(w0+i)%7;if(w!==0&&w!==6)c++}return c}
+const now=new Date(),today=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
+function out(id,k,big,sub,rows,note){$(id).innerHTML='<p class="kicker">'+k+'</p><p class="big">'+big+'</p><p class="bigsub">'+sub+'</p>'+(rows&&rows.length?'<table>'+rows.map(r=>'<tr><td>'+r[0]+(r[1]?'<span class="c">'+r[1]+'</span>':'')+'</td><td class="n">'+r[2]+'</td></tr>').join('')+'</table>':'')+(note?'<p class="note">'+note+'</p>':'')}
+function bad(id){$(id).innerHTML='<p class="kicker">Result</p><p class="bigsub">Enter a valid date.</p>'}
+
+function between(){
+  const a=P($('a1').value),b=P($('a2').value);if(isNaN(a)||isNaN(b))return bad('r-between');
+  const inc=$('inc').checked,lo=Math.min(a,b),hi=Math.max(a,b),raw=Math.round((hi-lo)/D),n=raw+(inc?1:0);
+  const [y,m,d]=ymd(lo,inc?hi+D:hi),bd=bizBetween(lo,inc?hi+D:hi);
+  out('r-between','Days between dates',pl(n,'day'),FS(lo)+' → '+FS(hi)+(inc?' (end date included)':'')+(b<a?' · dates swapped':''),[
+    ['Years, months, days','',y+' y '+m+' m '+d+' d'],
+    ['Weeks and days','',pl(Math.floor(n/7),'week')+' '+pl(n%7,'day')],
+    ['Months (average)','30.44 days per month',(n/30.436875).toFixed(2)],
+    ['Business days','Mon–Fri, holidays not removed',nf(bd)],
+    ['Weekend days','',nf(n-bd)],
+    ['Hours','',nf(n*24)],['Minutes','',nf(n*1440)]]);
+}
+function addsub(){
+  const c=P($('c1').value);if(isNaN(c))return bad('r-add');
+  const sign=+$('cop').value,n=Math.max(0,Math.round(+$('cn').value||0)),u=$('cu').value;let r;
+  if(u==='d')r=c+sign*n*D;else if(u==='w')r=c+sign*n*7*D;else if(u==='m')r=addM(c,sign*n);else if(u==='y')r=addM(c,sign*n*12);
+  else{r=c;let k=0;while(k<n){r+=sign*D;const w=new Date(r).getUTCDay();if(w!==0&&w!==6)k++}}
+  const lab={d:'day',w:'week',m:'month',y:'year',bd:'business day'}[u];
+  const diff=Math.round((r-today)/D);
+  out('r-add','Resulting date',F(r),FS(c)+' '+(sign>0?'+':'−')+' '+pl(n,lab),[
+    ['ISO format','',iso(r)],['Calendar days from start','',(sign>0?'+':'−')+nf(Math.abs(Math.round((r-c)/D)))],
+    ['From today','',diff===0?'Today':(diff>0?'in '+pl(diff,'day'):pl(-diff,'day')+' ago')]],
+    u==='bd'?'Business days skip Saturdays and Sundays only. Public holidays are not removed.':'');
+}
+function dday(){
+  const t=P($('d1').value);if(isNaN(t))return bad('r-dday');
+  const name=($('ev').value||'').trim().replace(/[<>&"]/g,''),n=Math.round((t-today)/D),a=Math.abs(n);
+  const big=n===0?'Today!':(n>0?pl(n,'day')+' to go':pl(a,'day')+' ago');
+  const [y,m,d]=n>=0?ymd(today,t):ymd(t,today);
+  out('r-dday',(name||'Countdown')+' · '+(n===0?'D-day':(n>0?'D-'+nf(n):'D+'+nf(a))),big,F(t),[
+    ['Weeks and days','',pl(Math.floor(a/7),'week')+' '+pl(a%7,'day')],
+    ['Months and days','',(y?y+' y ':'')+m+' m '+d+' d'],
+    ['Business days','Mon–Fri',nf(n>=0?bizBetween(today,t):bizBetween(t,today))],
+    ['Hours','',nf(a*24)]]);
+}
+function weekday(){
+  const t=P($('w1').value);if(isNaN(t))return bad('r-weekday');
+  const d=new Date(t),y=d.getUTCFullYear(),jan1=(()=>{const z=new Date(0);z.setUTCFullYear(y,0,1);z.setUTCHours(0,0,0,0);return z.getTime()})();
+  const doy=Math.round((t-jan1)/D)+1,leap=(y%4===0&&y%100!==0)||y%400===0,len=leap?366:365;
+  // ISO week
+  const wd=(d.getUTCDay()+6)%7,th=t+(3-wd)*D,ty=new Date(th).getUTCFullYear(),tj=(()=>{const z=new Date(0);z.setUTCFullYear(ty,0,1);z.setUTCHours(0,0,0,0);return z.getTime()})();
+  const week=Math.floor(Math.round((th-tj)/D)/7)+1;
+  const diff=Math.round((t-today)/D);
+  out('r-weekday','Day of the week',d.toLocaleDateString('en-US',{timeZone:'UTC',weekday:'long'}),F(t),[
+    ['Day of the year','',doy+' of '+len],['ISO week','',ty+'-W'+String(week).padStart(2,'0')],
+    ['Quarter','','Q'+(Math.floor(d.getUTCMonth()/3)+1)],['Leap year','',leap?'Yes':'No'],
+    ['Days left in the year','',nf(len-doy)],['From today','',diff===0?'Today':(diff>0?'in '+pl(diff,'day'):pl(-diff,'day')+' ago')]]);
+}
+const RUN={between,add:addsub,dday,weekday};
+// tabs
+const tabs=[...document.querySelectorAll('.tools button')];
+function show(k){tabs.forEach(b=>b.setAttribute('aria-selected',String(b.dataset.t===k)));Object.keys(RUN).forEach(x=>$('p-'+x).hidden=x!==k);RUN[k]();try{history.replaceState(null,'','#'+k)}catch(e){}}
+tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.t)));
+// defaults
+const ny=Date.UTC(now.getFullYear()+1,0,1);
+$('a1').value=iso(today);$('a2').value=iso(ny);$('c1').value=iso(today);$('d1').value=iso(Date.UTC(now.getFullYear(),11,25)>=today?Date.UTC(now.getFullYear(),11,25):Date.UTC(now.getFullYear()+1,11,25));$('w1').value=iso(today);
+$('todayTxt').textContent=FS(today);
+document.querySelectorAll('[data-n]').forEach(b=>b.addEventListener('click',()=>{$('cn').value=b.dataset.n;$('cu').value=b.dataset.u;$('cop').value='1';addsub()}));
+document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>{const Y=now.getFullYear(),q=b.dataset.q;
+  const md={newyear:[0,1],valentine:[1,14],halloween:[9,31],christmas:[11,25]}[q];let t=Date.UTC(Y,md[0],md[1]);if(t<today)t=Date.UTC(Y+1,md[0],md[1]);
+  $('d1').value=iso(t);$('ev').value=b.textContent;dday()}));
+['a1','a2','inc'].forEach(id=>{$(id).addEventListener('input',between);$(id).addEventListener('change',between)});
+['c1','cop','cn','cu'].forEach(id=>{$(id).addEventListener('input',addsub);$(id).addEventListener('change',addsub)});
+['ev','d1'].forEach(id=>{$(id).addEventListener('input',dday);$(id).addEventListener('change',dday)});
+['w1'].forEach(id=>{$(id).addEventListener('input',weekday);$(id).addEventListener('change',weekday)});
+between();addsub();dday();weekday();
+const h=(location.hash||'').slice(1);if(RUN[h])show(h);
+})();
+</script>
+</body>
+</html>
