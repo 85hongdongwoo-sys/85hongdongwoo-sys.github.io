@@ -131,7 +131,7 @@ function finish(){
   var p=ws/wt,iq=Math.round(100+15*(p-0.58)/0.16);iq=Math.max(70,Math.min(145,iq));if(!st.limit)iq=Math.min(iq,130);
   var pct=ncdf((iq-100)/15)*100,used=Math.round((Date.now()-st.start)/60000);
   var desc=iq>=130?'Très supérieur (environ les 2 % les plus élevés)':iq>=120?'Supérieur':iq>=110?'Moyenne haute':iq>=90?'Dans la moyenne':iq>=80?'Moyenne basse':'Inférieur à la moyenne';
-  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">QI estimé (pour le plaisir)</p><div class="big">'+iq+'</div><h2 style="margin:4px 0">'+desc+'</h2><p style="margin:0"><b>'+tot+' sur 120</b> bonnes réponses · '+(pct>=50?'parmi les ~'+Math.max(0.1,100-pct).toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1})+' % les plus élevés':'parmi les ~'+Math.max(0.1,pct).toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1})+' % les plus bas')+' · '+(st.limit?used+' min utilisées':'sans limite de temps')+'</p></section>';
+  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">QI estimé (pour le plaisir)</p><div class="big" data-share-result>'+iq+'</div><h2 style="margin:4px 0" data-share-result>'+desc+'</h2><p style="margin:0" data-share-result><b>'+tot+' sur 120</b> bonnes réponses · '+(pct>=50?'parmi les ~'+Math.max(0.1,100-pct).toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1})+' % les plus élevés':'parmi les ~'+Math.max(0.1,pct).toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1})+' % les plus bas')+' · '+(st.limit?used+' min utilisées':'sans limite de temps')+'</p></section>';
   h+='<section class="card"><h2>Score par section</h2>'+Object.keys(area).map(function(k){var a=area[k],r=a[1]?a[0]/a[1]:0;return '<div class="area"><span>'+KN[k]+'</span><div class="b"><i style="width:'+(r*100)+'%"></i></div><b>'+a[0]+'/'+a[1]+'</b></div>'}).join('');
   var best=Object.keys(area).sort(function(x,y){return area[y][0]/area[y][1]-area[x][0]/area[x][1]})[0];
   h+='<p style="margin:10px 0 0">Votre point fort : <b>'+KN[best]+'</b>. '+({mat:'Vous excellez en raisonnement visuel : vous repérez les règles cachées dans les motifs.',seq:'Vous avez un sens aigu des nombres pour découvrir la règle d’une suite.',verbal:'Vous saisissez avec précision les relations entre les notions.',logic:'Vous savez organiser les données d’un problème et raisonner jusqu’à la réponse.'})[best]+'</p></section>';
@@ -150,5 +150,6 @@ if(st.start&&!st.done){$('start').textContent='Reprendre le test';}
 if(st.done&&st.start){finish()}
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>

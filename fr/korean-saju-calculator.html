@@ -351,7 +351,7 @@ function render(o,B,scroll){
   row('Nayin',function(p){return NAYIN[Math.floor(jiazi(p[0],p[1])/2)]});
   h+='</div>';
   var lu=o.lunar,de=EL[GE[dg]];
-  h+='<div class="summary"><div><span>Maître du jour (le caractère qui vous représente)</span><b class="t-'+de+'">'+GAN[dg]+' '+GR[dg]+' · '+ELN[de]+' '+yy(dg)+'</b><br><span>'+cap(DAYMASTER[dg][0])+'</span></div>'+
+  h+='<div class="summary"><div data-share-result><span>Maître du jour (le caractère qui vous représente)</span><b class="t-'+de+'">'+GAN[dg]+' '+GR[dg]+' · '+ELN[de]+' '+yy(dg)+'</b><br><span>'+cap(DAYMASTER[dg][0])+'</span></div>'+
     '<div><span>Animal du zodiaque (à partir d’Ipchun)</span><b>'+gzH(P.y[0],P.y[1])+' '+gzR(P.y[0],P.y[1])+'</b><br><span>Année '+ANIDU[P.y[1]]+'</span></div>'+
     '<div><span>Date grégorienne / lunaire</span><b>'+o.y+'-'+pad(o.m)+'-'+pad(o.d)+'</b><br><span>Lunaire '+lu.getYear()+'-'+(lu.getMonth()<0?'intercalaire '+(-lu.getMonth()):lu.getMonth())+'-'+lu.getDay()+'</span></div>'+
     '<div><span>Heure retenue pour le jour et l’heure</span><b>'+(o.noTime?'Heure inconnue':pad(o.lmt.getUTCHours())+':'+pad(o.lmt.getUTCMinutes()))+'</b><br><span>'+(o.noTime?'Pilier de l’heure omis':'Saisie '+pad(o.hm[0])+':'+pad(o.hm[1])+' → '+(o.adj>=0?'+':'')+o.adj+' min'+(o.off!==o.std?' (heure d’été incluse)':''))+'</span></div></div>';
@@ -572,5 +572,6 @@ window.__saju={compute:compute,CL:CL,tzOffset:tzOffset,wallToUtc:wallToUtc};
 run(false);
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>
