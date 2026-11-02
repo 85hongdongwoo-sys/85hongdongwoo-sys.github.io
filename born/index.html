@@ -52,6 +52,32 @@ ul.tight{margin:6px 0 0;padding-left:20px}ul.tight li{margin:3px 0}
 .faq details{border-top:1px solid var(--line);padding:10px 0}.faq details:first-of-type{border-top:0}.faq summary{cursor:pointer;font-weight:700;color:var(--head)}.faq p{margin:6px 0 0}
 footer.site{margin-top:14px;background:var(--paper);border-radius:14px;padding:16px 20px;font-size:13px;color:var(--muted);line-height:1.7}footer.site div+div{margin-top:4px}
 @media(max-width:430px){.card{padding:16px}.stat b{font-size:18px}th,td{padding:6px 6px}}
+.fxh{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 20px;align-items:center}.fxh>.fxt{min-width:0}
+.fxa{width:190px}.fxa svg,.fxs svg{display:block;width:100%;height:auto}
+.fxh .fxw{grid-column:1/-1}
+@media(max-width:600px){.fxh{grid-template-columns:minmax(0,1fr)}.fxa{order:-1;width:min(210px,70%);margin:0 auto}}
+.fxs{max-width:560px;margin:4px auto 0}
+.fxcap{font-size:12.5px;color:var(--muted);line-height:1.6;margin:10px 0 0}
+.fxeq{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fxeq>div{border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center;background:#fff}
+.fxeq svg{width:46px;height:46px;display:block;margin:0 auto 2px}
+.fxeq b{display:block;font-size:clamp(17px,4.6vw,22px);font-weight:800;color:var(--head);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.3}
+.fxeq span{display:block;font-size:12.5px;color:var(--muted);line-height:1.4}
+.fxdn{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;justify-content:center}.fxdn>svg{width:168px;height:168px;flex:none}
+.fxlg{list-style:none;margin:0;padding:0;min-width:0;flex:1 1 220px;max-width:340px}.fxlg li{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line);font-size:14.5px}.fxlg li:last-child{border:0}
+.fxlg i{width:12px;height:12px;border-radius:4px;flex:none}.fxlg span{flex:1;min-width:0}.fxlg b{font-variant-numeric:tabular-nums;white-space:nowrap}.fxlg em{font-style:normal;color:var(--muted);font-size:12.5px;margin-left:4px}
+.fxbars{display:grid;gap:12px}.fxbr .t{display:flex;justify-content:space-between;gap:8px;font-size:14px;margin-bottom:4px}.fxbr .t b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.fxbr .b{display:flex;height:22px;border-radius:7px;overflow:hidden;background:var(--soft)}.fxbr .b i{display:block;height:100%}
+.fxbr .s{font-size:12.5px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+.fxkey{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);margin:0 0 10px}.fxkey i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.fxwk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.fxwk>div{border:1px solid var(--line);border-radius:10px;overflow:hidden;text-align:center;background:#fff}
+.fxwk span{display:block;background:#12305C;color:#fff;font-size:13px;font-weight:700;padding:3px 0}
+.fxwk .q{height:58px;margin:7px auto 4px;width:16px;border-radius:5px;background:var(--soft);position:relative;overflow:hidden}.fxwk .q i{position:absolute;left:0;right:0;bottom:0;background:#C9A04A;border-radius:5px}
+.fxwk b{display:block;font-size:13px;color:var(--head);padding-bottom:6px;font-variant-numeric:tabular-nums}
+.fxwk .ju{background:#FBF4E6;border-color:#C9A04A}.fxwk .ju span{background:#B8862B}.fxwk .ju .q i{background:#B8862B}
+.fxwk .off{background:var(--soft)}.fxwk .off span{background:#8C96A5}.fxwk .off b{color:var(--muted);font-weight:500}
+.fxeqn{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:var(--soft);font-size:14px;text-align:center;font-variant-numeric:tabular-nums}.fxeqn b{color:var(--head)}
 </style>
 <!--hl:head-->
 <link rel="manifest" href="/manifest.webmanifest">
@@ -62,7 +88,7 @@ footer.site{margin-top:14px;background:var(--paper);border-radius:14px;padding:1
 <meta property="og:image:alt" content="출생연도별 나이·띠">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://honglife.co.kr/assets/og/born.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홍라이프 계산기","item":"https://honglife.co.kr/"},{"@type":"ListItem","position":2,"name":"출생연도별 나이·띠 2026","item":"https://honglife.co.kr/born/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홍라이프 계산기","item":"https://honglife.co.kr/"},{"@type":"ListItem","position":2,"name":"출생연도별 나이·띠","item":"https://honglife.co.kr/born/"}]}</script>
 <style id="hl-sw-css">.hl-rel{box-sizing:border-box;margin:28px 0 0;padding:18px 18px 16px;background:#fff;border:1px solid #E3E7EE;border-top:3px solid #B8862B;border-radius:14px;color:#12305C;text-align:start;max-width:100%;overflow:hidden;clear:both;font-family:inherit}body>.hl-rel{width:min(1080px,calc(100% - 32px));margin:28px auto 0}.hl-rel *{box-sizing:border-box}.hl-rel .hl-rel-t{margin:0 0 12px;padding:0;border:0;background:none;font-size:17px;line-height:1.35;font-weight:800;color:#12305C;letter-spacing:-.01em;text-transform:none;display:flex;align-items:center;gap:8px;font-family:inherit}.hl-rel .hl-rel-t:before{content:"";width:8px;height:8px;border-radius:50%;background:#B8862B;flex:none}.hl-rel ul.hl-rel-l{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:8px}.hl-rel ul.hl-rel-l li{margin:0;padding:0;border:0;min-width:0;display:block}.hl-rel ul.hl-rel-l li:before{content:none}.hl-rel a.hl-rel-a{display:block;height:100%;padding:11px 13px;border-radius:10px;background:#F7F8FB;border:1px solid #E3E7EE;text-decoration:none;color:#12305C;transition:border-color .15s,background-color .15s}.hl-rel a.hl-rel-a:hover{border-color:#B8862B;background:#FBF7EE}.hl-rel a.hl-rel-a:focus-visible{outline:3px solid #B8862B;outline-offset:2px}.hl-rel a.hl-rel-a b{display:block;font-size:15px;font-weight:800;line-height:1.35;color:#12305C;overflow-wrap:anywhere;word-break:keep-all}.hl-rel a.hl-rel-a b:after{content:" \2192";color:#B8862B;font-weight:700}html[dir=rtl] .hl-rel a.hl-rel-a b:after{content:" \2190"}.hl-rel a.hl-rel-a span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:4px;font-size:13px;line-height:1.45;color:#5B6B82;font-weight:500}@media (max-width:640px){.hl-rel{padding:14px 12px 12px;margin-top:22px}}@media print{.hl-rel{display:none!important}}html.hl-embed ins.adsbygoogle,html.hl-embed .adsbygoogle,html.hl-embed .google-auto-placed,html.hl-embed [id^="aswift"],html.hl-embed [id^="google_ads"],html.hl-embed .ad-slot,html.hl-embed [data-ad],html.hl-embed div.ad,html.hl-embed #adCoupang,html.hl-embed nav.calc-index,html.hl-embed .hl-rel,html.hl-embed .hl-share,html.hl-embed .hl-share-fab,html.hl-embed .hl-chip,html.hl-embed .hl-embed-row,html.hl-embed footer,html.hl-embed .brandbar,html.hl-embed .crumb{display:none!important}html.hl-embed body{padding-bottom:0!important}</style>
 <script src="/assets/app.js" defer></script>
 <!--/hl:head--></head>
