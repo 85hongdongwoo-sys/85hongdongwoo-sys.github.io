@@ -296,6 +296,31 @@ nav.tabs{background:#0F2A52;border-bottom-color:rgba(255,255,255,.14)}
 @media(max-width:700px){.fs{grid-template-columns:1fr;padding:24px 20px 56px}.fs .vis{display:none}.flash{min-height:270px}.fnav{left:20px}}
 @media (prefers-reduced-motion:reduce){.flash .aur,.fs .orb,.fs .glass,.fs h2 em{animation:none}.fs{transition:none}}
 </style>
+<style id="theme-card">
+/* ===== 바깥 짙은 블루 + 안쪽 흰 카드 + 골드 포인트 ===== */
+body{background:#0A1E3E;background:linear-gradient(180deg,#0F2A52 0,#0A1E3E 100%) fixed}
+.wrap{background:#fff;max-width:1080px;margin:22px auto 0;padding:6px 28px 28px;border-radius:18px;border-top:4px solid #C9A04A;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+header.top{border-bottom:1px solid #E6E9EF}
+h1{color:#0B1F3F}h1 b{color:#B8862B}
+.sub{color:#5A6678}
+.stamp{background:#FBF4E4;color:#8A6414;border:1px solid #E8C27A}
+nav.tabs{background:#fff;border-bottom-color:#E6E9EF}
+.groups{border-bottom-color:#E6E9EF}
+.groups button{color:#5A6678}
+.groups button:hover{color:#0B1F3F}
+.groups button[aria-selected="true"]{color:#0B1F3F;border-bottom-color:#C9A04A}
+.subtabs button,.subtabs a.sublink{background:#fff;border-color:#D5DBE5;color:#2C3A4F}
+.subtabs button:hover,.subtabs a.sublink:hover{border-color:#C9A04A;color:#0B1F3F}
+.subtabs button[aria-selected="true"]{background:#0B1F3F;border-color:#0B1F3F;color:#E8C27A}
+.subtabs a.sublink::after{color:#B8862B}
+.form,.receipt,.help,footer,.ad,.guide,.calc-index{border-color:#E1E5EC}
+.receipt{border-top-color:#C9A04A}
+.total strong{color:#0B1F3F}
+.ci-grid b{color:#8A6414}
+.flash{box-shadow:0 10px 30px rgba(11,31,63,.12)}
+@media (max-width:640px){.wrap{margin:12px 8px 0;padding:4px 14px 20px;border-radius:14px}}
+</style>
+
 <div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 계산기</a><span class="meta">2026년 세법 기준 · 무료</span></div></div>
 <div class="wrap">
 <header class="top">
