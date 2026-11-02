@@ -68,3 +68,6 @@ footer a{color:var(--muted)}
 .brand a.logo{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .brand .flag{white-space:nowrap;flex-shrink:0}
 @media(max-width:560px){.brand .flag{display:none}.brand a.logo{font-size:15px}.two .f>span{min-height:2.75em;display:flex;align-items:flex-end}}
+
+/* mobile overflow fix */
+.card{min-width:0;max-width:100%}.card *{min-width:0}.card input,.card select{max-width:100%}table.tbl{display:block;max-width:100%;overflow-x:auto}
