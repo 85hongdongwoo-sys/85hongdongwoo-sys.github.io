@@ -55,3 +55,5 @@ footer{margin-top:24px;background:var(--paper);border-radius:8px;padding:18px 20
 /* brandbar mobile */
 .brandbar .logo{white-space:nowrap}.langs a{white-space:nowrap}
 @media (max-width:480px){.brandbar .in{gap:8px}.brandbar .logo{font-size:14.5px}.langs{gap:8px!important;font-size:12px}.langs a{font-size:12px}}
+.langs{flex-wrap:wrap;justify-content:flex-end;row-gap:4px}
+@media (max-width:640px){.brandbar .in{flex-wrap:wrap}.langs{justify-content:flex-start;width:100%}}
