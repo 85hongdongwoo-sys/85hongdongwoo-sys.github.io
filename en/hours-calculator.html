@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="only light">
+<title>Hours Calculator &amp; Time Card Calculator — Overtime and Pay</title>
+<meta name="description" content="Free hours calculator and weekly time card: add up hours between two times (overnight shifts too), subtract unpaid breaks, get decimal and h:mm totals, FLSA or California overtime, gross pay, CSV export and print.">
+<link rel="canonical" href="https://honglife.co.kr/en/hours-calculator.html"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/hours-calculator.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/wage.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Hours Calculator &amp; Time Card Calculator — Overtime and Pay"><meta property="og:description" content="Free hours calculator and weekly time card: add up hours between two times (overnight shifts too), subtract unpaid breaks, get decimal and h:mm totals, FLSA or California overtime, gross pay, CSV export and print."><meta property="og:url" content="https://honglife.co.kr/en/hours-calculator.html">
+<meta name="theme-color" content="#0B1F3F"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../g.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I convert minutes to decimal hours for a time card?","acceptedAnswer":{"@type":"Answer","text":"Divide the minutes by 60. 15 minutes is 0.25 hours, 30 minutes is 0.5, 45 minutes is 0.75 and 20 minutes is about 0.33. So 7 hours 45 minutes is 7.75 hours; multiply decimal hours by your hourly rate to get pay."}},{"@type":"Question","name":"When does overtime start under federal law?","acceptedAnswer":{"@type":"Answer","text":"Under the Fair Labor Standards Act, non-exempt employees must be paid at least 1.5 times their regular rate for hours worked over 40 in a workweek. Federal law has no daily overtime limit, so a 10-hour day is not overtime by itself if the week stays at 40 hours or less."}},{"@type":"Question","name":"How does California daily overtime work?","acceptedAnswer":{"@type":"Answer","text":"California Labor Code section 510 requires 1.5 times pay for hours over 8 in a workday, over 40 in a workweek and for the first 8 hours on the seventh consecutive workday, and double time for hours over 12 in a workday and over 8 on the seventh consecutive day. Hours already paid as daily overtime are not counted again toward the 40-hour weekly total."}}]}</script>
+<style>
+.btn{font:700 14.5px var(--f);padding:10px 16px;border-radius:4px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:42px}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn.gold{background:var(--gold-d);border-color:var(--gold-d);color:#fff}
+.btn.sm{min-height:34px;padding:6px 12px;font-size:13px}
+.stack{display:grid;gap:16px;margin-top:20px}
+.card h2{margin:0 0 12px;font-size:17px;color:var(--accent)}
+.field input[type=time]{min-height:44px}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media(max-width:560px){.row3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.row3 .field:last-child{grid-column:1/-1}}
+.quick{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:center}
+@media(max-width:820px){.quick{grid-template-columns:minmax(0,1fr)}}
+.qout{background:#F6F8FB;border-radius:6px;padding:14px 16px;border-left:4px solid var(--gold-d)}
+.qout .big{margin:0}
+/* time card */
+.tc{display:grid;gap:6px}
+.tc .hd,.tc .day{display:grid;grid-template-columns:58px minmax(0,1fr) minmax(0,1fr) 92px 92px;gap:8px;align-items:center}
+.tc .hd{font-size:12px;font-weight:700;color:var(--muted);padding:0 2px}
+.tc .hd span:last-child{text-align:right}
+.tc .day{padding:6px 2px;border-bottom:1px solid var(--soft)}
+.tc .dn{font-weight:700;color:#0B1F3F}
+.tc input{width:100%;font:500 15px var(--mono);color:var(--ink);background:#FBFCFD;border:1px solid #C9D1DC;border-radius:4px;padding:8px 8px;min-height:42px;min-width:0}
+.tc input:focus{border-color:var(--accent);background:#fff;outline:none;box-shadow:0 0 0 3px rgba(18,48,92,.12)}
+.tc .hrs{text-align:right;font:600 15px var(--mono);color:#0B1F3F}
+.tc .hrs small{display:block;font:500 11.5px var(--f);color:var(--gold-d)}
+.tc .day.off .hrs{color:#9AA5B5}
+.lbl{display:none}
+@media(max-width:640px){
+ .tc .hd{display:none}
+ .tc .day{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 64px;grid-template-areas:"dn dn hrs" "in out brk";row-gap:4px;padding:10px 0}
+ .tc .dn{grid-area:dn}.tc .hrs{grid-area:hrs}.tc .i{grid-area:in}.tc .o{grid-area:out}.tc .b{grid-area:brk}
+ .tc input{font-size:13.5px;padding:6px 4px}
+ .lbl{display:block;font-size:11px;color:var(--muted);font-weight:600}
+}
+.settings{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:12px;margin-top:14px}
+@media(max-width:560px){.settings{grid-template-columns:minmax(0,1fr)}}
+.ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tcwrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:start}
+@media(max-width:900px){.tcwrap{grid-template-columns:minmax(0,1fr)}}
+.res{position:sticky;top:16px}
+.res .big{color:#0B1F3F}
+.chip-ot{display:inline-block;font:700 11px var(--mono);background:#FCEBEA;color:#C2362B;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+@media print{
+ body{background:#fff!important}
+ .brandbar,nav.tabs,.ctl,.help,footer,.noprint,ins{display:none!important}
+ header.top h1,header.top .sub{color:#000}
+ .card{box-shadow:none!important;border:1px solid #ccc;break-inside:avoid}
+ .tcwrap{grid-template-columns:1.5fr 1fr}
+ .res{position:static}
+ .tc input{border:0;background:none;padding:2px}
+}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>%</i>홍라이프 계산기</a><nav class="langs"><a href="../en/hours-calculator.html" hreflang="en" aria-current="true">English</a><a href="../wage.html" hreflang="ko">한국어</a></nav></div></div>
+<div class="wrap">
+<header class="top"><h1>Hours Calculator &amp; <b>Time Card Calculator</b></h1><p class="sub">Work out the hours between two times, fill in a weekly time card with unpaid breaks, and see total hours in decimal and h:mm, overtime (federal or California rules) and gross pay.</p></header>
+<nav class="tabs"><div class="row"><a href="korea-salary-calculator.html">Korea salary</a><a href="korea-severance-pay-calculator.html">Korea severance</a><a href="korea-pension-refund-calculator.html">Pension refund</a><a href="loan-calculator.html">Loan</a><a href="compound-interest-calculator.html">Compound interest</a><a href="percentage-calculator.html">Percentage</a><a href="age-calculator.html">Age</a><a href="bmi-calculator.html">BMI</a><a href="date-calculator.html">Date</a><a href="travel-budget-calculator.html">Travel budget</a><a href="electricity-cost-calculator.html">Electricity cost</a><a href="stopwatch.html">Stopwatch</a><a href="hours-calculator.html" aria-current="page">Hours</a><a href="christmas-countdown.html">Christmas countdown</a></div></nav>
+<div class="stack">
+<section class="card noprint" id="quick">
+ <h2>Hours between two times</h2>
+ <div class="quick">
+  <div class="row3">
+   <div class="field"><label for="qs">Start time</label><input type="time" id="qs" value="22:00"></div>
+   <div class="field"><label for="qe">End time</label><input type="time" id="qe" value="06:30"></div>
+   <div class="field"><label for="qb">Unpaid break (min)</label><input type="number" id="qb" min="0" step="5" value="30" inputmode="numeric"></div>
+  </div>
+  <div class="qout" aria-live="polite"><p class="kicker">Time worked</p><p class="big" id="qOut">—</p><p class="bigsub" id="qSub"></p></div>
+ </div>
+</section>
+
+<section class="card" id="card">
+ <h2>Weekly time card</h2>
+ <div class="tcwrap">
+  <div>
+   <div class="tc" id="tc"><div class="hd"><span>Day</span><span>Time in</span><span>Time out</span><span>Break (min)</span><span>Hours</span></div></div>
+   <div class="settings">
+    <div class="field"><label for="wage">Hourly wage ($)</label><input type="number" id="wage" min="0" step="0.01" value="20" inputmode="decimal"></div>
+    <div class="field"><label for="rule">Overtime rule</label><select id="rule"><option value="flsa">Federal FLSA — over 40 h/week at 1.5×</option><option value="ca">California — daily 8 h / 12 h + weekly 40 h</option><option value="none">No overtime (straight time)</option></select></div>
+   </div>
+   <div class="ctl"><button class="btn ghost sm" type="button" id="fill">Fill Mon–Fri 9:00–5:30</button><button class="btn ghost sm" type="button" id="clear">Clear all</button><button class="btn sm" type="button" id="csv">Export CSV</button><button class="btn gold sm" type="button" id="print">Print</button></div>
+   <p class="hint" style="margin-top:10px">If the time out is earlier than the time in, the shift is treated as overnight (ends the next day). Leave a day blank for a day off.</p>
+  </div>
+  <aside class="card res" style="padding:18px;border-top:4px solid var(--gold);box-shadow:0 8px 24px rgba(0,0,0,.12)" aria-live="polite">
+   <p class="kicker">Total hours this week</p>
+   <p class="big" id="tH">0.00</p><p class="bigsub" id="tHM">0:00 (h:mm)</p>
+   <table><tbody id="tBody"></tbody></table>
+   <p class="note" id="tNote"></p>
+  </aside>
+ </div>
+</section>
+</div>
+
+<section class="card help"><h2>How hours and overtime are calculated</h2>
+<p><b>Hours between two times.</b> The calculator subtracts the start time from the end time; if the end is earlier than the start, it adds 24 hours, so a 10:00 PM to 6:30 AM shift is 8 h 30 min. Unpaid breaks are then subtracted. Results are shown both as <b>h:mm</b> (8:00) and as <b>decimal hours</b> (8.00), which is what payroll uses — 15 minutes = 0.25 h, 30 = 0.50, 45 = 0.75.</p>
+<p><b>Federal overtime (FLSA).</b> Non-exempt employees earn at least 1.5× their regular rate for every hour over 40 in a fixed 7-day workweek. There is no federal daily limit. Example: five days of 9:00–5:30 with a 30-minute unpaid lunch is exactly 40.0 hours; add a 9:00–7:00 Saturday and the extra 10 hours are overtime.</p>
+<p><b>California overtime</b> (Labor Code § 510) adds daily rules: 1.5× after 8 hours in a day, after 40 hours in the week and for the first 8 hours on the seventh consecutive workday; 2× (double time) after 12 hours in a day and after 8 hours on the seventh consecutive day. Hours already paid as daily overtime are not counted twice toward the 40-hour weekly limit. Alaska, Colorado and Nevada also have daily overtime rules, and union contracts may be more generous — check your state.</p>
+<p>Gross pay = regular hours × wage + overtime hours × 1.5 × wage + double-time hours × 2 × wage, before taxes. Your data stays in your browser; nothing is uploaded.</p>
+<h3>Frequently asked questions</h3><dl>
+<div><dt>How do I convert minutes to decimal hours for a time card?</dt><dd>Divide the minutes by 60. 15 minutes is 0.25 hours, 30 minutes is 0.5, 45 minutes is 0.75 and 20 minutes is about 0.33. So 7 hours 45 minutes is 7.75 hours; multiply decimal hours by your hourly rate to get pay.</dd></div>
+<div><dt>When does overtime start under federal law?</dt><dd>Under the Fair Labor Standards Act, non-exempt employees must be paid at least 1.5 times their regular rate for hours worked over 40 in a workweek. Federal law has no daily overtime limit, so a 10-hour day is not overtime by itself if the week stays at 40 hours or less.</dd></div>
+<div><dt>How does California daily overtime work?</dt><dd>California Labor Code section 510 requires 1.5 times pay for hours over 8 in a workday, over 40 in a workweek and for the first 8 hours on the seventh consecutive workday, and double time for hours over 12 in a workday and over 8 on the seventh consecutive day. Hours already paid as daily overtime are not counted again toward the 40-hour weekly total.</dd></div></dl>
+<h3>Sources</h3>
+<p style="font-size:13.5px">U.S. Department of Labor, <a href="https://www.dol.gov/agencies/whd/overtime" rel="noopener">Wage and Hour Division — Overtime Pay</a> and Fact Sheet #23 (29 U.S.C. § 207). California Department of Industrial Relations, <a href="https://www.dir.ca.gov/dlse/faq_overtime.htm" rel="noopener">Overtime FAQ</a> (Labor Code § 510).</p>
+</section>
+<footer><nav><a href="./">All calculators</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></nav><div>Results are estimates for information only, not legal or payroll advice.</div></footer>
+</div>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const ga=(n,p)=>{try{if(window.gtag)gtag('event',n,Object.assign({lang:'en'},p||{}))}catch(e){}};
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const FULL=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const tm=v=>{if(!v)return null;const m=/^(\d{1,2}):(\d{2})/.exec(v);return m?(+m[1])*60+(+m[2]):null};
+const span=(a,b)=>{if(a==null||b==null)return 0;let d=b-a;if(d<0)d+=1440;return d};
+const hm=m=>{m=Math.round(m);return Math.floor(m/60)+':'+String(m%60).padStart(2,'0')};
+const dec=m=>(Math.round(m/60*100)/100).toFixed(2);
+const usd=x=>'$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const brk=id=>{const v=parseFloat($(id).value);return isFinite(v)&&v>0?v:0};
+/* quick calculator */
+function quick(){
+ const s=tm($('qs').value),e=tm($('qe').value);
+ if(s==null||e==null){$('qOut').textContent='—';$('qSub').textContent='Enter both times';return}
+ const raw=span(s,e),w=Math.max(0,raw-brk('qb'));
+ $('qOut').textContent=`${Math.floor(w/60)} h ${String(Math.round(w%60)).padStart(2,'0')} min`;
+ $('qSub').textContent=`${dec(w)} decimal hours · ${hm(w)} h:mm`+(e<s?' · overnight shift':'')+(brk('qb')?` · after ${brk('qb')} min break`:'');
+}
+['qs','qe','qb'].forEach(id=>$(id).addEventListener('input',()=>{quick();used()}));
+/* time card */
+$('tc').insertAdjacentHTML('beforeend',DAYS.map((d,i)=>`<div class="day" id="r${i}"><span class="dn">${FULL[i]}</span><label class="i"><span class="lbl">In</span><input type="time" id="in${i}" aria-label="${FULL[i]} time in"></label><label class="o"><span class="lbl">Out</span><input type="time" id="out${i}" aria-label="${FULL[i]} time out"></label><label class="b"><span class="lbl">Break min</span><input type="number" id="br${i}" min="0" step="5" inputmode="numeric" placeholder="0" aria-label="${FULL[i]} unpaid break minutes"></label><span class="hrs" id="h${i}">—</span></div>`).join(''));
+function calc(){
+ const rule=$('rule').value;const wage=Math.max(0,parseFloat($('wage').value)||0);
+ const mins=DAYS.map((_,i)=>{const a=tm($('in'+i).value),b=tm($('out'+i).value);if(a==null||b==null)return 0;return Math.max(0,span(a,b)-brk('br'+i))});
+ const total=mins.reduce((s,x)=>s+x,0);
+ const per=mins.map(()=>({reg:0,ot:0,dt:0}));
+ if(rule==='ca'){
+  const seventh=mins.every(m=>m>0);let acc=0;
+  mins.forEach((m,i)=>{let r,o,d;
+   if(seventh&&i===6){r=0;o=Math.min(m,480);d=Math.max(0,m-480)}
+   else{r=Math.min(m,480);o=Math.min(Math.max(m-480,0),240);d=Math.max(0,m-720)}
+   if(acc+r>2400){const x=Math.min(r,acc+r-2400);r-=x;o+=x}
+   acc+=r;per[i]={reg:r,ot:o,dt:d}});
+ }else if(rule==='flsa'){
+  let acc=0;mins.forEach((m,i)=>{const r=Math.max(0,Math.min(m,2400-acc));acc+=r;per[i]={reg:r,ot:m-r,dt:0}});
+ }else mins.forEach((m,i)=>per[i]={reg:m,ot:0,dt:0});
+ const sum=k=>per.reduce((s,p)=>s+p[k],0);
+ const reg=sum('reg'),ot=sum('ot'),dt=sum('dt');
+ mins.forEach((m,i)=>{const p=per[i];$('r'+i).classList.toggle('off',!m);
+  $('h'+i).innerHTML=m?`${dec(m)}<small>${hm(m)}${p.ot||p.dt?' · OT '+dec(p.ot+p.dt):''}</small>`:'—'});
+ const pay=(reg+ot*1.5+dt*2)/60*wage;
+ $('tH').textContent=dec(total);$('tHM').textContent=hm(total)+' (h:mm)';
+ const rows=[['Regular hours',dec(reg)+' h',usd(reg/60*wage)],['Overtime (1.5×)',dec(ot)+' h',usd(ot/60*wage*1.5)]];
+ if(rule==='ca'||dt)rows.push(['Double time (2×)',dec(dt)+' h',usd(dt/60*wage*2)]);
+ $('tBody').innerHTML=rows.map(r=>`<tr><td>${r[0]}<span class="c">${r[1]}</span></td><td class="n">${r[2]}</td></tr>`).join('')+`<tr class="t"><td>Gross pay${ot||dt?'<span class="chip-ot">OT</span>':''}<span class="c">at ${usd(wage)}/h</span></td><td class="n" id="tPay">${usd(pay)}</td></tr>`;
+ $('tNote').textContent=rule==='flsa'?'FLSA: hours over 40 in the workweek at 1.5×. No federal daily overtime.':rule==='ca'?'California: >8 h/day and >40 h/week at 1.5×, >12 h/day at 2×; 7th consecutive day: first 8 h at 1.5×, beyond 8 h at 2×.':'Straight time — every hour at the base wage.';
+ window.__hours={total:total/60,reg:reg/60,ot:ot/60,dt:dt/60,pay,mins};
+ return {mins,per,total,reg,ot,dt,pay,wage,rule};
+}
+let sent=false;function used(){if(!sent){sent=true;ga('hours_run',{rule:$('rule').value})}}
+$('card').addEventListener('input',()=>{calc();used()});$('card').addEventListener('change',()=>calc());
+function fill(){for(let i=0;i<7;i++){const wk=i<5;$('in'+i).value=wk?'09:00':'';$('out'+i).value=wk?'17:30':'';$('br'+i).value=wk?'30':''}calc()}
+$('fill').onclick=()=>{fill();used()};
+$('clear').onclick=()=>{for(let i=0;i<7;i++){$('in'+i).value='';$('out'+i).value='';$('br'+i).value=''}calc()};
+$('print').onclick=()=>{ga('hours_run',{action:'print'});window.print()};
+$('csv').onclick=()=>{
+ const r=calc();const q=s=>/[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;
+ const L=[['Day','Time in','Time out','Break (min)','Hours (decimal)','Hours (h:mm)','Regular','Overtime 1.5x','Double time 2x']];
+ DAYS.forEach((d,i)=>{const p=r.per[i];L.push([FULL[i],$('in'+i).value,$('out'+i).value,String(brk('br'+i)||0),dec(r.mins[i]),hm(r.mins[i]),dec(p.reg),dec(p.ot),dec(p.dt)])});
+ L.push(['Total','','','',dec(r.total),hm(r.total),dec(r.reg),dec(r.ot),dec(r.dt)]);
+ L.push([]);L.push(['Hourly wage',r.wage.toFixed(2)]);L.push(['Overtime rule',$('rule').selectedOptions[0].textContent]);L.push(['Gross pay',r.pay.toFixed(2)]);
+ const blob=new Blob(['﻿'+L.map(x=>x.map(v=>q(String(v))).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='time-card-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
+ ga('hours_run',{action:'csv'});
+};
+fill();quick();
+})();
+</script>
+</body>
+</html>

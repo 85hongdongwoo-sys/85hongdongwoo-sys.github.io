@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="only light">
+<title>Ovulation Calculator — Fertile Window &amp; Next Period Dates</title>
+<meta name="description" content="Find your likely ovulation day and 6-day fertile window from your last period, cycle length (21–45 days) and luteal phase. See a calendar of your next 6 cycles with expected period dates and the due date if you conceive.">
+<link rel="canonical" href="https://honglife.co.kr/en/ovulation-calculator.html"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/ovulation-calculator.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Ovulation Calculator — Fertile Window &amp; Next Period Dates"><meta property="og:description" content="Ovulation day, fertile window and next period dates for your next 6 cycles, with a calendar and the due date if you conceive."><meta property="og:url" content="https://honglife.co.kr/en/ovulation-calculator.html">
+<meta name="theme-color" content="#0B1F3F"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../g.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How is ovulation day calculated?", "acceptedAnswer": {"@type": "Answer", "text": "After ovulation, the luteal phase lasts a fairly steady 10–16 days (about 14 on average) before the next period starts. So the calculator predicts your next period from your cycle length and counts back the luteal phase: with a 28-day cycle and a 14-day luteal phase, ovulation is day 15, counting the first day of your period as day 1."}}, {"@type": "Question", "name": "What is the fertile window?", "acceptedAnswer": {"@type": "Answer", "text": "It is the six days ending on ovulation day plus the following day. Sperm can survive in the reproductive tract for about 3–5 days (sometimes longer), while the egg can be fertilized for only about 24 hours after ovulation, so sex in the days before ovulation gives the best chance of pregnancy."}}, {"@type": "Question", "name": "Can I use this calculator as birth control?", "acceptedAnswer": {"@type": "Answer", "text": "No. Calendar predictions can be off by several days because ovulation varies from cycle to cycle, especially with irregular cycles, after childbirth or while breastfeeding. Use a reliable contraceptive method if you do not want to get pregnant."}}]}</script>
+<style>
+.btn{font:700 14.5px var(--f);padding:10px 16px;border-radius:4px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:44px}
+.err{color:var(--tax);font-weight:700;margin:0;font-size:14px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.kv div{background:#F6F8FB;border-radius:6px;padding:10px 12px;min-width:0}
+.kv span{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.kv b{display:block;font:600 15px var(--mono);color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);margin:0 0 12px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.cals{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.mon h3{margin:0 0 6px;font-size:14.5px;color:var(--accent)}
+.mgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;text-align:center}
+.mgrid .h{font-size:11px;font-weight:700;color:var(--muted);padding:2px 0}
+.mgrid .d{font:500 13px var(--mono);padding:6px 0;border-radius:4px;color:var(--ink);position:relative}
+.d.per{background:#F6D6D3;color:#7A1F17}
+.d.fer{background:#D5EBDF;color:#0E5A40}
+.d.ov{background:var(--up);color:#fff;font-weight:700}
+.d.today{outline:2px solid var(--accent);outline-offset:-2px}
+.c-per{background:#F6D6D3}.c-fer{background:#D5EBDF}.c-ov{background:var(--up)}.c-today{border:2px solid var(--accent)}
+.scroll{overflow-x:auto}
+table.cy td,table.cy th{padding:8px 6px;border-bottom:1px solid var(--soft);font-size:13.5px;text-align:left;white-space:nowrap}
+table.cy th{font-size:12px;color:var(--muted);font-weight:700}
+table.cy td{font-family:var(--mono);font-size:13px}
+.help td.n{white-space:normal;font-size:13px}
+.warn{background:#FBF4E6;border-left:3px solid var(--gold-d);border-radius:4px;padding:10px 14px;font-size:13.5px;color:#5A4413;margin-top:20px}
+.src{margin:6px 0 0;padding-left:18px;font-size:13.5px;color:var(--muted)}.src li{margin:3px 0}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>%</i>홍라이프 계산기</a><nav class="langs"><a href="../en/ovulation-calculator.html" hreflang="en" aria-current="true">English</a></nav></div></div>
+<div class="wrap">
+<header class="top"><h1><b>Ovulation</b> Calculator</h1><p class="sub">Estimate your ovulation day, fertile window and next period dates for the next 6 cycles from the first day of your last period and your usual cycle length.</p></header>
+<nav class="tabs"><div class="row"><a href="korea-salary-calculator.html">Korea salary</a><a href="korea-severance-pay-calculator.html">Korea severance</a><a href="korea-pension-refund-calculator.html">Pension refund</a><a href="loan-calculator.html">Loan</a><a href="compound-interest-calculator.html">Compound interest</a><a href="percentage-calculator.html">Percentage</a><a href="age-calculator.html">Age</a><a href="bmi-calculator.html">BMI</a><a href="date-calculator.html">Date</a><a href="pregnancy-due-date-calculator.html">Due date</a><a href="ovulation-calculator.html" aria-current="page">Ovulation</a><a href="travel-budget-calculator.html">Travel budget</a><a href="electricity-cost-calculator.html">Electricity cost</a><a href="stopwatch.html">Stopwatch</a></div></nav>
+
+<div class="panel">
+<form class="card form" id="form" autocomplete="off" novalidate>
+  <div class="field"><label for="lmp">First day of your last period</label><input type="date" id="lmp"></div>
+  <div class="row2">
+    <div class="field"><label for="cycle">Cycle length (days)</label><input type="number" id="cycle" inputmode="numeric" min="21" max="45" value="28"></div>
+    <div class="field"><label for="luteal">Luteal phase (days)</label><input type="number" id="luteal" inputmode="numeric" min="9" max="17" value="14"></div>
+  </div>
+  <p class="hint">Cycle length is from the first day of one period to the first day of the next (21–45 days). Leave the luteal phase at 14 unless you have tracked it (9–17 days).</p>
+  <div class="field"><label for="plen">Period length (days)</label><input type="number" id="plen" inputmode="numeric" min="1" max="10" value="5"></div>
+  <button class="btn" type="submit">Calculate fertile days</button>
+  <p class="err" id="err" role="alert" hidden></p>
+</form>
+
+<section class="card res" id="res" aria-live="polite">
+  <p class="kicker">Estimated ovulation (this cycle)</p>
+  <div class="big" id="rOv">—</div>
+  <p class="bigsub" id="rSub">Enter your last period to see your dates.</p>
+  <div class="kv">
+    <div><span>Fertile window</span><b id="kFer">—</b></div>
+    <div><span>Most fertile days</span><b id="kPeak">—</b></div>
+    <div><span>Next period</span><b id="kNext">—</b></div>
+    <div><span>Pregnancy test from</span><b id="kTest">—</b></div>
+  </div>
+  <table>
+    <tr><td>Cycle day of ovulation</td><td class="n" id="tDay">—</td></tr>
+    <tr><td>Due date if you conceive this cycle<span class="c">Ovulation + 266 days</span></td><td class="n" id="tDue">—</td></tr>
+  </table>
+  <p class="note">Predictions assume a regular cycle. If your cycles vary, use your shortest and longest lengths to see the full range.</p>
+</section>
+</div>
+
+<section class="card" id="cyCard" style="margin-top:20px" hidden>
+  <h2 style="margin:0 0 12px;font-size:17px;color:var(--accent)">Next 6 cycles</h2>
+  <div class="scroll"><table class="cy" id="cy"></table></div>
+  <h2 style="margin:20px 0 10px;font-size:17px;color:var(--accent)">Calendar</h2>
+  <div class="legend"><span><i class="c-per"></i>Expected period</span><span><i class="c-fer"></i>Fertile window</span><span><i class="c-ov"></i>Ovulation</span><span><i class="c-today"></i>Today</span></div>
+  <div class="cals" id="cals"></div>
+</section>
+
+<p class="warn"><b>Not a method of contraception.</b> These dates are statistical estimates. Ovulation can shift by several days from cycle to cycle, so this calculator must not be used to avoid pregnancy. It is not medical advice — talk to a doctor if your cycles are irregular, shorter than 21 or longer than 35–45 days, or if you have been trying to conceive for 12 months (6 months if you are 35 or older).</p>
+
+<section class="card help"><h2>How the ovulation calculator works</h2>
+<p>The <b>luteal phase</b> — the time from ovulation to your next period — is fairly constant — usually 10 to 16 days, about 14 on average, while the first half of the cycle varies. So the calculator works backwards: <b>next period = last period + cycle length</b>, then <b>ovulation = next period − luteal phase</b>. With a 28-day cycle and a 14-day luteal phase, ovulation falls on cycle day 15 (day 14 after your period started).</p>
+<p>The <b>fertile window</b> is the 5 days before ovulation, ovulation day itself and the day after. Sperm can live inside the body for about 3–5 days (UK guidance says up to 7), but the egg can be fertilized for only about 24 hours, so the two days before ovulation and ovulation day give the highest chance of pregnancy. The <b>due date if you conceive</b> is ovulation + 266 days, the same as 280 days from the last period in a standard cycle.</p>
+<table>
+<tr><td>Next period</td><td class="n">Period start + cycle length</td></tr>
+<tr><td>Ovulation</td><td class="n">Next period − luteal phase</td></tr>
+<tr><td>Fertile window</td><td class="n">Ovulation − 5 days to ovulation + 1</td></tr>
+<tr><td>Pregnancy test</td><td class="n">From the day your period is due</td></tr>
+<tr><td>Due date if conceived</td><td class="n">Ovulation + 266 days</td></tr>
+</table>
+<p style="margin-top:12px">Ovulation predictor kits (LH tests), cervical mucus changes and basal body temperature can confirm what the calendar estimates. Everything is calculated in your browser; your dates are not sent or stored.</p>
+<h3>Sources</h3>
+<ul class="src">
+ <li>Tommy's (UK pregnancy charity; cites NHS <i>Periods and fertility in the menstrual cycle</i>), <i>Ovulation and fertility</i> — ovulation 10–16 days before the next period, fertile window, sperm survival — <a href="https://www.tommys.org/pregnancy-information/planning-pregnancy/how-get-pregnant/ovulation-and-fertility" target="_blank" rel="noopener">tommys.org</a></li>
+ <li>Fertility awareness — 6-day fertile window, sperm 3–5 days, egg about 24 hours, 76–95% effectiveness as contraception depending on use — <a href="https://www.columbiadoctors.org/health-library/special/fertility-awareness/" target="_blank" rel="noopener">ColumbiaDoctors Health Library</a>, <a href="https://rhntc.org/sites/default/files/resources/FABMs%20for%20Achieving%20Pregnancy%20Counseling%20Tips%20for%20Providers.pdf" target="_blank" rel="noopener">RHNTC: FABMs for achieving pregnancy (PDF)</a></li>
+ <li>ACOG Committee Opinion No. 700, <i>Methods for Estimating the Due Date</i> (280 days from LMP; 266 days from conception) — <a href="https://publications.smfm.org/publications/239-acog-committee-opinion-700-methods-for-estimating-the/" target="_blank" rel="noopener">SMFM summary</a></li>
+</ul>
+<p>Already pregnant? Use the <a href="pregnancy-due-date-calculator.html">pregnancy due date calculator</a> for weeks pregnant and a prenatal timeline.</p>
+<h3>Frequently asked questions</h3><dl><div><dt>How is ovulation day calculated?</dt><dd>After ovulation, the luteal phase lasts a fairly steady 10–16 days (about 14 on average) before the next period starts. So the calculator predicts your next period from your cycle length and counts back the luteal phase: with a 28-day cycle and a 14-day luteal phase, ovulation is day 15, counting the first day of your period as day 1.</dd></div><div><dt>What is the fertile window?</dt><dd>It is the six days ending on ovulation day plus the following day. Sperm can survive in the reproductive tract for about 3–5 days (sometimes longer), while the egg can be fertilized for only about 24 hours after ovulation, so sex in the days before ovulation gives the best chance of pregnancy.</dd></div><div><dt>Can I use this calculator as birth control?</dt><dd>No. Calendar predictions can be off by several days because ovulation varies from cycle to cycle, especially with irregular cycles, after childbirth or while breastfeeding. Use a reliable contraceptive method if you do not want to get pregnant.</dd></div></dl></section>
+<footer><nav><a href="./">All calculators</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></nav><div>Results are estimates for information only, not medical advice and not a method of contraception.</div></footer>
+</div>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const ga=(n,p)=>{try{if(window.gtag)gtag('event',n,Object.assign({lang:'en'},p||{}))}catch(e){}};
+const DAY=864e5;
+const parse=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');if(!m)return null;const t=Date.UTC(+m[1],+m[2]-1,+m[3]);return isNaN(t)?null:Math.round(t/DAY)};
+const D=n=>new Date(n*DAY);
+const iso=n=>D(n).toISOString().slice(0,10);
+const fL=n=>D(n).toLocaleDateString('en-US',{timeZone:'UTC',weekday:'short',month:'short',day:'numeric',year:'numeric'});
+const fS=n=>D(n).toLocaleDateString('en-US',{timeZone:'UTC',month:'short',day:'numeric'});
+const fM=n=>D(n).toLocaleDateString('en-US',{timeZone:'UTC',month:'short',day:'numeric',year:'numeric'});
+const todayN=()=>{const t=new Date();return Math.round(Date.UTC(t.getFullYear(),t.getMonth(),t.getDate())/DAY)};
+const int=id=>{const v=$(id).value;return v===''?NaN:Math.floor(+v)};
+let R=null;
+function compute(){
+  const l=parse($('lmp').value),c=int('cycle'),lu=int('luteal'),p=int('plen');
+  if(l==null)return 'Please enter the first day of your last period.';
+  if(!(c>=21&&c<=45))return 'Cycle length must be between 21 and 45 days.';
+  if(!(lu>=9&&lu<=17))return 'Luteal phase must be between 9 and 17 days.';
+  if(c-lu<8)return 'The luteal phase is too long for this cycle length.';
+  const pl=(p>=1&&p<=10)?p:5;
+  const cycles=[];
+  for(let i=0;i<6;i++){const s=l+i*c,next=s+c,ov=next-lu;cycles.push({start:s,next,ov,f0:ov-5,f1:ov+1,due:ov+266})}
+  return {lmp:l,c,lu,pl,cycles,today:todayN()};
+}
+function render(){
+  const r=R,k=r.cycles[0];
+  $('rOv').textContent=fL(k.ov);
+  $('rSub').textContent=`Cycle day ${k.ov-k.start+1} of a ${r.c}-day cycle (luteal phase ${r.lu} days)`;
+  $('kFer').textContent=`${fS(k.f0)} – ${fS(k.f1)}`;
+  $('kPeak').textContent=`${fS(k.ov-2)} – ${fS(k.ov)}`;
+  $('kNext').textContent=fM(k.next);$('kTest').textContent=fM(k.next);
+  $('tDay').textContent='Day '+(k.ov-k.start+1);$('tDue').textContent=fM(k.due);
+  let t='<tr><th>#</th><th>Period starts</th><th>Fertile window</th><th>Ovulation</th><th>Next period</th><th>Due date if conceived</th></tr>';
+  r.cycles.forEach((x,i)=>{t+=`<tr><td>${i+1}</td><td>${fM(x.start)}</td><td>${fS(x.f0)} – ${fS(x.f1)}</td><td>${fS(x.ov)}</td><td>${fM(x.next)}</td><td>${fM(x.due)}</td></tr>`});
+  $('cy').innerHTML=t;
+  /* calendar */
+  const mark={};
+  const add=(n,c)=>{mark[n]=c};
+  r.cycles.forEach(x=>{for(let d=x.f0;d<=x.f1;d++)add(d,'fer');add(x.ov,'ov')});
+  const starts=r.cycles.map(x=>x.start).concat([r.cycles[5].next]);
+  starts.forEach(s=>{for(let d=s;d<s+r.pl;d++)if(!mark[d])add(d,'per')});
+  const first=D(r.lmp),last=D(r.cycles[5].next+r.pl-1);
+  let y=first.getUTCFullYear(),m=first.getUTCMonth(),h='';
+  while(y<last.getUTCFullYear()||(y===last.getUTCFullYear()&&m<=last.getUTCMonth())){
+    const n0=Math.round(Date.UTC(y,m,1)/DAY),dim=new Date(Date.UTC(y,m+1,0)).getUTCDate(),pad=D(n0).getUTCDay();
+    h+=`<div class="mon"><h3>${D(n0).toLocaleDateString('en-US',{timeZone:'UTC',month:'long',year:'numeric'})}</h3><div class="mgrid">`+['S','M','T','W','T','F','S'].map(w=>`<span class="h">${w}</span>`).join('');
+    for(let i=0;i<pad;i++)h+='<span></span>';
+    for(let d=1;d<=dim;d++){const n=n0+d-1,c=(mark[n]||'')+(n===r.today?' today':'');
+      const lab={per:'expected period',fer:'fertile',ov:'ovulation'}[mark[n]];
+      h+=`<span class="d ${c.trim()}"${lab?` title="${lab}"`:''}>${d}</span>`}
+    h+='</div></div>';
+    m++;if(m>11){m=0;y++}
+  }
+  $('cals').innerHTML=h;$('cyCard').hidden=false;
+}
+$('form').addEventListener('submit',e=>{
+  e.preventDefault();const r=compute();
+  if(typeof r==='string'){$('err').textContent=r;$('err').hidden=false;return}
+  $('err').hidden=true;R=r;render();
+  if(window.innerWidth<820)$('res').scrollIntoView({behavior:'smooth',block:'start'});
+  ga('ovulation_run',{cycle_length:r.c,luteal:r.lu});
+});
+window.__ovu={get:()=>R,compute};
+})();
+</script>
+</body>
+</html>

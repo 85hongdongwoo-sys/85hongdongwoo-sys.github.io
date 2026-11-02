@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="only light">
+<title>Word Counter — Words, Characters, Sentences &amp; Reading Time</title>
+<meta name="description" content="Free online word counter: count words, characters with and without spaces, sentences and paragraphs as you type, see reading and speaking time, keyword density, and check X/Twitter (280), meta description (160) and essay word limits.">
+<link rel="canonical" href="https://honglife.co.kr/en/word-counter.html"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/word-counter.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/char-count.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Word Counter — Words, Characters, Sentences &amp; Reading Time"><meta property="og:description" content="Count words, characters, sentences and paragraphs as you type, with reading time, keyword density and limits for X, meta descriptions and essays."><meta property="og:url" content="https://honglife.co.kr/en/word-counter.html">
+<meta name="theme-color" content="#0B1F3F"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../g.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does this word counter count words?", "acceptedAnswer": {"@type": "Answer", "text": "A word is any run of characters separated by spaces or line breaks, so \"don't\" and \"well-known\" each count as one word and numbers like 2026 count too. That matches how Microsoft Word and Google Docs count in almost every case."}}, {"@type": "Question", "name": "How is reading time calculated?", "acceptedAnswer": {"@type": "Answer", "text": "Reading time uses 238 words per minute, the average silent reading speed for adults reading non-fiction (Brysbaert, 2019). Speaking time uses 140 words per minute, a comfortable pace for presentations and speeches."}}, {"@type": "Question", "name": "Is my text saved or sent anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. Everything is counted inside your browser and nothing is uploaded. Your draft is kept only in this browser's local storage so it survives a refresh; press Clear to delete it."}}]}</script>
+<style>
+.stack{display:grid;gap:16px;margin-top:20px}
+.card h2{margin:0 0 12px;font-size:17px;color:var(--accent)}
+.live{position:sticky;top:0;z-index:3;background:#fff;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:0 0 12px;margin-bottom:12px;border-bottom:1px solid var(--soft)}
+.live div{background:#F6F8FB;border-radius:6px;padding:8px 10px;min-width:0}
+.live span{display:block;font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live b{display:block;font:600 22px/1.2 var(--mono);color:var(--accent);font-variant-numeric:tabular-nums}
+@media(max-width:560px){.live{grid-template-columns:repeat(2,minmax(0,1fr))}.live b{font-size:19px}}
+textarea#txt{width:100%;min-height:280px;resize:vertical;font:16px/1.7 var(--f);padding:14px;border:1px solid #C9D1DC;border-radius:6px;background:#FBFCFD;color:var(--ink);display:block}
+textarea#txt:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px rgba(18,48,92,.12);background:#fff}
+.btn{font:700 14.5px var(--f);padding:10px 16px;border-radius:4px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:42px}
+.btn.ghost{background:#fff;color:var(--accent)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.bar .saved{margin-left:auto;font-size:12.5px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:6px;padding:12px 14px;border-left:3px solid var(--gold-d)}
+.stat span{display:block;font-size:12.5px;color:var(--muted);font-weight:600}
+.stat b{display:block;font:600 24px/1.25 var(--mono);color:#0B1F3F;font-variant-numeric:tabular-nums}
+.stat em{display:block;font-style:normal;font-size:12.5px;color:var(--muted)}
+@media(max-width:430px){.stats{grid-template-columns:1fr 1fr}.stat b{font-size:20px}}
+.lim{display:grid;gap:14px}
+.lim .hd{display:flex;justify-content:space-between;gap:8px;font-size:14px;flex-wrap:wrap}
+.lim .hd b{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.meter{height:10px;border-radius:99px;background:var(--soft);overflow:hidden;margin-top:4px}
+.meter i{display:block;height:100%;width:0;background:var(--gold-d);border-radius:99px;transition:width .15s}
+.meter.over i{background:var(--tax)}
+.over{color:var(--tax);font-weight:700}
+.frow{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.frow .field{flex:1 1 160px}
+.kd{width:100%;border-collapse:collapse;margin-top:6px}
+.kd th{font-size:12px;color:var(--muted);text-align:left;padding:6px 0;border-bottom:1px solid var(--line)}
+.kd td{padding:6px 0;border-bottom:1px solid var(--soft);font-size:14px}
+.kd td.n,.kd th.n{text-align:right;font-family:var(--mono);padding-left:10px}
+.kd td.w{max-width:0;width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.seg{display:inline-flex;border:1px solid #C9D1DC;border-radius:4px;overflow:hidden;margin-bottom:8px}
+.seg button{font:600 13px var(--f);padding:6px 12px;border:0;background:#fff;color:var(--accent);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>%</i>홍라이프 계산기</a><nav class="langs"><a href="../en/word-counter.html" hreflang="en" aria-current="true">English</a><a href="../char-count.html" hreflang="ko">한국어</a></nav></div></div>
+<div class="wrap">
+<header class="top"><h1>Word <b>Counter</b></h1><p class="sub">Paste or type your text to count words, characters, sentences and paragraphs instantly, with reading time, keyword density and limits for X, meta descriptions and essays.</p></header>
+<nav class="tabs"><div class="row"><a href="korea-salary-calculator.html">Korea salary</a><a href="korea-severance-pay-calculator.html">Korea severance</a><a href="korea-pension-refund-calculator.html">Pension refund</a><a href="loan-calculator.html">Loan</a><a href="compound-interest-calculator.html">Compound interest</a><a href="percentage-calculator.html">Percentage</a><a href="age-calculator.html">Age</a><a href="bmi-calculator.html">BMI</a><a href="date-calculator.html">Date</a><a href="travel-budget-calculator.html">Travel budget</a><a href="electricity-cost-calculator.html">Electricity cost</a><a href="stopwatch.html">Stopwatch</a><a href="word-counter.html" aria-current="page">Word counter</a></div></nav>
+<div class="stack">
+<section class="card">
+ <div class="live" aria-live="polite">
+  <div><span>Words</span><b id="lW">0</b></div>
+  <div><span>Characters</span><b id="lC">0</b></div>
+  <div><span>No spaces</span><b id="lN">0</b></div>
+  <div><span>Sentences</span><b id="lS">0</b></div>
+ </div>
+ <label for="txt" class="hint" style="display:block;margin-bottom:6px">Type or paste your text below</label>
+ <textarea id="txt" spellcheck="true" placeholder="Start typing, or paste your essay, article or post here…"></textarea>
+ <div class="bar"><button class="btn" type="button" id="copyBtn">Copy text</button><button class="btn ghost" type="button" id="clearBtn">Clear</button><span class="saved" id="saved"></span></div>
+</section>
+
+<section class="card">
+ <h2>Details</h2>
+ <div class="stats" id="stats"></div>
+</section>
+
+<section class="card">
+ <h2>Limits &amp; targets</h2>
+ <div class="lim" id="lims"></div>
+ <div class="frow" style="margin-top:16px">
+  <div class="field"><label for="goal">Essay / assignment target</label><select id="goal"><option value="250">250 words</option><option value="300">300 words</option><option value="500" selected>500 words</option><option value="650">650 words (Common App essay)</option><option value="750">750 words</option><option value="1000">1,000 words</option><option value="1500">1,500 words</option><option value="2000">2,000 words</option><option value="3000">3,000 words</option><option value="c">Custom…</option></select></div>
+  <div class="field" id="customBox" hidden><label for="custom">Custom target (words)</label><input id="custom" type="number" inputmode="numeric" min="1" value="800"></div>
+ </div>
+ <div class="lim" style="margin-top:12px"><div id="goalLim"></div></div>
+ <p class="note">Many instructors accept ±10% of a word target. X/Twitter counts links as 23 characters and CJK characters and emoji as 2, which this meter follows approximately.</p>
+</section>
+
+<section class="card">
+ <h2>Keyword density</h2>
+ <div class="seg" role="group" aria-label="Phrase length"><button type="button" data-n="1" aria-pressed="true">1 word</button><button type="button" data-n="2" aria-pressed="false">2 words</button><button type="button" data-n="3" aria-pressed="false">3 words</button></div>
+ <label class="check"><input type="checkbox" id="stop" checked> Ignore common words (the, and, of, to…)</label>
+ <table class="kd" id="kd"></table>
+ <p class="hint" id="kdEmpty">Keywords appear here once you start typing.</p>
+</section>
+</div>
+
+<section class="card help"><h2>How the word counter works</h2>
+<p><b>Words</b> are runs of characters separated by spaces or line breaks, so contractions (don't) and hyphenated words (well-known) count once, like Microsoft Word and Google Docs. <b>Characters</b> counts every visible character including spaces; emoji and accented letters count as one. <b>Characters without spaces</b> removes spaces, tabs and line breaks.</p>
+<p><b>Sentences</b> end with a period, question mark, exclamation mark or ellipsis followed by a space, or with a line break; decimals such as 3.5 are not split. <b>Paragraphs</b> are non-empty lines. <b>Reading time</b> assumes 238 words per minute and <b>speaking time</b> 140 words per minute. <b>Keyword density</b> is how often a word or phrase appears divided by the total word count — keep main keywords natural, usually around 1–3%.</p>
+<p>Your text never leaves your device. It's saved only in this browser so a refresh doesn't lose your draft. Writing in Korean? Use the <a href="../char-count.html" hreflang="ko">Korean character counter (글자수 세기)</a> with byte counts and manuscript pages.</p>
+<h3>Frequently asked questions</h3><dl><div><dt>How does this word counter count words?</dt><dd>A word is any run of characters separated by spaces or line breaks, so "don't" and "well-known" each count as one word and numbers like 2026 count too. That matches how Microsoft Word and Google Docs count in almost every case.</dd></div><div><dt>How is reading time calculated?</dt><dd>Reading time uses 238 words per minute, the average silent reading speed for adults reading non-fiction (Brysbaert, 2019). Speaking time uses 140 words per minute, a comfortable pace for presentations and speeches.</dd></div><div><dt>Is my text saved or sent anywhere?</dt><dd>No. Everything is counted inside your browser and nothing is uploaded. Your draft is kept only in this browser's local storage so it survives a refresh; press Clear to delete it.</dd></div></dl></section>
+<footer><nav><a href="./">All calculators</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a> · <a href="../char-count.html" hreflang="ko">한국어: 글자수 세기</a></nav><div>Counts can differ slightly from other tools in edge cases such as URLs, emoji and unusual punctuation.</div></footer>
+</div>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v);return true}catch(e){return false}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+const fmt=n=>Math.round(n).toLocaleString('en-US');
+let SEG=null;try{if(window.Intl&&Intl.Segmenter)SEG=new Intl.Segmenter('en',{granularity:'grapheme'})}catch(e){}
+function glen(s){if(!s)return 0;if(SEG&&s.length<200000){let n=0;for(const _ of SEG.segment(s))n++;return n}return Array.from(s).length}
+function sentences(s){return s.replace(/([.!?…]+)(["'”’)\]]*)\s+/g,'$1$2\u0000').replace(/\n+/g,'\u0000').split('\u0000').map(x=>x.trim()).filter(x=>/[\p{L}\p{N}]/u.test(x))}
+function xLen(s){ // approximate X weighting
+  s=s.replace(/https?:\/\/\S+/g,'x'.repeat(23));let n=0;for(const g of (SEG?Array.from(SEG.segment(s),x=>x.segment):Array.from(s))){const c=g.codePointAt(0);n+=(c<=0x10FF||(c>=0x2000&&c<=0x200D)||(c>=0x2010&&c<=0x201F)||(c>=0x2032&&c<=0x2037))?1:2}return n}
+const STOP=new Set("a an the and or but if of to in on at by for with from as is are was were be been being it its this that these those i you he she we they me him her us them my your his our their not no so do does did have has had will would can could should may might must than then there here what which who whom whose when where why how all any each more most other some such only own same too very just also into over under about after before up down out off again once both few s t don't it's i'm".split(' '));
+function words(s){return (s.toLowerCase().match(/[\p{L}\p{N}][\p{L}\p{N}'’\-]*/gu)||[]).map(w=>w.replace(/[’]/g,"'").replace(/['\-]+$/,''))}
+function mmss(min){const s=Math.round(min*60);if(s<60)return s+' sec';const m=Math.floor(s/60),r=s%60;return m+' min'+(r?' '+r+' sec':'')}
+const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let C=null,N=1;
+function count(raw){
+  const s=raw.replace(/\r\n?/g,'\n');const w=(s.match(/\S+/g)||[]).length,sl=sentences(s);
+  const chars=glen(s.replace(/\n/g,'')),nos=glen(s.replace(/\s+/g,''));
+  const paras=s.split('\n').filter(x=>x.trim()).length,letters=(s.match(/\p{L}/gu)||[]).length;
+  const lw=words(s),avgW=lw.length?lw.reduce((a,b)=>a+b.length,0)/lw.length:0,uniq=new Set(lw).size;
+  return {s,words:w,chars,nos,sents:sl.length,paras,letters,avgW,uniq,lw,read:w/238,speak:w/140,x:xLen(s),longest:sl.reduce((m,x)=>Math.max(m,(x.match(/\S+/g)||[]).length),0)};
+}
+const stat=(l,v,sub)=>'<div class="stat"><span>'+l+'</span><b>'+v+'</b>'+(sub?'<em>'+sub+'</em>':'')+'</div>';
+function lim(label,n,max,unit){const p=n/max*100,over=n>max;return '<div><div class="hd"><span>'+label+'</span><span><b>'+fmt(n)+'</b> / '+fmt(max)+' '+unit+' · '+(over?'<span class="over">'+fmt(n-max)+' over</span>':fmt(max-n)+' left')+'</span></div><div class="meter'+(over?' over':'')+'" role="progressbar" aria-label="'+label+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.min(100,p).toFixed(0)+'"><i style="width:'+Math.min(100,p).toFixed(1)+'%"></i></div></div>'}
+function render(){
+  const r=C=count($('txt').value);
+  $('lW').textContent=fmt(r.words);$('lC').textContent=fmt(r.chars);$('lN').textContent=fmt(r.nos);$('lS').textContent=fmt(r.sents);
+  $('stats').innerHTML=stat('Words',fmt(r.words),fmt(r.uniq)+' unique')+stat('Characters',fmt(r.chars),'with spaces')+stat('Characters',fmt(r.nos),'without spaces')+stat('Sentences',fmt(r.sents),r.sents?'avg '+(r.words/r.sents).toFixed(1)+' words · longest '+r.longest:'')+
+    stat('Paragraphs',fmt(r.paras),'non-empty lines')+stat('Reading time',r.words?mmss(r.read):'0 sec','238 words/min')+stat('Speaking time',r.words?mmss(r.speak):'0 sec','140 words/min')+stat('Avg word length',r.avgW.toFixed(1),'letters per word')+stat('Pages',(r.words/500).toFixed(1),'single-spaced, ~500 words')+stat('Pages',(r.words/250).toFixed(1),'double-spaced, ~250 words');
+  $('lims').innerHTML=lim('X / Twitter post',r.x,280,'chars')+lim('Meta description',r.chars,160,'chars')+lim('Title tag',r.chars,60,'chars')+lim('Instagram caption',r.chars,2200,'chars');
+  renderGoal();renderKD();
+}
+function goalN(){return $('goal').value==='c'?Math.max(1,+$('custom').value||1):+$('goal').value}
+function renderGoal(){const g=goalN(),n=C.words,lo=Math.round(g*.9),hi=Math.round(g*1.1);$('goalLim').innerHTML=lim('Essay target',n,g,'words')+'<p class="hint" style="margin-top:4px">'+(n<lo?'Aim for at least '+fmt(lo)+' words (90%).':n<=hi?'Within ±10% of the target.':'More than 10% over the target.')+'</p>'}
+function renderKD(){
+  const w=C.lw,stop=$('stop').checked,cnt=new Map();let tot=0;
+  for(let i=0;i+N<=w.length;i++){const g=w.slice(i,i+N);if(stop&&(N===1?STOP.has(g[0])||g[0].length<2:STOP.has(g[0])||STOP.has(g[N-1])))continue;if(N===1&&/^\d+$/.test(g[0]))continue;const k=g.join(' ');cnt.set(k,(cnt.get(k)||0)+1);tot++}
+  const top=[...cnt].filter(e=>N===1||e[1]>1).sort((a,b)=>b[1]-a[1]||(a[0]<b[0]?-1:1)).slice(0,10),W=Math.max(1,C.words);
+  $('kd').innerHTML=top.length?'<tr><th>Keyword</th><th class="n">Count</th><th class="n">Density</th></tr>'+top.map(e=>'<tr><td class="w">'+esc(e[0])+'</td><td class="n">'+e[1]+'</td><td class="n">'+(e[1]*N/W*100).toFixed(1)+'%</td></tr>').join(''):'';
+  $('kdEmpty').hidden=!!top.length;
+}
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{N=+b.dataset.n;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderKD()}));
+$('stop').addEventListener('change',renderKD);
+$('goal').addEventListener('change',()=>{$('customBox').hidden=$('goal').value!=='c';renderGoal();ls.set('wc_goal',$('goal').value)});
+$('custom').addEventListener('input',()=>{renderGoal();ls.set('wc_custom',$('custom').value)});
+let used=false;function track(){if(used)return;used=true;try{if(sessionStorage.getItem('wc_used'))return;sessionStorage.setItem('wc_used','1')}catch(e){}try{gtag('event','word_count_use',{lang:'en'})}catch(e){}}
+let st,rt;function save(){clearTimeout(st);st=setTimeout(()=>{const v=$('txt').value;if(!v){ls.del('wc_text');$('saved').textContent='';return}$('saved').textContent=ls.set('wc_text',v)?'Saved in this browser · '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}):'Autosave unavailable'},400)}
+$('txt').addEventListener('input',()=>{clearTimeout(rt);if($('txt').value.length<20000)render();else rt=setTimeout(render,150);save();track()});
+function toast(t){const d=document.createElement('div');d.setAttribute('role','status');d.textContent=t;d.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0F1B2D;color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;z-index:9;max-width:calc(100% - 32px);text-align:center';document.body.appendChild(d);setTimeout(()=>d.remove(),2200)}
+$('copyBtn').addEventListener('click',()=>{const v=$('txt').value;if(!v){toast('Nothing to copy yet');return}(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(v):Promise.reject()).then(()=>toast('Text copied')).catch(()=>{$('txt').focus();$('txt').select();try{document.execCommand('copy');toast('Text copied')}catch(e){toast('Press Ctrl+C to copy')}})});
+$('clearBtn').addEventListener('click',()=>{const v=$('txt').value;if(!v)return;if(v.length>30&&!confirm('Clear all text? This cannot be undone.'))return;$('txt').value='';ls.del('wc_text');$('saved').textContent='';render();$('txt').focus()});
+const g0=ls.get('wc_goal');if(g0&&[...$('goal').options].some(o=>o.value===g0)){$('goal').value=g0;$('customBox').hidden=g0!=='c'}const c0=ls.get('wc_custom');if(c0)$('custom').value=c0;
+const t0=ls.get('wc_text');if(t0){$('txt').value=t0;$('saved').textContent='Restored your last draft'}
+render();
+window.__wc={count};
+})();
+</script>
+</body>
+</html>

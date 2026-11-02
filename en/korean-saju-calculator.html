@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="only light">
+<title>Korean Saju Calculator — Free Four Pillars of Destiny Reading (사주)</title>
+<meta name="description" content="Free Korean Saju (Four Pillars of Destiny, 사주팔자) calculator. Enter your birth date, time and city anywhere in the world to get your eight characters with hanja and romanization, Five Elements balance, Ten Gods, day-master strength, 10-year luck cycles, 2026 yearly luck and couple compatibility.">
+<link rel="canonical" href="https://honglife.co.kr/en/korean-saju-calculator.html"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/korean-saju-calculator.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/saju.html">
+<meta property="og:type" content="website"><meta property="og:title" content="Korean Saju Calculator — Free Four Pillars of Destiny Reading (사주)"><meta property="og:description" content="Your eight characters, Five Elements, Ten Gods, luck cycles and compatibility — calculated with solar terms and true solar time for any birthplace."><meta property="og:url" content="https://honglife.co.kr/en/korean-saju-calculator.html">
+<meta name="theme-color" content="#0B1F3F"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../g.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Korean Saju?", "acceptedAnswer": {"@type": "Answer", "text": "Saju (사주, 'four pillars') is the Korean form of the East Asian Four Pillars of Destiny. The year, month, day and hour of birth are each written as a pair of characters — a Heavenly Stem and an Earthly Branch — giving eight characters (palja). Reading how their Five Elements balance and interact is a long-standing Korean tradition, enjoyed today mostly as entertainment and self-reflection."}}, {"@type": "Question", "name": "I was born outside Korea. How is my birth time converted?", "acceptedAnswer": {"@type": "Answer", "text": "Your local clock time is converted to Universal Time using the IANA time-zone history for your city, including daylight saving time in force on that date. The year and month pillars use the exact solar-term moment, and the day and hour pillars use local solar time at your birthplace's longitude, which is the traditional rule."}}, {"@type": "Question", "name": "Why does my Saju year start in February, not January?", "acceptedAnswer": {"@type": "Answer", "text": "Saju follows the 24 solar terms, so the year changes at Ipchun (Start of Spring, around February 4) and each month changes at its solar term (around the 4th–8th of each month). If you were born near one of those dates, the exact birth time matters."}}]}</script>
+<style>
+:root{--wood:#2E8B57;--fire:#D9463B;--earth:#B8862B;--metal:#7D8794;--water:#2F5FA8;--red:#C2362B;--tint:#EEF2F8;--han:"Noto Serif KR","Noto Serif CJK KR","Noto Serif SC","Nanum Myeongjo",serif}
+body{font-size:15.5px;line-height:1.65;overflow-wrap:break-word}
+.stack{display:grid;gap:16px;margin-top:20px}
+.stack>*{min-width:0}
+.card h2{margin:0 0 10px;font-size:18px;color:var(--accent);letter-spacing:-.01em}
+.card h3{font-size:15.5px;margin:14px 0 6px;color:#14233D}
+.warn{border:1px solid #E5C766;background:#FFF6DC;color:#3B2E00;border-radius:8px;padding:11px 14px;font-size:14px}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px}
+.f{min-width:0}
+.f label,.f .lb{display:block;font-size:13.5px;font-weight:600;color:#3A4659;margin-bottom:4px}
+.f small{display:block;color:var(--muted);font-size:12.5px;line-height:1.5;margin-top:4px}
+.f input,.f select{width:100%;font:500 16px var(--f);color:var(--ink);background:#FBFCFD;border:1px solid #C9D1DC;border-radius:6px;padding:9px 10px;min-height:44px}
+.f input:focus,.f select:focus{border-color:var(--accent);background:#fff;outline:none;box-shadow:0 0 0 3px rgba(18,48,92,.12)}
+.f input:disabled{background:#EEF1F5;color:#9AA3AF}
+.seg{display:flex;gap:6px}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:9px 6px;border:1.5px solid #C9D1DC;border-radius:6px;background:#FBFCFD;cursor:pointer;min-height:44px;font-size:14.5px;color:var(--ink)}
+.seg input:checked+span{border-color:var(--accent);background:#EAF0F8;color:var(--accent);font-weight:700}
+.seg input:focus-visible+span{outline:2px solid var(--gold)}
+.ymd{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:6px}
+.chk{display:flex!important;gap:8px;align-items:flex-start;font-size:14px!important;font-weight:500!important;margin:8px 0 0!important;color:var(--ink)!important}
+.chk input{width:18px!important;height:18px;min-height:0!important;margin-top:3px;accent-color:var(--accent);flex:none;padding:0!important}
+.man{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.btn{font:700 16px var(--f);padding:12px 22px;border-radius:6px;border:0;background:var(--red);color:#fff;cursor:pointer;min-height:48px}
+.btn:hover{filter:brightness(1.08)}
+.err{color:var(--red);font-weight:600}
+.nt{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+fieldset.bb{border:1px dashed #C9D1DC;border-radius:8px;padding:12px;margin:10px 0 0;min-width:0}
+fieldset.bb legend{font-weight:700;padding:0 6px}
+details.adv{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+details.adv summary{cursor:pointer;font-weight:700;color:#14233D}
+details.adv .fg{margin-top:10px}
+/* pillars */
+.pillars{display:grid;grid-template-columns:auto repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden;text-align:center}
+.pillars>div{padding:7px 4px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);font-size:13px;line-height:1.4;min-width:0}
+.pillars .rh{background:var(--tint);font-weight:700;color:var(--muted);border-left:0;text-align:left;padding-left:10px;font-size:12px;display:flex;align-items:center}
+.pillars .ch{background:#0B1F3F;color:#fff;font-weight:700;font-size:14px}
+.pillars .ch small{display:block;color:var(--gold);font-weight:500;font-size:11px;line-height:1.3}
+.pillars .gl{padding:10px 3px}
+.glyph{display:inline-grid;place-items:center;width:58px;height:58px;border-radius:12px;color:#fff;font-family:var(--han);font-size:32px;font-weight:700;line-height:1}
+.cap{display:block;font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.3}
+.cap b{color:var(--ink);font-size:12.5px}
+.e-wood{background:var(--wood)}.e-fire{background:var(--fire)}.e-earth{background:var(--earth)}.e-metal{background:var(--metal)}.e-water{background:var(--water)}
+.t-wood{color:var(--wood)}.t-fire{color:var(--fire)}.t-earth{color:var(--earth)}.t-metal{color:var(--metal)}.t-water{color:var(--water)}
+.ss{font-weight:700;color:var(--accent)}
+.dayhl{background:rgba(232,194,122,.13)}
+.pillars .ch.dayhl{background:#1A3566}
+@media(max-width:520px){.glyph{width:44px;height:44px;font-size:25px}.pillars>div{font-size:11.5px;padding:6px 2px}.pillars .rh{padding-left:5px;font-size:10.5px}.pillars .ch small{font-size:10px}.cap{font-size:10.5px}.cap b{font-size:11.5px}}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:10px;margin:14px 0 0}
+.summary div{background:var(--tint);border-radius:8px;padding:10px 12px;min-width:0}
+.summary span{display:block;font-size:12.5px;color:var(--muted)}
+.summary b{font-size:16px}
+.ohrow{display:grid;grid-template-columns:96px minmax(0,1fr) 92px;gap:10px;align-items:center;margin:6px 0}
+.ohrow .bar{height:16px;background:var(--tint);border-radius:99px;overflow:hidden}
+.ohrow .bar i{display:block;height:100%;border-radius:99px}
+.ohrow>b{font-variant-numeric:tabular-nums;text-align:right;font-size:13.5px}
+@media(max-width:420px){.ohrow{grid-template-columns:84px minmax(0,1fr) 78px;gap:6px}.ohrow>b{font-size:12.5px}}
+.tag{display:inline-block;font-size:12.5px;padding:2px 9px;border-radius:99px;border:1px solid var(--line);margin:2px 4px 2px 0;background:#fff}
+.tag.on{border-color:var(--accent);color:var(--accent);font-weight:700}
+.tag.bad{border-color:var(--red);color:var(--red)}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px;max-width:100%}
+.scroll table{margin:0;font-size:13.5px}
+.scroll th,.scroll td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle;font-size:13.5px}
+.scroll th{background:var(--tint);font-weight:700;font-size:12.5px;white-space:nowrap}
+.scroll td.l,.scroll th.l{text-align:left}
+tr.now td{background:rgba(232,194,122,.2);font-weight:700}
+.gz{font-family:var(--han);font-weight:700;font-size:18px;white-space:nowrap}
+.meter{position:relative;height:14px;border-radius:99px;background:linear-gradient(90deg,#7FA7DA,#E6ECF5 45%,#E6ECF5 55%,#E39A8F);margin:10px 0 4px}
+.meter i{position:absolute;top:-4px;width:6px;height:22px;border-radius:3px;background:var(--ink);transform:translateX(-50%)}
+.mlabels{display:flex;justify-content:space-between;gap:6px;font-size:12px;color:var(--muted)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media(max-width:640px){.two{grid-template-columns:minmax(0,1fr)}}
+.box{background:var(--tint);border-radius:8px;padding:12px 14px;font-size:14.5px;min-width:0}
+.box h3{margin:0 0 4px;font-size:15px}
+ul.clean{margin:4px 0 0;padding-left:18px}
+ul.clean li{margin:3px 0}
+details.more{margin:10px 0 0}
+details.more summary{cursor:pointer;font-weight:700;color:var(--accent)}
+.conv td{text-align:left!important}
+.conv td:first-child{color:var(--muted);font-size:12.5px;width:42%}
+.ring{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+@media(max-width:420px){.ring{grid-template-columns:minmax(0,1fr)}}
+.help p{max-width:none}
+#result[hidden]{display:none}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>%</i>홍라이프 계산기</a><nav class="langs"><a href="korean-saju-calculator.html" hreflang="en" aria-current="true">English</a><a href="../saju.html" hreflang="ko">한국어</a></nav></div></div>
+<div class="wrap">
+<header class="top"><h1>Korean <b>Saju</b> Calculator — Four Pillars of Destiny</h1><p class="sub">Turn your birth date, time and place into the eight characters of Korean Saju (사주팔자), then read your Five Elements, Ten Gods, 10-year luck cycles, yearly luck and couple compatibility. Everything is calculated in your browser.</p></header>
+<nav class="tabs"><div class="row"><a href="korean-saju-calculator.html" aria-current="page">Korean Saju</a><a href="2027-korean-horoscope.html">2027 Korean horoscope</a><a href="mbti-compatibility.html">MBTI compatibility</a><a href="personality-test.html">Personality test</a><a href="iq-test.html">IQ test</a><a href="life-expectancy-calculator.html">Life expectancy</a><a href="age-calculator.html">Age</a><a href="./">All calculators</a></div></nav>
+<div class="stack">
+
+<div class="warn"><b>For entertainment and self-reflection.</b> Saju is a traditional East Asian practice, not a scientifically validated way to predict anything. Please base important decisions on facts and professional advice. The eight characters themselves are calculated precisely, down to the minute of each solar term.</div>
+
+<form class="card" id="form" autocomplete="off" novalidate>
+  <h2>Your birth details</h2>
+  <div class="fg">
+    <div class="f"><span class="lb">Calendar</span>
+      <div class="seg"><label><input type="radio" name="cal" value="solar" checked><span>Gregorian</span></label><label><input type="radio" name="cal" value="lunar"><span>Lunar</span></label></div>
+      <label class="chk" id="leapWrap" hidden><input type="checkbox" id="leap"><span>Leap (intercalary) month</span></label></div>
+    <div class="f"><label for="yy">Date of birth</label><div class="ymd"><input id="yy" type="number" inputmode="numeric" min="1901" max="2099" value="1990" aria-label="Year"><input id="mm" type="number" inputmode="numeric" min="1" max="12" value="5" aria-label="Month"><input id="dd" type="number" inputmode="numeric" min="1" max="31" value="15" aria-label="Day"></div><small>Year · month · day. For the lunar calendar, enter the lunar date.</small></div>
+    <div class="f"><label for="hm">Local time of birth</label><input id="hm" type="time" value="09:30"><label class="chk"><input type="checkbox" id="noTime"><span>I don't know the time (skip the hour pillar)</span></label></div>
+    <div class="f"><span class="lb">Sex (sets luck-cycle direction)</span>
+      <div class="seg"><label><input type="radio" name="sex" value="1"><span>Male</span></label><label><input type="radio" name="sex" value="0" checked><span>Female</span></label></div></div>
+    <div class="f"><label for="city">Place of birth</label>
+      <select id="city" data-city></select>
+      <div class="man" id="manWrap" hidden><input id="lon" type="number" step="0.001" min="-180" max="180" placeholder="Longitude, e.g. -74.0" aria-label="Longitude (east positive)"><input id="off" type="number" step="0.25" min="-12" max="14" placeholder="UTC offset, e.g. -4" aria-label="UTC offset at birth in hours"></div>
+      <small>Enter the clock time where you were born. Time zone and daylight saving history are applied automatically. Manual: longitude (east +, west −) and the UTC offset in force at birth.</small></div>
+  </div>
+  <details class="adv"><summary>Advanced settings <span class="nt" style="display:inline;font-weight:500">— usually leave as is</span></summary>
+    <div class="fg">
+      <div class="f"><label for="sect">Rat hour (23:00–01:00) day boundary</label>
+        <select id="sect"><option value="2">23:00–24:00 still counts as the same day (late Rat hour)</option><option value="1">The next day's pillar starts at 23:00</option></select>
+        <small>Schools differ. Births before 23:00 give the same result either way.</small></div>
+      <div class="f"><span class="lb">Corrections</span>
+        <label class="chk"><input type="checkbox" id="solar" checked><span>Solar-time (longitude) correction for the day and hour pillars</span></label>
+        <label class="chk"><input type="checkbox" id="dst" checked><span>Korea: historical daylight saving and UTC+8:30 standard time (1948–1961, 1987–1988)</span></label></div>
+    </div>
+  </details>
+
+  <label class="chk" style="margin-top:14px!important;font-weight:700!important"><input type="checkbox" id="withB"><span>Also check couple compatibility (gunghap) with a partner</span></label>
+  <fieldset class="bb" id="bBox" hidden>
+    <legend>Partner's details</legend>
+    <div class="fg">
+      <div class="f"><span class="lb">Calendar</span><div class="seg"><label><input type="radio" name="b_cal" value="solar" checked><span>Gregorian</span></label><label><input type="radio" name="b_cal" value="lunar"><span>Lunar</span></label></div><label class="chk"><input type="checkbox" id="b_leap"><span>Leap month (lunar only)</span></label></div>
+      <div class="f"><label for="b_yy">Date of birth</label><div class="ymd"><input id="b_yy" type="number" inputmode="numeric" min="1901" max="2099" value="1988" aria-label="Year"><input id="b_mm" type="number" inputmode="numeric" min="1" max="12" value="11" aria-label="Month"><input id="b_dd" type="number" inputmode="numeric" min="1" max="31" value="3" aria-label="Day"></div></div>
+      <div class="f"><label for="b_hm">Local time of birth</label><input id="b_hm" type="time" value="14:00"><label class="chk"><input type="checkbox" id="b_noTime"><span>I don't know the time</span></label></div>
+      <div class="f"><span class="lb">Sex</span><div class="seg"><label><input type="radio" name="b_sex" value="1" checked><span>Male</span></label><label><input type="radio" name="b_sex" value="0"><span>Female</span></label></div></div>
+      <div class="f"><label for="b_city">Place of birth</label><select id="b_city" data-city></select>
+        <div class="man" id="b_manWrap" hidden><input id="b_lon" type="number" step="0.001" min="-180" max="180" placeholder="Longitude" aria-label="Partner longitude"><input id="b_off" type="number" step="0.25" min="-12" max="14" placeholder="UTC offset" aria-label="Partner UTC offset in hours"></div></div>
+    </div>
+  </fieldset>
+  <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit" id="go">Read my Saju</button><span class="nt" id="msg" role="alert"></span></div>
+</form>
+
+<div id="result" class="stack" style="margin-top:0" hidden></div>
+
+<section class="card help">
+  <h2>What is Korean Saju (사주팔자)?</h2>
+  <p><b>Saju</b> means "four pillars" and <b>palja</b> means "eight characters". In the Korean tradition — shared with the Chinese <i>BaZi</i> and Japanese <i>Shichū suimei</i> — the year, month, day and hour of your birth are each written as two characters from the sexagenary (60-term) cycle: a <b>Heavenly Stem</b> (天干, one of 10) on top and an <b>Earthly Branch</b> (地支, one of 12, the zodiac animals) underneath. Four pillars × two characters = eight characters.</p>
+  <p>Every character belongs to one of the <b>Five Elements</b> — Wood, Fire, Earth, Metal and Water — and is either yin or yang. The stem of your day pillar is the <b>Day Master</b>, the character that stands for you. Every other character is read by its relationship to the Day Master, giving the <b>Ten Gods</b> (십성): siblings and rivals, talents and output, wealth, career and authority, learning and support. Koreans traditionally visit a saju reader before New Year, weddings or big moves, and today saju cafés and apps make it a popular pastime.</p>
+  <h3>How this calculator works</h3>
+  <p><b>Solar terms, not New Year's Day.</b> The Saju year begins at <i>Ipchun</i> (Start of Spring, about February 4) and each month begins at its solar term. This page computes those moments to the minute with the open-source <i>lunar-javascript</i> astronomical calendar — the same engine as our <a href="../saju.html" hreflang="ko">Korean Saju page</a>, so both give identical pillars.</p>
+  <p><b>Births anywhere in the world.</b> You enter the clock time where you were born. The page looks up the official UTC offset for that city on that exact date with your browser's IANA time-zone database (<code>Intl.DateTimeFormat</code>), so historical daylight saving time is handled. For Korean cities it uses the Korean record of DST and the 1954–1961 UTC+8:30 standard time. The year and month pillars depend on the exact moment of the solar term (an instant, the same everywhere); the day and hour pillars use <b>local solar time</b> — Universal Time plus 4 minutes per degree of longitude — because the traditional hours follow the sun where you were born.</p>
+  <p><b>Example:</b> 1990-07-04 14:00 in New York is UTC−4 (EDT), i.e. 18:00 UTC, which is 03:00 on July 5 in Korea. New York's longitude is 74.0°W, so local solar time is 18:00 − 4 h 56 min ≈ 13:04 (13:03:59) on July 4. The day pillar is therefore taken from July 4, not the Korean date of July 5, and 13:04 falls in the Goat hour (未, 13:00–15:00).</p>
+  <h3>Strength, useful element and luck cycles</h3>
+  <p>Day-master strength is a simplified score that weights each position (the month branch counts most). The "useful elements" are suggestions for balance, not a formal yongsin, which differs between schools. Ten-year luck cycles (daeun) run forward or backward depending on your sex and the yin/yang of your birth year, starting at an age set by the distance to the nearest solar term (3 days = 1 year).</p>
+  <h3>Frequently asked questions</h3>
+  <dl><div><dt>What is Korean Saju?</dt><dd>Saju (사주, "four pillars") is the Korean form of the East Asian Four Pillars of Destiny. The year, month, day and hour of birth are each written as a Heavenly Stem and an Earthly Branch, giving eight characters (palja). Reading how their Five Elements balance and interact is a long-standing Korean tradition, enjoyed today mostly as entertainment and self-reflection.</dd></div>
+  <div><dt>I was born outside Korea. How is my birth time converted?</dt><dd>Your local clock time is converted to Universal Time using the IANA time-zone history for your city, including daylight saving time in force on that date. The year and month pillars use the exact solar-term moment, and the day and hour pillars use local solar time at your birthplace's longitude, which is the traditional rule.</dd></div>
+  <div><dt>Why does my Saju year start in February, not January?</dt><dd>Saju follows the 24 solar terms, so the year changes at Ipchun (Start of Spring, around February 4) and each month changes at its solar term (around the 4th–8th of each month). If you were born near one of those dates, the exact birth time matters.</dd></div></dl>
+</section>
+</div>
+<footer><nav><a href="./">All calculators</a> · <a href="2027-korean-horoscope.html">2027 Korean horoscope</a> · <a href="../saju.html" hreflang="ko">사주팔자 (Korean)</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></nav><div>For entertainment only — not a basis for medical, financial, legal or relationship decisions. Calendar engine: lunar-javascript (6tail, MIT licence). Time-zone history: IANA tz database. Interpretations are original plain-English summaries of traditional concepts.</div></footer>
+</div>
+
+<script src="../assets/lunar.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+var ga=function(n,p){try{if(window.gtag)gtag('event',n,Object.assign({lang:'en'},p||{}))}catch(e){}};
+var GAN='甲乙丙丁戊己庚辛壬癸'.split(''),GR=['Gap','Eul','Byeong','Jeong','Mu','Gi','Gyeong','Sin','Im','Gye'];
+var ZHI='子丑寅卯辰巳午未申酉戌亥'.split(''),ZR=['ja','chuk','in','myo','jin','sa','o','mi','sin','yu','sul','hae'];
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+var EL=['wood','fire','earth','metal','water'],ELN={wood:'Wood',fire:'Fire',earth:'Earth',metal:'Metal',water:'Water'},ELH={wood:'木',fire:'火',earth:'土',metal:'金',water:'水'};
+var GE=[0,0,1,1,2,2,3,3,4,4],ZE=[4,2,0,0,2,1,1,2,3,3,2,4];
+var ANIMAL='Rat Ox Tiger Rabbit Dragon Snake Horse Goat Monkey Rooster Dog Pig'.split(' ');
+var HIDE=[[8,9],[9,7,5],[4,2,0],[0,1],[1,9,4],[4,6,2],[2,5,3],[3,1,5],[4,8,6],[6,7],[7,3,4],[4,0,8]];
+var NAYIN=['Gold in the Sea','Fire in the Furnace','Great Forest Wood','Roadside Earth','Sword-Edge Metal','Mountaintop Fire','Valley Stream Water','City Wall Earth','White Wax Metal','Willow Wood','Spring Water','Rooftop Earth','Thunderbolt Fire','Pine & Cypress Wood','Long River Water','Gold in the Sand','Fire below the Mountain','Flatland Wood','Wall Earth','Gold Leaf Metal','Lamp Fire','Heavenly River Water','Highway Earth','Hairpin Metal','Mulberry Wood','Great Stream Water','Sandy Earth','Sky Fire','Pomegranate Wood','Great Sea Water'];
+var UN='장생 목욕 관대 건록 제왕 쇠 병 사 묘 절 태 양'.split(' ');
+var UNEN={'장생':'Birth','목욕':'Bath','관대':'Coming of Age','건록':'Prosperity','제왕':'Peak','쇠':'Decline','병':'Illness','사':'Death','묘':'Tomb','절':'Severance','태':'Conception','양':'Nurture'};
+var UNSTART=[11,6,2,9,2,9,5,0,8,3];
+var SS='비견 겁재 식신 상관 편재 정재 편관 정관 편인 정인'.split(' ');
+var SSEN={'비견':['Friend','Bigyeon'],'겁재':['Rob Wealth','Geopjae'],'식신':['Eating God','Siksin'],'상관':['Hurting Officer','Sanggwan'],'편재':['Indirect Wealth','Pyeonjae'],'정재':['Direct Wealth','Jeongjae'],'편관':['Seven Killings','Pyeongwan'],'정관':['Direct Officer','Jeonggwan'],'편인':['Indirect Resource','Pyeonin'],'정인':['Direct Resource','Jeongin']};
+function sn(s){return SSEN[s][0]}
+function shishen(d,o){var de=GE[d],oe=GE[o],same=(d%2)===(o%2),r=(oe-de+5)%5;return SS[r*2+(same?0:1)]}
+function ssZhi(d,z){return shishen(d,HIDE[z][HIDE[z].length-1])}
+function unseong(g,z){var s=UNSTART[g];var i=g%2===0?(z-s+12)%12:(s-z+12)%12;return UN[i]}
+function jiazi(g,z){for(var i=0;i<60;i++)if(i%10===g&&i%12===z)return i;return -1}
+function gi(ch){return GAN.indexOf(ch)}function zi(ch){return ZHI.indexOf(ch)}
+function gzR(g,z){return GR[g]+'-'+ZR[z]}
+function gzH(g,z){return GAN[g]+ZHI[z]}
+function yy(g){return g%2===0?'Yang':'Yin'}
+function pad(n){return String(n).padStart(2,'0')}
+
+/* Korea standard time & DST history (IANA tz Asia/Seoul, UTC switch moments) — identical to saju.html */
+var TZ=[['1908-03-31T16:00',510],['1911-12-31T15:30',540],['1948-05-31T15:00',600],['1948-09-12T14:00',540],['1949-04-02T15:00',600],['1949-09-10T14:00',540],['1950-03-31T15:00',600],['1950-09-09T14:00',540],['1951-05-05T15:00',600],['1951-09-08T14:00',540],['1954-03-20T15:00',510],['1955-05-04T15:30',570],['1955-09-08T14:30',510],['1956-05-19T15:30',570],['1956-09-29T14:30',510],['1957-05-04T15:30',570],['1957-09-21T14:30',510],['1958-05-03T15:30',570],['1958-09-20T14:30',510],['1959-05-02T15:30',570],['1959-09-19T14:30',510],['1960-04-30T15:30',570],['1960-09-17T14:30',510],['1961-08-09T15:30',540],['1987-05-09T17:00',600],['1987-10-10T17:00',540],['1988-05-07T17:00',600],['1988-10-08T17:00',540]];
+function offsetAt(localMs){var off=508;for(var i=0;i<TZ.length;i++){var t=Date.parse(TZ[i][0]+'Z');if(localMs-off*60000>=t)off=TZ[i][1];else break}return off}
+
+/* World time zones via Intl (handles historical DST from the IANA database) */
+var FMT={};
+function tzOffset(tz,ms){ // minutes east of UTC at instant ms
+  var f=FMT[tz]||(FMT[tz]=new Intl.DateTimeFormat('en-US',{timeZone:tz,hourCycle:'h23',year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric',second:'numeric'}));
+  var p={};f.formatToParts(new Date(ms)).forEach(function(x){p[x.type]=x.value});
+  var asUTC=Date.UTC(+p.year,+p.month-1,+p.day,(+p.hour)%24,+p.minute,+p.second);
+  return (asUTC-Math.floor(ms/1000)*1000)/60000}
+function wallToUtc(tz,wall){ // wall: clock time encoded as UTC ms -> {t:UTC ms, off:minutes, gap}
+  var c=[tzOffset(tz,wall-43200000),tzOffset(tz,wall),tzOffset(tz,wall+43200000)].filter(function(v,i,a){return a.indexOf(v)===i}).sort(function(a,b){return b-a});
+  for(var i=0;i<c.length;i++){var t=wall-c[i]*60000;if(tzOffset(tz,t)===c[i])return {t:t,off:c[i],gap:false}}
+  var o=c[c.length-1];return {t:wall-o*60000,off:o,gap:true}}
+function stdOffset(tz,y){return Math.min(tzOffset(tz,Date.UTC(y,0,1,12)),tzOffset(tz,Date.UTC(y,6,1,12)))}
+
+var CITIES=[
+['Korea',[['Seoul',126.978],['Incheon',126.705],['Suwon / Gyeonggi',127.009],['Chuncheon',127.729],['Gangneung',128.876],['Cheongju',127.489],['Daejeon',127.385],['Jeonju',127.148],['Gwangju',126.852],['Daegu',128.601],['Ulsan',129.311],['Busan',129.075],['Changwon',128.681],['Pohang',129.365],['Jeju',126.531]],'KR'],
+['Americas',[['New York',-74.006,'America/New_York'],['Los Angeles',-118.244,'America/Los_Angeles'],['Chicago',-87.630,'America/Chicago'],['Houston',-95.370,'America/Chicago'],['Denver',-104.990,'America/Denver'],['Seattle',-122.332,'America/Los_Angeles'],['Honolulu',-157.858,'Pacific/Honolulu'],['Toronto',-79.383,'America/Toronto'],['Vancouver',-123.121,'America/Vancouver'],['Mexico City',-99.133,'America/Mexico_City'],['São Paulo',-46.633,'America/Sao_Paulo'],['Buenos Aires',-58.382,'America/Argentina/Buenos_Aires']]],
+['Europe & Africa',[['London',-0.128,'Europe/London'],['Paris',2.352,'Europe/Paris'],['Berlin',13.405,'Europe/Berlin'],['Madrid',-3.704,'Europe/Madrid'],['Rome',12.496,'Europe/Rome'],['Amsterdam',4.900,'Europe/Amsterdam'],['Istanbul',28.978,'Europe/Istanbul'],['Moscow',37.618,'Europe/Moscow'],['Cairo',31.236,'Africa/Cairo'],['Lagos',3.379,'Africa/Lagos'],['Johannesburg',28.047,'Africa/Johannesburg']]],
+['Asia & Oceania',[['Tokyo',139.692,'Asia/Tokyo'],['Osaka',135.502,'Asia/Tokyo'],['Beijing',116.407,'Asia/Shanghai'],['Shanghai',121.474,'Asia/Shanghai'],['Hong Kong',114.169,'Asia/Hong_Kong'],['Taipei',121.565,'Asia/Taipei'],['Manila',120.984,'Asia/Manila'],['Ho Chi Minh City',106.660,'Asia/Ho_Chi_Minh'],['Hanoi',105.834,'Asia/Bangkok'],['Bangkok',100.502,'Asia/Bangkok'],['Kuala Lumpur',101.687,'Asia/Kuala_Lumpur'],['Singapore',103.820,'Asia/Singapore'],['Jakarta',106.846,'Asia/Jakarta'],['Ulaanbaatar',106.918,'Asia/Ulaanbaatar'],['Almaty',76.886,'Asia/Almaty'],['Tashkent',69.240,'Asia/Tashkent'],['Mumbai',72.878,'Asia/Kolkata'],['Delhi',77.209,'Asia/Kolkata'],['Dubai',55.271,'Asia/Dubai'],['Sydney',151.209,'Australia/Sydney'],['Melbourne',144.963,'Australia/Melbourne'],['Brisbane',153.026,'Australia/Brisbane'],['Perth',115.861,'Australia/Perth'],['Auckland',174.763,'Pacific/Auckland']]]];
+var CL=[];
+function buildCities(sel){var h='';CITIES.forEach(function(g){h+='<optgroup label="'+g[0]+'">';g[1].forEach(function(c){var i=CL.length;CL.push({name:c[0],lon:c[1],tz:g[2]||c[2]});h+='<option value="'+i+'">'+c[0]+'</option>'});h+='</optgroup>'});
+  CL.push({name:'Other place (enter manually)',tz:'MAN'});h+='<optgroup label="Other"><option value="'+(CL.length-1)+'">Other place — enter longitude &amp; UTC offset</option></optgroup>';return h}
+var opts=buildCities();
+document.querySelectorAll('select[data-city]').forEach(function(s){s.innerHTML=opts;s.value='0'});
+function bindMan(px){$(px+'city').addEventListener('change',function(){$(px+'manWrap').hidden=CL[+this.value].tz!=='MAN'})}
+bindMan('');bindMan('b_');
+
+/* Interpretation data (original English text) */
+var DAYMASTER={
+0:['a great tree','Like a tall tree growing straight up, you have clear goals and real drive. You value principles and naturally take the lead.','Pride can make you slow to bend, and others may call you stubborn. Being willing to step back once in a while makes you stronger, not weaker.','Planning, teaching, management and public service — work that sets direction'],
+1:['grass and vines','Like grass that bends in the wind but never breaks, you are flexible and highly adaptable. People feel at ease with you and your network keeps growing.','You read the room so well that you may postpone your own decisions. Settling your own criteria first keeps you steady.','Design, counselling, hospitality and marketing — work that uses people sense and taste'],
+2:['the sun','Like the sun that shines on everyone, you are bright, frank and expressive. Your enthusiasm sets the mood in any room.','You can be impatient and your energy comes in waves. Adding staying power to finish what you start lets you shine for real.','Media, sales, teaching and PR — work where you are seen and heard'],
+3:['a candle and starlight','Like a candle in the dark, you are warm, thoughtful and detail-minded, able to focus deeply on what you care about.','You tend to swallow your feelings and become sensitive. Putting emotions into words is good for your health too.','Research, medicine, education and the arts — work that needs depth and care'],
+4:['a great mountain','Like a solid mountain, you are steady and dependable. You have a big heart, mediate well and people lean on you.','You adapt slowly and rarely change your mind once it is set. Staying open to new information widens your opportunities.','Administration, real estate, finance and mediation — work built on trust'],
+5:['a fertile field','Like a field that grows grain, you are practical and meticulous. You nurture people and projects and build things up step by step.','You worry a lot and overthink. Aiming for "done" rather than "perfect" lightens the load.','Management, accounting, teaching and care work — jobs that need attention to detail'],
+6:['rock and raw ore','Like hard rock or iron, you are decisive and loyal, with a strong sense of justice and clear boundaries.','Your directness can hurt. Wrapping the message in one soft layer makes your leadership even more effective.','Military, police, law, engineering and manufacturing — work that needs principles and execution'],
+7:['a polished jewel','Like a cut gem, you are refined with a keen aesthetic sense. You like things clean and well done, and you manage yourself carefully.','You are sensitive, and wounded pride lingers. Practise being kinder to yourself.','Finance, fashion, beauty and specialist professions — work where precision shines'],
+8:['the ocean and great rivers','Like the open sea, you think big and see the flow of things. You love freedom and accept people as they are.','Your interests are wide, so your direction may change often. Choosing one big goal gathers your strength.','Trade, strategy, research and IT — work that connects the big picture'],
+9:['rain and dew','Like rain that nourishes everything, you are bright and intuitive, calm and good at reading people.','Worry and overthinking can slow you down. A habit of trying small things right away helps a lot.','Research, counselling, IT and writing — work that uses insight']};
+var SSDESC={
+'비견':['Same element, same polarity (siblings, peers)','independence, self-direction, healthy competition','stubbornness, going it alone, money spread thin'],
+'겁재':['Same element, opposite polarity','will to win, drive, sociability','impulsive spending, partnership conflicts'],
+'식신':['Element you produce (talent, expression)','ease, enjoyment of food and life, craft skills, consistency','complacency, laziness'],
+'상관':['Element you produce, opposite polarity','creativity, eloquence, reform-minded','friction with superiors, careless words'],
+'편재':['Element you control (big money, activity)','business sense, large-scale wealth, networking','speculation, big spending'],
+'정재':['Element you control (steady money)','diligence, careful management, stable income','tight-fistedness, over-caution'],
+'편관':['Element that controls you (pressure)','charisma, decisiveness, crisis-breaking','stress, pressure, overwork'],
+'정관':['Element that governs you (honour, organisations)','responsibility, principles, fitting into organisations','rigidity, concern for appearances'],
+'편인':['Element that supports you, opposite polarity','intuition, unconventional study, specialist skills','loneliness, overthinking, changeability'],
+'정인':['Element that gives birth to you (learning, mother)','learning, recognition, security, luck with documents','dependence, weak follow-through']};
+var YEARKW={
+'비견':'A year to push ahead on your own strength. Good for independence and fresh starts, but money slips out easily.',
+'겁재':'Competition and cooperation arrive together. Be careful with partnerships and guarantees; stamina is key.',
+'식신':'Talent and ease come alive. A good year to turn what you have learned into results.',
+'상관':'A year of ideas and change. Good for job moves and creative work, but watch your words.',
+'편재':'Your range of activity and cash flow grow. Diversify any investments.',
+'정재':'A year for steady saving. Good for building savings, tidying assets and signing contracts.',
+'편관':'Responsibility and pressure increase. Strong for challenges, but guard your health and avoid overdoing it.',
+'정관':'A year of recognition and position. Good for promotions, exams, marriage and other official milestones.',
+'편인':'A year of study and transition. Good for qualifications and specialist skills; you may overthink.',
+'정인':'Help and luck with documents arrive. Favourable for contracts, study and certificates.'};
+var UNDESC={'장생':'fresh growth and potential','목욕':'sensitivity, change, curiosity and style','관대':'motivation, confidence, stepping into society','건록':'independence and solid ability','제왕':'the strongest energy, leadership','쇠':'experience and maturity','병':'delicacy and emotional depth','사':'focus and research','묘':'storing and accumulating, inner substance','절':'cutting ties and new beginnings, resolve','태':'conception and planning, possibility','양':'growing under care, preparation'};
+var ELTIP={wood:['green','east','morning walks, growing plants, starting something new to learn','sour foods (greens, fruit)'],fire:['red and orange','south','sunlight, exercise that makes you sweat, bright lighting','bitter foods (coffee, bitter greens)'],earth:['yellow and beige','the centre (a tidy home)','regular meals, managing your schedule, gardening','sweet foods (grains, sweet potato)'],metal:['white and silver','west','decluttering, practising decisions, breathing exercises','pungent foods (radish, ginger, garlic)'],water:['black and navy','north','plenty of sleep, drinking water, meditation, reading','salty foods (seaweed, beans)']};
+
+/* combinations & clashes */
+var GH={'0-5':'earth','1-6':'metal','2-7':'water','3-8':'wood','4-9':'fire'},GC={'0-6':1,'1-7':1,'2-8':1,'3-9':1};
+var ZH6={'0-1':'earth','2-11':'wood','3-10':'fire','4-9':'metal','5-8':'water','6-7':'fire'};
+var ZCH={'0-6':1,'1-7':1,'2-8':1,'3-9':1,'4-10':1,'5-11':1};
+var ZPA={'0-9':1,'3-6':1,'5-8':1,'2-11':1,'1-4':1,'7-10':1};
+var ZHAE={'0-7':1,'1-6':1,'2-5':1,'3-4':1,'8-11':1,'9-10':1};
+var ZWJ={'0-7':1,'1-6':1,'2-9':1,'3-8':1,'4-11':1,'5-10':1};
+var SAM=[[[8,0,4],'water'],[[11,3,7],'wood'],[[2,6,10],'fire'],[[5,9,1],'metal']];
+function key(a,b){return Math.min(a,b)+'-'+Math.max(a,b)}
+
+function glyph(i,isGan){var e=EL[isGan?GE[i]:ZE[i]];return '<span class="glyph e-'+e+'">'+(isGan?GAN[i]:ZHI[i])+'</span><span class="cap"><b>'+(isGan?GR[i]:cap(ZR[i]))+'</b><br>'+(i%2===0?'Yang':'Yin')+' '+ELN[e]+(isGan?'':'<br>'+ANIMAL[i])+'</span>'}
+
+/* inputs */
+document.querySelectorAll('input[name=cal]').forEach(function(r){r.addEventListener('change',function(){$('leapWrap').hidden=document.querySelector('input[name=cal]:checked').value!=='lunar'})});
+$('noTime').addEventListener('change',function(){$('hm').disabled=this.checked});
+$('b_noTime').addEventListener('change',function(){$('b_hm').disabled=this.checked});
+$('withB').addEventListener('change',function(){$('bBox').hidden=!this.checked;$('go').textContent=this.checked?'Read Saju + compatibility':'Read my Saju'});
+$('form').addEventListener('submit',function(e){e.preventDefault();run(true)});
+
+function fmtMs(ms){var t=new Date(ms);return t.getUTCFullYear()+'-'+pad(t.getUTCMonth()+1)+'-'+pad(t.getUTCDate())+' '+pad(t.getUTCHours())+':'+pad(t.getUTCMinutes())}
+function fmtOff(m){var s=m<0?'−':'+',a=Math.abs(m);return 'UTC'+s+pad(Math.floor(a/60))+':'+pad(Math.round(a%60))}
+function fmtLon(l){return Math.abs(l).toFixed(3)+'°'+(l<0?'W':'E')}
+
+function compute(px,msgEl){
+  function q(id){return $(px+id)}
+  function rv(n){return document.querySelector('input[name='+px+n+']:checked').value}
+  var who=px?'Partner: ':'';
+  var v=[+q('yy').value,+q('mm').value,+q('dd').value];if(!(v[0]>=1901&&v[0]<=2099&&v[1]>=1&&v[1]<=12&&v[2]>=1&&v[2]<=31)){msgEl.innerHTML='<span class="err">'+who+'Please enter a valid date between 1901 and 2099.</span>';return null}
+  var noTime=q('noTime').checked,hm=noTime?[12,0]:(q('hm').value||'12:00').split(':').map(Number);
+  var isLunar=rv('cal')==='lunar';
+  var y=v[0],m=v[1],d=v[2],lunarNote='';
+  if(isLunar){
+    try{var L0=Lunar.fromYmd(y,q('leap').checked?-m:m,d);var s0=L0.getSolar();lunarNote='Lunar '+y+'-'+(q('leap').checked?'leap ':'')+m+'-'+d+' → Gregorian '+s0.getYear()+'-'+pad(s0.getMonth())+'-'+pad(s0.getDay());y=s0.getYear();m=s0.getMonth();d=s0.getDay()}
+    catch(err){msgEl.innerHTML='<span class="err">'+who+'Lunar '+(q('leap').checked?'leap ':'')+'month '+m+', day '+d+' does not exist in '+y+'. Check the date or the leap-month box.</span>';return null}
+  }
+  var clock=Date.UTC(y,m-1,d,hm[0],hm[1]);var chk=new Date(clock);if(chk.getUTCMonth()!==m-1||chk.getUTCDate()!==d){msgEl.innerHTML='<span class="err">'+who+m+'/'+y+' has no day '+d+'.</span>';return null}
+  var C=CL[+q('city').value],lon=C.lon,off,std,gap=false,tzName;
+  if(C.tz==='KR'){off=$('dst').checked?offsetAt(clock):540;std=540;tzName='Asia/Seoul (Korean DST record)'}
+  else if(C.tz==='MAN'){lon=parseFloat(q('lon').value);var oh=parseFloat(q('off').value);
+    if(!(lon>=-180&&lon<=180)||!(oh>=-12&&oh<=14)){msgEl.innerHTML='<span class="err">'+who+'For "Other place", enter the longitude (−180 to 180, west negative) and the UTC offset in hours.</span>';return null}
+    off=Math.round(oh*60);std=off;tzName='manual offset'}
+  else{var r=wallToUtc(C.tz,clock);off=r.off;gap=r.gap;std=stdOffset(C.tz,y);tzName=C.tz}
+  var utcMs=clock-off*60000;
+  var solarOn=$('solar').checked;
+  var lmtMs=solarOn?utcMs+lon*4*60000:(C.tz==='KR'?clock-(off-540)*60000:utcMs+std*60000);
+  var bjMs=utcMs+480*60000,kstMs=utcMs+540*60000;
+  function sol(ms){var t=new Date(ms);return Solar.fromYmdHms(t.getUTCFullYear(),t.getUTCMonth()+1,t.getUTCDate(),t.getUTCHours(),t.getUTCMinutes(),0)}
+  var eL=sol(lmtMs).getLunar().getEightChar(),eB=sol(bjMs).getLunar().getEightChar(),eK=sol(kstMs).getLunar().getEightChar();
+  var sect=+$('sect').value;eL.setSect(sect);eB.setSect(sect);eK.setSect(sect);
+  var P={y:[gi(eB.getYearGan()),zi(eB.getYearZhi())],m:[gi(eB.getMonthGan()),zi(eB.getMonthZhi())],d:[gi(eL.getDayGan()),zi(eL.getDayZhi())],t:noTime?null:[gi(eL.getTimeGan()),zi(eL.getTimeZhi())]};
+  var K={d:[gi(eK.getDayGan()),zi(eK.getDayZhi())],t:noTime?null:[gi(eK.getTimeGan()),zi(eK.getTimeZhi())]};
+  var sex=+rv('sex');
+  return {P:P,K:K,yun:eB.getYun(sex,2),noTime:noTime,sex:sex,y:y,m:m,d:d,hm:hm,lunar:Solar.fromYmd(y,m,d).getLunar(),lunarNote:lunarNote,adj:Math.round((lmtMs-clock)/60000),off:off,std:std,lon:lon,city:C,tzName:tzName,gap:gap,solarOn:solarOn,clock:clock,utc:utcMs,kst:kstMs,bj:bjMs,lmt:new Date(lmtMs),lmtMs:lmtMs};
+}
+function run(user){
+  $('msg').textContent='';
+  var A=compute('',$('msg'));if(!A)return;
+  var B=null;
+  if($('withB').checked){B=compute('b_',$('msg'));if(!B)return}
+  render(A,B,user);
+  if(user)ga(B?'saju_gunghap':'saju_run',{city:A.city.name});
+}
+
+function render(o,B,scroll){
+  var P=o.P,dg=P.d[0];
+  var cols=[['Hour','time',P.t],['Day','day',P.d],['Month','month',P.m],['Year','year',P.y]];
+  var h='';
+  h+='<section class="card"><h2>Your four pillars</h2><div class="pillars">';
+  h+='<div class="rh">&nbsp;</div>'+cols.map(function(c){return '<div class="ch'+(c[1]==='day'?' dayhl':'')+'">'+c[0]+'<small>'+({time:'children · later life',day:'you · spouse',month:'parents · youth',year:'roots · childhood'})[c[1]]+'</small></div>'}).join('');
+  function row(label,fn,cls){h+='<div class="rh">'+label+'</div>'+cols.map(function(c){return '<div class="'+(cls||'')+(c[1]==='day'?' dayhl':'')+'">'+(c[2]?fn(c[2],c[1]):'<span class="nt">unknown</span>')+'</div>'}).join('')}
+  row('Ten God',function(p,k){return k==='day'?'<span class="ss">Day Master (you)</span>':'<span class="ss">'+sn(shishen(dg,p[0]))+'</span>'});
+  row('Stem',function(p){return glyph(p[0],true)},'gl');
+  row('Branch',function(p){return glyph(p[1],false)},'gl');
+  row('Ten God',function(p){return '<span class="ss">'+sn(ssZhi(dg,p[1]))+'</span>'});
+  row('Pillar',function(p){return '<b class="gz" style="font-size:15px">'+gzH(p[0],p[1])+'</b><br>'+gzR(p[0],p[1])});
+  row('Hidden',function(p){return HIDE[p[1]].map(function(g){return '<span class="t-'+EL[GE[g]]+'" title="'+GR[g]+' '+ELN[EL[GE[g]]]+'">'+GAN[g]+'</span>'}).join(' ')});
+  row('12 Stages',function(p){var u=unseong(dg,p[1]);return UNEN[u]});
+  row('Nayin',function(p){return NAYIN[Math.floor(jiazi(p[0],p[1])/2)]});
+  h+='</div>';
+  var lu=o.lunar,de=EL[GE[dg]];
+  h+='<div class="summary"><div><span>Day Master (the character for you)</span><b class="t-'+de+'">'+GAN[dg]+' '+GR[dg]+' · '+yy(dg)+' '+ELN[de]+'</b><br><span>'+cap(DAYMASTER[dg][0])+'</span></div>'+
+    '<div><span>Zodiac animal (from Ipchun)</span><b>'+gzH(P.y[0],P.y[1])+' '+gzR(P.y[0],P.y[1])+'</b><br><span>Year of the '+ANIMAL[P.y[1]]+'</span></div>'+
+    '<div><span>Gregorian / lunar date</span><b>'+o.y+'-'+pad(o.m)+'-'+pad(o.d)+'</b><br><span>Lunar '+lu.getYear()+'-'+(lu.getMonth()<0?'leap '+(-lu.getMonth()):lu.getMonth())+'-'+lu.getDay()+'</span></div>'+
+    '<div><span>Time used for day & hour</span><b>'+(o.noTime?'Time unknown':pad(o.lmt.getUTCHours())+':'+pad(o.lmt.getUTCMinutes()))+'</b><br><span>'+(o.noTime?'Hour pillar skipped':'Entered '+pad(o.hm[0])+':'+pad(o.hm[1])+' → '+(o.adj>=0?'+':'')+o.adj+' min'+(o.off!==o.std?' (incl. DST)':''))+'</span></div></div>';
+  if(o.lunarNote)h+='<p class="nt" style="margin-top:10px">'+o.lunarNote+'</p>';
+  h+='</section>';
+
+  h+=convCard(o);
+
+  // five elements
+  var cnt=[0,0,0,0,0],w=[0,0,0,0,0];
+  cols.forEach(function(c){if(!c[2])return;cnt[GE[c[2][0]]]++;cnt[ZE[c[2][1]]]++;
+    w[GE[c[2][0]]]+=1;var hs=HIDE[c[2][1]];var ws=hs.length===2?[0.3,0.7]:[0.2,0.3,0.5];hs.forEach(function(g,i){w[GE[g]]+=ws[i]*(c[1]==='month'?1.5:1)})});
+  var wt=w.reduce(function(a,b){return a+b},0);
+  h+='<section class="card"><h2>Five Elements balance</h2><p class="nt" style="margin-bottom:6px">Shows both the visible character count and the weighted strength, which adds the hidden stems inside each branch and gives the month branch extra weight.</p>';
+  EL.forEach(function(e,i){h+='<div class="ohrow"><b class="t-'+e+'" style="text-align:left">'+ELN[e]+' '+ELH[e]+'</b><div class="bar"><i style="width:'+(w[i]/wt*100).toFixed(1)+'%;background:var(--'+e+')"></i></div><b>'+cnt[i]+' · '+Math.round(w[i]/wt*100)+'%</b></div>'});
+  var lack=EL.filter(function(e,i){return cnt[i]===0}),much=EL.filter(function(e,i){return w[i]/wt>=0.35});
+  h+='<p style="margin:10px 0 0">'+(lack.length?'<span class="tag bad">Missing: '+lack.map(function(e){return ELN[e]}).join(', ')+'</span>':'<span class="tag on">All five elements are present</span>')+(much.length?'<span class="tag">Dominant: '+much.map(function(e){return ELN[e]}).join(', ')+'</span>':'')+'</p>';
+  h+=elementStory(w);
+  h+='</section>';
+
+  // strength
+  var me=GE[dg],support=0,all=0,pos=[];
+  if(P.t)pos.push([P.t[0],1,'g'],[P.t[1],1,'z']);pos.push([P.d[1],1.5,'z'],[P.m[0],1,'g'],[P.m[1],3,'z'],[P.y[0],0.8,'g'],[P.y[1],0.8,'z']);
+  pos.forEach(function(p){var e=p[2]==='g'?GE[p[0]]:ZE[p[0]];all+=p[1];if(e===me||e===(me+4)%5)support+=p[1]});
+  var ratio=support/all,strong=ratio>=0.55?'신강':ratio<=0.42?'신약':'중화';
+  var STN={'신강':'Strong (singang)','신약':'Weak (sinyak)','중화':'Balanced (junghwa)'};
+  var yong=strong==='신강'?[(me+1)%5,(me+2)%5,(me+3)%5]:strong==='신약'?[(me+4)%5,me]:[];
+  var pc=Math.round(ratio*100);
+  h+='<section class="card"><h2>Day Master strength: <span style="color:var(--red)">'+STN[strong]+'</span></h2><div class="meter"><i style="left:'+(Math.min(.95,Math.max(.05,ratio))*100).toFixed(1)+'%"></i></div><div class="mlabels"><span>Weak</span><span>Balanced</span><span>Strong</span></div>';
+  h+='<p style="margin:10px 0 0">'+({'신강':'Supporting energy (your own element and the element that feeds you) makes up '+pc+'% of the chart. You have plenty of drive; things go best when that energy has an outlet — self-expression, earning, or responsibility.','신약':'Supporting energy makes up only '+pc+'% of the chart. You are perceptive and quick to read situations, but carrying everything alone wears you out. Learning, mentors and good colleagues give you strength.','중화':'Supporting and draining energy are fairly even at '+pc+'% vs '+(100-pc)+'%. You have the flexibility to adjust to whatever comes.'})[strong]+'</p>';
+  if(yong.length)h+='<p style="margin:6px 0 0">Elements that help balance you: '+yong.map(function(i){return '<span class="tag on t-'+EL[i]+'">'+ELN[EL[i]]+'</span>'}).join('')+'<span class="nt" style="display:inline"> (a simplified estimate — formal yongsin differs by school)</span></p>';
+  h+='</section>';
+
+  // day master
+  var D=DAYMASTER[dg];
+  h+='<section class="card"><h2>Your nature — '+GAN[dg]+' '+GR[dg]+' Day Master ('+D[0]+')</h2><div class="two"><div class="box"><h3>Strengths</h3>'+D[1]+'</div><div class="box"><h3>Watch out for</h3>'+D[2]+'</div><div class="box"><h3>Work that suits you</h3>'+D[3]+'</div><div class="box"><h3>Day pillar '+gzH(P.d[0],P.d[1])+' ('+gzR(P.d[0],P.d[1])+')</h3>'+iljuText(P.d)+'</div></div></section>';
+
+  // ten gods
+  var sc={};SS.forEach(function(s){sc[s]=0});
+  cols.forEach(function(c){if(!c[2])return;if(c[1]!=='day')sc[shishen(dg,c[2][0])]++;sc[ssZhi(dg,c[2][1])]++});
+  var grp=[['비겁','Self (Friend + Rob Wealth)',sc['비견']+sc['겁재'],'you, siblings, peers'],['식상','Output (Eating God + Hurting Officer)',sc['식신']+sc['상관'],'expression, talent, children'],['재성','Wealth (Direct + Indirect)',sc['편재']+sc['정재'],'money, practical life, (for men) spouse'],['관성','Officer (Direct + Seven Killings)',sc['편관']+sc['정관'],'career, status, (for women) spouse'],['인성','Resource (Direct + Indirect)',sc['편인']+sc['정인'],'learning, documents, mother']];
+  h+='<section class="card"><h2>Ten Gods — five areas of life</h2><div class="scroll"><table><tr><th class="l">Group</th><th>Count</th><th class="l">Represents</th></tr>'+grp.map(function(g){return '<tr><td class="l"><b>'+g[1]+'</b></td><td>'+g[2]+'</td><td class="l">'+g[3]+'</td></tr>'}).join('')+'</table></div>';
+  var topG=grp.slice().sort(function(a,b){return b[2]-a[2]})[0],zero=grp.filter(function(g){return g[2]===0});
+  h+='<p style="margin:10px 0 0">'+groupText(topG[0])+(zero.length?' On the other hand, <b>'+zero.map(function(g){return g[1].replace(/ \(.*\)/,'')}).join(', ')+'</b> '+(zero.length>1?'are':'is')+' missing from your chart, so you tend to feel '+(zero.length>1?'those areas':'that area')+' strongly when a luck cycle or year brings '+(zero.length>1?'them':'it')+' in.':'')+'</p>';
+  h+='<details class="more"><summary>All ten gods in detail</summary><div class="scroll" style="margin-top:8px"><table><tr><th class="l">Ten God</th><th>Count</th><th class="l">Meaning</th><th class="l">Strengths</th><th class="l">If too many</th></tr>'+SS.map(function(s){return '<tr><td class="l"><b>'+sn(s)+'</b><br><span class="nt">'+SSEN[s][1]+'</span></td><td>'+sc[s]+'</td><td class="l">'+SSDESC[s][0]+'</td><td class="l">'+SSDESC[s][1]+'</td><td class="l">'+SSDESC[s][2]+'</td></tr>'}).join('')+'</table></div></details></section>';
+
+  // 12 stages
+  h+='<section class="card"><h2>12 Life Stages — energy in each pillar</h2><div class="scroll"><table><tr><th>Pillar</th><th>Branch</th><th>Stage</th><th class="l">Meaning</th></tr>'+cols.filter(function(c){return c[2]}).map(function(c){var u=unseong(dg,c[2][1]);return '<tr><td>'+c[0]+'</td><td class="gz">'+ZHI[c[2][1]]+'</td><td><b>'+UNEN[u]+'</b></td><td class="l">'+UNDESC[u]+'</td></tr>'}).join('')+'</table></div><p class="nt" style="margin-top:8px">Shows how strong your Day Master is in each branch. The day branch hints at your basic stamina and temperament; the month branch at your working years.</p></section>';
+
+  h+='<section class="card"><h2>Special stars (sinsal)</h2>'+sinsal(P,dg,cols)+'</section>';
+  h+='<section class="card"><h2>Combinations and clashes</h2>'+relations(P,cols)+'</section>';
+  h+=daeun(o,dg);
+  h+=seun(o,dg);
+  if(B)h=gunghap(o,B)+h;
+  h+='<p class="nt" style="color:#BFCBE0">This reading is for fun and self-reflection. Interpretations vary between schools and readers. Want this in Korean? See <a href="../saju.html" hreflang="ko" style="color:#E8C27A">사주팔자 풀이</a>. Curious about next year? Try the <a href="2027-korean-horoscope.html" style="color:#E8C27A">2027 Korean horoscope</a>.</p>';
+  $('result').innerHTML=h;$('result').hidden=false;
+  if(scroll)$('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function convCard(o){
+  var C=o.city,dst=o.off!==o.std;
+  var h='<section class="card"><h2>How your birth moment was converted</h2><div class="scroll conv"><table>';
+  h+='<tr><td>Entered (local clock)</td><td><b>'+fmtMs(o.clock).slice(0,10)+' '+(o.noTime?'(time unknown, noon used)':fmtMs(o.clock).slice(11))+'</b> · '+C.name+'</td></tr>';
+  h+='<tr><td>Time zone in force</td><td>'+fmtOff(o.off)+(dst?' — <b>daylight saving time</b>':'')+'<br><span class="nt">'+o.tzName+(o.gap?' · note: this clock time fell in a DST gap and was shifted':'')+'</span></td></tr>';
+  h+='<tr><td>Universal time (UTC)</td><td>'+fmtMs(o.utc)+'</td></tr>';
+  h+='<tr><td>Korea time (KST, UTC+9)</td><td>'+fmtMs(o.kst)+'</td></tr>';
+  h+='<tr><td>China time (UTC+8) — solar-term reference for year &amp; month pillars</td><td>'+fmtMs(o.bj)+' → <b class="gz" style="font-size:15px">'+gzH(o.P.y[0],o.P.y[1])+' '+gzH(o.P.m[0],o.P.m[1])+'</b> (year, month)</td></tr>';
+  h+='<tr><td>'+(o.solarOn?'Local solar time at '+fmtLon(o.lon)+' = UTC '+(o.lon>=0?'+':'−')+' '+Math.floor(Math.abs(o.lon*4)/60)+' h '+Math.round(Math.abs(o.lon*4)%60)+' min':'Local standard clock time (no solar correction)')+' — used for day &amp; hour pillars</td><td>'+fmtMs(o.lmtMs)+' → <b class="gz" style="font-size:15px">'+gzH(o.P.d[0],o.P.d[1])+(o.P.t?' '+gzH(o.P.t[0],o.P.t[1]):'')+'</b> (day'+(o.P.t?', hour':'')+')</td></tr>';
+  var same=o.K.d[0]===o.P.d[0]&&o.K.d[1]===o.P.d[1]&&(!o.P.t||(o.K.t[0]===o.P.t[0]&&o.K.t[1]===o.P.t[1]));
+  h+='</table></div>';
+  if(C.tz!=='KR')h+='<p class="nt" style="margin-top:8px">For comparison, reading the day and hour straight from the Korean clock ('+fmtMs(o.kst).slice(11)+' KST) would give <b class="gz" style="font-size:14px">'+gzH(o.K.d[0],o.K.d[1])+(o.K.t?' '+gzH(o.K.t[0],o.K.t[1]):'')+'</b>'+(same?' — the same pillars.':'. The traditional rule uses the sun where you were born, so the pillars above are the ones used.')+'</p>';
+  return h+'</section>';
+}
+
+/* compatibility */
+var GENREL=function(a,b){if(a===b)return 'same';if((a+1)%5===b)return 'gen';if((b+1)%5===a)return 'genby';if((a+2)%5===b)return 'ctrl';return 'ctrlby'};
+function elCount(P){var c=[0,0,0,0,0];['y','m','d','t'].forEach(function(k){if(P[k]){c[GE[P[k][0]]]++;c[ZE[P[k][1]]]++}});return c}
+var RELN={'육합':'six harmony','삼합':'three harmony','충':'clash','원진':'resentment (wonjin)','해':'harm','파':'break','형':'punishment','같은 지지':'same branch'};
+function zrel(a,b){var k=key(a,b),r=[];if(ZH6[k])r.push(['육합',+1]);SAM.forEach(function(s){if(s[0].indexOf(a)>=0&&s[0].indexOf(b)>=0&&a!==b)r.push(['삼합',+1,s[1]])});if(ZCH[k])r.push(['충',-1]);if(ZWJ[k])r.push(['원진',-1]);if(ZHAE[k])r.push(['해',-0.5]);if(ZPA[k])r.push(['파',-0.5]);if(k==='0-3')r.push(['형',-0.5]);if(a===b)r.push(['같은 지지',0.3]);return r}
+function rn(r){return RELN[r[0]]+(r[2]?' ('+ELN[r[2]]+')':'')}
+function gunghap(A,B){
+  var a=A.P,b=B.P,ga=a.d[0],gb=b.d[0],items=[],total=0;
+  function add(name,score,max,txt,detail){items.push([name,score,max,txt,detail]);total+=score}
+  var hapk=key(ga,gb),s1,t1;var ea=GE[ga],eb=GE[gb],rel=GENREL(ea,eb);
+  if(GH[hapk]){s1=20;t1='Your Day Masters form a <b>stem combination ('+GAN[ga]+GAN[gb]+' → '+ELN[GH[hapk]]+')</b>, the strongest positive sign in Saju compatibility: a natural pull, even on first meeting, and an easy acceptance of each other.'}
+  else if(rel==='gen'||rel==='genby'){s1=16;t1=(rel==='gen'?'Your Day Master ('+ELN[EL[ea]]+') feeds your partner\'s ('+ELN[EL[eb]]+')':'Your partner\'s Day Master ('+ELN[EL[eb]]+') feeds yours ('+ELN[EL[ea]]+')')+' — a <b>generating</b> relationship. One naturally looks after the other, who draws strength from it. A comfortable flow.'}
+  else if(rel==='same'){s1=13;t1='You share the same element ('+ELN[EL[ea]]+'). You think and move at a similar pace and get along like friends, but when you both dig in, neither steps back.'}
+  else {s1=8;t1=(rel==='ctrl'?'Your Day Master controls your partner\'s':'Your partner\'s Day Master controls yours')+' — a <b>controlling</b> relationship ('+ELN[EL[ea]]+' · '+ELN[EL[eb]]+'). Strong attraction comes with tension; agreeing on respectful ground rules for arguments can make you both stronger.'}
+  if(GC[hapk]){s1-=3;t1+=' The stems also clash ('+GAN[ga]+GAN[gb]+'), so disagreements may be frequent.'}
+  add('Day Master chemistry (personal attraction)',s1,20,t1);
+  var zr=zrel(a.d[1],b.d[1]),s2=12,t2='';
+  zr.forEach(function(r){s2+=r[1]*6});s2=Math.max(2,Math.min(20,Math.round(s2)));
+  t2='Your day branches — the "spouse palace" — are '+ZHI[a.d[1]]+' and '+ZHI[b.d[1]]+(zr.length?', which form a <b>'+zr.map(rn).join(', ')+'</b>. ':', with no special combination or clash. ');
+  if(zr.some(function(r){return r[1]>0}))t2+='Daily rhythms fit well when living together, and affection deepens over time.';
+  else if(zr.some(function(r){return r[0]==='충'}))t2+='Different lifestyles can bump into each other, but a clash also means stimulation — respect each other\'s space and the relationship stays lively.';
+  else if(zr.some(function(r){return r[0]==='원진'}))t2+='There may be moments of unexplained hurt. Talk through small grievances straight away.';
+  else t2+='You can adjust to each other without much friction.';
+  add('Spouse palace (living together)',s2,20,t2);
+  var yr=zrel(a.y[1],b.y[1]),s3=9;yr.forEach(function(r){s3+=r[1]*5});s3=Math.max(2,Math.min(15,Math.round(s3)));
+  add('Zodiac animals ('+ANIMAL[a.y[1]]+' × '+ANIMAL[b.y[1]]+')',s3,15,'The '+ANIMAL[a.y[1]]+' and the '+ANIMAL[b.y[1]]+' '+(yr.length?'form a <b>'+yr.map(rn).join(', ')+'</b>. ':'have no special combination or clash — a neutral match. ')+(yr.some(function(r){return r[1]>0})?'Traditionally this means families and friends blend well too.':yr.some(function(r){return r[1]<0})?'It takes effort to understand differences in family and background.':''));
+  var ca=elCount(a),cb=elCount(b),s4=10,fill=[],dup=[];
+  for(var i=0;i<5;i++){if(ca[i]===0&&cb[i]>=2)fill.push(['me',EL[i]]);if(cb[i]===0&&ca[i]>=2)fill.push(['them',EL[i]]);if(ca[i]>=3&&cb[i]>=3)dup.push(EL[i])}
+  s4+=fill.length*5-dup.length*3;var lackBoth=[];for(i=0;i<5;i++)if(ca[i]===0&&cb[i]===0)lackBoth.push(EL[i]);s4-=lackBoth.length*2;s4=Math.max(3,Math.min(25,s4));
+  var t4=fill.length?fill.map(function(f){return (f[0]==='me'?'You lack':'Your partner lacks')+' <b class="t-'+f[1]+'">'+ELN[f[1]]+'</b>, and '+(f[0]==='me'?'your partner has':'you have')+' plenty of it'}).join('. ')+'. You fill each other\'s gaps — a complementary match.':'You don\'t fill each other\'s missing elements much.';
+  if(dup.length)t4+=' You are both heavy in '+dup.map(function(e){return ELN[e]}).join(' and ')+', so you can overheat in the same direction.';
+  if(lackBoth.length)t4+=' Neither of you has '+lackBoth.map(function(e){return ELN[e]}).join(' or ')+' — make up for it together (for example: '+ELTIP[lackBoth[0]][2]+').';
+  add('Element balance (filling each other\'s gaps)',s4,25,t4,[ca,cb]);
+  var ssAB=shishen(ga,gb),ssBA=shishen(gb,ga);
+  var good={'정관':1,'편관':0.8,'정재':1,'편재':0.8,'정인':0.7,'식신':0.7};
+  var star=A.sex===1?['정재','편재']:['정관','편관'],starB=B.sex===1?['정재','편재']:['정관','편관'];
+  var s5=6;if(star.indexOf(ssAB)>=0)s5+=7;else if(good[ssAB])s5+=4;if(starB.indexOf(ssBA)>=0)s5+=7;else if(good[ssBA])s5+=4;s5=Math.min(20,s5);
+  add('Spouse star (what you are to each other)',s5,20,'Your partner is <b>'+sn(ssAB)+'</b> to you, and you are <b>'+sn(ssBA)+'</b> to them. '+(star.indexOf(ssAB)>=0||starB.indexOf(ssBA)>=0?'This is the traditional spouse star ('+(A.sex===1?'Wealth for a man':'Officer for a woman')+'), read as a natural romantic or marriage bond.':'Not the spouse star, but '+ssRole(ssAB)+'.'));
+  var score=Math.round(total);
+  var tier=score>=85?'Match made in heaven':score>=72?'Great match':score>=60?'Good match with a little tuning':score>=48?'Takes effort':'You learn from each other';
+  var Cc=2*Math.PI*54,off=Cc*(1-score/100);
+  var h='<section class="card" style="border-top:5px solid var(--red)"><h2>Couple compatibility (gunghap)</h2><div class="ring"><div style="position:relative;width:140px;height:140px"><svg width="140" height="140" viewBox="0 0 150 150" style="transform:rotate(-90deg)" aria-hidden="true"><circle cx="75" cy="75" r="54" fill="none" stroke="#EEF2F8" stroke-width="14"/><circle cx="75" cy="75" r="54" fill="none" stroke="#C2362B" stroke-width="14" stroke-linecap="round" stroke-dasharray="'+Cc.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><div style="position:absolute;inset:0;display:grid;place-items:center;text-align:center"><div><b style="font-size:40px;line-height:1">'+score+'</b><div class="nt">/ 100</div></div></div></div>';
+  h+='<div style="min-width:0"><span class="tag on" style="font-size:15px">'+tier+'</span><p style="margin:8px 0 0"><b>You</b> '+gzH(a.d[0],a.d[1])+' '+gzR(a.d[0],a.d[1])+' ('+ELN[EL[ea]]+') ♥ <b>Partner</b> '+gzH(b.d[0],b.d[1])+' '+gzR(b.d[0],b.d[1])+' ('+ELN[EL[eb]]+')</p><p class="nt" style="margin-top:4px">Partner\'s pillars (hour · day · month · year): '+['y','m','d','t'].map(function(k){return b[k]?gzH(b[k][0],b[k][1]):'(hour unknown)'}).reverse().join(' ')+' · '+(B.lunarNote||('born '+B.y+'-'+pad(B.m)+'-'+pad(B.d)+', '+B.city.name))+'</p></div></div>';
+  h+='<h3>Score by factor</h3>';
+  items.forEach(function(it){h+='<div style="padding:10px 0;border-top:1px dashed var(--line)"><div style="display:flex;justify-content:space-between;gap:10px"><b>'+it[0]+'</b><b style="color:var(--red);white-space:nowrap">'+it[1]+' / '+it[2]+'</b></div><div class="ohrow" style="grid-template-columns:minmax(0,1fr);margin:4px 0"><div class="bar"><i style="width:'+(it[1]/it[2]*100)+'%;background:var(--red)"></i></div></div><div style="font-size:14.5px">'+it[3]+'</div>';
+    if(it[4])h+='<div class="scroll" style="margin-top:8px"><table><tr><th></th>'+EL.map(function(e){return '<th class="t-'+e+'">'+ELN[e]+'</th>'}).join('')+'</tr><tr><td>You</td>'+it[4][0].map(function(n){return '<td>'+n+'</td>'}).join('')+'</tr><tr><td>Partner</td>'+it[4][1].map(function(n){return '<td>'+n+'</td>'}).join('')+'</tr><tr><td><b>Total</b></td>'+it[4][0].map(function(n,i){return '<td><b>'+(n+it[4][1][i])+'</b></td>'}).join('')+'</tr></table></div>';
+    h+='</div>'});
+  var sa=strengthOf(a),sb=strengthOf(b);
+  h+='<h3>Everyday chemistry</h3><div class="two">'+
+   '<div class="box"><h3>Talking & conflict</h3>'+talkChem(ga,gb)+'</div>'+
+   '<div class="box"><h3>Money</h3>'+moneyChem(a,b)+'</div>'+
+   '<div class="box"><h3>Who leads</h3>'+(sa>sb+0.12?'<b>You</b> have the stronger chart, so you tend to lead while your partner supports.':sb>sa+0.12?'Your <b>partner</b> has the stronger chart, so they tend to lead while you fine-tune.':'Your strengths are similar — an equal partnership. Agree on who does what early on.')+'</div>'+
+   '<div class="box"><h3>Good to do together</h3>'+togetherTip(ca,cb)+'</div></div>';
+  var Y=new Date().getFullYear(),yg=((Y-4)%10+10)%10,yz=((Y-4)%12+12)%12;
+  h+='<h3>The two of you in '+Y+'</h3><p style="margin:0">'+Y+' ('+gzH(yg,yz)+' '+gzR(yg,yz)+') is a <b>'+sn(shishen(ga,yg))+'</b> year for you and a <b>'+sn(shishen(gb,yg))+'</b> year for your partner. '+(ZCH[key(yz,a.d[1])]||ZCH[key(yz,b.d[1])]?'One of your day branches clashes with this year, so changes such as moving house or jobs are likely. Make big decisions together.':(ZH6[key(yz,a.d[1])]||ZH6[key(yz,b.d[1])])?'This year combines with a spouse palace — a good year for the relationship to deepen.':'Few big variables for the relationship this year.')+'</p>';
+  h+='<p class="nt" style="margin-top:10px">Score = Day Masters 20 + spouse palace 20 + zodiac 15 + element balance 25 + spouse star 20. Traditional compatibility factors scored with this page\'s own rules, for fun.</p></section>';
+  return h;
+}
+function ssRole(s){return ({'비견':'you lean on each other as equals, like friends or colleagues','겁재':'you push each other on, like friendly rivals','식신':'you are relaxed and have fun together','상관':'you bring out each other\'s talents and self-expression','편재':'you trade active, practical help','정재':'you build stability and substance together','편관':'you sharpen each other under a little tension','정관':'you give each other standards and responsibility','편인':'you share ideas and inspiration','정인':'you care for and teach each other'})[s]}
+function strengthOf(P){var me=GE[P.d[0]],s=0,all=0;[[P.m[1],3,'z'],[P.d[1],1.5,'z'],[P.m[0],1,'g'],[P.y[0],.8,'g'],[P.y[1],.8,'z']].concat(P.t?[[P.t[0],1,'g'],[P.t[1],1,'z']]:[]).forEach(function(p){var e=p[2]==='g'?GE[p[0]]:ZE[p[0]];all+=p[1];if(e===me||e===(me+4)%5)s+=p[1]});return s/all}
+function talkChem(ga,gb){var ya=ga%2===0,yb=gb%2===0;return ya&&yb?'Both Day Masters are yang: frank and direct. You say it plainly and make up fast, but arguments can get loud.':!ya&&!yb?'Both Day Masters are yin: sensitive and inward. Agree to bring up hurt feelings before they pile up.':'One yang and one yin Day Master: one speaks bluntly, the other gently. The key is not to misread each other\'s tone.'}
+function moneyChem(a,b){function cnt(P,g){var n=0;['y','m','t'].forEach(function(k){if(P[k]){var s=shishen(g,P[k][0]);if(s==='편재'||s==='정재')n++}});['y','m','d','t'].forEach(function(k){if(P[k]){var s=ssZhi(g,P[k][1]);if(s==='편재'||s==='정재')n++}});return n}
+  var na=cnt(a,a.d[0]),nb=cnt(b,b.d[0]);return na>nb?'<b>You</b> have more Wealth stars and a sharper sense of money — you may be the one to handle the budget and investments.':nb>na?'Your <b>partner</b> has more Wealth stars and reads money flows well. Ask their view on big purchases.':'Your money sense is similar. Set shared goals in numbers (savings, travel fund) and it runs smoothly.'}
+function togetherTip(ca,cb){var t=ca.map(function(n,i){return n+cb[i]}),lo=0;for(var i=1;i<5;i++)if(t[i]<t[lo])lo=i;return 'Your weakest element as a couple is <b class="t-'+EL[lo]+'">'+ELN[EL[lo]]+'</b>. Try '+ELTIP[EL[lo]][2]+' together. For date-night colours, go with '+ELTIP[EL[lo]][0]+'.'}
+
+function elementStory(w){
+  var hi=0,lo=0;for(var i=1;i<5;i++){if(w[i]>w[hi])hi=i;if(w[i]<w[lo])lo=i}
+  var t={wood:'growth, planning and kindness',fire:'passion, expression and courtesy',earth:'trust, tolerance and mediation',metal:'decisiveness, principle and order',water:'wisdom, flexibility and insight'};
+  var s='<div class="two" style="margin-top:12px"><div class="box"><h3>Strongest: '+ELN[EL[hi]]+' ('+ELH[EL[hi]]+')</h3>The energy of '+t[EL[hi]]+' stands out. It shows up easily as a strength, but in excess it can look like '+({wood:'stubbornness or impatience',fire:'rashness or overheating',earth:'heaviness or worry',metal:'coldness or sharpness',water:'indecision or overthinking'})[EL[hi]]+'.</div>';
+  var tip=ELTIP[EL[lo]];
+  s+='<div class="box"><h3>Weakest: boosting '+ELN[EL[lo]]+' ('+ELH[EL[lo]]+')</h3><ul class="clean"><li>Colour: '+tip[0]+'</li><li>Direction: '+tip[1]+'</li><li>Habits: '+tip[2]+'</li><li>Flavour: '+tip[3]+'</li></ul><span class="nt">Traditional Five Element symbolism.</span></div></div>';
+  return s;
+}
+function groupText(g){return ({'비겁':'<b>Self</b> stars are most common: you have a strong sense of self and pride, and clear ideas about your people and your way. You do well in independent work and competitive settings.','식상':'<b>Output</b> stars are most common: you express yourself well through words, writing or hands, and turn ideas into finished work.','재성':'<b>Wealth</b> stars are most common: you are practical and read the flow of money well, valuing results and substance.','관성':'<b>Officer</b> stars are most common: you value responsibility and rules, and earn recognition inside organisations.','인성':'<b>Resource</b> stars are most common: you love learning and thinking, and tend to build your place through qualifications, documents and knowledge.'})[g]}
+function iljuText(p){
+  var s=shishen(p[0],HIDE[p[1]][HIDE[p[1]].length-1]),u=unseong(p[0],p[1]);
+  return 'Your day branch (the spouse palace) holds <b>'+sn(s)+'</b>. '+({'비견':'You want an equal, friend-like partnership.','겁재':'Tussles over who leads can happen, so sharing roles matters.','식신':'You build warm, easy relationships and love eating and having fun together.','상관':'You are open and expressive, and may expect a lot from a partner.','편재':'Traditionally linked with an active, sociable partner.','정재':'You tend to build a diligent, practical home.','편관':'A partner with a strong personality, and a relationship with some edge.','정관':'Traditionally linked with a principled, responsible partner.','편인':'You need time alone, even in a close relationship.','정인':'A relationship of mutual care and security.'})[s]+' Its life stage is <b>'+UNEN[u]+'</b> ('+UNDESC[u]+').';
+}
+function sinsal(P,dg,cols){
+  var out=[],zs=cols.filter(function(c){return c[2]}).map(function(c){return [c[0],c[2][1],c[2][0]]});
+  function find(targets){return zs.filter(function(z){return targets.indexOf(z[1])>=0}).map(function(z){return z[0]})}
+  var GW={0:[1,7],4:[1,7],6:[1,7],1:[0,8],5:[0,8],2:[11,9],3:[11,9],7:[2,6],8:[5,3],9:[5,3]};
+  var r=find(GW[dg]);if(r.length)out.push(['Heavenly Noble (Cheoneul Gwiin)',r,'The best of the auspicious stars: helpful people appear when you are in trouble.']);
+  var MC=[5,6,8,9,8,9,11,0,2,3];r=find([MC[dg]]);if(r.length)out.push(['Literary Star (Munchang)',r,'Bright, and strong at writing, study and exams.']);
+  function tri(z){return [8,0,4].indexOf(z)>=0?0:[2,6,10].indexOf(z)>=0?1:[5,9,1].indexOf(z)>=0?2:3}
+  var DH=[9,3,6,0],YM=[2,8,11,5],HG=[4,10,1,7];
+  [P.y[1],P.d[1]].forEach(function(base){var t=tri(base);
+    [['Peach Blossom (Dohwa)',DH[t],'Charm, popularity and artistic sense — a power to draw attention.'],['Traveling Horse (Yeokma)',YM[t],'Movement, change and ties abroad. A wide field of activity.'],['Canopy (Hwagae)',HG[t],'Deep ties to art, religion, scholarship and the inner world.']].forEach(function(x){
+      var f=find([x[1]]);if(f.length&&!out.some(function(o){return o[0]===x[0]}))out.push([x[0],f,x[2]])})});
+  var YI={0:3,2:6,4:6,6:9,8:0};if(YI[dg]!==undefined){r=find([YI[dg]]);if(r.length)out.push(['Yang Blade (Yangin)',r,'Strong drive and competitiveness — also a reminder not to overdo it or get hurt.'])}
+  var dk=P.d[0]*100+P.d[1];if([604,610,804,810,410].indexOf(dk)>=0)out.push(['Goegang',['Day'],'A forceful temperament and leadership; great success if you avoid extremes.']);
+  var BH=['0-4','1-7','2-10','3-1','4-4','8-10','9-1'];cols.forEach(function(c){if(c[2]&&BH.indexOf(c[2][0]+'-'+c[2][1])>=0)out.push(['White Tiger (Baekho)',[c[0]],'A symbol of strong energy — a signal to look after safety and health.'])});
+  if(!out.length)return '<p style="margin:0">No major special stars stand out in your chart — a calm, balanced structure.</p>';
+  return '<div class="scroll"><table><tr><th class="l">Star</th><th>Pillar</th><th class="l">Meaning</th></tr>'+out.map(function(o){return '<tr><td class="l"><b>'+o[0]+'</b></td><td>'+o[1].join(', ')+'</td><td class="l">'+o[2]+'</td></tr>'}).join('')+'</table></div><p class="nt" style="margin-top:8px">Peach Blossom, Traveling Horse and Canopy are read from the year and day branches; Noble and Blade stars from the Day Master. Special stars are secondary indicators, not verdicts.</p>';
+}
+function relations(P,cols){
+  var c=cols.filter(function(x){return x[2]}),out=[];
+  for(var i=0;i<c.length;i++)for(var j=i+1;j<c.length;j++){
+    var a=c[i],b=c[j],kg=key(a[2][0],b[2][0]),kz=key(a[2][1],b[2][1]),nm=a[0]+'–'+b[0];
+    if(GH[kg])out.push(['Stem combination',nm,GAN[a[2][0]]+GAN[b[2][0]]+' → '+ELN[GH[kg]],'attraction and cooperation']);
+    if(GC[kg])out.push(['Stem clash',nm,GAN[a[2][0]]+GAN[b[2][0]],'tension between ideas and goals']);
+    if(ZH6[kz])out.push(['Six harmony',nm,ZHI[a[2][1]]+ZHI[b[2][1]]+' → '+ELN[ZH6[kz]],'harmony, bonds, being tied together']);
+    if(ZCH[kz])out.push(['Clash',nm,ZHI[a[2][1]]+ZHI[b[2][1]],'change, movement, collision']);
+    if(ZPA[kz])out.push(['Break',nm,ZHI[a[2][1]]+ZHI[b[2][1]],'plans going awry and being rebuilt']);
+    if(ZHAE[kz])out.push(['Harm',nm,ZHI[a[2][1]]+ZHI[b[2][1]],'hurt feelings, misunderstandings']);
+    if(ZWJ[kz])out.push(['Resentment (wonjin)',nm,ZHI[a[2][1]]+ZHI[b[2][1]],'subtle love-hate, unease']);
+    if(kz==='0-3')out.push(['Punishment',nm,'子卯','friction over manners and relationships']);
+    if(a[2][1]===b[2][1]&&[4,6,9,11].indexOf(a[2][1])>=0)out.push(['Self-punishment',nm,ZHI[a[2][1]]+ZHI[b[2][1]],'a tendency to push yourself too hard']);
+  }
+  var zs=c.map(function(x){return x[2][1]});
+  SAM.forEach(function(s){var n=s[0].filter(function(z){return zs.indexOf(z)>=0}).length;if(n===3)out.push(['Three harmony','chart',s[0].map(function(z){return ZHI[z]}).join('')+' → '+ELN[s[1]],'a powerful merge into one element']);else if(n===2&&zs.indexOf(s[0][1])>=0)out.push(['Half harmony','chart',s[0].filter(function(z){return zs.indexOf(z)>=0}).map(function(z){return ZHI[z]}).join('')+' → '+ELN[s[1]],'a partial merge'])});
+  [[[2,5,8],'寅巳申'],[[1,10,7],'丑戌未']].forEach(function(s){if(s[0].filter(function(z){return zs.indexOf(z)>=0}).length===3)out.push(['Triple punishment','chart',s[1],'strong correction — legal matters, surgery; act with care'])});
+  if(!out.length)return '<p style="margin:0">No notable combinations or clashes inside your chart — the pillars sit together quite stably.</p>';
+  return '<div class="scroll"><table><tr><th class="l">Relation</th><th>Pillars</th><th>Characters</th><th class="l">Meaning</th></tr>'+out.map(function(o){return '<tr><td class="l"><b>'+o[0]+'</b></td><td>'+o[1]+'</td><td class="gz" style="font-size:15px">'+o[2]+'</td><td class="l">'+o[3]+'</td></tr>'}).join('')+'</table></div>';
+}
+function daeun(o,dg){
+  var yun=o.yun,list=yun.getDaYun(11).slice(1,11),now=new Date().getFullYear();
+  var h='<section class="card"><h2>10-year luck cycles (daeun)</h2><p style="margin:0 0 8px">Your cycles run <b>'+(yun.isForward()?'forward':'backward')+'</b>, and the first one begins at age <b>'+yun.getStartYear()+' years '+yun.getStartMonth()+' months</b> ('+yun.getStartSolar().toYmd()+').</p>';
+  h+='<div class="scroll"><table><tr><th>Age</th><th>Years</th><th>Cycle</th><th>Stem god</th><th>Branch god</th><th>Stage</th></tr>';
+  var cur=null;
+  list.forEach(function(d){var g=gi(d.getGanZhi().charAt(0)),z=zi(d.getGanZhi().charAt(1));var on=now>=d.getStartYear()&&now<=d.getEndYear();if(on)cur=[g,z,d];
+    h+='<tr'+(on?' class="now"':'')+'><td>'+(d.getStartYear()-o.y)+'–'+(d.getEndYear()-o.y)+'</td><td>'+d.getStartYear()+'–'+d.getEndYear()+'</td><td><span class="gz">'+gzH(g,z)+'</span><br><span class="nt">'+gzR(g,z)+'</span></td><td>'+sn(shishen(dg,g))+'</td><td>'+sn(ssZhi(dg,z))+'</td><td>'+UNEN[unseong(dg,z)]+'</td></tr>'});
+  h+='</table></div>';
+  if(cur)h+='<div class="box" style="margin-top:10px"><h3>Current cycle: '+gzH(cur[0],cur[1])+' '+gzR(cur[0],cur[1])+' ('+cur[2].getStartYear()+'–'+cur[2].getEndYear()+')</h3>A decade of <b>'+sn(shishen(dg,cur[0]))+'</b> in the stem and <b>'+sn(ssZhi(dg,cur[1]))+'</b> in the branch. '+YEARKW[shishen(dg,cur[0])].replace(/\byear\b/,'period')+'</div>';
+  h+='<p class="nt" style="margin-top:8px">Ages are in Western years after that year\'s birthday. The starting age comes from the number of days between birth and the nearest solar term (3 days = 1 year).</p></section>';
+  return h;
+}
+var JIE=[['立春','Ipchun (Start of Spring)'],['惊蛰','Gyeongchip (Insects Awaken)'],['清明','Cheongmyeong (Clear & Bright)'],['立夏','Ipha (Start of Summer)'],['芒种','Mangjong (Grain in Ear)'],['小暑','Soseo (Minor Heat)'],['立秋','Ipchu (Start of Autumn)'],['白露','Baengno (White Dew)'],['寒露','Hallo (Cold Dew)'],['立冬','Ipdong (Start of Winter)'],['大雪','Daeseol (Major Snow)']];
+function seun(o,dg){
+  var now=new Date().getFullYear(),h='<section class="card"><h2>Yearly luck (seun) — '+now+' and beyond</h2><div class="scroll"><table><tr><th>Year</th><th>Pillar</th><th>Stem</th><th>Branch</th><th class="l">Theme</th></tr>';
+  var dz=o.P.d[1],yz=o.P.y[1];
+  for(var y=now-1;y<=now+8;y++){var g=((y-4)%10+10)%10,z=((y-4)%12+12)%12;var s=shishen(dg,g);
+    var rel=[];if(ZCH[key(z,dz)])rel.push('clashes day branch');if(ZH6[key(z,dz)])rel.push('combines with day branch');if(ZCH[key(z,yz)])rel.push('clashes year branch');if(z===yz)rel.push('your zodiac year');
+    h+='<tr'+(y===now?' class="now"':'')+'><td>'+y+'</td><td><span class="gz">'+gzH(g,z)+'</span><br><span class="nt">'+gzR(g,z)+' · '+ANIMAL[z]+'</span></td><td>'+sn(s)+'</td><td>'+sn(ssZhi(dg,z))+'</td><td class="l" style="min-width:220px">'+YEARKW[s]+(rel.length?' <span class="tag">'+rel.join(', ')+'</span>':'')+'</td></tr>'}
+  h+='</table></div>';
+  var Y=now,tbl=Solar.fromYmd(Y,6,1).getLunar().getJieQiTable();
+  var yg=((Y-4)%10+10)%10,first=[2,4,6,8,0][yg%5];
+  h+='<h3>'+Y+' monthly luck (by solar term)</h3><div class="scroll"><table><tr><th class="l">Starts</th><th>Month</th><th>Stem</th><th>Branch</th></tr>';
+  JIE.forEach(function(j,i){var s=tbl[j[0]];var g=(first+i)%10,z=(2+i)%12;h+='<tr><td class="l">'+(s?s.getMonth()+'/'+s.getDay()+' ':'')+'<span class="nt">'+j[1]+'</span></td><td><span class="gz">'+gzH(g,z)+'</span><br><span class="nt">'+gzR(g,z)+'</span></td><td>'+sn(shishen(dg,g))+'</td><td>'+sn(ssZhi(dg,z))+'</td></tr>'});
+  h+='</table></div><p class="nt" style="margin-top:8px">Each month\'s energy changes on its solar-term day. From Daeseol in December until Sohan (Minor Cold) and Ipchun of the next year, the following month\'s energy continues. See the <a href="2027-korean-horoscope.html">2027 Korean horoscope</a> for scored monthly luck next year.</p></section>';
+  return h;
+}
+window.__saju={compute:compute,CL:CL,tzOffset:tzOffset,wallToUtc:wallToUtc};
+run(false);
+})();
+</script>
+</body>
+</html>
