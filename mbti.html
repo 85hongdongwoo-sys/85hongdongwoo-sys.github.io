@@ -540,8 +540,8 @@ function seasonEvents(today) {
     var C = 2 * Math.PI * 54, off = C * (1 - r.score / 100);
     var h = '<div class="card"><div class="hero"><div class="gauge" role="img" aria-label="궁합 점수 ' + r.score + '점">' +
       '<svg width="150" height="150" viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="54" fill="none" stroke-width="14"/><circle class="fg" cx="75" cy="75" r="54" fill="none" stroke-width="14" stroke-linecap="round" stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '"/></svg>' +
-      '<div class="num"><b>' + r.score + '</b><span>궁합 점수</span></div></div>' +
-      '<div><span class="tier">' + tier.emoji + ' ' + tier.name + '</span><p class="pair">' + na + ' ' + S.a + ' ♥ ' + nb + ' ' + S.b + '</p><p style="margin:0">' + tier.line + '</p></div></div></div>';
+      '<div class="num" data-share-result><b>' + r.score + '</b><span>궁합 점수</span></div></div>' +
+      '<div><span class="tier" data-share-result>' + tier.emoji + ' ' + tier.name + '</span><p class="pair" data-share-result>' + na + ' ' + S.a + ' ♥ ' + nb + ' ' + S.b + '</p><p style="margin:0">' + tier.line + '</p></div></div></div>';
 
     h += '<div class="card"><h2>4가지 항목별 케미</h2>';
     r.parts.forEach(function(p){
@@ -719,5 +719,6 @@ function seasonEvents(today) {
   renderDays();
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>

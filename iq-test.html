@@ -116,7 +116,7 @@ function finish(){
   var p=ws/wt,iq=Math.round(100+15*(p-0.58)/0.16);iq=Math.max(70,Math.min(145,iq));if(!st.limit)iq=Math.min(iq,130);
   var pct=ncdf((iq-100)/15)*100,used=Math.round((Date.now()-st.start)/60000);
   var desc=iq>=130?'매우 우수 (상위 2% 수준)':iq>=120?'우수':iq>=110?'평균 이상':iq>=90?'평균':iq>=80?'평균 이하':'낮음';
-  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">추정 IQ (재미용)</p><div class="big">'+iq+'</div><h2 style="margin:4px 0">'+desc+'</h2><p style="margin:0">120문항 중 <b>'+tot+'문항</b> 정답 · '+(pct>=50?'상위 약 '+Math.max(0.1,100-pct).toFixed(1):'하위 약 '+Math.max(0.1,pct).toFixed(1))+'% · '+(st.limit?used+'분 사용':'시간 무제한')+'</p></section>';
+  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">추정 IQ (재미용)</p><div class="big" data-share-result>'+iq+'</div><h2 style="margin:4px 0" data-share-result>'+desc+'</h2><p style="margin:0" data-share-result>120문항 중 <b>'+tot+'문항</b> 정답 · '+(pct>=50?'상위 약 '+Math.max(0.1,100-pct).toFixed(1):'하위 약 '+Math.max(0.1,pct).toFixed(1))+'% · '+(st.limit?used+'분 사용':'시간 무제한')+'</p></section>';
   h+='<section class="card"><h2>영역별 정답률</h2>'+Object.keys(area).map(function(k){var a=area[k],r=a[1]?a[0]/a[1]:0;return '<div class="area"><span>'+KN[k]+'</span><div class="b"><i style="width:'+(r*100)+'%"></i></div><b>'+a[0]+'/'+a[1]+'</b></div>'}).join('');
   var best=Object.keys(area).sort(function(x,y){return area[y][0]/area[y][1]-area[x][0]/area[x][1]})[0];
   h+='<p style="margin:10px 0 0">가장 강한 영역은 <b>'+KN[best]+'</b>이에요. '+({mat:'눈에 보이는 패턴에서 규칙을 찾아내는 시각적 추론이 뛰어나요.',seq:'숫자 속 규칙을 빠르게 찾는 수리적 감각이 좋아요.',verbal:'개념 사이의 관계를 정확히 파악하는 언어 능력이 좋아요.',logic:'조건을 정리해 답을 끌어내는 논리적 문제 해결력이 좋아요.'})[best]+'</p></section>';
@@ -135,5 +135,6 @@ if(st.start&&!st.done){$('start').textContent='이어서 풀기';}
 if(st.done&&st.start){finish()}
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>

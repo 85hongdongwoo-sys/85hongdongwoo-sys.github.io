@@ -312,8 +312,8 @@ function render(o,B){
   row('납음',function(p){return NAYIN[Math.floor(jiazi(p[0],p[1])/2)]});
   h+='</div>';
   var lu=o.lunar;
-  h+='<div class="summary"><div><span>일간 (나를 뜻하는 글자)</span><b class="t-'+EL[GE[dg]]+'">'+GAN[dg]+' '+GK[dg]+(['목','목','화','화','토','토','금','금','수','수'][dg])+' · '+DAYMASTER[dg][0]+'</b></div>'+
-    '<div><span>띠 (입춘 기준)</span><b>'+GK[P.y[0]]+ZK[P.y[1]]+'년 '+ANIMAL[P.y[1]]+'띠</b></div>'+
+  h+='<div class="summary"><div data-share-result><span>일간 (나를 뜻하는 글자)</span><b class="t-'+EL[GE[dg]]+'">'+GAN[dg]+' '+GK[dg]+(['목','목','화','화','토','토','금','금','수','수'][dg])+' · '+DAYMASTER[dg][0]+'</b></div>'+
+    '<div data-share-result><span>띠 (입춘 기준)</span><b>'+GK[P.y[0]]+ZK[P.y[1]]+'년 '+ANIMAL[P.y[1]]+'띠</b></div>'+
     '<div><span>양력 / 음력</span><b>'+o.y+'.'+o.m+'.'+o.d+'</b><br><span>음력 '+lu.getYear()+'.'+(lu.getMonth()<0?'윤'+(-lu.getMonth()):lu.getMonth())+'.'+lu.getDay()+'</span></div>'+
     '<div><span>계산에 쓴 시각</span><b>'+(o.noTime?'시간 모름':pad(o.lmt.getUTCHours())+':'+pad(o.lmt.getUTCMinutes()))+'</b><br><span>'+(o.noTime?'시주 제외':'입력 '+pad(o.hm[0])+':'+pad(o.hm[1])+' → '+(o.adj>=0?'+':'')+o.adj+'분 보정'+(o.off!==540?' (서머타임·옛 표준시 포함)':''))+'</span></div></div>';
   if(o.lunarNote)h+='<p class="note" style="margin:10px 0 0">'+o.lunarNote+'</p>';
@@ -528,5 +528,6 @@ function seun(o,dg){
 run();
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>

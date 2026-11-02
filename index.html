@@ -473,7 +473,7 @@ h1{color:#2F343B}
       <p class="kicker">매도 정산서</p>
       <h2 id="s-title">코스피 매도</h2>
       <ul class="lines" id="s-lines"></ul>
-      <div class="total"><span>세후 순이익</span><strong id="s-total">0원</strong></div>
+      <div class="total" data-share-result><span>세후 순이익</span><strong id="s-total">0원</strong></div>
       <p class="note" id="s-note"></p>
     </div>
   </div>
@@ -532,7 +532,7 @@ h1{color:#2F343B}
       <p class="kicker">해외투자 정산서</p>
       <h2 id="e-title">미국주식 직접투자</h2>
       <ul class="lines" id="e-lines"></ul>
-      <div class="total"><span>세후 순이익 (원)</span><strong id="e-total">0원</strong></div>
+      <div class="total" data-share-result><span>세후 순이익 (원)</span><strong id="e-total">0원</strong></div>
       <p class="note" id="e-note"></p>
       <ul class="lines" id="e-cmp"></ul>
       <p class="note">비교는 위에서 나온 매매차익(원화)이 똑같다고 가정한 세금만 따진 거예요. ISA는 계좌 전체 손익 기준이고, 연금저축은 55세 이후 연금으로 받을 때 나이에 따라 3.3~5.5%를 내요.</p>
@@ -569,7 +569,7 @@ h1{color:#2F343B}
       <p class="kicker">배당 명세서</p>
       <h2>1년 배당 <span class="pill" id="d-yield">0%</span></h2>
       <ul class="lines" id="d-lines"></ul>
-      <div class="total"><span>1년 세후 배당</span><strong id="d-total">0원</strong></div>
+      <div class="total" data-share-result><span>1년 세후 배당</span><strong id="d-total">0원</strong></div>
       <p class="note" id="d-goal-out"></p>
     </div>
   </div>
@@ -602,7 +602,7 @@ h1{color:#2F343B}
       <p class="kicker">만기 수령 예상</p>
       <h2 id="i-title">적금 12개월</h2>
       <ul class="lines" id="i-lines"></ul>
-      <div class="total"><span>만기 세후 수령액</span><strong id="i-total">0원</strong></div>
+      <div class="total" data-share-result><span>만기 세후 수령액</span><strong id="i-total">0원</strong></div>
     </div>
   </div>
 </section>
@@ -627,7 +627,7 @@ h1{color:#2F343B}
       <p class="kicker">적립 시뮬레이션 · 가정</p>
       <h2 id="g-title">10년 뒤</h2>
       <ul class="lines" id="g-lines"></ul>
-      <div class="total"><span>예상 평가액</span><strong id="g-total">0원</strong></div>
+      <div class="total" data-share-result><span>예상 평가액</span><strong id="g-total">0원</strong></div>
       <div class="chart" id="g-chart"></div>
       <div class="legend"><span><i style="background:var(--line)"></i>넣은 돈</span><span><i style="background:var(--accent)"></i>불어난 돈</span></div>
     </div>
@@ -655,7 +655,7 @@ h1{color:#2F343B}
       <p class="kicker">평균 단가 계산</p>
       <h2>추가 매수 후</h2>
       <ul class="lines" id="a-lines"></ul>
-      <div class="total"><span>새 평단</span><strong id="a-total">0원</strong></div>
+      <div class="total" data-share-result><span>새 평단</span><strong id="a-total">0원</strong></div>
       <p class="note" id="a-target-out"></p>
     </div>
   </div>
@@ -679,7 +679,7 @@ h1{color:#2F343B}
       <h2>올해 합계 <span class="pill" id="f-pill">여유</span></h2>
       <ul class="lines" id="f-lines"></ul>
       <div class="meter" id="f-meter"><i></i></div>
-      <div class="total"><span>2,000만 원까지 남은 금액</span><strong id="f-total">0원</strong></div>
+      <div class="total" data-share-result><span>2,000만 원까지 남은 금액</span><strong id="f-total">0원</strong></div>
       <p class="note">종합과세 대상이 되면 세율이 소득 구간에 따라 달라지고 건강보험료에도 영향을 줄 수 있어요. 정확한 세액은 세무사나 국세청(126)에 확인해주세요.</p>
     </div>
   </div>
@@ -746,7 +746,7 @@ h1{color:#2F343B}
       <p class="kicker">매수 비용 명세서</p>
       <h2>부대비용 <span class="pill" id="b-pill">0%</span></h2>
       <ul class="lines" id="b-lines"></ul>
-      <div class="total"><span>내 돈으로 필요한 현금</span><strong id="b-total">0원</strong></div>
+      <div class="total" data-share-result><span>내 돈으로 필요한 현금</span><strong id="b-total">0원</strong></div>
       <ul class="lines" id="b-sum"></ul>
       <p class="note" id="b-note"></p>
     </div>
@@ -839,7 +839,7 @@ h1{color:#2F343B}
       <h2>낙찰 → 매도 <span class="pill" id="u-pill">0%</span></h2>
       <ul class="lines" id="u-dep-lines"></ul>
       <ul class="lines" id="u-lines"></ul>
-      <div class="total"><span>세후 순수익</span><strong id="u-total">0원</strong></div>
+      <div class="total" data-share-result><span>세후 순수익</span><strong id="u-total">0원</strong></div>
       <ul class="lines" id="u-sum"></ul>
       <ul class="lines" id="u-rev"></ul>
       <p class="note" id="u-note"></p>
@@ -893,7 +893,7 @@ h1{color:#2F343B}
       <p class="kicker">대출 한도 심사표 · 은행권</p>
       <h2>막히는 규제 <span class="pill" id="ds-pill">-</span></h2>
       <ul class="lines" id="ds-lines"></ul>
-      <div class="total"><span>예상 대출 한도</span><strong id="ds-total">0원</strong></div>
+      <div class="total" data-share-result><span>예상 대출 한도</span><strong id="ds-total">0원</strong></div>
       <ul class="lines" id="ds-sum"></ul>
       <p class="note" id="ds-note"></p>
     </div>
@@ -924,7 +924,7 @@ h1{color:#2F343B}
       <p class="kicker">매수 계획서</p>
       <h2>손익비 <span class="pill" id="rk-pill">0</span></h2>
       <ul class="lines" id="rk-lines"></ul>
-      <div class="total"><span>살 수량</span><strong id="rk-total">0주</strong></div>
+      <div class="total" data-share-result><span>살 수량</span><strong id="rk-total">0주</strong></div>
       <p class="note" id="rk-note"></p>
     </div>
   </div>
@@ -950,7 +950,7 @@ h1{color:#2F343B}
       <p class="kicker">금 투자 방법 비교</p>
       <h2 id="gd-title">가장 많이 남는 방법</h2>
       <ul class="lines" id="gd-lines"></ul>
-      <div class="total"><span id="gd-best-name">-</span><strong id="gd-total">0원</strong></div>
+      <div class="total" data-share-result><span id="gd-best-name">-</span><strong id="gd-total">0원</strong></div>
       <p class="note">KRX 금시장에서 산 금을 골드바로 찾으면 그때 부가세 10%를 내요. 국내 금 ETF와 금통장 차익은 금융소득에 들어가서 2,000만 원을 넘으면 종합과세돼요.</p>
     </div>
   </div>
@@ -981,7 +981,7 @@ h1{color:#2F343B}
       <p class="kicker">세액공제 예상</p>
       <h2>공제율 <span class="pill" id="pn-pill">16.5%</span></h2>
       <ul class="lines" id="pn-lines"></ul>
-      <div class="total"><span>돌려받는 세금</span><strong id="pn-total">0원</strong></div>
+      <div class="total" data-share-result><span>돌려받는 세금</span><strong id="pn-total">0원</strong></div>
       <p class="note" id="pn-note"></p>
     </div>
   </div>
@@ -1017,7 +1017,7 @@ h1{color:#2F343B}
       <h2 id="fr-title">55세 은퇴</h2>
       <ul class="lines" id="fr-lines"></ul>
       <div class="meter" id="fr-meter"><i></i></div>
-      <div class="total"><span id="fr-total-label">모자라는 금액</span><strong id="fr-total">0원</strong></div>
+      <div class="total" data-share-result><span id="fr-total-label">모자라는 금액</span><strong id="fr-total">0원</strong></div>
       <p class="note" id="fr-note"></p>
     </div>
   </div>
@@ -1048,7 +1048,7 @@ h1{color:#2F343B}
       <h2>결과 <span class="pill" id="nh-pill">유지</span></h2>
       <ul class="lines" id="nh-lines"></ul>
       <div class="meter" id="nh-meter"><i></i></div>
-      <div class="total"><span id="nh-total-label">소득 기준까지 남은 금액</span><strong id="nh-total">0원</strong></div>
+      <div class="total" data-share-result><span id="nh-total-label">소득 기준까지 남은 금액</span><strong id="nh-total">0원</strong></div>
       <p class="note" id="nh-note"></p>
     </div>
   </div>
@@ -1094,7 +1094,7 @@ h1{color:#2F343B}
       <h2>84점 만점 <span class="pill" id="sc-pill">0점</span></h2>
       <ul class="lines" id="sc-lines"></ul>
       <div class="meter" id="sc-meter"><i></i></div>
-      <div class="total"><span>내 가점</span><strong id="sc-total">0점</strong></div>
+      <div class="total" data-share-result><span>내 가점</span><strong id="sc-total">0점</strong></div>
       <p class="note" id="sc-note"></p>
     </div>
   </div>
@@ -1132,7 +1132,7 @@ h1{color:#2F343B}
       <h2>위험도 <span class="pill" id="sf-pill">안전</span></h2>
       <ul class="lines" id="sf-lines"></ul>
       <div class="meter" id="sf-meter"><i></i></div>
-      <div class="total"><span id="sf-total-label">경매 시 돌려받는 보증금</span><strong id="sf-total">0원</strong></div>
+      <div class="total" data-share-result><span id="sf-total-label">경매 시 돌려받는 보증금</span><strong id="sf-total">0원</strong></div>
       <p class="note" id="sf-note"></p>
     </div>
   </div>
@@ -1183,7 +1183,7 @@ h1{color:#2F343B}
       <p class="kicker">월 주거비 비교</p>
       <h2>가장 싼 선택 <span class="pill" id="rt-pill">-</span></h2>
       <ul class="lines" id="rt-lines"></ul>
-      <div class="total"><span id="rt-best">-</span><strong id="rt-total">0원</strong></div>
+      <div class="total" data-share-result><span id="rt-best">-</span><strong id="rt-total">0원</strong></div>
       <p class="note" id="rt-note"></p>
     </div>
   </div>
@@ -1217,7 +1217,7 @@ h1{color:#2F343B}
       <p class="kicker">대출 비교표</p>
       <h2>갈아타기 <span class="pill" id="rf-pill">-</span></h2>
       <ul class="lines" id="rf-lines"></ul>
-      <div class="total"><span>만기까지 아끼는 돈</span><strong id="rf-total">0원</strong></div>
+      <div class="total" data-share-result><span>만기까지 아끼는 돈</span><strong id="rf-total">0원</strong></div>
       <ul class="lines" id="rf-pre-lines"></ul>
       <p class="note" id="rf-note"></p>
     </div>
@@ -1249,7 +1249,7 @@ h1{color:#2F343B}
       <p class="kicker">보유세 고지서 미리보기 · 추정</p>
       <h2>공시가격 합계 <span class="pill" id="pt-pill">0</span></h2>
       <ul class="lines" id="pt-lines"></ul>
-      <div class="total"><span>1년 보유세 합계</span><strong id="pt-total">0원</strong></div>
+      <div class="total" data-share-result><span>1년 보유세 합계</span><strong id="pt-total">0원</strong></div>
       <p class="note" id="pt-note"></p>
     </div>
   </div>
@@ -1279,7 +1279,7 @@ h1{color:#2F343B}
       <p class="kicker">배당표 · 추정</p>
       <h2>말소기준 <span class="pill" id="dt-pill">-</span></h2>
       <ul class="lines" id="dt-lines"></ul>
-      <div class="total"><span id="dt-total-label">낙찰자 인수 금액</span><strong id="dt-total">0원</strong></div>
+      <div class="total" data-share-result><span id="dt-total-label">낙찰자 인수 금액</span><strong id="dt-total">0원</strong></div>
       <p class="note" id="dt-note"></p>
     </div>
   </div>
@@ -1330,7 +1330,7 @@ h1{color:#2F343B}
       <p class="kicker">연말정산 미리보기 · 추정</p>
       <h2 id="ye-title">환급 예상</h2>
       <ul class="lines" id="ye-lines"></ul>
-      <div class="total"><span id="ye-total-label">돌려받는 돈 (지방세 포함)</span><strong id="ye-total">0원</strong></div>
+      <div class="total" data-share-result><span id="ye-total-label">돌려받는 돈 (지방세 포함)</span><strong id="ye-total">0원</strong></div>
       <p class="note" id="ye-note"></p>
     </div>
   </div>
@@ -1358,7 +1358,7 @@ h1{color:#2F343B}
       <p class="kicker">증여세 계산서</p>
       <h2>세율 구간 <span class="pill" id="gf-pill">0%</span></h2>
       <ul class="lines" id="gf-lines"></ul>
-      <div class="total"><span>내야 할 증여세</span><strong id="gf-total">0원</strong></div>
+      <div class="total" data-share-result><span>내야 할 증여세</span><strong id="gf-total">0원</strong></div>
       <p class="note" id="gf-note"></p>
     </div>
   </div>
@@ -1392,7 +1392,7 @@ h1{color:#2F343B}
       <p class="kicker">임대 수익표</p>
       <h2>표면 수익률 <span class="pill" id="yd-pill">0%</span></h2>
       <ul class="lines" id="yd-lines"></ul>
-      <div class="total"><span>내 돈 대비 실제 수익률</span><strong id="yd-total">0%</strong></div>
+      <div class="total" data-share-result><span>내 돈 대비 실제 수익률</span><strong id="yd-total">0%</strong></div>
       <p class="note" id="yd-note"></p>
     </div>
   </div>
@@ -1420,7 +1420,7 @@ h1{color:#2F343B}
       <p class="kicker">수령 방법 비교</p>
       <h2 id="np-title">정상 65세</h2>
       <ul class="lines" id="np-lines"></ul>
-      <div class="total"><span id="np-total-label">연기수령 손익분기 나이</span><strong id="np-total">-</strong></div>
+      <div class="total" data-share-result><span id="np-total-label">연기수령 손익분기 나이</span><strong id="np-total">-</strong></div>
       <p class="note" id="np-note"></p>
     </div>
   </div>
@@ -1442,7 +1442,7 @@ h1{color:#2F343B}
       <p class="kicker">퇴직소득세 계산</p>
       <h2>실효세율 <span class="pill" id="sv-pill">0%</span></h2>
       <ul class="lines" id="sv-lines"></ul>
-      <div class="total"><span>일시금으로 받을 때 세금</span><strong id="sv-total">0원</strong></div>
+      <div class="total" data-share-result><span>일시금으로 받을 때 세금</span><strong id="sv-total">0원</strong></div>
       <p class="note" id="sv-note"></p>
     </div>
   </div>
@@ -1472,7 +1472,7 @@ h1{color:#2F343B}
       <p class="kicker">공모주 청약 계산</p>
       <h2>받는 주식 <span class="pill" id="ip-pill">0주</span></h2>
       <ul class="lines" id="ip-lines"></ul>
-      <div class="total"><span>첫날 팔면 수익</span><strong id="ip-total">0원</strong></div>
+      <div class="total" data-share-result><span>첫날 팔면 수익</span><strong id="ip-total">0원</strong></div>
       <p class="note" id="ip-note"></p>
     </div>
   </div>
@@ -1499,7 +1499,7 @@ h1{color:#2F343B}
       <p class="kicker">장려금 예상</p>
       <h2>자격 <span class="pill" id="ei-pill">-</span></h2>
       <ul class="lines" id="ei-lines"></ul>
-      <div class="total"><span>예상 지급액 합계</span><strong id="ei-total">0원</strong></div>
+      <div class="total" data-share-result><span>예상 지급액 합계</span><strong id="ei-total">0원</strong></div>
       <p class="note" id="ei-note"></p>
     </div>
   </div>
@@ -2540,5 +2540,6 @@ count(sl[0].querySelector('.num'));restart();
 F.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){try{gtag('event','flash_click',{link_url:a.getAttribute('href')})}catch(e){}})});
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>

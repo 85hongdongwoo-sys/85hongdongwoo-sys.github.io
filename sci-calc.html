@@ -216,8 +216,8 @@ footer.site div+div{margin-top:4px}
 <section class="card" role="tabpanel" id="p-calc" aria-labelledby="t-calc">
   <div class="scr">
     <div class="ind"><div class="seg ang" role="radiogroup" aria-label="각도 단위"><label><input type="radio" name="ang" value="deg" checked><span>DEG</span></label><label><input type="radio" name="ang" value="rad"><span>RAD</span></label></div><span id="memInd" class="mem" hidden></span><span id="ansInd" class="ansv"></span></div>
-    <input id="ex" class="ex" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="계산식" placeholder="식을 입력하세요 (예: 2sin(30)+3^2)">
-    <div class="res" id="res" aria-live="polite">&nbsp;</div>
+    <input id="ex" class="ex" data-share-result autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="계산식" placeholder="식을 입력하세요 (예: 2sin(30)+3^2)">
+    <div class="res" id="res" aria-live="polite" data-share-result>&nbsp;</div>
   </div>
   <div class="pads">
     <div class="kp fn" id="kpF"></div>
@@ -576,5 +576,6 @@ var h=(location.hash||'').slice(1);if(h==='base'||h==='stat')show(h);else tabs.f
 window.__sci.show=show;
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>

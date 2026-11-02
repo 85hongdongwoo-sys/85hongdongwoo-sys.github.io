@@ -154,8 +154,8 @@ mark.dup{background:#FFF0C2;color:#5A4300;border-radius:3px;padding:0 1px}
 
 <section class="card" id="editor">
   <div class="livebar" aria-live="polite">
-    <div class="main"><span>공백 포함</span><b id="lAll">0</b></div>
-    <div class="main"><span>공백 제외</span><b id="lNo">0</b></div>
+    <div class="main" data-share-result><span>공백 포함</span><b id="lAll">0</b></div>
+    <div class="main" data-share-result><span>공백 제외</span><b id="lNo">0</b></div>
     <div><span>바이트 (2바이트 기준)</span><b id="lKr">0</b></div>
     <div><span>단어</span><b id="lW">0</b></div>
   </div>
@@ -334,5 +334,6 @@ render();
 window.__cc={count:function(s){return count(s)},get:function(){return C}};
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>
