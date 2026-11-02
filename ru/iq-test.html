@@ -132,7 +132,7 @@ function finish(){
   var p=ws/wt,iq=Math.round(100+15*(p-0.58)/0.16);iq=Math.max(70,Math.min(145,iq));if(!st.limit)iq=Math.min(iq,130);
   var pct=ncdf((iq-100)/15)*100,used=Math.round((Date.now()-st.start)/60000);
   var desc=iq>=130?'Очень высокий (примерно 2 % лучших)':iq>=120?'Высокий':iq>=110?'Выше среднего':iq>=90?'Средний':iq>=80?'Ниже среднего':'Низкий';
-  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">Оценка IQ (для развлечения)</p><div class="big">'+iq+'</div><h2 style="margin:4px 0">'+desc+'</h2><p style="margin:0">Верно: <b>'+tot+' из 120</b> · '+(pct>=50?'в числе ~'+Math.max(0.1,100-pct).toFixed(1).replace('.',',')+' % лучших':'в числе ~'+Math.max(0.1,pct).toFixed(1).replace('.',',')+' % с самым низким результатом')+' · '+(st.limit?'затрачено '+used+' мин':'без ограничения времени')+'</p></section>';
+  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">Оценка IQ (для развлечения)</p><div class="big" data-share-result>'+iq+'</div><h2 style="margin:4px 0" data-share-result>'+desc+'</h2><p style="margin:0" data-share-result>Верно: <b>'+tot+' из 120</b> · '+(pct>=50?'в числе ~'+Math.max(0.1,100-pct).toFixed(1).replace('.',',')+' % лучших':'в числе ~'+Math.max(0.1,pct).toFixed(1).replace('.',',')+' % с самым низким результатом')+' · '+(st.limit?'затрачено '+used+' мин':'без ограничения времени')+'</p></section>';
   h+='<section class="card"><h2>Результаты по разделам</h2>'+Object.keys(area).map(function(k){var a=area[k],r=a[1]?a[0]/a[1]:0;return '<div class="area"><span>'+KN[k]+'</span><div class="b"><i style="width:'+(r*100)+'%"></i></div><b>'+a[0]+'/'+a[1]+'</b></div>'}).join('');
   var best=Object.keys(area).sort(function(x,y){return area[y][0]/area[y][1]-area[x][0]/area[x][1]})[0];
   h+='<p style="margin:10px 0 0">Ваш самый сильный раздел: <b>'+KN[best]+'</b>. '+({mat:'Вы хорошо мыслите образами и замечаете правила, скрытые в узорах.',seq:'У вас острое чувство чисел: вы быстро находите закономерность в ряду.',verbal:'Вы точно улавливаете, как понятия связаны друг с другом.',logic:'Вы умеете упорядочить условия и шаг за шагом прийти к ответу.'})[best]+'</p></section>';
@@ -151,5 +151,6 @@ if(st.start&&!st.done){$('start').textContent='Продолжить тест';}
 if(st.done&&st.start){finish()}
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>
