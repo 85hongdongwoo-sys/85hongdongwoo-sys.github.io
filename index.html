@@ -255,17 +255,56 @@ nav.tabs{background:#0F2A52;border-bottom-color:rgba(255,255,255,.14)}
 .subtabs a.sublink:hover{border-color:#E8C27A;color:#fff}
 .subtabs a.sublink::after{content:" ›";color:#E8C27A}
 .groups{overflow-x:auto;scrollbar-width:none}.groups::-webkit-scrollbar{display:none}
+
+/* ===== 메인 플래시 배너 ===== */
+.flash{position:relative;margin:18px 0 6px;border-radius:18px;overflow:hidden;min-height:250px;background:#0B1F3F;border:1px solid rgba(255,255,255,.12);isolation:isolate}
+.flash .aur{position:absolute;inset:-40%;z-index:-1;background:radial-gradient(40% 50% at 20% 30%,rgba(232,194,122,.35),transparent 60%),radial-gradient(35% 45% at 80% 20%,rgba(79,143,217,.45),transparent 60%),radial-gradient(45% 55% at 60% 90%,rgba(194,54,43,.30),transparent 60%);filter:blur(10px);animation:aur 18s ease-in-out infinite alternate}
+@keyframes aur{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(4%,-3%) rotate(8deg)}100%{transform:translate(-3%,4%) rotate(-6deg)}}
+.flash .grid{position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px;mask-image:radial-gradient(ellipse at 70% 50%,#000 20%,transparent 75%)}
+.fs{position:absolute;inset:0;display:grid;grid-template-columns:1.25fr 1fr;align-items:center;gap:20px;padding:28px 34px 54px;opacity:0;visibility:hidden;transition:opacity .7s ease,visibility .7s}
+.fs.on{opacity:1;visibility:visible;position:relative}
+.fs .k{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;font-weight:700;letter-spacing:.04em;color:#E8C27A;background:rgba(232,194,122,.12);border:1px solid rgba(232,194,122,.35);padding:4px 10px;border-radius:99px}
+.fs h2{margin:12px 0 8px;font-size:clamp(23px,3.4vw,34px);line-height:1.25;letter-spacing:-.02em;color:#fff;font-weight:800}
+.fs h2 em{font-style:normal;background:linear-gradient(90deg,#F5D99A,#E8C27A 40%,#fff 60%,#E8C27A);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:shine 4s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.fs p{margin:0 0 16px;color:#C9D5EE;font-size:15px;line-height:1.6;max-width:520px}
+.fs .cta{display:inline-flex;align-items:center;gap:8px;background:#E8C27A;color:#0B1F3F;font-weight:800;text-decoration:none;padding:11px 18px;border-radius:12px;box-shadow:0 8px 24px rgba(232,194,122,.25);transition:transform .2s}
+.fs .cta:hover{transform:translateY(-2px)}
+.fs .cta2{margin-left:8px;color:#DCE4F2;text-decoration:none;font-weight:600;font-size:14px;border-bottom:1px solid rgba(255,255,255,.3)}
+.fs .vis{position:relative;height:200px;display:grid;place-items:center}
+.fs .orb{position:absolute;width:190px;height:190px;border-radius:50%;background:conic-gradient(from 0deg,rgba(232,194,122,.0),rgba(232,194,122,.55),rgba(79,143,217,.5),rgba(232,194,122,0));filter:blur(.5px);animation:spin 9s linear infinite;mask:radial-gradient(circle,transparent 58%,#000 60%)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fs .glass{position:relative;width:min(250px,100%);padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 20px 40px rgba(0,0,0,.25);animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+.fs .glass .ic{font-size:30px;line-height:1}
+.fs .glass .lb{display:block;margin-top:8px;color:#9FB0CC;font-size:12.5px}
+.fs .glass .num{display:block;font-size:30px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.fs .glass .mini{display:flex;gap:4px;margin-top:10px;height:34px;align-items:flex-end}
+.fs .glass .mini i{flex:1;border-radius:3px 3px 0 0;background:linear-gradient(#E8C27A,rgba(232,194,122,.3));transform-origin:bottom;animation:bar 1.4s ease both}
+@keyframes bar{from{transform:scaleY(0)}}
+.fnav{position:absolute;left:34px;bottom:16px;display:flex;gap:8px;align-items:center;z-index:2}
+.fnav button.d{width:8px;height:8px;border-radius:99px;border:0;background:rgba(255,255,255,.35);padding:0;cursor:pointer;transition:width .3s,background .3s}
+.fnav button.d[aria-current=true]{width:26px;background:#E8C27A}
+.farr{position:absolute;right:16px;bottom:12px;display:flex;gap:6px;z-index:2}
+.farr button{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;font-size:15px}
+.farr button:hover{background:rgba(255,255,255,.15)}
+.fprog{position:absolute;left:0;top:0;height:3px;background:#E8C27A;width:0;z-index:2}
+.fprog.run{animation:prog 6s linear forwards}
+@keyframes prog{to{width:100%}}
+@media(max-width:700px){.fs{grid-template-columns:1fr;padding:24px 20px 56px}.fs .vis{display:none}.flash{min-height:270px}.fnav{left:20px}}
+@media (prefers-reduced-motion:reduce){.flash .aur,.fs .orb,.fs .glass,.fs h2 em{animation:none}.fs{transition:none}}
 </style>
 <div class="brandbar"><div class="in"><a class="logo" href="./"><i>₩</i>홍라이프 계산기</a><span class="meta">2026년 세법 기준 · 무료</span></div></div>
 <div class="wrap">
 <header class="top">
   <div>
     <h1>홍라이프 <b>계산기</b></h1>
-    <p class="sub">주식·ETF 세금, 연금·청약·대출부터 공무원·자동차·건강, 여행경비·시험달력까지 계산기와 도구 40가지 이상</p>
+    <p class="sub">주식·ETF 세금, 연금·청약·대출부터 공무원·자동차·건강, 여행경비·시험달력까지 계산기와 도구 60가지 이상</p>
   </div>
   <span class="stamp" id="cfg-stamp">2026년 세법 기준 · 10/25 확인</span>
 </header>
 
+<section class="flash" id="flash" aria-roledescription="carousel" aria-label="새로 나온 계산기"><div class="aur"></div><div class="grid"></div><div class="fprog" id="fprog"></div><div class="fs on" role="group" aria-roledescription="slide" aria-label="1 / 6"><div><span class="k">🧾 NEW · 세금</span><h2>2026년 세법 그대로,<br><em>세금 계산기 모음</em></h2><p>부가세·종합소득세·양도세·상속세·법인세까지. 1%p 오른 2026년 법인세율과 다주택 중과도 반영했어요.</p><a class="cta" href="tax/">세금 계산하기 →</a><a class="cta2" href="tax/vat.html">부가세부터 보기</a></div><div class="vis" aria-hidden="true"><div class="orb"></div><div class="glass"><span class="ic">🧾</span><span class="lb">계산기</span><span class="num" data-n="12종">12종</span><div class="mini"><i style="height:40%;animation-delay:0.00s"></i><i style="height:65%;animation-delay:0.08s"></i><i style="height:52%;animation-delay:0.16s"></i><i style="height:80%;animation-delay:0.24s"></i><i style="height:70%;animation-delay:0.32s"></i><i style="height:95%;animation-delay:0.40s"></i></div></div></div></div><div class="fs" role="group" aria-roledescription="slide" aria-label="2 / 6"><div><span class="k">🔮 운세·성격</span><h2>태어난 시각까지 보는<br><em>사주팔자 · MBTI 궁합</em></h2><p>절기·진태양시까지 반영한 만세력 원국, 대운·세운, 두 사람의 사주 궁합 100점과 MBTI 세부 케미 8가지.</p><a class="cta" href="saju.html">내 사주 보기 →</a><a class="cta2" href="mbti.html">MBTI 궁합</a></div><div class="vis" aria-hidden="true"><div class="orb"></div><div class="glass"><span class="ic">💞</span><span class="lb">궁합 점수</span><span class="num" data-n="95점">95점</span><div class="mini"><i style="height:60%;animation-delay:0.00s"></i><i style="height:72%;animation-delay:0.08s"></i><i style="height:68%;animation-delay:0.16s"></i><i style="height:88%;animation-delay:0.24s"></i><i style="height:80%;animation-delay:0.32s"></i><i style="height:95%;animation-delay:0.40s"></i></div></div></div></div><div class="fs" role="group" aria-roledescription="slide" aria-label="3 / 6"><div><span class="k">🧠 120문항 테스트</span><h2>나는 몇 점일까?<br><em>IQ 테스트 · 성격유형 검사</em></h2><p>도형 행렬·수열·언어·논리 120문항 IQ 테스트와 120문항 성격유형 검사. 결과는 영역별로 자세히 보여 줘요.</p><a class="cta" href="iq-test.html">IQ 테스트 시작 →</a><a class="cta2" href="mbti-test.html">성격유형 검사</a></div><div class="vis" aria-hidden="true"><div class="orb"></div><div class="glass"><span class="ic">🧠</span><span class="lb">문항 수</span><span class="num" data-n="120">120</span><div class="mini"><i style="height:30%;animation-delay:0.00s"></i><i style="height:50%;animation-delay:0.08s"></i><i style="height:45%;animation-delay:0.16s"></i><i style="height:70%;animation-delay:0.24s"></i><i style="height:85%;animation-delay:0.32s"></i><i style="height:100%;animation-delay:0.40s"></i></div></div></div></div><div class="fs" role="group" aria-roledescription="slide" aria-label="4 / 6"><div><span class="k">⚡ 생활·도구</span><h2>에어컨 한 달 켜면?<br><em>가전제품 전기요금</em></h2><p>한전 누진제·사업자 요금·해외 23개국 단가로 가전별 한 달 전기세를 계산해요. 누진 단계가 오르면 바로 알려 줘요.</p><a class="cta" href="elec.html">전기요금 계산 →</a><a class="cta2" href="travel.html">여행경비 계산</a></div><div class="vis" aria-hidden="true"><div class="orb"></div><div class="glass"><span class="ic">⚡</span><span class="lb">350kWh 요금</span><span class="num" data-n="70,640원">70,640원</span><div class="mini"><i style="height:20%;animation-delay:0.00s"></i><i style="height:35%;animation-delay:0.08s"></i><i style="height:50%;animation-delay:0.16s"></i><i style="height:62%;animation-delay:0.24s"></i><i style="height:78%;animation-delay:0.32s"></i><i style="height:90%;animation-delay:0.40s"></i></div></div></div></div><div class="fs" role="group" aria-roledescription="slide" aria-label="5 / 6"><div><span class="k">💼 급여·노동</span><h2>2027 최저임금 10,700원<br><em>주휴수당 · 실업급여 · 육아휴직</em></h2><p>시급으로 주휴수당 포함 월급, 실업급여 하루 금액과 받는 기간, 6+6 육아휴직 월 최대 450만원까지 계산해요.</p><a class="cta" href="wage.html">월급 계산하기 →</a><a class="cta2" href="parental.html">육아휴직 급여</a></div><div class="vis" aria-hidden="true"><div class="orb"></div><div class="glass"><span class="ic">💵</span><span class="lb">육아휴직 최대</span><span class="num" data-n="450만원">450만원</span><div class="mini"><i style="height:50%;animation-delay:0.00s"></i><i style="height:50%;animation-delay:0.08s"></i><i style="height:60%;animation-delay:0.16s"></i><i style="height:70%;animation-delay:0.24s"></i><i style="height:80%;animation-delay:0.32s"></i><i style="height:90%;animation-delay:0.40s"></i></div></div></div></div><div class="fs" role="group" aria-roledescription="slide" aria-label="6 / 6"><div><span class="k">🩺 건강</span><h2>생활습관으로 보는<br><em>건강나이 · 예상수명</em></h2><p>흡연·수면·운동·가족력과 2024년 생명표로 건강나이와 예상 수명, 80세까지 살 확률을 계산해요.</p><a class="cta" href="health.html">건강나이 계산 →</a><a class="cta2" href="exam.html">자격증 시험달력</a></div><div class="vis" aria-hidden="true"><div class="orb"></div><div class="glass"><span class="ic">🩺</span><span class="lb">기대수명 (여)</span><span class="num" data-n="86.6세">86.6세</span><div class="mini"><i style="height:95%;animation-delay:0.00s"></i><i style="height:90%;animation-delay:0.08s"></i><i style="height:82%;animation-delay:0.16s"></i><i style="height:70%;animation-delay:0.24s"></i><i style="height:55%;animation-delay:0.32s"></i><i style="height:35%;animation-delay:0.40s"></i></div></div></div></div><div class="fnav"><button class="d" type="button" aria-label="1번째 배너" aria-current="true"></button><button class="d" type="button" aria-label="2번째 배너"></button><button class="d" type="button" aria-label="3번째 배너"></button><button class="d" type="button" aria-label="4번째 배너"></button><button class="d" type="button" aria-label="5번째 배너"></button><button class="d" type="button" aria-label="6번째 배너"></button></div><div class="farr"><button type="button" id="fprev" aria-label="이전 배너">‹</button><button type="button" id="fpause" aria-label="자동 넘김 멈춤">❚❚</button><button type="button" id="fnext" aria-label="다음 배너">›</button></div></section>
 <nav class="tabs" aria-label="계산기 선택">
   <div class="groups" role="tablist" aria-label="분야">
     <button role="tab" data-group="stock" aria-selected="false">주식·ETF</button>
@@ -2438,6 +2477,21 @@ let start=(location.hash||'').slice(1)||window.START_TAB||'';
 if(start==='apt') start='';
 if(!calcs[start]){ try{ start=localStorage.getItem('hl-tab')||'sell'; if(start==='apt') start='sell'; }catch(e){ start='sell'; } }
 showTab(start);
+</script>
+<script>
+(function(){var F=document.getElementById('flash');if(!F)return;var sl=F.querySelectorAll('.fs'),dots=F.querySelectorAll('.fnav .d'),pr=document.getElementById('fprog'),i=0,t=null,paused=false,rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function count(el){var tx=el.dataset.n,m=tx.match(/[\d,.]+/);if(!m||rm){el.textContent=tx;return}var target=parseFloat(m[0].replace(/,/g,'')),dec=(m[0].split('.')[1]||'').length,st=performance.now();(function f(now){var p=Math.min(1,(now-st)/900),v=target*(1-Math.pow(1-p,3));el.textContent=tx.replace(m[0],dec?v.toFixed(dec):Math.round(v).toLocaleString('ko-KR'));if(p<1)requestAnimationFrame(f)})(st)}
+function go(n){sl[i].classList.remove('on');dots[i].removeAttribute('aria-current');i=(n+sl.length)%sl.length;sl[i].classList.add('on');dots[i].setAttribute('aria-current','true');sl[i].querySelectorAll('.mini i').forEach(function(b){b.style.animation='none';b.offsetHeight;b.style.animation=''});count(sl[i].querySelector('.num'));restart()}
+function restart(){clearTimeout(t);pr.classList.remove('run');pr.offsetWidth;if(paused||rm)return;pr.classList.add('run');t=setTimeout(function(){go(i+1)},6000)}
+dots.forEach(function(d,k){d.addEventListener('click',function(){go(k)})});
+document.getElementById('fprev').onclick=function(){go(i-1)};document.getElementById('fnext').onclick=function(){go(i+1)};
+var pb=document.getElementById('fpause');pb.onclick=function(){paused=!paused;pb.textContent=paused?'▶':'❚❚';pb.setAttribute('aria-label',paused?'자동 넘김 시작':'자동 넘김 멈춤');restart()};
+F.addEventListener('mouseenter',function(){clearTimeout(t);pr.classList.remove('run')});F.addEventListener('mouseleave',restart);
+var x0=null;F.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});F.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(i+(dx<0?1:-1));x0=null});
+document.addEventListener('visibilitychange',function(){if(document.hidden)clearTimeout(t);else restart()});
+count(sl[0].querySelector('.num'));restart();
+F.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){try{gtag('event','flash_click',{link_url:a.getAttribute('href')})}catch(e){}})});
+})();
 </script>
 </body>
 </html>
