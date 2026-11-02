@@ -1,6 +1,6 @@
 :root{--bg:#EEF1F5;--paper:#FFFFFF;--ink:#0F1B2D;--muted:#5A6678;--line:#DDE2EA;--accent:#12305C;--tint:#E6ECF5;--gold:#E8C27A;--red:#C2362B;--green:#1E7A4F;
  --font:"Pretendard Variable",Pretendard,system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B1322;--paper:#121C2E;--ink:#E6ECF5;--muted:#9AA8BE;--line:#24324A;--accent:#8FB4F0;--tint:#1A2A45;--green:#6BCB98;--red:#F0776F}}
+@media (prefers-color-scheme:never){:root:not([data-theme="light"]){--bg:#0B1322;--paper:#121C2E;--ink:#E6ECF5;--muted:#9AA8BE;--line:#24324A;--accent:#8FB4F0;--tint:#1A2A45;--green:#6BCB98;--red:#F0776F}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
 a{color:var(--accent)}
@@ -47,9 +47,9 @@ table.kv tr.sub td{color:var(--muted);font-size:13.5px}
 .scroll th,.scroll td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center}
 .scroll th{background:var(--tint)}
 .warn{border:1px solid #E5C766;background:#FFF6DC;color:#3B2E00;border-radius:10px;padding:10px 14px;font-size:14px;margin:10px 0}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .warn{background:#2C2712;color:#F2E3B0;border-color:#7A6A2A}}
+@media (prefers-color-scheme:never){:root:not([data-theme="light"]) .warn{background:#2C2712;color:#F2E3B0;border-color:#7A6A2A}}
 .good{border:1px solid #9BD3B4;background:#E7F6EE;color:#0D4D2E;border-radius:10px;padding:10px 14px;font-size:14px;margin:10px 0}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .good{background:#123326;color:#BDEBD2;border-color:#2E6B4B}}
+@media (prefers-color-scheme:never){:root:not([data-theme="light"]) .good{background:#123326;color:#BDEBD2;border-color:#2E6B4B}}
 .hub{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
 .hub a{display:block;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;text-decoration:none;color:var(--ink)}
 .hub a:hover{border-color:var(--accent)}
