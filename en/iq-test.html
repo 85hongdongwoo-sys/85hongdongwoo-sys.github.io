@@ -130,7 +130,7 @@ function finish(){
   var p=ws/wt,iq=Math.round(100+15*(p-0.58)/0.16);iq=Math.max(70,Math.min(145,iq));if(!st.limit)iq=Math.min(iq,130);
   var pct=ncdf((iq-100)/15)*100,used=Math.round((Date.now()-st.start)/60000);
   var desc=iq>=130?'Very superior (about the top 2%)':iq>=120?'Superior':iq>=110?'High average':iq>=90?'Average':iq>=80?'Low average':'Below average';
-  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">Estimated IQ (for fun)</p><div class="big">'+iq+'</div><h2 style="margin:4px 0">'+desc+'</h2><p style="margin:0"><b>'+tot+' of 120</b> correct · '+(pct>=50?'top ~'+Math.max(0.1,100-pct).toFixed(1):'bottom ~'+Math.max(0.1,pct).toFixed(1))+'% · '+(st.limit?used+' min used':'no time limit')+'</p></section>';
+  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">Estimated IQ (for fun)</p><div class="big" data-share-result>'+iq+'</div><h2 style="margin:4px 0" data-share-result>'+desc+'</h2><p style="margin:0" data-share-result><b>'+tot+' of 120</b> correct · '+(pct>=50?'top ~'+Math.max(0.1,100-pct).toFixed(1):'bottom ~'+Math.max(0.1,pct).toFixed(1))+'% · '+(st.limit?used+' min used':'no time limit')+'</p></section>';
   h+='<section class="card"><h2>Score by section</h2>'+Object.keys(area).map(function(k){var a=area[k],r=a[1]?a[0]/a[1]:0;return '<div class="area"><span>'+KN[k]+'</span><div class="b"><i style="width:'+(r*100)+'%"></i></div><b>'+a[0]+'/'+a[1]+'</b></div>'}).join('');
   var best=Object.keys(area).sort(function(x,y){return area[y][0]/area[y][1]-area[x][0]/area[x][1]})[0];
   h+='<p style="margin:10px 0 0">Your strongest section: <b>'+KN[best]+'</b>. '+({mat:'You are good at visual reasoning — spotting the rules hidden in patterns.',seq:'You have a sharp numerical sense for finding the rule behind a series of numbers.',verbal:'You are good at seeing precisely how concepts relate to each other.',logic:'You are good at organizing conditions and reasoning your way to an answer.'})[best]+'</p></section>';
@@ -149,5 +149,6 @@ if(st.start&&!st.done){$('start').textContent='Resume test';}
 if(st.done&&st.start){finish()}
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>
