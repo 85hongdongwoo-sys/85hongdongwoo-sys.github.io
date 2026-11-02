@@ -1,5 +1,5 @@
 :root{--bg:#F3F5F9;--paper:#fff;--ink:#0E1A2E;--muted:#5B6780;--line:#DCE2EC;--navy:#012169;--gold:#C8102E;--accent:#1F5FD1;--good:#0F8A5F;--bad:#C2413A;--soft:#EEF3FC;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
-@media (prefers-color-scheme:dark){:root{--bg:#0A1222;--paper:#111C31;--ink:#E7EDF8;--muted:#9AA8C2;--line:#24324D;--accent:#6FA0FF;--soft:#16233E;--good:#3CCB91;--bad:#FF7A70}}
+@media (prefers-color-scheme:never){:root{--bg:#0A1222;--paper:#111C31;--ink:#E7EDF8;--muted:#9AA8C2;--line:#24324D;--accent:#6FA0FF;--soft:#16233E;--good:#3CCB91;--bad:#FF7A70}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Pretendard Variable",Pretendard,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 a{color:var(--accent)}
@@ -19,7 +19,7 @@ a{color:var(--accent)}
 .tabs a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:600;font-size:13.5px;padding:8px 12px;border-radius:9px}
 .tabs a:hover{background:var(--soft);color:var(--ink)}
 .tabs a[aria-current]{background:var(--navy);color:#fff}
-@media (prefers-color-scheme:dark){.tabs a[aria-current]{background:var(--accent);color:#06101F}}
+@media (prefers-color-scheme:never){.tabs a[aria-current]{background:var(--accent);color:#06101F}}
 .app{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:14px;align-items:start}
 @media(max-width:860px){.app{grid-template-columns:1fr}}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(10,20,40,.04)}
@@ -36,7 +36,7 @@ input:focus,select:focus{outline:2px solid color-mix(in srgb,var(--accent) 40%,t
 .seg label{flex:1;text-align:center;cursor:pointer;font-size:13px;font-weight:600;padding:7px 6px;border-radius:8px;color:var(--muted);min-width:80px}
 .seg input{display:none}.seg label:has(input:checked){background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
 .big{background:var(--navy);color:#fff;border-radius:12px;padding:18px;margin-bottom:12px}
-@media (prefers-color-scheme:dark){.big{background:#0B1F3F}}
+@media (prefers-color-scheme:never){.big{background:#0B1F3F}}
 .big span{font-size:13px;color:#C9D5EE;font-weight:600}
 .big b{display:block;font:700 clamp(28px,5vw,40px)/1.15 var(--mono);letter-spacing:-.02em;margin-top:4px}
 .big em{font-style:normal;font-size:13px;color:#FF8A9A}
