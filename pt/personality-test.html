@@ -112,7 +112,7 @@ function showResult(){
   ax.forEach(function(a){var p=50+sc[a]/60*50;var first=p>=50;type+=first?L[a][0]:L[a][1];var w=Math.abs(p-50);
     bars+='<div class="axis"><span><b>'+L[a][0]+' '+L[a][2]+'</b> '+Math.round(p)+'%</span><div class="b"><i style="'+(first?'right:50%':'left:50%')+';width:'+w+'%"></i><i style="left:50%;width:2px;background:var(--muted)"></i></div><span class="r">'+Math.round(100-p)+'% <b>'+L[a][1]+' '+L[a][3]+'</b></span></div>'});
   var I=INFO[type],clear=ax.map(function(a){var p=Math.abs(sc[a]/60*50);return p<8?L[a][2]+'/'+L[a][3]:null}).filter(Boolean);
-  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">Seu tipo de personalidade</p><div class="type">'+type+'</div><h2 style="margin:4px 0 6px">'+I[0]+'</h2><p style="margin:0">'+I[1]+'</p></section>';
+  var h='<section class="card" style="text-align:center"><p class="note" style="margin:0">Seu tipo de personalidade</p><div class="type" data-share-result>'+type+'</div><h2 style="margin:4px 0 6px" data-share-result>'+I[0]+'</h2><p style="margin:0">'+I[1]+'</p></section>';
   h+='<section class="card"><h2>Suas quatro preferências</h2>'+bars+(clear.length?'<p class="note">'+(clear.length>1?'Seus resultados em ':'Seu resultado em ')+clear.join(', ')+(clear.length>1?' estão':' está')+' perto de 50/50, então pode sair diferente dependendo da situação.</p>':'')+'</section>';
   h+='<section class="card"><h2>Mais sobre '+type+'</h2><table class="kv"><tr><td>Pontos fortes</td><td style="text-align:left;white-space:normal">'+I[2]+'</td></tr><tr><td>Pontos de atenção</td><td style="text-align:left;white-space:normal">'+I[3]+'</td></tr><tr><td>Carreiras indicadas</td><td style="text-align:left;white-space:normal">'+I[4]+'</td></tr></table>';
   h+='<div class="nav" style="flex-wrap:wrap"><button class="btn" type="button" id="share">Copiar resultado</button><button class="btn ghost" type="button" id="again">Fazer o teste de novo</button></div><p class="note" id="toast"></p></section>';
@@ -125,5 +125,6 @@ renderPage();
 if(ans.every(Boolean))showResult();
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>
