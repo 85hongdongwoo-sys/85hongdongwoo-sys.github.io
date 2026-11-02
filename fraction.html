@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="only light">
+<title>분수 계산기 | 분수 덧셈·뺄셈·곱셈·나눗셈, 기약분수·대분수 풀이</title>
+<meta name="description" content="분수와 대분수의 덧셈·뺄셈·곱셈·나눗셈을 기약분수, 대분수, 소수로 바로 계산하고 통분(최소공배수)·약분(최대공약수) 풀이를 단계별로 보여 줘요. 약분, 분수↔소수 변환(순환소수 포함), 분수 크기 비교도 할 수 있어요.">
+<link rel="canonical" href="https://honglife.co.kr/fraction.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="홍라이프 계산기">
+<meta property="og:title" content="분수 계산기 | 분수 덧셈·뺄셈·곱셈·나눗셈, 기약분수·대분수 풀이">
+<meta property="og:description" content="분수 사칙연산 결과를 기약분수·대분수·소수로, 통분과 약분 풀이까지 단계별로 보여 줘요.">
+<meta property="og:url" content="https://honglife.co.kr/fraction.html">
+<meta name="theme-color" content="#0B1F3F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"분모가 다른 분수는 어떻게 더하나요?","acceptedAnswer":{"@type":"Answer","text":"먼저 두 분모의 최소공배수로 통분해요. 1/2 + 1/3이라면 2와 3의 최소공배수 6으로 맞춰 3/6 + 2/6 = 5/6이 돼요. 분모끼리 그냥 곱해도 답은 같지만, 최소공배수를 쓰면 숫자가 작아서 약분할 일이 줄어요."}},{"@type":"Question","name":"분수의 나눗셈은 왜 뒤집어서 곱하나요?","acceptedAnswer":{"@type":"Answer","text":"어떤 수로 나누는 것은 그 수의 역수를 곱하는 것과 같기 때문이에요. 3/8로 나누는 건 8/3을 곱하는 것과 같아서 2 1/4 ÷ 3/8 = 9/4 × 8/3 = 6이에요. 대분수는 먼저 가분수로 바꾼 다음 계산해요."}},{"@type":"Question","name":"0.333…처럼 끝없이 반복되는 소수도 분수로 바꿀 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 순환소수는 모두 분수로 바꿀 수 있어요. 반복되는 부분을 괄호로 0.(3)처럼 넣으면 돼요. 0.(3)은 x = 0.333…으로 두고 10x − x = 3을 풀어 1/3이 되고, 0.(142857)은 142857/999999 = 1/7이에요."}}]}
+</script>
+<style>
+:root{color-scheme:light;
+  --navy:#0B1F3F;--paper:#fff;--ink:#2F343B;--head:#14233D;--muted:#5F6875;--line:#E1E5EC;--soft:#F3F5F9;
+  --btn:#12305C;--gold:#B8862B;--gold-l:#C9A04A;--gold-soft:#FBF4E6;
+  --f:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#0B1F3F linear-gradient(180deg,#0F2A52 0,#0C2347 600px,#0A1E3E 100%) fixed;color:var(--ink);font:16px/1.7 var(--f);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--btn)}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08)}
+.brandbar .in{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none;white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:6px;background:var(--gold);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;white-space:nowrap}.brandbar .meta a{color:#DCE4F2;text-decoration:none;margin-left:10px}
+@media(max-width:520px){.brandbar .meta{display:none}}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 56px}
+header.top{padding:28px 0 20px;color:#fff}
+h1{margin:0;font-weight:800;font-size:clamp(25px,5vw,34px);letter-spacing:-.025em;line-height:1.3;text-wrap:balance}
+h1 b{color:var(--gold-l)}
+header.top p{margin:8px 0 0;color:#C9D5EE;max-width:640px}
+.card{background:var(--paper);border-radius:14px;padding:20px;margin:0 0 14px;box-shadow:0 1px 0 rgba(255,255,255,.04)}
+h2{font-size:19px;margin:0 0 12px;letter-spacing:-.015em;color:var(--head)}
+h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+h3{font-size:16px;margin:16px 0 6px;color:var(--head)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px}
+.f label,.f .lb{display:block;font-size:14px;font-weight:600;margin-bottom:4px;color:var(--head)}
+.f small{display:block;color:var(--muted);font-size:12.6px;line-height:1.5;margin-top:3px}
+.f input,.f select{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid #CFD6E0;border-radius:9px;background:#fff;color:var(--ink);min-height:44px}
+.f input:focus,.f select:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.seg{display:flex;gap:6px}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:9px 6px;border:1.5px solid #CFD6E0;border-radius:9px;background:#fff;cursor:pointer;min-height:44px;font-size:14.5px}
+.seg input:checked+span{border-color:var(--btn);background:#EAF0F8;color:var(--btn);font-weight:700}
+.seg input:focus-visible+span{outline:2px solid var(--gold-l)}
+details.opt{border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+details.opt summary{cursor:pointer;font-weight:700;color:var(--head);list-style:none;display:flex;align-items:center;gap:8px}
+details.opt summary::-webkit-details-marker{display:none}
+details.opt summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--gold-soft);color:var(--gold);font-weight:800}
+details.opt[open] summary::before{content:"−"}
+details.opt summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+details.opt .grid{margin-top:12px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 22px;border-radius:10px;border:0;background:var(--btn);color:#fff;cursor:pointer;min-height:48px}
+.btn:hover{background:#0D2647}
+.btn.gold{background:var(--gold);color:#fff}.btn.gold:hover{background:#A27522}
+.btn.ghost{background:#fff;color:var(--btn);border:1.5px solid var(--btn)}
+.err{color:#B3261E;font-weight:700;margin:10px 0 0}
+.note{font-size:13.5px;color:var(--muted);line-height:1.65}
+.hero-res{background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:14px;padding:22px 20px;margin-bottom:16px}
+.hero-res .k{font-size:14px;color:#C9D5EE}
+.hero-res .big{font-size:clamp(30px,7vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin:4px 0 6px;font-variant-numeric:tabular-nums}
+.hero-res .big b{color:var(--gold-l)}
+.hero-res .sub{color:#E3E9F5;font-size:15px}
+.prog{margin-top:16px}
+.prog .bar{height:14px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
+.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,#C9A04A,#E8C27A);border-radius:99px}
+.prog .lbl{display:flex;justify-content:space-between;font-size:13px;color:#C9D5EE;margin-top:6px;gap:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;background:#fff;position:relative}
+.stat::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.stat span{display:block;font-size:13.5px;color:var(--muted)}
+.stat b{display:block;font-size:28px;line-height:1.25;font-weight:800;color:var(--head);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat b small{font-size:15px;font-weight:700;margin-left:2px}
+.stat em{display:block;font-style:normal;font-size:13px;color:var(--muted);line-height:1.5;margin-top:2px}
+@media(max-width:430px){.stats{grid-template-columns:1fr 1fr}.stat{padding:12px 10px 10px 13px}.stat b{font-size:22px}.stat b small{font-size:13px}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14233D;color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;z-index:9;max-width:calc(100% - 32px);text-align:center}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-size:13px;white-space:nowrap}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.faq details{border-top:1px solid var(--line);padding:10px 0}
+.faq details:first-of-type{border-top:0}
+.faq summary{cursor:pointer;font-weight:700;color:var(--head)}
+.faq p{margin:6px 0 0}
+.calc-index{margin-top:28px;background:var(--paper);border-radius:14px;padding:20px 22px}.calc-index h2{font-size:17px;margin:0 0 12px;color:#2F343B}.ci-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.ci-grid b{font-size:13.5px;color:var(--btn)}.ci-grid ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ci-grid a{color:#2C3A4F;text-decoration:none;font-size:14px}.ci-grid a:hover,.ci-grid a[aria-current]{color:var(--gold);text-decoration:underline}@media (max-width:900px){.ci-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.ci-grid{grid-template-columns:1fr 1fr}}
+footer.site{margin-top:14px;background:var(--paper);border-radius:14px;padding:16px 20px;font-size:13px;color:var(--muted);line-height:1.7}
+footer.site div+div{margin-top:4px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.tabs button{font:inherit;font-size:14.5px;font-weight:600;padding:8px 14px;border-radius:99px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);color:#DCE4F2;cursor:pointer;min-height:40px}
+.tabs button[aria-selected="true"]{background:#fff;border-color:#fff;color:var(--btn)}
+.tabs button:focus-visible{outline:2px solid var(--gold-l);outline-offset:2px}
+.q{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:17px;font-weight:600;color:var(--head)}
+.q input,.q select{font:inherit;font-size:17px;font-weight:600;width:140px;max-width:100%;padding:8px 10px;border:1px solid #CFD6E0;border-radius:9px;min-height:46px;color:var(--ink);background:#fff;text-align:right;font-variant-numeric:tabular-nums}
+.q select{text-align:left;width:auto}
+.q input:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.q+.q{margin-top:12px}
+@media(max-width:430px){.q input{width:120px}}
+.out{margin-top:16px;background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:12px;padding:16px 18px}
+.out .k{font-size:13.5px;color:#C9D5EE}
+.out .v{font-size:clamp(26px,6vw,36px);font-weight:800;letter-spacing:-.02em;line-height:1.25;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.out .v b{color:var(--gold-l)}
+.out .fx{font-size:14px;color:#E3E9F5;margin-top:4px;overflow-wrap:anywhere}
+.mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:10px}
+.mini div{background:var(--soft);border-radius:10px;padding:10px 12px}
+.mini span{display:block;font-size:12.5px;color:var(--muted)}
+.mini b{font-size:18px;font-variant-numeric:tabular-nums;color:var(--head)}
+.sub2{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}
+.sub2 h3{margin:0 0 10px}
+.ex{background:var(--gold-soft);border-radius:10px;padding:12px 14px;font-size:14.5px;margin-top:14px}
+.ex b{color:#8A6418}
+.shares{width:100%;margin-top:12px}
+.shares td:last-child,.shares th:last-child,.shares td:nth-child(2){text-align:right;font-variant-numeric:tabular-nums}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;margin:0 3px;font-variant-numeric:tabular-nums;text-align:center}
+.frac>span{padding:0 4px}
+.frac>span:first-child{border-bottom:1.5px solid currentColor}
+.out .v .frac{font-size:.78em}
+.ov{text-decoration:overline;text-decoration-thickness:1.5px}
+.steps{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:14px 16px 6px;background:#fff}
+.steps h3{margin:0 0 6px;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.steps h3::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--gold)}
+.steps ol{margin:0;padding-left:22px}
+.steps li{margin:0 0 10px;line-height:1.9;overflow-wrap:anywhere}
+.steps li::marker{color:var(--gold);font-weight:800}
+.steps .eq{display:inline-block;background:var(--soft);border-radius:8px;padding:2px 8px;margin:2px 0}
+.erro{font-size:17px!important;color:#FFD9D4!important;font-weight:700}
+.rel{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.rel a{display:block;padding:12px 14px 12px 16px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--head);font-weight:700;position:relative;background:#fff}
+.rel a::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.rel a span{display:block;font-weight:500;font-size:13px;color:var(--muted);line-height:1.5}
+.rel a:hover{border-color:var(--btn)}
+.expl p{margin:0 0 10px}
+.expl ul{margin:0 0 10px;padding-left:20px}
+.ta{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid #CFD6E0;border-radius:9px;min-height:96px;color:var(--ink);background:#fff;resize:vertical}
+.ta:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.q input.wide{width:220px;text-align:left}
+@media(max-width:430px){.q input.wide{width:100%}}
+.mini b span.ov{display:inline;font-size:inherit;color:inherit}
+.fexpr{display:flex;flex-wrap:wrap;align-items:center;gap:12px 8px}
+.fitem{display:flex;align-items:center;gap:8px}
+.fbox{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--soft);position:relative}
+.fstack{display:flex;flex-direction:column;gap:5px;width:84px}
+.fstack hr{margin:0;border:0;border-top:2.5px solid var(--head);border-radius:2px}
+.fexpr input{font:inherit;font-size:18px;font-weight:700;text-align:center;padding:6px 4px;border:1px solid #CFD6E0;border-radius:8px;min-height:42px;width:100%;background:#fff;color:var(--ink);font-variant-numeric:tabular-nums}
+.fexpr input.w{width:64px}
+.fexpr input::placeholder{font-size:12.5px;font-weight:500;color:#98A1AE}
+.fexpr input:focus,.opsel:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.opsel{font:inherit;font-size:20px;font-weight:800;min-height:46px;width:58px;text-align:center;border:1.5px solid var(--btn);border-radius:10px;background:#EAF0F8;color:var(--btn);cursor:pointer}
+.rmrow{position:absolute;top:-9px;right:-9px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:#fff;color:#B3261E;font-weight:800;cursor:pointer;line-height:1;padding:0}
+.q input.mid{width:150px}
+@media(max-width:430px){.q input.mid{width:120px}}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="sci-calc.html">공학용 계산기</a><a href="root-power.html">제곱근·지수</a><a href="percent.html">퍼센트 계산기</a></span></div></div>
+<div class="wrap">
+<header class="top">
+  <h1><b>분수</b> 계산기</h1>
+  <p>분수와 대분수를 넣으면 덧셈·뺄셈·곱셈·나눗셈 결과를 기약분수, 대분수, 소수로 바로 보여 줘요. 통분과 약분 풀이도 단계별로 확인하세요.</p>
+</header>
+
+<div class="tabs" role="tablist" aria-label="계산 종류">
+  <button role="tab" id="t-calc" aria-controls="p-calc" aria-selected="true">사칙연산</button>
+  <button role="tab" id="t-red" aria-controls="p-red" aria-selected="false">약분·기약분수</button>
+  <button role="tab" id="t-conv" aria-controls="p-conv" aria-selected="false">분수↔소수</button>
+  <button role="tab" id="t-cmp" aria-controls="p-cmp" aria-selected="false">크기 비교</button>
+</div>
+
+<section class="card" role="tabpanel" id="p-calc" aria-labelledby="t-calc">
+  <h2>분수 덧셈·뺄셈·곱셈·나눗셈 <small>대분수는 왼쪽 칸에 자연수를 넣어요</small></h2>
+  <div class="fexpr" id="fx"></div>
+  <div class="btns" style="margin-top:14px"><button class="btn ghost" type="button" id="addRow">+ 분수 추가</button><button class="btn ghost" type="button" id="resetRow">처음 상태로</button></div>
+  <div class="out"><div class="k">결과 (기약분수)</div><div class="v" id="frRes"></div><div class="fx" id="frPlain"></div></div>
+  <div class="mini" id="frMini"></div>
+  <div class="steps" id="frSteps"></div>
+  <p class="note">곱셈·나눗셈을 덧셈·뺄셈보다 먼저 계산해요. 음수는 자연수 칸(대분수)이나 분자 칸에 −를 붙여 넣으세요. 숫자가 아주 커도 정수 연산으로 정확하게 계산해요.</p>
+</section>
+
+<section class="card" role="tabpanel" id="p-red" aria-labelledby="t-red" hidden>
+  <h2>약분 · 기약분수 만들기</h2>
+  <div class="q">분자 <input id="rdN" inputmode="numeric" value="84" aria-label="분자"> 분모 <input id="rdD" inputmode="numeric" value="126" aria-label="분모"></div>
+  <div class="out"><div class="k">기약분수</div><div class="v" id="rdRes"></div><div class="fx" id="rdF"></div></div>
+  <div class="steps" id="rdSteps"></div>
+</section>
+
+<section class="card" role="tabpanel" id="p-conv" aria-labelledby="t-conv" hidden>
+  <h2>분수 → 소수</h2>
+  <div class="q"><input id="cvF" class="wide" value="7/12" aria-label="분수 (예: 7/12, 2 1/3)"> 를 소수로</div>
+  <div class="out"><div class="k">소수</div><div class="v" id="cvFR"></div><div class="fx" id="cvFF"></div></div>
+  <div class="steps" id="cvFS"></div>
+  <div class="sub2"><h3>소수 → 분수 (순환소수 포함)</h3>
+    <div class="q"><input id="cvD" class="wide" value="0.(142857)" aria-label="소수 (순환마디는 괄호로)"> 를 분수로</div>
+    <p class="note" style="margin:6px 0 0">반복되는 부분(순환마디)은 괄호로 묶어요. 0.333… → <b>0.(3)</b>, 0.1666… → <b>0.1(6)</b>, 2.142857142857… → <b>2.(142857)</b></p>
+    <div class="out"><div class="k">분수</div><div class="v" id="cvDR"></div><div class="fx" id="cvDF"></div></div>
+    <div class="steps" id="cvDS"></div>
+  </div>
+</section>
+
+<section class="card" role="tabpanel" id="p-cmp" aria-labelledby="t-cmp" hidden>
+  <h2>분수 크기 비교</h2>
+  <div class="q"><input id="cmA" class="mid" value="5/8" aria-label="첫 번째 분수"> 와 <input id="cmB" class="mid" value="3/5" aria-label="두 번째 분수"> 중 큰 수는?</div>
+  <div class="out"><div class="k">비교 결과</div><div class="v" id="cmR"></div><div class="fx" id="cmF"></div></div>
+  <div class="steps" id="cmS"></div>
+  <div class="sub2"><h3>여러 분수 크기순으로 정렬</h3>
+    <textarea class="ta" id="cmL" aria-label="분수 목록 (쉼표나 줄바꿈으로 구분)">1/2, 3/4, 2/3, 5/8, 1 1/6, 0.7</textarea>
+    <p class="note" style="margin:4px 0 0">쉼표(,)나 줄바꿈으로 구분해요. 대분수(1 1/6)와 소수도 섞어 쓸 수 있어요.</p>
+    <div class="scroll" style="margin-top:10px"><table id="cmT"></table></div>
+  </div>
+</section>
+
+<section class="card expl">
+  <h2>분수 계산, 이렇게 해요</h2>
+  <p><b>덧셈·뺄셈</b>은 분모를 같게 만드는 <b>통분</b>부터 해요. 두 분모의 최소공배수(LCM)를 공통 분모로 쓰고, 최소공배수는 <b>두 수의 곱 ÷ 최대공약수(GCD)</b>로 구해요. 그다음 분자끼리 더하거나 빼요.</p>
+  <p><b>곱셈</b>은 분자는 분자끼리, 분모는 분모끼리 곱하고, <b>나눗셈</b>은 나누는 분수를 뒤집어(역수) 곱해요. 마지막으로 분자와 분모를 최대공약수로 나누는 <b>약분</b>을 하면 더 이상 약분되지 않는 <b>기약분수</b>가 돼요.</p>
+  <ul>
+    <li><b>대분수 → 가분수</b>: 2 1/4 = (2 × 4 + 1)/4 = 9/4</li>
+    <li><b>가분수 → 대분수</b>: 9/4 = 9 ÷ 4 = 2 나머지 1 → 2 1/4</li>
+    <li><b>유한소수가 되는 조건</b>: 기약분수의 분모를 소인수분해했을 때 2와 5만 있으면 유한소수, 다른 소인수가 있으면 순환소수예요.</li>
+  </ul>
+</section>
+
+<section class="card faq">
+  <h2>자주 묻는 질문</h2>
+  <details><summary>분모가 다른 분수는 어떻게 더하나요?</summary><p>먼저 두 분모의 최소공배수로 통분해요. 1/2 + 1/3이라면 2와 3의 최소공배수 6으로 맞춰 3/6 + 2/6 = 5/6이 돼요. 분모끼리 그냥 곱해도 답은 같지만, 최소공배수를 쓰면 숫자가 작아서 약분할 일이 줄어요.</p></details>
+  <details><summary>분수의 나눗셈은 왜 뒤집어서 곱하나요?</summary><p>어떤 수로 나누는 것은 그 수의 역수를 곱하는 것과 같기 때문이에요. 3/8로 나누는 건 8/3을 곱하는 것과 같아서 2 1/4 ÷ 3/8 = 9/4 × 8/3 = 6이에요. 대분수는 먼저 가분수로 바꾼 다음 계산해요.</p></details>
+  <details><summary>0.333…처럼 끝없이 반복되는 소수도 분수로 바꿀 수 있나요?</summary><p>네, 순환소수는 모두 분수로 바꿀 수 있어요. 반복되는 부분을 괄호로 0.(3)처럼 넣으면 돼요. 0.(3)은 x = 0.333…으로 두고 10x − x = 3을 풀어 1/3이 되고, 0.(142857)은 142857/999999 = 1/7이에요.</p></details>
+</section>
+
+<section class="card"><h2>함께 쓰면 좋은 계산기</h2><div class="rel"><a href="sci-calc.html">공학용 계산기<span>삼각함수·로그·팩토리얼·진법 변환·통계</span></a><a href="root-power.html">제곱근·지수 계산기<span>루트 간단히, 거듭제곱, 로그, 과학적 표기법</span></a><a href="percent.html">백분율(퍼센트) 계산기<span>몇 %, 증감률, 할인율, 퍼센트포인트</span></a></div></section>
+
+<nav class="calc-index" id="calc-index" aria-label="전체 계산기"><h2>전체 계산기</h2><div class="ci-grid"><div><b>주식·ETF</b><ul><li><a href="sell.html">매도 세금</a></li><li><a href="us.html">미국주식·ETF</a></li><li><a href="div.html">배당금</a></li><li><a href="avg.html">물타기 평단</a></li><li><a href="risk.html">손절·비중</a></li><li><a href="gold.html">금 투자</a></li><li><a href="ipo.html">공모주 청약</a></li></ul></div><div><b>저축·연금</b><ul><li><a href="int.html">예·적금 이자</a></li><li><a href="grow.html">적립식 복리</a></li><li><a href="pen.html">연금저축 세액공제</a></li><li><a href="fire.html">은퇴 자금</a></li><li><a href="fin.html">금융소득 2천만</a></li><li><a href="nhis.html">건보료 피부양자</a></li><li><a href="yet.html">연말정산 환급</a></li><li><a href="nps.html">국민연금 조기·연기</a></li><li><a href="sev.html">퇴직금 세금</a></li><li><a href="eitc.html">근로·자녀장려금</a></li><li><a href="youth-savings.html">청년 정부 적금</a></li></ul></div><div><b>부동산·대출</b><ul><li><a href="buy.html">집 살 때 비용</a></li><li><a href="dsr.html">대출 한도 (DSR·DTI)</a></li><li><a href="score.html">청약 가점</a></li><li><a href="safe.html">전세 안전도</a></li><li><a href="rent.html">전세·월세·매수</a></li><li><a href="refi.html">대출 갈아타기</a></li><li><a href="ptax.html">재산세·종부세</a></li><li><a href="gift.html">증여세</a></li><li><a href="yield.html">임대 수익률</a></li><li><a href="auc.html">부동산 경매</a></li><li><a href="dist.html">경매 배당표</a></li></ul></div><div><b>세금</b><ul><li><a href="tax/">세금 계산기 모음</a></li><li><a href="tax/vat.html">부가가치세</a></li><li><a href="tax/income.html">종합소득세</a></li><li><a href="tax/freelancer.html">프리랜서 3.3%</a></li><li><a href="tax/transfer.html">부동산 양도소득세</a></li><li><a href="tax/inherit.html">상속세</a></li><li><a href="tax/corp.html">법인세 (2026)</a></li><li><a href="tax/loan.html">가족 간 대여</a></li></ul></div><div><b>급여·노동</b><ul><li><a href="wage.html">주휴수당·알바 월급</a></li><li><a href="unemp.html">실업급여</a></li><li><a href="parental.html">육아휴직·출산휴가 급여</a></li><li><a href="sev.html">퇴직금 세금</a></li></ul></div><div><b>직장인</b><ul><li><a href="salary-net.html">연봉 실수령액</a></li><li><a href="leave.html">2027 연차 꿀조합</a></li><li><a href="salary-rank.html">연봉 상위 몇 %</a></li><li><a href="side-tax.html">N잡·부업 세금</a></li><li><a href="gw-pay.html">2027 공무원 실수령액</a></li><li><a href="gw-overtime.html">공무원 초과근무수당</a></li><li><a href="gw-pension.html">공무원연금</a></li></ul></div><div><b>자동차</b><ul><li><a href="car-cost.html">자동차 유지비</a></li><li><a href="car-commute.html">출퇴근 비용</a></li><li><a href="car-tax.html">자동차세</a></li><li><a href="car-buy.html">취등록세</a></li><li><a href="car-parts.html">소모품 교체비</a></li><li><a href="car-ev.html">전기차 vs 휘발유</a></li></ul></div><div><b>건강·운세</b><ul><li><a href="calorie.html">칼로리 계산기</a></li><li><a href="health.html">건강나이·예상수명</a></li><li><a href="life-left.html">인생 남은 시간</a></li><li><a href="saju.html">사주팔자 풀이</a></li><li><a href="mbti.html">MBTI 궁합</a></li><li><a href="mbti-test.html">성격유형 검사 120문항</a></li><li><a href="iq-test.html">IQ 테스트 120문항</a></li><li><a href="fortune-2027.html">2027 신년운세</a></li><li><a href="due-date.html">출산 예정일</a></li></ul></div><div><b>수학</b><ul><li><a href="fraction.html" aria-current="page">분수 계산기</a></li><li><a href="sci-calc.html">공학용 계산기</a></li><li><a href="root-power.html">제곱근·지수</a></li><li><a href="percent.html">백분율 계산기</a></li></ul></div><div><b>도구</b><ul><li><a href="exam.html">자격증 시험일정 달력</a></li><li><a href="travel.html">여행경비 계산기</a></li><li><a href="elec.html">전기요금 계산기</a></li><li><a href="date.html">날짜 계산기 (D-day·만 나이·전역일)</a></li><li><a href="clock.html">초시계·서버시간</a></li><li><a href="/shorts/">쇼츠 메이커 (영문)</a></li><li><a href="/budget/">가계부 (11개 언어)</a></li><li><a href="suneung.html">수능 D-day 시간표</a></li><li><a href="age-table.html">나이표·띠</a></li><li><a href="pyeong.html">평수 계산기</a></li><li><a href="char-count.html">글자수 세기</a></li><li><a href="percent.html">퍼센트 계산기</a></li><li><a href="couple-dday.html">커플 기념일 계산기</a></li></ul></div><div><b>Global</b><ul><li><a href="us/">🇺🇸 US tax calculators</a></li><li><a href="uk/">🇬🇧 UK tax calculators</a></li><li><a href="ca/">🇨🇦 Canada calculators</a></li><li><a href="au/">🇦🇺 Australia calculators</a></li><li><a href="jp/">🇯🇵 日本 税金・NISA</a></li><li><a href="fr/">🇫🇷 Impôts France</a></li><li><a href="es/calculadora-impuesto-ahorro.html">🇪🇸 IRPF ahorro</a></li><li><a href="mx/">🇲🇽 ISR México</a></li><li><a href="br/">🇧🇷 Salário líquido Brasil</a></li><li><a href="in/">🇮🇳 India tax calculators</a></li><li><a href="de/">🇩🇪 Finanzrechner Deutschland</a></li><li><a href="id/kalkulator-pph21.html">🇮🇩 Pajak &amp; investasi Indonesia</a></li><li><a href="en/">English calculators</a></li><li><a href="id/">Kalkulator Indonesia</a></li><li><a href="es/">Calculadoras en español</a></li></ul></div></div></nav>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></div>
+  <div>계산은 모두 브라우저 안에서 이뤄지고 입력값은 서버로 보내지 않아요. 결과는 참고용이에요.</div>
+</footer>
+</div>
+
+<script>
+var FR=(function(){
+'use strict';
+function abs(a){return a<0n?-a:a}
+function gcd(a,b){a=abs(a);b=abs(b);while(b){var t=a%b;a=b;b=t}return a}
+function lcm(a,b){return (a===0n||b===0n)?0n:abs(a/gcd(a,b)*b)}
+function ZE(){return new Error('분모에는 0을 넣을 수 없어요')}
+function mk(n,d){if(d===0n)throw ZE();if(d<0n){n=-n;d=-d}var g=gcd(n,d);if(g>1n){n/=g;d/=g}return{n:n,d:d}}
+function neg(a){return{n:-a.n,d:a.d}}
+function add(a,b){return mk(a.n*b.d+b.n*a.d,a.d*b.d)}
+function sub(a,b){return mk(a.n*b.d-b.n*a.d,a.d*b.d)}
+function mul(a,b){return mk(a.n*b.n,a.d*b.d)}
+function div(a,b){if(b.n===0n)throw new Error('0으로 나눌 수 없어요');return mk(a.n*b.d,a.d*b.n)}
+function cmp(a,b){var x=a.n*b.d,y=b.n*a.d;return x<y?-1:x>y?1:0}
+function p10(k){return 10n**BigInt(k)}
+function norm(s){return String(s==null?'':s).replace(/[−–]/g,'-').replace(/[，,]/g,'').replace(/\[/g,'(').replace(/\]/g,')').replace(/÷/g,'/').replace(/\s*\/\s*/g,'/').replace(/\s+/g,' ').trim()}
+function parseDec(s){
+  var m=/^([+-])?(\d*)(?:\.(\d*)(?:\((\d+)\))?)?(?:[eE]([+-]?\d+))?$/.exec(s);
+  if(!m||(!m[2]&&!m[3]&&!m[4]))return null;
+  var I=m[2]||'0',A=m[3]||'',R=m[4]||'',ex=m[5]?parseInt(m[5],10):0,f;
+  if(R){var N=BigInt(I+A+R),M=BigInt(I+A);f=mk(N-M,p10(A.length)*(p10(R.length)-1n))}
+  else f=mk(BigInt(I+A),p10(A.length));
+  if(ex){if(Math.abs(ex)>2000)return null;f=ex>0?mul(f,{n:p10(ex),d:1n}):div(f,{n:p10(-ex),d:1n})}
+  return m[1]==='-'?neg(f):f;
+}
+/* "3/4", "2 1/4", "-2 1/4", "0.(3)", "1.5", "1.5/2" */
+function parse(s){
+  s=norm(s);if(!s)return null;var m;
+  if((m=/^([+-])?(\d+) (\d+)\/(\d+)$/.exec(s))){var w=BigInt(m[2]),a=BigInt(m[3]),b=BigInt(m[4]);if(b===0n)throw ZE();var f=mk(w*b+a,b);return m[1]==='-'?neg(f):f}
+  if((m=/^([^\/ ]+)\/([^\/ ]+)$/.exec(s))){var x=parseDec(m[1]),y=parseDec(m[2]);if(!x||!y)return null;if(y.n===0n)throw ZE();return div(x,y)}
+  if(/ /.test(s))return null;
+  return parseDec(s);
+}
+function com(b){var s=String(b),sg='';if(s[0]==='-'){sg='−';s=s.slice(1)}return sg+s.replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+/* decimal expansion */
+function dec(f,max){
+  max=max||60;var n=abs(f.n),d=f.d,q=n/d,r=n%d,dg=[],seen=new Map(),rep=-1;
+  while(r!==0n&&dg.length<max){if(seen.has(r)){rep=seen.get(r);break}seen.set(r,dg.length);r*=10n;dg.push(String(r/d));r%=d}
+  if(r!==0n&&rep<0&&seen.has(r))rep=seen.get(r);
+  return{neg:f.n<0n,int:q,dg:dg,rep:rep,trunc:r!==0n&&rep<0}
+}
+function decText(f,max){var e=dec(f,max),s=(e.neg?'-':'')+com(e.int).replace('−','');
+  if(!e.dg.length)return s;
+  if(e.rep>=0)return s+'.'+e.dg.slice(0,e.rep).join('')+'('+e.dg.slice(e.rep).join('')+')';
+  return s+'.'+e.dg.join('')+(e.trunc?'…':'')}
+function decHTML(f,max){var e=dec(f,max),s=(e.neg?'−':'')+com(e.int);
+  if(!e.dg.length)return s;
+  if(e.rep>=0)return s+'.'+e.dg.slice(0,e.rep).join('')+'<span class="ov">'+e.dg.slice(e.rep).join('')+'</span>';
+  return s+'.'+e.dg.join('')+(e.trunc?'…':'')}
+function log10Big(b){var s=String(abs(b));return (s.length-1)+Math.log10(parseFloat(s[0]+'.'+s.slice(1,17)))}
+function toNum(f){
+  var an=abs(f.n);
+  if(an<9007199254740992n&&f.d<9007199254740992n)return Number(f.n)/Number(f.d);
+  if(f.n===0n)return 0;
+  var L=log10Big(f.n)-log10Big(f.d);var v=Math.pow(10,L);return f.n<0n?-v:v;
+}
+function isInt(f){return f.d===1n}
+function stack(nh,dh){return '<span class="frac"><span>'+nh+'</span><span>'+dh+'</span></span>'}
+function fh(f){if(f.d===1n)return com(f.n);return (f.n<0n?'−':'')+stack(com(abs(f.n)),com(f.d))}
+function fhRaw(n,d){return (n<0n?'−':'')+stack(com(abs(n)),com(d))}
+function mixed(f){var an=abs(f.n),w=an/f.d,r=an%f.d;return{neg:f.n<0n,w:w,r:r,d:f.d}}
+function mixedHTML(f){if(f.d===1n)return com(f.n);var m=mixed(f);if(m.w===0n)return fh(f);return (m.neg?'−':'')+com(m.w)+stack(com(m.r),com(f.d))}
+function txt(f){return f.d===1n?String(f.n):f.n+'/'+f.d}
+function mixedTxt(f){if(f.d===1n)return String(f.n);var m=mixed(f);if(m.w===0n)return txt(f);return (m.neg?'-':'')+m.w+' '+m.r+'/'+f.d}
+function pw(f,k){/* integer k */var K=BigInt(Math.abs(k));if(k<0){if(f.n===0n)throw new Error('0의 음수 거듭제곱은 정의되지 않아요');return mk(f.d**K,f.n**K)}return mk(f.n**K,f.d**K)}
+/* integer k-th root of non-negative BigInt, returns exact root or null */
+function iroot(x,k){if(x<0n)return null;if(x<2n)return x;var K=BigInt(k);
+  var L=log10Big(x)/k,g=L<300?BigInt(Math.ceil(Math.pow(10,L)))+2n:10n**BigInt(Math.ceil(L)+1);
+  for(var it=0;it<5000;it++){var ng=((K-1n)*g+x/(g**(K-1n)))/K;if(ng>=g)break;g=ng}
+  while(g>0n&&g**K>x)g--;while((g+1n)**K<=x)g++;
+  return g**K===x?g:null}
+/* factorization: returns [[p(BigInt),e],...] ; ok=false if not fully certain */
+function factor(m){
+  m=abs(m);var res=[],ok=true;if(m<2n)return{f:res,ok:true};
+  if(m<=9007199254740991n){var x=Number(m),lim=1e6;
+    for(var p=2;p*p<=x&&p<=lim;p+=(p===2?1:2)){if(x%p===0){var e=0;while(x%p===0){x/=p;e++}res.push([BigInt(p),e])}}
+    m=BigInt(x)}
+  else{for(var q=2n;q*q<=m&&q<=1000000n;q+=(q===2n?1n:2n)){if(m%q===0n){var e2=0;while(m%q===0n){m/=q;e2++}res.push([q,e2])}}}
+  if(m>1n){if(m<=1000000000000n)res.push([m,1]);else{var s=iroot(m,2);if(s){res.push([s,2])}else if(m<=1000000000000000000n){res.push([m,1])}else{res.push([m,1]);ok=false}}}
+  res.sort(function(a,b){return a[0]<b[0]?-1:a[0]>b[0]?1:0});
+  return{f:res,ok:ok}}
+function supN(e){return '<sup>'+e+'</sup>'}
+function factHTML(fs){return fs.map(function(x){return com(x[0])+(x[1]>1?supN(x[1]):'')}).join(' × ')}
+return{abs:abs,gcd:gcd,lcm:lcm,mk:mk,neg:neg,add:add,sub:sub,mul:mul,div:div,cmp:cmp,p10:p10,norm:norm,parse:parse,parseDec:parseDec,com:com,dec:dec,decText:decText,decHTML:decHTML,toNum:toNum,isInt:isInt,stack:stack,fh:fh,fhRaw:fhRaw,mixed:mixed,mixedHTML:mixedHTML,txt:txt,mixedTxt:mixedTxt,pw:pw,iroot:iroot,factor:factor,factHTML:factHTML,supN:supN,log10Big:log10Big};
+})();
+function fmtN(x,sig){sig=sig||12;if(!isFinite(x))return '—';if(x===0)return '0';var a=Math.abs(x);
+  if(a>=1e15||a<1e-6){var s=x.toExponential(sig-1).split('e'),m=s[0].replace(/(\.\d*?)0+$/,'$1').replace(/\.$/,'');return m.replace('-','−')+' × 10<sup>'+(+s[1])+'</sup>'}
+  return parseFloat(x.toPrecision(sig)).toLocaleString('en-US',{maximumFractionDigits:20}).replace('-','−')}
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+var fh=FR.fh,fhRaw=FR.fhRaw,com=FR.com,gcd=FR.gcd,mk=FR.mk,abs=FR.abs;
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function set(id,h){$(id).innerHTML=h}
+function errOut(id,msg){set(id,'<span class="erro">'+esc(msg)+'</span>')}
+function stepsHTML(title,arr){return arr.length?'<h3>'+title+'</h3><ol>'+arr.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol>':''}
+var used=false;function track(tab){if(used)return;used=true;try{if(sessionStorage.getItem('fr_used'))return;sessionStorage.setItem('fr_used','1')}catch(e){}try{gtag('event','fraction_run',{tab:tab})}catch(e){}}
+function par(f,h){return f.n<0n?'('+h+')':h}
+function cleanInt(s){return String(s).replace(/[−–]/g,'-').replace(/[,\s]/g,'')}
+
+/* ---------- 사칙연산 ---------- */
+var OPS={'+':'+','-':'−','*':'×','/':'÷'};
+var DEF=[{w:'',n:'1',d:'2'},{op:'+',w:'',n:'1',d:'3'}];
+var rows=JSON.parse(JSON.stringify(DEF));
+function render(){
+  $('fx').innerHTML=rows.map(function(r,i){
+    var lab=(i+1)+'번째 분수';
+    return '<div class="fitem">'+(i?'<select class="opsel" id="fo'+i+'" data-i="'+i+'" data-k="op" aria-label="'+i+'번째 연산">'+Object.keys(OPS).map(function(k){return '<option value="'+k+'"'+(r.op===k?' selected':'')+'>'+OPS[k]+'</option>'}).join('')+'</select>':'')+
+      '<div class="fbox"><input class="w" id="fw'+i+'" data-i="'+i+'" data-k="w" inputmode="numeric" placeholder="자연수" aria-label="'+lab+' 자연수 부분" value="'+esc(r.w)+'">'+
+      '<div class="fstack"><input id="fn'+i+'" data-i="'+i+'" data-k="n" inputmode="numeric" placeholder="분자" aria-label="'+lab+' 분자" value="'+esc(r.n)+'"><hr><input id="fd'+i+'" data-i="'+i+'" data-k="d" inputmode="numeric" placeholder="분모" aria-label="'+lab+' 분모" value="'+esc(r.d)+'"></div>'+
+      (rows.length>2?'<button type="button" class="rmrow" data-rm="'+i+'" aria-label="'+lab+' 삭제">×</button>':'')+'</div></div>';
+  }).join('');
+}
+function rowVal(r,i){
+  var lab=(i+1)+'번째 분수',w=cleanInt(r.w),n=cleanInt(r.n),d=cleanInt(r.d);
+  if(!w&&!n&&!d)throw new Error(lab+'를 넣어 주세요');
+  if(w&&!/^[+-]?\d+$/.test(w))throw new Error(lab+': 자연수 칸에는 정수만 넣어 주세요');
+  if(n&&!/^[+-]?\d+$/.test(n))throw new Error(lab+': 분자에는 정수만 넣어 주세요');
+  if(d&&!/^[+-]?\d+$/.test(d))throw new Error(lab+': 분모에는 정수만 넣어 주세요');
+  if(n&&!d)throw new Error(lab+'의 분모를 넣어 주세요');
+  if(d&&!n)throw new Error(lab+'의 분자를 넣어 주세요');
+  var W=w?BigInt(w):0n,N=n?BigInt(n):0n,D=d?BigInt(d):1n;
+  if(D===0n)throw new Error(lab+': 분모에는 0을 넣을 수 없어요');
+  if(W!==0n&&n&&(N<0n||D<0n))throw new Error(lab+': 대분수는 자연수 칸에만 −를 붙여 주세요');
+  var neg=W<0n,aw=neg?-W:W,rawN=aw*D+N;
+  var f=mk(neg?-rawN:rawN,D);
+  return{f:f,mixed:W!==0n&&!!n,w:W,N:N,D:D,rawN:rawN,neg:neg};
+}
+function binop(a,op,b,st){
+  var sym=OPS[op],A=fh(a),Bh=par(b,fh(b)),num,den;
+  if(op==='+'||op==='-'){
+    var sgn=op==='+'?1n:-1n;
+    if(a.d===b.d){
+      num=a.n+sgn*b.n;den=a.d;
+      st.push(A+' '+sym+' '+Bh+' : 분모가 '+com(a.d)+'(으)로 같으니 분자끼리 '+(op==='+'?'더해요':'빼요')+' → <span class="eq">'+FR.stack(com(a.n)+' '+sym+' '+(b.n<0n?'('+com(b.n)+')':com(b.n)),com(den))+' = '+fhRaw(num,den)+'</span>');
+    }else{
+      var g=gcd(a.d,b.d);den=a.d/g*b.d;var ka=den/a.d,kb=den/b.d;num=a.n*ka+sgn*b.n*kb;
+      st.push('<b>통분</b>: 분모 '+com(a.d)+'와(과) '+com(b.d)+'의 최소공배수(LCM)를 구해요. '+(g>1n?'최대공약수(GCD)가 '+com(g)+'이므로 LCM = '+com(a.d)+' × '+com(b.d)+' ÷ '+com(g)+' = <b>'+com(den)+'</b>':'두 수가 서로소(GCD = 1)라서 LCM = '+com(a.d)+' × '+com(b.d)+' = <b>'+com(den)+'</b>'));
+      st.push('공통 분모 '+com(den)+'(으)로 바꿔요: <span class="eq">'+A+' = '+FR.stack(com(a.n)+' × '+com(ka),com(a.d)+' × '+com(ka))+' = '+fhRaw(a.n*ka,den)+'</span> , <span class="eq">'+fh(b)+' = '+FR.stack(com(b.n)+' × '+com(kb),com(b.d)+' × '+com(kb))+' = '+fhRaw(b.n*kb,den)+'</span>');
+      st.push('분자끼리 '+(op==='+'?'더해요':'빼요')+': <span class="eq">'+fhRaw(a.n*ka,den)+' '+sym+' '+par(b,fhRaw(b.n*kb,den))+' = '+fhRaw(num,den)+'</span>');
+    }
+  }else{
+    var bb=b;
+    if(op==='/'){
+      if(b.n===0n)throw new Error('0으로 나눌 수 없어요 (나누는 분수가 0이에요)');
+      bb=mk(b.d,b.n);
+      st.push('나눗셈은 나누는 수를 뒤집어(역수) 곱해요: <span class="eq">'+A+' ÷ '+Bh+' = '+A+' × '+par(bb,fh(bb))+'</span>');
+    }
+    num=a.n*bb.n;den=a.d*bb.d;
+    var c1=gcd(a.n,bb.d),c2=gcd(bb.n,a.d);
+    st.push('분자는 분자끼리, 분모는 분모끼리 곱해요: <span class="eq">'+A+' × '+par(bb,fh(bb))+' = '+FR.stack(com(a.n)+' × '+(bb.n<0n?'('+com(bb.n)+')':com(bb.n)),com(a.d)+' × '+com(bb.d))+' = '+fhRaw(num,den)+'</span>'+((c1>1n||c2>1n)?' <span class="note">(곱하기 전에 대각선끼리 먼저 약분해도 결과는 같아요)</span>':''));
+  }
+  var r=mk(num,den),g2=gcd(num,den);
+  if(num===0n)st.push('분자가 0이라 결과는 <b>0</b>이에요.');
+  else if(g2>1n)st.push('<b>약분</b>: 분자와 분모의 최대공약수 GCD('+com(abs(num))+', '+com(den)+') = '+com(g2)+'(으)로 나눠요 → <span class="eq">'+FR.stack(com(abs(num))+' ÷ '+com(g2),com(den)+' ÷ '+com(g2))+' = '+fh(r)+'</span>');
+  return r;
+}
+function calcMain(){
+  var items;
+  try{items=rows.map(rowVal)}catch(e){errOut('frRes',e.message);set('frPlain','');set('frMini','');set('frSteps','');return}
+  var st=[];
+  items.forEach(function(it,i){
+    if(it.mixed){var s=(it.neg?'−':'')+com(it.neg?-it.w:it.w)+FR.stack(com(it.N),com(it.D));
+      st.push('대분수를 가분수로 바꿔요: <span class="eq">'+s+' = '+(it.neg?'−':'')+FR.stack('('+com(it.neg?-it.w:it.w)+' × '+com(it.D)+' + '+com(it.N)+')',com(it.D))+' = '+fhRaw(it.neg?-it.rawN:it.rawN,it.D)+(gcd(it.rawN,it.D)>1n?' = '+fh(it.f):'')+'</span>')}
+    else if(it.N!==0n&&it.D!==1n&&(gcd(it.N,it.D)>1n||it.D<0n)&&!it.w)st.push(fhRaw(it.N,it.D)+'을(를) 먼저 정리하면 '+fh(it.f)+'이에요.');
+  });
+  var ops=rows.slice(1).map(function(r){return r.op});
+  var hasMD=ops.some(function(o){return o==='*'||o==='/'}),hasAS=ops.some(function(o){return o==='+'||o==='-'});
+  if(hasMD&&hasAS)st.push('곱셈·나눗셈을 덧셈·뺄셈보다 먼저 계산해요.');
+  var res;
+  try{
+    var vals=[items[0].f],rest=[];
+    for(var i=1;i<items.length;i++){var o=ops[i-1];if(o==='*'||o==='/'){vals.push(binop(vals.pop(),o,items[i].f,st))}else{rest.push(o);vals.push(items[i].f)}}
+    res=vals[0];for(var j=0;j<rest.length;j++)res=binop(res,rest[j],vals[j+1],st);
+  }catch(e){errOut('frRes',e.message);set('frPlain','');set('frMini','');set('frSteps',stepsHTML('풀이',st));return}
+  var mx=FR.mixed(res),isMixed=res.d!==1n&&mx.w>0n;
+  if(isMixed)st.push('<b>대분수로</b>: '+com(abs(res.n))+' ÷ '+com(res.d)+' = '+com(mx.w)+' 나머지 '+com(mx.r)+' → <span class="eq">'+FR.mixedHTML(res)+'</span>');
+  set('frRes','<b>'+fh(res)+'</b>'+(isMixed?' <span style="font-size:.6em;color:#C9D5EE">= '+FR.mixedHTML(res)+'</span>':''));
+  set('frPlain','기약분수 <b id="frTxt">'+esc(FR.txt(res))+'</b>'+(isMixed?' · 대분수 '+esc(FR.mixedTxt(res)):'')+' · 소수 '+FR.decHTML(res,40));
+  var e=FR.dec(res,60);
+  set('frMini',[['기약분수',esc(FR.txt(res))],['대분수',isMixed?esc(FR.mixedTxt(res)):'—'],['소수',FR.decHTML(res,40)],['소수 종류',res.d===1n?'정수':e.rep>=0?'순환소수':e.trunc?'긴 소수':'유한소수']].map(function(a){return '<div><span>'+a[0]+'</span><b>'+a[1]+'</b></div>'}).join(''));
+  set('frSteps',stepsHTML('풀이 과정',st));
+}
+render();
+$('fx').addEventListener('input',function(e){var t=e.target,i=+t.dataset.i;if(!t.dataset.k)return;rows[i][t.dataset.k]=t.value;calcMain();track('calc')});
+$('fx').addEventListener('change',function(e){var t=e.target;if(t.dataset.k==='op'){rows[+t.dataset.i].op=t.value;calcMain();track('calc')}});
+$('fx').addEventListener('click',function(e){var b=e.target.closest('[data-rm]');if(!b)return;rows.splice(+b.dataset.rm,1);render();calcMain()});
+$('addRow').addEventListener('click',function(){if(rows.length>=8)return;rows.push({op:'+',w:'',n:'',d:''});render();calcMain();var k=rows.length-1;try{$('fn'+k).focus()}catch(e){}if(rows.length>=8)$('addRow').disabled=true});
+$('resetRow').addEventListener('click',function(){rows=JSON.parse(JSON.stringify(DEF));$('addRow').disabled=false;render();calcMain()});
+
+/* ---------- 약분 ---------- */
+function calcRed(){
+  var n=cleanInt($('rdN').value),d=cleanInt($('rdD').value);
+  if(!/^[+-]?\d+$/.test(n)||!/^[+-]?\d+$/.test(d)){errOut('rdRes','분자와 분모에 정수를 넣어 주세요');set('rdF','');set('rdSteps','');return}
+  var N=BigInt(n),D=BigInt(d);
+  if(D===0n){errOut('rdRes','분모에는 0을 넣을 수 없어요');set('rdF','');set('rdSteps','');return}
+  var st=[],a=abs(N),b=abs(D);
+  if(a===0n){set('rdRes','<b>0</b>');set('rdF','분자가 0이면 값은 0이에요.');set('rdSteps','');return}
+  var x=a>b?a:b,y=a>b?b:a,ee=[];
+  var p=x,q=y;
+  while(q!==0n&&ee.length<40){var r=p%q;ee.push(com(p)+' = '+com(q)+' × '+com(p/q)+' + '+com(r));p=q;q=r}
+  var g=gcd(a,b),f=mk(N,D);
+  st.push('<b>유클리드 호제법</b>으로 최대공약수를 구해요 (나머지가 0이 될 때까지 나눠요):<br>'+ee.map(function(s){return '<span class="eq">'+s+'</span>'}).join('<br>')+(q!==0n?'<br>…':''));
+  st.push('마지막에 나눈 수가 최대공약수예요: <b>GCD('+com(a)+', '+com(b)+') = '+com(g)+'</b>');
+  if(g>1n)st.push('분자와 분모를 '+com(g)+'(으)로 나눠요: <span class="eq">'+fhRaw(N<0n!==D<0n?-a:a,b)+' = '+FR.stack(com(a)+' ÷ '+com(g),com(b)+' ÷ '+com(g))+' = '+fh(f)+'</span>');
+  else st.push('최대공약수가 1이라 이미 <b>기약분수</b>예요.');
+  if(g>1n&&g<=1000000n){var ds=[],G=Number(g);for(var k=2;k*k<=G;k++)if(G%k===0){ds.push(k);if(k*k!==G)ds.push(G/k)}if(ds.length){ds.sort(function(u,v){return u-v});st.push('다른 공약수('+ds.slice(0,12).join(', ')+(ds.length>12?' …':'')+')로 나누면 아직 덜 약분된 분수가 돼요. 예: '+ds.slice(0,3).map(function(k){var K=BigInt(k);return fhRaw((N<0n!==D<0n?-a:a)/K,b/K)}).join(', '))}}
+  set('rdRes','<b>'+fh(f)+'</b>'+(f.d!==1n&&abs(f.n)>f.d?' <span style="font-size:.6em;color:#C9D5EE">= '+FR.mixedHTML(f)+'</span>':''));
+  set('rdF',esc(n+'/'+d)+' = <b>'+esc(FR.txt(f))+'</b> · 소수 '+FR.decHTML(f,40));
+  set('rdSteps',stepsHTML('풀이 과정',st));
+}
+
+/* ---------- 분수 ↔ 소수 ---------- */
+function calcConv(){
+  // fraction -> decimal
+  var f;try{f=FR.parse($('cvF').value)}catch(e){f=e}
+  if(f instanceof Error||!f){errOut('cvFR',f instanceof Error?f.message:'분수를 7/12, 2 1/3 처럼 넣어 주세요');set('cvFF','');set('cvFS','')}
+  else{
+    var e=FR.dec(f,80),st=[];
+    st.push(fh(f)+' = '+com(abs(f.n))+' ÷ '+com(f.d)+(f.n<0n?' (음수)':'')+' 을(를) 나눗셈으로 계산해요.');
+    if(f.d!==1n){var fc=FR.factor(f.d);var only25=fc.f.every(function(x){return x[0]===2n||x[0]===5n});
+      st.push('기약분수의 분모 '+com(f.d)+' = '+FR.factHTML(fc.f)+' → '+(only25?'소인수가 2와 5뿐이라 <b>유한소수</b>예요.':'2와 5 말고 다른 소인수가 있어서 <b>순환소수</b>가 돼요.'));
+      if(e.rep>=0)st.push('나머지가 다시 나오는 순간부터 같은 숫자가 반복돼요. 순환마디는 <b>'+e.dg.slice(e.rep).join('')+'</b> ('+(e.dg.length-e.rep)+'자리)예요.');}
+    set('cvFR','<b>'+FR.decHTML(f,80)+'</b>');
+    set('cvFF','괄호 표기 '+esc(FR.decText(f,80))+' · 근삿값 '+fmtN(FR.toNum(f)));
+    set('cvFS',stepsHTML('풀이',st));
+  }
+  // decimal -> fraction
+  var s=FR.norm($('cvD').value).replace(/\s/g,''),m=/^([+-])?(\d*)(?:\.(\d*)(?:\((\d+)\))?)?$/.exec(s);
+  if(!s||!m||(!m[2]&&!m[3]&&!m[4])){errOut('cvDR','소수를 1.25, 0.(3), 0.1(6) 처럼 넣어 주세요');set('cvDF','');set('cvDS','');return}
+  var I=m[2]||'0',A=m[3]||'',R=m[4]||'',neg=m[1]==='-',st2=[],res;
+  var X=(neg?'−':'')+I+(A||R?'.':'')+A+(R?'<span class="ov">'+R+'</span>':'');
+  if(R){
+    var mm=A.length,kk=R.length,N=BigInt(I+A+R),M=BigInt(I+A),P1=FR.p10(mm+kk),P0=FR.p10(mm);
+    st2.push('x = '+X+' 라고 두어요. 순환마디 앞 소수 부분은 '+mm+'자리, 순환마디 <b>'+R+'</b>는 '+kk+'자리예요.');
+    st2.push('<span class="eq">'+com(P1)+'x = '+com(N)+'.<span class="ov">'+R+'</span></span>'+(mm?' , <span class="eq">'+com(P0)+'x = '+com(M)+'.<span class="ov">'+R+'</span></span>':' , <span class="eq">x = '+com(M)+'.<span class="ov">'+R+'</span></span>'));
+    st2.push('두 식을 빼면 반복되는 부분이 사라져요: <span class="eq">'+com(P1-P0)+'x = '+com(N)+' − '+com(M)+' = '+com(N-M)+'</span>');
+    res=mk(N-M,P1-P0);var g=gcd(N-M,P1-P0);
+    st2.push('<span class="eq">x = '+fhRaw(N-M,P1-P0)+(g>1n?' = '+fh(res):'')+'</span>'+(g>1n?' (최대공약수 '+com(g)+'(으)로 약분)':''));
+  }else{
+    var NN=BigInt(I+A),DD=FR.p10(A.length);res=mk(NN,DD);var g2=gcd(NN,DD);
+    if(A.length)st2.push('소수점 아래 '+A.length+'자리이므로 분모를 '+com(DD)+'(으)로 써요: <span class="eq">'+X+' = '+fhRaw(neg?-NN:NN,DD)+'</span>');
+    else st2.push('정수예요.');
+    if(g2>1n)st2.push('<b>약분</b>: GCD('+com(NN)+', '+com(DD)+') = '+com(g2)+' → <span class="eq">'+fh(neg?FR.neg(res):res)+'</span>');
+  }
+  if(neg)res=FR.neg(res);
+  set('cvDR','<b>'+fh(res)+'</b>'+(res.d!==1n&&abs(res.n)>res.d?' <span style="font-size:.6em;color:#C9D5EE">= '+FR.mixedHTML(res)+'</span>':''));
+  set('cvDF','<span id="cvDTxt">'+esc(FR.txt(res))+'</span>'+(res.d!==1n&&abs(res.n)>res.d?' · 대분수 '+esc(FR.mixedTxt(res)):''));
+  set('cvDS',stepsHTML('풀이',st2));
+}
+
+/* ---------- 크기 비교 ---------- */
+function calcCmp(){
+  var a,b;
+  try{a=FR.parse($('cmA').value);b=FR.parse($('cmB').value)}catch(e){errOut('cmR',e.message);set('cmF','');set('cmS','');a=null}
+  if(a!==null&&(!a||!b)){errOut('cmR','두 분수를 3/4, 2 1/3, 0.5 처럼 넣어 주세요');set('cmF','');set('cmS','')}
+  else if(a){
+    var c=FR.cmp(a,b),st=[],L=FR.lcm(a.d,b.d),na=a.n*(L/a.d),nb=b.n*(L/b.d);
+    if(a.d===b.d)st.push('분모가 같으니 분자만 비교해요: '+com(a.n)+' '+(c<0?'&lt;':c>0?'&gt;':'=')+' '+com(b.n));
+    else{st.push('분모 '+com(a.d)+', '+com(b.d)+'의 최소공배수 '+com(L)+'(으)로 통분해요: <span class="eq">'+fh(a)+' = '+fhRaw(na,L)+'</span> , <span class="eq">'+fh(b)+' = '+fhRaw(nb,L)+'</span>');
+      st.push('분자를 비교해요: '+com(na)+' '+(c<0?'&lt;':c>0?'&gt;':'=')+' '+com(nb));
+      st.push('다른 방법(교차 곱): '+com(a.n)+' × '+com(b.d)+' = '+com(a.n*b.d)+' 와 '+com(b.n)+' × '+com(a.d)+' = '+com(b.n*a.d)+'을(를) 비교해도 돼요.')}
+    var sym=c<0?'&lt;':c>0?'&gt;':'=';
+    set('cmR','<b>'+fh(a)+' '+sym+' '+fh(b)+'</b>');
+    var diff=FR.sub(a,b);
+    set('cmF',c===0?'두 분수는 크기가 같아요.':(c>0?'첫 번째':'두 번째')+' 분수가 '+esc(FR.txt(diff.n<0n?FR.neg(diff):diff))+' 만큼 더 커요 (소수로 '+fmtN(FR.toNum(a))+' vs '+fmtN(FR.toNum(b))+')');
+    set('cmS',stepsHTML('풀이',st));
+  }
+  // sort list
+  var parts=$('cmL').value.split(/[,;，\n]+/).map(function(s){return s.trim()}).filter(Boolean),list=[],bad=[];
+  parts.forEach(function(p){try{var f=FR.parse(p);if(f)list.push({s:p,f:f});else bad.push(p)}catch(e){bad.push(p)}});
+  if(!list.length){set('cmT','<tr><td>분수를 쉼표로 구분해 넣어 주세요</td></tr>');return}
+  if(list.length>200)list=list.slice(0,200);
+  var L2=list.reduce(function(acc,x){return FR.lcm(acc,x.f.d)},1n),big=String(L2).length>30;
+  list.sort(function(x,y){return FR.cmp(x.f,y.f)});
+  set('cmT','<tr><th>순위 (작은 순)</th><th>입력</th><th>기약분수</th>'+(big?'':'<th>통분 (분모 '+com(L2)+')</th>')+'<th>소수</th></tr>'+list.map(function(x,i){return '<tr><td>'+(i+1)+'</td><td>'+esc(x.s)+'</td><td>'+fh(x.f)+'</td>'+(big?'':'<td>'+fhRaw(x.f.n*(L2/x.f.d),L2)+'</td>')+'<td>'+fmtN(FR.toNum(x.f))+'</td></tr>'}).join('')+(bad.length?'<tr><td colspan="5" class="note">읽지 못한 값: '+esc(bad.join(', '))+'</td></tr>':''));
+}
+
+var calc={calc:calcMain,red:calcRed,conv:calcConv,cmp:calcCmp};
+['red','conv','cmp'].forEach(function(k){var p=$('p-'+k);p.addEventListener('input',function(){calc[k]();track(k)})});
+var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+function show(k,focus){tabs.forEach(function(t){var on=t.id==='t-'+k;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;$('p-'+t.id.slice(2)).hidden=!on;if(on&&focus)t.focus()});try{history.replaceState(null,'','#'+k)}catch(e){}}
+tabs.forEach(function(t,i){t.addEventListener('click',function(){show(t.id.slice(2))});t.addEventListener('keydown',function(e){var j=e.key==='ArrowRight'?i+1:e.key==='ArrowLeft'?i-1:null;if(j===null)return;e.preventDefault();show(tabs[(j+tabs.length)%tabs.length].id.slice(2),true)})});
+Object.keys(calc).forEach(function(k){calc[k]()});
+var h=(location.hash||'').slice(1);if(calc[h])show(h);else tabs.forEach(function(t,i){t.tabIndex=i?-1:0});
+window.__fr={calc:calc,show:show,setRows:function(r){rows=r;render();calcMain()}};
+})();
+</script>
+</body>
+</html>

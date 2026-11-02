@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="only light">
+<title>공학용 계산기 | 무료 온라인 과학 계산기 (삼각함수·로그·지수·팩토리얼)</title>
+<meta name="description" content="무료 온라인 공학용 계산기예요. sin·cos·tan(도/라디안), 역삼각·쌍곡선 함수, log·ln·밑 변환 로그, 제곱근·세제곱근·거듭제곱, n!, nPr, nCr, 메모리, 계산 기록까지 키보드로도 쓸 수 있어요. 2·8·10·16진법 변환과 평균·표준편차 통계도 있어요.">
+<link rel="canonical" href="https://honglife.co.kr/sci-calc.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="홍라이프 계산기">
+<meta property="og:title" content="공학용 계산기 | 무료 온라인 과학 계산기 (삼각함수·로그·지수·팩토리얼)">
+<meta property="og:description" content="삼각함수·로그·지수·팩토리얼·순열·조합을 키보드와 버튼으로 바로 계산하는 무료 공학용 계산기예요.">
+<meta property="og:url" content="https://honglife.co.kr/sci-calc.html">
+<meta name="theme-color" content="#0B1F3F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"-3^2는 왜 9가 아니라 -9인가요?","acceptedAnswer":{"@type":"Answer","text":"수학 규칙에서는 거듭제곱(^)이 부호(−)보다 먼저 계산돼요. 그래서 -3^2는 -(3^2) = -9이고, (-3)의 제곱을 원하면 (-3)^2처럼 괄호를 써야 9가 나와요. 2^3^2도 오른쪽부터 계산해서 2^9 = 512예요."}},{"@type":"Question","name":"sin(30)이 0.5가 아니라 이상한 값이 나와요.","acceptedAnswer":{"@type":"Answer","text":"각도 단위를 확인하세요. DEG(도)에서는 sin(30) = 0.5지만, RAD(라디안)에서는 30라디안의 사인값인 -0.988…이 나와요. 화면 위쪽의 DEG/RAD 버튼으로 바꿀 수 있어요."}},{"@type":"Question","name":"nPr과 nCr은 어떻게 입력하나요?","acceptedAnswer":{"@type":"Answer","text":"10P3, 10C3처럼 두 수 사이에 P나 C를 넣거나 nPr(10,3), nCr(10,3)처럼 함수로 써도 돼요. 10C3 = 10! ÷ (3! × 7!) = 120, 10P3 = 10 × 9 × 8 = 720이에요."}}]}
+</script>
+<style>
+:root{color-scheme:light;
+  --navy:#0B1F3F;--paper:#fff;--ink:#2F343B;--head:#14233D;--muted:#5F6875;--line:#E1E5EC;--soft:#F3F5F9;
+  --btn:#12305C;--gold:#B8862B;--gold-l:#C9A04A;--gold-soft:#FBF4E6;
+  --f:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#0B1F3F linear-gradient(180deg,#0F2A52 0,#0C2347 600px,#0A1E3E 100%) fixed;color:var(--ink);font:16px/1.7 var(--f);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--btn)}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08)}
+.brandbar .in{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none;white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:6px;background:var(--gold);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;white-space:nowrap}.brandbar .meta a{color:#DCE4F2;text-decoration:none;margin-left:10px}
+@media(max-width:520px){.brandbar .meta{display:none}}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 56px}
+header.top{padding:28px 0 20px;color:#fff}
+h1{margin:0;font-weight:800;font-size:clamp(25px,5vw,34px);letter-spacing:-.025em;line-height:1.3;text-wrap:balance}
+h1 b{color:var(--gold-l)}
+header.top p{margin:8px 0 0;color:#C9D5EE;max-width:640px}
+.card{background:var(--paper);border-radius:14px;padding:20px;margin:0 0 14px;box-shadow:0 1px 0 rgba(255,255,255,.04)}
+h2{font-size:19px;margin:0 0 12px;letter-spacing:-.015em;color:var(--head)}
+h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+h3{font-size:16px;margin:16px 0 6px;color:var(--head)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px}
+.f label,.f .lb{display:block;font-size:14px;font-weight:600;margin-bottom:4px;color:var(--head)}
+.f small{display:block;color:var(--muted);font-size:12.6px;line-height:1.5;margin-top:3px}
+.f input,.f select{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid #CFD6E0;border-radius:9px;background:#fff;color:var(--ink);min-height:44px}
+.f input:focus,.f select:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.seg{display:flex;gap:6px}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:9px 6px;border:1.5px solid #CFD6E0;border-radius:9px;background:#fff;cursor:pointer;min-height:44px;font-size:14.5px}
+.seg input:checked+span{border-color:var(--btn);background:#EAF0F8;color:var(--btn);font-weight:700}
+.seg input:focus-visible+span{outline:2px solid var(--gold-l)}
+details.opt{border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+details.opt summary{cursor:pointer;font-weight:700;color:var(--head);list-style:none;display:flex;align-items:center;gap:8px}
+details.opt summary::-webkit-details-marker{display:none}
+details.opt summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--gold-soft);color:var(--gold);font-weight:800}
+details.opt[open] summary::before{content:"−"}
+details.opt summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+details.opt .grid{margin-top:12px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 22px;border-radius:10px;border:0;background:var(--btn);color:#fff;cursor:pointer;min-height:48px}
+.btn:hover{background:#0D2647}
+.btn.gold{background:var(--gold);color:#fff}.btn.gold:hover{background:#A27522}
+.btn.ghost{background:#fff;color:var(--btn);border:1.5px solid var(--btn)}
+.err{color:#B3261E;font-weight:700;margin:10px 0 0}
+.note{font-size:13.5px;color:var(--muted);line-height:1.65}
+.hero-res{background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:14px;padding:22px 20px;margin-bottom:16px}
+.hero-res .k{font-size:14px;color:#C9D5EE}
+.hero-res .big{font-size:clamp(30px,7vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin:4px 0 6px;font-variant-numeric:tabular-nums}
+.hero-res .big b{color:var(--gold-l)}
+.hero-res .sub{color:#E3E9F5;font-size:15px}
+.prog{margin-top:16px}
+.prog .bar{height:14px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
+.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,#C9A04A,#E8C27A);border-radius:99px}
+.prog .lbl{display:flex;justify-content:space-between;font-size:13px;color:#C9D5EE;margin-top:6px;gap:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;background:#fff;position:relative}
+.stat::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.stat span{display:block;font-size:13.5px;color:var(--muted)}
+.stat b{display:block;font-size:28px;line-height:1.25;font-weight:800;color:var(--head);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat b small{font-size:15px;font-weight:700;margin-left:2px}
+.stat em{display:block;font-style:normal;font-size:13px;color:var(--muted);line-height:1.5;margin-top:2px}
+@media(max-width:430px){.stats{grid-template-columns:1fr 1fr}.stat{padding:12px 10px 10px 13px}.stat b{font-size:22px}.stat b small{font-size:13px}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14233D;color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;z-index:9;max-width:calc(100% - 32px);text-align:center}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-size:13px;white-space:nowrap}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.faq details{border-top:1px solid var(--line);padding:10px 0}
+.faq details:first-of-type{border-top:0}
+.faq summary{cursor:pointer;font-weight:700;color:var(--head)}
+.faq p{margin:6px 0 0}
+.calc-index{margin-top:28px;background:var(--paper);border-radius:14px;padding:20px 22px}.calc-index h2{font-size:17px;margin:0 0 12px;color:#2F343B}.ci-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.ci-grid b{font-size:13.5px;color:var(--btn)}.ci-grid ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ci-grid a{color:#2C3A4F;text-decoration:none;font-size:14px}.ci-grid a:hover,.ci-grid a[aria-current]{color:var(--gold);text-decoration:underline}@media (max-width:900px){.ci-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.ci-grid{grid-template-columns:1fr 1fr}}
+footer.site{margin-top:14px;background:var(--paper);border-radius:14px;padding:16px 20px;font-size:13px;color:var(--muted);line-height:1.7}
+footer.site div+div{margin-top:4px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.tabs button{font:inherit;font-size:14.5px;font-weight:600;padding:8px 14px;border-radius:99px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);color:#DCE4F2;cursor:pointer;min-height:40px}
+.tabs button[aria-selected="true"]{background:#fff;border-color:#fff;color:var(--btn)}
+.tabs button:focus-visible{outline:2px solid var(--gold-l);outline-offset:2px}
+.q{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:17px;font-weight:600;color:var(--head)}
+.q input,.q select{font:inherit;font-size:17px;font-weight:600;width:140px;max-width:100%;padding:8px 10px;border:1px solid #CFD6E0;border-radius:9px;min-height:46px;color:var(--ink);background:#fff;text-align:right;font-variant-numeric:tabular-nums}
+.q select{text-align:left;width:auto}
+.q input:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.q+.q{margin-top:12px}
+@media(max-width:430px){.q input{width:120px}}
+.out{margin-top:16px;background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:12px;padding:16px 18px}
+.out .k{font-size:13.5px;color:#C9D5EE}
+.out .v{font-size:clamp(26px,6vw,36px);font-weight:800;letter-spacing:-.02em;line-height:1.25;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.out .v b{color:var(--gold-l)}
+.out .fx{font-size:14px;color:#E3E9F5;margin-top:4px;overflow-wrap:anywhere}
+.mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:10px}
+.mini div{background:var(--soft);border-radius:10px;padding:10px 12px}
+.mini span{display:block;font-size:12.5px;color:var(--muted)}
+.mini b{font-size:18px;font-variant-numeric:tabular-nums;color:var(--head)}
+.sub2{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}
+.sub2 h3{margin:0 0 10px}
+.ex{background:var(--gold-soft);border-radius:10px;padding:12px 14px;font-size:14.5px;margin-top:14px}
+.ex b{color:#8A6418}
+.shares{width:100%;margin-top:12px}
+.shares td:last-child,.shares th:last-child,.shares td:nth-child(2){text-align:right;font-variant-numeric:tabular-nums}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;margin:0 3px;font-variant-numeric:tabular-nums;text-align:center}
+.frac>span{padding:0 4px}
+.frac>span:first-child{border-bottom:1.5px solid currentColor}
+.out .v .frac{font-size:.78em}
+.ov{text-decoration:overline;text-decoration-thickness:1.5px}
+.steps{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:14px 16px 6px;background:#fff}
+.steps h3{margin:0 0 6px;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.steps h3::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--gold)}
+.steps ol{margin:0;padding-left:22px}
+.steps li{margin:0 0 10px;line-height:1.9;overflow-wrap:anywhere}
+.steps li::marker{color:var(--gold);font-weight:800}
+.steps .eq{display:inline-block;background:var(--soft);border-radius:8px;padding:2px 8px;margin:2px 0}
+.erro{font-size:17px!important;color:#FFD9D4!important;font-weight:700}
+.rel{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.rel a{display:block;padding:12px 14px 12px 16px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--head);font-weight:700;position:relative;background:#fff}
+.rel a::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.rel a span{display:block;font-weight:500;font-size:13px;color:var(--muted);line-height:1.5}
+.rel a:hover{border-color:var(--btn)}
+.expl p{margin:0 0 10px}
+.expl ul{margin:0 0 10px;padding-left:20px}
+.ta{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid #CFD6E0;border-radius:9px;min-height:96px;color:var(--ink);background:#fff;resize:vertical}
+.ta:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.q input.wide{width:220px;text-align:left}
+@media(max-width:430px){.q input.wide{width:100%}}
+.mini b span.ov{display:inline;font-size:inherit;color:inherit}
+.scr{background:linear-gradient(160deg,#0B1F3F,#163763);border-radius:14px;padding:12px 14px 14px;color:#fff}
+.ind{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:36px}
+.seg.ang{gap:4px}
+.seg.ang span{min-height:32px;padding:4px 12px;font-size:13px;font-weight:700;border-color:rgba(255,255,255,.3);background:transparent;color:#C9D5EE}
+.seg.ang input:checked+span{background:var(--gold);border-color:var(--gold);color:#fff}
+.mem{font-size:12.5px;font-weight:800;color:#0B1F3F;background:var(--gold-l);border-radius:6px;padding:2px 8px}
+.ansv{font-size:12.5px;color:#9FB0CF;margin-left:auto;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ex{display:block;width:100%;margin-top:8px;font:inherit;font-size:22px;font-weight:600;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.01em;min-height:52px}
+.ex::placeholder{color:#8EA0C2;font-size:15px;font-weight:500}
+.ex:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.res{text-align:right;font-size:clamp(26px,6vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.3;margin-top:8px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;min-height:1.3em}
+.res.pre{color:#8EA0C2;font-size:clamp(20px,4.5vw,26px);font-weight:600}
+.res.err{color:#FFD9D4;font-size:18px;font-weight:700}
+.res b{color:var(--gold-l)}
+.pads{display:grid;grid-template-columns:6fr 5fr;gap:12px;margin-top:14px}
+@media(max-width:760px){.pads{grid-template-columns:1fr}}
+.kp{display:grid;gap:6px}
+.kp.fn{grid-template-columns:repeat(6,minmax(0,1fr))}
+.kp.num{grid-template-columns:repeat(5,minmax(0,1fr))}
+.kp button{font:inherit;font-size:15px;font-weight:700;min-height:44px;border-radius:9px;border:1px solid #D4DAE3;background:var(--soft);color:var(--head);cursor:pointer;padding:4px 2px;line-height:1.1;touch-action:manipulation;white-space:nowrap;overflow:hidden}
+.kp.fn button{font-size:14px}
+.kp button:hover{border-color:var(--btn)}
+.kp button:active{transform:translateY(1px)}
+.kp button:focus-visible{outline:2px solid var(--gold-l);outline-offset:1px}
+.kp.num button{font-size:19px;min-height:50px;background:#fff}
+.kp button.op{background:#EAF0F8;color:var(--btn)}
+.kp button.eq{background:var(--btn);color:#fff;border-color:var(--btn)}
+.kp button.eq:hover{background:#0D2647}
+.kp button.clr{background:var(--gold);color:#fff;border-color:var(--gold)}
+.kp button.m{background:#fff;color:#8A6418;font-size:13px}
+.kp button sup{font-size:.7em}
+@media(max-width:430px){.kp{gap:5px}.kp.fn button{font-size:12.5px;min-height:42px}.kp.num button{font-size:18px;min-height:48px}}
+.hh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hh h3{margin:0}
+.btn.sm{min-height:36px;padding:6px 12px;font-size:13.5px}
+.hist{list-style:none;margin:10px 0 0;padding:0;max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.hist li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:6px 10px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
+.hist li:first-child{border-top:0}
+.hist button{font:inherit;background:none;border:0;padding:4px 2px;cursor:pointer;color:var(--ink);text-align:left;overflow-wrap:anywhere;min-height:32px}
+.hist button.r{font-weight:800;color:var(--btn);text-align:right;flex-shrink:0;max-width:50%}
+.hist button:hover{text-decoration:underline}
+.hist .empty{color:var(--muted);font-size:14px;padding:10px}
+.bt td{font-variant-numeric:tabular-nums;overflow-wrap:anywhere;word-break:break-all;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px}
+.bt td:first-child{font-family:var(--f);white-space:nowrap;font-weight:700;color:var(--head)}
+.seg.ang label{flex:0 0 auto}
+.seg.ang span{white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="fraction.html">분수 계산기</a><a href="root-power.html">제곱근·지수</a><a href="percent.html">퍼센트 계산기</a></span></div></div>
+<div class="wrap">
+<header class="top">
+  <h1><b>공학용</b> 계산기</h1>
+  <p>삼각함수, 로그, 거듭제곱, 팩토리얼, 순열·조합까지 버튼이나 키보드로 바로 계산해요. 계산 기록은 이 브라우저에만 저장돼요.</p>
+</header>
+
+<div class="tabs" role="tablist" aria-label="계산 종류">
+  <button role="tab" id="t-calc" aria-controls="p-calc" aria-selected="true">계산기</button>
+  <button role="tab" id="t-base" aria-controls="p-base" aria-selected="false">진법 변환</button>
+  <button role="tab" id="t-stat" aria-controls="p-stat" aria-selected="false">통계</button>
+</div>
+
+<section class="card" role="tabpanel" id="p-calc" aria-labelledby="t-calc">
+  <div class="scr">
+    <div class="ind"><div class="seg ang" role="radiogroup" aria-label="각도 단위"><label><input type="radio" name="ang" value="deg" checked><span>DEG</span></label><label><input type="radio" name="ang" value="rad"><span>RAD</span></label></div><span id="memInd" class="mem" hidden></span><span id="ansInd" class="ansv"></span></div>
+    <input id="ex" class="ex" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="계산식" placeholder="식을 입력하세요 (예: 2sin(30)+3^2)">
+    <div class="res" id="res" aria-live="polite">&nbsp;</div>
+  </div>
+  <div class="pads">
+    <div class="kp fn" id="kpF"></div>
+    <div class="kp num" id="kpN"></div>
+  </div>
+  <p class="note" style="margin:12px 0 0">키보드: 숫자·연산자 입력, <b>Enter</b> 계산, <b>Esc</b> 지우기, <b>Backspace</b> 한 글자 삭제. 함수는 <b>sin(30)</b>, <b>logb(2,8)</b>, <b>root(3,27)</b>, <b>10C3</b>처럼 쓸 수 있고, 곱셈 기호 없이 <b>2π</b>, <b>3(4)</b>처럼 써도 돼요. 아주 크거나 작은 결과는 <b>1.5E20</b>(= 1.5 × 10²⁰)처럼 보여 줘요.</p>
+  <div class="sub2">
+    <div class="hh"><h3>계산 기록</h3><button type="button" class="btn ghost sm" id="hClr">기록 지우기</button></div>
+    <ol class="hist" id="hist"></ol>
+    <p class="note" style="margin:6px 0 0">식을 누르면 식을, 결과를 누르면 값을 입력창에 다시 넣어요. 최근 50개까지 이 기기에만 저장돼요.</p>
+  </div>
+</section>
+
+<section class="card" role="tabpanel" id="p-base" aria-labelledby="t-base" hidden>
+  <h2>진법 변환 <small>2진수·8진수·10진수·16진수</small></h2>
+  <div class="q"><input id="bsV" class="wide" value="2026" aria-label="변환할 수" autocapitalize="off" spellcheck="false"> 을(를) <select id="bsB" aria-label="입력한 수의 진법"><option value="10" selected>10진수로 보고</option><option value="2">2진수로 보고</option><option value="8">8진수로 보고</option><option value="16">16진수로 보고</option></select> 변환</div>
+  <div class="scroll" style="margin-top:14px"><table class="bt" id="bsT"></table></div>
+  <div class="steps" id="bsS"></div>
+  <p class="note">정수만 변환해요(음수는 앞에 −). 아주 큰 수도 정확하게 바꿔요. 0x1F, 0b1010, 0o17처럼 접두어를 붙이면 진법을 자동으로 알아봐요.</p>
+</section>
+
+<section class="card" role="tabpanel" id="p-stat" aria-labelledby="t-stat" hidden>
+  <h2>통계 계산 <small>평균·중앙값·분산·표준편차</small></h2>
+  <textarea class="ta" id="stIn" aria-label="숫자 목록 (쉼표, 공백, 줄바꿈으로 구분)">72, 85, 90, 66, 85, 78, 94, 88</textarea>
+  <p class="note" style="margin:4px 0 0">숫자를 쉼표, 공백, 줄바꿈으로 구분해 넣어요. 엑셀에서 한 열을 복사해 붙여 넣어도 돼요.</p>
+  <div class="stats" id="stOut" style="margin-top:12px"></div>
+  <div class="steps" id="stS"></div>
+</section>
+
+<section class="card expl">
+  <h2>계산 순서와 사용 팁</h2>
+  <p>이 계산기는 수학 규칙대로 <b>괄호 → 함수·팩토리얼(!)·퍼센트(%) → 거듭제곱(^, 오른쪽부터) → 부호(−) → nPr·nCr → 곱셈·나눗셈 → 덧셈·뺄셈</b> 순서로 계산해요. 그래서 2+3×4 = 14, 2^3^2 = 512, -3^2 = -9가 나와요.</p>
+  <ul>
+    <li><b>DEG/RAD</b>: 삼각함수에 넣는 각도와 역삼각함수 결과의 단위예요. 시험 문제의 30°, 45°는 DEG로 계산해요.</li>
+    <li><b>log</b>는 상용로그(밑 10), <b>ln</b>은 자연로그(밑 e), <b>logb(밑, 진수)</b>는 원하는 밑의 로그예요. 예: logb(2,8) = 3</li>
+    <li><b>%</b>는 100으로 나눈 값이에요. 50×20% = 10. 할인율·증감률은 <a href="percent.html">퍼센트 계산기</a>가 더 편해요.</li>
+    <li><b>Ans</b>는 바로 앞 결과예요. 결과가 나온 뒤 연산자부터 누르면 Ans에 이어서 계산해요.</li>
+  </ul>
+</section>
+
+<section class="card faq">
+  <h2>자주 묻는 질문</h2>
+  <details><summary>-3^2는 왜 9가 아니라 -9인가요?</summary><p>수학 규칙에서는 거듭제곱(^)이 부호(−)보다 먼저 계산돼요. 그래서 -3^2는 -(3^2) = -9이고, (-3)의 제곱을 원하면 (-3)^2처럼 괄호를 써야 9가 나와요. 2^3^2도 오른쪽부터 계산해서 2^9 = 512예요.</p></details>
+  <details><summary>sin(30)이 0.5가 아니라 이상한 값이 나와요.</summary><p>각도 단위를 확인하세요. DEG(도)에서는 sin(30) = 0.5지만, RAD(라디안)에서는 30라디안의 사인값인 -0.988…이 나와요. 화면 위쪽의 DEG/RAD 버튼으로 바꿀 수 있어요.</p></details>
+  <details><summary>nPr과 nCr은 어떻게 입력하나요?</summary><p>10P3, 10C3처럼 두 수 사이에 P나 C를 넣거나 nPr(10,3), nCr(10,3)처럼 함수로 써도 돼요. 10C3 = 10! ÷ (3! × 7!) = 120, 10P3 = 10 × 9 × 8 = 720이에요.</p></details>
+</section>
+
+<section class="card"><h2>함께 쓰면 좋은 계산기</h2><div class="rel"><a href="fraction.html">분수 계산기<span>덧셈·뺄셈·곱셈·나눗셈, 기약분수·대분수 풀이</span></a><a href="root-power.html">제곱근·지수 계산기<span>루트 간단히, 거듭제곱, 로그, 과학적 표기법</span></a><a href="percent.html">백분율(퍼센트) 계산기<span>몇 %, 증감률, 할인율, 퍼센트포인트</span></a></div></section>
+
+<nav class="calc-index" id="calc-index" aria-label="전체 계산기"><h2>전체 계산기</h2><div class="ci-grid"><div><b>주식·ETF</b><ul><li><a href="sell.html">매도 세금</a></li><li><a href="us.html">미국주식·ETF</a></li><li><a href="div.html">배당금</a></li><li><a href="avg.html">물타기 평단</a></li><li><a href="risk.html">손절·비중</a></li><li><a href="gold.html">금 투자</a></li><li><a href="ipo.html">공모주 청약</a></li></ul></div><div><b>저축·연금</b><ul><li><a href="int.html">예·적금 이자</a></li><li><a href="grow.html">적립식 복리</a></li><li><a href="pen.html">연금저축 세액공제</a></li><li><a href="fire.html">은퇴 자금</a></li><li><a href="fin.html">금융소득 2천만</a></li><li><a href="nhis.html">건보료 피부양자</a></li><li><a href="yet.html">연말정산 환급</a></li><li><a href="nps.html">국민연금 조기·연기</a></li><li><a href="sev.html">퇴직금 세금</a></li><li><a href="eitc.html">근로·자녀장려금</a></li><li><a href="youth-savings.html">청년 정부 적금</a></li></ul></div><div><b>부동산·대출</b><ul><li><a href="buy.html">집 살 때 비용</a></li><li><a href="dsr.html">대출 한도 (DSR·DTI)</a></li><li><a href="score.html">청약 가점</a></li><li><a href="safe.html">전세 안전도</a></li><li><a href="rent.html">전세·월세·매수</a></li><li><a href="refi.html">대출 갈아타기</a></li><li><a href="ptax.html">재산세·종부세</a></li><li><a href="gift.html">증여세</a></li><li><a href="yield.html">임대 수익률</a></li><li><a href="auc.html">부동산 경매</a></li><li><a href="dist.html">경매 배당표</a></li></ul></div><div><b>세금</b><ul><li><a href="tax/">세금 계산기 모음</a></li><li><a href="tax/vat.html">부가가치세</a></li><li><a href="tax/income.html">종합소득세</a></li><li><a href="tax/freelancer.html">프리랜서 3.3%</a></li><li><a href="tax/transfer.html">부동산 양도소득세</a></li><li><a href="tax/inherit.html">상속세</a></li><li><a href="tax/corp.html">법인세 (2026)</a></li><li><a href="tax/loan.html">가족 간 대여</a></li></ul></div><div><b>급여·노동</b><ul><li><a href="wage.html">주휴수당·알바 월급</a></li><li><a href="unemp.html">실업급여</a></li><li><a href="parental.html">육아휴직·출산휴가 급여</a></li><li><a href="sev.html">퇴직금 세금</a></li></ul></div><div><b>직장인</b><ul><li><a href="salary-net.html">연봉 실수령액</a></li><li><a href="leave.html">2027 연차 꿀조합</a></li><li><a href="salary-rank.html">연봉 상위 몇 %</a></li><li><a href="side-tax.html">N잡·부업 세금</a></li><li><a href="gw-pay.html">2027 공무원 실수령액</a></li><li><a href="gw-overtime.html">공무원 초과근무수당</a></li><li><a href="gw-pension.html">공무원연금</a></li></ul></div><div><b>자동차</b><ul><li><a href="car-cost.html">자동차 유지비</a></li><li><a href="car-commute.html">출퇴근 비용</a></li><li><a href="car-tax.html">자동차세</a></li><li><a href="car-buy.html">취등록세</a></li><li><a href="car-parts.html">소모품 교체비</a></li><li><a href="car-ev.html">전기차 vs 휘발유</a></li></ul></div><div><b>건강·운세</b><ul><li><a href="calorie.html">칼로리 계산기</a></li><li><a href="health.html">건강나이·예상수명</a></li><li><a href="life-left.html">인생 남은 시간</a></li><li><a href="saju.html">사주팔자 풀이</a></li><li><a href="mbti.html">MBTI 궁합</a></li><li><a href="mbti-test.html">성격유형 검사 120문항</a></li><li><a href="iq-test.html">IQ 테스트 120문항</a></li><li><a href="fortune-2027.html">2027 신년운세</a></li><li><a href="due-date.html">출산 예정일</a></li></ul></div><div><b>수학</b><ul><li><a href="fraction.html">분수 계산기</a></li><li><a href="sci-calc.html" aria-current="page">공학용 계산기</a></li><li><a href="root-power.html">제곱근·지수</a></li><li><a href="percent.html">백분율 계산기</a></li></ul></div><div><b>도구</b><ul><li><a href="exam.html">자격증 시험일정 달력</a></li><li><a href="travel.html">여행경비 계산기</a></li><li><a href="elec.html">전기요금 계산기</a></li><li><a href="date.html">날짜 계산기 (D-day·만 나이·전역일)</a></li><li><a href="clock.html">초시계·서버시간</a></li><li><a href="/shorts/">쇼츠 메이커 (영문)</a></li><li><a href="/budget/">가계부 (11개 언어)</a></li><li><a href="suneung.html">수능 D-day 시간표</a></li><li><a href="age-table.html">나이표·띠</a></li><li><a href="pyeong.html">평수 계산기</a></li><li><a href="char-count.html">글자수 세기</a></li><li><a href="percent.html">퍼센트 계산기</a></li><li><a href="couple-dday.html">커플 기념일 계산기</a></li></ul></div><div><b>Global</b><ul><li><a href="us/">🇺🇸 US tax calculators</a></li><li><a href="uk/">🇬🇧 UK tax calculators</a></li><li><a href="ca/">🇨🇦 Canada calculators</a></li><li><a href="au/">🇦🇺 Australia calculators</a></li><li><a href="jp/">🇯🇵 日本 税金・NISA</a></li><li><a href="fr/">🇫🇷 Impôts France</a></li><li><a href="es/calculadora-impuesto-ahorro.html">🇪🇸 IRPF ahorro</a></li><li><a href="mx/">🇲🇽 ISR México</a></li><li><a href="br/">🇧🇷 Salário líquido Brasil</a></li><li><a href="in/">🇮🇳 India tax calculators</a></li><li><a href="de/">🇩🇪 Finanzrechner Deutschland</a></li><li><a href="id/kalkulator-pph21.html">🇮🇩 Pajak &amp; investasi Indonesia</a></li><li><a href="en/">English calculators</a></li><li><a href="id/">Kalkulator Indonesia</a></li><li><a href="es/">Calculadoras en español</a></li></ul></div></div></nav>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></div>
+  <div>계산은 모두 브라우저 안에서 이뤄지고 입력값은 서버로 보내지 않아요. 결과는 참고용이에요.</div>
+</footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+var used=false;function track(tab){if(used)return;used=true;try{if(sessionStorage.getItem('sc_used'))return;sessionStorage.setItem('sc_used','1')}catch(e){}try{gtag('event','scicalc_use',{tab:tab})}catch(e){}}
+
+/* ================= 수식 엔진 (eval 없이 직접 파싱) ================= */
+var deg=true,ans=0;
+function E(m){return new Error(m)}
+var WORDS=['asin','acos','atan','sinh','cosh','tanh','sqrt','cbrt','root','logb','fact','nCr','nPr','Ans','ans','ANS','exp','sin','cos','tan','log','abs','ln','pi','PI','e','C','P','x','X'];
+var ARITY={sin:1,cos:1,tan:1,asin:1,acos:1,atan:1,sinh:1,cosh:1,tanh:1,ln:1,sqrt:1,cbrt:1,abs:1,exp:1,fact:1,logb:2,root:2,nCr:2,nPr:2,log:0};
+function tokenize(s){
+  var T=[],i=0,n=s.length,m;
+  while(i<n){
+    var c=s[i];
+    if(/\s/.test(c)){i++;continue}
+    if(/[0-9.]/.test(c)){
+      m=/^(\d+\.?\d*|\.\d+)(E[+\-−]?\d+)?/.exec(s.slice(i));
+      if(!m)throw E('숫자 형식이 올바르지 않아요');
+      T.push({t:'num',v:parseFloat(m[0].replace('−','-'))});i+=m[0].length;
+      if(s[i]==='.')throw E('소수점이 두 번 들어갔어요');
+      continue}
+    if(/[A-Za-z]/.test(c)){
+      m=/^[A-Za-z]+/.exec(s.slice(i))[0];var j=0;
+      while(j<m.length){var w=null;for(var k=0;k<WORDS.length;k++){if(m.substr(j,WORDS[k].length)===WORDS[k]){w=WORDS[k];break}}
+        if(!w)throw E('알 수 없는 기호예요: '+m.slice(j));
+        j+=w.length;
+        if(w==='pi'||w==='PI')T.push({t:'num',v:Math.PI});
+        else if(w==='e')T.push({t:'num',v:Math.E});
+        else if(/^ans$/i.test(w))T.push({t:'num',v:ans,ans:1});
+        else if(w==='C'||w==='P')T.push({t:'op',v:w});
+        else if(w==='x'||w==='X')T.push({t:'op',v:'*'});
+        else T.push({t:'fn',v:w});}
+      i+=m.length;continue}
+    i++;
+    switch(c){
+      case 'π':T.push({t:'num',v:Math.PI});break;
+      case '√':T.push({t:'fn',v:'sqrt'});break;
+      case '∛':T.push({t:'fn',v:'cbrt'});break;
+      case '×':case '*':case '·':case '⋅':T.push({t:'op',v:'*'});break;
+      case '÷':case '/':T.push({t:'op',v:'/'});break;
+      case '+':T.push({t:'op',v:'+'});break;
+      case '-':case '−':case '–':T.push({t:'op',v:'-'});break;
+      case '^':T.push({t:'op',v:'^'});break;
+      case '!':T.push({t:'post',v:'!'});break;
+      case '%':T.push({t:'post',v:'%'});break;
+      case '²':T.push({t:'post',v:2});break;
+      case '³':T.push({t:'post',v:3});break;
+      case '(':case '[':T.push({t:'lp'});break;
+      case ')':case ']':T.push({t:'rp'});break;
+      case ',':T.push({t:'comma'});break;
+      default:throw E('알 수 없는 문자예요: '+c);
+    }
+  }
+  return T;
+}
+function gamma(z){
+  if(z<0.5)return Math.PI/(Math.sin(Math.PI*z)*gamma(1-z));
+  z-=1;var c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7],x=c[0];
+  for(var i=1;i<9;i++)x+=c[i]/(z+i);var t=z+7.5;return Math.sqrt(2*Math.PI)*Math.pow(t,z+0.5)*Math.exp(-t)*x}
+function fact(n){
+  if(Number.isInteger(n)){if(n<0)throw E('음의 정수의 팩토리얼은 정의되지 않아요');if(n>170)throw E('170!보다 큰 팩토리얼은 너무 커서 표시할 수 없어요');var r=1;for(var i=2;i<=n;i++)r*=i;return r}
+  var g=gamma(n+1);if(!isFinite(g))throw E('팩토리얼 값을 계산할 수 없어요');return g}
+function combi(n,r,perm){
+  if(!Number.isInteger(n)||!Number.isInteger(r)||n<0||r<0)throw E((perm?'nPr':'nCr')+'에는 0 이상의 정수만 넣을 수 있어요');
+  if(r>n)throw E('r은 n보다 클 수 없어요 ('+(perm?'nPr':'nCr')+')');
+  if(n>1e7)throw E('n이 너무 커요');
+  var N=BigInt(n),res=1n,LIM=10n**320n,i;
+  if(perm){for(i=0;i<r;i++){res*=N-BigInt(i);if(res>LIM)return Infinity}}
+  else{var k=Math.min(r,n-r),K=BigInt(k);for(i=1;i<=k;i++){res=res*(N-K+BigInt(i))/BigInt(i);if(res>LIM)return Infinity}}
+  return Number(res)}
+function snap(r){return Math.abs(r)<1e-15?0:r}
+function trig(f,x){
+  if(deg){var m=((x%360)+360)%360;
+    if(f==='sin'){if(m===0||m===180)return 0;if(m===90)return 1;if(m===270)return -1;if(m===30||m===150)return 0.5;if(m===210||m===330)return -0.5}
+    if(f==='cos'){if(m===90||m===270)return 0;if(m===0)return 1;if(m===180)return -1;if(m===60||m===300)return 0.5;if(m===120||m===240)return -0.5}
+    if(f==='tan'){if(m===90||m===270)throw E('tan 90°는 정의되지 않아요');if(m===0||m===180)return 0;if(m===45||m===225)return 1;if(m===135||m===315)return -1}
+    x=x*Math.PI/180}
+  var r=Math[f](x);if(f==='tan'&&Math.abs(r)>1e15)throw E('이 각도의 tan 값은 정의되지 않아요');return snap(r)}
+function itrig(f,x){if((f==='asin'||f==='acos')&&(x<-1||x>1))throw E(f+'에는 −1 이상 1 이하의 값만 넣을 수 있어요');var r=Math[f](x);return deg?r*180/Math.PI:r}
+function logb(b,x){if(!(b>0)||b===1)throw E('로그의 밑은 0보다 크고 1이 아니어야 해요');if(!(x>0))throw E('로그의 진수는 0보다 커야 해요');
+  if(b===2)return Math.log2(x);if(b===10)return Math.log10(x);var r=Math.log(x)/Math.log(b),k=Math.round(r);if(Math.abs(r-k)<1e-12&&Math.pow(b,k)===x)return k;return r}
+function nroot(nn,x){
+  if(nn===0)throw E('0제곱근은 정의되지 않아요');
+  if(x<0){if(Number.isInteger(nn)&&Math.abs(nn)%2===1)return -nroot(nn,-x);throw E('음수의 짝수 제곱근은 실수가 아니에요')}
+  var r=Math.pow(x,1/nn),k=Math.round(r);if(Number.isInteger(nn)&&nn>0&&Math.pow(k,nn)===x)return k;return r}
+function pw(b,e){
+  if(b===0&&e<0)throw E('0의 음수 거듭제곱은 정의되지 않아요');
+  if(b<0&&!Number.isInteger(e)){for(var q=3;q<=99;q+=2){var p=e*q;if(Math.abs(p-Math.round(p))<1e-9){var r=Math.pow(-b,e);return Math.round(p)%2?-r:r}}throw E('음수의 분수 거듭제곱은 실수 범위에서 계산할 수 없어요')}
+  return Math.pow(b,e)}
+function apply(name,a){
+  function need(k){if(a.length!==k)throw E(name+'에는 값이 '+k+'개 필요해요 (쉼표로 구분)')}
+  var x=a[0];
+  switch(name){
+    case 'sin':case 'cos':case 'tan':need(1);return trig(name,x);
+    case 'asin':case 'acos':case 'atan':need(1);return itrig(name,x);
+    case 'sinh':case 'cosh':case 'tanh':need(1);return Math[name](x);
+    case 'log':if(a.length===2)return logb(a[0],a[1]);need(1);if(!(x>0))throw E('log에는 0보다 큰 수만 넣을 수 있어요');return Math.log10(x);
+    case 'ln':need(1);if(!(x>0))throw E('ln에는 0보다 큰 수만 넣을 수 있어요');return Math.log(x);
+    case 'logb':need(2);return logb(a[0],a[1]);
+    case 'sqrt':need(1);if(x<0)throw E('음수의 제곱근은 실수가 아니에요');return Math.sqrt(x);
+    case 'cbrt':need(1);return nroot(3,x);
+    case 'root':need(2);return nroot(a[0],a[1]);
+    case 'abs':need(1);return Math.abs(x);
+    case 'exp':need(1);return Math.exp(x);
+    case 'fact':need(1);return fact(x);
+    case 'nCr':need(2);return combi(a[0],a[1],false);
+    case 'nPr':need(2);return combi(a[0],a[1],true);
+  }
+  throw E('알 수 없는 함수예요: '+name)}
+function parse(src){
+  var T=tokenize(src),p=0;
+  if(!T.length)throw E('식을 입력해 주세요');
+  function peek(){return T[p]}
+  function isOp(tk,v){return tk&&tk.t==='op'&&tk.v===v}
+  function starts(tk){return tk&&(tk.t==='num'||tk.t==='fn'||tk.t==='lp')}
+  function expr(){var v=term();for(;;){var tk=peek();if(isOp(tk,'+')){p++;v+=term()}else if(isOp(tk,'-')){p++;v-=term()}else return v}}
+  function term(){var v=comb();for(;;){var tk=peek();
+    if(isOp(tk,'*')){p++;v*=comb()}
+    else if(isOp(tk,'/')){p++;var r=comb();if(r===0)throw E('0으로 나눌 수 없어요');v/=r}
+    else if(starts(tk)){v*=comb()}
+    else return v}}
+  function comb(){var v=unary();for(;;){var tk=peek();if(isOp(tk,'C')){p++;v=combi(v,unary(),false)}else if(isOp(tk,'P')){p++;v=combi(v,unary(),true)}else return v}}
+  function unary(){var tk=peek();if(isOp(tk,'-')){p++;return -unary()}if(isOp(tk,'+')){p++;return unary()}return power()}
+  function power(){var b=postfix();if(isOp(peek(),'^')){p++;if(!peek())throw E('^ 뒤에 지수를 넣어 주세요');return pw(b,unary())}return b}
+  function postfix(){var v=primary();for(;;){var tk=peek();if(!tk||tk.t!=='post')return v;p++;
+    if(tk.v==='!')v=fact(v);else if(tk.v==='%')v=v/100;else v=pw(v,tk.v)}}
+  function primary(){
+    var tk=peek();
+    if(!tk)throw E('식이 끝나지 않았어요');
+    if(tk.t==='num'){p++;return tk.v}
+    if(tk.t==='lp'){p++;var v=expr();if(peek()&&peek().t==='rp')p++;else if(peek())throw E('괄호가 맞지 않아요');return v}
+    if(tk.t==='fn'){p++;var name=tk.v,args;
+      if(peek()&&peek().t==='lp'){p++;args=[];
+        if(peek()&&peek().t==='rp')throw E(name+'( ) 안에 값을 넣어 주세요');
+        args.push(expr());while(peek()&&peek().t==='comma'){p++;args.push(expr())}
+        if(peek()&&peek().t==='rp')p++;else if(peek())throw E('괄호가 맞지 않아요');}
+      else{var nx=peek();if(!nx)throw E(name+' 뒤에 값을 넣어 주세요');args=[(isOp(nx,'-')||isOp(nx,'+'))?unary():postfix()]}
+      return apply(name,args)}
+    if(tk.t==='rp')throw E('괄호가 맞지 않아요');
+    if(tk.t==='comma')throw E('쉼표는 logb(2,8)처럼 함수 안에서만 써요');
+    if(tk.t==='post')throw E(tk.v==='!'?'! 앞에 수를 넣어 주세요':'기호 앞에 수를 넣어 주세요');
+    throw E('연산자 위치가 올바르지 않아요');
+  }
+  var v=expr();
+  if(p<T.length)throw E(T[p].t==='rp'?'괄호가 맞지 않아요':'식을 끝까지 읽지 못했어요');
+  if(isNaN(v))throw E('계산할 수 없는 값이에요');
+  if(!isFinite(v))throw E('결과가 너무 커서 표시할 수 없어요');
+  return v;
+}
+function fmt(x){
+  if(x===0||Object.is(x,-0))return '0';
+  var a=Math.abs(x);
+  if(a>=1e12||a<1e-6){var s=x.toExponential(11).split('e'),m=s[0].replace(/(\.\d*?)0+$/,'$1').replace(/\.$/,'');return m+'E'+(+s[1])}
+  var r=parseFloat(x.toPrecision(12));return String(r)}
+window.__sci={parse:parse,fmt:fmt,setDeg:function(d){deg=d}};
+
+/* ================= 계산기 UI ================= */
+var ex=$('ex'),res=$('res'),just=false,mem=0,hist=[];
+var coarse=false;try{coarse=matchMedia('(pointer:coarse)').matches}catch(e){}
+if(coarse)ex.setAttribute('inputmode','none');
+var FKEYS=[['sin','sin('],['cos','cos('],['tan','tan('],['sin<sup>−1</sup>','asin(','역사인'],['cos<sup>−1</sup>','acos(','역코사인'],['tan<sup>−1</sup>','atan(','역탄젠트'],
+['sinh','sinh('],['cosh','cosh('],['tanh','tanh('],['log','log(','상용로그'],['ln','ln(','자연로그'],['log<sub>b</sub>','logb(','밑이 b인 로그: logb(밑,진수)'],
+['√','√(','제곱근'],['∛','∛(','세제곱근'],['x²','^2'],['x³','^3'],['x<sup>y</sup>','^','거듭제곱'],['<sup>y</sup>√x','root(','y제곱근: root(y,x)'],
+['10<sup>x</sup>','10^'],['e<sup>x</sup>','e^'],['n!','!','팩토리얼'],['nPr','P','순열: 10P3'],['nCr','C','조합: 10C3'],['%','%'],
+['1/x','^(-1)','역수'],['|x|','abs(','절댓값'],['π','π'],['e','e','자연상수 e'],['(','('],[')',')'],
+['MC','@mc','메모리 지우기','m'],['MR','@mr','메모리 불러오기','m'],['M+','@mp','메모리에 더하기','m'],['M−','@mm','메모리에서 빼기','m'],[',',',','인수 구분 쉼표'],['EXP','E','×10의 거듭제곱 (1.5E3 = 1500)']];
+var NKEYS=[['7','7'],['8','8'],['9','9'],['⌫','@bs','한 글자 지우기','op'],['AC','@ac','모두 지우기','clr'],
+['4','4'],['5','5'],['6','6'],['×','×','곱하기','op'],['÷','÷','나누기','op'],
+['1','1'],['2','2'],['3','3'],['+','+','더하기','op'],['−','-','빼기','op'],
+['0','0'],['.','.'],['Ans','Ans','바로 앞 결과','op'],['=','@eq','계산','eq']];
+function mkKeys(el,arr){el.innerHTML=arr.map(function(k,i){var lab=k[2]||k[0].replace(/<[^>]+>/g,'');return '<button type="button" data-k="'+i+'" class="'+(k[3]||'')+'" aria-label="'+esc(lab)+'" title="'+esc(lab)+'"'+(k[1]==='@eq'?' style="grid-column:span 2"':'')+'>'+k[0]+'</button>'}).join('');
+  el.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var k=arr[+b.dataset.k];press(k[1]);if(!coarse)ex.focus()})}
+mkKeys($('kpF'),FKEYS);mkKeys($('kpN'),NKEYS);
+
+function insert(t){
+  var v=ex.value,s=ex.selectionStart,e=ex.selectionEnd;
+  if(s==null||document.activeElement!==ex&&s===0&&e===0&&v){s=e=v.length}
+  if(just){just=false;if(/^[+\-−×÷*\/^!%²³PC]/.test(t)){v='Ans';s=e=3}else{v='';s=e=0}}
+  ex.value=v.slice(0,s)+t+v.slice(e);var q=s+t.length;try{ex.setSelectionRange(q,q)}catch(er){}
+  preview();
+}
+function bs(){
+  just=false;var v=ex.value,s=ex.selectionStart,e=ex.selectionEnd;if(s==null){s=e=v.length}
+  if(s!==e){ex.value=v.slice(0,s)+v.slice(e)}
+  else if(s>0){var before=v.slice(0,s),m=/(asin\(|acos\(|atan\(|sinh\(|cosh\(|tanh\(|sin\(|cos\(|tan\(|logb\(|log\(|ln\(|abs\(|root\(|sqrt\(|cbrt\(|exp\(|Ans|\^\(-1\))$/.exec(before),k=m?m[0].length:1;ex.value=before.slice(0,-k)+v.slice(s);s-=k}
+  try{ex.setSelectionRange(s,s)}catch(er){}preview()}
+function clearAll(){ex.value='';just=false;res.className='res';res.innerHTML='&nbsp;'}
+function showRes(html,cls){res.className='res'+(cls?' '+cls:'');res.innerHTML=html}
+function preview(){var s=ex.value.trim();if(!s){showRes('&nbsp;');return}try{var v=parse(s);showRes('= '+esc(fmt(v)),'pre')}catch(e){showRes('&nbsp;','pre')}}
+function current(){var s=ex.value.trim();if(!s)return ans;return parse(s)}
+function evaluate(){
+  var s=ex.value.trim();if(!s)return;
+  try{var v=parse(s),r=fmt(v);ans=v;showRes('= <b id="resv">'+esc(r)+'</b>');just=true;addHist(s,r);$('ansInd').textContent='Ans = '+r;track('calc')}
+  catch(e){showRes(esc(e.message),'err');just=false}
+}
+function memShow(){var el=$('memInd');if(mem!==0){el.hidden=false;el.textContent='M = '+fmt(mem)}else el.hidden=true;lsSet('hl_sci_mem',String(mem))}
+function memOp(k){
+  if(k==='mc'){mem=0;memShow();return}
+  if(k==='mr'){insert(fmt(mem));return}
+  try{var v=current();mem+=k==='mp'?v:-v;if(!isFinite(mem))mem=0;memShow();showRes('M '+(k==='mp'?'+':'−')+'= '+esc(fmt(v)),'pre')}catch(e){showRes(esc(e.message),'err')}
+}
+function press(k){
+  if(k[0]==='@'){var a=k.slice(1);if(a==='eq')evaluate();else if(a==='bs')bs();else if(a==='ac')clearAll();else memOp(a);return}
+  insert(k);
+}
+ex.addEventListener('input',function(){just=false;preview()});
+ex.addEventListener('keydown',function(e){
+  if(e.key==='Enter'||e.key==='='){e.preventDefault();evaluate();return}
+  if(e.key==='Escape'){e.preventDefault();clearAll();return}
+  if(just&&e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();insert(mapKey(e.key))}
+  else if(just&&e.key==='Backspace'){just=false}
+});
+function mapKey(k){return k==='*'?'×':k==='/'?'÷':k}
+document.addEventListener('keydown',function(e){
+  if($('p-calc').hidden||e.ctrlKey||e.metaKey||e.altKey)return;
+  var t=e.target,tag=t&&t.tagName;if(t===ex||tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+  if(tag==='BUTTON'&&(e.key==='Enter'||e.key===' ')&&!t.closest('.kp'))return;
+  if(e.key==='Enter'||e.key==='='){e.preventDefault();evaluate()}
+  else if(e.key==='Backspace'){e.preventDefault();bs()}
+  else if(e.key==='Escape'){clearAll()}
+  else if(e.key.length===1&&/[0-9.+\-*\/^()!%,a-zA-Zπ×÷]/.test(e.key)){e.preventDefault();insert(mapKey(e.key))}
+});
+/* history */
+function saveHist(){lsSet('hl_sci_hist',JSON.stringify(hist.slice(0,50)))}
+function renderHist(){var el=$('hist');if(!hist.length){el.innerHTML='<li class="empty">아직 계산 기록이 없어요.</li>';return}
+  el.innerHTML=hist.map(function(h,i){return '<li><button type="button" data-h="'+i+'" data-w="x" title="식 다시 쓰기">'+esc(h.x)+'</button><button type="button" class="r" data-h="'+i+'" data-w="r" title="결과 값 넣기">= '+esc(h.r)+'</button></li>'}).join('')}
+function addHist(x,r){if(hist[0]&&hist[0].x===x&&hist[0].r===r)return;hist.unshift({x:x,r:r});if(hist.length>50)hist.length=50;saveHist();renderHist()}
+$('hist').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var h=hist[+b.dataset.h];if(!h)return;
+  if(b.dataset.w==='x'){ex.value=h.x;just=false;try{ex.setSelectionRange(h.x.length,h.x.length)}catch(er){}preview()}else{if(just){just=false;ex.value=''}insert(h.r)}
+  if(!coarse)ex.focus()});
+$('hClr').addEventListener('click',function(){hist=[];saveHist();renderHist()});
+try{var hs=JSON.parse(lsGet('hl_sci_hist')||'[]');if(Array.isArray(hs))hist=hs.filter(function(h){return h&&typeof h.x==='string'&&typeof h.r==='string'}).slice(0,50)}catch(e){hist=[]}
+renderHist();
+var mv=parseFloat(lsGet('hl_sci_mem'));if(isFinite(mv))mem=mv;memShow();
+var sa=lsGet('hl_sci_ang');if(sa==='rad'){deg=false;document.querySelector('input[name=ang][value=rad]').checked=true}
+document.querySelectorAll('input[name=ang]').forEach(function(r){r.addEventListener('change',function(){deg=r.value==='deg';lsSet('hl_sci_ang',r.value);if(!just)preview()})});
+
+/* ================= 진법 변환 ================= */
+var DIG='0123456789abcdef';
+function grp(s,n,sep){var o='';for(var i=s.length;i>0;i-=n)o=s.slice(Math.max(0,i-n),i)+(o?sep+o:'');return o}
+function calcBase(){
+  var raw=$('bsV').value.trim().replace(/[\s_,]/g,'').replace(/[−–]/g,'-'),base=+$('bsB').value,neg=false,T=$('bsT'),S=$('bsS');
+  if(raw[0]==='-'){neg=true;raw=raw.slice(1)}else if(raw[0]==='+')raw=raw.slice(1);
+  var pm=/^0([xbo])/i.exec(raw);if(pm){base={x:16,b:2,o:8}[pm[1].toLowerCase()];raw=raw.slice(2)}
+  raw=raw.toLowerCase();
+  if(!raw){T.innerHTML='<tr><td>변환할 정수를 넣어 주세요</td></tr>';S.innerHTML='';return}
+  if(raw.length>3000){T.innerHTML='<tr><td>3,000자리까지만 변환해요</td></tr>';S.innerHTML='';return}
+  var ok=DIG.slice(0,base),v=0n,B=BigInt(base);
+  for(var i=0;i<raw.length;i++){var d=ok.indexOf(raw[i]);if(d<0){T.innerHTML='<tr><td>'+base+'진수에는 '+(base===16?'0~9, A~F':'0~'+(base-1))+'만 쓸 수 있어요 ('+esc(raw[i].toUpperCase())+' 확인)</td></tr>';S.innerHTML='';return}v=v*B+BigInt(d)}
+  var sg=neg&&v!==0n?'−':'';
+  var rows=[[2,'2진수 (BIN)',grp(v.toString(2),4,' ')],[8,'8진수 (OCT)',v.toString(8)],[10,'10진수 (DEC)',grp(v.toString(10),3,',')],[16,'16진수 (HEX)',grp(v.toString(16).toUpperCase(),4,' ')]];
+  T.innerHTML='<tr><th>진법</th><th>값</th><th>자릿수</th></tr>'+rows.map(function(r){return '<tr'+(r[0]===base?' style="background:var(--gold-soft)"':'')+'><td>'+r[1]+'</td><td id="bs'+r[0]+'">'+sg+r[2]+'</td><td>'+v.toString(r[0]).length+'</td></tr>'}).join('');
+  var st=[];
+  if(base===10&&v>0n&&v<=4294967295n){var x=v,lines=[];while(x>0n){lines.push(String(x)+' ÷ 2 = '+String(x/2n)+' … 나머지 <b>'+String(x%2n)+'</b>');x/=2n}
+    st.push('10진수를 2로 계속 나누고 나머지를 적어요:<br>'+lines.map(function(l){return '<span class="eq">'+l+'</span>'}).join('<br>'));
+    st.push('나머지를 <b>아래에서 위로</b> 읽으면 2진수 <b>'+v.toString(2)+'</b>이에요. 8진수는 2진수를 3자리씩, 16진수는 4자리씩 묶어 바꿔도 돼요.')}
+  else if(base!==10&&raw.replace(/^0+/,'').length<=16&&v>0n){var r2=raw.replace(/^0+/,''),L=r2.length;
+    st.push('자릿값으로 펼쳐서 10진수로 바꿔요:<br><span class="eq">'+r2.split('').map(function(c,j){return c.toUpperCase()+'×'+base+'<sup>'+(L-1-j)+'</sup>'}).join(' + ')+'</span><br>= <b>'+v.toString(10)+'</b>')}
+  S.innerHTML=st.length?'<h3>변환 과정</h3><ol>'+st.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol>':'';
+  S.hidden=!st.length;
+}
+
+/* ================= 통계 ================= */
+function fs(x){if(!isFinite(x))return '—';var a=Math.abs(x);if(a!==0&&(a>=1e15||a<1e-6))return fmt(x);return parseFloat(x.toPrecision(12)).toLocaleString('en-US',{maximumFractionDigits:12})}
+function calcStat(){
+  var toks=$('stIn').value.split(/[\s,;\t]+/).filter(Boolean),xs=[],bad=[];
+  toks.forEach(function(t){var s=t.replace(/[−–]/g,'-');var v=/^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(s)?parseFloat(s):NaN;if(isFinite(v))xs.push(v);else bad.push(t)});
+  var O=$('stOut'),S=$('stS');
+  if(!xs.length){O.innerHTML='<p class="note">숫자를 넣어 주세요.</p>';S.innerHTML='';return}
+  var n=xs.length,sum=0,i;for(i=0;i<n;i++)sum+=xs[i];var mean=sum/n,ss=0;for(i=0;i<n;i++)ss+=(xs[i]-mean)*(xs[i]-mean);
+  var sorted=xs.slice().sort(function(a,b){return a-b}),med=n%2?sorted[(n-1)/2]:(sorted[n/2-1]+sorted[n/2])/2;
+  var pv=ss/n,sv=n>1?ss/(n-1):NaN,cnt={},mx=0;sorted.forEach(function(v){cnt[v]=(cnt[v]||0)+1;if(cnt[v]>mx)mx=cnt[v]});
+  var modes=mx>1?Object.keys(cnt).filter(function(k){return cnt[k]===mx}).map(Number).sort(function(a,b){return a-b}):[];
+  var cards=[['개수',n,''],['합계',fs(sum),''],['평균',fs(mean),'합계 ÷ 개수'],['중앙값',fs(med),n%2?'가운데 값':'가운데 두 값의 평균'],
+    ['모분산 σ²',fs(pv),'÷ n'],['모표준편차 σ',fs(Math.sqrt(pv)),'√모분산'],['표본분산 s²',n>1?fs(sv):'—','÷ (n − 1)'],['표본표준편차 s',n>1?fs(Math.sqrt(sv)):'—','√표본분산'],
+    ['최솟값',fs(sorted[0]),''],['최댓값',fs(sorted[n-1]),''],['범위',fs(sorted[n-1]-sorted[0]),'최댓값 − 최솟값'],['최빈값',modes.length?(modes.length>4?modes.slice(0,4).map(fs).join(', ')+' …':modes.map(fs).join(', ')):'없음',modes.length?mx+'번 나옴':'모두 한 번씩']];
+  O.innerHTML=cards.map(function(c,j){return '<div class="stat"><span>'+c[0]+'</span><b id="st'+j+'">'+c[1]+'</b>'+(c[2]?'<em>'+c[2]+'</em>':'')+'</div>'}).join('');
+  var show=n<=12;
+  var st=['평균 = ('+(show?xs.map(fs).join(' + '):'값 '+n+'개의 합')+') ÷ '+n+' = '+fs(sum)+' ÷ '+n+' = <b>'+fs(mean)+'</b>',
+    '편차 제곱합 Σ(x − 평균)² = '+(show?xs.map(function(v){return '('+fs(v)+' − '+fs(mean)+')²'}).slice(0,6).join(' + ')+(n>6?' + …':'')+' = ':'')+fs(ss),
+    '모분산 = '+fs(ss)+' ÷ '+n+' = '+fs(pv)+(n>1?' · 표본분산 = '+fs(ss)+' ÷ '+(n-1)+' = '+fs(sv):''),
+    '정렬: '+(n<=40?sorted.map(fs).join(', '):sorted.slice(0,40).map(fs).join(', ')+' …')];
+  if(bad.length)st.push('<span style="color:#B3261E">숫자가 아니라서 뺀 값: '+esc(bad.slice(0,10).join(', '))+(bad.length>10?' …':'')+'</span>');
+  S.innerHTML='<h3>계산 과정</h3><ol>'+st.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol><p class="note" style="margin:0 0 8px">전체 집단 자료면 모분산·모표준편차를, 일부를 뽑은 표본이면 표본분산·표본표준편차(n − 1로 나눔)를 쓰세요. 엑셀의 STDEV.P는 모표준편차, STDEV.S는 표본표준편차예요.</p>';
+}
+$('p-base').addEventListener('input',function(){calcBase();track('base')});$('bsB').addEventListener('change',calcBase);
+$('p-stat').addEventListener('input',function(){calcStat();track('stat')});
+calcBase();calcStat();
+
+/* tabs */
+var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+function show(k,focus){tabs.forEach(function(t){var on=t.id==='t-'+k;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;$('p-'+t.id.slice(2)).hidden=!on;if(on&&focus)t.focus()});try{history.replaceState(null,'','#'+k)}catch(e){}}
+tabs.forEach(function(t,i){t.addEventListener('click',function(){show(t.id.slice(2))});t.addEventListener('keydown',function(e){var j=e.key==='ArrowRight'?i+1:e.key==='ArrowLeft'?i-1:null;if(j===null)return;e.preventDefault();show(tabs[(j+tabs.length)%tabs.length].id.slice(2),true)})});
+var h=(location.hash||'').slice(1);if(h==='base'||h==='stat')show(h);else tabs.forEach(function(t,i){t.tabIndex=i?-1:0});
+window.__sci.show=show;
+})();
+</script>
+</body>
+</html>

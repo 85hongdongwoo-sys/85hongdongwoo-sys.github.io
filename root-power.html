@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="only light">
+<title>제곱근·지수 계산기 | 루트 간단히, 거듭제곱, 로그 계산</title>
+<meta name="description" content="√72 = 6√2처럼 루트를 간단히 하고, 세제곱근·n제곱근, 음수·분수 지수 거듭제곱, 지수법칙, 로그 log_b(x), 과학적 표기법 변환까지 풀이 과정과 함께 계산해 줘요.">
+<link rel="canonical" href="https://honglife.co.kr/root-power.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="홍라이프 계산기">
+<meta property="og:title" content="제곱근·지수 계산기 | 루트 간단히, 거듭제곱, 로그 계산">
+<meta property="og:description" content="루트 간단히(√72 = 6√2), n제곱근, 거듭제곱, 지수법칙, 로그, 과학적 표기법을 풀이와 함께 계산해요.">
+<meta property="og:url" content="https://honglife.co.kr/root-power.html">
+<meta name="theme-color" content="#0B1F3F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"√72는 어떻게 간단히 하나요?","acceptedAnswer":{"@type":"Answer","text":"72를 소인수분해하면 2³ × 3²예요. 같은 수 두 개(제곱)는 근호 밖으로 하나씩 나올 수 있어서 √(2² × 3² × 2) = 2 × 3 × √2 = 6√2가 돼요. 근호 안이 가장 작은 자연수가 되도록 만드는 게 핵심이에요."}},{"@type":"Question","name":"2의 -3제곱은 왜 1/8인가요?","acceptedAnswer":{"@type":"Answer","text":"음수 지수는 역수를 뜻해요. a^(−n) = 1 ÷ a^n이라서 2^(−3) = 1 ÷ 2³ = 1/8 = 0.125예요. 분수 지수는 거듭제곱근이라서 8^(2/3) = (∛8)² = 2² = 4가 돼요."}},{"@type":"Question","name":"log₂8 = 3은 무슨 뜻인가요?","acceptedAnswer":{"@type":"Answer","text":"2를 몇 번 거듭제곱해야 8이 되는지를 묻는 값이에요. 2³ = 8이니까 log₂8 = 3이에요. 일반 계산기에는 밑이 10인 log와 밑이 e인 ln만 있는 경우가 많은데, 이때는 log 8 ÷ log 2처럼 밑 변환 공식으로 구하면 돼요."}}]}
+</script>
+<style>
+:root{color-scheme:light;
+  --navy:#0B1F3F;--paper:#fff;--ink:#2F343B;--head:#14233D;--muted:#5F6875;--line:#E1E5EC;--soft:#F3F5F9;
+  --btn:#12305C;--gold:#B8862B;--gold-l:#C9A04A;--gold-soft:#FBF4E6;
+  --f:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#0B1F3F linear-gradient(180deg,#0F2A52 0,#0C2347 600px,#0A1E3E 100%) fixed;color:var(--ink);font:16px/1.7 var(--f);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--btn)}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08)}
+.brandbar .in{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none;white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:6px;background:var(--gold);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;white-space:nowrap}.brandbar .meta a{color:#DCE4F2;text-decoration:none;margin-left:10px}
+@media(max-width:520px){.brandbar .meta{display:none}}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 56px}
+header.top{padding:28px 0 20px;color:#fff}
+h1{margin:0;font-weight:800;font-size:clamp(25px,5vw,34px);letter-spacing:-.025em;line-height:1.3;text-wrap:balance}
+h1 b{color:var(--gold-l)}
+header.top p{margin:8px 0 0;color:#C9D5EE;max-width:640px}
+.card{background:var(--paper);border-radius:14px;padding:20px;margin:0 0 14px;box-shadow:0 1px 0 rgba(255,255,255,.04)}
+h2{font-size:19px;margin:0 0 12px;letter-spacing:-.015em;color:var(--head)}
+h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+h3{font-size:16px;margin:16px 0 6px;color:var(--head)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px}
+.f label,.f .lb{display:block;font-size:14px;font-weight:600;margin-bottom:4px;color:var(--head)}
+.f small{display:block;color:var(--muted);font-size:12.6px;line-height:1.5;margin-top:3px}
+.f input,.f select{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid #CFD6E0;border-radius:9px;background:#fff;color:var(--ink);min-height:44px}
+.f input:focus,.f select:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.seg{display:flex;gap:6px}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:9px 6px;border:1.5px solid #CFD6E0;border-radius:9px;background:#fff;cursor:pointer;min-height:44px;font-size:14.5px}
+.seg input:checked+span{border-color:var(--btn);background:#EAF0F8;color:var(--btn);font-weight:700}
+.seg input:focus-visible+span{outline:2px solid var(--gold-l)}
+details.opt{border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+details.opt summary{cursor:pointer;font-weight:700;color:var(--head);list-style:none;display:flex;align-items:center;gap:8px}
+details.opt summary::-webkit-details-marker{display:none}
+details.opt summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--gold-soft);color:var(--gold);font-weight:800}
+details.opt[open] summary::before{content:"−"}
+details.opt summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+details.opt .grid{margin-top:12px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 22px;border-radius:10px;border:0;background:var(--btn);color:#fff;cursor:pointer;min-height:48px}
+.btn:hover{background:#0D2647}
+.btn.gold{background:var(--gold);color:#fff}.btn.gold:hover{background:#A27522}
+.btn.ghost{background:#fff;color:var(--btn);border:1.5px solid var(--btn)}
+.err{color:#B3261E;font-weight:700;margin:10px 0 0}
+.note{font-size:13.5px;color:var(--muted);line-height:1.65}
+.hero-res{background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:14px;padding:22px 20px;margin-bottom:16px}
+.hero-res .k{font-size:14px;color:#C9D5EE}
+.hero-res .big{font-size:clamp(30px,7vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin:4px 0 6px;font-variant-numeric:tabular-nums}
+.hero-res .big b{color:var(--gold-l)}
+.hero-res .sub{color:#E3E9F5;font-size:15px}
+.prog{margin-top:16px}
+.prog .bar{height:14px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
+.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,#C9A04A,#E8C27A);border-radius:99px}
+.prog .lbl{display:flex;justify-content:space-between;font-size:13px;color:#C9D5EE;margin-top:6px;gap:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;background:#fff;position:relative}
+.stat::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.stat span{display:block;font-size:13.5px;color:var(--muted)}
+.stat b{display:block;font-size:28px;line-height:1.25;font-weight:800;color:var(--head);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat b small{font-size:15px;font-weight:700;margin-left:2px}
+.stat em{display:block;font-style:normal;font-size:13px;color:var(--muted);line-height:1.5;margin-top:2px}
+@media(max-width:430px){.stats{grid-template-columns:1fr 1fr}.stat{padding:12px 10px 10px 13px}.stat b{font-size:22px}.stat b small{font-size:13px}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14233D;color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;z-index:9;max-width:calc(100% - 32px);text-align:center}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-size:13px;white-space:nowrap}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.faq details{border-top:1px solid var(--line);padding:10px 0}
+.faq details:first-of-type{border-top:0}
+.faq summary{cursor:pointer;font-weight:700;color:var(--head)}
+.faq p{margin:6px 0 0}
+.calc-index{margin-top:28px;background:var(--paper);border-radius:14px;padding:20px 22px}.calc-index h2{font-size:17px;margin:0 0 12px;color:#2F343B}.ci-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.ci-grid b{font-size:13.5px;color:var(--btn)}.ci-grid ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ci-grid a{color:#2C3A4F;text-decoration:none;font-size:14px}.ci-grid a:hover,.ci-grid a[aria-current]{color:var(--gold);text-decoration:underline}@media (max-width:900px){.ci-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.ci-grid{grid-template-columns:1fr 1fr}}
+footer.site{margin-top:14px;background:var(--paper);border-radius:14px;padding:16px 20px;font-size:13px;color:var(--muted);line-height:1.7}
+footer.site div+div{margin-top:4px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.tabs button{font:inherit;font-size:14.5px;font-weight:600;padding:8px 14px;border-radius:99px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);color:#DCE4F2;cursor:pointer;min-height:40px}
+.tabs button[aria-selected="true"]{background:#fff;border-color:#fff;color:var(--btn)}
+.tabs button:focus-visible{outline:2px solid var(--gold-l);outline-offset:2px}
+.q{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:17px;font-weight:600;color:var(--head)}
+.q input,.q select{font:inherit;font-size:17px;font-weight:600;width:140px;max-width:100%;padding:8px 10px;border:1px solid #CFD6E0;border-radius:9px;min-height:46px;color:var(--ink);background:#fff;text-align:right;font-variant-numeric:tabular-nums}
+.q select{text-align:left;width:auto}
+.q input:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.q+.q{margin-top:12px}
+@media(max-width:430px){.q input{width:120px}}
+.out{margin-top:16px;background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:12px;padding:16px 18px}
+.out .k{font-size:13.5px;color:#C9D5EE}
+.out .v{font-size:clamp(26px,6vw,36px);font-weight:800;letter-spacing:-.02em;line-height:1.25;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.out .v b{color:var(--gold-l)}
+.out .fx{font-size:14px;color:#E3E9F5;margin-top:4px;overflow-wrap:anywhere}
+.mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:10px}
+.mini div{background:var(--soft);border-radius:10px;padding:10px 12px}
+.mini span{display:block;font-size:12.5px;color:var(--muted)}
+.mini b{font-size:18px;font-variant-numeric:tabular-nums;color:var(--head)}
+.sub2{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}
+.sub2 h3{margin:0 0 10px}
+.ex{background:var(--gold-soft);border-radius:10px;padding:12px 14px;font-size:14.5px;margin-top:14px}
+.ex b{color:#8A6418}
+.shares{width:100%;margin-top:12px}
+.shares td:last-child,.shares th:last-child,.shares td:nth-child(2){text-align:right;font-variant-numeric:tabular-nums}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.15;margin:0 3px;font-variant-numeric:tabular-nums;text-align:center}
+.frac>span{padding:0 4px}
+.frac>span:first-child{border-bottom:1.5px solid currentColor}
+.out .v .frac{font-size:.78em}
+.ov{text-decoration:overline;text-decoration-thickness:1.5px}
+.steps{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:14px 16px 6px;background:#fff}
+.steps h3{margin:0 0 6px;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.steps h3::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--gold)}
+.steps ol{margin:0;padding-left:22px}
+.steps li{margin:0 0 10px;line-height:1.9;overflow-wrap:anywhere}
+.steps li::marker{color:var(--gold);font-weight:800}
+.steps .eq{display:inline-block;background:var(--soft);border-radius:8px;padding:2px 8px;margin:2px 0}
+.erro{font-size:17px!important;color:#FFD9D4!important;font-weight:700}
+.rel{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}
+.rel a{display:block;padding:12px 14px 12px 16px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--head);font-weight:700;position:relative;background:#fff}
+.rel a::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.rel a span{display:block;font-weight:500;font-size:13px;color:var(--muted);line-height:1.5}
+.rel a:hover{border-color:var(--btn)}
+.expl p{margin:0 0 10px}
+.expl ul{margin:0 0 10px;padding-left:20px}
+.ta{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid #CFD6E0;border-radius:9px;min-height:96px;color:var(--ink);background:#fff;resize:vertical}
+.ta:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.q input.wide{width:220px;text-align:left}
+@media(max-width:430px){.q input.wide{width:100%}}
+.mini b span.ov{display:inline;font-size:inherit;color:inherit}
+.q input.sm{width:80px}
+.rad{font-size:26px;font-weight:800;color:var(--btn)}
+.rt{white-space:nowrap}
+.rt .ix{font-size:.62em;vertical-align:.75em;margin-right:-.12em}
+.rt .ra{text-decoration:overline;text-decoration-thickness:1.5px;padding:0 1px;margin-left:1px}
+.out .v sup{font-size:.55em}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="fraction.html">분수 계산기</a><a href="sci-calc.html">공학용 계산기</a><a href="percent.html">퍼센트 계산기</a></span></div></div>
+<div class="wrap">
+<header class="top">
+  <h1><b>제곱근·지수</b> 계산기</h1>
+  <p>√72 = 6√2처럼 루트를 간단히 하고, n제곱근, 거듭제곱, 지수법칙, 로그, 과학적 표기법까지 풀이 과정과 함께 보여 줘요.</p>
+</header>
+
+<div class="tabs" role="tablist" aria-label="계산 종류">
+  <button role="tab" id="t-sqrt" aria-controls="p-sqrt" aria-selected="true">제곱근 √x</button>
+  <button role="tab" id="t-nrt" aria-controls="p-nrt" aria-selected="false">n제곱근</button>
+  <button role="tab" id="t-pow" aria-controls="p-pow" aria-selected="false">거듭제곱 xⁿ</button>
+  <button role="tab" id="t-law" aria-controls="p-law" aria-selected="false">지수법칙</button>
+  <button role="tab" id="t-log" aria-controls="p-log" aria-selected="false">로그</button>
+  <button role="tab" id="t-sci" aria-controls="p-sci" aria-selected="false">과학적 표기법</button>
+</div>
+
+<section class="card" role="tabpanel" id="p-sqrt" aria-labelledby="t-sqrt">
+  <h2>제곱근 간단히 하기 <small>근호 안을 가장 작은 수로</small></h2>
+  <div class="q"><span class="rad">√</span><input id="sqX" value="72" aria-label="근호 안의 수 (정수, 분수, 소수)"> <span class="note" style="font-weight:500">정수, 분수(8/9), 소수 모두 돼요</span></div>
+  <div class="out"><div class="k">간단히 한 꼴</div><div class="v" id="sqR"></div><div class="fx" id="sqF"></div></div>
+  <div class="steps" id="sqS"></div>
+</section>
+
+<section class="card" role="tabpanel" id="p-nrt" aria-labelledby="t-nrt" hidden>
+  <h2>n제곱근 <small>세제곱근, 네제곱근 …</small></h2>
+  <div class="q"><input id="nrN" value="3" aria-label="몇 제곱근 (n)" class="sm"> 제곱근 <input id="nrX" value="-27" aria-label="근호 안의 수"></div>
+  <div class="out"><div class="k">결과</div><div class="v" id="nrR"></div><div class="fx" id="nrF"></div></div>
+  <div class="steps" id="nrS"></div>
+</section>
+
+<section class="card" role="tabpanel" id="p-pow" aria-labelledby="t-pow" hidden>
+  <h2>거듭제곱 x<sup>n</sup> <small>음수·분수 지수도 돼요</small></h2>
+  <div class="q">밑 <input id="pwB" value="2" aria-label="밑 (x)"> 의 <input id="pwE" value="-3" aria-label="지수 (n)" class="sm"> 제곱</div>
+  <p class="note" style="margin:6px 0 0">지수에 1/2, 2/3, −0.5처럼 분수·소수를 넣으면 거듭제곱근으로 계산해요.</p>
+  <div class="out"><div class="k">결과</div><div class="v" id="pwR"></div><div class="fx" id="pwF"></div></div>
+  <div class="steps" id="pwS"></div>
+</section>
+
+<section class="card" role="tabpanel" id="p-law" aria-labelledby="t-law" hidden>
+  <h2>지수법칙 풀이</h2>
+  <div class="f" style="max-width:420px"><label for="lwT">법칙</label><select id="lwT">
+    <option value="mul">a^m × a^n = a^(m+n)</option>
+    <option value="div">a^m ÷ a^n = a^(m−n)</option>
+    <option value="pp">(a^m)^n = a^(m×n)</option>
+    <option value="prod">(a × b)^n = a^n × b^n</option>
+    <option value="quot">(a ÷ b)^n = a^n ÷ b^n</option>
+    <option value="neg">a^(−n) = 1 ÷ a^n</option>
+    <option value="frac">a^(m/n) = ⁿ√(a^m)</option>
+  </select></div>
+  <div class="grid" style="margin-top:12px;grid-template-columns:repeat(auto-fit,minmax(110px,1fr))">
+    <div class="f" id="lwAw"><label for="lwA">a</label><input id="lwA" value="2"></div>
+    <div class="f" id="lwBw"><label for="lwB">b</label><input id="lwB" value="3"></div>
+    <div class="f" id="lwMw"><label for="lwM">m</label><input id="lwM" value="3"></div>
+    <div class="f" id="lwNw"><label for="lwN">n</label><input id="lwN" value="4"></div>
+  </div>
+  <div class="out"><div class="k">결과</div><div class="v" id="lwR"></div><div class="fx" id="lwF"></div></div>
+  <div class="steps" id="lwS"></div>
+</section>
+
+<section class="card" role="tabpanel" id="p-log" aria-labelledby="t-log" hidden>
+  <h2>로그 log<sub>b</sub>(x)</h2>
+  <div class="q">log <input id="lgB" value="2" aria-label="밑 (b)" class="sm"> ( <input id="lgX" value="8" aria-label="진수 (x)"> )</div>
+  <p class="note" style="margin:6px 0 0">밑에 <b>e</b>를 넣으면 자연로그(ln), <b>10</b>이면 상용로그예요. 분수(1/8)도 넣을 수 있어요.</p>
+  <div class="out"><div class="k">결과</div><div class="v" id="lgR"></div><div class="fx" id="lgF"></div></div>
+  <div class="steps" id="lgS"></div>
+</section>
+
+<section class="card" role="tabpanel" id="p-sci" aria-labelledby="t-sci" hidden>
+  <h2>과학적 표기법 변환</h2>
+  <div class="q"><input id="scX" class="wide" value="0.000012345" aria-label="변환할 수 (예: 123000, 0.00045, 1.2E5, 3.1×10^-4)"> <select id="scD" aria-label="유효숫자"><option value="0">유효숫자 그대로</option><option value="1">유효숫자 1자리</option><option value="2">2자리</option><option value="3" selected>3자리</option><option value="4">4자리</option><option value="5">5자리</option><option value="6">6자리</option><option value="8">8자리</option><option value="10">10자리</option></select></div>
+  <p class="note" style="margin:6px 0 0">123000, 0.00045, 1.2E5, 3.1×10^-4 처럼 넣으면 돼요.</p>
+  <div class="out"><div class="k">과학적 표기법</div><div class="v" id="scR"></div><div class="fx" id="scF"></div></div>
+  <div class="mini" id="scM"></div>
+  <div class="steps" id="scS"></div>
+</section>
+
+<section class="card expl">
+  <h2>제곱근과 지수, 핵심만 정리</h2>
+  <ul>
+    <li><b>근호 간단히</b>: √(a²b) = a√b. 소인수분해한 뒤 짝이 맞는 수를 근호 밖으로 꺼내요. √72 = √(6² × 2) = 6√2</li>
+    <li><b>분모의 유리화</b>: 1/√2 = √2/2처럼 분모와 분자에 같은 근호를 곱해 분모를 정수로 만들어요.</li>
+    <li><b>지수법칙</b>: a<sup>m</sup> × a<sup>n</sup> = a<sup>m+n</sup>, (a<sup>m</sup>)<sup>n</sup> = a<sup>mn</sup>, a<sup>0</sup> = 1, a<sup>−n</sup> = 1/a<sup>n</sup>, a<sup>m/n</sup> = ⁿ√a<sup>m</sup></li>
+    <li><b>로그</b>: log<sub>b</sub>x = y ⇔ b<sup>y</sup> = x. 밑 변환 공식 log<sub>b</sub>x = log x ÷ log b</li>
+    <li><b>과학적 표기법</b>: a × 10<sup>n</sup> (1 ≤ |a| &lt; 10). 소수점을 왼쪽으로 옮긴 칸 수만큼 n이 커져요.</li>
+  </ul>
+  <p>여러 함수를 섞은 식을 한 번에 계산하려면 <a href="sci-calc.html">공학용 계산기</a>를 쓰세요.</p>
+</section>
+
+<section class="card faq">
+  <h2>자주 묻는 질문</h2>
+  <details><summary>√72는 어떻게 간단히 하나요?</summary><p>72를 소인수분해하면 2³ × 3²예요. 같은 수 두 개(제곱)는 근호 밖으로 하나씩 나올 수 있어서 √(2² × 3² × 2) = 2 × 3 × √2 = 6√2가 돼요. 근호 안이 가장 작은 자연수가 되도록 만드는 게 핵심이에요.</p></details>
+  <details><summary>2의 -3제곱은 왜 1/8인가요?</summary><p>음수 지수는 역수를 뜻해요. a^(−n) = 1 ÷ a^n이라서 2^(−3) = 1 ÷ 2³ = 1/8 = 0.125예요. 분수 지수는 거듭제곱근이라서 8^(2/3) = (∛8)² = 2² = 4가 돼요.</p></details>
+  <details><summary>log₂8 = 3은 무슨 뜻인가요?</summary><p>2를 몇 번 거듭제곱해야 8이 되는지를 묻는 값이에요. 2³ = 8이니까 log₂8 = 3이에요. 일반 계산기에는 밑이 10인 log와 밑이 e인 ln만 있는 경우가 많은데, 이때는 log 8 ÷ log 2처럼 밑 변환 공식으로 구하면 돼요.</p></details>
+</section>
+
+<section class="card"><h2>함께 쓰면 좋은 계산기</h2><div class="rel"><a href="fraction.html">분수 계산기<span>덧셈·뺄셈·곱셈·나눗셈, 기약분수·대분수 풀이</span></a><a href="sci-calc.html">공학용 계산기<span>삼각함수·로그·팩토리얼·진법 변환·통계</span></a><a href="percent.html">백분율(퍼센트) 계산기<span>몇 %, 증감률, 할인율, 퍼센트포인트</span></a></div></section>
+
+<nav class="calc-index" id="calc-index" aria-label="전체 계산기"><h2>전체 계산기</h2><div class="ci-grid"><div><b>주식·ETF</b><ul><li><a href="sell.html">매도 세금</a></li><li><a href="us.html">미국주식·ETF</a></li><li><a href="div.html">배당금</a></li><li><a href="avg.html">물타기 평단</a></li><li><a href="risk.html">손절·비중</a></li><li><a href="gold.html">금 투자</a></li><li><a href="ipo.html">공모주 청약</a></li></ul></div><div><b>저축·연금</b><ul><li><a href="int.html">예·적금 이자</a></li><li><a href="grow.html">적립식 복리</a></li><li><a href="pen.html">연금저축 세액공제</a></li><li><a href="fire.html">은퇴 자금</a></li><li><a href="fin.html">금융소득 2천만</a></li><li><a href="nhis.html">건보료 피부양자</a></li><li><a href="yet.html">연말정산 환급</a></li><li><a href="nps.html">국민연금 조기·연기</a></li><li><a href="sev.html">퇴직금 세금</a></li><li><a href="eitc.html">근로·자녀장려금</a></li><li><a href="youth-savings.html">청년 정부 적금</a></li></ul></div><div><b>부동산·대출</b><ul><li><a href="buy.html">집 살 때 비용</a></li><li><a href="dsr.html">대출 한도 (DSR·DTI)</a></li><li><a href="score.html">청약 가점</a></li><li><a href="safe.html">전세 안전도</a></li><li><a href="rent.html">전세·월세·매수</a></li><li><a href="refi.html">대출 갈아타기</a></li><li><a href="ptax.html">재산세·종부세</a></li><li><a href="gift.html">증여세</a></li><li><a href="yield.html">임대 수익률</a></li><li><a href="auc.html">부동산 경매</a></li><li><a href="dist.html">경매 배당표</a></li></ul></div><div><b>세금</b><ul><li><a href="tax/">세금 계산기 모음</a></li><li><a href="tax/vat.html">부가가치세</a></li><li><a href="tax/income.html">종합소득세</a></li><li><a href="tax/freelancer.html">프리랜서 3.3%</a></li><li><a href="tax/transfer.html">부동산 양도소득세</a></li><li><a href="tax/inherit.html">상속세</a></li><li><a href="tax/corp.html">법인세 (2026)</a></li><li><a href="tax/loan.html">가족 간 대여</a></li></ul></div><div><b>급여·노동</b><ul><li><a href="wage.html">주휴수당·알바 월급</a></li><li><a href="unemp.html">실업급여</a></li><li><a href="parental.html">육아휴직·출산휴가 급여</a></li><li><a href="sev.html">퇴직금 세금</a></li></ul></div><div><b>직장인</b><ul><li><a href="salary-net.html">연봉 실수령액</a></li><li><a href="leave.html">2027 연차 꿀조합</a></li><li><a href="salary-rank.html">연봉 상위 몇 %</a></li><li><a href="side-tax.html">N잡·부업 세금</a></li><li><a href="gw-pay.html">2027 공무원 실수령액</a></li><li><a href="gw-overtime.html">공무원 초과근무수당</a></li><li><a href="gw-pension.html">공무원연금</a></li></ul></div><div><b>자동차</b><ul><li><a href="car-cost.html">자동차 유지비</a></li><li><a href="car-commute.html">출퇴근 비용</a></li><li><a href="car-tax.html">자동차세</a></li><li><a href="car-buy.html">취등록세</a></li><li><a href="car-parts.html">소모품 교체비</a></li><li><a href="car-ev.html">전기차 vs 휘발유</a></li></ul></div><div><b>건강·운세</b><ul><li><a href="calorie.html">칼로리 계산기</a></li><li><a href="health.html">건강나이·예상수명</a></li><li><a href="life-left.html">인생 남은 시간</a></li><li><a href="saju.html">사주팔자 풀이</a></li><li><a href="mbti.html">MBTI 궁합</a></li><li><a href="mbti-test.html">성격유형 검사 120문항</a></li><li><a href="iq-test.html">IQ 테스트 120문항</a></li><li><a href="fortune-2027.html">2027 신년운세</a></li><li><a href="due-date.html">출산 예정일</a></li></ul></div><div><b>수학</b><ul><li><a href="fraction.html">분수 계산기</a></li><li><a href="sci-calc.html">공학용 계산기</a></li><li><a href="root-power.html" aria-current="page">제곱근·지수</a></li><li><a href="percent.html">백분율 계산기</a></li></ul></div><div><b>도구</b><ul><li><a href="exam.html">자격증 시험일정 달력</a></li><li><a href="travel.html">여행경비 계산기</a></li><li><a href="elec.html">전기요금 계산기</a></li><li><a href="date.html">날짜 계산기 (D-day·만 나이·전역일)</a></li><li><a href="clock.html">초시계·서버시간</a></li><li><a href="/shorts/">쇼츠 메이커 (영문)</a></li><li><a href="/budget/">가계부 (11개 언어)</a></li><li><a href="suneung.html">수능 D-day 시간표</a></li><li><a href="age-table.html">나이표·띠</a></li><li><a href="pyeong.html">평수 계산기</a></li><li><a href="char-count.html">글자수 세기</a></li><li><a href="percent.html">퍼센트 계산기</a></li><li><a href="couple-dday.html">커플 기념일 계산기</a></li></ul></div><div><b>Global</b><ul><li><a href="us/">🇺🇸 US tax calculators</a></li><li><a href="uk/">🇬🇧 UK tax calculators</a></li><li><a href="ca/">🇨🇦 Canada calculators</a></li><li><a href="au/">🇦🇺 Australia calculators</a></li><li><a href="jp/">🇯🇵 日本 税金・NISA</a></li><li><a href="fr/">🇫🇷 Impôts France</a></li><li><a href="es/calculadora-impuesto-ahorro.html">🇪🇸 IRPF ahorro</a></li><li><a href="mx/">🇲🇽 ISR México</a></li><li><a href="br/">🇧🇷 Salário líquido Brasil</a></li><li><a href="in/">🇮🇳 India tax calculators</a></li><li><a href="de/">🇩🇪 Finanzrechner Deutschland</a></li><li><a href="id/kalkulator-pph21.html">🇮🇩 Pajak &amp; investasi Indonesia</a></li><li><a href="en/">English calculators</a></li><li><a href="id/">Kalkulator Indonesia</a></li><li><a href="es/">Calculadoras en español</a></li></ul></div></div></nav>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></div>
+  <div>계산은 모두 브라우저 안에서 이뤄지고 입력값은 서버로 보내지 않아요. 결과는 참고용이에요.</div>
+</footer>
+</div>
+
+<script>
+var FR=(function(){
+'use strict';
+function abs(a){return a<0n?-a:a}
+function gcd(a,b){a=abs(a);b=abs(b);while(b){var t=a%b;a=b;b=t}return a}
+function lcm(a,b){return (a===0n||b===0n)?0n:abs(a/gcd(a,b)*b)}
+function ZE(){return new Error('분모에는 0을 넣을 수 없어요')}
+function mk(n,d){if(d===0n)throw ZE();if(d<0n){n=-n;d=-d}var g=gcd(n,d);if(g>1n){n/=g;d/=g}return{n:n,d:d}}
+function neg(a){return{n:-a.n,d:a.d}}
+function add(a,b){return mk(a.n*b.d+b.n*a.d,a.d*b.d)}
+function sub(a,b){return mk(a.n*b.d-b.n*a.d,a.d*b.d)}
+function mul(a,b){return mk(a.n*b.n,a.d*b.d)}
+function div(a,b){if(b.n===0n)throw new Error('0으로 나눌 수 없어요');return mk(a.n*b.d,a.d*b.n)}
+function cmp(a,b){var x=a.n*b.d,y=b.n*a.d;return x<y?-1:x>y?1:0}
+function p10(k){return 10n**BigInt(k)}
+function norm(s){return String(s==null?'':s).replace(/[−–]/g,'-').replace(/[，,]/g,'').replace(/\[/g,'(').replace(/\]/g,')').replace(/÷/g,'/').replace(/\s*\/\s*/g,'/').replace(/\s+/g,' ').trim()}
+function parseDec(s){
+  var m=/^([+-])?(\d*)(?:\.(\d*)(?:\((\d+)\))?)?(?:[eE]([+-]?\d+))?$/.exec(s);
+  if(!m||(!m[2]&&!m[3]&&!m[4]))return null;
+  var I=m[2]||'0',A=m[3]||'',R=m[4]||'',ex=m[5]?parseInt(m[5],10):0,f;
+  if(R){var N=BigInt(I+A+R),M=BigInt(I+A);f=mk(N-M,p10(A.length)*(p10(R.length)-1n))}
+  else f=mk(BigInt(I+A),p10(A.length));
+  if(ex){if(Math.abs(ex)>2000)return null;f=ex>0?mul(f,{n:p10(ex),d:1n}):div(f,{n:p10(-ex),d:1n})}
+  return m[1]==='-'?neg(f):f;
+}
+/* "3/4", "2 1/4", "-2 1/4", "0.(3)", "1.5", "1.5/2" */
+function parse(s){
+  s=norm(s);if(!s)return null;var m;
+  if((m=/^([+-])?(\d+) (\d+)\/(\d+)$/.exec(s))){var w=BigInt(m[2]),a=BigInt(m[3]),b=BigInt(m[4]);if(b===0n)throw ZE();var f=mk(w*b+a,b);return m[1]==='-'?neg(f):f}
+  if((m=/^([^\/ ]+)\/([^\/ ]+)$/.exec(s))){var x=parseDec(m[1]),y=parseDec(m[2]);if(!x||!y)return null;if(y.n===0n)throw ZE();return div(x,y)}
+  if(/ /.test(s))return null;
+  return parseDec(s);
+}
+function com(b){var s=String(b),sg='';if(s[0]==='-'){sg='−';s=s.slice(1)}return sg+s.replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+/* decimal expansion */
+function dec(f,max){
+  max=max||60;var n=abs(f.n),d=f.d,q=n/d,r=n%d,dg=[],seen=new Map(),rep=-1;
+  while(r!==0n&&dg.length<max){if(seen.has(r)){rep=seen.get(r);break}seen.set(r,dg.length);r*=10n;dg.push(String(r/d));r%=d}
+  if(r!==0n&&rep<0&&seen.has(r))rep=seen.get(r);
+  return{neg:f.n<0n,int:q,dg:dg,rep:rep,trunc:r!==0n&&rep<0}
+}
+function decText(f,max){var e=dec(f,max),s=(e.neg?'-':'')+com(e.int).replace('−','');
+  if(!e.dg.length)return s;
+  if(e.rep>=0)return s+'.'+e.dg.slice(0,e.rep).join('')+'('+e.dg.slice(e.rep).join('')+')';
+  return s+'.'+e.dg.join('')+(e.trunc?'…':'')}
+function decHTML(f,max){var e=dec(f,max),s=(e.neg?'−':'')+com(e.int);
+  if(!e.dg.length)return s;
+  if(e.rep>=0)return s+'.'+e.dg.slice(0,e.rep).join('')+'<span class="ov">'+e.dg.slice(e.rep).join('')+'</span>';
+  return s+'.'+e.dg.join('')+(e.trunc?'…':'')}
+function log10Big(b){var s=String(abs(b));return (s.length-1)+Math.log10(parseFloat(s[0]+'.'+s.slice(1,17)))}
+function toNum(f){
+  var an=abs(f.n);
+  if(an<9007199254740992n&&f.d<9007199254740992n)return Number(f.n)/Number(f.d);
+  if(f.n===0n)return 0;
+  var L=log10Big(f.n)-log10Big(f.d);var v=Math.pow(10,L);return f.n<0n?-v:v;
+}
+function isInt(f){return f.d===1n}
+function stack(nh,dh){return '<span class="frac"><span>'+nh+'</span><span>'+dh+'</span></span>'}
+function fh(f){if(f.d===1n)return com(f.n);return (f.n<0n?'−':'')+stack(com(abs(f.n)),com(f.d))}
+function fhRaw(n,d){return (n<0n?'−':'')+stack(com(abs(n)),com(d))}
+function mixed(f){var an=abs(f.n),w=an/f.d,r=an%f.d;return{neg:f.n<0n,w:w,r:r,d:f.d}}
+function mixedHTML(f){if(f.d===1n)return com(f.n);var m=mixed(f);if(m.w===0n)return fh(f);return (m.neg?'−':'')+com(m.w)+stack(com(m.r),com(f.d))}
+function txt(f){return f.d===1n?String(f.n):f.n+'/'+f.d}
+function mixedTxt(f){if(f.d===1n)return String(f.n);var m=mixed(f);if(m.w===0n)return txt(f);return (m.neg?'-':'')+m.w+' '+m.r+'/'+f.d}
+function pw(f,k){/* integer k */var K=BigInt(Math.abs(k));if(k<0){if(f.n===0n)throw new Error('0의 음수 거듭제곱은 정의되지 않아요');return mk(f.d**K,f.n**K)}return mk(f.n**K,f.d**K)}
+/* integer k-th root of non-negative BigInt, returns exact root or null */
+function iroot(x,k){if(x<0n)return null;if(x<2n)return x;var K=BigInt(k);
+  var L=log10Big(x)/k,g=L<300?BigInt(Math.ceil(Math.pow(10,L)))+2n:10n**BigInt(Math.ceil(L)+1);
+  for(var it=0;it<5000;it++){var ng=((K-1n)*g+x/(g**(K-1n)))/K;if(ng>=g)break;g=ng}
+  while(g>0n&&g**K>x)g--;while((g+1n)**K<=x)g++;
+  return g**K===x?g:null}
+/* factorization: returns [[p(BigInt),e],...] ; ok=false if not fully certain */
+function factor(m){
+  m=abs(m);var res=[],ok=true;if(m<2n)return{f:res,ok:true};
+  if(m<=9007199254740991n){var x=Number(m),lim=1e6;
+    for(var p=2;p*p<=x&&p<=lim;p+=(p===2?1:2)){if(x%p===0){var e=0;while(x%p===0){x/=p;e++}res.push([BigInt(p),e])}}
+    m=BigInt(x)}
+  else{for(var q=2n;q*q<=m&&q<=1000000n;q+=(q===2n?1n:2n)){if(m%q===0n){var e2=0;while(m%q===0n){m/=q;e2++}res.push([q,e2])}}}
+  if(m>1n){if(m<=1000000000000n)res.push([m,1]);else{var s=iroot(m,2);if(s){res.push([s,2])}else if(m<=1000000000000000000n){res.push([m,1])}else{res.push([m,1]);ok=false}}}
+  res.sort(function(a,b){return a[0]<b[0]?-1:a[0]>b[0]?1:0});
+  return{f:res,ok:ok}}
+function supN(e){return '<sup>'+e+'</sup>'}
+function factHTML(fs){return fs.map(function(x){return com(x[0])+(x[1]>1?supN(x[1]):'')}).join(' × ')}
+return{abs:abs,gcd:gcd,lcm:lcm,mk:mk,neg:neg,add:add,sub:sub,mul:mul,div:div,cmp:cmp,p10:p10,norm:norm,parse:parse,parseDec:parseDec,com:com,dec:dec,decText:decText,decHTML:decHTML,toNum:toNum,isInt:isInt,stack:stack,fh:fh,fhRaw:fhRaw,mixed:mixed,mixedHTML:mixedHTML,txt:txt,mixedTxt:mixedTxt,pw:pw,iroot:iroot,factor:factor,factHTML:factHTML,supN:supN,log10Big:log10Big};
+})();
+function fmtN(x,sig){sig=sig||12;if(!isFinite(x))return '—';if(x===0)return '0';var a=Math.abs(x);
+  if(a>=1e15||a<1e-6){var s=x.toExponential(sig-1).split('e'),m=s[0].replace(/(\.\d*?)0+$/,'$1').replace(/\.$/,'');return m.replace('-','−')+' × 10<sup>'+(+s[1])+'</sup>'}
+  return parseFloat(x.toPrecision(sig)).toLocaleString('en-US',{maximumFractionDigits:20}).replace('-','−')}
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+var fh=FR.fh,fhRaw=FR.fhRaw,com=FR.com,abs=FR.abs,gcd=FR.gcd,stack=FR.stack;
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function set(id,h){$(id).innerHTML=h}
+function E(m){return new Error(m)}
+function stepsHTML(arr,title){return arr.length?'<h3>'+(title||'풀이 과정')+'</h3><ol>'+arr.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol>':''}
+function fail(p,msg){set(p+'R','<span class="erro">'+esc(msg)+'</span>');set(p+'F','');set(p+'S','');var m=$(p+'M');if(m)m.innerHTML=''}
+var used=false;function track(tab){if(used)return;used=true;try{if(sessionStorage.getItem('rp_used'))return;sessionStorage.setItem('rp_used','1')}catch(e){}try{gtag('event','rootpow_run',{tab:tab})}catch(e){}}
+var SUPD='⁰¹²³⁴⁵⁶⁷⁸⁹';function supTxt(n){return String(n).replace(/\d/g,function(d){return SUPD[+d]}).replace('-','⁻')}
+function sup(x){return '<sup>'+x+'</sup>'}
+function rootSym(k){return k===2?'√':k===3?'∛':k===4?'∜':'<span class="ix">'+k+'</span>√'}
+function rootHTML(k,inner){return '<span class="rt">'+rootSym(k)+'<span class="ra">'+inner+'</span></span>'}
+function rootTxt(k){return k===2?'√':k===3?'∛':k===4?'∜':supTxt(k)+'√'}
+function rd(s){var f=FR.parse(s);if(!f)throw E('숫자를 확인해 주세요 (예: 72, 8/9, 0.5)');return f}
+function expTxt(f){return f.d===1n?String(f.n).replace('-','−'):'('+String(f.n).replace('-','−')+'/'+f.d+')'}
+function pbase(f){return (f.d!==1n||f.n<0n)?'('+fh(f)+')':fh(f)}
+function big(L,neg){var e=Math.floor(L),m=Math.pow(10,L-e);if(m>=9.9999999999995){m=1;e++}return (neg?'−':'')+parseFloat(m.toPrecision(12))+' × 10'+sup(e)}
+
+/* ---- 거듭제곱근 간단히 (공통) ---- */
+var MAXN=1000000000000000000n;
+function formHTML(o){
+  if(o.p===0n)return '0';
+  var core=o.r===1n?com(o.p):(o.p===1n?'':com(o.p))+rootHTML(o.k,com(o.r));
+  var h=o.q===1n?core:(o.r===1n?fhRaw(o.p,o.q):stack(core,com(o.q)));
+  return (o.s<0?'−':'')+h}
+function formTxt(o){
+  if(o.p===0n)return '0';
+  var core=o.r===1n?String(o.p):(o.p===1n?'':String(o.p))+rootTxt(o.k)+o.r;
+  return (o.s<0?'-':'')+core+(o.q===1n?'':'/'+o.q)}
+function rootForm(x,k){
+  var K=BigInt(k),neg=x.n<0n,a=abs(x.n),d=x.d,st=[],sym=rootSym(k);
+  if(neg&&k%2===0)return{noreal:true};
+  if(a===0n)return{s:1,p:0n,r:1n,q:1n,k:k,st:['0의 거듭제곱근은 0이에요.']};
+  var N,Q;
+  if(d===1n){N=a;Q=1n}
+  else{var r=FR.iroot(d,k);
+    if(r!==null){N=a;Q=r;st.push('분모 '+com(d)+' = '+com(r)+sup(k)+'이라서 분모는 근호 밖으로 나와요: <span class="eq">'+rootHTML(k,fhRaw(a,d))+' = '+stack(rootHTML(k,com(a)),com(r))+'</span>')}
+    else{N=a*d**(K-1n);Q=d;
+      if(N>MAXN)return{big:true};
+      st.push('<b>분모의 유리화</b>: 분자와 분모에 '+(k===2?rootHTML(2,com(d)):rootHTML(k,com(d)+sup(k-1)))+'을(를) 곱해 분모를 정수로 만들어요: <span class="eq">'+rootHTML(k,fhRaw(a,d))+' = '+stack(rootHTML(k,com(a)+' × '+com(d)+(k>2?sup(k-1):'')),com(d))+' = '+stack(rootHTML(k,com(N)),com(d))+'</span>')}}
+  if(N>MAXN)return{big:true};
+  var fc=FR.factor(N);if(!fc.ok)return{big:true};
+  var out=1n,inn=1n;fc.f.forEach(function(x){var q=Math.floor(x[1]/k),r=x[1]%k;out*=x[0]**BigInt(q);inn*=x[0]**BigInt(r)});
+  if(N>1n){
+    st.push('<b>소인수분해</b>: <span class="eq">'+com(N)+' = '+FR.factHTML(fc.f)+'</span>');
+    if(out===1n)st.push('지수가 '+k+' 이상인 소인수가 없어서 근호 밖으로 꺼낼 수 있는 수가 없어요. '+rootHTML(k,com(N))+'이(가) 가장 간단한 꼴이에요.');
+    else{
+      var outs=fc.f.filter(function(x){return x[1]>=k}).map(function(x){var q=Math.floor(x[1]/k);return com(x[0])+(q>1?sup(q):'')});
+      st.push(k+'개씩 짝을 지어 근호 밖으로 꺼내요: <span class="eq">'+com(N)+' = '+(outs.length>1?'('+outs.join(' × ')+')':outs[0])+sup(k)+(inn>1n?' × '+com(inn):'')+' = '+com(out)+sup(k)+(inn>1n?' × '+com(inn):'')+'</span>');
+      st.push('<span class="eq">'+rootHTML(k,com(N))+' = '+rootHTML(k,com(out)+sup(k)+(inn>1n?' × '+com(inn):''))+' = '+(inn>1n?com(out)+rootHTML(k,com(inn)):com(out))+'</span>'+(inn===1n?' ('+com(N)+'은(는) 완전'+(k===2?'제곱':k===3?'세제곱':k+'제곱')+'수예요)':''));
+    }
+  }
+  var g=gcd(out,Q);
+  if(Q>1n&&g>1n)st.push('근호 밖의 수와 분모를 '+com(g)+'(으)로 약분해요.');
+  return{s:neg?-1:1,p:out/g,r:inn,q:Q/g,k:k,st:st}}
+
+/* ---- 제곱근 ---- */
+function calcSqrt(){
+  var x;try{x=rd($('sqX').value)}catch(e){fail('sq',e.message);return}
+  var neg=x.n<0n,ax=neg?FR.neg(x):x,o=rootForm(ax,2),st=[],ap=Math.sqrt(FR.toNum(ax));
+  if(o.big){set('sqR','<b>≈ '+fmtN(ap)+(neg?'i':'')+'</b>');set('sqF','수가 너무 커서(10¹⁸ 초과) 근삿값만 보여 줘요.');set('sqS','');return}
+  if(neg)st.push('음수의 제곱근은 실수가 아니에요. <b>√(−a) = √a · i</b> (i는 허수 단위, i² = −1)로 계산해요.');
+  st=st.concat(o.st);
+  var main=formHTML(o)+(neg?'<i>i</i>':''),plain=formTxt(o)+(neg?'i':'');
+  st.push('확인: '+(neg?'':'('+main+')'+sup(2)+' = '+fh(ax)+' , ')+'근삿값 '+rootHTML(2,fh(ax))+' ≈ '+fmtN(ap)+(neg?' i':''));
+  set('sqR','<b>'+main+'</b>');
+  set('sqF','<span id="sqTxt">'+esc((neg?'√('+FR.txt(x)+')':'√'+FR.txt(x))+' = '+plain)+'</span> · 근삿값 ≈ '+fmtN(ap)+(neg?' i':''));
+  set('sqS',stepsHTML(st));
+}
+/* ---- n제곱근 ---- */
+function calcNrt(){
+  var k=+String($('nrN').value).trim(),x;
+  if(!Number.isInteger(k)||k<2||k>100){fail('nr','n에는 2부터 100까지의 자연수를 넣어 주세요');return}
+  try{x=rd($('nrX').value)}catch(e){fail('nr',e.message);return}
+  var o=rootForm(x,k);
+  if(o.noreal){fail('nr','음수의 짝수 제곱근('+k+'제곱근)은 실수 범위에서 없어요');set('nrF','x<sup>'+k+'</sup>은(는) 항상 0 이상이라서 음수가 될 수 없어요.');return}
+  var ax=x.n<0n?FR.neg(x):x,ap=Math.pow(FR.toNum(ax),1/k)*(x.n<0n?-1:1);
+  if(o.big){set('nrR','<b>≈ '+fmtN(ap)+'</b>');set('nrF','수가 너무 커서 근삿값만 보여 줘요.');set('nrS','');return}
+  var st=[];
+  if(x.n<0n)st.push('n이 홀수('+k+')라서 음수의 '+k+'제곱근도 실수예요: <span class="eq">'+rootHTML(k,'−'+fh(ax))+' = −'+rootHTML(k,fh(ax))+'</span>');
+  st=st.concat(o.st);
+  if(o.r===1n)st.push('확인: ('+formHTML(o)+')'+sup(k)+' = '+fh(x));
+  set('nrR','<b>'+formHTML(o)+'</b>');
+  set('nrF','<span id="nrTxt">'+esc(rootTxt(k)+'('+FR.txt(x)+') = '+formTxt(o))+'</span>'+(o.r===1n&&o.q===1n?'':' · 근삿값 ≈ '+fmtN(ap)));
+  set('nrS',stepsHTML(st));
+}
+/* ---- 거듭제곱 (공통) ---- */
+function powerVal(b,e,st){
+  if(b.n===0n){if(e.n<0n)throw E('0의 음수 거듭제곱은 정의되지 않아요 (0으로 나누게 돼요)');if(e.n===0n){st.push('0<sup>0</sup>은 보통 1로 약속해요 (정의하지 않는다고 보는 경우도 있어요).');return{ex:{n:1n,d:1n}}}st.push('0의 양수 거듭제곱은 0이에요.');return{ex:{n:0n,d:1n}}}
+  var p=e.n,q=e.d,B=pbase(b);
+  if(q===1n){
+    var k=Number(p);
+    if(k===0){st.push('0이 아닌 수의 0제곱은 항상 1이에요: '+B+sup(0)+' = 1');return{ex:{n:1n,d:1n}}}
+    var L=k*(FR.log10Big(abs(b.n))-FR.log10Big(b.d)),neg=b.n<0n&&(p%2n!==0n);
+    var size=Math.abs(k)*Math.max(FR.log10Big(abs(b.n)),FR.log10Big(b.d));
+    if(k<0)st.push('지수가 음수면 역수의 거듭제곱이에요: <span class="eq">'+B+sup('−'+(-k))+' = 1 ÷ '+B+sup(-k)+'</span>');
+    if(size>20000||Math.abs(k)>1000000){st.push('결과가 너무 커서 상용로그로 크기를 구해요: log₁₀|x| × n = '+fmtN(L));return{big:{L:L,neg:neg}}}
+    var ak=Math.abs(k),pos=FR.pw(b,ak);
+    if(ak<=6&&ak>1&&size<60)st.push('<span class="eq">'+B+sup(ak)+' = '+Array(ak+1).join(B+' × ').slice(0,-3)+' = '+fh(pos)+'</span>');
+    else if(ak>1&&b.d!==1n)st.push('분수의 거듭제곱은 분자, 분모를 각각 거듭제곱해요: '+B+sup(ak)+' = '+stack(com(abs(b.n))+sup(ak),com(b.d)+sup(ak)));
+    else if(ak>6)st.push(B+'을(를) '+ak+'번 곱해요'+(size<60?': '+B+sup(ak)+' = '+fh(pos):'')+'.');
+    var r=k<0?FR.div({n:1n,d:1n},pos):pos;
+    if(k<0)st.push('<span class="eq">1 ÷ '+(pos.d!==1n||pos.n<0n?'('+fh(pos)+')':fh(pos))+' = '+fh(r)+'</span>');
+    return{ex:r};
+  }
+  var neg2=b.n<0n,Qn=Number(q);
+  if(neg2&&q%2n===0n)throw E('음수의 분수 거듭제곱(분모 '+q+'가 짝수)은 실수 범위에서 계산할 수 없어요');
+  st.push('분수 지수는 거듭제곱근이에요: <span class="eq">x'+sup('p/q')+' = ('+rootSym(2).replace('√','')+'<sup>q</sup>√x)'+sup('p')+'</span> → <span class="eq">'+B+sup(expTxt(e))+' = ('+rootHTML(Qn,fh(b))+')'+sup(String(p).replace('-','−'))+'</span>');
+  if(Qn<=1000){
+    var rn=FR.iroot(abs(b.n),Qn),rdn=FR.iroot(b.d,Qn);
+    if(rn!==null&&rdn!==null){var root={n:neg2?-rn:rn,d:rdn};st.push('<span class="eq">'+rootHTML(Qn,fh(b))+' = '+fh(root)+'</span>');return powerVal(root,{n:p,d:1n},st)}
+  }
+  var ap=Math.pow(Math.abs(FR.toNum(b)),Number(p)/Number(q))*(neg2&&p%2n!==0n?-1:1),form=null;
+  if(p>0n&&p<=50n){try{var bp=FR.pw(b,Number(p));if(abs(bp.n)<=MAXN&&bp.d<=MAXN){var o=rootForm(bp,Qn);if(!o.big&&!o.noreal){form=o;st.push('<span class="eq">'+rootHTML(Qn,fh(b)+(p>1n?sup(String(p)):''))+' = '+rootHTML(Qn,fh(bp))+' = '+formHTML(o)+'</span>')}}}catch(er){}}
+  if(!isFinite(ap))throw E('결과가 너무 커요');
+  return{ap:ap,form:form};
+}
+function valHTML(r){
+  if(r.big)return{main:big(r.big.L,r.big.neg),sub:'아주 큰(작은) 수라서 과학적 표기법으로 보여 줘요.',plain:''};
+  if(r.ex){var f=r.ex,nd=String(abs(f.n)).length,dd=String(f.d).length;
+    if(nd>40||dd>40){var L=FR.log10Big(abs(f.n))-FR.log10Big(f.d);return{main:'≈ '+big(L,f.n<0n),sub:(f.d===1n?'정확한 값은 '+nd.toLocaleString()+'자리 정수예요.':'분자 '+nd+'자리, 분모 '+dd+'자리 분수예요.'),plain:''}}
+    if(f.d===1n)return{main:com(f.n),sub:'',plain:String(f.n)};
+    return{main:FR.decHTML(f,30),sub:'분수로 '+fh(f)+(Math.abs(FR.toNum(f))>=1e-6?'':' · ≈ '+fmtN(FR.toNum(f))),plain:FR.txt(f)}}
+  return{main:(r.form&&r.form.r!==1n?formHTML(r.form)+' ≈ ':'≈ ')+fmtN(r.ap),sub:'무리수라서 소수점 아래가 끝없이 이어져요 (12자리 유효숫자).',plain:''};
+}
+function calcPow(){
+  var b,e,st=[];
+  try{b=rd($('pwB').value)}catch(er){fail('pw','밑을 확인해 주세요');return}
+  try{e=rd($('pwE').value)}catch(er){fail('pw','지수를 확인해 주세요 (예: 3, −2, 1/2)');return}
+  var r;try{r=powerVal(b,e,st)}catch(er){fail('pw',er.message);set('pwS',stepsHTML(st));return}
+  var v=valHTML(r);
+  set('pwR','<b>'+v.main+'</b>');
+  set('pwF',pbase(b)+sup(expTxt(e))+(v.sub?' · '+v.sub:''));
+  set('pwS',stepsHTML(st));
+}
+/* ---- 지수법칙 ---- */
+var LAW={mul:'amn',div:'amn',pp:'amn',prod:'abn',quot:'abn',neg:'an',frac:'amn'};
+function calcLaw(){
+  var t=$('lwT').value,need=LAW[t];
+  ['A','B','M','N'].forEach(function(k){$('lw'+k+'w').hidden=need.indexOf(k.toLowerCase())<0});
+  var a,b,m,n,st=[];
+  try{a=rd($('lwA').value);if(need.indexOf('b')>=0)b=rd($('lwB').value);if(need.indexOf('m')>=0)m=rd($('lwM').value);n=rd($('lwN').value)}catch(er){fail('lw','a, b, m, n에 숫자를 넣어 주세요');return}
+  var A=pbase(a),e,base=a,sym;
+  function X(f){return expTxt(f)}
+  try{
+  if(t==='mul'){e=FR.add(m,n);sym=A+sup(X(m))+' × '+A+sup(X(n));st.push('밑이 같은 거듭제곱의 곱셈은 지수끼리 더해요: <span class="eq">'+sym+' = '+A+sup(X(m)+' + '+X(n))+' = '+A+sup(X(e))+'</span>')}
+  else if(t==='div'){if(a.n===0n)throw E('밑이 0이면 나눌 수 없어요');e=FR.sub(m,n);sym=A+sup(X(m))+' ÷ '+A+sup(X(n));st.push('밑이 같은 거듭제곱의 나눗셈은 지수끼리 빼요: <span class="eq">'+sym+' = '+A+sup(X(m)+' − '+X(n))+' = '+A+sup(X(e))+'</span>')}
+  else if(t==='pp'){e=FR.mul(m,n);sym='('+A+sup(X(m))+')'+sup(X(n));st.push('거듭제곱의 거듭제곱은 지수끼리 곱해요: <span class="eq">'+sym+' = '+A+sup(X(m)+' × '+X(n))+' = '+A+sup(X(e))+'</span>')}
+  else if(t==='prod'){e=n;base=FR.mul(a,b);sym='('+fh(a)+' × '+fh(b)+')'+sup(X(n));st.push('곱의 거듭제곱은 각각 거듭제곱해서 곱해요: <span class="eq">'+sym+' = '+A+sup(X(n))+' × '+pbase(b)+sup(X(n))+'</span>');
+    var s1=[],s2=[],ra=valHTML(powerVal(a,n,s1)),rb=valHTML(powerVal(b,n,s2));st.push('<span class="eq">'+A+sup(X(n))+' = '+ra.main+'</span> , <span class="eq">'+pbase(b)+sup(X(n))+' = '+rb.main+'</span>');st.push('한 번에 계산하면 '+pbase(base)+sup(X(n))+'이에요.')}
+  else if(t==='quot'){if(b.n===0n)throw E('b는 0이 될 수 없어요');e=n;base=FR.div(a,b);sym='('+fh(a)+' ÷ '+fh(b)+')'+sup(X(n));st.push('몫의 거듭제곱은 분자, 분모를 각각 거듭제곱해요: <span class="eq">'+sym+' = '+A+sup(X(n))+' ÷ '+pbase(b)+sup(X(n))+'</span>');st.push('한 번에 계산하면 '+pbase(base)+sup(X(n))+'이에요.')}
+  else if(t==='neg'){e=FR.neg(n);sym=A+sup(X(e));st.push('음수 지수는 역수예요: <span class="eq">'+sym+' = 1 ÷ '+A+sup(X(n))+'</span>')}
+  else{if(n.d!==1n||n.n<1n)throw E('n에는 1 이상의 정수를 넣어 주세요');e=FR.div(m,n);sym=A+sup(X(m)+'/'+X(n));st.push('분수 지수는 거듭제곱근이에요: <span class="eq">'+sym+' = '+rootHTML(Number(n.n),A+sup(X(m)))+'</span>')}
+  var r=powerVal(base,e,st),v=valHTML(r);
+  set('lwR','<b>'+sym+' = '+v.main+'</b>');set('lwF',v.sub||'');set('lwS',stepsHTML(st));
+  }catch(er){fail('lw',er.message);set('lwS',stepsHTML(st))}
+}
+/* ---- 로그 ---- */
+function lnF(f){var v=FR.toNum(f);if(isFinite(v)&&v>1e-300)return Math.log(v);return (FR.log10Big(abs(f.n))-FR.log10Big(f.d))*Math.LN10}
+function calcLog(){
+  var bs=String($('lgB').value).trim(),xs=String($('lgX').value).trim(),b=null,x=null,be=/^e$/i.test(bs),xe=/^e$/i.test(xs),st=[];
+  try{if(!be)b=rd(bs);if(!xe)x=rd(xs)}catch(er){fail('lg','밑과 진수에 숫자를 넣어 주세요');return}
+  if(!be&&(b.n<=0n||(b.n===b.d)))return fail('lg','로그의 밑은 0보다 크고 1이 아니어야 해요');
+  if(!xe&&x.n<=0n)return fail('lg','진수는 0보다 커야 해요 (0이나 음수의 로그는 없어요)');
+  var lb=be?1:lnF(b),lx=xe?1:lnF(x),val=lx/lb,ex=null;
+  var bH=be?'e':fh(b),xH=xe?'e':fh(x),lab='log<sub>'+bH+'</sub> '+(x&&x.d!==1n?'('+xH+')':xH);
+  if(be)lab='ln '+(x&&x.d!==1n?'('+xH+')':xH);
+  st.push('로그의 뜻: '+lab+' = y ⇔ '+(be?'e':pbase(b))+sup('y')+' = '+xH+'. 즉 '+(be?'e':bH)+'을(를) 몇 번 거듭제곱해야 '+xH+'이(가) 되는지 구해요.');
+  if(be&&xe)ex={n:1n,d:1n};
+  else if(!be&&!xe){
+    for(var q=1;q<=12&&!ex;q++){var p=Math.round(val*q);if(Math.abs(val*q-p)<1e-9&&Math.abs(p)<=400){
+      try{var sz=Math.max(Math.abs(p),q)*Math.max(FR.log10Big(abs(b.n)),FR.log10Big(b.d),FR.log10Big(abs(x.n)),FR.log10Big(x.d));
+        if(sz<5000&&FR.cmp(FR.pw(b,p),FR.pw(x,q))===0){ex=FR.mk(BigInt(p),BigInt(q));
+          if(ex.d===1n)st.push('<span class="eq">'+pbase(b)+sup(String(ex.n).replace('-','−'))+' = '+xH+'</span> 이므로 '+lab+' = <b>'+com(ex.n)+'</b>');
+          else st.push('<span class="eq">'+pbase(b)+sup(String(ex.n).replace('-','−'))+' = '+pbase(x)+sup(String(ex.d))+' = '+fh(FR.pw(b,Number(ex.n)))+'</span> 이므로 '+pbase(b)+sup(expTxt(ex))+' = '+xH+', 즉 '+lab+' = <b>'+fh(ex)+'</b>')}}catch(er){}}}
+  }
+  var l10b=be?Math.LOG10E:lb/Math.LN10,l10x=xe?Math.LOG10E:lx/Math.LN10;
+  st.push('<b>밑 변환 공식</b>: <span class="eq">'+lab+' = log '+xH+' ÷ log '+bH+' = '+fmtN(l10x)+' ÷ '+fmtN(l10b)+' = '+fmtN(val)+'</span>');
+  if(!be)st.push('자연로그로 해도 같아요: ln '+xH+' ÷ ln '+bH+' = '+fmtN(lx)+' ÷ '+fmtN(lb)+' = '+fmtN(val));
+  set('lgR','<b>'+lab+' = <span id="lgV">'+(ex?fh(ex):fmtN(val))+'</span></b>');
+  set('lgF',(ex&&ex.d!==1n?'= '+fmtN(val)+' · ':'')+(ex?'정확한 값이에요.':'근삿값 (12자리 유효숫자)')+' · log '+xH+' = '+fmtN(l10x)+' · ln '+xH+' = '+fmtN(lx));
+  set('lgS',stepsHTML(st));
+}
+/* ---- 과학적 표기법 ---- */
+var SI={'-24':'y (욕토)','-21':'z (젭토)','-18':'a (아토)','-15':'f (펨토)','-12':'p (피코)','-9':'n (나노)','-6':'μ (마이크로)','-3':'m (밀리)','0':'(없음)','3':'k (킬로)','6':'M (메가)','9':'G (기가)','12':'T (테라)','15':'P (페타)','18':'E (엑사)','21':'Z (제타)','24':'Y (요타)'};
+function incStr(s){var a=s.split(''),i=a.length-1;while(i>=0){if(a[i]==='9'){a[i]='0';i--}else{a[i]=String(+a[i]+1);return a.join('')}}return '1'+a.join('')}
+function calcSci(){
+  var s=String($('scX').value).replace(/[,\s]/g,'').replace(/[−–]/g,'-').replace(/(?:×|x|X|\*)10\^?/,'E').replace(/[eE]\^/,'E').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+$/,function(m){return m.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]/g,function(c){return c==='⁻'?'-':String('⁰¹²³⁴⁵⁶⁷⁸⁹'.indexOf(c))})}),st=[];
+  var m=/^([+-])?(\d*)(?:\.(\d*))?(?:[eE]([+-]?\d+))?$/.exec(s);
+  if(!s||!m||(!m[2]&&!m[3]))return fail('sc','숫자를 123000, 0.00045, 1.2E5 처럼 넣어 주세요');
+  var neg=m[1]==='-',I=m[2]||'',F=m[3]||'',ex=m[4]?parseInt(m[4],10):0,D=(I+F).replace(/^0+/,''),e10=ex-F.length;
+  if(Math.abs(ex)>100000)return fail('sc','지수가 너무 커요');
+  if(!D){set('scR','<b>0</b>');set('scF','0은 과학적 표기법으로 0 × 10⁰이에요.');set('scM','');set('scS','');return}
+  var tz=D.match(/0*$/)[0].length;if(tz&&tz<D.length){D=D.slice(0,D.length-tz);e10+=tz}
+  var n=D.length-1+e10,orig=D.length,k=+$('scD').value,sg=neg?'−':'';
+  // 원래 수 (정규화) 설명
+  var intDigits=(I.replace(/^0+/,'')).length;
+  if(!m[4]){if(intDigits>1)st.push('소수점을 <b>왼쪽으로 '+(intDigits-1)+'칸</b> 옮겨 1 이상 10 미만의 수로 만들어요 → 옮긴 칸 수만큼 × 10'+sup(intDigits-1));
+    else if(intDigits===0)st.push('소수점을 <b>오른쪽으로 '+(-n)+'칸</b> 옮겨 1 이상 10 미만의 수로 만들어요 → × 10'+sup('−'+(-n)));
+    else st.push('이미 1 이상 10 미만이라 × 10'+sup(0)+'이에요.')}
+  else st.push('가수 부분을 1 이상 10 미만으로 맞추고 지수를 그만큼 조정해요: 10'+sup(n)+'');
+  if(k&&D.length>k){var head=D.slice(0,k),nx=+D[k];var R=nx>=5?incStr(head):head;if(R.length>k){R=R.slice(0,k);n+=1}st.push('유효숫자 '+k+'자리로 반올림해요: '+(k+1)+'번째 숫자 '+nx+(nx>=5?'에서 올림':'에서 버림'));D=R}
+  else if(k&&D.length<k){D=D+Array(k-D.length+1).join('0')}
+  var mant=D[0]+(D.length>1?'.'+D.slice(1):''),eng3=Math.floor(n/3)*3,sh=n-eng3,Dp=D.length<=sh?D+Array(sh-D.length+2).join('0'):D;
+  var em=Dp.slice(0,sh+1)+(Dp.length>sh+1?'.'+Dp.slice(sh+1):'');
+  var plain='—';
+  if(Math.abs(n)<=40){var dd=D.replace(/0+$/,'')||'0';
+    if(n>=dd.length-1)plain=com(dd+Array(n-dd.length+2).join('0'));
+    else if(n>=0)plain=com(dd.slice(0,n+1))+'.'+dd.slice(n+1);
+    else plain='0.'+Array(-n).join('0')+dd;
+    plain=sg+plain.replace('−','')}
+  set('scR','<b>'+sg+mant+' × 10'+sup(n)+'</b>');
+  set('scF','E 표기 '+(neg?'-':'')+mant+'E'+n+(k?' · 유효숫자 '+k+'자리':' · 유효숫자 '+orig+'자리'));
+  set('scM',[['E 표기 (계산기·엑셀)',(neg?'-':'')+mant+'E'+n],['공학 표기법 (지수 3의 배수)',sg+em+' × 10'+sup(eng3)],['SI 접두어',SI[String(eng3)]?sg+em+' '+SI[String(eng3)].split(' ')[0].replace('(없음)',''):'—'],['일반 숫자',plain]].map(function(a){return '<div><span>'+a[0]+'</span><b>'+a[1]+'</b></div>'}).join(''));
+  st.push('결과: <span class="eq">'+sg+mant+' × 10'+sup(n)+'</span> (가수 '+mant+', 지수 '+n+')');
+  if(tz&&!m[3]&&!m[4])st.push('<span class="note">123000처럼 끝에 0이 붙은 정수는 0이 유효숫자인지 알 수 없어서 0을 뺀 '+orig+'자리로 봤어요. 필요하면 유효숫자를 직접 고르세요.</span>');
+  set('scS',stepsHTML(st));
+}
+
+var calc={sqrt:calcSqrt,nrt:calcNrt,pow:calcPow,law:calcLaw,log:calcLog,sci:calcSci};
+Object.keys(calc).forEach(function(k){var p=$('p-'+k);p.addEventListener('input',function(){calc[k]();track(k)});p.addEventListener('change',function(){calc[k]()})});
+var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+function show(k,focus){tabs.forEach(function(t){var on=t.id==='t-'+k;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;$('p-'+t.id.slice(2)).hidden=!on;if(on&&focus)t.focus()});try{history.replaceState(null,'','#'+k)}catch(e){}}
+tabs.forEach(function(t,i){t.addEventListener('click',function(){show(t.id.slice(2))});t.addEventListener('keydown',function(e){var j=e.key==='ArrowRight'?i+1:e.key==='ArrowLeft'?i-1:null;if(j===null)return;e.preventDefault();show(tabs[(j+tabs.length)%tabs.length].id.slice(2),true)})});
+Object.keys(calc).forEach(function(k){try{calc[k]()}catch(e){if(window.console)console.error(e)}});
+var h=(location.hash||'').slice(1);if(calc[h])show(h);else tabs.forEach(function(t,i){t.tabIndex=i?-1:0});
+window.__rp={calc:calc,show:show};
+})();
+</script>
+</body>
+</html>
