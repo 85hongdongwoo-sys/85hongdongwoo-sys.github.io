@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>내 인생 남은 시간 계산기 | 남은 주말·명절·부모님과 남은 만남 횟수</title>
+<meta name="description" content="생년월일과 성별을 넣으면 통계청 2024년 생명표 기준으로 앞으로 남은 날·주말·여름·설날과 추석·보름달·생일 횟수, 깨어 있는 시간, 부모님과 남은 만남 횟수를 계산하고 결과 카드 이미지로 저장해요.">
+<link rel="canonical" href="https://honglife.co.kr/life-left.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="홍라이프 계산기">
+<meta property="og:title" content="내 인생 남은 시간 계산기 | 남은 주말·명절·부모님과 남은 만남 횟수">
+<meta property="og:description" content="앞으로 남은 주말, 명절, 보름달, 그리고 부모님과 남은 만남은 몇 번일까요? 통계청 2024년 생명표로 계산해요.">
+<meta property="og:url" content="https://honglife.co.kr/life-left.html">
+<meta name="theme-color" content="#0B1F3F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"남은 시간은 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"통계청 2024년 생명표의 연령별 사망률에 맞춘 곰퍼츠-메이컴 사망률 곡선으로, 지금 나이까지 살아 있다는 조건에서 앞으로 평균 몇 년을 더 사는지(기대여명)를 구해요. 그 기간 안에 들어가는 날짜를 하나씩 세어 남은 주말·여름·설날·추석·보름달·생일 횟수를 계산해요."}},
+{"@type":"Question","name":"부모님과 남은 만남 횟수는 어떻게 구하나요?","acceptedAnswer":{"@type":"Answer","text":"아버지·어머니의 나이로 같은 생명표 모형에서 부모님의 기대여명을 구하고, 나의 기대여명과 비교해 더 짧은 기간에 1년에 뵙는 횟수를 곱해요. 예를 들어 함께할 수 있는 기간이 15년이고 1년에 6번 뵈면 약 90번이에요."}},
+{"@type":"Question","name":"계산 결과가 실제 제 수명인가요?","acceptedAnswer":{"@type":"Answer","text":"아니에요. 같은 나이·성별인 사람들의 평균 추정이에요. 흡연·운동은 연구에서 확인된 대표 위험도만 간단히 반영했고, 건강 상태·가족력·의료 발전은 넣지 않았어요. 더 자세한 추정은 건강나이·예상수명 계산기를 이용해 보세요."}}
+]}
+</script>
+<style>
+:root{color-scheme:light;
+  --navy:#0B1F3F;--paper:#fff;--ink:#2F343B;--head:#14233D;--muted:#5F6875;--line:#E1E5EC;--soft:#F3F5F9;
+  --btn:#12305C;--gold:#B8862B;--gold-l:#C9A04A;--gold-soft:#FBF4E6;
+  --f:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#0B1F3F linear-gradient(180deg,#0F2A52 0,#0C2347 600px,#0A1E3E 100%) fixed;color:var(--ink);font:16px/1.7 var(--f);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--btn)}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08)}
+.brandbar .in{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none;white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:6px;background:var(--gold);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;white-space:nowrap}.brandbar .meta a{color:#DCE4F2;text-decoration:none;margin-left:10px}
+@media(max-width:520px){.brandbar .meta{display:none}}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 56px}
+header.top{padding:28px 0 20px;color:#fff}
+h1{margin:0;font-weight:800;font-size:clamp(25px,5vw,34px);letter-spacing:-.025em;line-height:1.3;text-wrap:balance}
+h1 b{color:var(--gold-l)}
+header.top p{margin:8px 0 0;color:#C9D5EE;max-width:640px}
+.card{background:var(--paper);border-radius:14px;padding:20px;margin:0 0 14px;box-shadow:0 1px 0 rgba(255,255,255,.04)}
+h2{font-size:19px;margin:0 0 12px;letter-spacing:-.015em;color:var(--head)}
+h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+h3{font-size:16px;margin:16px 0 6px;color:var(--head)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px}
+.f label,.f .lb{display:block;font-size:14px;font-weight:600;margin-bottom:4px;color:var(--head)}
+.f small{display:block;color:var(--muted);font-size:12.6px;line-height:1.5;margin-top:3px}
+.f input,.f select{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid #CFD6E0;border-radius:9px;background:#fff;color:var(--ink);min-height:44px}
+.f input:focus,.f select:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.seg{display:flex;gap:6px}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:9px 6px;border:1.5px solid #CFD6E0;border-radius:9px;background:#fff;cursor:pointer;min-height:44px;font-size:14.5px}
+.seg input:checked+span{border-color:var(--btn);background:#EAF0F8;color:var(--btn);font-weight:700}
+.seg input:focus-visible+span{outline:2px solid var(--gold-l)}
+details.opt{border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+details.opt summary{cursor:pointer;font-weight:700;color:var(--head);list-style:none;display:flex;align-items:center;gap:8px}
+details.opt summary::-webkit-details-marker{display:none}
+details.opt summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--gold-soft);color:var(--gold);font-weight:800}
+details.opt[open] summary::before{content:"−"}
+details.opt summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+details.opt .grid{margin-top:12px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 22px;border-radius:10px;border:0;background:var(--btn);color:#fff;cursor:pointer;min-height:48px}
+.btn:hover{background:#0D2647}
+.btn.gold{background:var(--gold);color:#fff}.btn.gold:hover{background:#A27522}
+.btn.ghost{background:#fff;color:var(--btn);border:1.5px solid var(--btn)}
+.err{color:#B3261E;font-weight:700;margin:10px 0 0}
+.note{font-size:13.5px;color:var(--muted);line-height:1.65}
+/* 결과 */
+.hero-res{background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:14px;padding:22px 20px;margin-bottom:16px}
+.hero-res .k{font-size:14px;color:#C9D5EE}
+.hero-res .big{font-size:clamp(30px,7vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin:4px 0 6px;font-variant-numeric:tabular-nums}
+.hero-res .big b{color:var(--gold-l)}
+.hero-res .sub{color:#E3E9F5;font-size:15px}
+.prog{margin-top:16px}
+.prog .bar{height:14px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
+.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,#C9A04A,#E8C27A);border-radius:99px}
+.prog .lbl{display:flex;justify-content:space-between;font-size:13px;color:#C9D5EE;margin-top:6px;gap:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;background:#fff;position:relative}
+.stat::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.stat span{display:block;font-size:13.5px;color:var(--muted)}
+.stat b{display:block;font-size:28px;line-height:1.25;font-weight:800;color:var(--head);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat b small{font-size:15px;font-weight:700;margin-left:2px}
+.stat em{display:block;font-style:normal;font-size:13px;color:var(--muted);line-height:1.5;margin-top:2px}
+@media(max-width:430px){.stats{grid-template-columns:1fr 1fr}.stat{padding:12px 10px 10px 13px}.stat b{font-size:22px}.stat b small{font-size:13px}}
+.split{display:flex;height:22px;border-radius:8px;overflow:hidden;margin:8px 0 6px}
+.split i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px}
+.legend span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.parent{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.parent div{background:var(--gold-soft);border-radius:12px;padding:14px 16px}
+.parent b{display:block;font-size:30px;font-weight:800;color:var(--gold);line-height:1.2;font-variant-numeric:tabular-nums}
+.parent p{margin:4px 0 0;font-size:14px}
+.quote{font-size:16.5px;font-weight:600;color:var(--head);border-left:3px solid var(--gold);padding:2px 0 2px 12px;margin:14px 0 0}
+#weeks{width:100%;display:block;margin-top:6px}
+.wlegend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);margin-top:8px}
+.wlegend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;background:var(--c);border:1px solid var(--b,transparent)}
+#preview{max-width:100%;width:360px;border-radius:12px;display:block;margin-top:12px;box-shadow:0 4px 18px rgba(11,31,63,.2)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14233D;color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;z-index:9;max-width:calc(100% - 32px);text-align:center}
+.assume{background:var(--soft);border-radius:10px;padding:10px 14px;font-size:13.5px;color:var(--muted);margin-top:14px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-size:13px;white-space:nowrap}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.faq details{border-top:1px solid var(--line);padding:10px 0}
+.faq details:first-of-type{border-top:0}
+.faq summary{cursor:pointer;font-weight:700;color:var(--head)}
+.faq p{margin:6px 0 0}
+.calc-index{margin-top:28px;background:var(--paper);border-radius:14px;padding:20px 22px}.calc-index h2{font-size:17px;margin:0 0 12px;color:#2F343B}.ci-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.ci-grid b{font-size:13.5px;color:var(--btn)}.ci-grid ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ci-grid a{color:#2C3A4F;text-decoration:none;font-size:14px}.ci-grid a:hover,.ci-grid a[aria-current]{color:var(--gold);text-decoration:underline}@media (max-width:900px){.ci-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.ci-grid{grid-template-columns:1fr 1fr}}
+footer.site{margin-top:14px;background:var(--paper);border-radius:14px;padding:16px 20px;font-size:13px;color:var(--muted);line-height:1.7}
+footer.site div+div{margin-top:4px}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="health.html">건강나이·예상수명</a><a href="date.html">날짜 계산기</a><a href="fire.html">은퇴 자금</a></span></div></div>
+<div class="wrap">
+<header class="top">
+  <h1>내 인생 <b>남은 시간</b> 계산기</h1>
+  <p>앞으로 주말은 몇 번, 명절은 몇 번 남았을까요? 부모님은 몇 번 더 뵐 수 있을까요? 통계청 2024년 생명표로 평균적인 남은 시간을 세어 봐요.</p>
+</header>
+
+<form id="form" class="card" autocomplete="off" novalidate>
+  <h2>기본 정보</h2>
+  <div class="grid">
+    <div class="f"><span class="lb">입력 방식</span><div class="seg"><label><input type="radio" name="mode" value="birth" checked><span>생년월일</span></label><label><input type="radio" name="mode" value="age"><span>나이</span></label></div></div>
+    <div class="f" id="birthBox"><label for="birth">생년월일</label><input id="birth" type="date" min="1915-01-01" value="1984-05-10"></div>
+    <div class="f" id="ageBox" hidden><label for="age">만 나이</label><input id="age" type="number" inputmode="numeric" min="0" max="110" placeholder="예: 42"><small>생일은 반년 뒤라고 가정해요.</small></div>
+    <div class="f"><span class="lb">성별</span><div class="seg"><label><input type="radio" name="sex" value="M" checked><span>남</span></label><label><input type="radio" name="sex" value="F"><span>여</span></label></div></div>
+    <div class="f"><label for="smoke">흡연 <small style="display:inline">(선택)</small></label><select id="smoke"><option value="1">선택 안 함 (평균)</option><option value="1.0">피운 적 없음</option><option value="1.2">끊었어요</option><option value="2.3">지금 피워요</option></select></div>
+    <div class="f"><label for="ex">운동 <small style="display:inline">(선택)</small></label><select id="ex"><option value="1">선택 안 함 (평균)</option><option value="1.35">거의 안 해요</option><option value="1.15">주 1~2회 가볍게</option><option value="1.0">주 150분 정도</option><option value="0.88">주 300분 이상</option></select></div>
+  </div>
+
+  <details class="opt" id="optParents" open><summary>부모님과 남은 만남 <em>선택</em></summary>
+    <div class="grid">
+      <div class="f"><label for="dad">아버지 나이</label><input id="dad" type="number" inputmode="numeric" min="14" max="110" placeholder="비워 두면 제외" value="70"></div>
+      <div class="f"><label for="mom">어머니 나이</label><input id="mom" type="number" inputmode="numeric" min="14" max="110" placeholder="비워 두면 제외" value="68"></div>
+      <div class="f"><label for="visits">1년에 뵙는 횟수</label><input id="visits" type="number" inputmode="numeric" min="0" max="365" value="6"><small>명절 2번 + 생신·여름휴가 등을 세어 보세요.</small></div>
+    </div>
+  </details>
+
+  <details class="opt" id="optTime"><summary>하루 시간 쓰는 법 <em>선택</em></summary>
+    <div class="grid">
+      <div class="f"><label for="sleep">하루 수면 시간</label><input id="sleep" type="number" inputmode="decimal" min="3" max="14" step="0.5" value="7"></div>
+      <div class="f"><label for="work">주당 일하는 시간</label><input id="work" type="number" inputmode="decimal" min="0" max="100" value="40"><small>출퇴근 시간까지 넣어도 좋아요.</small></div>
+      <div class="f"><label for="retire">일을 그만둘 나이</label><input id="retire" type="number" inputmode="numeric" min="0" max="100" value="60"></div>
+      <div class="f"><label for="coffee">하루 커피 잔 수</label><input id="coffee" type="number" inputmode="decimal" min="0" max="20" step="0.5" value="1"></div>
+    </div>
+  </details>
+
+  <div class="btns"><button class="btn" type="submit">남은 시간 계산하기</button></div>
+  <p class="err" id="err" hidden></p>
+</form>
+
+<div id="result" hidden>
+  <section class="card" id="resMain">
+    <div class="hero-res">
+      <div class="k" id="rKicker"></div>
+      <div class="big" id="rBig"></div>
+      <div class="sub" id="rSub"></div>
+      <div class="prog"><div class="bar" role="progressbar" aria-label="인생 진행률" id="rBar" aria-valuemin="0" aria-valuemax="100"><i id="rBarFill"></i></div>
+        <div class="lbl"><span id="rLived"></span><span id="rLeft"></span></div></div>
+    </div>
+    <div class="stats" id="rStats"></div>
+    <div class="assume" id="rAssume"></div>
+  </section>
+
+  <section class="card" id="resParents" hidden>
+    <h2>부모님과 남은 만남</h2>
+    <div class="parent" id="rParents"></div>
+    <p class="quote" id="rParentQuote"></p>
+  </section>
+
+  <section class="card">
+    <h2>깨어 있는 시간은 이렇게 남았어요</h2>
+    <div class="split" id="rSplit" role="img"></div>
+    <div class="legend" id="rLegend"></div>
+    <p class="note" id="rSplitNote" style="margin:8px 0 0"></p>
+  </section>
+
+  <section class="card">
+    <h2>주 단위로 본 내 인생 <small>한 칸 = 1주, 한 줄 = 1년</small></h2>
+    <canvas id="weeks" role="img" aria-label="인생을 주 단위로 나타낸 격자"></canvas>
+    <div class="wlegend"><span style="--c:#12305C">지나온 주</span><span style="--c:#B8862B">이번 주</span><span style="--c:#E8C27A">평균적으로 남은 주</span><span style="--c:#fff;--b:#CFD6E0">평균 이후</span></div>
+  </section>
+
+  <section class="card">
+    <h2>결과 카드 저장·공유</h2>
+    <p class="note" style="margin:0">인스타그램·카카오톡에 올리기 좋은 1080×1350 이미지로 저장할 수 있어요. 입력한 생년월일은 이미지에 들어가지 않아요.</p>
+    <div class="btns"><button class="btn gold" type="button" id="saveBtn">결과 카드 이미지 저장</button><button class="btn ghost" type="button" id="shareBtn">공유하기</button></div>
+    <canvas id="shareCanvas" width="1080" height="1350" hidden></canvas>
+    <img id="preview" alt="결과 카드 미리보기" hidden>
+    <p class="note" id="previewNote" hidden style="margin:6px 0 0">휴대폰에서 저장이 안 되면 이미지를 길게 눌러 저장하세요.</p>
+  </section>
+</div>
+
+<section class="card">
+  <h2>이렇게 계산해요</h2>
+  <p><b>남은 기간</b>은 통계청 「2024년 생명표」의 연령별 사망률에 맞춘 곰퍼츠-메이컴 곡선(사망률 = A + B·e<sup>C·나이</sup>)으로 구해요. 지금 나이까지 살아 있다는 조건에서 앞으로 평균 몇 년을 더 사는지(<b>기대여명</b>)를 계산하는 방식이라, 나이가 많을수록 기대수명도 조금씩 늘어나요. <a href="health.html">건강나이·예상수명 계산기</a>와 같은 모형이에요.</p>
+  <div class="scroll"><table>
+    <tr><th>항목</th><th>계산 방법</th></tr>
+    <tr><td>남은 날·주</td><td>기대여명 × 365.2425일, 그 값 ÷ 7</td></tr>
+    <tr><td>주말·여름·생일</td><td>오늘부터 기대 시점까지 달력에서 토요일, 7월 1일, 생일을 하나씩 세요</td></tr>
+    <tr><td>설날·추석</td><td>2026~2140년 음력 1월 1일·8월 15일의 양력 날짜표로 세요</td></tr>
+    <tr><td>보름달</td><td>2000년 1월 21일 보름달을 기준으로 평균 삭망월 29.53059일마다 세요</td></tr>
+    <tr><td>깨어 있는 시간</td><td>남은 날 × (24 − 수면 시간)</td></tr>
+    <tr><td>일하는 시간</td><td>그만둘 나이까지 연 48주(공휴일·휴가 약 4주 제외) × 주당 근무시간</td></tr>
+    <tr><td>부모님과 만남</td><td>min(나의 기대여명, 부모님 기대여명) × 1년에 뵙는 횟수. 부모님 기대여명도 같은 생명표 모형(아버지 남성, 어머니 여성 기준)으로 구해요</td></tr>
+    <tr><td>흡연·운동</td><td>사망 위험을 흡연 1.2~2.3배, 운동 0.88~1.35배로 곱해 반영해요 (Jha 외 NEJM 2013, WHO 신체활동 지침 2020의 대표값)</td></tr>
+  </table></div>
+  <p class="note">모든 결과는 같은 나이·성별 사람들의 <b>평균</b>이에요. 실제 수명은 건강 상태·생활습관·의료 발전에 따라 크게 달라요. 계산은 이 브라우저 안에서만 하고 입력값을 서버로 보내지 않아요. 출처: <a href="https://kostat.go.kr" target="_blank" rel="noopener">통계청</a> 2024년 생명표(2025년 12월 공표) — 출생아 기대수명 남자 80.8세, 여자 86.6세.</p>
+</section>
+
+<section class="card faq">
+  <h2>자주 묻는 질문</h2>
+  <details><summary>남은 시간은 어떻게 계산하나요?</summary><p>통계청 2024년 생명표의 연령별 사망률에 맞춘 곰퍼츠-메이컴 사망률 곡선으로, 지금 나이까지 살아 있다는 조건에서 앞으로 평균 몇 년을 더 사는지(기대여명)를 구해요. 그 기간 안에 들어가는 날짜를 하나씩 세어 남은 주말·여름·설날·추석·보름달·생일 횟수를 계산해요.</p></details>
+  <details><summary>부모님과 남은 만남 횟수는 어떻게 구하나요?</summary><p>아버지·어머니의 나이로 같은 생명표 모형에서 부모님의 기대여명을 구하고, 나의 기대여명과 비교해 더 짧은 기간에 1년에 뵙는 횟수를 곱해요. 예를 들어 함께할 수 있는 기간이 15년이고 1년에 6번 뵈면 약 90번이에요.</p></details>
+  <details><summary>계산 결과가 실제 제 수명인가요?</summary><p>아니에요. 같은 나이·성별인 사람들의 평균 추정이에요. 흡연·운동은 연구에서 확인된 대표 위험도만 간단히 반영했고, 건강 상태·가족력·의료 발전은 넣지 않았어요. 더 자세한 추정은 <a href="health.html">건강나이·예상수명 계산기</a>를 이용해 보세요.</p></details>
+</section>
+
+<nav class="calc-index" id="calc-index" aria-label="전체 계산기"><h2>전체 계산기</h2><div class="ci-grid"><div><b>주식·ETF</b><ul><li><a href="sell.html">매도 세금</a></li><li><a href="us.html">미국주식·ETF</a></li><li><a href="div.html">배당금</a></li><li><a href="avg.html">물타기 평단</a></li><li><a href="risk.html">손절·비중</a></li><li><a href="gold.html">금 투자</a></li><li><a href="ipo.html">공모주 청약</a></li></ul></div><div><b>저축·연금</b><ul><li><a href="int.html">예·적금 이자</a></li><li><a href="grow.html">적립식 복리</a></li><li><a href="pen.html">연금저축 세액공제</a></li><li><a href="fire.html">은퇴 자금</a></li><li><a href="fin.html">금융소득 2천만</a></li><li><a href="nhis.html">건보료 피부양자</a></li><li><a href="yet.html">연말정산 환급</a></li><li><a href="nps.html">국민연금 조기·연기</a></li><li><a href="sev.html">퇴직금 세금</a></li><li><a href="eitc.html">근로·자녀장려금</a></li></ul></div><div><b>부동산·대출</b><ul><li><a href="buy.html">집 살 때 비용</a></li><li><a href="dsr.html">대출 한도 (DSR·DTI)</a></li><li><a href="score.html">청약 가점</a></li><li><a href="safe.html">전세 안전도</a></li><li><a href="rent.html">전세·월세·매수</a></li><li><a href="refi.html">대출 갈아타기</a></li><li><a href="ptax.html">재산세·종부세</a></li><li><a href="gift.html">증여세</a></li><li><a href="yield.html">임대 수익률</a></li><li><a href="auc.html">부동산 경매</a></li><li><a href="dist.html">경매 배당표</a></li></ul></div><div><b>세금</b><ul><li><a href="tax/">세금 계산기 모음</a></li><li><a href="tax/vat.html">부가가치세</a></li><li><a href="tax/income.html">종합소득세</a></li><li><a href="tax/freelancer.html">프리랜서 3.3%</a></li><li><a href="tax/transfer.html">부동산 양도소득세</a></li><li><a href="tax/inherit.html">상속세</a></li><li><a href="tax/corp.html">법인세 (2026)</a></li><li><a href="tax/loan.html">가족 간 대여</a></li></ul></div><div><b>급여·노동</b><ul><li><a href="wage.html">주휴수당·알바 월급</a></li><li><a href="unemp.html">실업급여</a></li><li><a href="parental.html">육아휴직·출산휴가 급여</a></li><li><a href="salary-rank.html">연봉 상위 몇 %</a></li><li><a href="side-tax.html">N잡·부업 세금</a></li><li><a href="sev.html">퇴직금 세금</a></li></ul></div><div><b>공무원</b><ul><li><a href="gw-pay.html">2027 공무원 실수령액</a></li><li><a href="gw-overtime.html">공무원 초과근무수당</a></li><li><a href="gw-pension.html">공무원연금</a></li></ul></div><div><b>자동차</b><ul><li><a href="car-cost.html">자동차 유지비</a></li><li><a href="car-commute.html">출퇴근 비용</a></li><li><a href="car-tax.html">자동차세</a></li><li><a href="car-buy.html">취등록세</a></li><li><a href="car-parts.html">소모품 교체비</a></li><li><a href="car-ev.html">전기차 vs 휘발유</a></li></ul></div><div><b>건강·운세</b><ul><li><a href="calorie.html">칼로리 계산기</a></li><li><a href="health.html">건강나이·예상수명</a></li><li><a href="life-left.html" aria-current="page">인생 남은 시간</a></li><li><a href="saju.html">사주팔자 풀이</a></li><li><a href="mbti.html">MBTI 궁합</a></li><li><a href="mbti-test.html">성격유형 검사 120문항</a></li><li><a href="iq-test.html">IQ 테스트 120문항</a></li></ul></div><div><b>도구</b><ul><li><a href="exam.html">자격증 시험일정 달력</a></li><li><a href="travel.html">여행경비 계산기</a></li><li><a href="elec.html">전기요금 계산기</a></li><li><a href="date.html">날짜 계산기 (D-day·만 나이·전역일)</a></li><li><a href="clock.html">초시계·서버시간</a></li><li><a href="/shorts/">쇼츠 메이커 (영문)</a></li><li><a href="/budget/">가계부 (11개 언어)</a></li></ul></div><div><b>Global</b><ul><li><a href="us/">🇺🇸 US tax calculators</a></li><li><a href="uk/">🇬🇧 UK tax calculators</a></li><li><a href="ca/">🇨🇦 Canada calculators</a></li><li><a href="au/">🇦🇺 Australia calculators</a></li><li><a href="jp/">🇯🇵 日本 税金・NISA</a></li><li><a href="fr/">🇫🇷 Impôts France</a></li><li><a href="es/calculadora-impuesto-ahorro.html">🇪🇸 IRPF ahorro</a></li><li><a href="mx/">🇲🇽 ISR México</a></li><li><a href="br/">🇧🇷 Salário líquido Brasil</a></li><li><a href="in/">🇮🇳 India tax calculators</a></li><li><a href="de/">🇩🇪 Finanzrechner Deutschland</a></li><li><a href="id/kalkulator-pph21.html">🇮🇩 Pajak &amp; investasi Indonesia</a></li><li><a href="en/">English calculators</a></li><li><a href="id/">Kalkulator Indonesia</a></li><li><a href="es/">Calculadoras en español</a></li></ul></div></div></nav>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></div>
+  <div>출처: 통계청 2024년 생명표(곰퍼츠-메이컴 모형 적합) · 결과는 평균 추정이며 의료적 예측이 아니에요.</div>
+</footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+function rv(n){var e=document.querySelector('input[name='+n+']:checked');return e?e.value:''}
+function fmt(n){return Math.round(n).toLocaleString('ko-KR')}
+var DAY=864e5,YEAR=365.2425,WPY=YEAR/7;
+/* 2024 생명표에 맞춘 곰퍼츠-메이컴 사망률: mu(x)=A+B*exp(Cx) — health.html과 같은 모형 */
+var GM={M:{A:0.00045481,B:3.37193e-6,C:0.1198262,e0:80.8},F:{A:0.00030512,B:2.90104e-7,C:0.1420988,e0:86.6}};
+function remain(sex,age,hr){ // 조건부 기대여명
+  var g=GM[sex],S=1,sum=0,dt=0.1;
+  for(var x=age;x<120;x+=dt){var mu=(g.A+g.B*Math.exp(g.C*(x+dt/2)))*hr;var S2=S*Math.exp(-mu*dt);sum+=(S+S2)/2*dt;S=S2;if(S<1e-6)break}
+  return sum}
+/* 설날·추석 양력 날짜 (음력 1/1, 8/15), 2026~2140 */
+var LY0=2026;
+var SEOL='0217,0206,0126,0213,0203,0123,0211,0131,0219,0208,0128,0215,0204,0124,0212,0201,0122,0210,0130,0217,0206,0126,0214,0202,0123,0211,0201,0219,0208,0128,0215,0204,0124,0212,0202,0121,0209,0129,0217,0205,0126,0214,0203,0123,0211,0131,0219,0207,0127,0215,0205,0124,0212,0202,0122,0209,0129,0217,0206,0126,0214,0203,0124,0210,0130,0218,0207,0127,0215,0205,0125,0212,0201,0121,0209,0129,0217,0207,0128,0215,0204,0124,0212,0131,0219,0208,0129,0216,0206,0126,0214,0202,0122,0210,0130,0217,0207,0127,0215,0203,0123,0211,0201,0219,0208,0129,0217,0205,0125,0213,0202,0122,0210,0130,0218'.split(',');
+var CHU='0925,0915,1003,0922,0912,1001,0919,0908,0927,0916,1004,0924,0913,1002,0920,0910,0928,0917,1005,0925,0915,1004,0922,0911,0930,0919,0907,0926,0916,1005,0924,0913,1002,0921,0909,0928,0917,1006,0925,0915,1003,0923,0911,0929,0919,0908,0926,0916,1005,0924,0912,1001,0920,0910,0928,0917,1006,0926,0914,1003,0922,0911,0929,0918,0908,0927,0916,1005,0924,0913,0930,0920,0909,0929,0918,1007,0926,0915,1003,0922,0912,1001,0920,0909,0928,0917,1005,0924,0913,1002,0921,0911,0930,0919,1007,0926,0915,1004,0922,0912,1001,0920,0909,0928,0917,1005,0924,0913,1002,0922,0910,0929,0918,1007,0925'.split(',');
+function d0(y,m,d){return new Date(y,m,d).getTime()}
+/* (from, to] 사이에 들어가는 연례 날짜 수 */
+function countYearly(from,to,fn){var n=0,y0=new Date(from).getFullYear(),y1=new Date(to).getFullYear();for(var y=y0;y<=y1;y++){var t=fn(y);if(t>from&&t<=to)n++}return n}
+function lunarDay(tbl,fallbackMd){return function(y){var s=tbl[y-LY0];if(s)return d0(y,+s.slice(0,2)-1,+s.slice(2));return d0(y,fallbackMd[0],fallbackMd[1])}}
+function bdayFn(bm,bd){return function(y){var d=bd;if(bm===1&&bd===29&&new Date(y,1,29).getMonth()!==1)d=28;return d0(y,bm,d)}}
+function countSat(from,to){var n=0,t=new Date(from);t.setDate(t.getDate()+((6-t.getDay()+7)%7||7));for(;t.getTime()<=to;t.setDate(t.getDate()+7))n++;return n}
+var SYN=29.530588853,FM0=Date.UTC(2000,0,21,4,41);
+function countFullMoons(from,to){var k0=Math.floor((from-FM0)/(SYN*DAY))+1,k1=Math.floor((to-FM0)/(SYN*DAY));return Math.max(0,k1-k0+1)}
+function num(id){var v=$(id).value.trim();return v===''?NaN:+v}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function ymText(y){var yy=Math.floor(y),mm=Math.floor((y-yy)*12);return yy+'년'+(mm?' '+mm+'개월':'')}
+
+/* 입력 방식 전환 */
+document.querySelectorAll('input[name=mode]').forEach(function(r){r.addEventListener('change',function(){var b=rv('mode')==='birth';$('birthBox').hidden=!b;$('ageBox').hidden=b})});
+$('birth').max=new Date().toISOString().slice(0,10);
+
+var R=null;
+function compute(){
+  var now=new Date();now.setHours(0,0,0,0);var T0=now.getTime();
+  var sex=rv('sex'),birthT,age,approxBirth=false;
+  if(rv('mode')==='birth'){
+    var s=$('birth').value;if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return '생년월일을 입력해 주세요.';
+    var p=s.split('-');birthT=d0(+p[0],+p[1]-1,+p[2]);
+    if(!(birthT<=T0))return '생년월일이 오늘보다 뒤예요.';
+    age=(T0-birthT)/DAY/YEAR;
+  }else{
+    var a=num('age');if(!(a>=0&&a<=110))return '만 나이를 0~110 사이로 입력해 주세요.';
+    age=a+0.5;birthT=T0-age*YEAR*DAY;approxBirth=true;
+  }
+  if(age>110)return '110세 이하만 계산할 수 있어요.';
+  var hr=clamp(+$('smoke').value*+$('ex').value,0.55,5);
+  var rem=remain(sex,age,hr),remBase=remain(sex,age,1);
+  var remDays=rem*YEAR,T1=T0+remDays*DAY,end=age+rem;
+  var bd=new Date(birthT);
+  var sleep=clamp(isNaN(num('sleep'))?7:num('sleep'),0,24),work=clamp(isNaN(num('work'))?0:num('work'),0,168),retire=isNaN(num('retire'))?0:num('retire'),coffee=Math.max(0,isNaN(num('coffee'))?0:num('coffee'));
+  var awakeH=remDays*(24-sleep);
+  var workYears=Math.max(0,Math.min(retire,end)-age),workH=Math.min(awakeH,workYears*48*work);
+  var visits=Math.max(0,isNaN(num('visits'))?0:num('visits'));
+  var parents=[];[['dad','아버지','M'],['mom','어머니','F']].forEach(function(q){var pa=num(q[0]);if(pa>=14&&pa<=115){var pr=remain(q[2],pa,1);var together=Math.min(rem,pr);parents.push({who:q[1],age:pa,rem:pr,together:together,meets:together*visits})}});
+  return {sex:sex,age:age,hr:hr,rem:rem,remBase:remBase,end:end,remDays:remDays,T0:T0,T1:T1,approxBirth:approxBirth,
+    weeks:remDays/7,weekends:countSat(T0,T1),summers:countYearly(T0,T1,function(y){return d0(y,6,1)}),
+    seol:countYearly(T0,T1,lunarDay(SEOL,[1,5])),chu:countYearly(T0,T1,lunarDay(CHU,[8,20])),
+    moons:countFullMoons(T0,T1),bdays:countYearly(T0,T1,bdayFn(bd.getMonth(),bd.getDate())),
+    sleep:sleep,awakeH:awakeH,work:work,retire:retire,workYears:workYears,workH:workH,freeH:awakeH-workH,coffee:coffee,cups:remDays*coffee,
+    visits:visits,parents:parents,pct:age/end*100};
+}
+function stat(label,val,unit,sub){return '<div class="stat"><span>'+label+'</span><b>'+val+'<small>'+unit+'</small></b>'+(sub?'<em>'+sub+'</em>':'')+'</div>'}
+function render(){
+  var r=R,sx=r.sex==='M'?'남성':'여성';
+  $('rKicker').textContent='평균적으로 남은 시간 (만 '+Math.floor(r.age)+'세 '+sx+')';
+  $('rBig').innerHTML='앞으로 약 <b>'+ymText(r.rem)+'</b>';
+  $('rSub').textContent='남은 날 약 '+fmt(r.remDays)+'일 · 기대수명 '+r.end.toFixed(1)+'세 · 예상 시점 '+new Date(r.T1).getFullYear()+'년';
+  $('rBarFill').style.width=r.pct.toFixed(1)+'%';$('rBar').setAttribute('aria-valuenow',r.pct.toFixed(1));
+  $('rLived').textContent='지나온 인생 '+r.pct.toFixed(1)+'%';$('rLeft').textContent='남은 인생 '+(100-r.pct).toFixed(1)+'%';
+  var h=stat('남은 날',fmt(r.remDays),'일','약 '+fmt(r.remDays*24)+'시간')+
+    stat('남은 주',fmt(r.weeks),'주',r.rem.toFixed(1)+'년 × 52.18주')+
+    stat('남은 주말',fmt(r.weekends),'번','토·일 합쳐 약 '+fmt(r.weekends*2)+'일')+
+    stat('남은 여름',fmt(r.summers),'번','7월 1일 기준으로 세었어요')+
+    stat('남은 설날',fmt(r.seol),'번','다음 설날부터 세었어요')+
+    stat('남은 추석',fmt(r.chu),'번','한가위 보름달 포함')+
+    stat('남은 보름달',fmt(r.moons),'번','한 달에 약 한 번')+
+    stat('남은 생일',fmt(r.bdays),'번',r.approxBirth?'생일을 반년 뒤로 가정':'다음 생일부터 세었어요')+
+    stat('깨어 있는 시간',fmt(r.awakeH),'시간','하루 '+(24-r.sleep)+'시간 × 남은 날');
+  if(r.coffee>0)h+=stat('남은 커피',fmt(r.cups),'잔','하루 '+r.coffee+'잔 기준');
+  $('rStats').innerHTML=h;
+  $('rAssume').innerHTML='<b>통계청 2024 생명표 기반 평균 추정</b>이에요. 같은 나이 '+sx+' 평균 기대여명은 '+r.remBase.toFixed(1)+'년'+(Math.abs(r.hr-1)>0.001?', 흡연·운동을 반영한 사망 위험 '+r.hr.toFixed(2)+'배로 '+(r.rem-r.remBase>=0?'+':'')+(r.rem-r.remBase).toFixed(1)+'년 조정했어요.':'이에요.')+' 실제 수명을 예측하는 값은 아니에요.';
+  // 부모님
+  if(r.parents.length){
+    $('resParents').hidden=false;
+    $('rParents').innerHTML=r.parents.map(function(p){return '<div><span class="note">'+p.who+' (만 '+p.age+'세)</span><b>약 '+fmt(p.meets)+'번</b><p>'+p.who+' 기대여명 '+p.rem.toFixed(1)+'년 · 함께할 수 있는 기간 '+p.together.toFixed(1)+'년 × 1년 '+r.visits+'번</p></div>'}).join('');
+    var mn=r.parents.reduce(function(a,b){return a.meets<b.meets?a:b});
+    $('rParentQuote').textContent=r.visits>0?'지금처럼 1년에 '+r.visits+'번 뵈면, '+mn.who+'를 뵐 날은 평균적으로 약 '+fmt(mn.meets)+'번 남았어요. 한 번 더 늘리면 약 '+fmt(mn.together)+'번이 더 생겨요.':'1년에 뵙는 횟수를 넣으면 남은 만남을 세어 드려요.';
+  }else $('resParents').hidden=true;
+  // 시간 배분
+  var tot=r.awakeH||1,wp=r.workH/tot*100;
+  $('rSplit').innerHTML='<i style="width:'+wp.toFixed(1)+'%;background:#12305C"></i><i style="width:'+(100-wp).toFixed(1)+'%;background:#E8C27A"></i>';
+  $('rSplit').setAttribute('aria-label','일하는 시간 '+wp.toFixed(0)+'%, 자유 시간 '+(100-wp).toFixed(0)+'%');
+  $('rLegend').innerHTML='<span style="--c:#12305C">일하는 시간 <b>'+fmt(r.workH)+'시간</b> ('+wp.toFixed(0)+'%)</span><span style="--c:#E8C27A">자유 시간 <b>'+fmt(r.awakeH-r.workH)+'시간</b> ('+(100-wp).toFixed(0)+'%)</span>';
+  $('rSplitNote').textContent='깨어 있는 '+fmt(r.awakeH)+'시간 중, '+r.retire+'세까지 '+r.workYears.toFixed(1)+'년 동안 주 '+r.work+'시간(연 48주) 일한다고 가정했어요. 자유 시간은 하루 '+((r.awakeH-r.workH)/r.remDays).toFixed(1)+'시간꼴이에요.';
+  $('result').hidden=false;drawWeeks();
+}
+/* 주 단위 인생 격자 */
+function drawWeeks(){
+  if(!R)return;var c=$('weeks'),w=c.parentNode.clientWidth-40;w=Math.max(200,Math.min(w,820));
+  var rows=Math.ceil(R.end)+1,gap=w<500?1:2,lab=w<500?18:26,cell=(w-lab-gap*51)/52,hgt=Math.ceil(rows*(cell+gap)),dpr=window.devicePixelRatio||1;
+  c.style.width=w+'px';c.style.height=hgt+'px';c.width=Math.round(w*dpr);c.height=Math.round(hgt*dpr);
+  var x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,hgt);
+  var nowW=Math.floor(R.age*52),endW=R.end*52;x.font=(w<500?9:10)+'px '+getComputedStyle(document.body).fontFamily;x.textBaseline='middle';x.textAlign='right';
+  for(var y=0;y<rows;y++){var yy=y*(cell+gap);if(y%10===0){x.fillStyle='#5F6875';x.fillText(y,lab-4,Math.max(yy+cell/2,6))}
+    for(var k=0;k<52;k++){var i=y*52+k,xx=lab+k*(cell+gap);
+      if(i<nowW)x.fillStyle='#12305C';else if(i===nowW)x.fillStyle='#B8862B';else if(i<endW)x.fillStyle='#E8C27A';else{x.fillStyle='#fff';x.fillRect(xx,yy,cell,cell);x.strokeStyle='#CFD6E0';x.lineWidth=.6;x.strokeRect(xx+.3,yy+.3,cell-.6,cell-.6);continue}
+      x.fillRect(xx,yy,cell,cell)}}
+}
+var rz;window.addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(drawWeeks,120)});
+
+/* 결과 카드 이미지 1080×1350 */
+function rr(x,X,Y,W,H,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+W,Y,X+W,Y+H,r);x.arcTo(X+W,Y+H,X,Y+H,r);x.arcTo(X,Y+H,X,Y,r);x.arcTo(X,Y,X+W,Y,r);x.closePath()}
+function drawCard(){
+  var r=R,c=$('shareCanvas'),x=c.getContext('2d'),F='"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif';
+  x.fillStyle='#0B1F3F';x.fillRect(0,0,1080,1350);
+  x.fillStyle='#fff';rr(x,60,60,960,1150,36);x.fill();
+  x.fillStyle='#B8862B';rr(x,60,60,960,14,7);x.fill();x.fillRect(60,67,960,7);
+  x.textBaseline='alphabetic';x.textAlign='left';
+  x.fillStyle='#B8862B';x.font='700 34px '+F;x.fillText('내 인생 남은 시간',120,160);
+  x.fillStyle='#5F6875';x.font='500 28px '+F;x.textAlign='right';x.fillText('만 '+Math.floor(r.age)+'세 '+(r.sex==='M'?'남성':'여성'),960,160);x.textAlign='left';
+  x.fillStyle='#14233D';x.font='800 84px '+F;x.fillText('앞으로 약 '+ymText(r.rem),120,270);
+  x.fillStyle='#2F343B';x.font='500 32px '+F;x.fillText('남은 날 '+fmt(r.remDays)+'일 · 남은 주 '+fmt(r.weeks)+'주',120,330);
+  // 진행률
+  x.fillStyle='#EEF1F5';rr(x,120,370,840,30,15);x.fill();
+  x.fillStyle='#C9A04A';rr(x,120,370,Math.max(30,840*r.pct/100),30,15);x.fill();
+  x.font='600 26px '+F;x.fillStyle='#2F343B';x.fillText('지나온 인생 '+r.pct.toFixed(1)+'%',120,442);x.textAlign='right';x.fillText('기대수명 '+r.end.toFixed(1)+'세',960,442);x.textAlign='left';
+  // 통계 6칸
+  var items=[['남은 주말',fmt(r.weekends),'번'],['남은 설날·추석',fmt(r.seol+r.chu),'번'],['남은 보름달',fmt(r.moons),'번'],['남은 생일',fmt(r.bdays),'번'],['깨어 있는 시간',fmt(r.awakeH),'시간']];
+  if(r.parents.length&&r.visits>0){var mn=r.parents.reduce(function(a,b){return a.meets<b.meets?a:b});items.push([mn.who+'와 남은 만남',fmt(mn.meets),'번'])}
+  else if(r.coffee>0)items.push(['남은 커피',fmt(r.cups),'잔']);else items.push(['남은 여름',fmt(r.summers),'번']);
+  items.forEach(function(it,i){var col=i%2,row=Math.floor(i/2),X=120+col*430,Y=490+row*170;
+    x.fillStyle='#F7F3EA';rr(x,X,Y,410,150,20);x.fill();x.fillStyle='#B8862B';x.fillRect(X,Y+30,6,90);
+    x.fillStyle='#5F6875';x.font='600 26px '+F;x.fillText(it[0],X+32,Y+50);
+    x.fillStyle='#14233D';x.font='800 54px '+F;var vw=x.measureText(it[1]).width;
+    if(vw>300){x.font='800 44px '+F;vw=x.measureText(it[1]).width}
+    x.fillText(it[1],X+32,Y+118);x.fillStyle='#2F343B';x.font='700 28px '+F;x.fillText(it[2],X+40+vw,Y+118)});
+  // 연 단위 점 (1점=1년)
+  var yrs=Math.ceil(r.end),per=Math.min(50,Math.max(25,Math.ceil(yrs/2))),dot=Math.min(14,Math.floor(840/per)-4),sp=840/per;
+  x.fillStyle='#5F6875';x.font='500 22px '+F;x.fillText('한 점 = 1년',120,1040);
+  for(var i=0;i<yrs;i++){var cx=120+(i%per)*sp+sp/2,cy=1070+Math.floor(i/per)*(sp);x.beginPath();x.arc(cx,cy,dot/2,0,Math.PI*2);x.fillStyle=i<Math.floor(r.age)?'#12305C':'#E8C27A';x.fill()}
+  x.fillStyle='#8A93A0';x.font='500 22px '+F;x.fillText('통계청 2024 생명표 기반 평균 추정 · 실제 수명 예측이 아니에요',120,1175);
+  // 워터마크
+  x.fillStyle='#B8862B';rr(x,120,1252,44,44,10);x.fill();x.fillStyle='#0B1F3F';x.font='800 26px '+F;x.textAlign='center';x.fillText('₩',142,1284);
+  x.textAlign='left';x.fillStyle='#fff';x.font='700 32px '+F;x.fillText('홍라이프 계산기',180,1286);
+  x.textAlign='right';x.fillStyle='#C9A04A';x.font='600 30px '+F;x.fillText('honglife.co.kr',960,1286);x.textAlign='left';
+  return c;
+}
+function fontsReady(){try{return Promise.race([document.fonts.load('800 40px "Pretendard Variable"'),new Promise(function(r){setTimeout(r,1500)})]).catch(function(){})}catch(e){return Promise.resolve()}}
+function toast(t){var d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove()},2600)}
+function track(method){try{gtag('event','life_left_share',{method:method})}catch(e){}}
+$('saveBtn').addEventListener('click',function(){
+  if(!R)return;fontsReady().then(function(){
+    var c=drawCard(),url=c.toDataURL('image/png');
+    $('preview').src=url;$('preview').hidden=false;$('previewNote').hidden=false;
+    var a=document.createElement('a');a.href=url;a.download='honglife-life-left.png';document.body.appendChild(a);a.click();a.remove();
+    track('image');toast('결과 카드 이미지를 저장했어요');
+  });
+});
+function shareText(){var r=R,t='내 인생 남은 시간: 약 '+ymText(r.rem)+', 남은 주말 '+fmt(r.weekends)+'번, 설날·추석 '+fmt(r.seol+r.chu)+'번';
+  if(r.parents.length&&r.visits>0){var mn=r.parents.reduce(function(a,b){return a.meets<b.meets?a:b});t+=', '+mn.who+'와 남은 만남 약 '+fmt(mn.meets)+'번'}return t+' (통계청 2024 생명표 평균 추정)'}
+$('shareBtn').addEventListener('click',function(){
+  var url='https://honglife.co.kr/life-left.html',text=R?shareText():'내 인생 남은 시간 계산기';
+  if(navigator.share){navigator.share({title:'내 인생 남은 시간 계산기',text:text,url:url}).then(function(){track('native')}).catch(function(){});return}
+  var full=text+'\n'+url;
+  (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(full):Promise.reject()).then(function(){toast('링크와 결과를 복사했어요');track('copy')}).catch(function(){window.prompt('아래 내용을 복사해 공유하세요',full);track('copy')});
+});
+$('form').addEventListener('submit',function(e){
+  e.preventDefault();var r=compute();
+  if(typeof r==='string'){$('err').textContent=r;$('err').hidden=false;return}
+  $('err').hidden=true;R=r;render();$('preview').hidden=true;$('previewNote').hidden=true;
+  $('result').scrollIntoView({behavior:'smooth',block:'start'});
+  try{gtag('event','life_left_run',{age_band:Math.min(90,Math.floor(r.age/10)*10)+'s'})}catch(e){}
+});
+window.__lifeLeft={get:function(){return R},remain:remain,drawCard:drawCard};
+})();
+</script>
+</body>
+</html>
