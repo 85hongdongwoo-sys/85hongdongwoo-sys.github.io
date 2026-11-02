@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="only light">
+<title>주가 적정가치 계산기 | PER·PBR·ROE·S-RIM으로 보는 저평가·고평가 분석</title>
+<meta name="description" content="현재 주가와 EPS·BPS·ROE만 넣으면 PER·PBR 기준 적정주가, S-RIM(잔여이익모델), 그레이엄 수, PEG, 배당수익률을 계산하고 지금 주가가 매우 저평가부터 매우 고평가까지 7단계 중 어디인지 계산식과 함께 보여 줘요.">
+<link rel="canonical" href="https://honglife.co.kr/stock-value.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="홍라이프 계산기">
+<meta property="og:title" content="주가 적정가치 계산기 | PER·PBR·ROE·S-RIM으로 보는 저평가·고평가 분석">
+<meta property="og:description" content="PER·PBR·S-RIM·그레이엄 수·PEG로 적정주가를 구하고 현재가가 7단계 중 어디인지 게이지로 보여 줘요.">
+<meta property="og:url" content="https://honglife.co.kr/stock-value.html">
+<meta name="theme-color" content="#0B1F3F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"PER, PBR, ROE는 각각 무슨 뜻이에요?","acceptedAnswer":{"@type":"Answer","text":"PER(주가수익비율)은 주가 ÷ 주당순이익(EPS)으로, 지금 이익의 몇 년 치를 주고 사는지를 뜻해요. PBR(주가순자산비율)은 주가 ÷ 주당순자산(BPS)으로, 장부상 순자산의 몇 배에 거래되는지예요. ROE(자기자본이익률)는 순이익 ÷ 자기자본으로, 주주 돈 100원으로 1년에 몇 원을 버는지예요. 세 지표는 PBR = PER × ROE 관계로 이어져 있어요."}},
+{"@type":"Question","name":"S-RIM이란 무엇인가요?","acceptedAnswer":{"@type":"Answer","text":"S-RIM은 사경인 회계사가 잔여이익모델(RIM)을 개인 투자자용으로 단순화한 방법이에요. 적정가치 = BPS + BPS × (ROE − 요구수익률) ÷ 요구수익률로, 회사가 주주의 요구수익률보다 더 버는 '초과이익'만큼 순자산에 가치를 더해요. 초과이익이 매년 10%·20%씩 줄어드는 경우는 지속계수 ω = 0.9, 0.8을 넣어 BPS + 초과이익 × ω ÷ (1 + r − ω)로 계산하고, 요구수익률은 보통 BBB- 등급 회사채 수익률을 써요."}},
+{"@type":"Question","name":"PER이 낮으면 항상 싼 주식인가요?","acceptedAnswer":{"@type":"Answer","text":"아니에요. 이익이 일시적으로 늘었거나 앞으로 줄어들 업종, ROE가 요구수익률보다 낮아 자본을 까먹는 회사는 PER·PBR이 낮아도 오랫동안 싸게 머무를 수 있어요(가치 함정). 낮은 PER은 ROE, 이익 성장률, 배당, 부채와 함께 봐야 하고, ROE가 요구수익률보다 낮다면 PBR 1배 미만도 적정일 수 있어요."}}
+]}
+</script>
+<style>
+:root{color-scheme:light;
+  --navy:#0B1F3F;--paper:#fff;--ink:#2F343B;--head:#14233D;--muted:#5F6875;--line:#E1E5EC;--soft:#F3F5F9;
+  --btn:#12305C;--gold:#B8862B;--gold-l:#C9A04A;--gold-soft:#FBF4E6;
+  --f:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#0B1F3F linear-gradient(180deg,#0F2A52 0,#0C2347 600px,#0A1E3E 100%) fixed;color:var(--ink);font:16px/1.7 var(--f);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--btn)}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08)}
+.brandbar .in{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none;white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:6px;background:var(--gold);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;white-space:nowrap}.brandbar .meta a{color:#DCE4F2;text-decoration:none;margin-left:10px}
+@media(max-width:520px){.brandbar .meta{display:none}}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 56px}
+header.top{padding:28px 0 20px;color:#fff}
+h1{margin:0;font-weight:800;font-size:clamp(25px,5vw,34px);letter-spacing:-.025em;line-height:1.3;text-wrap:balance}
+h1 b{color:var(--gold-l)}
+header.top p{margin:8px 0 0;color:#C9D5EE;max-width:640px}
+.card{background:var(--paper);border-radius:14px;padding:20px;margin:0 0 14px;box-shadow:0 1px 0 rgba(255,255,255,.04)}
+h2{font-size:19px;margin:0 0 12px;letter-spacing:-.015em;color:var(--head)}
+h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+h3{font-size:16px;margin:16px 0 6px;color:var(--head)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px}
+.f label,.f .lb{display:block;font-size:14px;font-weight:600;margin-bottom:4px;color:var(--head)}
+.f small{display:block;color:var(--muted);font-size:12.6px;line-height:1.5;margin-top:3px}
+.f input,.f select{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid #CFD6E0;border-radius:9px;background:#fff;color:var(--ink);min-height:44px}
+.f input:focus,.f select:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.seg{display:flex;gap:6px}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:9px 6px;border:1.5px solid #CFD6E0;border-radius:9px;background:#fff;cursor:pointer;min-height:44px;font-size:14.5px}
+.seg input:checked+span{border-color:var(--btn);background:#EAF0F8;color:var(--btn);font-weight:700}
+.seg input:focus-visible+span{outline:2px solid var(--gold-l)}
+details.opt{border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+details.opt summary{cursor:pointer;font-weight:700;color:var(--head);list-style:none;display:flex;align-items:center;gap:8px}
+details.opt summary::-webkit-details-marker{display:none}
+details.opt summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--gold-soft);color:var(--gold);font-weight:800}
+details.opt[open] summary::before{content:"−"}
+details.opt summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+details.opt .grid{margin-top:12px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 22px;border-radius:10px;border:0;background:var(--btn);color:#fff;cursor:pointer;min-height:48px}
+.btn:hover{background:#0D2647}
+.btn.gold{background:var(--gold);color:#fff}.btn.gold:hover{background:#A27522}
+.btn.ghost{background:#fff;color:var(--btn);border:1.5px solid var(--btn)}
+.err{color:#B3261E;font-weight:700;margin:10px 0 0}
+.note{font-size:13.5px;color:var(--muted);line-height:1.65}
+.hero-res{background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:14px;padding:22px 20px;margin-bottom:16px}
+.hero-res .k{font-size:14px;color:#C9D5EE}
+.hero-res .big{font-size:clamp(30px,7vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin:4px 0 6px;font-variant-numeric:tabular-nums}
+.hero-res .big b{color:var(--gold-l)}
+.hero-res .sub{color:#E3E9F5;font-size:15px}
+.prog{margin-top:16px}
+.prog .bar{height:14px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
+.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,#C9A04A,#E8C27A);border-radius:99px}
+.prog .lbl{display:flex;justify-content:space-between;font-size:13px;color:#C9D5EE;margin-top:6px;gap:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;background:#fff;position:relative}
+.stat::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.stat span{display:block;font-size:13.5px;color:var(--muted)}
+.stat b{display:block;font-size:28px;line-height:1.25;font-weight:800;color:var(--head);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat b small{font-size:15px;font-weight:700;margin-left:2px}
+.stat em{display:block;font-style:normal;font-size:13px;color:var(--muted);line-height:1.5;margin-top:2px}
+@media(max-width:430px){.stats{grid-template-columns:1fr 1fr}.stat{padding:12px 10px 10px 13px}.stat b{font-size:22px}.stat b small{font-size:13px}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14233D;color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;z-index:9;max-width:calc(100% - 32px);text-align:center}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-size:13px;white-space:nowrap}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.faq details{border-top:1px solid var(--line);padding:10px 0}
+.faq details:first-of-type{border-top:0}
+.faq summary{cursor:pointer;font-weight:700;color:var(--head)}
+.faq p{margin:6px 0 0}
+.calc-index{margin-top:28px;background:var(--paper);border-radius:14px;padding:20px 22px}.calc-index h2{font-size:17px;margin:0 0 12px;color:#2F343B}.ci-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.ci-grid b{font-size:13.5px;color:var(--btn)}.ci-grid ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ci-grid a{color:#2C3A4F;text-decoration:none;font-size:14px}.ci-grid a:hover,.ci-grid a[aria-current]{color:var(--gold);text-decoration:underline}@media (max-width:900px){.ci-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.ci-grid{grid-template-columns:1fr 1fr}}
+footer.site{margin-top:14px;background:var(--paper);border-radius:14px;padding:16px 20px;font-size:13px;color:var(--muted);line-height:1.7}
+footer.site div+div{margin-top:4px}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.presets button{font:inherit;font-size:14px;font-weight:600;padding:8px 13px;border-radius:99px;border:1.5px solid var(--gold);background:var(--gold-soft);color:#7A5715;cursor:pointer;min-height:40px}
+.presets button:hover{background:#F6E8CB}
+.presets button:focus-visible{outline:2px solid var(--btn);outline-offset:2px}
+.pair{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:end}
+.pair .or{font-size:13px;color:var(--muted);padding-bottom:12px}
+.f .req{color:#B3261E;font-weight:700}
+.f .der{color:#8A6418;font-weight:600}
+.sec-t{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.02em;margin:18px 0 8px;border-top:1px solid var(--line);padding-top:14px}
+.sec-t:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.verdict{display:inline-block;font-weight:800;padding:2px 10px;border-radius:99px;font-size:14px;white-space:nowrap}
+.v0,.v1{background:#DCEBFA;color:#0E3F75}.v2{background:#ECF3FB;color:#1E4E86}.v3{background:#EEF0F3;color:#2F343B}.v4{background:#FBF1E2;color:#7A4D0F}.v5,.v6{background:#F8E1DC;color:#8E2A17}
+.vna{background:#F1F2F4;color:#5F6875}
+.gauge{margin-top:18px}
+.gauge .track{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;position:relative;height:16px}
+.gauge .track span{border-radius:4px;opacity:.95}
+.gauge .track span:nth-child(1){background:#2E6FB7}.gauge .track span:nth-child(2){background:#5B93CF}.gauge .track span:nth-child(3){background:#9DBEE3}.gauge .track span:nth-child(4){background:#E6E9EE}.gauge .track span:nth-child(5){background:#E9C68A}.gauge .track span:nth-child(6){background:#D98B5F}.gauge .track span:nth-child(7){background:#B8472B}
+.gauge .pin{position:absolute;top:-9px;width:0;height:0;transform:translateX(-50%);transition:left .35s}
+.gauge .pin::before{content:"";position:absolute;left:-8px;top:0;border:8px solid transparent;border-top:10px solid #fff;border-bottom:0}
+.gauge .pin::after{content:"";position:absolute;left:-1.5px;top:9px;width:3px;height:22px;background:#fff;border-radius:2px;box-shadow:0 0 0 1.5px #0B1F3F}
+.gauge .lbls{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:10px}
+.gauge .lbls span{font-size:12px;line-height:1.3;text-align:center;color:#C9D5EE}
+.gauge .lbls span.on{color:#fff;font-weight:800}
+@media(max-width:430px){.gauge .lbls span{font-size:10.5px;letter-spacing:-.03em}}
+.summary{background:var(--gold-soft);border-radius:12px;padding:14px 16px;margin:0 0 14px}
+.summary h3{margin:0 0 6px}
+.summary ul{margin:0;padding-left:18px}
+.summary li+li{margin-top:4px}
+.mtable td.num,.mtable th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mtable{min-width:520px}.mtable td{vertical-align:middle;overflow-wrap:normal}.mtable td:first-child{min-width:150px}.mtable td:last-child{white-space:nowrap}
+.mtable tr.na td{color:var(--muted)}
+.mcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.mc{border:1px solid var(--line);border-radius:12px;padding:14px;position:relative;background:#fff}
+.mc::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.mc h3{margin:0 0 2px;font-size:15.5px;display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.mc .val{font-size:24px;font-weight:800;color:var(--head);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.3}
+.mc .val small{font-size:14px;font-weight:600;color:var(--muted);margin-left:4px}
+.mc ol{margin:6px 0 0;padding-left:18px;font-size:13.5px;color:#46505C;line-height:1.6}
+.mc ol code,.fx code{font-family:inherit;font-variant-numeric:tabular-nums}
+.mc .na{font-size:14px;color:#8E2A17;font-weight:600;margin:6px 0 0}
+.mc p.tip{font-size:13px;color:var(--muted);margin:6px 0 0;line-height:1.55}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:4px}
+.kv div{background:var(--soft);border-radius:10px;padding:9px 12px}
+.kv span{display:block;font-size:12.5px;color:var(--muted)}
+.kv b{font-size:17px;font-variant-numeric:tabular-nums;color:var(--head)}
+.disc{border-left:3px solid var(--gold);background:var(--soft);padding:10px 14px;border-radius:0 10px 10px 0;font-size:13.5px;color:#46505C;margin-top:14px}
+.src li{font-size:14px;margin-bottom:4px}
+</style>
+<link rel="alternate" hreflang="ko" href="https://honglife.co.kr/stock-value.html"><link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/stock-valuation-calculator.html">
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="div.html">배당금</a><a href="avg.html">물타기 평단</a><a href="sell.html">매도 세금</a></span></div></div>
+<div class="wrap">
+<header class="top">
+  <h1><b>주가 적정가치</b> 계산기</h1>
+  <p>현재 주가와 EPS·BPS·ROE를 넣으면 PER·PBR·S-RIM·그레이엄 수·PEG·배당수익률로 적정주가를 계산하고, 지금 주가가 저평가인지 고평가인지 7단계로 보여 줘요. 계산식도 단계별로 펼쳐 놓았어요.</p>
+</header>
+
+<section class="card" id="inputCard">
+  <h2>기업 숫자 입력 <small>모르는 칸은 비워 두세요</small></h2>
+  <div class="presets" role="group" aria-label="가상 예시 불러오기">
+    <button type="button" data-p="mature">예시: 성숙 제조업</button>
+    <button type="button" data-p="growth">예시: 성장주</button>
+    <button type="button" data-p="bank">예시: 저PBR 은행주</button>
+    <button type="button" data-p="loss">예시: 적자 기업</button>
+  </div>
+  <p class="note" style="margin:-6px 0 12px">예시는 모두 <b>가상의 숫자</b>예요. 실제 기업과 관계없어요.</p>
+
+  <form id="frm" novalidate onsubmit="return false">
+  <div class="sec-t">주가와 이익·자산</div>
+  <div class="grid">
+    <div class="f"><label for="price">현재 주가 <span class="req">*</span></label><input id="price" inputmode="decimal" placeholder="예: 50,000" autocomplete="off"><small>원 단위</small></div>
+    <div class="f"><div class="lb">EPS(주당순이익) <span class="or">또는</span> PER</div>
+      <div class="pair"><input id="eps" inputmode="decimal" placeholder="EPS 원" aria-label="EPS 주당순이익(원)"><span class="or">또는</span><input id="per" inputmode="decimal" placeholder="PER 배" aria-label="PER(배)"></div>
+      <small id="epsNote">최근 4분기(TTM) 지배주주 기준이 좋아요. 적자는 −로 입력</small></div>
+    <div class="f"><div class="lb">BPS(주당순자산) <span class="or">또는</span> PBR</div>
+      <div class="pair"><input id="bps" inputmode="decimal" placeholder="BPS 원" aria-label="BPS 주당순자산(원)"><span class="or">또는</span><input id="pbr" inputmode="decimal" placeholder="PBR 배" aria-label="PBR(배)"></div>
+      <small id="bpsNote">지배주주 자본 ÷ 발행주식수</small></div>
+    <div class="f"><label for="roe">ROE (%)</label><input id="roe" inputmode="decimal" placeholder="비우면 EPS÷BPS"><small id="roeNote">S-RIM은 3년 평균이나 컨센서스 ROE를 많이 써요</small></div>
+  </div>
+
+  <div class="sec-t">성장·배당·기준값</div>
+  <div class="grid">
+    <div class="f"><label for="g">예상 EPS 성장률 (연 %)</label><input id="g" inputmode="decimal" placeholder="예: 10"><small>PEG 계산에 써요</small></div>
+    <div class="f"><label for="dps">주당배당금 DPS (원)</label><input id="dps" inputmode="decimal" placeholder="예: 1,500"></div>
+    <div class="f"><label for="r">요구수익률 r (%)</label><input id="r" inputmode="decimal" value="10.23"><small>기본값: BBB- 회사채 3년 10.23% (2026-10-30). 직접 바꿔도 돼요</small></div>
+    <div class="f"><label for="iper">업종 평균 PER (선택)</label><input id="iper" inputmode="decimal" placeholder="비우면 KOSPI 11.05"></div>
+    <div class="f"><label for="ipbr">업종 평균 PBR (선택)</label><input id="ipbr" inputmode="decimal" placeholder="비우면 KOSPI 1.43"></div>
+  </div>
+
+  <details class="opt"><summary>KOSPI 기준값 바꾸기 <em>PER 11.05 · PBR 1.43 · 배당 0.92%</em></summary>
+    <div class="grid">
+      <div class="f"><label for="kper">KOSPI PER (배)</label><input id="kper" inputmode="decimal" value="11.05"><small>한국거래소, 2026-10-08 기준</small></div>
+      <div class="f"><label for="kpbr">KOSPI PBR (배)</label><input id="kpbr" inputmode="decimal" value="1.43"><small>한국거래소, 2026-10-30 기준</small></div>
+      <div class="f"><label for="kdy">KOSPI 배당수익률 (%)</label><input id="kdy" inputmode="decimal" value="0.92"><small>한국거래소, 2026-05-04 기준</small></div>
+    </div>
+  </details>
+  <p class="err" id="err" hidden></p>
+  <div class="btns"><button class="btn" id="run" type="button">적정가치 분석하기</button><button class="btn ghost" id="clr" type="button">입력 지우기</button></div>
+  </form>
+</section>
+
+<div id="res" hidden>
+<section class="hero-res" aria-live="polite">
+  <div class="k">종합 주가 위치</div>
+  <div class="big" id="hVerdict"></div>
+  <div class="sub" id="hSub"></div>
+  <div class="gauge" aria-hidden="true">
+    <div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><i class="pin" id="pin"></i></div>
+    <div class="lbls" id="lbls"></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="summary"><h3>왜 이렇게 나왔나요?</h3><ul id="why"></ul></div>
+  <h2>지표별 판정 <small>괴리율 = 현재가 ÷ 적정가 − 1</small></h2>
+  <div class="scroll"><table class="mtable"><thead><tr><th>지표</th><th class="num">적정가·값</th><th class="num">괴리율</th><th>판정</th></tr></thead><tbody id="tbody"></tbody></table></div>
+  <p class="note" style="margin:8px 0 0">종합 적정가는 계산된 가격 추정치(PER·PBR·S-RIM ω=0.9·그레이엄 수)의 <b>중앙값</b>이에요. 한 지표가 튀어도 덜 흔들리게 했어요. PEG·배당은 보조 지표예요.</p>
+</section>
+
+<section class="card">
+  <h2>계산 과정</h2>
+  <div class="kv" id="base"></div>
+  <div class="mcards" id="cards" style="margin-top:12px"></div>
+  <p class="disc"><b>투자 권유가 아니에요.</b> 이 계산기는 입력한 숫자로 공식을 적용한 참고용 결과예요. 회계 기준, 일회성 이익, 부채, 업황, 지배구조 등은 반영하지 못해요. 투자 판단과 책임은 본인에게 있어요.</p>
+</section>
+</div>
+
+<section class="card">
+  <h2>적정주가 계산법 한눈에</h2>
+  <div class="scroll"><table>
+    <tr><th>방법</th><th>공식</th><th>이럴 때 잘 맞아요</th></tr>
+    <tr><td>PER 기준</td><td>EPS × 기준 PER</td><td>이익이 꾸준한 기업</td></tr>
+    <tr><td>PBR 기준</td><td>BPS × 기준 PBR</td><td>은행·보험·지주사처럼 자산이 중요한 기업</td></tr>
+    <tr><td>S-RIM</td><td>BPS + BPS × (ROE − r) ÷ r</td><td>ROE가 안정적인 기업</td></tr>
+    <tr><td>S-RIM 감소</td><td>BPS + 초과이익 × ω ÷ (1 + r − ω)</td><td>초과이익이 점점 줄 거라 볼 때 (ω = 0.9, 0.8)</td></tr>
+    <tr><td>그레이엄 수</td><td>√(22.5 × EPS × BPS)</td><td>보수적인 상한선 (PER 15 × PBR 1.5)</td></tr>
+    <tr><td>PEG</td><td>PER ÷ EPS 성장률(%)</td><td>성장주 비교 (1 이하면 성장 대비 싸요)</td></tr>
+    <tr><td>이론 PBR</td><td>ROE ÷ r</td><td>PBR이 ROE에 걸맞은지 점검</td></tr>
+  </table></div>
+
+  <h3>S-RIM은 어떻게 생각하는 모델이에요?</h3>
+  <p style="margin:0 0 8px">주주는 회사에 맡긴 돈(BPS)으로 최소한 <b>요구수익률 r</b>만큼은 벌어 주길 바라요. ROE가 r보다 높으면 매년 <b>초과이익 = BPS × (ROE − r)</b>이 생기고, 이 초과이익의 현재가치를 BPS에 더한 게 적정가치예요. 초과이익이 영원히 이어진다고 보면 ÷ r, 매년 10%씩 줄어든다고 보면 ω = 0.9를 써요. 반대로 <b>ROE가 r보다 낮으면 가치가 BPS보다 작아져서</b> PBR 1배 미만도 싸다고 보기 어려워요.</p>
+  <p class="note" style="margin:0">참고로 S-RIM의 '지속' 값은 BPS × ROE ÷ r 과 같아서, 이론 PBR(ROE ÷ r) × BPS와 똑같아요.</p>
+
+  <h3>7단계 주가 위치 기준</h3>
+  <div class="scroll"><table>
+    <tr><th>단계</th><th>현재가 ÷ 적정가</th><th>괴리율</th></tr>
+    <tr><td><span class="verdict v0">매우 저평가</span></td><td>0.60 이하</td><td>−40% 이하</td></tr>
+    <tr><td><span class="verdict v1">저평가</span></td><td>0.60 ~ 0.80</td><td>−40% ~ −20%</td></tr>
+    <tr><td><span class="verdict v2">다소 저평가</span></td><td>0.80 ~ 0.93</td><td>−20% ~ −7%</td></tr>
+    <tr><td><span class="verdict v3">적정</span></td><td>0.93 ~ 1.075</td><td>−7% ~ +7.5%</td></tr>
+    <tr><td><span class="verdict v4">다소 고평가</span></td><td>1.075 ~ 1.25</td><td>+7.5% ~ +25%</td></tr>
+    <tr><td><span class="verdict v5">고평가</span></td><td>1.25 ~ 1.67</td><td>+25% ~ +67%</td></tr>
+    <tr><td><span class="verdict v6">매우 고평가</span></td><td>1.67 초과</td><td>+67% 초과</td></tr>
+  </table></div>
+  <p class="note">저평가 쪽과 고평가 쪽이 대칭이 되도록 비율(로그) 기준으로 나눴어요. 적정가의 0.6배와 1/0.6 ≈ 1.67배가 같은 거리예요.</p>
+</section>
+
+<section class="card faq">
+  <h2>자주 묻는 질문</h2>
+  <details><summary>PER, PBR, ROE는 각각 무슨 뜻이에요?</summary><p>PER(주가수익비율)은 주가 ÷ 주당순이익(EPS)으로, 지금 이익의 몇 년 치를 주고 사는지를 뜻해요. PBR(주가순자산비율)은 주가 ÷ 주당순자산(BPS)으로, 장부상 순자산의 몇 배에 거래되는지예요. ROE(자기자본이익률)는 순이익 ÷ 자기자본으로, 주주 돈 100원으로 1년에 몇 원을 버는지예요. 세 지표는 PBR = PER × ROE 관계로 이어져 있어요.</p></details>
+  <details><summary>S-RIM이란 무엇인가요?</summary><p>S-RIM은 사경인 회계사가 잔여이익모델(RIM)을 개인 투자자용으로 단순화한 방법이에요. 적정가치 = BPS + BPS × (ROE − 요구수익률) ÷ 요구수익률로, 회사가 주주의 요구수익률보다 더 버는 '초과이익'만큼 순자산에 가치를 더해요. 초과이익이 매년 10%·20%씩 줄어드는 경우는 지속계수 ω = 0.9, 0.8을 넣어 BPS + 초과이익 × ω ÷ (1 + r − ω)로 계산하고, 요구수익률은 보통 BBB- 등급 회사채 수익률을 써요.</p></details>
+  <details><summary>PER이 낮으면 항상 싼 주식인가요?</summary><p>아니에요. 이익이 일시적으로 늘었거나 앞으로 줄어들 업종, ROE가 요구수익률보다 낮아 자본을 까먹는 회사는 PER·PBR이 낮아도 오랫동안 싸게 머무를 수 있어요(가치 함정). 낮은 PER은 ROE, 이익 성장률, 배당, 부채와 함께 봐야 하고, ROE가 요구수익률보다 낮다면 PBR 1배 미만도 적정일 수 있어요.</p></details>
+</section>
+
+<section class="card">
+  <h2>기준값 출처</h2>
+  <ul class="src">
+    <li><b>KOSPI PER 11.05배</b> — 한국거래소 집계, 2026-10-08 기준 (<a href="https://biz.heraldcorp.com/article/10899399" rel="noopener" target="_blank">헤럴드경제 2026-10-12 보도</a>). 한국거래소 PER은 직전 결산 실적 기준(후행)이에요.</li>
+    <li><b>KOSPI PBR 1.43배</b> — 한국거래소 집계, 2026-10-30 기준 (<a href="https://www.mt.co.kr/stock/2026/11/01/2026103118495968867" rel="noopener" target="_blank">머니투데이 2026-11-01 보도</a>)</li>
+    <li><b>KOSPI 배당수익률 0.92%</b> — 한국거래소 집계, 2026-05-04 기준 (<a href="https://www.fnnews.com/news/202605061513011012" rel="noopener" target="_blank">파이낸셜뉴스 2026-05-06 보도</a>). 확인 가능한 가장 최근 값이에요.</li>
+    <li><b>BBB- 회사채 수익률 10.23%</b> — 무보증 회사채 3년 BBB- 금리, 2026-10-30 (한국은행 경제통계시스템 ECOS '시장금리(일별)', 금융투자협회 최종호가수익률 기준). S-RIM 원래 방식은 BBB- <b>5년</b>물인데, 5년물은 신용평가사 유료·회원 자료라 공개 확인이 어려워 3년물을 기본값으로 넣었어요. 아는 값이 있으면 바꿔 주세요.</li>
+    <li>최신 값은 <a href="https://data.krx.co.kr" rel="noopener" target="_blank">KRX 정보데이터시스템</a>(지수 → PER/PBR/배당수익률)과 <a href="https://ecos.bok.or.kr" rel="noopener" target="_blank">한국은행 ECOS</a>에서 확인할 수 있어요.</li>
+    <li>모델 출처: 사경인 『재무제표 모르면 주식투자 절대로 하지마라』(2017, S-RIM), 벤저민 그레이엄 『현명한 투자자』(그레이엄 수: PER 15 × PBR 1.5 = 22.5), 피터 린치 『전설로 떠나는 월가의 영웅』(PEG).</li>
+  </ul>
+  <p class="note">계산은 브라우저 안에서만 해요. 입력한 숫자는 어디에도 저장·전송되지 않아요.</p>
+</section>
+
+<nav class="calc-index" id="calc-index" aria-label="전체 계산기"><h2>전체 계산기</h2><div class="ci-grid"><div><b>주식·ETF</b><ul><li><a href="stock-value.html" aria-current="page">주가 적정가치 분석</a></li><li><a href="sell.html">매도 세금</a></li><li><a href="us.html">미국주식·ETF</a></li><li><a href="div.html">배당금</a></li><li><a href="avg.html">물타기 평단</a></li><li><a href="risk.html">손절·비중</a></li><li><a href="gold.html">금 투자</a></li><li><a href="ipo.html">공모주 청약</a></li></ul></div><div><b>저축·연금</b><ul><li><a href="int.html">예·적금 이자</a></li><li><a href="grow.html">적립식 복리</a></li><li><a href="pen.html">연금저축 세액공제</a></li><li><a href="fire.html">은퇴 자금</a></li><li><a href="fin.html">금융소득 2천만</a></li><li><a href="nhis.html">건보료 피부양자</a></li><li><a href="yet.html">연말정산 환급</a></li><li><a href="nps.html">국민연금 조기·연기</a></li><li><a href="sev.html">퇴직금 세금</a></li><li><a href="eitc.html">근로·자녀장려금</a></li><li><a href="youth-savings.html">청년 정부 적금</a></li></ul></div><div><b>부동산·대출</b><ul><li><a href="buy.html">집 살 때 비용</a></li><li><a href="dsr.html">대출 한도 (DSR·DTI)</a></li><li><a href="score.html">청약 가점</a></li><li><a href="safe.html">전세 안전도</a></li><li><a href="rent.html">전세·월세·매수</a></li><li><a href="refi.html">대출 갈아타기</a></li><li><a href="ptax.html">재산세·종부세</a></li><li><a href="gift.html">증여세</a></li><li><a href="yield.html">임대 수익률</a></li><li><a href="auc.html">부동산 경매</a></li><li><a href="dist.html">경매 배당표</a></li></ul></div><div><b>세금</b><ul><li><a href="tax/">세금 계산기 모음</a></li><li><a href="tax/vat.html">부가가치세</a></li><li><a href="tax/income.html">종합소득세</a></li><li><a href="tax/freelancer.html">프리랜서 3.3%</a></li><li><a href="tax/transfer.html">부동산 양도소득세</a></li><li><a href="tax/inherit.html">상속세</a></li><li><a href="tax/corp.html">법인세 (2026)</a></li><li><a href="tax/loan.html">가족 간 대여</a></li></ul></div><div><b>급여·노동</b><ul><li><a href="wage.html">주휴수당·알바 월급</a></li><li><a href="unemp.html">실업급여</a></li><li><a href="parental.html">육아휴직·출산휴가 급여</a></li><li><a href="sev.html">퇴직금 세금</a></li></ul></div><div><b>직장인</b><ul><li><a href="salary-net.html">연봉 실수령액</a></li><li><a href="leave.html">2027 연차 꿀조합</a></li><li><a href="salary-rank.html">연봉 상위 몇 %</a></li><li><a href="side-tax.html">N잡·부업 세금</a></li><li><a href="gw-pay.html">2027 공무원 실수령액</a></li><li><a href="gw-overtime.html">공무원 초과근무수당</a></li><li><a href="gw-pension.html">공무원연금</a></li></ul></div><div><b>자동차</b><ul><li><a href="car-cost.html">자동차 유지비</a></li><li><a href="car-commute.html">출퇴근 비용</a></li><li><a href="car-tax.html">자동차세</a></li><li><a href="car-buy.html">취등록세</a></li><li><a href="car-parts.html">소모품 교체비</a></li><li><a href="car-ev.html">전기차 vs 휘발유</a></li></ul></div><div><b>건강·운세</b><ul><li><a href="calorie.html">칼로리 계산기</a></li><li><a href="health.html">건강나이·예상수명</a></li><li><a href="life-left.html">인생 남은 시간</a></li><li><a href="saju.html">사주팔자 풀이</a></li><li><a href="mbti.html">MBTI 궁합</a></li><li><a href="mbti-test.html">성격유형 검사 120문항</a></li><li><a href="iq-test.html">IQ 테스트 120문항</a></li><li><a href="fortune-2027.html">2027 신년운세</a></li><li><a href="due-date.html">출산 예정일</a></li></ul></div><div><b>수학</b><ul><li><a href="fraction.html">분수 계산기</a></li><li><a href="sci-calc.html">공학용 계산기</a></li><li><a href="root-power.html">제곱근·지수</a></li><li><a href="percent.html">백분율 계산기</a></li></ul></div><div><b>도구</b><ul><li><a href="exam.html">자격증 시험일정 달력</a></li><li><a href="travel.html">여행경비 계산기</a></li><li><a href="elec.html">전기요금 계산기</a></li><li><a href="date.html">날짜 계산기 (D-day·만 나이·전역일)</a></li><li><a href="clock.html">초시계·서버시간</a></li><li><a href="/shorts/">쇼츠 메이커 (영문)</a></li><li><a href="/budget/">가계부 (11개 언어)</a></li><li><a href="suneung.html">수능 D-day 시간표</a></li><li><a href="age-table.html">나이표·띠</a></li><li><a href="pyeong.html">평수 계산기</a></li><li><a href="char-count.html">글자수 세기</a></li><li><a href="percent.html">퍼센트 계산기</a></li><li><a href="couple-dday.html">커플 기념일 계산기</a></li></ul></div><div><b>Global</b><ul><li><a href="us/">🇺🇸 US tax calculators</a></li><li><a href="uk/">🇬🇧 UK tax calculators</a></li><li><a href="ca/">🇨🇦 Canada calculators</a></li><li><a href="au/">🇦🇺 Australia calculators</a></li><li><a href="jp/">🇯🇵 日本 税金・NISA</a></li><li><a href="fr/">🇫🇷 Impôts France</a></li><li><a href="es/calculadora-impuesto-ahorro.html">🇪🇸 IRPF ahorro</a></li><li><a href="mx/">🇲🇽 ISR México</a></li><li><a href="br/">🇧🇷 Salário líquido Brasil</a></li><li><a href="in/">🇮🇳 India tax calculators</a></li><li><a href="de/">🇩🇪 Finanzrechner Deutschland</a></li><li><a href="id/kalkulator-pph21.html">🇮🇩 Pajak &amp; investasi Indonesia</a></li><li><a href="en/">English calculators</a></li><li><a href="id/">Kalkulator Indonesia</a></li><li><a href="es/">Calculadoras en español</a></li></ul></div></div></nav>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a></div>
+  <div>계산 결과는 참고용이며 투자 권유가 아니에요. 실제 투자 전에는 공시 자료(DART)와 증권사 리포트를 함께 확인하세요.</div>
+</footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+var STEPS=['매우 저평가','저평가','다소 저평가','적정','다소 고평가','고평가','매우 고평가'];
+var CUT=[Math.log(0.6),Math.log(0.8),Math.log(0.93),Math.log(1.075),Math.log(1.25),Math.log(1/0.6)];
+var PRESETS={
+ mature:{price:42000,eps:5600,bps:70000,roe:8,g:3,dps:1500,iper:8,ipbr:0.7,r:10.23},
+ growth:{price:180000,eps:4500,bps:30000,roe:15,g:35,dps:300,iper:25,ipbr:3,r:10.23},
+ bank:{price:9000,eps:2000,bps:30000,roe:6.7,g:2,dps:600,iper:5,ipbr:0.4,r:10.23},
+ loss:{price:15000,eps:-1200,bps:9000,roe:-13,g:'',dps:'',iper:'',ipbr:'',r:10.23}
+};
+var FIELDS=['price','eps','per','bps','pbr','roe','g','dps','iper','ipbr'];
+function n(id){var v=String($(id).value).replace(/[,\s원%배]/g,'').replace(/[−–]/g,'-');if(v===''||v==='-'||v==='.')return NaN;return +v}
+function f(x,d){if(!isFinite(x))return '—';d=d==null?2:d;var r=+x.toFixed(d);if(Object.is(r,-0))r=0;return r.toLocaleString('ko-KR',{maximumFractionDigits:d})}
+function won(x){return isFinite(x)?Math.round(x).toLocaleString('ko-KR')+'원':'—'}
+function pct(x,d){return (x>0?'+':'')+f(x,d==null?1:d)+'%'}
+function stepOf(ratio){var x=Math.log(ratio),i=0;while(i<CUT.length&&x>CUT[i])i++;return i}
+function badge(i){return '<span class="verdict v'+i+'">'+STEPS[i]+'</span>'}
+function na(t){return '<span class="verdict vna">'+t+'</span>'}
+
+function analyze(){
+  var price=n('price'),eps=n('eps'),per=n('per'),bps=n('bps'),pbr=n('pbr'),roeIn=n('roe'),g=n('g'),dps=n('dps'),
+      r=n('r'),iper=n('iper'),ipbr=n('ipbr'),kper=n('kper'),kpbr=n('kpbr'),kdy=n('kdy');
+  if(!(price>0))return {err:'현재 주가를 0보다 큰 숫자로 넣어 주세요.'};
+  var notes={eps:'',bps:'',roe:''},why=[];
+  var epsSrc='입력',bpsSrc='입력',roeSrc='입력';
+  if(isNaN(eps)&&isFinite(per)&&per!==0){eps=price/per;epsSrc='PER에서 역산';notes.eps='EPS = 주가 ÷ PER = '+won(price)+' ÷ '+f(per)+' = '+won(eps)}
+  if(isNaN(bps)&&isFinite(pbr)&&pbr>0){bps=price/pbr;bpsSrc='PBR에서 역산';notes.bps='BPS = 주가 ÷ PBR = '+won(price)+' ÷ '+f(pbr)+' = '+won(bps)}
+  var roe=roeIn/100;
+  if(isNaN(roeIn)&&isFinite(eps)&&bps>0){roe=eps/bps;roeSrc='EPS÷BPS로 계산';notes.roe='ROE ≈ EPS ÷ BPS = '+f(roe*100)+'%'}
+  if(isNaN(eps)&&isFinite(roe)&&bps>0){eps=bps*roe;epsSrc='BPS×ROE로 추정';notes.eps='EPS ≈ BPS × ROE = '+won(eps)}
+  if(isNaN(eps)&&isNaN(bps))return {err:'EPS(또는 PER)나 BPS(또는 PBR) 중 하나 이상을 넣어 주세요.'};
+  var rr=r/100;
+  var bPER=iper>0?iper:kper,bPERsrc=iper>0?'업종 평균':'KOSPI 평균';
+  var bPBR=ipbr>0?ipbr:kpbr,bPBRsrc=ipbr>0?'업종 평균':'KOSPI 평균';
+  var curPER=eps>0?price/eps:NaN,curPBR=bps>0?price/bps:NaN;
+  var M={},rows=[],ests=[];
+  function addEst(key,name,val){if(isFinite(val)&&val>0){ests.push(val);M[key]={name:name,val:val,ratio:price/val}}}
+
+  // 1 PER
+  var c1={t:'① PER 기준 적정주가'};
+  if(isNaN(eps)){c1.na='EPS나 PER을 넣으면 계산해요.'}
+  else if(eps<=0){c1.na='적자(EPS '+won(eps)+')라 PER이 의미 없어요. PER 기준 적정가는 계산하지 않아요.';M.per={name:'PER 기준',loss:true}}
+  else if(!(bPER>0)){c1.na='기준 PER을 넣어 주세요.'}
+  else{var v1=eps*bPER;addEst('per','PER 기준',v1);c1.val=v1;c1.steps=['현재 PER = '+won(price)+' ÷ '+won(eps)+' = <b>'+f(curPER)+'배</b>','기준 PER = '+bPERsrc+' '+f(bPER)+'배','적정주가 = '+won(eps)+' × '+f(bPER)+' = <b>'+won(v1)+'</b>']}
+
+  // 2 PBR
+  var c2={t:'② PBR 기준 적정주가'};
+  if(isNaN(bps)){c2.na='BPS나 PBR을 넣으면 계산해요.'}
+  else if(bps<=0){c2.na='BPS가 0 이하(자본잠식)라 PBR 기준 가치는 계산할 수 없어요.'}
+  else if(!(bPBR>0)){c2.na='기준 PBR을 넣어 주세요.'}
+  else{var v2=bps*bPBR;addEst('pbr','PBR 기준',v2);c2.val=v2;c2.steps=['현재 PBR = '+won(price)+' ÷ '+won(bps)+' = <b>'+f(curPBR)+'배</b>','기준 PBR = '+bPBRsrc+' '+f(bPBR)+'배','적정주가 = '+won(bps)+' × '+f(bPBR)+' = <b>'+won(v2)+'</b>']}
+
+  // 3 S-RIM
+  var c3={t:'③ S-RIM (잔여이익모델)'},srim=null;
+  if(!(bps>0)||!isFinite(roe)){c3.na=bps<=0?'BPS가 0 이하라 S-RIM을 적용할 수 없어요.':'BPS와 ROE(또는 EPS)가 있어야 계산해요.'}
+  else if(!(rr>0)){c3.na='요구수익률 r을 0보다 크게 넣어 주세요.'}
+  else{
+    var ex=bps*(roe-rr),s0=bps+ex/rr,s9=bps+ex*0.9/(1+rr-0.9),s8=bps+ex*0.8/(1+rr-0.8);
+    srim={s0:s0,s9:s9,s8:s8,ex:ex};
+    var s9v=Math.max(s9,0);
+    if(s9>0)addEst('srim','S-RIM (ω=0.9)',s9);else M.srim={name:'S-RIM (ω=0.9)',neg:true,val:s9};
+    c3.val=s9;c3.sub='대표값 ω = 0.9 (초과이익 매년 10% 감소)';
+    c3.steps=['초과이익 = BPS × (ROE − r) = '+won(bps)+' × ('+f(roe*100)+'% − '+f(r)+'%) = <b>'+won(ex)+'</b>',
+      '지속(ω=1): '+won(bps)+' + '+won(ex)+' ÷ '+f(rr,4)+' = <b>'+won(s0)+'</b>',
+      'ω=0.9: '+won(bps)+' + '+won(ex)+' × 0.9 ÷ ('+f(1+rr,4)+' − 0.9) = <b>'+won(s9)+'</b>',
+      'ω=0.8: '+won(bps)+' + '+won(ex)+' × 0.8 ÷ ('+f(1+rr,4)+' − 0.8) = <b>'+won(s8)+'</b>'];
+    c3.tip=roe>=rr?'ROE가 r보다 높아 지속 > 0.9 > 0.8 순이에요. 사경인 방식에선 지속 값을 매도 참고가, ω=0.8을 매수 참고가로 많이 봐요.':'ROE가 r보다 낮아 초과이익이 마이너스예요. 이때는 지속 값이 가장 낮고, 가치가 BPS보다 작아요.';
+    M.srimRange={s0:s0,s8:s8};
+  }
+
+  // 4 Graham
+  var c4={t:'④ 그레이엄 수'};
+  if(!(eps>0)||!(bps>0)){c4.na=(isFinite(eps)&&eps<=0)?'적자 기업은 그레이엄 수를 계산할 수 없어요 (√ 안이 음수).':(isFinite(bps)&&bps<=0)?'BPS가 0 이하라 계산할 수 없어요.':'EPS와 BPS가 모두 있어야 계산해요.'}
+  else{var v4=Math.sqrt(22.5*eps*bps);addEst('graham','그레이엄 수',v4);c4.val=v4;c4.steps=['√(22.5 × '+won(eps)+' × '+won(bps)+')','= √'+f(22.5*eps*bps,0)+' = <b>'+won(v4)+'</b>'];c4.tip='22.5 = PER 15 × PBR 1.5. 방어적 투자자가 지불할 상한선이에요.'}
+
+  // 5 PEG
+  var c5={t:'⑤ PEG'},peg=NaN;
+  if(isNaN(g)){c5.na='예상 EPS 성장률을 넣으면 계산해요.'}
+  else if(!(eps>0)){c5.na='적자라 PER이 없어 PEG도 의미 없어요.'}
+  else if(g<=0){c5.na='성장률이 0% 이하라 PEG는 의미 없어요. (이익 감소 예상)'}
+  else{peg=curPER/g;var pegFair=eps*g;c5.val=peg;c5.unit='';c5.steps=['PEG = PER ÷ 성장률 = '+f(curPER)+' ÷ '+f(g)+' = <b>'+f(peg)+'</b>','PEG = 1이 되는 주가 = EPS × 성장률 = '+won(pegFair)];c5.tip='1 미만이면 성장 대비 싸고, 2 이상이면 비싸다고 봐요. 성장률 전망이 틀리면 결과도 크게 달라져요.';M.peg={name:'PEG',peg:peg,ratio:peg}}
+
+  // 6 Dividend
+  var c6={t:'⑥ 배당수익률'},dy=NaN;
+  if(isNaN(dps)){c6.na='주당배당금을 넣으면 계산해요.'}
+  else{dy=dps/price*100;c6.val=dy;c6.unit='%';c6.steps=['배당수익률 = '+won(dps)+' ÷ '+won(price)+' × 100 = <b>'+f(dy)+'%</b>','KOSPI 평균 '+f(kdy)+'% 대비 '+(kdy>0?f(dy/kdy,1)+'배':'—')];
+    if(eps>0&&dps>0)c6.steps.push('배당성향 = '+won(dps)+' ÷ '+won(eps)+' = '+f(dps/eps*100,1)+'%');
+    M.div={dy:dy}}
+
+  // 7 Theory PBR
+  var c7={t:'⑦ ROE와 PBR 관계'},tpbr=NaN;
+  if(!isFinite(roe)||!(rr>0)||!(bps>0)){c7.na='ROE, r, BPS가 있어야 점검해요.'}
+  else{tpbr=roe/rr;c7.val=tpbr;c7.unit='배';c7.steps=['이론 PBR = ROE ÷ r = '+f(roe*100)+'% ÷ '+f(r)+'% = <b>'+f(tpbr)+'배</b>','현재 PBR = <b>'+f(curPBR)+'배</b> → '+(curPBR<tpbr?'이론보다 낮아요':'이론보다 높아요'),'이론 PBR × BPS = '+won(tpbr*bps)+' (= S-RIM 지속 값)'];
+    c7.tip='PBR = PER × ROE. ROE가 r보다 높아야 PBR 1배 이상이 정당화돼요.'}
+
+  // composite
+  ests.sort(function(a,b){return a-b});
+  var fair=NaN;if(ests.length){var m=ests.length>>1;fair=ests.length%2?ests[m]:(ests[m-1]+ests[m])/2}
+  var comp=null;if(isFinite(fair)){var ratio=price/fair;comp={fair:fair,ratio:ratio,gap:(ratio-1)*100,step:stepOf(ratio)}}
+
+  // why
+  if(isFinite(eps)&&eps<=0)why.push('적자 기업(EPS '+won(eps)+')이라 PER·그레이엄 수·PEG는 의미가 없어서 빼고 판단했어요. 적자가 이어지면 BPS도 줄어드니 자산 가치만 믿기는 어려워요.');
+  if(comp){
+    var lowM=[],highM=[];['per','pbr','srim','graham'].forEach(function(k){if(M[k]&&M[k].ratio){var s=stepOf(M[k].ratio);if(s<=2)lowM.push(M[k].name);else if(s>=4)highM.push(M[k].name)}});
+    var line='현재가 '+won(price)+'은 종합 적정가 '+won(fair)+' 대비 '+pct(comp.gap)+'라 <b>'+STEPS[comp.step]+'</b> 구간이에요.';
+    if(lowM.length&&highM.length)line+=' 다만 '+lowM.join('·')+'은(는) 싸게, '+highM.join('·')+'은(는) 비싸게 나와 지표끼리 엇갈려요.';
+    why.unshift(line);
+  }
+  if(isFinite(roe)&&rr>0&&roe<rr){
+    var cheap=(curPER>0&&curPER<bPER)||(curPBR>0&&curPBR<1);
+    why.push((cheap?'PER·PBR은 낮아 보이지만 ':'')+'ROE('+f(roe*100,1)+'%)가 요구수익률('+f(r)+'%)보다 낮아 S-RIM 가치가 BPS보다 작아요.'+(srim&&srim.s9<=0?' ω=0.9 기준 가치가 0 이하로 나와 지금 이익 구조로는 주주가치가 줄고 있다는 뜻이에요.':'')+(curPBR<1?' <b>저PBR 함정</b> 가능성이 있어요 — ROE가 오르지 않으면 PBR 1배 미만이 계속될 수 있어요.':''));
+  } else if(isFinite(roe)&&rr>0&&roe>=rr&&isFinite(tpbr)&&isFinite(curPBR)){
+    if(curPBR<tpbr*0.8)why.push('ROE('+f(roe*100,1)+'%)가 요구수익률('+f(r)+'%)보다 높은데 PBR('+f(curPBR)+'배)이 이론 PBR('+f(tpbr)+'배)보다 낮아요. 이익 체력에 비해 싸게 거래되는 신호예요.');
+    else if(curPBR>tpbr*1.25)why.push('PBR('+f(curPBR)+'배)이 ROE로 설명되는 이론 PBR('+f(tpbr)+'배)보다 높아요. 시장이 앞으로 ROE가 더 오를 거라고 기대하고 있다는 뜻이에요.');
+    else why.push('ROE('+f(roe*100,1)+'%)가 요구수익률('+f(r)+'%)보다 높고, PBR('+f(curPBR)+'배)도 이론 PBR('+f(tpbr)+'배)과 크게 다르지 않아요. 자본으로 주주 기대 이상을 벌고 있는 회사예요.');
+  }
+  if(isFinite(peg)){if(peg<1&&curPER>bPER)why.push('PER('+f(curPER,1)+'배)은 기준보다 높지만 성장률 '+f(g)+'%를 감안한 PEG가 '+f(peg)+'라 성장 대비로는 비싸지 않아요.');else if(peg>=2)why.push('PEG가 '+f(peg)+'로 높아요. 예상 성장률에 비해 PER이 비싸요.')}
+  if(eps>0&&isFinite(roeIn)&&bps>0&&Math.abs(eps/bps*100-roeIn)>5)why.push('입력한 ROE('+f(roeIn,1)+'%)와 EPS÷BPS('+f(eps/bps*100,1)+'%)가 꽤 달라요. 기준 시점(연간·TTM·평균)을 맞춰 보세요.');
+  if(ests.length>=2&&ests[ests.length-1]/ests[0]>2)why.push('지표별 적정가 차이가 2배 이상 벌어져 있어요('+won(ests[0])+' ~ '+won(ests[ests.length-1])+'). 어떤 가정이 맞는지에 따라 결론이 크게 달라져요.');
+  if(isFinite(dy)&&kdy>0){if(dy>=kdy*2&&dy>0)why.push('배당수익률 '+f(dy)+'%로 KOSPI 평균('+f(kdy)+'%)의 '+f(dy/kdy,1)+'배예요. 배당이 하방을 받쳐 줄 수 있어요'+(eps>0&&dps>eps?' — 다만 배당이 이익보다 많아 지속 가능성은 확인이 필요해요.':'.'));else if(dy===0)why.push('배당이 없어요. 주가 상승으로만 수익을 내야 해요.')}
+  if(ests.length===1)why.push('가격 추정치가 하나뿐이라 신뢰도가 낮아요. EPS·BPS·ROE를 더 넣으면 정확해져요.');
+  if(!comp&&!why.length)why.push('가격 추정치를 계산할 수 있는 숫자가 부족해요.');
+
+  // table
+  function row(name,valTxt,ratio,verdictHtml){rows.push('<tr'+(verdictHtml?'':' class="na"')+'><td>'+name+'</td><td class="num">'+valTxt+'</td><td class="num">'+(isFinite(ratio)?pct((ratio-1)*100):'—')+'</td><td>'+(verdictHtml||na('계산 불가'))+'</td></tr>')}
+  if(M.per&&M.per.loss)rows.push('<tr class="na"><td>PER 기준</td><td class="num">—</td><td class="num">—</td><td>'+na('적자 · PER 의미 없음')+'</td></tr>');
+  else if(M.per)row('PER 기준 ('+bPERsrc+' '+f(bPER)+'배)',won(M.per.val),M.per.ratio,badge(stepOf(M.per.ratio)));
+  if(M.pbr)row('PBR 기준 ('+bPBRsrc+' '+f(bPBR)+'배)',won(M.pbr.val),M.pbr.ratio,badge(stepOf(M.pbr.ratio)));
+  if(M.srim&&M.srim.neg)rows.push('<tr><td>S-RIM (ω=0.9)</td><td class="num">'+won(M.srim.val)+'</td><td class="num">—</td><td>'+badge(6)+'</td></tr>');
+  else if(M.srim)row('S-RIM (ω=0.9)',won(M.srim.val),M.srim.ratio,badge(stepOf(M.srim.ratio)));
+  if(srim)rows.push('<tr><td>&nbsp;└ S-RIM 범위 (ω=0.8 ~ 지속)</td><td class="num">'+won(Math.min(srim.s8,srim.s0))+' ~ '+won(Math.max(srim.s8,srim.s0))+'</td><td class="num">—</td><td>'+(price<Math.min(srim.s8,srim.s0)?'범위 아래':price>Math.max(srim.s8,srim.s0)?'범위 위':'범위 안')+'</td></tr>');
+  if(M.graham)row('그레이엄 수',won(M.graham.val),M.graham.ratio,badge(stepOf(M.graham.ratio)));
+  if(M.peg)rows.push('<tr><td>PEG (보조)</td><td class="num">'+f(peg)+'</td><td class="num">—</td><td>'+badge(stepOf(peg))+'</td></tr>');
+  if(M.div){var dv=M.div.dy,dvt=!(kdy>0)?na('비교 불가'):dv===0?na('무배당'):dv>=kdy*2?'<span class="verdict v1">KOSPI보다 높음</span>':dv>=kdy*0.8?'<span class="verdict v3">KOSPI와 비슷</span>':'<span class="verdict v4">KOSPI보다 낮음</span>';rows.push('<tr><td>배당수익률 (보조, KOSPI '+f(kdy)+'%)</td><td class="num">'+f(dv)+'%</td><td class="num">—</td><td>'+dvt+'</td></tr>')}
+  if(isFinite(tpbr))rows.push('<tr><td>이론 PBR (ROE÷r)</td><td class="num">'+f(tpbr)+'배</td><td class="num">현재 '+f(curPBR)+'배</td><td>'+(curPBR<tpbr?'<span class="verdict v2">이론보다 낮음</span>':'<span class="verdict v4">이론보다 높음</span>')+'</td></tr>');
+
+  return {price:price,eps:eps,bps:bps,roe:roe,epsSrc:epsSrc,bpsSrc:bpsSrc,roeSrc:roeSrc,notes:notes,curPER:curPER,curPBR:curPBR,cards:[c1,c2,c3,c4,c5,c6,c7],rows:rows,comp:comp,why:why,ests:ests,srim:srim,peg:peg,dy:dy,tpbr:tpbr};
+}
+
+function card(c){
+  var unit=c.unit===undefined?'won':c.unit;
+  var h='<div class="mc"><h3>'+c.t+'</h3>';
+  if(c.na)return h+'<p class="na">'+c.na+'</p></div>';
+  h+='<div class="val">'+(unit==='won'?won(c.val):f(c.val)+unit)+(c.sub?'<small>'+c.sub+'</small>':'')+'</div>';
+  h+='<ol>'+c.steps.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol>';
+  if(c.tip)h+='<p class="tip">'+c.tip+'</p>';
+  return h+'</div>';
+}
+
+function render(R){
+  $('res').hidden=false;
+  var c=R.comp;
+  $('lbls').innerHTML=STEPS.map(function(s,i){return '<span'+(c&&c.step===i?' class="on"':'')+'>'+s+'</span>'}).join('');
+  if(c){
+    $('hVerdict').innerHTML='<b>'+STEPS[c.step]+'</b>';
+    $('hSub').innerHTML='종합 적정가 <b>'+won(c.fair)+'</b> · 현재가 '+won(R.price)+' · 괴리율 <b>'+pct(c.gap)+'</b> ('+R.ests.length+'개 추정치 중앙값)';
+    var x=Math.log(c.ratio),i=c.step,lo=i===0?Math.log(0.45):CUT[i-1],hi=i===6?Math.log(1/0.45):CUT[i];
+    var t=Math.min(1,Math.max(0,(x-lo)/(hi-lo)));
+    $('pin').style.left=((i+t)/7*100).toFixed(2)+'%';$('pin').hidden=false;
+  } else {
+    $('hVerdict').innerHTML='<span style="font-size:22px">판정 불가</span>';
+    $('hSub').textContent='가격 추정치를 계산할 수 있는 숫자가 부족해요. 아래 보조 지표만 참고하세요.';
+    $('pin').hidden=true;
+  }
+  $('why').innerHTML=R.why.map(function(w){return '<li>'+w+'</li>'}).join('');
+  $('tbody').innerHTML=R.rows.length?R.rows.join(''):'<tr><td colspan="4">계산된 지표가 없어요.</td></tr>';
+  var base=[['현재 주가',won(R.price)]];
+  if(isFinite(R.eps))base.push(['EPS ('+R.epsSrc+')',won(R.eps)]);
+  if(isFinite(R.bps))base.push(['BPS ('+R.bpsSrc+')',won(R.bps)]);
+  if(isFinite(R.roe))base.push(['ROE ('+R.roeSrc+')',f(R.roe*100)+'%']);
+  if(isFinite(R.curPER))base.push(['현재 PER',f(R.curPER)+'배']);else if(isFinite(R.eps)&&R.eps<=0)base.push(['현재 PER','적자 (N/A)']);
+  if(isFinite(R.curPBR))base.push(['현재 PBR',f(R.curPBR)+'배']);
+  $('base').innerHTML=base.map(function(a){return '<div><span>'+a[0]+'</span><b>'+a[1]+'</b></div>'}).join('');
+  $('cards').innerHTML=R.cards.map(card).join('');
+  $('epsNote').innerHTML=R.notes.eps?'<span class="der">'+R.notes.eps+'</span>':'최근 4분기(TTM) 지배주주 기준이 좋아요. 적자는 −로 입력';
+  $('bpsNote').innerHTML=R.notes.bps?'<span class="der">'+R.notes.bps+'</span>':'지배주주 자본 ÷ 발행주식수';
+  $('roeNote').innerHTML=R.notes.roe?'<span class="der">'+R.notes.roe+'</span>':'S-RIM은 3년 평균이나 컨센서스 ROE를 많이 써요';
+}
+
+var ran=false;
+function run(track){
+  var R=analyze();
+  if(R.err){$('err').textContent=R.err;$('err').hidden=false;if(!ran)$('res').hidden=true;return null}
+  $('err').hidden=true;render(R);ran=true;
+  if(track){try{gtag('event','stock_value_run',{verdict:R.comp?STEPS[R.comp.step]:'판정 불가'})}catch(e){}}
+  return R;
+}
+$('run').addEventListener('click',function(){var R=run(true);if(R)setTimeout(function(){document.querySelector('.hero-res').scrollIntoView({behavior:'smooth',block:'start'})},30)});
+$('frm').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.tagName==='INPUT'){e.preventDefault();$('run').click()}});
+$('frm').addEventListener('input',function(){if(ran)run(false)});
+$('clr').addEventListener('click',function(){FIELDS.forEach(function(k){$(k).value=''});$('res').hidden=true;$('err').hidden=true;ran=false;$('price').focus()});
+document.querySelectorAll('.presets button').forEach(function(b){b.addEventListener('click',function(){var p=PRESETS[b.dataset.p];FIELDS.forEach(function(k){$(k).value=p[k]===undefined?'':p[k]});$('r').value=p.r;run(true)})});
+window.__sv={analyze:analyze,run:run,stepOf:stepOf};
+})();
+</script>
+</body>
+</html>
