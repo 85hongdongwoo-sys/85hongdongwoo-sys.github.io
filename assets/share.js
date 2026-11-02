@@ -1,4 +1,4 @@
-/* Hong Life — site-wide share bar (vanilla JS, no deps)
+/*cs*/try{document.documentElement.style.setProperty('color-scheme','only light')}catch(e){}/* Hong Life — site-wide share bar (vanilla JS, no deps)
    - Injects "share result" section + mobile floating button on every page.
    - Mark the main result on a page with [data-share-result] (max 3 used).
      A marked container is searched for known result patterns first. */
