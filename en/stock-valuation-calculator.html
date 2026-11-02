@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="only light">
+<title>Stock Valuation Calculator — Is a Stock Undervalued? P/E, P/B, ROE vs S&amp;P 500 &amp; Nasdaq</title>
+<meta name="description" content="Enter price, EPS, book value per share and ROE to get fair value from P/E and P/B vs the S&amp;P 500 or Nasdaq-100, a residual income model (S-RIM), the Graham Number, PEG and dividend yield — and see where the stock sits on a 7-step scale from deeply undervalued to deeply overvalued.">
+<link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/stock-valuation-calculator.html"><link rel="alternate" hreflang="ko" href="https://honglife.co.kr/stock-value.html"><link rel="alternate" hreflang="x-default" href="https://honglife.co.kr/en/stock-valuation-calculator.html"><link rel="canonical" href="https://honglife.co.kr/en/stock-valuation-calculator.html"><meta property="og:type" content="website"><meta property="og:title" content="Stock Valuation Calculator — Is a Stock Undervalued? P/E, P/B, ROE vs S&amp;P 500 &amp; Nasdaq"><meta property="og:description" content="Fair value from P/E, P/B, residual income (S-RIM), the Graham Number and PEG, with a 7-step undervalued-to-overvalued gauge."><meta property="og:url" content="https://honglife.co.kr/en/stock-valuation-calculator.html">
+<meta name="theme-color" content="#0B1F3F"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../g.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What do P/E, P/B and ROE mean?","acceptedAnswer":{"@type":"Answer","text":"P/E (price-to-earnings) is share price ÷ earnings per share (EPS): how many years of current earnings you pay for. P/B (price-to-book) is price ÷ book value per share (BPS): how many times its accounting net worth the stock trades at. ROE (return on equity) is net income ÷ shareholders' equity: how many cents a company earns per dollar of shareholder capital each year. They are linked by P/B = P/E × ROE."}},
+{"@type":"Question","name":"What is S-RIM?","acceptedAnswer":{"@type":"Answer","text":"S-RIM is a simplified residual income model popularized in Korea by accountant Sa Kyung-in (2017). Fair value = BPS + BPS × (ROE − r) ÷ r, where r is the required return. It adds the value of 'excess earnings' above what shareholders require to book value. If excess earnings are expected to fade by 10% or 20% a year, a persistence factor ω = 0.9 or 0.8 is used: BPS + excess earnings × ω ÷ (1 + r − ω). The Korean method uses the BBB- corporate bond yield as r; this US version defaults to the ICE BofA BBB US Corporate Index effective yield."}},
+{"@type":"Question","name":"Is a low P/E stock always cheap?","acceptedAnswer":{"@type":"Answer","text":"No. If earnings are temporarily inflated, the industry is shrinking, or ROE is below the required return so the company destroys shareholder value, a stock can stay at a low P/E and P/B for years (a value trap). Read a low P/E together with ROE, earnings growth, dividends and debt. When ROE is below the required return, a P/B under 1 can be fair."}}
+]}</script>
+<style>
+.sv-intro{margin-top:20px}
+.card{margin:0 0 16px}
+.card h2{font-size:19px;margin:0 0 12px;letter-spacing:-.015em;color:#14233D}
+.card h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+.card h3{font-size:16px;margin:16px 0 6px;color:#14233D}
+.sv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px}
+.f{min-width:0}
+.f label,.f .lb{display:block;font-size:14px;font-weight:600;margin-bottom:4px;color:#14233D}
+.f small{display:block;color:var(--muted);font-size:12.6px;line-height:1.5;margin-top:3px}
+.f input,.f select{width:100%;font:500 16px var(--mono);padding:9px 10px;border:1px solid #C9D1DC;border-radius:6px;background:#FBFCFD;color:var(--ink);min-height:44px}
+.f input:focus{outline:2px solid var(--gold-d);outline-offset:1px;background:#fff}
+.seg{display:flex;gap:6px}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:flex;align-items:center;justify-content:center;text-align:center;padding:8px 6px;border:1.5px solid #C9D1DC;border-radius:8px;background:#fff;cursor:pointer;min-height:44px;font-size:14px;line-height:1.3}
+.seg input:checked+span{border-color:var(--accent);background:#EAF0F8;color:var(--accent);font-weight:700}
+.seg input:focus-visible+span{outline:2px solid var(--gold-d)}
+details.opt{border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+details.opt summary{cursor:pointer;font-weight:700;color:#14233D;list-style:none;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+details.opt summary::-webkit-details-marker{display:none}
+details.opt summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:#FBF4E6;color:var(--gold-d);font-weight:800}
+details.opt[open] summary::before{content:"−"}
+details.opt summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+details.opt .sv-grid{margin-top:12px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 22px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer;min-height:48px}
+.btn:hover{background:#0D2647}
+.btn.ghost{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}
+.err{color:#B3261E;font-weight:700;margin:10px 0 0}
+.sv-note{font-size:13.5px;color:var(--muted);line-height:1.65;margin:8px 0 0}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.presets button{font:inherit;font-size:14px;font-weight:600;padding:8px 13px;border-radius:99px;border:1.5px solid var(--gold-d);background:#FBF4E6;color:#7A5715;cursor:pointer;min-height:40px}
+.presets button:hover{background:#F6E8CB}
+.presets button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pair{display:grid;grid-template-columns:1fr auto 1fr;gap:6px;align-items:end}
+.or{font-size:13px;color:var(--muted);font-weight:500}
+.pair .or{padding-bottom:12px}
+.req{color:#B3261E;font-weight:700}
+.der{color:#8A6418;font-weight:600}
+.sec-t{font-size:13px;font-weight:700;color:var(--gold-d);letter-spacing:.04em;text-transform:uppercase;margin:18px 0 8px;border-top:1px solid var(--line);padding-top:14px}
+.sec-t.first{border-top:0;padding-top:0;margin-top:0}
+.hero-res{background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:8px;padding:22px 20px;margin-bottom:16px;border:1px solid rgba(255,255,255,.14)}
+.hero-res .k{font-size:14px;color:#C9D5EE}
+.hero-res .sv-big{font-size:clamp(28px,6.5vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin:4px 0 6px}
+.hero-res .sv-big b{color:var(--gold)}
+.hero-res .sv-sub{color:#E3E9F5;font-size:15px;font-variant-numeric:tabular-nums}
+.verdict{display:inline-block;font-weight:800;padding:2px 10px;border-radius:99px;font-size:13.5px;white-space:nowrap}
+.v0,.v1{background:#DCEBFA;color:#0E3F75}.v2{background:#ECF3FB;color:#1E4E86}.v3{background:#EEF0F3;color:#2F343B}.v4{background:#FBF1E2;color:#7A4D0F}.v5,.v6{background:#F8E1DC;color:#8E2A17}
+.vna{background:#F1F2F4;color:#5F6875}
+.gauge{margin-top:18px}
+.gauge .track{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;position:relative;height:16px}
+.gauge .track span{border-radius:4px;opacity:.95}
+.gauge .track span:nth-child(1){background:#2E6FB7}.gauge .track span:nth-child(2){background:#5B93CF}.gauge .track span:nth-child(3){background:#9DBEE3}.gauge .track span:nth-child(4){background:#E6E9EE}.gauge .track span:nth-child(5){background:#E9C68A}.gauge .track span:nth-child(6){background:#D98B5F}.gauge .track span:nth-child(7){background:#B8472B}
+.gauge .pin{position:absolute;top:-9px;width:0;height:0;transform:translateX(-50%);transition:left .35s}
+.gauge .pin::before{content:"";position:absolute;left:-8px;top:0;border:8px solid transparent;border-top:10px solid #fff;border-bottom:0}
+.gauge .pin::after{content:"";position:absolute;left:-1.5px;top:9px;width:3px;height:22px;background:#fff;border-radius:2px;box-shadow:0 0 0 1.5px #0B1F3F}
+.gauge .lbls{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:10px}
+.gauge .lbls span{font-size:12px;line-height:1.3;text-align:center;color:#C9D5EE;overflow-wrap:anywhere}
+.gauge .lbls span.on{color:#fff;font-weight:800}
+@media(max-width:430px){.gauge .lbls span{font-size:10.5px;letter-spacing:-.02em}}
+.summary{background:#FBF4E6;border-radius:8px;padding:14px 16px;margin:0 0 14px}
+.summary h3{margin:0 0 6px!important}
+.summary ul{margin:0;padding-left:18px}
+.summary li+li{margin-top:4px}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.sv-t{margin:0;font-size:14px}
+.sv-t th,.sv-t td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}
+.sv-t th{background:var(--soft);font-size:13px;white-space:nowrap}
+.sv-t tr:last-child td{border-bottom:0}
+.mtable td.num,.mtable th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--mono);font-size:13.5px}
+.mtable{min-width:540px}.mtable td{vertical-align:middle}.mtable td:first-child{min-width:170px}.mtable td:last-child{white-space:nowrap}
+.mtable tr.na td{color:var(--muted)}
+.mcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:12px}
+.mc{border:1px solid var(--line);border-radius:8px;padding:14px;position:relative;background:#fff;min-width:0}
+.mc::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gold-d)}
+.mc h3{margin:0 0 2px!important;font-size:15.5px!important}
+.mc .val{font:600 22px/1.3 var(--mono);color:var(--accent);letter-spacing:-.02em}
+.mc .val small{display:block;font:500 13px/1.4 var(--f);color:var(--muted)}
+.mc ol{margin:6px 0 0;padding-left:18px;font-size:13.5px;color:#46505C;line-height:1.6;overflow-wrap:anywhere}
+.mc .na{font-size:14px;color:#8E2A17;font-weight:600;margin:6px 0 0}
+.mc p.tip{font-size:13px;color:var(--muted);margin:6px 0 0;line-height:1.55}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:4px}
+.kv div{background:var(--soft);border-radius:8px;padding:9px 12px;min-width:0}
+.kv span{display:block;font-size:12.5px;color:var(--muted)}
+.kv b{font:600 16px var(--mono);color:#14233D}
+.disc{border-left:3px solid var(--gold-d);background:var(--soft);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13.5px;color:#46505C;margin-top:14px}
+.faq details{border-top:1px solid var(--line);padding:10px 0}
+.faq details:first-of-type{border-top:0}
+.faq summary{cursor:pointer;font-weight:700;color:#14233D}
+.faq p{margin:6px 0 0;line-height:1.7}
+.src{padding-left:18px;margin:0}.src li{font-size:14px;margin-bottom:6px;line-height:1.6}
+.card p{line-height:1.7}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="./"><i>%</i>홍라이프 계산기</a><nav class="langs"><a href="../en/stock-valuation-calculator.html" hreflang="en" aria-current="true">English</a><a href="../es/" hreflang="es">Español</a><a href="../id/" hreflang="id">Indonesia</a><a href="../zh/" hreflang="zh-Hans">中文</a><a href="../hi/" hreflang="hi">हिन्दी</a><a href="../ar/" hreflang="ar">العربية</a><a href="../fr/" hreflang="fr">Français</a><a href="../pt/" hreflang="pt-BR">Português</a><a href="../ru/" hreflang="ru">Русский</a><a href="../stock-value.html" hreflang="ko">한국어</a></nav></div></div>
+<div class="wrap">
+<header class="top"><h1>Stock <b>Valuation Calculator</b></h1><p class="sub">Enter a stock's price, EPS, book value per share and ROE to estimate fair value with P/E and P/B (vs the S&amp;P 500, Nasdaq-100 or your sector), a residual income model, the Graham Number, PEG and dividend yield — and see where today's price sits on a 7-step scale. Every formula is shown step by step.</p></header>
+<nav class="tabs"><div class="row"><a href="stock-valuation-calculator.html" aria-current="page">Stock valuation</a><a href="compound-interest-calculator.html">Compound interest</a><a href="loan-calculator.html">Loan</a><a href="percentage-calculator.html">Percentage</a><a href="korea-salary-calculator.html">Korea salary</a><a href="korea-severance-pay-calculator.html">Korea severance</a><a href="korea-pension-refund-calculator.html">Pension refund</a><a href="age-calculator.html">Age</a></div></nav>
+
+<section class="card sv-intro" id="inputCard">
+  <h2>Company numbers <small>leave anything you don't know blank</small></h2>
+  <div class="presets" role="group" aria-label="Load a fictional example">
+    <button type="button" data-p="mature">Example: mature industrial</button>
+    <button type="button" data-p="growth">Example: high-growth tech</button>
+    <button type="button" data-p="bank">Example: low P/B bank</button>
+    <button type="button" data-p="loss">Example: loss-making</button>
+  </div>
+  <p class="sv-note" style="margin:0 0 14px">All examples are <b>fictional numbers</b> and do not describe any real company.</p>
+
+  <form id="frm" novalidate onsubmit="return false">
+  <div class="sec-t first">Price, earnings &amp; book value</div>
+  <div class="sv-grid">
+    <div class="f"><label for="price">Share price (USD) <span class="req">*</span></label><input id="price" inputmode="decimal" placeholder="e.g. 50.00" autocomplete="off"><small>Current market price per share</small></div>
+    <div class="f"><div class="lb">EPS <span class="or">or</span> P/E</div>
+      <div class="pair"><input id="eps" inputmode="decimal" placeholder="EPS $" aria-label="EPS, earnings per share (USD)"><span class="or">or</span><input id="per" inputmode="decimal" placeholder="P/E ×" aria-label="P/E ratio"></div>
+      <small id="epsNote">Trailing 12 months (TTM) diluted EPS works best. Enter losses as negative.</small></div>
+    <div class="f"><div class="lb">BPS <span class="or">or</span> P/B</div>
+      <div class="pair"><input id="bps" inputmode="decimal" placeholder="BPS $" aria-label="BPS, book value per share (USD)"><span class="or">or</span><input id="pbr" inputmode="decimal" placeholder="P/B ×" aria-label="P/B ratio"></div>
+      <small id="bpsNote">Book value per share = shareholders' equity ÷ shares outstanding</small></div>
+    <div class="f"><label for="roe">ROE (%)</label><input id="roe" inputmode="decimal" placeholder="blank = EPS ÷ BPS"><small id="roeNote">For S-RIM, a 3-year average or consensus ROE is common</small></div>
+  </div>
+
+  <div class="sec-t">Growth, dividends &amp; benchmark</div>
+  <div class="sv-grid">
+    <div class="f"><label for="g">Expected EPS growth (% a year)</label><input id="g" inputmode="decimal" placeholder="e.g. 10"><small>Used for PEG</small></div>
+    <div class="f"><label for="dps">Dividend per share (USD, annual)</label><input id="dps" inputmode="decimal" placeholder="e.g. 1.50"></div>
+    <div class="f"><label for="r">Required return r (%)</label><input id="r" inputmode="decimal" value="6.01"><small>Default: ICE BofA BBB US Corporate Index effective yield, 6.01% (Oct 29, 2026). Edit freely.</small></div>
+  </div>
+  <div class="f" style="margin-top:12px"><div class="lb" id="bmLbl">Compare P/E and P/B against</div>
+    <div class="seg" role="radiogroup" aria-labelledby="bmLbl">
+      <label><input type="radio" name="bm" value="sp500" checked><span>S&amp;P 500</span></label>
+      <label><input type="radio" name="bm" value="ndx"><span>Nasdaq-100</span></label>
+      <label><input type="radio" name="bm" value="custom"><span>Custom sector</span></label>
+    </div>
+    <small id="bmNote"></small>
+  </div>
+  <div class="sv-grid" id="customBox" style="margin-top:12px" hidden>
+    <div class="f"><label for="iper">Sector P/E (×)</label><input id="iper" inputmode="decimal" placeholder="e.g. 18"><small>Blank falls back to the S&amp;P 500</small></div>
+    <div class="f"><label for="ipbr">Sector P/B (×)</label><input id="ipbr" inputmode="decimal" placeholder="e.g. 2.5"><small>Blank falls back to the S&amp;P 500</small></div>
+    <div class="f"><label for="idy">Sector dividend yield (%)</label><input id="idy" inputmode="decimal" placeholder="blank = S&amp;P 500"></div>
+  </div>
+
+  <details class="opt"><summary>Edit index benchmarks <em>S&amp;P 500 P/E 25.86 · P/B 6.01 · yield 1.07% | Nasdaq-100 P/E 34.8 · P/B 8.1 · yield 0.62%</em></summary>
+    <div class="sv-grid">
+      <div class="f"><label for="spe">S&amp;P 500 trailing P/E (×)</label><input id="spe" inputmode="decimal" value="25.86"><small>multpl.com, close Oct 30, 2026</small></div>
+      <div class="f"><label for="spb">S&amp;P 500 P/B (×)</label><input id="spb" inputmode="decimal" value="6.01"><small>multpl.com, close Oct 30, 2026</small></div>
+      <div class="f"><label for="sdy">S&amp;P 500 dividend yield (%)</label><input id="sdy" inputmode="decimal" value="1.07"><small>multpl.com, close Oct 30, 2026</small></div>
+      <div class="f"><label for="npe">Nasdaq-100 trailing P/E (×)</label><input id="npe" inputmode="decimal" value="34.8"><small>ChartRow estimate, close Oct 30, 2026</small></div>
+      <div class="f"><label for="npb">Nasdaq-100 P/B (×)</label><input id="npb" inputmode="decimal" value="8.1"><small>ChartRow estimate, Oct 30, 2026</small></div>
+      <div class="f"><label for="ndy">Nasdaq-100 dividend yield (%)</label><input id="ndy" inputmode="decimal" value="0.62"><small>ChartRow estimate, Oct 30, 2026</small></div>
+    </div>
+  </details>
+  <p class="err" id="err" hidden></p>
+  <div class="btns"><button class="btn" id="run" type="button">Analyze fair value</button><button class="btn ghost" id="clr" type="button">Clear inputs</button></div>
+  </form>
+</section>
+
+<div id="res" hidden>
+<section class="hero-res" aria-live="polite">
+  <div class="k">Overall price position</div>
+  <div class="sv-big" id="hVerdict"></div>
+  <div class="sv-sub" id="hSub"></div>
+  <div class="gauge" aria-hidden="true">
+    <div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><i class="pin" id="pin"></i></div>
+    <div class="lbls" id="lbls"></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="summary"><h3>Why this result?</h3><ul id="why"></ul></div>
+  <h2>Verdict by method <small>gap = price ÷ fair value − 1</small></h2>
+  <div class="scroll"><table class="sv-t mtable"><thead><tr><th>Method</th><th class="num">Fair value / value</th><th class="num">Gap</th><th>Verdict</th></tr></thead><tbody id="tbody"></tbody></table></div>
+  <p class="sv-note">The overall fair value is the <b>median</b> of the price estimates that could be calculated (P/E, P/B, S-RIM ω = 0.9, Graham Number), so one outlier moves it less. PEG and dividend yield are supporting signals.</p>
+</section>
+
+<section class="card">
+  <h2>Step-by-step calculation</h2>
+  <div class="kv" id="base"></div>
+  <div class="mcards" id="cards"></div>
+  <p class="disc"><b>Not investment advice.</b> This calculator applies textbook formulas to the numbers you enter and is for information and education only. It cannot account for accounting differences, one-off gains, debt, buybacks, industry cycles or governance. Your investment decisions and their results are your own responsibility.</p>
+</section>
+</div>
+
+<section class="card">
+  <h2>Fair value methods at a glance</h2>
+  <div class="scroll"><table class="sv-t">
+    <tr><th>Method</th><th>Formula</th><th>Works best for</th></tr>
+    <tr><td>P/E-based</td><td>EPS × benchmark P/E</td><td>Companies with steady earnings</td></tr>
+    <tr><td>P/B-based</td><td>BPS × benchmark P/B</td><td>Asset-heavy firms: banks, insurers, holding companies</td></tr>
+    <tr><td>S-RIM</td><td>BPS + BPS × (ROE − r) ÷ r</td><td>Companies with stable ROE</td></tr>
+    <tr><td>S-RIM, fading</td><td>BPS + excess earnings × ω ÷ (1 + r − ω)</td><td>When excess returns are expected to shrink (ω = 0.9, 0.8)</td></tr>
+    <tr><td>Graham Number</td><td>√(22.5 × EPS × BPS)</td><td>A conservative ceiling (P/E 15 × P/B 1.5)</td></tr>
+    <tr><td>PEG</td><td>P/E ÷ EPS growth (%)</td><td>Comparing growth stocks (below 1 = cheap for its growth)</td></tr>
+    <tr><td>Theoretical P/B</td><td>ROE ÷ r</td><td>Checking whether P/B is justified by ROE</td></tr>
+  </table></div>
+
+  <h3>How the residual income model (S-RIM) thinks</h3>
+  <p style="margin:0 0 8px">Residual income valuation says a share is worth its book value plus the present value of any earnings <i>above</i> what shareholders require. S-RIM is a simplified version popularized in Korea by accountant Sa Kyung-in. Shareholders want the capital they have left in the company (BPS) to earn at least the <b>required return r</b>. If ROE is above r, the company creates <b>excess earnings = BPS × (ROE − r)</b> every year; their present value is added to BPS. If they last forever you divide by r; if they fade 10% a year you use ω = 0.9. Conversely, <b>when ROE is below r, value falls below book</b>, so a P/B under 1 is not automatically cheap.</p>
+  <p class="sv-note" style="margin:0">The "persistent" S-RIM value equals BPS × ROE ÷ r — the same as theoretical P/B (ROE ÷ r) × BPS.</p>
+
+  <h3>Choosing the required return r</h3>
+  <p style="margin:0">The Korean S-RIM convention uses the BBB- corporate bond yield as a practical "what investors could earn instead" rate. The closest free US series is the <b>ICE BofA BBB US Corporate Index effective yield</b> (FRED: BAMLC0A4CBBBEY), 6.01% on Oct 29, 2026 — the default here. A more conventional US cost-of-equity approach is the <b>10-year Treasury yield plus an equity risk premium</b>: 4.98% (Oct 29, 2026) + 4–5% ≈ 9–10%. A higher r gives lower S-RIM values and a lower theoretical P/B, so try both.</p>
+
+  <h3>7-step price position scale</h3>
+  <div class="scroll"><table class="sv-t">
+    <tr><th>Step</th><th>Price ÷ fair value</th><th>Gap</th></tr>
+    <tr><td><span class="verdict v0">Deeply undervalued</span></td><td>0.60 or less</td><td>−40% or less</td></tr>
+    <tr><td><span class="verdict v1">Undervalued</span></td><td>0.60 – 0.80</td><td>−40% to −20%</td></tr>
+    <tr><td><span class="verdict v2">Slightly undervalued</span></td><td>0.80 – 0.93</td><td>−20% to −7%</td></tr>
+    <tr><td><span class="verdict v3">Fairly valued</span></td><td>0.93 – 1.075</td><td>−7% to +7.5%</td></tr>
+    <tr><td><span class="verdict v4">Slightly overvalued</span></td><td>1.075 – 1.25</td><td>+7.5% to +25%</td></tr>
+    <tr><td><span class="verdict v5">Overvalued</span></td><td>1.25 – 1.67</td><td>+25% to +67%</td></tr>
+    <tr><td><span class="verdict v6">Deeply overvalued</span></td><td>above 1.67</td><td>above +67%</td></tr>
+  </table></div>
+  <p class="sv-note">The steps are cut on a ratio (log) scale so the cheap and expensive sides are symmetric: 0.6× fair value and 1 ÷ 0.6 ≈ 1.67× are the same distance from fair.</p>
+</section>
+
+<section class="card faq">
+  <h2>Frequently asked questions</h2>
+  <details><summary>What do P/E, P/B and ROE mean?</summary><p>P/E (price-to-earnings) is share price ÷ earnings per share (EPS): how many years of current earnings you pay for. P/B (price-to-book) is price ÷ book value per share (BPS): how many times its accounting net worth the stock trades at. ROE (return on equity) is net income ÷ shareholders' equity: how many cents a company earns per dollar of shareholder capital each year. They are linked by P/B = P/E × ROE.</p></details>
+  <details><summary>What is S-RIM?</summary><p>S-RIM is a simplified residual income model popularized in Korea by accountant Sa Kyung-in (2017). Fair value = BPS + BPS × (ROE − r) ÷ r, where r is the required return. It adds the value of "excess earnings" above what shareholders require to book value. If excess earnings are expected to fade by 10% or 20% a year, a persistence factor ω = 0.9 or 0.8 is used: BPS + excess earnings × ω ÷ (1 + r − ω). The Korean method uses the BBB- corporate bond yield as r; this US version defaults to the ICE BofA BBB US Corporate Index effective yield.</p></details>
+  <details><summary>Is a low P/E stock always cheap?</summary><p>No. If earnings are temporarily inflated, the industry is shrinking, or ROE is below the required return so the company destroys shareholder value, a stock can stay at a low P/E and P/B for years (a value trap). Read a low P/E together with ROE, earnings growth, dividends and debt. When ROE is below the required return, a P/B under 1 can be fair.</p></details>
+</section>
+
+<section class="card">
+  <h2>Benchmark sources</h2>
+  <ul class="src">
+    <li><b>S&amp;P 500 trailing P/E 25.86×</b> — <a href="https://www.multpl.com/s-p-500-pe-ratio" rel="noopener" target="_blank">multpl.com</a>, price ÷ trailing 12-month "as reported" earnings, close Oct 30, 2026. We use trailing P/E so it matches the trailing EPS you enter; forward P/Es (e.g. FactSet Earnings Insight) are based on analyst estimates and are typically lower.</li>
+    <li><b>S&amp;P 500 P/B 6.01×</b> — <a href="https://www.multpl.com/s-p-500-price-to-book" rel="noopener" target="_blank">multpl.com</a>, close Oct 30, 2026. It divides today's price by the latest book value S&amp;P has reported (shown on that page as September 2025), so it may run high.</li>
+    <li><b>S&amp;P 500 dividend yield 1.07%</b> — <a href="https://www.multpl.com/s-p-500-dividend-yield" rel="noopener" target="_blank">multpl.com</a>, trailing 12-month dividends ÷ price, close Oct 30, 2026.</li>
+    <li><b>Nasdaq-100 trailing P/E 34.8×, P/B 8.1×, dividend yield 0.62%</b> — <a href="https://chartrow.com/nasdaq-100/pe-ratio" rel="noopener" target="_blank">ChartRow</a> estimates rebuilt from members' SEC-filed diluted EPS, close Oct 30, 2026. Nasdaq does not publish an official trailing P/E; <a href="https://siblisresearch.com/data/nasdaq-100-pe-ratio/" rel="noopener" target="_blank">Siblis Research</a> shows a similar 35.09× at Sep 30, 2026.</li>
+    <li><b>Required return 6.01%</b> — <a href="https://fred.stlouisfed.org/series/BAMLC0A4CBBBEY" rel="noopener" target="_blank">ICE BofA BBB US Corporate Index Effective Yield (FRED BAMLC0A4CBBBEY)</a>, Oct 29, 2026. Alternative: <a href="https://fred.stlouisfed.org/series/DGS10" rel="noopener" target="_blank">10-year Treasury yield (FRED DGS10)</a> 4.98% on Oct 29, 2026 plus an equity risk premium.</li>
+    <li>Models: Sa Kyung-in, <i>Don't Invest in Stocks Without Knowing Financial Statements</i> (2017, Korean; S-RIM); residual income valuation (Ohlson, 1995); Benjamin Graham, <i>The Intelligent Investor</i> (Graham Number: P/E 15 × P/B 1.5 = 22.5); Peter Lynch, <i>One Up on Wall Street</i> (PEG).</li>
+  </ul>
+  <p class="sv-note">All values are editable above. Calculations run only in your browser; nothing you enter is stored or sent anywhere.</p>
+</section>
+
+<footer><nav><a href="./">All calculators</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a> · <a href="mailto:85hongdongwoo@gmail.com">Contact</a></nav><div>Results are estimates for information only, not investment, financial, tax or legal advice. Check company filings (SEC EDGAR) before investing.</div></footer>
+</div>
+<script src="../g.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+var STEPS=['Deeply undervalued','Undervalued','Slightly undervalued','Fairly valued','Slightly overvalued','Overvalued','Deeply overvalued'];
+var SHORT=['Deeply under','Under','Slightly under','Fair','Slightly over','Over','Deeply over'];
+var CUT=[Math.log(0.6),Math.log(0.8),Math.log(0.93),Math.log(1.075),Math.log(1.25),Math.log(1/0.6)];
+var R0='6.01';
+var PRESETS={
+ mature:{price:96,eps:6.4,bps:42,roe:15,g:5,dps:2.4,bm:'custom',iper:20,ipbr:3.5,idy:1.8},
+ growth:{price:300,eps:9.5,bps:38,roe:28,g:30,dps:0.8,bm:'ndx',iper:'',ipbr:'',idy:''},
+ bank:{price:38,eps:4.2,bps:52,roe:8.1,g:3,dps:1.6,bm:'custom',iper:11,ipbr:1.1,idy:3},
+ loss:{price:24,eps:-1.8,bps:9.5,roe:-19,g:'',dps:'',bm:'custom',iper:'',ipbr:2.2,idy:''}
+};
+var FIELDS=['price','eps','per','bps','pbr','roe','g','dps','iper','ipbr','idy'];
+var BMN={sp500:'S&P 500',ndx:'Nasdaq-100',custom:'Sector'};
+function n(id){var v=String($(id).value).replace(/[,\s$%x×]/gi,'').replace(/[−–]/g,'-');if(v===''||v==='-'||v==='.')return NaN;return +v}
+function f(x,d){if(!isFinite(x))return '—';d=d==null?2:d;var r=+x.toFixed(d);if(Object.is(r,-0))r=0;return r.toLocaleString('en-US',{maximumFractionDigits:d})}
+function usd(x){if(!isFinite(x))return '—';var r=+x.toFixed(2);if(Object.is(r,-0))r=0;return (r<0?'−$':'$')+Math.abs(r).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function pct(x,d){return (x>0?'+':'')+f(x,d==null?1:d)+'%'}
+function stepOf(ratio){var x=Math.log(ratio),i=0;while(i<CUT.length&&x>CUT[i])i++;return i}
+function badge(i){return '<span class="verdict v'+i+'">'+STEPS[i]+'</span>'}
+function na(t){return '<span class="verdict vna">'+t+'</span>'}
+function bmVal(){var c=document.querySelector('input[name="bm"]:checked');return c?c.value:'sp500'}
+function bmUI(){var b=bmVal();$('customBox').hidden=b!=='custom';
+  $('bmNote').textContent=b==='sp500'?'Uses S&P 500 trailing P/E '+f(n('spe'))+'×, P/B '+f(n('spb'))+'×, dividend yield '+f(n('sdy'))+'%':b==='ndx'?'Uses Nasdaq-100 trailing P/E '+f(n('npe'))+'×, P/B '+f(n('npb'))+'×, dividend yield '+f(n('ndy'))+'%':'Enter your sector averages below. Blank fields fall back to the S&P 500.'}
+
+function analyze(){
+  var price=n('price'),eps=n('eps'),per=n('per'),bps=n('bps'),pbr=n('pbr'),roeIn=n('roe'),g=n('g'),dps=n('dps'),r=n('r'),bm=bmVal();
+  var kper,kpbr,kdy,kname;
+  if(bm==='ndx'){kper=n('npe');kpbr=n('npb');kdy=n('ndy');kname='Nasdaq-100'}else{kper=n('spe');kpbr=n('spb');kdy=n('sdy');kname='S&P 500'}
+  var iper=bm==='custom'?n('iper'):NaN,ipbr=bm==='custom'?n('ipbr'):NaN,idy=bm==='custom'?n('idy'):NaN;
+  if(!(price>0))return {err:'Enter a share price greater than 0.'};
+  var notes={eps:'',bps:'',roe:''},why=[];
+  var epsSrc='entered',bpsSrc='entered',roeSrc='entered';
+  if(isNaN(eps)&&isFinite(per)&&per!==0){eps=price/per;epsSrc='from P/E';notes.eps='EPS = price ÷ P/E = '+usd(price)+' ÷ '+f(per)+' = '+usd(eps)}
+  if(isNaN(bps)&&isFinite(pbr)&&pbr>0){bps=price/pbr;bpsSrc='from P/B';notes.bps='BPS = price ÷ P/B = '+usd(price)+' ÷ '+f(pbr)+' = '+usd(bps)}
+  var roe=roeIn/100;
+  if(isNaN(roeIn)&&isFinite(eps)&&bps>0){roe=eps/bps;roeSrc='EPS ÷ BPS';notes.roe='ROE ≈ EPS ÷ BPS = '+f(roe*100)+'%'}
+  if(isNaN(eps)&&isFinite(roe)&&bps>0){eps=bps*roe;epsSrc='BPS × ROE';notes.eps='EPS ≈ BPS × ROE = '+usd(eps)}
+  if(isNaN(eps)&&isNaN(bps))return {err:'Enter at least EPS (or P/E) or BPS (or P/B).'};
+  var rr=r/100;
+  var bPER=iper>0?iper:kper,bPERsrc=iper>0?'sector':kname;
+  var bPBR=ipbr>0?ipbr:kpbr,bPBRsrc=ipbr>0?'sector':kname;
+  var bDY=idy>=0?idy:kdy,bDYsrc=idy>=0?'sector':kname;
+  var curPER=eps>0?price/eps:NaN,curPBR=bps>0?price/bps:NaN;
+  var M={},rows=[],ests=[];
+  function addEst(key,name,val){if(isFinite(val)&&val>0){ests.push(val);M[key]={name:name,val:val,ratio:price/val}}}
+
+  // 1 P/E
+  var c1={t:'1. P/E-based fair value'};
+  if(isNaN(eps)){c1.na='Enter EPS or P/E to calculate.'}
+  else if(eps<=0){c1.na='The company is loss-making (EPS '+usd(eps)+'), so P/E is meaningless. No P/E-based value is calculated.';M.per={name:'P/E-based',loss:true}}
+  else if(!(bPER>0)){c1.na='Enter a benchmark P/E.'}
+  else{var v1=eps*bPER;addEst('per','P/E-based',v1);c1.val=v1;c1.steps=['Current P/E = '+usd(price)+' ÷ '+usd(eps)+' = <b>'+f(curPER)+'×</b>','Benchmark P/E = '+bPERsrc+' '+f(bPER)+'×','Fair value = '+usd(eps)+' × '+f(bPER)+' = <b>'+usd(v1)+'</b>']}
+
+  // 2 P/B
+  var c2={t:'2. P/B-based fair value'};
+  if(isNaN(bps)){c2.na='Enter BPS or P/B to calculate.'}
+  else if(bps<=0){c2.na='Book value is zero or negative, so a P/B-based value cannot be calculated.'}
+  else if(!(bPBR>0)){c2.na='Enter a benchmark P/B.'}
+  else{var v2=bps*bPBR;addEst('pbr','P/B-based',v2);c2.val=v2;c2.steps=['Current P/B = '+usd(price)+' ÷ '+usd(bps)+' = <b>'+f(curPBR)+'×</b>','Benchmark P/B = '+bPBRsrc+' '+f(bPBR)+'×','Fair value = '+usd(bps)+' × '+f(bPBR)+' = <b>'+usd(v2)+'</b>']}
+
+  // 3 S-RIM
+  var c3={t:'3. S-RIM (residual income)'},srim=null;
+  if(!(bps>0)||!isFinite(roe)){c3.na=bps<=0?'Book value is zero or negative, so S-RIM cannot be applied.':'Needs BPS and ROE (or EPS).'}
+  else if(!(rr>0)){c3.na='Enter a required return r above 0.'}
+  else{
+    var ex=bps*(roe-rr),s0=bps+ex/rr,s9=bps+ex*0.9/(1+rr-0.9),s8=bps+ex*0.8/(1+rr-0.8);
+    srim={s0:s0,s9:s9,s8:s8,ex:ex};
+    if(s9>0)addEst('srim','S-RIM (ω = 0.9)',s9);else M.srim={name:'S-RIM (ω = 0.9)',neg:true,val:s9};
+    c3.val=s9;c3.sub='Headline value ω = 0.9 (excess earnings fade 10% a year)';
+    c3.steps=['Excess earnings = BPS × (ROE − r) = '+usd(bps)+' × ('+f(roe*100)+'% − '+f(r)+'%) = <b>'+usd(ex)+'</b>',
+      'Persistent (ω = 1): '+usd(bps)+' + '+usd(ex)+' ÷ '+f(rr,4)+' = <b>'+usd(s0)+'</b>',
+      'ω = 0.9: '+usd(bps)+' + '+usd(ex)+' × 0.9 ÷ ('+f(1+rr,4)+' − 0.9) = <b>'+usd(s9)+'</b>',
+      'ω = 0.8: '+usd(bps)+' + '+usd(ex)+' × 0.8 ÷ ('+f(1+rr,4)+' − 0.8) = <b>'+usd(s8)+'</b>'];
+    c3.tip=roe>=rr?'ROE is above r, so persistent > ω 0.9 > ω 0.8. In the original S-RIM approach the persistent value is used as a sell reference and ω = 0.8 as a buy reference.':'ROE is below r, so excess earnings are negative. The persistent value is now the lowest, and value is below book.';
+  }
+
+  // 4 Graham
+  var c4={t:'4. Graham Number'};
+  if(!(eps>0)||!(bps>0)){c4.na=(isFinite(eps)&&eps<=0)?'Not defined for loss-making companies (the number under the √ is negative).':(isFinite(bps)&&bps<=0)?'Not defined when book value is zero or negative.':'Needs both EPS and BPS.'}
+  else{var v4=Math.sqrt(22.5*eps*bps);addEst('graham','Graham Number',v4);c4.val=v4;c4.steps=['√(22.5 × '+usd(eps)+' × '+usd(bps)+')','= √'+f(22.5*eps*bps,2)+' = <b>'+usd(v4)+'</b>'];c4.tip='22.5 = P/E 15 × P/B 1.5 — the most Benjamin Graham suggested a defensive investor should pay.'}
+
+  // 5 PEG
+  var c5={t:'5. PEG ratio'},peg=NaN;
+  if(isNaN(g)){c5.na='Enter expected EPS growth to calculate.'}
+  else if(!(eps>0)){c5.na='Loss-making, so there is no P/E and PEG is meaningless.'}
+  else if(g<=0){c5.na='Growth is 0% or below, so PEG is meaningless (earnings expected to fall).'}
+  else{peg=curPER/g;var pegFair=eps*g;c5.val=peg;c5.unit='';c5.steps=['PEG = P/E ÷ growth = '+f(curPER)+' ÷ '+f(g)+' = <b>'+f(peg)+'</b>','Price at PEG 1 = EPS × growth = '+usd(pegFair)];c5.tip='Below 1 is cheap for its growth; 2 or more is expensive. If the growth forecast is wrong, the answer changes a lot.';M.peg={name:'PEG',peg:peg,ratio:peg}}
+
+  // 6 Dividend
+  var c6={t:'6. Dividend yield'},dy=NaN;
+  if(isNaN(dps)){c6.na='Enter the annual dividend per share to calculate.'}
+  else{dy=dps/price*100;c6.val=dy;c6.unit='%';c6.steps=['Dividend yield = '+usd(dps)+' ÷ '+usd(price)+' × 100 = <b>'+f(dy)+'%</b>',bDYsrc+' average '+f(bDY)+'% → '+(bDY>0?f(dy/bDY,1)+'× the benchmark':'—')];
+    if(eps>0&&dps>0)c6.steps.push('Payout ratio = '+usd(dps)+' ÷ '+usd(eps)+' = '+f(dps/eps*100,1)+'%');
+    M.div={dy:dy}}
+
+  // 7 Theoretical P/B
+  var c7={t:'7. ROE vs P/B check'},tpbr=NaN;
+  if(!isFinite(roe)||!(rr>0)||!(bps>0)){c7.na='Needs ROE, r and BPS.'}
+  else{tpbr=roe/rr;c7.val=tpbr;c7.unit='×';c7.steps=['Theoretical P/B = ROE ÷ r = '+f(roe*100)+'% ÷ '+f(r)+'% = <b>'+f(tpbr)+'×</b>','Current P/B = <b>'+f(curPBR)+'×</b> → '+(curPBR<tpbr?'below theory':'above theory'),'Theoretical P/B × BPS = '+usd(tpbr*bps)+' (= S-RIM persistent value)'];
+    c7.tip='P/B = P/E × ROE. Only an ROE above r justifies a P/B above 1.'}
+
+  // composite
+  ests.sort(function(a,b){return a-b});
+  var fair=NaN;if(ests.length){var m=ests.length>>1;fair=ests.length%2?ests[m]:(ests[m-1]+ests[m])/2}
+  var comp=null;if(isFinite(fair)){var ratio=price/fair;comp={fair:fair,ratio:ratio,gap:(ratio-1)*100,step:stepOf(ratio)}}
+
+  // why
+  if(isFinite(eps)&&eps<=0)why.push('The company is loss-making (EPS '+usd(eps)+'), so P/E, the Graham Number and PEG are left out. Continued losses shrink book value too, so asset value alone is not a safe floor.');
+  if(comp){
+    var lowM=[],highM=[];['per','pbr','srim','graham'].forEach(function(k){if(M[k]&&M[k].ratio){var s=stepOf(M[k].ratio);if(s<=2)lowM.push(M[k].name);else if(s>=4)highM.push(M[k].name)}});
+    var line='At '+usd(price)+', the price is '+pct(comp.gap)+' versus the overall fair value of '+usd(fair)+', which puts it in the <b>'+STEPS[comp.step]+'</b> range.';
+    if(lowM.length&&highM.length)line+=' The methods disagree, though: '+lowM.join(', ')+' '+(lowM.length>1?'look':'looks')+' cheap while '+highM.join(', ')+' '+(highM.length>1?'look':'looks')+' expensive.';
+    why.unshift(line);
+  }
+  if(isFinite(roe)&&rr>0&&roe<rr){
+    var cheap=(curPER>0&&curPER<bPER)||(curPBR>0&&curPBR<1);
+    why.push((cheap?'P/E or P/B looks low, but ':'')+'ROE ('+f(roe*100,1)+'%) is below the required return ('+f(r)+'%), so the S-RIM value is below book.'+(srim&&srim.s9<=0?' The ω = 0.9 value is zero or below, meaning the current earnings profile is eroding shareholder value.':'')+(curPBR<1?' This is a possible <b>low-P/B value trap</b> — unless ROE improves, a P/B under 1 can persist.':''));
+  } else if(isFinite(roe)&&rr>0&&roe>=rr&&isFinite(tpbr)&&isFinite(curPBR)){
+    if(curPBR<tpbr*0.8)why.push('ROE ('+f(roe*100,1)+'%) is above the required return ('+f(r)+'%), yet P/B ('+f(curPBR)+'×) is below the theoretical P/B ('+f(tpbr)+'×). That is a sign the stock trades cheaply relative to its earning power.');
+    else if(curPBR>tpbr*1.25)why.push('P/B ('+f(curPBR)+'×) is above the theoretical P/B that ROE explains ('+f(tpbr)+'×). The market is pricing in ROE rising further.');
+    else why.push('ROE ('+f(roe*100,1)+'%) is above the required return ('+f(r)+'%) and P/B ('+f(curPBR)+'×) is close to the theoretical P/B ('+f(tpbr)+'×). The company earns more than shareholders require on their capital.');
+  }
+  if(isFinite(peg)){if(peg<1&&curPER>bPER)why.push('P/E ('+f(curPER,1)+'×) is above the benchmark, but with '+f(g)+'% growth the PEG is '+f(peg)+', so it is not expensive for its growth.');else if(peg>=2)why.push('PEG is high at '+f(peg)+': the P/E is expensive relative to expected growth.')}
+  if(eps>0&&isFinite(roeIn)&&bps>0&&Math.abs(eps/bps*100-roeIn)>5)why.push('The ROE you entered ('+f(roeIn,1)+'%) differs a lot from EPS ÷ BPS ('+f(eps/bps*100,1)+'%). Check that both use the same period (annual, TTM or average).');
+  if(ests.length>=2&&ests[ests.length-1]/ests[0]>2)why.push('Fair value estimates differ by more than 2× ('+usd(ests[0])+' to '+usd(ests[ests.length-1])+'). The conclusion depends heavily on which assumptions you trust.');
+  if(isFinite(dy)&&bDY>0){if(dy>=bDY*2&&dy>0)why.push('A '+f(dy)+'% dividend yield is '+f(dy/bDY,1)+'× the '+bDYsrc+' average ('+f(bDY)+'%). Dividends may support the downside'+(eps>0&&dps>eps?' — but the dividend exceeds earnings, so check whether it is sustainable.':'.'));else if(dy===0)why.push('No dividend: returns must come from price appreciation alone.')}
+  if(ests.length===1)why.push('Only one price estimate could be calculated, so confidence is low. Add EPS, BPS and ROE for a fuller picture.');
+  if(!comp&&!why.length)why.push('Not enough numbers to calculate a price estimate.');
+
+  // table
+  function row(name,valTxt,ratio,verdictHtml){rows.push('<tr'+(verdictHtml?'':' class="na"')+'><td>'+name+'</td><td class="num">'+valTxt+'</td><td class="num">'+(isFinite(ratio)?pct((ratio-1)*100):'—')+'</td><td>'+(verdictHtml||na('n/a'))+'</td></tr>')}
+  if(M.per&&M.per.loss)rows.push('<tr class="na"><td>P/E-based</td><td class="num">—</td><td class="num">—</td><td>'+na('Loss · P/E n/a')+'</td></tr>');
+  else if(M.per)row('P/E-based ('+bPERsrc+' '+f(bPER)+'×)',usd(M.per.val),M.per.ratio,badge(stepOf(M.per.ratio)));
+  if(M.pbr)row('P/B-based ('+bPBRsrc+' '+f(bPBR)+'×)',usd(M.pbr.val),M.pbr.ratio,badge(stepOf(M.pbr.ratio)));
+  if(M.srim&&M.srim.neg)rows.push('<tr><td>S-RIM (ω = 0.9)</td><td class="num">'+usd(M.srim.val)+'</td><td class="num">—</td><td>'+badge(6)+'</td></tr>');
+  else if(M.srim)row('S-RIM (ω = 0.9)',usd(M.srim.val),M.srim.ratio,badge(stepOf(M.srim.ratio)));
+  if(srim)rows.push('<tr><td>&nbsp;└ S-RIM range (ω 0.8 – persistent)</td><td class="num">'+usd(Math.min(srim.s8,srim.s0))+' – '+usd(Math.max(srim.s8,srim.s0))+'</td><td class="num">—</td><td>'+(price<Math.min(srim.s8,srim.s0)?'Below range':price>Math.max(srim.s8,srim.s0)?'Above range':'Within range')+'</td></tr>');
+  if(M.graham)row('Graham Number',usd(M.graham.val),M.graham.ratio,badge(stepOf(M.graham.ratio)));
+  if(M.peg)rows.push('<tr><td>PEG (supporting)</td><td class="num">'+f(peg)+'</td><td class="num">—</td><td>'+badge(stepOf(peg))+'</td></tr>');
+  if(M.div){var dv=M.div.dy,dvt=!(bDY>0)?na('No benchmark'):dv===0?na('No dividend'):dv>=bDY*2?'<span class="verdict v1">Above '+bDYsrc+'</span>':dv>=bDY*0.8?'<span class="verdict v3">Similar to '+bDYsrc+'</span>':'<span class="verdict v4">Below '+bDYsrc+'</span>';rows.push('<tr><td>Dividend yield (supporting, '+bDYsrc+' '+f(bDY)+'%)</td><td class="num">'+f(dv)+'%</td><td class="num">—</td><td>'+dvt+'</td></tr>')}
+  if(isFinite(tpbr))rows.push('<tr><td>Theoretical P/B (ROE ÷ r)</td><td class="num">'+f(tpbr)+'×</td><td class="num">now '+f(curPBR)+'×</td><td>'+(curPBR<tpbr?'<span class="verdict v2">Below theory</span>':'<span class="verdict v4">Above theory</span>')+'</td></tr>');
+
+  return {price:price,eps:eps,bps:bps,roe:roe,epsSrc:epsSrc,bpsSrc:bpsSrc,roeSrc:roeSrc,notes:notes,curPER:curPER,curPBR:curPBR,cards:[c1,c2,c3,c4,c5,c6,c7],rows:rows,comp:comp,why:why,ests:ests,srim:srim,peg:peg,dy:dy,tpbr:tpbr,bm:bm};
+}
+
+function card(c){
+  var unit=c.unit===undefined?'usd':c.unit;
+  var h='<div class="mc"><h3>'+c.t+'</h3>';
+  if(c.na)return h+'<p class="na">'+c.na+'</p></div>';
+  h+='<div class="val">'+(unit==='usd'?usd(c.val):f(c.val)+unit)+(c.sub?'<small>'+c.sub+'</small>':'')+'</div>';
+  h+='<ol>'+c.steps.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ol>';
+  if(c.tip)h+='<p class="tip">'+c.tip+'</p>';
+  return h+'</div>';
+}
+
+function render(R){
+  $('res').hidden=false;
+  var c=R.comp;
+  $('lbls').innerHTML=SHORT.map(function(s,i){return '<span'+(c&&c.step===i?' class="on"':'')+'>'+s+'</span>'}).join('');
+  if(c){
+    $('hVerdict').innerHTML='<b>'+STEPS[c.step]+'</b>';
+    $('hSub').innerHTML='Overall fair value <b>'+usd(c.fair)+'</b> · price '+usd(R.price)+' · gap <b>'+pct(c.gap)+'</b> (median of '+R.ests.length+' estimate'+(R.ests.length>1?'s':'')+')';
+    var x=Math.log(c.ratio),i=c.step,lo=i===0?Math.log(0.45):CUT[i-1],hi=i===6?Math.log(1/0.45):CUT[i];
+    var t=Math.min(1,Math.max(0,(x-lo)/(hi-lo)));
+    $('pin').style.left=((i+t)/7*100).toFixed(2)+'%';$('pin').hidden=false;
+  } else {
+    $('hVerdict').innerHTML='<span style="font-size:22px">No verdict</span>';
+    $('hSub').textContent='Not enough numbers to estimate a price. See the supporting signals below.';
+    $('pin').hidden=true;
+  }
+  $('why').innerHTML=R.why.map(function(w){return '<li>'+w+'</li>'}).join('');
+  $('tbody').innerHTML=R.rows.length?R.rows.join(''):'<tr><td colspan="4">No methods could be calculated.</td></tr>';
+  var base=[['Share price',usd(R.price)]];
+  if(isFinite(R.eps))base.push(['EPS ('+R.epsSrc+')',usd(R.eps)]);
+  if(isFinite(R.bps))base.push(['BPS ('+R.bpsSrc+')',usd(R.bps)]);
+  if(isFinite(R.roe))base.push(['ROE ('+R.roeSrc+')',f(R.roe*100)+'%']);
+  if(isFinite(R.curPER))base.push(['Current P/E',f(R.curPER)+'×']);else if(isFinite(R.eps)&&R.eps<=0)base.push(['Current P/E','Loss (n/a)']);
+  if(isFinite(R.curPBR))base.push(['Current P/B',f(R.curPBR)+'×']);
+  $('base').innerHTML=base.map(function(a){return '<div><span>'+a[0]+'</span><b>'+a[1]+'</b></div>'}).join('');
+  $('cards').innerHTML=R.cards.map(card).join('');
+  $('epsNote').innerHTML=R.notes.eps?'<span class="der">'+R.notes.eps+'</span>':'Trailing 12 months (TTM) diluted EPS works best. Enter losses as negative.';
+  $('bpsNote').innerHTML=R.notes.bps?'<span class="der">'+R.notes.bps+'</span>':'Book value per share = shareholders\' equity ÷ shares outstanding';
+  $('roeNote').innerHTML=R.notes.roe?'<span class="der">'+R.notes.roe+'</span>':'For S-RIM, a 3-year average or consensus ROE is common';
+}
+
+var ran=false;
+function run(track){
+  bmUI();
+  var R=analyze();
+  if(R.err){$('err').textContent=R.err;$('err').hidden=false;if(!ran)$('res').hidden=true;return null}
+  $('err').hidden=true;render(R);ran=true;
+  if(track){try{gtag('event','stock_value_run',{verdict:R.comp?STEPS[R.comp.step]:'No verdict',lang:'en',benchmark:R.bm})}catch(e){}}
+  return R;
+}
+$('run').addEventListener('click',function(){var R=run(true);if(R)setTimeout(function(){document.querySelector('.hero-res').scrollIntoView({behavior:'smooth',block:'start'})},30)});
+$('frm').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.tagName==='INPUT'&&e.target.type!=='radio'){e.preventDefault();$('run').click()}});
+$('frm').addEventListener('input',function(){bmUI();if(ran)run(false)});
+$('frm').addEventListener('change',function(e){if(e.target.name==='bm'){bmUI();if(ran)run(false)}});
+$('clr').addEventListener('click',function(){FIELDS.forEach(function(k){$(k).value=''});$('res').hidden=true;$('err').hidden=true;ran=false;$('price').focus()});
+document.querySelectorAll('.presets button').forEach(function(b){b.addEventListener('click',function(){var p=PRESETS[b.dataset.p];FIELDS.forEach(function(k){$(k).value=p[k]===undefined?'':p[k]});$('r').value=R0;var rb=document.querySelector('input[name="bm"][value="'+p.bm+'"]');if(rb)rb.checked=true;run(true)})});
+bmUI();
+window.__sv={analyze:analyze,run:run,stepOf:stepOf};
+})();
+</script>
+</body>
+</html>
