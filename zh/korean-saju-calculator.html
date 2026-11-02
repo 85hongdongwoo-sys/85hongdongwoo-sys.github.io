@@ -352,7 +352,7 @@ function render(o,B,scroll){
   row('纳音',function(p){return NAYIN[Math.floor(jiazi(p[0],p[1])/2)]});
   h+='</div>';
   var lu=o.lunar,de=EL[GE[dg]];
-  h+='<div class="summary"><div><span>日主（代表你的那个字）</span><b class="t-'+de+'">'+GAN[dg]+' '+GR[dg]+' · '+yy(dg)+ELN[de]+'</b><br><span>'+DAYMASTER[dg][0]+'</span></div>'+
+  h+='<div class="summary"><div data-share-result><span>日主（代表你的那个字）</span><b class="t-'+de+'">'+GAN[dg]+' '+GR[dg]+' · '+yy(dg)+ELN[de]+'</b><br><span>'+DAYMASTER[dg][0]+'</span></div>'+
     '<div><span>生肖（以立春为界）</span><b>'+gzH(P.y[0],P.y[1])+'年</b><br><span>属'+ANIMAL[P.y[1]]+' · '+gzR(P.y[0],P.y[1])+'</span></div>'+
     '<div><span>公历 / 农历日期</span><b>'+o.y+'-'+pad(o.m)+'-'+pad(o.d)+'</b><br><span>农历 '+lu.getYear()+'年'+(lu.getMonth()<0?'闰'+(-lu.getMonth()):lu.getMonth())+'月'+lu.getDay()+'日</span></div>'+
     '<div><span>排日柱、时柱所用时间</span><b>'+(o.noTime?'时间不详':pad(o.lmt.getUTCHours())+':'+pad(o.lmt.getUTCMinutes()))+'</b><br><span>'+(o.noTime?'不排时柱':'输入 '+pad(o.hm[0])+':'+pad(o.hm[1])+' → '+(o.adj>=0?'+':'')+o.adj+' 分钟'+(o.off!==o.std?'（含夏令时）':''))+'</span></div></div>';
@@ -573,5 +573,6 @@ window.__saju={compute:compute,CL:CL,tzOffset:tzOffset,wallToUtc:wallToUtc};
 run(false);
 })();
 </script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>
