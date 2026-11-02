@@ -25,7 +25,7 @@
 .lik{display:grid;grid-template-columns:auto repeat(5,1fr) auto;gap:6px;align-items:center}
 .lik span{font-size:12px;color:var(--muted)}
 .lik label{display:grid;place-items:center;cursor:pointer}
-.lik input{position:absolute;opacity:0;pointer-events:none}
+.lik{position:relative}.lik input{position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
 .lik i{display:block;border-radius:50%;border:2px solid var(--line);background:var(--paper);transition:.15s}
 .lik label:nth-of-type(1) i,.lik label:nth-of-type(5) i{width:40px;height:40px}
 .lik label:nth-of-type(2) i,.lik label:nth-of-type(4) i{width:32px;height:32px}

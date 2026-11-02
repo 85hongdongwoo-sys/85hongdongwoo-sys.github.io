@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="only light">
+<title>퍼센트 계산기 | 몇 %, 증감률, 할인율, 퍼센트포인트</title>
+<meta name="description" content="A의 B%는 얼마인지, A는 B의 몇 %인지, 증감률·할인가·할인율·중복 할인, 퍼센트와 퍼센트포인트(%p) 차이, 부가세 10% 포함·제외, 비율 나누기까지 입력하는 즉시 계산하고 계산식도 보여 줘요.">
+<link rel="canonical" href="https://honglife.co.kr/percent.html">
+<link rel="alternate" hreflang="ko" href="https://honglife.co.kr/percent.html">
+<link rel="alternate" hreflang="en" href="https://honglife.co.kr/en/percentage-calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="홍라이프 계산기">
+<meta property="og:title" content="퍼센트 계산기 | 몇 %, 증감률, 할인율, 퍼센트포인트">
+<meta property="og:description" content="몇 %인지, 증감률, 할인율, %p, 부가세까지 한 페이지에서 계산식과 함께 바로 계산해요.">
+<meta property="og:url" content="https://honglife.co.kr/percent.html">
+<meta name="theme-color" content="#0B1F3F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"증감률은 어떻게 계산하나요?","acceptedAnswer":{"@type":"Answer","text":"(나중 값 − 처음 값) ÷ 처음 값 × 100이에요. 80에서 100이 되면 (100 − 80) ÷ 80 × 100 = 25% 증가예요. 반대로 100에서 80이 되면 기준이 100이라 20% 감소가 돼요."}},
+{"@type":"Question","name":"퍼센트(%)와 퍼센트포인트(%p)는 뭐가 달라요?","acceptedAnswer":{"@type":"Answer","text":"퍼센트포인트는 비율끼리의 단순한 차이이고, 퍼센트는 처음 비율 대비 얼마나 변했는지예요. 금리가 3%에서 3.5%가 되면 0.5%p 올랐고, 처음 금리 대비로는 16.7% 오른 거예요."}},
+{"@type":"Question","name":"20% 할인 후 10% 추가 할인은 30% 할인인가요?","acceptedAnswer":{"@type":"Answer","text":"아니에요. 추가 할인은 이미 할인된 가격에 다시 적용되므로 1 − 0.8 × 0.9 = 0.28, 즉 총 28% 할인이에요. 10만 원짜리라면 7만 원이 아니라 7만 2천 원이에요."}}
+]}
+</script>
+<style>
+:root{color-scheme:light;
+  --navy:#0B1F3F;--paper:#fff;--ink:#2F343B;--head:#14233D;--muted:#5F6875;--line:#E1E5EC;--soft:#F3F5F9;
+  --btn:#12305C;--gold:#B8862B;--gold-l:#C9A04A;--gold-soft:#FBF4E6;
+  --f:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#0B1F3F linear-gradient(180deg,#0F2A52 0,#0C2347 600px,#0A1E3E 100%) fixed;color:var(--ink);font:16px/1.7 var(--f);-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--btn)}
+.brandbar{background:#081833;border-bottom:1px solid rgba(255,255,255,.08)}
+.brandbar .in{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#fff;text-decoration:none;white-space:nowrap}
+.logo i{width:26px;height:26px;border-radius:6px;background:var(--gold);display:grid;place-items:center;font-style:normal;font-size:14px;color:#0B1F3F;font-weight:800}
+.brandbar .meta{font-size:12.5px;white-space:nowrap}.brandbar .meta a{color:#DCE4F2;text-decoration:none;margin-left:10px}
+@media(max-width:520px){.brandbar .meta{display:none}}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 56px}
+header.top{padding:28px 0 20px;color:#fff}
+h1{margin:0;font-weight:800;font-size:clamp(25px,5vw,34px);letter-spacing:-.025em;line-height:1.3;text-wrap:balance}
+h1 b{color:var(--gold-l)}
+header.top p{margin:8px 0 0;color:#C9D5EE;max-width:640px}
+.card{background:var(--paper);border-radius:14px;padding:20px;margin:0 0 14px;box-shadow:0 1px 0 rgba(255,255,255,.04)}
+h2{font-size:19px;margin:0 0 12px;letter-spacing:-.015em;color:var(--head)}
+h2 small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+h3{font-size:16px;margin:16px 0 6px;color:var(--head)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 14px}
+.f label,.f .lb{display:block;font-size:14px;font-weight:600;margin-bottom:4px;color:var(--head)}
+.f small{display:block;color:var(--muted);font-size:12.6px;line-height:1.5;margin-top:3px}
+.f input,.f select{width:100%;font:inherit;font-size:16px;padding:9px 10px;border:1px solid #CFD6E0;border-radius:9px;background:#fff;color:var(--ink);min-height:44px}
+.f input:focus,.f select:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.seg{display:flex;gap:6px}
+.seg label{flex:1;margin:0;font-weight:500;position:relative;min-width:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:9px 6px;border:1.5px solid #CFD6E0;border-radius:9px;background:#fff;cursor:pointer;min-height:44px;font-size:14.5px}
+.seg input:checked+span{border-color:var(--btn);background:#EAF0F8;color:var(--btn);font-weight:700}
+.seg input:focus-visible+span{outline:2px solid var(--gold-l)}
+details.opt{border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+details.opt summary{cursor:pointer;font-weight:700;color:var(--head);list-style:none;display:flex;align-items:center;gap:8px}
+details.opt summary::-webkit-details-marker{display:none}
+details.opt summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--gold-soft);color:var(--gold);font-weight:800}
+details.opt[open] summary::before{content:"−"}
+details.opt summary em{font-style:normal;font-weight:500;font-size:13px;color:var(--muted)}
+details.opt .grid{margin-top:12px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 22px;border-radius:10px;border:0;background:var(--btn);color:#fff;cursor:pointer;min-height:48px}
+.btn:hover{background:#0D2647}
+.btn.gold{background:var(--gold);color:#fff}.btn.gold:hover{background:#A27522}
+.btn.ghost{background:#fff;color:var(--btn);border:1.5px solid var(--btn)}
+.err{color:#B3261E;font-weight:700;margin:10px 0 0}
+.note{font-size:13.5px;color:var(--muted);line-height:1.65}
+.hero-res{background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:14px;padding:22px 20px;margin-bottom:16px}
+.hero-res .k{font-size:14px;color:#C9D5EE}
+.hero-res .big{font-size:clamp(30px,7vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.2;margin:4px 0 6px;font-variant-numeric:tabular-nums}
+.hero-res .big b{color:var(--gold-l)}
+.hero-res .sub{color:#E3E9F5;font-size:15px}
+.prog{margin-top:16px}
+.prog .bar{height:14px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden;position:relative}
+.prog .bar i{display:block;height:100%;background:linear-gradient(90deg,#C9A04A,#E8C27A);border-radius:99px}
+.prog .lbl{display:flex;justify-content:space-between;font-size:13px;color:#C9D5EE;margin-top:6px;gap:8px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;background:#fff;position:relative}
+.stat::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.stat span{display:block;font-size:13.5px;color:var(--muted)}
+.stat b{display:block;font-size:28px;line-height:1.25;font-weight:800;color:var(--head);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat b small{font-size:15px;font-weight:700;margin-left:2px}
+.stat em{display:block;font-style:normal;font-size:13px;color:var(--muted);line-height:1.5;margin-top:2px}
+@media(max-width:430px){.stats{grid-template-columns:1fr 1fr}.stat{padding:12px 10px 10px 13px}.stat b{font-size:22px}.stat b small{font-size:13px}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14233D;color:#fff;padding:10px 18px;border-radius:99px;font-size:14px;z-index:9;max-width:calc(100% - 32px);text-align:center}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-size:13px;white-space:nowrap}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.faq details{border-top:1px solid var(--line);padding:10px 0}
+.faq details:first-of-type{border-top:0}
+.faq summary{cursor:pointer;font-weight:700;color:var(--head)}
+.faq p{margin:6px 0 0}
+.calc-index{margin-top:28px;background:var(--paper);border-radius:14px;padding:20px 22px}.calc-index h2{font-size:17px;margin:0 0 12px;color:#2F343B}.ci-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}.ci-grid b{font-size:13.5px;color:var(--btn)}.ci-grid ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}.ci-grid a{color:#2C3A4F;text-decoration:none;font-size:14px}.ci-grid a:hover,.ci-grid a[aria-current]{color:var(--gold);text-decoration:underline}@media (max-width:900px){.ci-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.ci-grid{grid-template-columns:1fr 1fr}}
+footer.site{margin-top:14px;background:var(--paper);border-radius:14px;padding:16px 20px;font-size:13px;color:var(--muted);line-height:1.7}
+footer.site div+div{margin-top:4px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.tabs button{font:inherit;font-size:14.5px;font-weight:600;padding:8px 14px;border-radius:99px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.07);color:#DCE4F2;cursor:pointer;min-height:40px}
+.tabs button[aria-selected="true"]{background:#fff;border-color:#fff;color:var(--btn)}
+.tabs button:focus-visible{outline:2px solid var(--gold-l);outline-offset:2px}
+.q{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:17px;font-weight:600;color:var(--head)}
+.q input,.q select{font:inherit;font-size:17px;font-weight:600;width:140px;max-width:100%;padding:8px 10px;border:1px solid #CFD6E0;border-radius:9px;min-height:46px;color:var(--ink);background:#fff;text-align:right;font-variant-numeric:tabular-nums}
+.q select{text-align:left;width:auto}
+.q input:focus{outline:2px solid var(--gold-l);outline-offset:1px}
+.q+.q{margin-top:12px}
+@media(max-width:430px){.q input{width:120px}}
+.out{margin-top:16px;background:linear-gradient(160deg,#0B1F3F,#163763);color:#fff;border-radius:12px;padding:16px 18px}
+.out .k{font-size:13.5px;color:#C9D5EE}
+.out .v{font-size:clamp(26px,6vw,36px);font-weight:800;letter-spacing:-.02em;line-height:1.25;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.out .v b{color:var(--gold-l)}
+.out .fx{font-size:14px;color:#E3E9F5;margin-top:4px;overflow-wrap:anywhere}
+.mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:10px}
+.mini div{background:var(--soft);border-radius:10px;padding:10px 12px}
+.mini span{display:block;font-size:12.5px;color:var(--muted)}
+.mini b{font-size:18px;font-variant-numeric:tabular-nums;color:var(--head)}
+.sub2{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}
+.sub2 h3{margin:0 0 10px}
+.ex{background:var(--gold-soft);border-radius:10px;padding:12px 14px;font-size:14.5px;margin-top:14px}
+.ex b{color:#8A6418}
+.shares{width:100%;margin-top:12px}
+.shares td:last-child,.shares th:last-child,.shares td:nth-child(2){text-align:right;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="char-count.html">글자수 세기</a><a href="tax/vat.html">부가가치세</a><a href="en/percentage-calculator.html" hreflang="en">English</a></span></div></div>
+<div class="wrap">
+<header class="top">
+  <h1><b>퍼센트</b> 계산기</h1>
+  <p>숫자만 넣으면 바로 계산하고 계산식도 함께 보여 줘요. 몇 %인지, 증감률, 할인율, 퍼센트포인트, 부가세까지 한곳에서 확인하세요.</p>
+</header>
+
+<div class="tabs" role="tablist" aria-label="계산 종류">
+  <button role="tab" id="t-of" aria-controls="p-of" aria-selected="true">A의 B%는?</button>
+  <button role="tab" id="t-ratio" aria-controls="p-ratio" aria-selected="false">A는 B의 몇 %?</button>
+  <button role="tab" id="t-chg" aria-controls="p-chg" aria-selected="false">증감률</button>
+  <button role="tab" id="t-disc" aria-controls="p-disc" aria-selected="false">할인가·할인율</button>
+  <button role="tab" id="t-pp" aria-controls="p-pp" aria-selected="false">%와 %p</button>
+  <button role="tab" id="t-vat" aria-controls="p-vat" aria-selected="false">부가세 10%</button>
+  <button role="tab" id="t-split" aria-controls="p-split" aria-selected="false">비율 나누기</button>
+</div>
+
+<section class="card" role="tabpanel" id="p-of" aria-labelledby="t-of">
+  <h2>A의 B%는 얼마?</h2>
+  <div class="q"><input id="ofA" inputmode="decimal" value="20" aria-label="A"> 의 <input id="ofB" inputmode="decimal" value="15" aria-label="B 퍼센트"> % 는?</div>
+  <div class="out"><div class="k">결과</div><div class="v" id="ofR"></div><div class="fx" id="ofF"></div></div>
+  <div class="mini" id="ofM"></div>
+</section>
+
+<section class="card" role="tabpanel" id="p-ratio" aria-labelledby="t-ratio" hidden>
+  <h2>A는 B의 몇 %?</h2>
+  <div class="q"><input id="raA" inputmode="decimal" value="30" aria-label="A"> 은(는) <input id="raB" inputmode="decimal" value="120" aria-label="B"> 의 몇 %?</div>
+  <div class="out"><div class="k">결과</div><div class="v" id="raR"></div><div class="fx" id="raF"></div></div>
+  <div class="sub2"><h3>B%가 A일 때 전체는?</h3>
+    <div class="q">전체의 <input id="rvP" inputmode="decimal" value="25" aria-label="퍼센트"> % 가 <input id="rvA" inputmode="decimal" value="50" aria-label="값"> 이면 전체는?</div>
+    <div class="out"><div class="k">전체 값</div><div class="v" id="rvR"></div><div class="fx" id="rvF"></div></div>
+  </div>
+</section>
+
+<section class="card" role="tabpanel" id="p-chg" aria-labelledby="t-chg" hidden>
+  <h2>증감률 (변화율)</h2>
+  <div class="q"><input id="chA" inputmode="decimal" value="80" aria-label="처음 값"> 에서 <input id="chB" inputmode="decimal" value="100" aria-label="나중 값"> (으)로 바뀌면?</div>
+  <div class="out"><div class="k">증감률</div><div class="v" id="chR"></div><div class="fx" id="chF"></div></div>
+  <div class="mini" id="chM"></div>
+  <div class="sub2"><h3>A를 B% 늘리거나 줄이면?</h3>
+    <div class="q"><input id="adA" inputmode="decimal" value="50000" aria-label="값"> 을(를) <input id="adP" inputmode="decimal" value="10" aria-label="퍼센트"> % <select id="adD" aria-label="방향"><option value="1">늘리면</option><option value="-1">줄이면</option></select></div>
+    <div class="out"><div class="k">결과</div><div class="v" id="adR"></div><div class="fx" id="adF"></div></div>
+  </div>
+  <p class="ex">주의: <b>20% 오른 뒤 20% 내리면</b> 원래 값이 아니라 96%가 돼요(1.2 × 0.8 = 0.96). 증감률은 항상 <b>처음 값</b>이 기준이에요.</p>
+</section>
+
+<section class="card" role="tabpanel" id="p-disc" aria-labelledby="t-disc" hidden>
+  <h2>할인가 구하기</h2>
+  <div class="q">정가 <input id="dsP" inputmode="decimal" value="59000" aria-label="정가"> 원에서 <input id="dsR" inputmode="decimal" value="20" aria-label="할인율"> % 할인</div>
+  <div class="q">추가 할인 <input id="dsR2" inputmode="decimal" value="" placeholder="없음" aria-label="추가 할인율"> % <span class="note" style="font-weight:500">(쿠폰·카드 중복 할인)</span></div>
+  <div class="out"><div class="k">할인가</div><div class="v" id="dsOut"></div><div class="fx" id="dsF"></div></div>
+  <div class="sub2"><h3>할인율 구하기</h3>
+    <div class="q">정가 <input id="drP" inputmode="decimal" value="59000" aria-label="정가"> 원 → 판매가 <input id="drS" inputmode="decimal" value="41300" aria-label="판매가"> 원</div>
+    <div class="out"><div class="k">할인율</div><div class="v" id="drOut"></div><div class="fx" id="drF"></div></div>
+  </div>
+  <div class="sub2"><h3>할인가로 정가 거꾸로 구하기</h3>
+    <div class="q"><input id="dbR" inputmode="decimal" value="30" aria-label="할인율"> % 할인해서 <input id="dbS" inputmode="decimal" value="35000" aria-label="판매가"> 원이면 정가는?</div>
+    <div class="out"><div class="k">정가</div><div class="v" id="dbOut"></div><div class="fx" id="dbF"></div></div>
+  </div>
+</section>
+
+<section class="card" role="tabpanel" id="p-pp" aria-labelledby="t-pp" hidden>
+  <h2>퍼센트(%) vs 퍼센트포인트(%p)</h2>
+  <div class="q">비율이 <input id="ppA" inputmode="decimal" value="3" aria-label="처음 비율"> % 에서 <input id="ppB" inputmode="decimal" value="3.5" aria-label="나중 비율"> % 로 바뀌면?</div>
+  <div class="out"><div class="k">차이</div><div class="v" id="ppR"></div><div class="fx" id="ppF"></div></div>
+  <div class="ex" id="ppEx"></div>
+  <h3>언제 무엇을 쓰나요?</h3>
+  <p style="margin:0 0 8px"><b>퍼센트포인트(%p)</b>는 비율과 비율의 <b>뺄셈</b>이에요. 금리·실업률·지지율·수익률처럼 이미 %로 표시된 값이 얼마나 움직였는지 말할 때 써요. <b>퍼센트(%)</b>는 처음 값 대비 <b>몇 배로 변했는지</b>를 말해요.</p>
+  <div class="scroll"><table>
+    <tr><th>예시</th><th>%p 변화</th><th>% 변화</th></tr>
+    <tr><td>기준금리 3.0% → 3.5%</td><td>0.5%p 인상</td><td>16.7% 인상</td></tr>
+    <tr><td>지지율 40% → 30%</td><td>10%p 하락</td><td>25% 하락</td></tr>
+    <tr><td>실업률 2% → 4%</td><td>2%p 상승</td><td>100% 상승 (2배)</td></tr>
+  </table></div>
+</section>
+
+<section class="card" role="tabpanel" id="p-vat" aria-labelledby="t-vat" hidden>
+  <h2>부가세 10% 포함·제외</h2>
+  <div class="q"><input id="vtA" inputmode="decimal" value="110000" aria-label="금액"> 원이 <select id="vtM" aria-label="금액 종류"><option value="inc">부가세 포함 금액(합계)</option><option value="exc">공급가액(부가세 별도)</option></select></div>
+  <div class="out"><div class="k" id="vtK">공급가액</div><div class="v" id="vtR"></div><div class="fx" id="vtF"></div></div>
+  <div class="mini" id="vtMini"></div>
+  <p class="note">원 단위 미만은 반올림했어요. 세금계산서는 공급가액과 세액을 각각 원 단위로 적고, 합계가 맞도록 세액을 '합계 − 공급가액'으로 맞추는 경우가 많아요. 간이과세자·면세 품목은 다르게 계산해요 → <a href="tax/vat.html">부가가치세 계산기</a></p>
+</section>
+
+<section class="card" role="tabpanel" id="p-split" aria-labelledby="t-split" hidden>
+  <h2>비율 나누기</h2>
+  <div class="q">총액 <input id="spT" inputmode="decimal" value="1000000" aria-label="총액"> 을(를)</div>
+  <div class="q">비율 <input id="spR" value="5:3:2" style="width:200px;text-align:left" aria-label="비율 (콜론 또는 쉼표로 구분)"> 로 나누면?</div>
+  <p class="note" style="margin:6px 0 0">비율은 <b>5:3:2</b>, <b>50,30,20</b>처럼 쓰세요. 원 단위 나머지는 첫 번째 몫에 더해 합계가 정확히 맞도록 해요.</p>
+  <div class="scroll" style="margin-top:12px"><table class="shares" id="spTbl"></table></div>
+</section>
+
+<section class="card">
+  <h2>퍼센트 계산 공식 한눈에</h2>
+  <div class="scroll"><table>
+    <tr><th>구하는 것</th><th>공식</th><th>예시</th></tr>
+    <tr><td>A의 B%</td><td>A × B ÷ 100</td><td>20의 15% = 3</td></tr>
+    <tr><td>A는 B의 몇 %</td><td>A ÷ B × 100</td><td>30은 120의 25%</td></tr>
+    <tr><td>증감률</td><td>(나중 − 처음) ÷ 처음 × 100</td><td>80 → 100: +25%</td></tr>
+    <tr><td>할인가</td><td>정가 × (1 − 할인율)</td><td>59,000원 20% → 47,200원</td></tr>
+    <tr><td>할인율</td><td>(정가 − 판매가) ÷ 정가 × 100</td><td>59,000 → 41,300: 30%</td></tr>
+    <tr><td>부가세 포함 → 공급가</td><td>합계 ÷ 1.1</td><td>110,000 → 100,000</td></tr>
+    <tr><td>%p</td><td>나중 비율 − 처음 비율</td><td>3% → 3.5%: +0.5%p</td></tr>
+  </table></div>
+  <p class="note">계산은 브라우저 안에서만 해요. 결과는 소수점 넷째 자리까지 보여 주고 끝의 0은 지워요.</p>
+</section>
+
+<section class="card faq">
+  <h2>자주 묻는 질문</h2>
+  <details><summary>증감률은 어떻게 계산하나요?</summary><p>(나중 값 − 처음 값) ÷ 처음 값 × 100이에요. 80에서 100이 되면 (100 − 80) ÷ 80 × 100 = 25% 증가예요. 반대로 100에서 80이 되면 기준이 100이라 20% 감소가 돼요.</p></details>
+  <details><summary>퍼센트(%)와 퍼센트포인트(%p)는 뭐가 달라요?</summary><p>퍼센트포인트는 비율끼리의 단순한 차이이고, 퍼센트는 처음 비율 대비 얼마나 변했는지예요. 금리가 3%에서 3.5%가 되면 0.5%p 올랐고, 처음 금리 대비로는 16.7% 오른 거예요.</p></details>
+  <details><summary>20% 할인 후 10% 추가 할인은 30% 할인인가요?</summary><p>아니에요. 추가 할인은 이미 할인된 가격에 다시 적용되므로 1 − 0.8 × 0.9 = 0.28, 즉 총 28% 할인이에요. 10만 원짜리라면 7만 원이 아니라 7만 2천 원이에요.</p></details>
+</section>
+
+<nav class="calc-index" id="calc-index" aria-label="전체 계산기"><h2>전체 계산기</h2><div class="ci-grid"><div><b>주식·ETF</b><ul><li><a href="sell.html">매도 세금</a></li><li><a href="us.html">미국주식·ETF</a></li><li><a href="div.html">배당금</a></li><li><a href="avg.html">물타기 평단</a></li><li><a href="risk.html">손절·비중</a></li><li><a href="gold.html">금 투자</a></li><li><a href="ipo.html">공모주 청약</a></li></ul></div><div><b>저축·연금</b><ul><li><a href="int.html">예·적금 이자</a></li><li><a href="grow.html">적립식 복리</a></li><li><a href="pen.html">연금저축 세액공제</a></li><li><a href="fire.html">은퇴 자금</a></li><li><a href="fin.html">금융소득 2천만</a></li><li><a href="nhis.html">건보료 피부양자</a></li><li><a href="yet.html">연말정산 환급</a></li><li><a href="nps.html">국민연금 조기·연기</a></li><li><a href="sev.html">퇴직금 세금</a></li><li><a href="eitc.html">근로·자녀장려금</a></li><li><a href="youth-savings.html">청년 정부 적금</a></li></ul></div><div><b>부동산·대출</b><ul><li><a href="buy.html">집 살 때 비용</a></li><li><a href="dsr.html">대출 한도 (DSR·DTI)</a></li><li><a href="score.html">청약 가점</a></li><li><a href="safe.html">전세 안전도</a></li><li><a href="rent.html">전세·월세·매수</a></li><li><a href="refi.html">대출 갈아타기</a></li><li><a href="ptax.html">재산세·종부세</a></li><li><a href="gift.html">증여세</a></li><li><a href="yield.html">임대 수익률</a></li><li><a href="auc.html">부동산 경매</a></li><li><a href="dist.html">경매 배당표</a></li></ul></div><div><b>세금</b><ul><li><a href="tax/">세금 계산기 모음</a></li><li><a href="tax/vat.html">부가가치세</a></li><li><a href="tax/income.html">종합소득세</a></li><li><a href="tax/freelancer.html">프리랜서 3.3%</a></li><li><a href="tax/transfer.html">부동산 양도소득세</a></li><li><a href="tax/inherit.html">상속세</a></li><li><a href="tax/corp.html">법인세 (2026)</a></li><li><a href="tax/loan.html">가족 간 대여</a></li></ul></div><div><b>급여·노동</b><ul><li><a href="wage.html">주휴수당·알바 월급</a></li><li><a href="unemp.html">실업급여</a></li><li><a href="parental.html">육아휴직·출산휴가 급여</a></li><li><a href="sev.html">퇴직금 세금</a></li></ul></div><div><b>직장인</b><ul><li><a href="salary-net.html">연봉 실수령액</a></li><li><a href="leave.html">2027 연차 꿀조합</a></li><li><a href="salary-rank.html">연봉 상위 몇 %</a></li><li><a href="side-tax.html">N잡·부업 세금</a></li><li><a href="gw-pay.html">2027 공무원 실수령액</a></li><li><a href="gw-overtime.html">공무원 초과근무수당</a></li><li><a href="gw-pension.html">공무원연금</a></li></ul></div><div><b>자동차</b><ul><li><a href="car-cost.html">자동차 유지비</a></li><li><a href="car-commute.html">출퇴근 비용</a></li><li><a href="car-tax.html">자동차세</a></li><li><a href="car-buy.html">취등록세</a></li><li><a href="car-parts.html">소모품 교체비</a></li><li><a href="car-ev.html">전기차 vs 휘발유</a></li></ul></div><div><b>건강·운세</b><ul><li><a href="calorie.html">칼로리 계산기</a></li><li><a href="health.html">건강나이·예상수명</a></li><li><a href="life-left.html">인생 남은 시간</a></li><li><a href="saju.html">사주팔자 풀이</a></li><li><a href="mbti.html">MBTI 궁합</a></li><li><a href="mbti-test.html">성격유형 검사 120문항</a></li><li><a href="iq-test.html">IQ 테스트 120문항</a></li><li><a href="fortune-2027.html">2027 신년운세</a></li><li><a href="due-date.html">출산 예정일</a></li></ul></div><div><b>도구</b><ul><li><a href="exam.html">자격증 시험일정 달력</a></li><li><a href="travel.html">여행경비 계산기</a></li><li><a href="elec.html">전기요금 계산기</a></li><li><a href="date.html">날짜 계산기 (D-day·만 나이·전역일)</a></li><li><a href="clock.html">초시계·서버시간</a></li><li><a href="/shorts/">쇼츠 메이커 (영문)</a></li><li><a href="/budget/">가계부 (11개 언어)</a></li><li><a href="suneung.html">수능 D-day 시간표</a></li><li><a href="age-table.html">나이표·띠</a></li><li><a href="pyeong.html">평수 계산기</a></li><li><a href="char-count.html">글자수 세기</a></li><li><a href="percent.html" aria-current="page">퍼센트 계산기</a></li><li><a href="couple-dday.html">커플 기념일 계산기</a></li></ul></div><div><b>Global</b><ul><li><a href="us/">🇺🇸 US tax calculators</a></li><li><a href="uk/">🇬🇧 UK tax calculators</a></li><li><a href="ca/">🇨🇦 Canada calculators</a></li><li><a href="au/">🇦🇺 Australia calculators</a></li><li><a href="jp/">🇯🇵 日本 税金・NISA</a></li><li><a href="fr/">🇫🇷 Impôts France</a></li><li><a href="es/calculadora-impuesto-ahorro.html">🇪🇸 IRPF ahorro</a></li><li><a href="mx/">🇲🇽 ISR México</a></li><li><a href="br/">🇧🇷 Salário líquido Brasil</a></li><li><a href="in/">🇮🇳 India tax calculators</a></li><li><a href="de/">🇩🇪 Finanzrechner Deutschland</a></li><li><a href="id/kalkulator-pph21.html">🇮🇩 Pajak &amp; investasi Indonesia</a></li><li><a href="en/">English calculators</a></li><li><a href="id/">Kalkulator Indonesia</a></li><li><a href="es/">Calculadoras en español</a></li></ul></div></div></nav>
+
+<footer class="site">
+  <div><a href="/">홍라이프 계산기</a> · <a href="about.html">사이트 소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="about.html#contact">문의</a> · <a href="en/percentage-calculator.html" hreflang="en">English: Percentage Calculator</a></div>
+  <div>계산 결과는 참고용이에요. 세금계산서·회계 처리는 관련 규정에 따라 확인하세요.</div>
+</footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+function n(id){var v=String($(id).value).replace(/[,\s원%]/g,'');if(v===''||v==='-'||v==='.')return NaN;return +v}
+function f(x,d){if(!isFinite(x))return '—';d=d==null?4:d;var r=+x.toFixed(d);if(Object.is(r,-0))r=0;return r.toLocaleString('ko-KR',{maximumFractionDigits:d})}
+function won(x){return isFinite(x)?Math.round(x).toLocaleString('ko-KR')+'원':'—'}
+function sgn(x,d){return (x>0?'+':'')+f(x,d)}
+function mini(arr){return arr.map(function(a){return '<div><span>'+a[0]+'</span><b>'+a[1]+'</b></div>'}).join('')}
+function set(id,html){$(id).innerHTML=html}
+var ERR='<span style="font-size:18px;color:#E3E9F5">숫자를 넣어 주세요</span>';
+var calc={
+ of:function(){var a=n('ofA'),b=n('ofB');if(isNaN(a)||isNaN(b)){set('ofR',ERR);set('ofF','');set('ofM','');return}
+   var r=a*b/100;set('ofR','<b>'+f(r)+'</b>');set('ofF',f(a)+' × '+f(b)+' ÷ 100 = '+f(r));
+   set('ofM',mini([[f(a)+'에서 '+f(b)+'% 늘리면',f(a+r)],[f(a)+'에서 '+f(b)+'% 줄이면',f(a-r)],['소수로 쓰면',f(b/100,6)]]))},
+ ratio:function(){var a=n('raA'),b=n('raB');
+   if(isNaN(a)||isNaN(b)){set('raR',ERR);set('raF','')}else if(b===0){set('raR','<span style="font-size:18px">0으로는 나눌 수 없어요</span>');set('raF','')}
+   else{var r=a/b*100;set('raR','<b>'+f(r)+'%</b>');set('raF',f(a)+' ÷ '+f(b)+' × 100 = '+f(r)+'%')}
+   var p=n('rvP'),v=n('rvA');if(isNaN(p)||isNaN(v)||p===0){set('rvR',p===0?'<span style="font-size:18px">0%로는 구할 수 없어요</span>':ERR);set('rvF','')}else{var t=v/p*100;set('rvR','<b>'+f(t)+'</b>');set('rvF',f(v)+' ÷ '+f(p)+' × 100 = '+f(t))}},
+ chg:function(){var a=n('chA'),b=n('chB');
+   if(isNaN(a)||isNaN(b)){set('chR',ERR);set('chF','');set('chM','')}else if(a===0){set('chR','<span style="font-size:18px">처음 값이 0이면 증감률을 구할 수 없어요</span>');set('chF','');set('chM','')}
+   else{var r=(b-a)/Math.abs(a)*100;set('chR','<b>'+sgn(r,2)+'%</b> '+(r>0?'증가':r<0?'감소':'변화 없음'));
+     set('chF','('+f(b)+' − '+f(a)+') ÷ '+f(Math.abs(a))+' × 100 = '+sgn(r)+'%');
+     set('chM',mini([['차이',sgn(b-a)],['배율',f(b/a)+'배'],['거꾸로 ('+f(b)+' → '+f(a)+')',b!==0?sgn((a-b)/Math.abs(b)*100,2)+'%':'—']]))}
+   var x=n('adA'),p=n('adP'),d=+$('adD').value;if(isNaN(x)||isNaN(p)){set('adR',ERR);set('adF','')}else{var y=x*(1+d*p/100);set('adR','<b>'+f(y)+'</b>');set('adF',f(x)+' × (1 '+(d>0?'+':'−')+' '+f(p)+'/100) = '+f(y))}},
+ disc:function(){var p=n('dsP'),r=n('dsR'),r2=n('dsR2');if(isNaN(r2))r2=0;
+   if(isNaN(p)||isNaN(r)){set('dsOut',ERR);set('dsF','')}else{var s=p*(1-r/100)*(1-r2/100),tot=(1-(1-r/100)*(1-r2/100))*100;
+     set('dsOut','<b>'+won(s)+'</b>');set('dsF',(r2?'총 할인율 '+f(tot,2)+'% (= 1 − '+f(1-r/100)+' × '+f(1-r2/100)+') · ':'')+won(p-s)+' 할인')}
+   var q=n('drP'),t=n('drS');if(isNaN(q)||isNaN(t)||q===0){set('drOut',ERR);set('drF','')}else{var dr=(q-t)/q*100;set('drOut','<b>'+f(dr,2)+'%</b> '+(dr<0?'인상':'할인'));set('drF','('+won(q)+' − '+won(t)+') ÷ '+won(q)+' × 100')}
+   var br=n('dbR'),bs=n('dbS');if(isNaN(br)||isNaN(bs)||br>=100){set('dbOut',br>=100?'<span style="font-size:18px">할인율은 100% 미만이어야 해요</span>':ERR);set('dbF','')}else{var o=bs/(1-br/100);set('dbOut','<b>'+won(o)+'</b>');set('dbF',won(bs)+' ÷ (1 − '+f(br)+'/100) = '+f(o,2)+'원')}},
+ pp:function(){var a=n('ppA'),b=n('ppB');if(isNaN(a)||isNaN(b)){set('ppR',ERR);set('ppF','');set('ppEx','');return}
+   var d=b-a,rel=a!==0?d/Math.abs(a)*100:NaN;set('ppR','<b>'+sgn(d)+'%p</b>'+(isFinite(rel)?' · '+sgn(rel,2)+'%':''));
+   set('ppF','%p: '+f(b)+' − '+f(a)+' = '+sgn(d)+'%p'+(isFinite(rel)?' · %: '+sgn(d)+' ÷ '+f(Math.abs(a))+' × 100 = '+sgn(rel,2)+'%':''));
+   set('ppEx',d===0?'변화가 없어요.':'비율이 '+f(a)+'%에서 '+f(b)+'%로 바뀌면 <b>'+f(Math.abs(d))+'%p '+(d>0?'올랐다':'내렸다')+'</b>고 말해요. "'+f(Math.abs(d))+'% '+(d>0?'올랐다':'내렸다')+'"라고 하면 틀린 표현이에요'+(isFinite(rel)?' — 처음 비율 대비로는 <b>'+f(Math.abs(rel),2)+'% '+(d>0?'상승':'하락')+'</b>이에요.':'.'))},
+ vat:function(){var a=n('vtA'),m=$('vtM').value;if(isNaN(a)){set('vtR',ERR);set('vtF','');set('vtMini','');return}
+   var sup,tax,tot;if(m==='inc'){tot=Math.round(a);sup=Math.round(a/1.1);tax=tot-sup;$('vtK').textContent='공급가액 (부가세 제외)';set('vtR','<b>'+won(sup)+'</b>');set('vtF',won(tot)+' ÷ 1.1 = '+f(a/1.1,2)+'원 → 부가세 '+won(tax))}
+   else{sup=Math.round(a);tax=Math.round(a*0.1);tot=sup+tax;$('vtK').textContent='합계 (부가세 포함)';set('vtR','<b>'+won(tot)+'</b>');set('vtF',won(sup)+' × 1.1 = '+won(tot)+' (부가세 '+won(tax)+')')}
+   set('vtMini',mini([['공급가액',won(sup)],['부가세 (10%)',won(tax)],['합계',won(tot)]]))},
+ split:function(){var t=n('spT'),parts=$('spR').value.split(/[:：,，\/\s]+/).filter(Boolean).map(Number);
+   if(isNaN(t)||!parts.length||parts.some(function(x){return !(x>=0)})||!parts.reduce(function(a,b){return a+b},0)){set('spTbl','<tr><td>총액과 비율을 확인해 주세요 (예: 5:3:2)</td></tr>');return}
+   var sum=parts.reduce(function(a,b){return a+b},0),int=Math.abs(t-Math.round(t))<1e-9,sh=parts.map(function(p){return int?Math.floor(t*p/sum):t*p/sum});
+   if(int){var rem=Math.round(t)-sh.reduce(function(a,b){return a+b},0);sh[0]+=rem}
+   set('spTbl','<tr><th>몫</th><th>비율</th><th>금액</th></tr>'+parts.map(function(p,i){return '<tr><td>'+(i+1)+'번째</td><td>'+f(p)+' ('+f(p/sum*100,2)+'%)</td><td>'+f(sh[i],2)+'</td></tr>'}).join('')+'<tr><td><b>합계</b></td><td>'+f(sum)+' (100%)</td><td><b>'+f(sh.reduce(function(a,b){return a+b},0),2)+'</b></td></tr>')}
+};
+var used=false;function track(tab){if(used)return;used=true;try{if(sessionStorage.getItem('pc_used'))return;sessionStorage.setItem('pc_used','1')}catch(e){}try{gtag('event','percent_calc_use',{tab:tab})}catch(e){}}
+document.querySelectorAll('[role=tabpanel]').forEach(function(p){var k=p.id.slice(2);p.addEventListener('input',function(){calc[k]();track(k)});p.addEventListener('change',function(){calc[k]()})});
+var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+function show(k,focus){tabs.forEach(function(t){var on=t.id==='t-'+k;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;$('p-'+t.id.slice(2)).hidden=!on;if(on&&focus)t.focus()});try{history.replaceState(null,'','#'+k)}catch(e){}}
+tabs.forEach(function(t,i){t.addEventListener('click',function(){show(t.id.slice(2))});t.addEventListener('keydown',function(e){var j=e.key==='ArrowRight'?i+1:e.key==='ArrowLeft'?i-1:null;if(j===null)return;e.preventDefault();show(tabs[(j+tabs.length)%tabs.length].id.slice(2),true)})});
+Object.keys(calc).forEach(function(k){calc[k]()});
+var h=(location.hash||'').slice(1);if(calc[h])show(h);else tabs.forEach(function(t,i){t.tabIndex=i?-1:0});
+window.__pc={calc:calc,show:show};
+})();
+</script>
+</body>
+</html>
