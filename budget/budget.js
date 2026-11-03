@@ -9,7 +9,7 @@ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const CUR={KRW:0,JPY:0,IDR:0,VND:0,USD:2,EUR:2,GBP:2,INR:2,THB:2,BRL:2,MXN:2,AUD:2,CAD:2,PHP:2};
 const money=x=>{const d=CUR[S.cur]??2;try{return new Intl.NumberFormat(L.locale,{style:'currency',currency:S.cur,maximumFractionDigits:d,minimumFractionDigits:0}).format(x)}catch(e){return x.toFixed(d)+' '+S.cur}};
 const today=new Date();let ym=today.toISOString().slice(0,7);
-const COLORS=['#2563EB','#F97316','#10B981','#E11D48','#8B5CF6','#F59E0B','#06B6D4','#84CC16','#64748B','#EC4899'];
+const COLORS=['#12305C','#C9A04A','#2E7D6B','#B4322B','#5B6B8C','#E0A458','#3E8EB0','#8C6D3F','#94A3B8','#7A4E8C'];
 function fillCats(){const t=$('type').value;$('cat').innerHTML=(t==='in'?L.catsIn:L.catsOut).map((c,i)=>`<option value="${i}">${c}</option>`).join('')}
 function monthLabel(){const [y,m]=ym.split('-').map(Number);return new Date(y,m-1,1).toLocaleDateString(L.locale,{year:'numeric',month:'long'})}
 function render(){
@@ -33,6 +33,7 @@ function render(){
   const tr=months.map(mm=>{const l=S.items.filter(x=>x.d.startsWith(mm));return [mm,l.filter(x=>x.k==='in').reduce((s,x)=>s+x.a,0),l.filter(x=>x.k==='out').reduce((s,x)=>s+x.a,0)]});
   const mx=Math.max(1,...tr.map(t=>Math.max(t[1],t[2])));
   $('trend').innerHTML=tr.map(t=>`<div class="tcol"><div class="tb"><i class="ti" style="height:${t[1]/mx*100}%"></i><i class="to" style="height:${t[2]/mx*100}%"></i></div><span>${Number(t[0].slice(5))}</span></div>`).join('');
+  {const lab=s=>{const e=$(s);return e&&e.previousElementSibling?e.previousElementSibling.textContent:''};const box=$('trend');let lg=box.nextElementSibling;if(!lg||!lg.classList.contains('tleg')){lg=document.createElement('div');lg.className='tleg';box.after(lg)}lg.innerHTML=`<span><i style="background:#12305C"></i>${lab('sumIn')}</span><span><i style="background:#C9A04A"></i>${lab('sumOut')}</span>`+(tr.every(t=>!t[1]&&!t[2])?`<span style="margin-left:auto">${L.noData}</span>`:'');}
 }
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 $('type').addEventListener('change',fillCats);

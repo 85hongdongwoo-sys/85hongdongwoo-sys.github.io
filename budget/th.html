@@ -13,7 +13,7 @@
 <meta property="og:title" content="แอปบันทึกรายรับรายจ่ายฟรี – จดรายจ่ายออนไลน์ ไม่ต้องสมัคร | Honglife"><meta property="og:description" content="บันทึกรายรับรายจ่ายฟรี ไม่ต้องสมัคร ดูสรุปตามหมวดหมู่ ตั้งงบรายเดือน กราฟ 6 เดือน และส่งออก CSV ข้อมูลเก็บไว้ในเครื่องของคุณเท่านั้น"><meta property="og:url" content="https://honglife.co.kr/budget/th.html">
 <meta name="theme-color" content="#1E3A8A">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563EB'/%3E%3Cpath d='M8 22V12m6 10V8m6 14v-7m6 7V11' stroke='%23fff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="budget.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><link rel="stylesheet" href="budget.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "บันทึกรายรับรายจ่ายฟรี", "url": "https://honglife.co.kr/budget/th.html", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0"}}</script>
 
 <!--hl:head-->
@@ -31,9 +31,9 @@
 <script src="/assets/app.js" defer></script>
 <!--/hl:head--></head>
 <body>
-<header class="top"><div class="in"><div class="row"><a class="logo" href="/">홍라이프 계산기</a><select id="langSel" aria-label="Language" onchange="location.href=this.value"><option value="./">한국어</option><option value="en.html">English</option><option value="id.html">Indonesia</option><option value="es.html">Español</option><option value="de.html">Deutsch</option><option value="ja.html">日本語</option><option value="pt.html">Português</option><option value="fr.html">Français</option><option value="vi.html">Tiếng Việt</option><option value="th.html" selected>ไทย</option><option value="hi.html">हिन्दी</option></select></div><h1>บันทึกรายรับรายจ่ายฟรี</h1><p>จดรายรับรายจ่ายได้ในไม่กี่วินาที ไม่ต้องสมัคร ข้อมูลอยู่ในเครื่องนี้เท่านั้น</p></div></header>
+<header class="top"><div class="in"><div class="row"><a class="logo" href="/">홍라이프 계산기</a><select id="langSel" aria-label="Language" onchange="location.href=this.value"><option value="./">한국어</option><option value="en.html">English</option><option value="id.html">Indonesia</option><option value="es.html">Español</option><option value="de.html">Deutsch</option><option value="ja.html">日本語</option><option value="pt.html">Português</option><option value="fr.html">Français</option><option value="vi.html">Tiếng Việt</option><option value="th.html" selected>ไทย</option><option value="hi.html">हिन्दी</option></select></div><span class="kick">HONG LIFE · BUDGET</span><h1>บันทึกรายรับรายจ่ายฟรี</h1><p>จดรายรับรายจ่ายได้ในไม่กี่วินาที ไม่ต้องสมัคร ข้อมูลอยู่ในเครื่องนี้เท่านั้น</p></div></header>
 <main class="wrap">
-<section class="card">
+<section class="card hero">
   <div class="mnav"><button id="prev" aria-label="prev">‹</button><h2 id="month"></h2><button id="next" aria-label="next">›</button></div>
   <div class="sum"><div><span>รายรับ</span><b class="pos" id="sumIn">0</b></div><div><span>รายจ่าย</span><b class="neg" id="sumOut">0</b></div><div><span>คงเหลือ</span><b id="sumBal">0</b></div></div>
   <div class="bud" id="budgetBar" hidden><div class="b"><i id="budgetFill"></i></div><p id="budgetTxt"></p></div>
