@@ -100,7 +100,7 @@ function chip(){
 /* ---------- remember inputs + recently used calculators ---------- */
 var RT={ko:{rec:"최근 쓴 계산기",rest:"지난번 입력값을 불러왔어요",clr:"지우기"},ja:{rec:"最近使った計算ツール",rest:"前回の入力値を復元しました",clr:"消去"},de:{rec:"Zuletzt genutzt",rest:"Ihre letzten Eingaben wurden geladen",clr:"Löschen"},es:{rec:"Usadas recientemente",rest:"Hemos cargado tus últimos datos",clr:"Borrar"},fr:{rec:"Utilisés récemment",rest:"Vos dernières saisies ont été chargées",clr:"Effacer"},pt:{rec:"Usadas recentemente",rest:"Carregamos seus últimos dados",clr:"Limpar"},it:{rec:"Usati di recente",rest:"Abbiamo caricato i tuoi ultimi dati",clr:"Cancella"},nl:{rec:"Recent gebruikt",rest:"Je laatste invoer is geladen",clr:"Wissen"},pl:{rec:"Ostatnio używane",rest:"Wczytaliśmy Twoje ostatnie dane",clr:"Wyczyść"},id:{rec:"Terakhir dipakai",rest:"Input terakhir Anda dimuat",clr:"Hapus"},en:{rec:"Recently used",rest:"Your last inputs were restored",clr:"Clear"}};
 var R=RT[L2]||RT.en;
-var NOSAVE=/^\/(budget|shorts)\/|iq-test|personality|mbti-test|clock|stopwatch|char-count|word-counter|countdown|suneung/;
+var NOSAVE=/^\/(budget|shorts|games)\/|iq-test|personality|mbti-test|clock|stopwatch|char-count|word-counter|countdown|suneung/;
 function fields(){var out=[],q=d.querySelectorAll("input[id],select[id]");for(var i=0;i<q.length;i++){var f=q[i],ty=(f.getAttribute("type")||"text").toLowerCase();
   if(f.closest("[data-hl-nosave]")||f.closest(".hl-dlg")||f.disabled)continue;
   if(f.tagName==="SELECT"||/^(text|number|range|date|month|tel|checkbox)$/.test(ty))out.push(f)}return out}
