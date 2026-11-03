@@ -15,14 +15,14 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8862B'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='%230B1F3F' font-family='sans-serif' font-weight='700'%3E%E2%82%A9%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="/student/st.css">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://honglife.co.kr/"}, {"@type": "ListItem", "position": 2, "name": "학생 계산기", "item": "https://honglife.co.kr/student/"}, {"@type": "ListItem", "position": 3, "name": "과목별 비율 평균 계산기", "item": "https://honglife.co.kr/student/average.html"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://honglife.co.kr/"}, {"@type": "ListItem", "position": 2, "name": "대입 계산기", "item": "https://honglife.co.kr/student/"}, {"@type": "ListItem", "position": 3, "name": "과목별 비율 평균 계산기", "item": "https://honglife.co.kr/student/average.html"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "과목별 비율 평균 계산기", "url": "https://honglife.co.kr/student/average.html", "applicationCategory": "EducationalApplication", "operatingSystem": "Any", "inLanguage": "ko-KR", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "KRW"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "반영 비율이 다른 점수의 평균은 어떻게 구하나요?", "acceptedAnswer": {"@type": "Answer", "text": "각 점수를 100점 만점으로 바꾼 뒤 반영 비율을 곱해 더하고, 비율 합계로 나눠요. 중간 82점(40%), 기말 76점(40%), 수행 18/20점(20%)이면 32.8 + 30.4 + 18 = 81.2점이에요."}}, {"@type": "Question", "name": "비율 합계가 100%가 아니면 어떻게 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "자동 맞춤을 켜 두면 입력한 비율을 합계 기준으로 다시 나눠 100%로 맞춰 계산해요. 끄면 입력한 비율 그대로 곱한 점수를 보여 줘요."}}, {"@type": "Question", "name": "만점이 다른 항목도 같이 계산할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "네. 만점 칸에 20, 50처럼 그 항목의 만점을 넣으면 100점 기준으로 환산해서 합쳐요."}}]}</script>
 </head>
 <body>
 <div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="/student/naesin.html">내신</a><a href="/student/suneung-score.html">수능 점수</a><a href="/student/average.html">비율 평균</a></span></div></div>
-<div class="wrap"><nav class="crumb" aria-label="현재 위치"><a href="/">홈</a> › <a href="/student/">학생 계산기</a> › <span>과목별 비율 평균 계산기</span></nav>
-<header class="top"><p class="kicker">학생 · 성적 · 가중 평균</p><h1><b>과목별 비율</b> 평균 계산기</h1>
+<div class="wrap"><nav class="crumb" aria-label="현재 위치"><a href="/">홈</a> › <a href="/student/">대입 계산기</a> › <span>과목별 비율 평균 계산기</span></nav>
+<header class="top"><p class="kicker">대입 · 성적 · 가중 평균</p><h1><b>과목별 비율</b> 평균 계산기</h1>
 <p class="lead">과목 수와 점수, 만점, 반영 비율(%)을 직접 정해서 평균을 구해요. 중간고사 40% · 기말고사 40% · 수행평가 20%처럼 비율이 다른 성적이나, 대학별 과목 반영 비율을 넣어 환산 점수를 볼 때 쓰세요. 막대를 움직이면 비율이 바로 바뀌어요.</p></header>
 <section class="calc" id="a1">
 <h2>점수와 반영 비율 입력</h2>
@@ -63,7 +63,7 @@ document.querySelectorAll('.pre').forEach(b=>b.onclick=()=>{const p=b.dataset.p;
 $('add').onclick=()=>{add();calc()};$('a1').addEventListener('input',calc);$('a1').addEventListener('change',calc);
 P.exam.forEach(add);calc();
 })();
-</script><section class="card"><h2>자주 묻는 질문</h2><h3>반영 비율이 다른 점수의 평균은 어떻게 구하나요?</h3><p>각 점수를 100점 만점으로 바꾼 뒤 반영 비율을 곱해 더하고, 비율 합계로 나눠요. 중간 82점(40%), 기말 76점(40%), 수행 18/20점(20%)이면 32.8 + 30.4 + 18 = 81.2점이에요.</p><h3>비율 합계가 100%가 아니면 어떻게 되나요?</h3><p>자동 맞춤을 켜 두면 입력한 비율을 합계 기준으로 다시 나눠 100%로 맞춰 계산해요. 끄면 입력한 비율 그대로 곱한 점수를 보여 줘요.</p><h3>만점이 다른 항목도 같이 계산할 수 있나요?</h3><p>네. 만점 칸에 20, 50처럼 그 항목의 만점을 넣으면 100점 기준으로 환산해서 합쳐요.</p></section><p class="note">홍라이프 학생 계산기 · 2026년 11월 3일 기준. 학교·대학별 산출 방식이 다를 수 있으니 최종 성적은 학교 성적표와 대학 모집요강으로 확인하세요.</p></div>
+</script><section class="card"><h2>자주 묻는 질문</h2><h3>반영 비율이 다른 점수의 평균은 어떻게 구하나요?</h3><p>각 점수를 100점 만점으로 바꾼 뒤 반영 비율을 곱해 더하고, 비율 합계로 나눠요. 중간 82점(40%), 기말 76점(40%), 수행 18/20점(20%)이면 32.8 + 30.4 + 18 = 81.2점이에요.</p><h3>비율 합계가 100%가 아니면 어떻게 되나요?</h3><p>자동 맞춤을 켜 두면 입력한 비율을 합계 기준으로 다시 나눠 100%로 맞춰 계산해요. 끄면 입력한 비율 그대로 곱한 점수를 보여 줘요.</p><h3>만점이 다른 항목도 같이 계산할 수 있나요?</h3><p>네. 만점 칸에 20, 50처럼 그 항목의 만점을 넣으면 100점 기준으로 환산해서 합쳐요.</p></section><p class="note">홍라이프 대입 계산기 · 2026년 11월 3일 기준. 학교·대학별 산출 방식이 다를 수 있으니 최종 성적은 학교 성적표와 대학 모집요강으로 확인하세요.</p></div>
 <script src="/assets/app.js" defer></script>
 <script src="/assets/share.js" defer></script>
 </body>

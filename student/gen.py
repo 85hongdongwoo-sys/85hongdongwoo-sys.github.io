@@ -11,7 +11,7 @@ def page(fn, title, desc, body, faq, crumb, og="student"):
     ld = [
         {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "홈", "item": "https://honglife.co.kr/"},
-            {"@type": "ListItem", "position": 2, "name": "학생 계산기", "item": "https://honglife.co.kr/student/"}] +
+            {"@type": "ListItem", "position": 2, "name": "대입 계산기", "item": "https://honglife.co.kr/student/"}] +
             ([{"@type": "ListItem", "position": 3, "name": crumb, "item": "https://honglife.co.kr" + path}] if fn != "index.html" else [])},
     ]
     if fn != "index.html":
@@ -32,15 +32,15 @@ def page(fn, title, desc, body, faq, crumb, og="student"):
     nav = ('<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta">'
            '<a href="/student/naesin.html">내신</a><a href="/student/suneung-score.html">수능 점수</a><a href="/student/average.html">비율 평균</a></span></div></div>\n')
     crumbs = '<nav class="crumb" aria-label="현재 위치"><a href="/">홈</a> › ' + (
-        '<span>학생 계산기</span>' if fn == "index.html" else '<a href="/student/">학생 계산기</a> › <span>%s</span>' % E(crumb)) + "</nav>"
+        '<span>대입 계산기</span>' if fn == "index.html" else '<a href="/student/">대입 계산기</a> › <span>%s</span>' % E(crumb)) + "</nav>"
     full = (h + nav + '<div class="wrap">' + crumbs + body + faqhtml +
-            '<p class="note">홍라이프 학생 계산기 · 2026년 11월 3일 기준. 학교·대학별 산출 방식이 다를 수 있으니 최종 성적은 학교 성적표와 대학 모집요강으로 확인하세요.</p></div>\n'
+            '<p class="note">홍라이프 대입 계산기 · 2026년 11월 3일 기준. 학교·대학별 산출 방식이 다를 수 있으니 최종 성적은 학교 성적표와 대학 모집요강으로 확인하세요.</p></div>\n'
             '<script src="/assets/app.js" defer></script>\n<script src="/assets/share.js" defer></script>\n</body>\n</html>\n')
     open(os.path.join(ROOT, "student", fn), "w", encoding="utf-8").write(full)
 
 # ---------------------------------------------------------------- 내신
 NAESIN_BODY = r'''
-<header class="top"><p class="kicker">학생 · 내신 · 2026년 기준</p><h1><b>내신 등급</b> 계산기</h1>
+<header class="top"><p class="kicker">대입 · 내신 · 2026년 기준</p><h1><b>내신 등급</b> 계산기</h1>
 <p class="lead">과목별 학점(단위수)과 등급을 넣으면 학점 가중 평균 등급을 바로 계산해요. 2025년 고1부터 적용된 <b>5등급제</b>와 기존 <b>9등급제</b>를 모두 지원하고, 학년별 반영 비율(예: 20:40:40)과 반영 교과(국영수사과 등)도 직접 조절할 수 있어요. 석차로 등급을 구하는 계산기도 함께 있어요.</p></header>
 
 <section class="calc" id="c1">
@@ -145,7 +145,7 @@ NAESIN_FAQ = [
 
 # ---------------------------------------------------------------- 수능
 SUN_BODY = r'''
-<header class="top"><p class="kicker">학생 · 수능 · 2026학년도 실채점 기준</p><h1><b>수능 표준점수·백분위·등급</b> 계산기</h1>
+<header class="top"><p class="kicker">대입 · 수능 · 2026학년도 실채점 기준</p><h1><b>수능 표준점수·백분위·등급</b> 계산기</h1>
 <p class="lead">표준점수로 등급과 백분위를 확인하고, 원점수·평균·표준편차로 표준점수를 직접 계산해요. 등급 기준은 한국교육과정평가원이 2025년 12월 4일 발표한 <b>2026학년도 수능 채점 결과</b>예요. 2027학년도 수능(2026년 11월 19일)의 등급컷은 12월 채점 결과 발표 뒤 바뀌어요.</p></header>
 
 <section class="calc" id="s1">
@@ -241,7 +241,7 @@ SUN_FAQ = [
 
 # ---------------------------------------------------------------- 비율 평균
 AVG_BODY = r'''
-<header class="top"><p class="kicker">학생 · 성적 · 가중 평균</p><h1><b>과목별 비율</b> 평균 계산기</h1>
+<header class="top"><p class="kicker">대입 · 성적 · 가중 평균</p><h1><b>과목별 비율</b> 평균 계산기</h1>
 <p class="lead">과목 수와 점수, 만점, 반영 비율(%)을 직접 정해서 평균을 구해요. 중간고사 40% · 기말고사 40% · 수행평가 20%처럼 비율이 다른 성적이나, 대학별 과목 반영 비율을 넣어 환산 점수를 볼 때 쓰세요. 막대를 움직이면 비율이 바로 바뀌어요.</p></header>
 <section class="calc" id="a1">
 <h2>점수와 반영 비율 입력</h2>
@@ -292,7 +292,7 @@ AVG_FAQ = [
 
 # ---------------------------------------------------------------- hub
 HUB_BODY = r'''
-<header class="top"><p class="kicker">학생 · 중고등학생 · 수험생</p><h1><b>학생</b> 계산기</h1>
+<header class="top"><p class="kicker">대입 · 내신 · 수능</p><h1><b>대입</b> 계산기</h1>
 <p class="lead">내신 등급, 수능 표준점수·백분위, 과목별 비율 평균까지 2026년 최신 기준으로 계산해요. 2025년 고1부터 바뀐 5등급제와 2026학년도 수능 실채점 등급컷을 반영했어요.</p></header>
 <section class="card"><h2>계산기</h2><div class="tiles">
 <a class="tile" href="/student/naesin.html"><b>📘 내신 등급 계산기</b><span>5등급·9등급 · 학점 가중 평균 · 학년 비율 · 석차 → 등급</span></a>
@@ -311,5 +311,5 @@ HUB_BODY = r'''
 page("naesin.html", "내신 등급 계산기 2026 | 5등급제·9등급제 평균 등급, 석차 등급", "과목별 학점과 등급으로 내신 평균 등급을 계산해요. 2025 고1부터 적용된 5등급제와 9등급제, 학년별 반영 비율, 반영 교과 선택, 석차로 등급 구하기까지.", NAESIN_BODY + NAESIN_JS, NAESIN_FAQ, "내신 등급 계산기", og="student-naesin")
 page("suneung-score.html", "수능 표준점수 백분위 등급 계산기 | 2026학년도 실채점 등급컷", "표준점수로 수능 등급과 백분위를 확인하고, 원점수·평균·표준편차로 표준점수를 계산해요. 2026학년도 수능 국어 133·수학 128 1등급 컷 등 평가원 채점 결과 기준.", SUN_BODY + SUN_JS.replace("__DATA__", json.dumps(SUN_DATA, ensure_ascii=False)), SUN_FAQ, "수능 표준점수·백분위 계산기", og="student-suneung")
 page("average.html", "과목별 비율 평균 계산기 | 반영 비율(%) 가중 평균, 수행평가 환산", "과목 수와 점수, 만점, 반영 비율(%)을 직접 조절해 가중 평균을 계산해요. 중간·기말·수행평가 비율, 대학 영역별 반영 비율 환산에 사용하세요.", AVG_BODY + AVG_JS, AVG_FAQ, "과목별 비율 평균 계산기", og="student-average")
-page("index.html", "학생 계산기 | 내신 등급·수능 표준점수·백분위·비율 평균", "내신 등급(5등급·9등급), 수능 표준점수·백분위·등급, 과목별 비율 평균 계산기를 2026년 최신 기준으로 모았어요.", HUB_BODY, None, "학생 계산기", og="student")
+page("index.html", "대입 계산기 | 내신 등급·수능 표준점수·백분위·비율 평균", "내신 등급(5등급·9등급), 수능 표준점수·백분위·등급, 과목별 비율 평균 계산기를 2026년 최신 기준으로 모았어요.", HUB_BODY, None, "대입 계산기", og="student")
 print("ok")
