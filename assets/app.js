@@ -96,7 +96,41 @@ function chip(){
   w.addEventListener("appinstalled",function(){ls("hl-a2hs-off","installed");c&&c.remove()});
   if(ios)later();
 }
-function init(){addCss();if(embed){embedMode();return}addEmbedBtn()}
+
+/* ---------- remember inputs + recently used calculators ---------- */
+var RT={ko:{rec:"최근 쓴 계산기",rest:"지난번 입력값을 불러왔어요",clr:"지우기"},ja:{rec:"最近使った計算ツール",rest:"前回の入力値を復元しました",clr:"消去"},de:{rec:"Zuletzt genutzt",rest:"Ihre letzten Eingaben wurden geladen",clr:"Löschen"},es:{rec:"Usadas recientemente",rest:"Hemos cargado tus últimos datos",clr:"Borrar"},fr:{rec:"Utilisés récemment",rest:"Vos dernières saisies ont été chargées",clr:"Effacer"},pt:{rec:"Usadas recentemente",rest:"Carregamos seus últimos dados",clr:"Limpar"},it:{rec:"Usati di recente",rest:"Abbiamo caricato i tuoi ultimi dati",clr:"Cancella"},nl:{rec:"Recent gebruikt",rest:"Je laatste invoer is geladen",clr:"Wissen"},pl:{rec:"Ostatnio używane",rest:"Wczytaliśmy Twoje ostatnie dane",clr:"Wyczyść"},id:{rec:"Terakhir dipakai",rest:"Input terakhir Anda dimuat",clr:"Hapus"},en:{rec:"Recently used",rest:"Your last inputs were restored",clr:"Clear"}};
+var R=RT[L2]||RT.en;
+var NOSAVE=/^\/(budget|shorts)\/|iq-test|personality|mbti-test|clock|stopwatch|char-count|word-counter|countdown|suneung/;
+function fields(){var out=[],q=d.querySelectorAll("input[id],select[id]");for(var i=0;i<q.length;i++){var f=q[i],ty=(f.getAttribute("type")||"text").toLowerCase();
+  if(f.closest("[data-hl-nosave]")||f.closest(".hl-dlg")||f.disabled)continue;
+  if(f.tagName==="SELECT"||/^(text|number|range|date|month|tel|checkbox)$/.test(ty))out.push(f)}return out}
+function memo(){
+  if(!isCalc()||NOSAVE.test(location.pathname))return;
+  var key="hl-in:"+location.pathname,fs=fields();if(!fs.length)return;
+  var save=function(){var o={};fs.forEach(function(f){o[f.id]=f.type==="checkbox"?(f.checked?1:0):f.value});ls(key,JSON.stringify(o))};
+  var raw=!location.search&&ls(key),n=0;
+  if(raw){try{var o=JSON.parse(raw);fs.forEach(function(f){if(!(f.id in o))return;var v=o[f.id];
+      if(f.type==="checkbox"){if(f.checked!==!!v){f.checked=!!v;n++}}
+      else if(f.tagName==="SELECT"){if(f.value!==v&&[].some.call(f.options,function(op){return op.value===v})){f.value=v;n++}}
+      else if(f.value!==v){f.value=v;n++}});
+    if(n){var fire=function(f){f.dispatchEvent(new Event("input",{bubbles:!0}));f.dispatchEvent(new Event("change",{bubbles:!0}))},txt=fs.filter(function(f){return f.tagName!=="SELECT"&&f.type!=="checkbox"});fs.filter(function(f){return txt.indexOf(f)<0}).forEach(fire);txt.forEach(function(f){if(f.id in o)f.value=o[f.id];fire(f)});
+      var t=el("div","hl-rest",'<span>'+esc(R.rest)+'</span><button type="button">'+esc(R.clr)+'</button>');t.setAttribute("role","status");
+      t.querySelector("button").onclick=function(){try{w.localStorage.removeItem(key)}catch(e){}ev("inputs_clear");location.reload()};
+      d.body.appendChild(t);setTimeout(function(){t.classList.add("hl-rest--out");setTimeout(function(){t.remove()},400)},7000);ev("inputs_restored",{n:n})}
+  }catch(e){}}
+  var tm;d.addEventListener("input",function(){clearTimeout(tm);tm=setTimeout(save,400)},!0);d.addEventListener("change",function(){clearTimeout(tm);tm=setTimeout(save,400)},!0);
+}
+function recent(){
+  var path=location.pathname,list=[];try{list=JSON.parse(ls("hl-recent")||"[]")}catch(e){}
+  if(isCalc()&&!NOSAVE.test(path)){var ti=(d.title||"").split(/ [|·—–-] /)[0].trim().slice(0,40);
+    list=list.filter(function(x){return x.u!==path});list.unshift({u:path,t:ti});list=list.slice(0,8);ls("hl-recent",JSON.stringify(list))}
+  var show=list.filter(function(x){return x.u!==path}).slice(0,6);if(!show.length)return;
+  var ref=d.querySelector("nav.calc-index");if(!ref&&/\/$/.test(path))ref=d.querySelector("footer");if(!ref||!ref.parentNode)return;
+  var box=el("nav","hl-recent");box.setAttribute("aria-label",R.rec);
+  box.innerHTML="<b>"+esc(R.rec)+"</b><div>"+show.map(function(x){return'<a href="'+esc(x.u)+'">'+esc(x.t)+"</a>"}).join("")+"</div>";
+  ref.parentNode.insertBefore(box,ref)}
+function css2(){var s=d.createElement("style");s.textContent=".hl-recent{box-sizing:border-box;max-width:1100px;margin:18px auto;padding:14px 16px;border-radius:14px;background:#12305C;color:#fff;font-size:14px}.hl-recent b{display:block;margin-bottom:8px;color:#C9A04A;font-size:13px;letter-spacing:.02em}.hl-recent div{display:flex;flex-wrap:wrap;gap:8px}.hl-recent a{display:inline-block;max-width:100%;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(201,160,74,.55);color:#fff;text-decoration:none;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hl-recent a:hover{background:rgba(201,160,74,.25)}.hl-rest{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:900;display:flex;align-items:center;gap:12px;max-width:calc(100% - 32px);padding:10px 12px 10px 16px;border-radius:12px;background:#12305C;color:#fff;font-size:13.5px;box-shadow:0 6px 24px rgba(0,0,0,.25);border-left:4px solid #C9A04A;transition:opacity .4s}.hl-rest button{all:unset;cursor:pointer;padding:5px 10px;border-radius:8px;background:#C9A04A;color:#12305C;font-weight:700;white-space:nowrap}.hl-rest--out{opacity:0}";d.head.appendChild(s)}
+function init(){addCss();if(embed){embedMode();return}addEmbedBtn();try{css2();memo();recent()}catch(e){}}
 if(!embed){sw();chip()}
 /* wait for DOMContentLoaded (fires after every deferred script, incl. share.js) */
 if(d.readyState==="complete")init();else d.addEventListener("DOMContentLoaded",init);
