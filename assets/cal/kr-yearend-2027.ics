@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//honglife.co.kr//calendar//KO
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:kr-yearend-20270115@honglife.co.kr
+DTSTAMP:20261103T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:연말정산 간소화 서비스 열림(예년 기준 1월 15일 전후)
+DESCRIPTION:홈택스 연말정산 간소화 자료 조회가 열리는 날이에요(정확한 날짜는 국세청 발표 기준). 내 환급액 미리 계산: https://honglife.co.kr/yet.html
+URL:https://honglife.co.kr/yearend/simplified-service.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:연말정산 간소화 서비스 열림(예년 기준 1월 15일 전후)
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

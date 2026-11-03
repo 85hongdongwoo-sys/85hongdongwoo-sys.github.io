@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//honglife.co.kr//calendar//KO
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:us-taxday-20270415@honglife.co.kr
+DTSTAMP:20261103T000000Z
+DTSTART;VALUE=DATE:20270415
+DTEND;VALUE=DATE:20270416
+SUMMARY:Federal tax return deadline (2026 tax year)
+DESCRIPTION:File Form 1040 or request an extension by Thursday April 15 2027. Estimate your refund: https://honglife.co.kr/us/tax-refund/
+URL:https://honglife.co.kr/us/tax-refund/tax-filing-deadline-2027.html
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Federal tax return deadline (2026 tax year)
+TRIGGER:-PT15H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
