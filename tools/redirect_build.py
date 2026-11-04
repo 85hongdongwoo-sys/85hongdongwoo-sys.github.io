@@ -4,6 +4,7 @@ import os, shutil, html
 NEW = 'https://honglifecalc.com'
 F = ['us','uk','ca','au','in','de','fr','es','it','mx','br','ph','pt','nl','pl','id','jp','en','ru','ar','zh','hi']
 SKIP = {'.git', '.github', '_site', 'tools'}
+ACTIVE = os.path.exists('tools/MOVE_ON')  # create tools/MOVE_ON once https://honglifecalc.com has a certificate
 os.makedirs('_site', exist_ok=True)
 for name in os.listdir('.'):
     if name in SKIP: continue
@@ -11,7 +12,7 @@ for name in os.listdir('.'):
     if os.path.isdir(src): shutil.copytree(src, dst)
     else: shutil.copy2(src, dst)
 n = 0
-for d in F:
+for d in (F if ACTIVE else []):
     base = os.path.join('_site', d)
     if not os.path.isdir(base): continue
     for root, _, files in os.walk(base):
@@ -43,7 +44,7 @@ def fix(m, rd):
     if r.split('/')[0] not in F: return m.group(0)
     return pre + NEW + '/' + r + ('/' if path.endswith('/') else '') + ('?' + q if q else '') + ('#' + frag if frag else '') + post
 k = 0
-for root, dirs, files in os.walk('_site'):
+for root, dirs, files in (os.walk('_site') if ACTIVE else []):
     rel_root = os.path.relpath(root, '_site').replace(os.sep, '/')
     if rel_root.split('/')[0] in F: continue
     rd = '' if rel_root == '.' else rel_root
@@ -55,10 +56,10 @@ for root, dirs, files in os.walk('_site'):
         if s != o: open(p, 'w', encoding='utf-8', errors='surrogateescape').write(s); k += 1
 print('korean pages relinked:', k)
 sm = '_site/sitemap.xml'
-if os.path.exists(sm):
+if ACTIVE and os.path.exists(sm):
     s = open(sm, encoding='utf-8').read()
     s2 = re.sub(r'\s*<url><loc>https://honglife\.co\.kr/(?:' + FA + r')/[^<]*</loc>.*?</url>', '', s, flags=re.S)
     open(sm, 'w', encoding='utf-8').write(s2); print('sitemap urls:', s2.count('<url>'))
 rs = '_site/rss.xml'
-if os.path.exists(rs):
+if ACTIVE and os.path.exists(rs):
     s = open(rs, encoding='utf-8').read(); open(rs, 'w', encoding='utf-8').write(abs_re.sub(NEW + r'/\1', s))
