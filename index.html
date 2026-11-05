@@ -399,12 +399,13 @@ html body header.top:has(+ .hl-home)::after{display:none}
 <span class="tag" id="hlhTag">예시 방이에요</span>
 <h2>계산할 때마다 간식 1개, 내 방이 조금씩 좋아져요</h2>
 <p>자동차세를 계산하면 창밖에 내 차가, 연봉을 계산하면 아바타 정장이 생겨요. 회원가입 없이 이 기기에만 저장돼요.</p>
-<a class="hlh-go" href="/room.html">내 방 보러 가기 →</a>
+<a class="hlh-go" href="/room.html">계산기로 내 방 꾸미기 →</a>
 </div>
 </div>
 <div class="hlh-row">
 <div style="display:grid;gap:10px;align-content:start">
 <a class="hlh-fortune" href="/fortune-2027.html"><img src="/assets/art/ic-health.svg" alt="" width="52" height="52"><span><b id="hlhDays">2027 신년운세 보러 가기</b>생년월일만 넣으면 끝. 운세를 보면 방에 별자리 액자가 생겨요. 재미로 봐 주세요.</span></a>
+<div id="hlhRecentBox" hidden style="display:grid;gap:8px"><h3>최근 쓴 계산기</h3><ul class="hlp-recent" id="hlhRecent"></ul></div>
 <h3>많이 쓰는 계산기</h3>
 <ol class="hlh-pop"><li><a href="/salary-net.html"><em>1</em><span><b>연봉 실수령액</b><small>직장인 · 쓰면 아바타 정장</small></span></a></li><li><a href="/yet.html"><em>2</em><span><b>연말정산 환급</b><small>저축·연금 · 쓰면 돼지 저금통</small></span></a></li><li><a href="/car-tax.html"><em>3</em><span><b>자동차세</b><small>자동차 · 쓰면 창밖 내 차</small></span></a></li><li><a href="/saju.html"><em>4</em><span><b>사주팔자 풀이</b><small>건강·운세 · 쓰면 별자리 액자</small></span></a></li><li><a href="/wage.html"><em>5</em><span><b>주휴수당·알바 월급</b><small>급여·노동 · 쓰면 아바타 정장</small></span></a></li></ol>
 </div>
@@ -419,6 +420,7 @@ document.querySelectorAll('.hlh-tile').forEach(function(b){b.addEventListener('c
  var g=document.querySelector('nav.tabs .groups [data-group="'+b.getAttribute('data-g')+'"]');
  if(g){g.click();var n=document.querySelector('nav.tabs');if(n)n.scrollIntoView({behavior:'smooth',block:'start'});}
 });});
+try{var rc=JSON.parse(localStorage.getItem('hlp1r')||'[]');if(rc.length){var bx=document.getElementById('hlhRecentBox');bx.hidden=false;document.getElementById('hlhRecent').innerHTML=rc.slice(0,6).map(function(x){var a=document.createElement('a');a.href=x.p;a.textContent=x.t;return '<li>'+a.outerHTML+'</li>';}).join('');}}catch(e){}
 try{var s=JSON.parse(localStorage.getItem('hlp1')||'null');
  if(s&&s.total>0){
   document.getElementById('hlhTag').textContent='내 방 · 간식 '+s.total+'개';
