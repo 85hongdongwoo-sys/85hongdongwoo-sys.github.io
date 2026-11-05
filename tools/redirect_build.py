@@ -30,6 +30,17 @@ for d in (F if ACTIVE else []):
             n += 1
 print('redirect stubs:', n)
 
+# --- extra OG images shipped as tar bundles (tools/og_*.tar) ---
+import tarfile, glob as _glob
+for _t in sorted(_glob.glob('tools/og_*.tar')):
+    with tarfile.open(_t) as _tf:
+        for _m in _tf.getmembers():
+            _n = _m.name.lstrip('./')
+            if _m.isfile() and '/' not in _n and _n.endswith('.png'):
+                _m.name = _n
+                _tf.extract(_m, '_site/assets/og')
+
+
 # --- remove pages that were dropped from the Korean site (tools/REMOVE.txt, one path per line) ---
 if os.path.exists('tools/REMOVE.txt'):
     for line in open('tools/REMOVE.txt', encoding='utf-8'):
