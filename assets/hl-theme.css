@@ -32,3 +32,6 @@ html body .hl-rel a.hl-rel-a{background:#FFFDF6;border-color:#EAE2CC}
 @keyframes hlpOut{to{opacity:0;transform:translate(-50%,14px)}}
 @media (prefers-reduced-motion:reduce){.hlp-toast,.hlp-toast.out{animation:none}}
 html.hl-embed .hlp-fab,html.hl-embed .hlp-toast,html.hl-embed body::after{display:none!important}
+/* 삼성 인터넷 등 '강제 다크 모드' 방지: 다크 모드를 지원한다고 알리고 같은 밝은 색을 그대로 씀 */
+:root{color-scheme:only light}
+@media (prefers-color-scheme:dark){:root{color-scheme:only light}html body{background-color:#2F5520!important}.hlp-fab{background-color:#FFF8E7}.hlp-toast{background:#FFFDF5;color:#2B2A22}}
