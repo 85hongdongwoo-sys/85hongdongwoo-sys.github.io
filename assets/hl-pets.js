@@ -118,6 +118,63 @@
     var t=e.target; if(!t.matches||!t.matches('select,input[type=radio],input[type=checkbox],input[type=date],input[type=range]')||inUI(t)) return;
     clearTimeout(typed); typed=setTimeout(award,1200);
   },true);
-  function boot(){drawFab(load());remember();}
+  window.hlPets.pageCat=pageCat;
+  // ── 출석 간식: 하루 첫 방문 +1, 7일 연속마다 +3 ──
+  function attend(){
+    var s=load(),day=today();if(s.att===day)return;
+    var y=new Date(Date.now()-864e5),yd=y.getFullYear()+'-'+('0'+(y.getMonth()+1)).slice(-2)+'-'+('0'+y.getDate()).slice(-2);
+    s.as=(s.att===yd)?(+s.as||0)+1:1;s.att=day;var gain=1+(s.as%7===0?3:0);s.total+=gain;
+    if(!save(s))return;drawFab(s);
+    setTimeout(function(){toast(s.as%7===0?'7일 연속 출석! 간식 +4':'출석 간식 +1',s.as>1?('연속 '+s.as+'일째 방문 중 · 7일마다 보너스 3개'):'내일 또 오면 연속 출석이 시작돼요');},900);
+  }
+  // ── 분야별 추천 칸 (쿠팡 파트너스, ads.js에서 관리) ──
+  var REC={car:'coupang_car',baby:'coupang_baby',fortune:'coupang_health',exam:'coupang_study',avatar:'coupang_work',stock:'coupang_book',save:'coupang_book',estate:'coupang_home',tools:'coupang_all',games:'coupang_all',other:'coupang_all'};
+  function reco(){
+    if(NOAWARD||!seg.length||D.getElementById('adCoupang')||D.querySelector('.hl-reco'))return;
+    var cat=pageCat();if(!cat)return;
+    function show(){try{
+      if(typeof ADS==='undefined')return;var a=ADS[REC[cat]]||{},all=ADS.coupang_all||{},now=today();
+      var it=a.url?a:null;if(!it){var L=(all.items||[]).filter(function(x){return /^https:\/\//.test(x.url||'')&&!x.off&&(!x.until||x.until>=now);});if(!L.length)return;it=L[Math.floor(Math.random()*L.length)];}
+      var box=D.createElement('aside');box.className='hl-reco';box.setAttribute('aria-label','추천 상품');
+      var link=D.createElement('a');link.href=it.url;link.target='_blank';link.rel='noopener sponsored';
+      if(it.banner){var im=D.createElement('img');im.src='/'+String(it.banner).replace(/^\//,'');im.alt=it.title||'쿠팡';im.loading='lazy';link.appendChild(im);}
+      else{link.innerHTML='<b></b><span></span><em></em>';link.querySelector('b').textContent=it.title||'';link.querySelector('span').textContent=it.desc||'';link.querySelector('em').textContent=(a.button||'쿠팡에서 보기')+' →';}
+      box.innerHTML='<span class="hl-reco-tag">AD · 쿠팡</span>';box.appendChild(link);
+      var p=D.createElement('p');p.className='hl-reco-disc';p.textContent=(a.disclosure||all.disclosure||'');box.appendChild(p);
+      var at=D.querySelector('.hl-share')||D.querySelector('.hl-rel')||D.querySelector('footer');
+      if(at&&at.parentNode)at.parentNode.insertBefore(box,at);else D.body.appendChild(box);
+    }catch(e){}}
+    if(typeof ADS!=='undefined'){show();return;}
+    var sc=D.createElement('script');sc.src='/ads.js';sc.onload=show;D.head.appendChild(sc);
+  }
+  // ── 내 정보 자동 채우기 (이 기기에만 저장) ──
+  var PKEY='hlp1p',PF=[['salary',/연봉|연소득|총급여/],['monthly',/월급|월 급여|월 소득/],['age',/(만\s*)?나이/]],MONEY={salary:1,monthly:1};
+  function nv(x){var v=parseFloat(String(x).replace(/[,\s원]/g,''));return isFinite(v)?v:NaN}
+  function toWon(k,v){return MONEY[k]&&v<100000?v*10000:v}
+  function fromWon(k,el,v){if(!MONEY[k])return String(v);var cur=nv(el.value||el.defaultValue);var x=(isFinite(cur)&&cur<100000)?v/10000:v;return String(Math.round(x)).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+  function labelOf(el){var l=el.closest&&el.closest('label');if(l)return l.textContent;if(el.id){var f=D.querySelector('label[for="'+el.id+'"]');if(f)return f.textContent;}return el.getAttribute('aria-label')||'';}
+  function keyOf(el){if(!el.matches||!el.matches('input[type=text],input[type=number],input[type=tel],input:not([type])'))return null;var t=labelOf(el);for(var i=0;i<PF.length;i++)if(PF[i][1].test(t))return PF[i][0];return null;}
+  function profile(){
+    var prof;try{prof=JSON.parse(localStorage.getItem(PKEY)||'{}')||{};}catch(e){prof={};}
+    D.addEventListener('change',function(e){var k=keyOf(e.target);if(!k||inUI(e.target))return;var v=nv(e.target.value);if(!isFinite(v)||v<=0)return;prof[k]=toWon(k,v);try{localStorage.setItem(PKEY,JSON.stringify(prof));}catch(x){}},true);
+    if(!seg.length)return;
+    var fields=[].slice.call(D.querySelectorAll('input,select')).filter(function(el){var k=keyOf(el);return k&&prof[k]!=null&&nv(el.value)!==nv(fromWon(k,el,prof[k]));});
+    if(!fields.length)return;
+    var bar=D.createElement('div');bar.className='hl-prof';bar.innerHTML='<span>지난번에 입력한 내 정보(연봉·월급·나이)로 채울까요?</span><button type="button">채우기</button><button type="button" class="x" aria-label="닫기">×</button>';
+    bar.querySelector('button').onclick=function(){fields.forEach(function(el){var k=keyOf(el);el.value=fromWon(k,el,prof[k]);el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));});bar.remove();};
+    bar.querySelector('.x').onclick=function(){bar.remove();};
+    var f=fields[0].closest('form,section,.card')||fields[0].parentNode;f.parentNode.insertBefore(bar,f);
+  }
+  // ── 연말정산 시즌 안내 (11월~2월) ──
+  function season(){
+    var m=new Date().getMonth()+1;if(!(m>=11||m<=2))return;var cat=seg.length?pageCat():'home';
+    if(!(cat==='home'||cat==='avatar'||cat==='save')||/^yearend$/.test(seg[0]||''))return;
+    var y=new Date().getFullYear()+(m>=11?1:0),open=new Date(y,0,15),dd=Math.ceil((open-new Date())/864e5);
+    var a=D.createElement('a');a.className='hl-season';a.href='/yearend/';
+    a.innerHTML='<b>🧾 연말정산 시즌</b><span>'+(dd>0?'간소화 서비스 오픈 D-'+dd+' · ':'')+'지금 미리 계산하고 환급 늘리기 →</span>';
+    var home=D.querySelector('.hl-home');if(home){home.insertBefore(a,home.firstChild);return;}
+    var h=D.querySelector('main')||D.querySelector('.wrap');if(h)h.insertBefore(a,h.firstChild);
+  }
+  function boot(){drawFab(load());remember();attend();reco();profile();season();}
   if(D.readyState==='loading') D.addEventListener('DOMContentLoaded',boot); else boot();
 })();
