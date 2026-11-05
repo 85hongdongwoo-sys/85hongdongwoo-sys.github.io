@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap");
 /* 홍라이프 손그림 테마 v1 — 짙은 풀밭(펠트) 바탕 + 색연필 동물. 한국 페이지에만 연결됨 */
 html:root{--paper:#FFFCF4;--soft:#F6F1E3;--line:#E6DFCB;--gold-soft:#FBF3DE;--hl-grass:#2F5520;--hl-grass-d:#244419;--hl-cream:#FFF8E7;--hl-hand:"Gaegu","Gowun Dodum",var(--f,"Pretendard Variable"),system-ui,sans-serif}
 html body{background:var(--hl-grass) url(/assets/art/felt.svg) repeat!important;background-attachment:scroll!important}
@@ -58,3 +59,40 @@ html body .hl-embed-btn::before{content:"";flex:none;width:24px;height:24px;back
 .hlp-recent a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:#FFF8E7;box-shadow:0 0 0 1px #E6DFCB;color:#2B2A22!important;text-decoration:none;font-size:13.5px;font-weight:700}
 .hlp-recent a::before{content:"";width:18px;height:18px;background:url(/assets/art/ic-math.svg) no-repeat center/contain}
 .hlp-recent a:hover{box-shadow:0 0 0 2px #C9A227}
+/* 탭·소목차·버튼: 남색 → 크림/풀색, 둥근 손글씨 느낌 글꼴 */
+html:root{--btn:#2F5520;--navy:#2F5520}
+html body nav.tabs{background:transparent!important;border-bottom:0!important;box-shadow:none!important}
+html body nav.tabs .subtabs button,html body nav.tabs .subtabs a,html body nav.tabs .row a{font-family:"Gowun Dodum",var(--f,system-ui),sans-serif!important;font-weight:700!important;background:#FFF8E7!important;color:#3A3428!important;border:1.5px solid #E6DFCB!important;border-radius:999px!important;box-shadow:none!important;text-decoration:none!important}
+html body nav.tabs .subtabs button:hover,html body nav.tabs .subtabs a:hover,html body nav.tabs .row a:hover{border-color:#C9A227!important}
+html body nav.tabs .subtabs button[aria-selected="true"],html body nav.tabs .row a[aria-current="page"]{background:#E8834A!important;border-color:#E8834A!important;color:#FFF8E7!important}
+html body nav.tabs .groups button{font-family:"Gowun Dodum",var(--f,system-ui),sans-serif!important}
+html body .btn{font-family:"Gowun Dodum",var(--f,system-ui),sans-serif}
+html body .btn:not(.ghost):hover{background:#244419}
+html body .btn.ghost{background:#FFF8E7;color:#2F5520;border-color:#2F5520}
+html body .btn.ghost:hover{background:#FBF3DE}
+html body .hl-rel,html body .hl-rel .hl-rel-t,html body .hl-rel a.hl-rel-a b{color:#2B2A22}
+html body .hl-share .hl-share-t{color:#2B2A22}
+/* 메인 플래시 배너(새로 나온 계산기) */
+html body .flash{background:#FFF8E7!important;border-color:#E6DFCB!important;box-shadow:0 10px 26px rgba(20,30,10,.25)!important}
+html body .flash .fs{background:#FFF8E7!important}
+html body .fs h2{font-family:var(--hl-hand)!important;font-weight:700!important;color:#2B2A22!important;letter-spacing:0!important}
+html body .fs h2 em{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#C9701E!important;animation:none!important}
+html body .fs p{color:#5B5644!important}
+html body .fs .k{color:#6B4F12!important;background:#FBF3DE!important;border-color:#E6CF8E!important}
+html body .fs .cta{font-family:"Gowun Dodum",var(--f,system-ui),sans-serif!important;background:#E8834A!important;color:#FFF8E7!important;box-shadow:0 6px 16px rgba(120,60,20,.25)!important}
+html body .fs .cta2{color:#2F5520!important;border-bottom-color:#C9A227!important}
+html body .fs .glass{background:linear-gradient(160deg,#2F5520,#3E6B2C)!important;border-color:#C9A227!important}
+html body .fs .glass .lb{color:#E3EED6!important}
+html body .fs .orb{background:conic-gradient(from 0deg,rgba(240,199,94,0),rgba(240,199,94,.9),rgba(47,85,32,.5),rgba(240,199,94,0))!important}
+html body .fnav button.d{background:rgba(47,85,32,.25)!important}
+html body .fnav button.d[aria-current=true]{background:#2F5520!important}
+/* 최근 본 계산기(app.js) */
+html body .hl-recent{background:#FFF8E7!important;color:#2B2A22!important;box-shadow:0 0 0 1px #E6DFCB}
+html body .hl-recent b{color:#8A6414!important;font-family:"Gowun Dodum",var(--f,system-ui),sans-serif}
+html body .hl-recent a{background:#FFFDF6!important;border:1.5px solid #E6DFCB!important;color:#2B2A22!important;font-family:"Gowun Dodum",var(--f,system-ui),sans-serif}
+html body .hl-recent a:hover{border-color:#C9A227!important}
+/* 캘린더·바로가기 띠(인라인 남색) */
+html body a.hl-dlink{background:#FFF8E7!important;color:#2B2A22!important;border-left-color:#E8834A!important;box-shadow:0 0 0 1px #E6DFCB}
+html body nav.tabs{background:rgba(255,248,231,.97)!important;border-radius:0 0 14px 14px;padding-left:8px!important;padding-right:8px!important}
+html body .fnav button:not(.d){background:#2F5520!important;color:#FFF8E7!important;border-color:#2F5520!important}
+html body .farr button{background:#2F5520!important;color:#FFF8E7!important;border-color:#2F5520!important}
