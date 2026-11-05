@@ -22,6 +22,12 @@ const ADS = {
   },
   coupang_home: { url: "", title: "이사·입주 준비템", desc: "수납·청소·조명 같은 새집 필수템", button: "쿠팡에서 보기", disclosure: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다." },
   coupang_book: { url: "", title: "재테크 공부 필수템", desc: "재테크 베스트셀러 · 공학용 계산기 · 가계부", button: "쿠팡에서 보기", disclosure: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다." },
+  /* 분야별 추천 칸 (계산 결과 아래에 자동으로 나와요). url을 비워 두면 아래 coupang_all 상품 중 하나가 대신 나와요. */
+  coupang_car:    { url: "", title: "자동차 필수템", desc: "블랙박스 · 차량용 청소기 · 타이어 공기압 측정기", button: "쿠팡에서 보기", disclosure: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다." },
+  coupang_baby:   { url: "", title: "출산·육아 준비물", desc: "기저귀 · 물티슈 · 분유 · 아기 옷", button: "쿠팡에서 보기", disclosure: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다." },
+  coupang_health: { url: "", title: "건강 관리템", desc: "체중계 · 혈압계 · 영양제", button: "쿠팡에서 보기", disclosure: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다." },
+  coupang_study:  { url: "", title: "수험생 필수템", desc: "독서대 · 타이머 · 공학용 계산기", button: "쿠팡에서 보기", disclosure: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다." },
+  coupang_work:   { url: "", title: "직장인 필수템", desc: "노트북 거치대 · 무선 마우스 · 사무용 의자", button: "쿠팡에서 보기", disclosure: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다." },
   coupang_all: { url: "", title: "", desc: "", button: "쿠팡에서 보기", disclosure: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
     items: [
       { url: "https://link.coupang.com/a/hupgpGhQI0", title: "오늘의 쿠팡 특가", desc: "쿠팡 오늘의 특가 모아보기", banner: "ads/coupang_today.png" },
