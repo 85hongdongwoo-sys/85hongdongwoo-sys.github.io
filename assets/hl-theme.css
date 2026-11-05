@@ -35,3 +35,26 @@ html.hl-embed .hlp-fab,html.hl-embed .hlp-toast,html.hl-embed body::after{displa
 /* 삼성 인터넷 등 '강제 다크 모드' 방지: 다크 모드를 지원한다고 알리고 같은 밝은 색을 그대로 씀 */
 :root{color-scheme:only light}
 @media (prefers-color-scheme:dark){:root{color-scheme:only light}html body{background-color:#2F5520!important}.hlp-fab{background-color:#FFF8E7}.hlp-toast{background:#FFFDF5;color:#2B2A22}}
+/* 결과 공유하기 — 색연필 아이콘 + 크림색 버튼 */
+html body .hl-share{background:#FFF8E7!important;border-color:#E6DFCB!important;border-top-color:#C9A227!important;border-radius:18px!important}
+html body .hl-share button.hl-share-btn,html body .hl-share button.hl-share-btn.hl-alt{background:#FFFDF6!important;color:#2B2A22!important;box-shadow:0 0 0 1.5px #E6DFCB!important;filter:none!important}
+html body .hl-share button.hl-share-btn:hover{background:#FBF3DE!important;box-shadow:0 0 0 2px #C9A227!important}
+html body .hl-share button.hl-share-btn svg{display:none!important}
+html body .hl-share button.hl-share-btn::before{content:"";flex:none;width:34px;height:34px;background:no-repeat center/contain}
+.hl-share button.hl-share-btn[data-hl=threads]::before{background-image:url(/assets/art/sh-threads.svg)}
+.hl-share button.hl-share-btn[data-hl=instagram]::before{background-image:url(/assets/art/sh-instagram.svg)}
+.hl-share button.hl-share-btn[data-hl=x]::before{background-image:url(/assets/art/sh-x.svg)}
+.hl-share button.hl-share-btn[data-hl=facebook]::before{background-image:url(/assets/art/sh-facebook.svg)}
+.hl-share button.hl-share-btn[data-hl=copy]::before{background-image:url(/assets/art/sh-copy.svg)}
+.hl-share button.hl-share-btn[data-hl=save]::before{background-image:url(/assets/art/sh-save.svg)}
+.hl-share button.hl-share-btn[data-hl=more]::before{background-image:url(/assets/art/sh-more.svg)}
+html body .hl-share-fab{background:#FFF8E7 url(/assets/art/sh-share.svg) no-repeat center/30px!important;box-shadow:0 4px 14px rgba(20,30,10,.35),inset 0 0 0 2px #C9A227!important}
+html body .hl-share-fab svg{display:none!important}
+html body .hl-embed-btn{background:#FFFDF6!important;color:#2B2A22!important;box-shadow:inset 0 0 0 1.5px #E6DFCB!important}
+html body .hl-embed-btn svg{display:none!important}
+html body .hl-embed-btn::before{content:"";flex:none;width:24px;height:24px;background:url(/assets/art/sh-embed.svg) no-repeat center/contain}
+/* 최근 쓴 계산기 */
+.hlp-recent{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.hlp-recent a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:#FFF8E7;box-shadow:0 0 0 1px #E6DFCB;color:#2B2A22!important;text-decoration:none;font-size:13.5px;font-weight:700}
+.hlp-recent a::before{content:"";width:18px;height:18px;background:url(/assets/art/ic-math.svg) no-repeat center/contain}
+.hlp-recent a:hover{box-shadow:0 0 0 2px #C9A227}

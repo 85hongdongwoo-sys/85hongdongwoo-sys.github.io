@@ -53,6 +53,17 @@
   function save(s){try{localStorage.setItem(KEY,JSON.stringify(s));return true;}catch(e){return false;}}
   function tier(n){var t=0;while(t<3&&n>=STEP[t])t++;return t;}
   window.hlPets={CATS:CATS,STEP:STEP,load:load,tier:tier};
+  // 최근 쓴 계산기 (이 기기에만, 최대 8개)
+  var RKEY='hlp1r';
+  function recentList(){try{var r=JSON.parse(localStorage.getItem(RKEY)||'[]');return Array.isArray(r)?r:[];}catch(e){return [];}}
+  function pageTitle(){var h=D.querySelector('h1');var t=(h&&h.textContent||D.title||'').replace(/\s+/g,' ').trim();t=t.split(/[|·\-–]/)[0].trim()||t;return t.length>22?t.slice(0,21)+'…':t;}
+  function remember(){
+    if(NOAWARD||!seg.length||!pageCat()) return;
+    var r=recentList().filter(function(x){return x&&x.p!==path;});
+    r.unshift({p:path,t:pageTitle()}); r=r.slice(0,8);
+    try{localStorage.setItem(RKEY,JSON.stringify(r));}catch(e){}
+  }
+  window.hlPets.recent=recentList;
   // 오른쪽 아래 동물 버튼
   var fab;
   function drawFab(s){
@@ -107,6 +118,6 @@
     var t=e.target; if(!t.matches||!t.matches('select,input[type=radio],input[type=checkbox],input[type=date],input[type=range]')||inUI(t)) return;
     clearTimeout(typed); typed=setTimeout(award,1200);
   },true);
-  function boot(){drawFab(load());}
+  function boot(){drawFab(load());remember();}
   if(D.readyState==='loading') D.addEventListener('DOMContentLoaded',boot); else boot();
 })();
