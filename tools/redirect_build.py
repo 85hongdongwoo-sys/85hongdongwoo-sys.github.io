@@ -30,6 +30,15 @@ for d in (F if ACTIVE else []):
             n += 1
 print('redirect stubs:', n)
 
+# --- remove pages that were dropped from the Korean site (tools/REMOVE.txt, one path per line) ---
+if os.path.exists('tools/REMOVE.txt'):
+    for line in open('tools/REMOVE.txt', encoding='utf-8'):
+        rel = line.strip().lstrip('/')
+        if not rel or rel.startswith('#') or '..' in rel: continue
+        t = os.path.join('_site', rel)
+        if os.path.isfile(t): os.remove(t)
+
+
 # --- point Korean pages, sitemap and RSS at the new domain ---
 import re, posixpath
 OLD = 'https://honglife.co.kr'
