@@ -37,12 +37,12 @@ h2{margin:22px 0 8px;color:#FFF8E7;font-family:var(--hand);font-weight:700;font-
 .tiers span{padding:3px 8px;border-radius:999px;background:#F1EAD3;color:#7A7360}
 .tiers span.on{background:#E9F4D4;color:#2F5A2A;font-weight:700}
 .cats .s{font-size:13px;color:var(--muted)}
-.pets{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.pets{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
 .pets li{background:var(--paper);border-radius:14px;padding:8px 4px;text-align:center;font-size:12px;color:var(--muted)}
 .pets li img{display:block;width:100%;height:58px;object-fit:contain}
 .pets li b{display:block;color:var(--ink);font-size:14px}
 .pets li.off img{filter:grayscale(1) opacity(.35)}
-@media (max-width:520px){.pets{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.pets{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
 .acts button,.acts a{height:52px;border:0;border-radius:16px;font:700 16px var(--f);display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer}
 .acts .pri{background:var(--orange);color:#FFF8E7}.acts .sec{background:var(--cream);color:var(--ink)}
@@ -97,7 +97,7 @@ footer{color:#DCE6D2;font-size:12.5px;text-align:center;padding:10px 16px}footer
 (function(){
 var LINK={avatar:'/salary-net.html',car:'/car-tax.html',stock:'/sell.html',save:'/int.html',estate:'/buy.html',tools:'/budget/',fortune:'/saju.html',baby:'/due-date.html',exam:'/student/',games:'/games/'};
 var ORDER=['avatar','car','fortune','save','tools','stock','estate','baby','exam','games'];
-var PETS=[{k:'retr',n:'보리',d:'골든 리트리버',need:0,img:'pet-retr.svg'},{k:'black',n:'까망이',d:'검은 고양이',need:5,img:'pet-black.svg'},{k:'tabby',n:'귤이',d:'치즈 고양이',need:12,img:'pet-tabby.svg'},{k:'siam',n:'라떼',d:'샴 고양이',need:20,img:'pet-siam.svg'},{k:'wdog',n:'솜이',d:'흰 강아지',need:30,img:'pet-wdog.svg'}];
+var PETS=[{k:'retr',n:'보리',d:'골든 리트리버',need:0,img:'pet-retr.svg'},{k:'black',n:'까망이',d:'검은 고양이',need:5,img:'pet-black.svg'},{k:'tabby',n:'귤이',d:'치즈 고양이',need:12,img:'pet-tabby.svg'},{k:'siam',n:'라떼',d:'샴 고양이',need:20,img:'pet-siam.svg'},{k:'wdog',n:'솜이',d:'흰 강아지',need:30,img:'pet-wdog.svg'},{k:'wife',n:'아내',d:'우리 가족',need:8,img:'pet-wife.svg'},{k:'baby',n:'아기',d:'출산·육아 첫 물건',need:-1,img:'pet-baby.svg'}];
 function go(){
  if(!window.HLROOM||!window.hlPets){return setTimeout(go,60);}
  var R=HLROOM,api=hlPets,s=api.load(),out=HLROOM.render(s,api.tier),T=out.T,svg=out.svg,n=s.total,pets=out.pets;
@@ -112,7 +112,7 @@ function go(){
   h+='<li><div class="h"><b>'+c.n+'</b><a href="'+LINK[k]+'">계산하러 가기 →</a></div><div class="bar" aria-hidden="true"><i style="width:'+pct+'%"></i></div><div class="tiers">'+c.t.map(function(x,i){return '<span class="'+(i<t?'on':'')+'">'+(i<t?'✓ ':'')+x+'</span>';}).join('')+'</div><div class="s">'+(t>=3?'모두 모았어요!':'다음 「'+c.t[t]+'」까지 간식 '+(nx-have)+'개')+'</div></li>';});
  ul.innerHTML=h;
  var rc=(api.recent&&api.recent())||[];if(rc.length){document.getElementById('recentBox').hidden=false;document.getElementById('recent').innerHTML=rc.map(function(x){var a=document.createElement('a');a.href=x.p;a.textContent=x.t;return '<li>'+a.outerHTML+'</li>';}).join('');}
- document.getElementById('pets').innerHTML=PETS.map(function(p){var on=n>=p.need;return '<li class="'+(on?'':'off')+'"><img src="/assets/art/'+p.img+'" alt="" loading="lazy"><b>'+(on?p.n:'???')+'</b>'+(on?p.d:'간식 '+p.need+'개')+'</li>';}).join('');
+ document.getElementById('pets').innerHTML=PETS.map(function(p){var on=p.need<0?T.baby>=1:n>=p.need;return '<li class="'+(on?'':'off')+'"><img src="/assets/art/'+p.img+'" alt="" loading="lazy"><b>'+(on?p.n:'???')+'</b>'+(on?p.d:(p.need<0?'출산·육아 간식 3개':'간식 '+p.need+'개'))+'</li>';}).join('');
  document.getElementById('snap').onclick=function(){
   var img=new Image(),W=1080,H=1080;
   img.onload=function(){var cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
