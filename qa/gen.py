@@ -27,6 +27,7 @@ C = [  # cc, form option, lang, flag, local name, hub link, hub label
  ("id","인도네시아 · Indonesia","id","🇮🇩","Indonesia","/id/","Kalkulator Indonesia"),
  ("other","기타 국가 · Other country","en","🌐","Other countries","/en/","English calculators"),
 ]
+C = [c for c in C if c[0]=="kr"]  # 한국 게시판만 운영 (해외 버전은 honglifecalc.com)
 T = {
  "ko":dict(t="{n} 세금·월급 Q&A",d="{n}의 세금·월급·연말정산·대출 질문과 답변. 질문을 남기면 보통 1~2일 안에 답변해요.",ask="질문 남기기",empty="아직 답변된 질문이 없어요. 첫 질문을 남겨 주세요.",q="질문",a="답변",asked="질문일",more="관련 계산기",note="답변은 일반 정보이며 세무·법률 자문이 아니에요. 개인정보는 지우고 공개해요.",home="홈",all="전체 Q&A",count="답변 {k}개"),
  "en":dict(t="{n} tax & salary Q&A",d="Questions and answers about tax, salary, refunds and loans in {n}. Ask yours — answers are usually posted within 1–2 days.",ask="Ask a question",empty="No answered questions yet. Be the first to ask.",q="Question",a="Answer",asked="Asked",more="Related calculators",note="General information only, not tax or legal advice. Personal details are removed before publishing.",home="Home",all="All Q&A",count="{k} answered"),
@@ -83,14 +84,14 @@ def build():
     latest="".join('<li><a href="/qa/%s.html#%s">%s</a></li>'%(i["cc"],E(i["id"]),E(i["q"][:90])) for i in items[:10])
     body=('<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"><a href="/">계산기 홈</a></span></div></div>\n<div class="wrap">'
           '<nav class="crumb"><a href="/">홈</a> › <span>Q&amp;A</span></nav>'
-          '<header class="top"><p class="kicker">국가별 Q&amp;A · Ask in any language</p><h1>세금·월급 Q&amp;A <small>Tax &amp; salary Q&amp;A by country</small></h1>'
-          '<p class="lead">나라를 고르고 궁금한 점을 남겨 주세요. 보통 1~2일 안에 답변을 달아 국가별 페이지에 공개해요. 이름·연락처 같은 개인정보는 적지 마세요.<br>Pick your country and ask anything about tax, salary, refunds or loans — in any language. Answers are posted within 1–2 days.</p>'
+          '<header class="top"><p class="kicker">홍라이프 Q&amp;A</p><h1>세금·월급 Q&amp;A</h1>'
+          '<p class="lead">세금·월급·연말정산·대출에 대해 궁금한 점을 남겨 주세요. 보통 1~2일 안에 답변을 달아 공개해요. 이름·연락처 같은 개인정보는 적지 마세요.</p>'
           '<a class="btn" href="%s" target="_blank" rel="noopener">✍️ 질문 남기기 · Ask a question →</a></header>'
-          '<section class="card"><h2>국가별 Q&amp;A · By country</h2><div class="tiles">%s</div></section>%s'
+          '<section class="card"><h2>질문 게시판</h2><div class="tiles">%s</div></section>%s'
           '<p class="note">답변은 일반 정보이며 세무·법률 자문이 아니에요. · General information only, not tax or legal advice.</p></div>')%(
           E(FORM),tiles,('<section class="card"><h2>최근 답변 · Latest answers</h2><ul class="latest">%s</ul></section>'%latest) if latest else "")
-    ld=[{"@context":"https://schema.org","@type":"CollectionPage","name":"세금·월급 Q&A · Tax & salary Q&A by country","url":"https://honglife.co.kr/qa/"}]
-    open(os.path.join(ROOT,"qa","index.html"),"w",encoding="utf-8").write(page("/qa/","ko","국가별 세금·월급 Q&A · Tax & salary Q&A by country | 홍라이프","나라별로 세금·월급·연말정산·대출 질문을 남기면 1~2일 안에 답변해요. Ask tax and salary questions by country in any language.",body,ld))
+    ld=[{"@context":"https://schema.org","@type":"CollectionPage","name":"세금·월급 Q&A","url":"https://honglife.co.kr/qa/"}]
+    open(os.path.join(ROOT,"qa","index.html"),"w",encoding="utf-8").write(page("/qa/","ko","세금·월급 Q&A | 홍라이프","세금·월급·연말정산·대출 질문을 남기면 1~2일 안에 답변해요.",body,ld))
     answered=[c[0] for c in C if by[c[0]]]
     return ["/qa/"]+["/qa/%s.html"%c for c in answered]
 if __name__=="__main__":
