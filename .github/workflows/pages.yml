@@ -18,8 +18,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Build site with redirects for moved pages
-        run: python3 tools/redirect_build.py
+      - name: Unpack tools site (includes redirect pages for old URLs)
+        run: |
+          mkdir -p _site
+          cat tpkg/tools.tar.gz.part* | tar -xzf - -C _site
+          echo "files: $(find _site -type f | wc -l)"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
