@@ -23,6 +23,10 @@ jobs:
           mkdir -p _site
           cat tpkg/tools.tar.gz.part* | tar -xzf - -C _site
           echo "files: $(find _site -type f | wc -l)"
+      - name: Apply overlay (여행픽 page) and add 입시·여행 to the menu
+        run: |
+          cp -r overlay/. _site/
+          python3 build/patch_site.py _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
