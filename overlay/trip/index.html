@@ -261,7 +261,7 @@ function renderPkgs(){
     const title = p.rt || p.t.split(" · ")[0];
     const sub = p.rs || p.t.split(" · ").slice(1).join(" · ") || p.sub;
     const media = p.video
-      ? `<video src="${p.video}" poster="${p.img}" muted loop playsinline preload="metadata"></video>`
+      ? `<video src="${p.video}" poster="${p.video.replace('_card.mp4','_poster.jpg')}" muted loop playsinline preload="metadata"></video>`
       : `<img src="${p.img}" alt="${title}" loading="lazy">`;
     return `<article class="pkg${p.full?" has-video":""}"${p.full?` data-full="${p.full}" data-url="${p.url}"`:""}>
       ${media}
