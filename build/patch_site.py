@@ -64,3 +64,30 @@ s = open(p, encoding='utf-8').read()
 s2 = re.sub(r'<url><loc>https://honglife\.co\.kr/ai/travel-plan\.html</loc>.*?</url>\n?', '', s)
 if s2 != s:
     open(p, 'w', encoding='utf-8').write(s2); print('travel-plan removed from sitemap')
+
+# 2027 편입 도구 (/ipsi/pyeonip-2027.html, overlay) — add to the 입시 hub, home count and sitemap
+PY = '/ipsi/pyeonip-2027.html'
+LI_PY = ('<li><a href="/ipsi/pyeonip-2027.html"><b>2027 편입 일정·경쟁률·시험과목 (수도권·거점국립대 71곳)</b>'
+         '<span>원서접수·필기·합격발표 시기, 인문·자연 필기 과목, 2026 일반편입 경쟁률</span></a></li>')
+p = os.path.join(root, 'ipsi', 'index.html')
+if os.path.exists(p):
+    s = open(p, encoding='utf-8').read()
+    if PY not in s.split('<section class="card rel">')[0]:
+        s = s.replace('<ul class="tlist">', '<ul class="tlist">' + LI_PY, 1)
+        s = re.sub(r'입시 도구 (\d+)가지', lambda m: f'입시 도구 {int(m.group(1)) + 1}가지', s, count=1)
+        s = s.replace('"hasPart":[', '"hasPart":[{"@type":"WebApplication","name":"2027 편입 일정·경쟁률·시험과목","url":"https://honglife.co.kr/ipsi/pyeonip-2027.html"},', 1)
+        open(p, 'w', encoding='utf-8').write(s); print('ipsi hub: pyeonip added')
+p = os.path.join(root, 'index.html')
+s = open(p, encoding='utf-8').read()
+if 'data-py="1"' not in s:
+    s2 = re.sub(r'(<a href="/ipsi/"><img[^>]*><b>입시</b><em>)(\d+)개(</em>)',
+                lambda m: f'{m.group(1)}{int(m.group(2)) + 1}개{m.group(3)}', s, count=1)
+    if s2 != s:
+        s2 = s2.replace('</head>', '<meta name="hl-py" data-py="1">\n</head>', 1)
+        open(p, 'w', encoding='utf-8').write(s2); print('home: 입시 count +1')
+p = os.path.join(root, 'sitemap.xml')
+s = open(p, encoding='utf-8').read()
+if 'ipsi/pyeonip-2027.html' not in s:
+    s = s.replace('<url><loc>https://honglife.co.kr/trip/</loc>',
+                  '<url><loc>https://honglife.co.kr/ipsi/pyeonip-2027.html</loc><lastmod>2026-11-16</lastmod></url>\n<url><loc>https://honglife.co.kr/trip/</loc>', 1)
+    open(p, 'w', encoding='utf-8').write(s); print('sitemap: pyeonip added')
