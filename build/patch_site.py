@@ -68,7 +68,7 @@ if s2 != s:
 # 2027 편입 도구 (/ipsi/pyeonip-2027.html, overlay) — add to the 입시 hub, home count and sitemap
 PY = '/ipsi/pyeonip-2027.html'
 LI_PY = ('<li><a href="/ipsi/pyeonip-2027.html"><b>2027 편입 일정·경쟁률·시험과목 (수도권·거점국립대 71곳)</b>'
-         '<span>원서접수·필기·합격발표 시기, 인문·자연 필기 과목, 2026 일반편입 경쟁률</span></a></li>')
+         '<span>원서접수·필기·합격발표 시기, 필기 과목, 2026 모집인원·경쟁률</span></a></li>')
 p = os.path.join(root, 'ipsi', 'index.html')
 if os.path.exists(p):
     s = open(p, encoding='utf-8').read()
