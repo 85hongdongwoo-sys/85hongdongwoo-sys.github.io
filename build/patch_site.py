@@ -39,3 +39,28 @@ if 'honglife.co.kr/trip/' not in s:
     s = s.replace('<url><loc>https://honglife.co.kr/excel/</loc>',
                   '<url><loc>https://honglife.co.kr/trip/</loc><lastmod>2026-11-15</lastmod></url>\n<url><loc>https://honglife.co.kr/excel/</loc>', 1)
     open(p, 'w', encoding='utf-8').write(s); print('sitemap patched')
+
+# Remove the AI travel itinerary tool (/ai/travel-plan.html now redirects to /trip/ via overlay)
+LI = re.compile(r'<li><a href="/ai/travel-plan\.html">.*?</a></li>')
+JS = re.compile(r'\{"t":"AI로 여행 계획 짜기[^{}]*?"u":"/ai/travel-plan\.html"\}')
+LD = re.compile(r',?\{"@type":"WebApplication","name":"AI로 여행 계획 짜기[^{}]*?travel-plan\.html"\}')
+TRIP = '{"t":"홍라이프 여행픽 — 출발확정 해외 패키지 특가","d":"쇼츠로 보고 바로 예약하는 출발확정 여행 패키지와 여행 계산기","k":"여행 패키지 특가 출발확정 대마도 후쿠오카 오사카 스페인 해외여행 여행픽","c":"여행","u":"/trip/"}'
+for rel in ['index.html', 'ai/index.html', '404.html']:
+    p = os.path.join(root, rel)
+    if not os.path.exists(p):
+        continue
+    s = open(p, encoding='utf-8').read(); o = s
+    s = LI.sub('', s)
+    s = JS.sub(TRIP, s)
+    s = LD.sub('', s)
+    if rel == 'index.html':
+        s = s.replace('<b>AI 활용</b><em>40개</em>', '<b>AI 활용</b><em>39개</em>')
+    if rel == 'ai/index.html':
+        s = s.replace('AI 활용 도구 40가지', 'AI 활용 도구 39가지')
+    if s != o:
+        open(p, 'w', encoding='utf-8').write(s); print('travel-plan removed from', rel)
+p = os.path.join(root, 'sitemap.xml')
+s = open(p, encoding='utf-8').read()
+s2 = re.sub(r'<url><loc>https://honglife\.co\.kr/ai/travel-plan\.html</loc>.*?</url>\n?', '', s)
+if s2 != s:
+    open(p, 'w', encoding='utf-8').write(s2); print('travel-plan removed from sitemap')
