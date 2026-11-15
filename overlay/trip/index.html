@@ -199,7 +199,8 @@
   .brandbar nav a{color:var(--label2);padding:6px 10px;border-radius:9px;font-weight:550}
   .brandbar nav a:hover{background:var(--fill);color:var(--label)}
   .brandbar nav a.on{color:var(--blue);font-weight:700}
-  @media (max-width:640px){.brandbar nav a.cat{display:none}.brandbar nav a.cat.on,.brandbar nav a.keep{display:inline-block}}
+  @media (max-width:640px){.brandbar nav a.cat{display:none}}
+  .brandbar nav a.srch{display:inline-block;margin-left:8px;background:var(--fill);border:1px solid var(--sep)}
   .subnav{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 4px}
   .subnav a{background:var(--surface);border:1px solid var(--sep);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;color:var(--label)}
   .subnav a:hover{border-color:var(--blue);color:var(--blue)}
@@ -207,7 +208,7 @@
 </style>
 </head>
 <body>
-<div class="brandbar"><div class="in"><a class="logo" href="/"><img src="/assets/brand/symbol-small.svg" width="28" height="28" alt=""><span>홍라이프 도구</span></a><nav aria-label="주요 분류"><a class="cat" href="/excel/">엑셀 수식</a><a class="cat" href="/sheet/">엑셀 양식</a><a class="cat" href="/doc/">문서</a><a class="cat" href="/pdf/">PDF</a><a class="cat" href="/image/">이미지</a><a class="cat" href="/design/">디자인</a><a class="cat keep" href="/ipsi/">입시</a><a class="cat keep on" href="/trip/" aria-current="page">여행</a></nav></div></div>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><img src="/assets/brand/symbol-small.svg" width="28" height="28" alt=""><span>홍라이프 도구</span></a><nav aria-label="주요 분류"><a class="cat" href="/excel/">엑셀 수식</a><a class="cat" href="/sheet/">엑셀 양식</a><a class="cat" href="/doc/">문서</a><a class="cat" href="/pdf/">PDF</a><a class="cat" href="/image/">이미지</a><a class="cat" href="/design/">디자인</a><a class="cat keep" href="/ipsi/">입시</a><a class="cat keep on" href="/trip/" aria-current="page">여행</a><a class="srch" href="/#search">도구 찾기</a></nav></div></div>
 <main id="top">
   <div class="hero">
     <div class="wrap">

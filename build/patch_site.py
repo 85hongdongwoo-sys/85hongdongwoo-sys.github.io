@@ -3,7 +3,7 @@ Runs in the deploy workflow after the tools bundle is unpacked into _site/."""
 import os, sys, re
 root = sys.argv[1] if len(sys.argv) > 1 else '_site'
 OLD = '<a href="/design/">디자인</a>'
-NEW = OLD + '<a href="/ipsi/" style="display:inline-flex;align-items:center">입시</a><a href="/trip/" style="display:inline-flex;align-items:center">여행</a>'
+NEW = OLD + '<a href="/ipsi/">입시</a><a href="/trip/">여행</a>'
 n = 0
 for dp, dn, fn in os.walk(root):
     if os.path.relpath(dp, root).split(os.sep)[0] == 'trip':
@@ -13,7 +13,7 @@ for dp, dn, fn in os.walk(root):
             continue
         p = os.path.join(dp, f)
         s = open(p, encoding='utf-8').read()
-        if OLD in s and 'href="/trip/" style=' not in s:
+        if OLD in s and '<a href="/trip/">여행</a>' not in s:
             open(p, 'w', encoding='utf-8').write(s.replace(OLD, NEW, 1)); n += 1
 print('menu patched:', n)
 
