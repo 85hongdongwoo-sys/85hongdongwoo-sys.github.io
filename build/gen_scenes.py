@@ -108,15 +108,22 @@ def bust(i):
 for i in range(4):
     open(os.path.join(out, f'pp-{i}.svg'), 'w').write(bust(i))
 B = '#1C7ED6'
-L = f'fill="none" stroke="{B}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"'
-pic = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" width="220" height="160">'
-       f'<rect x="20" y="20" width="44" height="58" rx="6" {L}/><path d="M30 36h24M30 46h24M30 56h14" {L}/>'
-       f'<rect x="86" y="14" width="56" height="44" rx="6" {L}/><path d="M104 70h20M114 58v12" {L}/>'
-       f'<rect x="164" y="18" width="32" height="54" rx="6" {L}/><path d="M176 64h8" {L}/>'
-       f'<path d="M24 120a14 14 0 0 1 2-27 18 18 0 0 1 34 4 12 12 0 0 1 0 23z" {L}/>'
-       f'<path d="M90 98h48v40H90zM90 110h48M106 98v40" {L}/>'
-       f'<circle cx="182" cy="118" r="20" {L}/><path d="M172 118l7 7 13-14" {L}/>'
-       f'<path d="M70 88l4 4M150 84l-4 4M74 140h4M150 140h4" {L}/></svg>')
+L = f'fill="none" stroke="{B}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"'
+def _cell(cx, cy, k):
+    # 40x40 칸 안에 같은 크기로 그리기
+    x, y = cx - 20, cy - 20
+    g = {
+        'doc': f'<rect x="{x+8}" y="{y+2}" width="24" height="36" rx="4" {L}/><path d="M{x+14} {y+12}h12M{x+14} {y+20}h12M{x+14} {y+28}h7" {L}/>',
+        'mon': f'<rect x="{x+1}" y="{y+4}" width="38" height="26" rx="4" {L}/><path d="M{x+20} {y+30}v6M{x+13} {y+37}h14" {L}/>',
+        'phone': f'<rect x="{x+9}" y="{y+1}" width="22" height="38" rx="5" {L}/><path d="M{x+17} {y+32}h6" {L}/>',
+        'cloud': f'<path d="M{x+10} {y+31}a9 9 0 0 1 0-18 12 12 0 0 1 23 3 7.5 7.5 0 0 1-1 15z" {L}/>',
+        'table': f'<rect x="{x+2}" y="{y+4}" width="36" height="32" rx="4" {L}/><path d="M{x+2} {y+15}h36M{x+15} {y+4}v32" {L}/>',
+        'check': f'<circle cx="{cx}" cy="{cy}" r="17" {L}/><path d="M{cx-7} {cy}l5 5 10-10" {L}/>',
+    }[k]
+    return g
+pic = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" width="220" height="160">'
+       + ''.join(_cell(40 + c * 70, 42 + r * 76, k) for r, row in enumerate([['doc', 'mon', 'phone'], ['cloud', 'table', 'check']]) for c, k in enumerate(row))
+       + '</svg>')
 open(os.path.join(out, 'picto.svg'), 'w').write(pic)
 print('bust+picto')
 

@@ -217,7 +217,7 @@ ul.hl-cards .ft a{position:relative}
             if i % 5 == 3:
                 return m.group(1).replace('<a ', f'<a class="tx" style="--tc:{PAL[(i + 2) % len(PAL)]}" ', 1) + '<img class="pg" src="/assets/art/hl/pgw-' + cat + '.svg" alt="" width="34" height="34" loading="lazy">'
             DK = ['#1E2A4A', '#2B1F3D', '#12352B', '#3A1E24', '#1F3340']
-            kind = 'wvdwvdwwvd'[i % 10]
+            kind = 'wwvwwdwwvw'[i % 10]
             bgc = '#fff' if kind == 'w' else (PAL[i % len(PAL)] if kind == 'v' else DK[i % len(DK)])
             if cnt[1]:
                 return m.group(1).replace('<a ', f'<a class="tp" style="--tc:{TOP[i % len(TOP)]}" ', 1) + f'<i class="th"><img src="{sc.replace("/sc-", "/cs-")}" alt="" width="200" height="140" loading="lazy"></i>'
@@ -320,3 +320,123 @@ ul.hl-catrow a.ct .go{position:absolute;right:12px;bottom:12px;width:28px;height
 </style>"""
         s = s.replace('</head>', CSS + '\n</head>', 1)
         open(p, 'w', encoding='utf-8').write(s); print('home: category row cards')
+
+# 분류 허브 페이지(/excel/ 등): 홈과 같은 느낌 — 흐르는 배경, 가운데 제목, 그림 카드 그리드(흰 카드 70%), 다른 분류 그림 카드 줄
+HPAL = ['#FFD6A5', '#C9DCFF', '#D7C8FF', '#BFEBD8', '#FFC9D6', '#FFE89A']
+HDK = ['#1E2A4A', '#2B1F3D', '#12352B', '#3A1E24', '#1F3340']
+HFC = {'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
+       'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#495057', 'life': '#2F9E44', 'medical': '#E64980',
+       'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C'}
+KW = [('pdf', r'PDF'), ('image', r'이미지|사진|PNG|JPG|증명'), ('qr', r'QR|바코드'), ('ai', r'AI|챗GPT|클로드|프롬프트'),
+      ('calendar', r'달력|D-day|날짜|공휴일|요일'), ('sheet', r'차트|그래프|가계부|근무표'), ('excel', r'엑셀|수식|CSV'),
+      ('dev', r'JSON|코드|정규식|Base64|HTML'), ('doc', r'계약서|견적서|이력서|서식|영수증'), ('text', r'글자|텍스트|맞춤법')]
+HUBCSS = """<style id="hl-hub-css">
+body{position:relative}
+.hl-flow{position:absolute;left:0;right:0;top:0;height:min(900px,130vh);overflow:hidden;z-index:0;pointer-events:none;background:#fff;-webkit-mask-image:linear-gradient(#000 50%,transparent);mask-image:linear-gradient(#000 50%,transparent)}
+.hl-flow i{position:absolute;display:block;border-radius:50%}
+.hl-flow .f1{width:62vw;height:520px;left:-8vw;top:10px;background:radial-gradient(closest-side,rgba(37,99,235,.5),rgba(37,99,235,0));animation:hlf1 20s ease-in-out infinite}
+.hl-flow .f2{width:56vw;height:560px;right:-10vw;top:-40px;background:radial-gradient(closest-side,rgba(56,189,248,.55),rgba(56,189,248,0));animation:hlf2 24s ease-in-out infinite}
+.hl-flow .f3{width:58vw;height:480px;left:22vw;top:260px;background:radial-gradient(closest-side,rgba(99,102,241,.4),rgba(99,102,241,0));animation:hlf3 28s ease-in-out infinite}
+@keyframes hlf1{0%,100%{transform:translate(0,0) rotate(0) scale(1)}25%{transform:translate(14%,10%) rotate(30deg) scale(1.1)}50%{transform:translate(28%,-4%) rotate(70deg) scale(.95)}75%{transform:translate(10%,-8%) rotate(110deg) scale(1.05)}}
+@keyframes hlf2{0%,100%{transform:translate(0,0) rotate(0) scale(1)}25%{transform:translate(-14%,14%) rotate(-40deg) scale(1.08)}50%{transform:translate(-30%,6%) rotate(-80deg) scale(.92)}75%{transform:translate(-16%,-6%) rotate(-120deg) scale(1.04)}}
+@keyframes hlf3{0%,100%{transform:translate(0,0) rotate(0) scale(1)}33%{transform:translate(-26%,-14%) rotate(50deg) scale(1.1)}66%{transform:translate(22%,-18%) rotate(100deg) scale(.94)}}
+@media (prefers-reduced-motion:reduce){.hl-flow i{animation:none!important}}
+.brandbar{position:relative;z-index:2;background:rgba(255,255,255,.55)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+main.wrap{position:relative;z-index:1}
+header.top.hub{background:transparent!important;box-shadow:none!important;border:0!important;text-align:center;padding:48px 0 40px!important}
+header.top.hub h1{font-size:clamp(30px,5vw,46px)}
+header.top.hub .lead{max-width:720px;margin-left:auto;margin-right:auto}
+header.top.hub .safe{display:inline-flex;background:rgba(255,255,255,.7)!important}
+main section.card{background:transparent!important;box-shadow:none!important;border:0!important;padding:0!important;margin:0 0 40px}
+main section.card>h2{font-size:22px;margin:0 0 16px}
+ul.hl-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;padding:0;margin:0;list-style:none}
+ul.hl-grid>li{margin:0;min-width:0}
+ul.hl-grid>li>a{display:flex!important;flex-direction:column;height:100%;padding:0!important;overflow:hidden;background:#fff!important;border:1px solid rgba(20,30,60,.08)!important;border-radius:18px!important;color:#111;text-decoration:none;box-shadow:0 8px 20px -12px rgba(16,24,48,.16),0 1px 4px rgba(16,24,48,.04)!important;transition:transform .2s,box-shadow .2s}
+ul.hl-grid>li>a:hover{transform:translateY(-3px);box-shadow:0 12px 26px -12px rgba(16,24,48,.22),0 1px 4px rgba(16,24,48,.05)!important}
+ul.hl-grid .th{display:flex;align-items:center;justify-content:center;height:140px;flex:0 0 auto;padding:18px 22px 0;box-sizing:border-box;background:#F3F5F9}
+ul.hl-grid .th img{width:100%;height:100%;object-fit:contain;object-position:center bottom}
+ul.hl-grid .pg{width:26px;height:26px;margin:12px 14px 0}
+ul.hl-grid b{font-size:15px!important;line-height:1.4;margin:8px 14px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ul.hl-grid span{font-size:12.5px!important;color:#5b6270;margin:5px 14px 14px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ul.hl-grid li.v>a{background:var(--tc)!important;border-color:transparent!important}
+ul.hl-grid li.v .th{background:transparent}
+ul.hl-grid li.d>a{background:var(--tc)!important;border-color:transparent!important;color:#fff}
+ul.hl-grid li.d .th{background:rgba(255,255,255,.06)}
+ul.hl-grid li.d b{color:#fff!important}ul.hl-grid li.d span{color:rgba(255,255,255,.8)!important}
+ul.hl-grid li.ft{grid-column:1/-1}
+ul.hl-grid li.ft>a{flex-direction:row!important;align-items:stretch;min-height:220px!important}
+ul.hl-grid li.ft .fh2{font-style:normal;flex:1 1 50%;display:flex;flex-direction:column;justify-content:center;padding:10px 0}
+ul.hl-grid li.ft .fi{flex:1 1 50%!important;margin:16px 24px!important}
+ul.hl-grid li.ft>a{background:color-mix(in srgb,var(--tc) 70%,#1b2233)!important;color:#fff;position:relative;min-height:290px;border-color:transparent!important}
+ul.hl-grid li.ft em{display:block;font-style:normal;font-size:12px;font-weight:700;margin:20px 20px 0;opacity:.85}
+ul.hl-grid li.ft b{color:#fff!important;font-size:22px!important;margin:6px 20px 0}
+ul.hl-grid li.ft span{color:rgba(255,255,255,.85)!important;margin:6px 20px 0!important}
+ul.hl-grid li.ft .fi{flex:1 1 auto;min-height:150px;margin:8px 20px 16px;background-repeat:no-repeat;background-size:contain;background-position:center bottom}
+@media (max-width:600px){section.rel ul.hl-rel{grid-template-columns:1fr 1fr;gap:10px}ul.hl-grid li.ft>a{flex-direction:column!important}ul.hl-grid{grid-template-columns:1fr 1fr;gap:10px}ul.hl-grid .th{height:110px;padding:12px 14px 0}ul.hl-grid li.ft{grid-column:1/-1}}
+section.rel ul.hl-rel{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;padding:4px 0 24px;margin:0;list-style:none}
+section.rel ul.hl-rel::-webkit-scrollbar{display:none}
+ul.hl-rel>li{margin:0;min-width:0}
+ul.hl-rel a{display:block!important;position:relative;aspect-ratio:1/1;height:auto;border-radius:18px!important;overflow:hidden;background:var(--bg)!important;color:#111;text-decoration:none;padding:0!important;border:0!important;box-shadow:0 8px 20px -12px rgba(16,24,48,.16),0 1px 4px rgba(16,24,48,.04)!important}
+ul.hl-rel a b{display:block;padding:16px 16px 0;font-size:16px!important;line-height:1.3;color:#111!important}
+ul.hl-rel a span{display:none!important;padding:4px 16px 0;font-size:12px!important;color:#333!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ul.hl-rel a i{position:absolute;left:14px;right:14px;top:34%;bottom:14px;background-repeat:no-repeat;background-size:contain;background-position:center top}
+</style>"""
+def _mix(c, t):
+    r, g, b = int(c[1:3], 16), int(c[3:5], 16), int(c[5:7], 16)
+    return '#%02X%02X%02X' % tuple(round(v + (255 - v) * t) for v in (r, g, b))
+for cat in sorted(os.listdir(root)):
+    p = os.path.join(root, cat, 'index.html')
+    if not os.path.isfile(p) or cat not in HFC:
+        continue
+    s = open(p, encoding='utf-8').read()
+    if 'class="top hub"' not in s or 'hl-hub-css' in s:
+        continue
+    s = s.replace('</head>', HUBCSS + '\n</head>', 1)
+    s = re.sub(r'(<body[^>]*>)', r'\1<div class="hl-flow" aria-hidden="true"><i class="f1"></i><i class="f2"></i><i class="f3"></i></div>', s, count=1)
+    first = [True]
+    def conv_ul(m):
+        items = re.findall(r'<li><a href="([^"]*)"[^>]*><b>(.*?)</b><span>(.*?)</span></a></li>', m.group(1), flags=re.S)
+        if not items:
+            return m.group(0)
+        out = []
+        for i, (href, b, sp) in enumerate(items):
+            sc = cat
+            for k, rx in KW:
+                if re.search(rx, b):
+                    sc = k
+                    break
+            if not os.path.exists(os.path.join(root, 'assets/art/hl', f'cs-{sc}.svg')):
+                sc = cat
+            ALT = {'excel': 'sheet', 'sheet': 'excel', 'doc': 'pdf', 'pdf': 'doc', 'image': 'convert', 'convert': 'doc', 'text': 'doc', 'calendar': 'life'}
+            if sc == cat and i % 3 == 1 and ALT.get(cat):
+                sc = ALT[cat]
+            if False:
+                out.append(f'<li class="ft"><a href="{href}" style="--tc:{HFC[cat]}"><i class="fh2"><em>추천 도구</em><b>{b}</b><span>{sp}</span></i>'
+                           f'<i class="fi" style="background-image:url(/assets/art/hl/ft-{cat}.svg)"></i></a></li>')
+                continue
+            kind = 'wwvwwdwwvw'[i % 10]
+            if kind == 'w':
+                out.append(f'<li><a href="{href}"><i class="th"><img src="/assets/art/hl/cs-{sc}.svg" alt="" width="200" height="140" loading="lazy"></i>'
+                           f'<img class="pg" src="/assets/art/hl/pg-{cat}.svg" alt="" width="26" height="26" loading="lazy"><b>{b}</b><span>{sp}</span></a></li>')
+            else:
+                tc = HPAL[i % len(HPAL)] if kind == 'v' else HDK[i % len(HDK)]
+                pg = 'pg' if kind == 'v' else 'pgw'
+                out.append(f'<li class="{kind}"><a href="{href}" style="--tc:{tc}"><i class="th"><img src="/assets/art/hl/cs-{sc}.svg" alt="" width="200" height="140" loading="lazy"></i>'
+                           f'<img class="pg" src="/assets/art/hl/{pg}-{cat}.svg" alt="" width="26" height="26" loading="lazy"><b>{b}</b><span>{sp}</span></a></li>')
+        if first[0] and out and out[0].startswith('<li class="ft"'):
+            out = out[1:] + [out[0]]
+        first[0] = False
+        return '<ul class="tlist hl-grid">' + ''.join(out) + '</ul>'
+    s = re.sub(r'<ul class="tlist">(.*?)</ul>', conv_ul, s, flags=re.S)
+    def conv_rel(m):
+        items = re.findall(r'<li><a href="/([a-z0-9-]+)/"><b>(.*?)</b><span>(.*?)</span></a></li>', m.group(1))
+        out = []
+        for c2, b, sp in items:
+            c = HFC.get(c2, '#2563EB'); a, bb = _mix(c, .80), _mix(c, .45)
+            img = f'/assets/art/hl/cs-{c2}.svg' if os.path.exists(os.path.join(root, 'assets/art/hl', f'cs-{c2}.svg')) else ''
+            out.append(f'<li><a href="/{c2}/" style="--bg:linear-gradient({a} 0 34%,{bb} 34%)"><b>{b}</b><span>{sp}</span>'
+                       + (f'<i style="background-image:url({img})"></i>' if img else '') + '</a></li>')
+        return '<section class="card rel"><h2>다른 분류</h2><ul class="hl-rel">' + ''.join(out) + '</ul></section>'
+    s = re.sub(r'<section class="card rel"><h2>다른 분류</h2><ul>(.*?)</ul></section>', conv_rel, s, flags=re.S)
+    open(p, 'w', encoding='utf-8').write(s)
+print('hub pages styled')
