@@ -143,3 +143,10 @@ ul.hl-cards span{font-size:12.5px!important;margin:4px 12px 12px!important;displ
         seg = re.sub(r'(<li><a href="/([a-z0-9-]+)/[^"]*"[^>]*>)', card, seg)
         s = s[:a] + seg + s[b:]
     open(p, 'w', encoding='utf-8').write(s); print('home: flow hero + tool cards')
+
+# 홈: 분류 아이콘·도구 카드 아이콘 채도 조금 올리기
+p = os.path.join(root, 'index.html')
+s = open(p, encoding='utf-8').read()
+if 'hl-sat' not in s:
+    s = s.replace('</head>', '<style id="hl-sat">.cats img,ul.hl-cards .th img{filter:saturate(1.6) brightness(1.02)}</style>\n</head>', 1)
+    open(p, 'w', encoding='utf-8').write(s); print('home: icon saturation')
