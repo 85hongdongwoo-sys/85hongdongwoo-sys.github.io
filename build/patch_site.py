@@ -153,6 +153,12 @@ ul.hl-cards li.pc b,ul.hl-cards li.pt b{margin:16px 16px 0}
 ul.hl-cards li.pc span,ul.hl-cards li.pt span{margin:6px 16px 0!important}
 ul.hl-cards .pi{display:block;flex:1 1 auto;min-height:150px;background-repeat:no-repeat;background-size:contain;background-position:center bottom;margin-top:10px}
 ul.hl-cards li.pt .pi{background-position:center;margin:10px 14px 14px}
+ul.hl-cards li.ph a{background:var(--im) center bottom/auto 68% no-repeat,var(--tc)!important}
+ul.hl-cards li.ph b,ul.hl-cards li.ph span{position:relative;z-index:1}
+ul.hl-cards li.pw a{background:var(--im) center/cover no-repeat,var(--tc)!important}
+ul.hl-cards li.pw a::before{content:"";position:absolute;inset:0 0 auto 0;height:55%;background:linear-gradient(rgba(0,0,0,.55),transparent);border-radius:18px 18px 0 0}
+ul.hl-cards li.pw a{position:relative}
+ul.hl-cards li.pw b,ul.hl-cards li.pw span{color:#fff!important}
 ul.hl-cards li.hl-rv,ul.hl-cards li{opacity:1!important;transform:none!important}
 ul.hl-cards b{font-size:15px!important;line-height:1.4;margin:12px 14px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 ul.hl-cards span{font-size:12.5px!important;margin:5px 14px 14px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -176,7 +182,7 @@ ul.hl-cards .ft a{position:relative}
     a = s.find('<h2 class="sec-h">많이 쓰는 도구'); b = s.find('<section class="card guide"', a)
     if a > 0 and b > a:
         seg = s[a:b]
-        cnt = [0, 0]
+        cnt = [0, 0, 0]
         TOP = ['#F9C9D9', '#B9D6F2', '#D3C5F3', '#FFE7A3', '#F7C9B5', '#F2763A', '#C1D9F7', '#DCE775', '#6B1E3A', '#F8B4D9', '#9FD8C9', '#FFD6A5']
         def card(m):
             cat = m.group(2); i = cnt[0]; cnt[0] += 1
@@ -211,12 +217,23 @@ ul.hl-cards .ft a{position:relative}
                         return f'<a class="mn" href="{r[0]}" style="--tc:{c}"><b>{r[1]}</b><span>{r[2]}</span></a>'
                     stack = f'<li class="stk">{mini(RAW[2], ["#FFE066", "#D0BFFF", "#FFD8A8", "#B2F2BB"][k % 4])}{mini(RAW[3], ["#5F3DC4", "#0B7285", "#C2255C", "#1864AB"][k % 4])}</li>'
                     r = RAW[5]
-                    pers = (f'<li class="pc"><a href="{r[0]}" style="--tc:{["#FCC2D7", "#A5D8FF", "#FFEC99", "#C3FAE8"][k % 4]}"><b>{r[1]}</b><span>{r[2]}</span>'
-                            f'<i class="pi" style="background-image:url(/assets/art/hl/pp-{k % 4}.svg)"></i></a></li>')
+                    ri = cnt[2]; cnt[2] += 1
+                    PH = [('p-woman', '#EBAEB5'), ('p-man', '#9ECDDD'), ('p-student', '#E5D290'), ('p-office', '#B8E3D0')]
+                    if ri % 2 == 0:
+                        ph, bc = PH[(ri // 2) % 4]
+                        pers = (f'<li class="pc ph"><a href="{r[0]}" style="--tc:{bc};--im:url(/assets/art/ph/{ph}.jpg)"><b>{r[1]}</b><span>{r[2]}</span></a></li>')
+                    else:
+                        pers = (f'<li class="pc"><a href="{r[0]}" style="--tc:{["#FCC2D7", "#A5D8FF", "#FFEC99", "#C3FAE8"][k % 4]}"><b>{r[1]}</b><span>{r[2]}</span>'
+                                f'<i class="pi" style="background-image:url(/assets/art/hl/pp-{k % 4}.svg)"></i></a></li>')
                     r = RAW[7]
                     pic = (f'<li class="pt"><a href="{r[0]}"><b>{r[1]}</b><span>{r[2]}</span>'
                            f'<i class="pi" style="background-image:url(/assets/art/hl/picto.svg)"></i></a></li>')
                     items = items[:2] + [stack] + items[4:5] + [pers] + items[6:7] + [pic] + items[8:]
+                    BIG = {'study': ('il-kid', '#432115'), 'ai': ('il-monkey', '#4E7D53'), 'calendar': ('phone-dark', '#394144'), 'sheet': ('phone-green', '#40C957')}
+                    if cat in BIG and len(RAW) > 9:
+                        r = RAW[9]; ph, bc = BIG[cat]
+                        big = f'<li class="pc ph pw"><a href="{r[0]}" style="--tc:{bc};--im:url(/assets/art/ph/{ph}.jpg)"><b>{r[1]}</b><span>{r[2]}</span></a></li>'
+                        items = items[:7] + [big] + items[8:]
                     lis = '<ul class="tlist">' + ''.join(items) + '</ul>'
             href = f'/{cat}/' if cat != 'pop' else '/#search'
             img = f'/assets/art/hl/ft-{cat}.svg'
