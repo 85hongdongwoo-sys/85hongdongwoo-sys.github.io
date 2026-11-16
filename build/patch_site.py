@@ -307,7 +307,7 @@ ul.hl-catrow a.ct{position:relative;height:300px;background:var(--bg)!important;
 ul.hl-catrow a.ct .ch{display:block!important;margin:0!important;padding:18px 18px 0;-webkit-line-clamp:unset;overflow:visible!important}
 ul.hl-catrow a.ct em{display:block;font-style:normal;font-size:12px;font-weight:700;color:#333}
 ul.hl-catrow a.ct b{margin:4px 0 0!important;font-size:19px!important;color:#111!important;line-height:1.3}
-ul.hl-catrow a.ct .ci{position:absolute;left:4px;right:4px;bottom:6px;height:220px;background-repeat:no-repeat;background-size:contain;background-position:center bottom;transition:transform .3s}
+ul.hl-catrow a.ct .ci{position:absolute;left:4px;right:4px;top:calc(40% - 12px);bottom:4px;height:auto;background-repeat:no-repeat;background-size:contain;background-position:center top;transition:transform .3s}
 ul.hl-catrow a.ct:hover .ci{transform:scale(1.05)}
 ul.hl-catrow a.ct .go{position:absolute;right:12px;bottom:12px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.95);color:#111;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin:0!important}
 @media (max-width:600px){ul.hl-catrow>li{flex-basis:200px}ul.hl-catrow a.ct{height:270px}ul.hl-catrow a.ct .ci{height:180px}}
