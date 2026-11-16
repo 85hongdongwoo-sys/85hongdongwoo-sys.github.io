@@ -4,7 +4,7 @@ out = sys.argv[1]
 os.makedirs(out, exist_ok=True)
 W, H = 200, 140
 def svg(body): return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 2 176 138" width="{W}" height="{H}">{body}</svg>'
-SH = '<ellipse cx="100" cy="132" rx="62" ry="5" fill="#000" opacity=".10"/>'
+SH = ''
 def win(x, y, w, h, bar, inner, dark=False):
     bg = '#1E2433' if dark else '#fff'
     return (f'<g><rect x="{x}" y="{y}" width="{w}" height="{h}" rx="9" fill="{bg}"/>'
@@ -44,7 +44,7 @@ S['legal'] = page(54, 14, 92, 112, '<path d="M100 26v22M86 32h28M86 32l-6 12h12z
 S['study'] = '<rect x="38" y="24" width="124" height="80" rx="7" fill="#1A1D24"/><rect x="43" y="29" width="114" height="70" rx="3" fill="#fff"/><rect x="50" y="36" width="40" height="7" rx="2" fill="#4F8CFF"/>' + lines(50, 50, 5, 58, 9) + '<rect x="114" y="40" width="36" height="46" rx="4" fill="#FFF3BF"/>' + lines(119, 48, 4, 26, 9, '#FAB005') + '<path d="M28 104h144l-8 10H36z" fill="#868E96"/>'
 S['ipsi'] = phone(64, 6, 72, 128, T(74, 32, '합격 가능성', '#1A1D24', 9) + ''.join(f'<rect x="{76+i*13}" y="{96-h}" width="9" height="{h}" rx="2" fill="{c}"/>' for i, (h, c) in enumerate([(26, '#B5C8F5'), (40, '#91A7FF'), (56, '#4F8CFF'), (48, '#5C7CFA')])) + '<rect x="72" y="104" width="56" height="12" rx="6" fill="#2F9E44"/>' + T(89, 113, '안정', '#fff', 8))
 S['dev'] = win(28, 18, 144, 106, '#343A46', ''.join(f'<rect x="{38+ind}" y="{36+i*10}" width="{w}" height="4.5" rx="2" fill="{c}"/>' for i, (ind, w, c) in enumerate([(0, 40, '#C792EA'), (10, 64, '#82AAFF'), (20, 48, '#C3E88D'), (20, 70, '#F78C6C'), (10, 30, '#82AAFF'), (0, 20, '#C792EA'), (0, 56, '#89DDFF'), (10, 40, '#C3E88D')])), dark=True)
-S['net'] = '<rect x="38" y="30" width="124" height="74" rx="7" fill="#1A1D24"/><rect x="43" y="35" width="114" height="64" rx="3" fill="#E7F5FF"/>' + ''.join(f'<path d="M{100-r} {84-r*.55}a{r} {r} 0 0 1 {2*r} 0" fill="none" stroke="#1C7ED6" stroke-width="5" stroke-linecap="round"/>' for r in (12, 22, 32)) + '<circle cx="100" cy="86" r="4" fill="#1C7ED6"/><path d="M28 104h144l-8 10H36z" fill="#868E96"/>'
+S['net'] = '<rect x="38" y="30" width="124" height="74" rx="7" fill="#1A1D24"/><rect x="43" y="35" width="114" height="64" rx="3" fill="#E7F5FF"/>' + ''.join(f'<path d="M{100-r} {84-r*.55}a{r} {r} 0 0 1 {2*r} 0" fill="none" stroke="#1C7ED6" stroke-width="2.4" stroke-linecap="round"/>' for r in (12, 22, 32)) + '<circle cx="100" cy="86" r="3" fill="none" stroke="#1C7ED6" stroke-width="2.4"/><path d="M28 104h144l-8 10H36z" fill="#868E96"/>'
 S['design'] = page(34, 16, 132, 108, '<circle cx="74" cy="58" r="22" fill="#FF6B6B"/><rect x="96" y="40" width="40" height="40" rx="8" fill="#4F8CFF"/><path d="M80 104l18-28 18 28z" fill="#FFB020"/>' + ''.join(f'<rect x="{46+i*16}" y="26" width="12" height="7" rx="2" fill="{c}"/>' for i, c in enumerate(['#FF6B6B', '#FFB020', '#2F9E44', '#4F8CFF', '#7048E8'])))
 S['shop'] = phone(64, 6, 72, 128, '<rect x="72" y="18" width="56" height="10" rx="3" fill="#FF922B"/>' + ''.join(f'<rect x="{72+(i%2)*30}" y="{34+(i//2)*36}" width="26" height="30" rx="5" fill="{c}"/><rect x="{76+(i%2)*30}" y="{56+(i//2)*36}" width="16" height="4" rx="2" fill="#fff"/>' for i, c in enumerate(['#FFD8A8', '#C5F6FA', '#D0BFFF', '#B2F2BB'])) + '<rect x="72" y="108" width="56" height="10" rx="5" fill="#1A1D24"/>')
 for k, b in S.items():
@@ -84,7 +84,7 @@ for i, k in enumerate(K + ['pop']):
     sc = S.get(k, S['excel'])
     p = person(62, 72, SK[i % 4], HR[i % 4], SH_[i % 5], pose=i % 2, long_hair=i % 3 == 1)
     pc = pict(36, 40, ['star', 'check', 'heart', 'bolt'][i % 4], ['#FFB020', '#2F9E44', '#E64980', '#4F8CFF'][i % 4]) + pict(268, 30, ['check', 'bolt', 'star', 'heart'][i % 4], ['#2F9E44', '#4F8CFF', '#FFB020', '#E64980'][i % 4])
-    body = f'<ellipse cx="170" cy="182" rx="88" ry="6" fill="#000" opacity=".12"/><g transform="translate(82 34) scale(.78)">{sc}</g>{p}'
+    body = f'<g transform="translate(104 44) scale(.74)">{sc}</g>{p}'
     open(os.path.join(out, f'ft-{k}.svg'), 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 26 248 172" width="300" height="200">{body}</svg>')
 print('feature art done')
 
@@ -119,3 +119,19 @@ pic = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" width="22
        f'<path d="M70 88l4 4M150 84l-4 4M74 140h4M150 140h4" {L}/></svg>')
 open(os.path.join(out, 'picto.svg'), 'w').write(pic)
 print('bust+picto')
+
+# 라인 픽토그램 (흰 바탕 + 검은 선) — 원본 분류 아이콘에서 그림 부분만 선으로 바꿔 생성
+import glob as _g
+src = sys.argv[2] if len(sys.argv) > 2 else None
+if src:
+    for f in _g.glob(os.path.join(src, 'cat2-*.svg')):
+        t = open(f).read()
+        k = os.path.basename(f)[5:-4]
+        body = _re.split(r'stroke-opacity="\.14"/>', t, 1)[-1].replace('</svg>', '')
+        body = body.replace('stroke="#fff"', 'stroke="#1f2430"').replace('stroke-width="4.5"', 'stroke-width="3.2"')
+        body = _re.sub(r'fill="#fff"', 'fill="none" stroke="#1f2430" stroke-width="3.2" stroke-linejoin="round"', body)
+        body = _re.sub(r'(<text[^>]*?)fill="#[0-9A-Fa-f]{6}"', r'\1fill="#1f2430"', body)
+        out_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">'
+                   '<rect x="2" y="2" width="60" height="60" rx="14" fill="#fff" stroke="#1f2430" stroke-opacity=".18" stroke-width="2"/>' + body + '</svg>')
+        open(os.path.join(out, f'pg-{k}.svg'), 'w').write(out_svg)
+    print('line pictos')

@@ -166,8 +166,17 @@ ul.hl-cards li.fp .go{z-index:2}
 ul.hl-cards .th{overflow:hidden}
 ul.hl-cards .ft:not(.fp) .fi{position:absolute;left:8px;right:8px;bottom:8px;top:84px;height:auto;margin:0;background-size:contain;background-position:center bottom}
 ul.hl-cards .ft:not(.fp) a{overflow:hidden}
-ul.hl-cards li.fp .fi{background-position:center bottom!important;background-size:contain!important;background-repeat:no-repeat}
+ul.hl-cards li.fp .fi{background-position:center bottom!important;background-size:contain!important;background-repeat:no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28%,#000 72%,transparent 100%),linear-gradient(transparent 0,#000 18%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 28%,#000 72%,transparent 100%),linear-gradient(transparent 0,#000 18%);mask-composite:intersect}
 ul.hl-cards li.ph:not(.pw) a{background-size:auto 80%!important}
+ul.hl-cards img.pgb{position:static!important;width:26px!important;height:26px!important;margin:12px 14px 0;box-shadow:none!important;filter:none!important;border-radius:8px}
+ul.hl-cards .pg{box-shadow:none!important;filter:none!important}
+ul.hl-cards a,ul.hl-cards a:hover,ul.hl-cards .go,.hl-cw .hl-ar,.hero .search{box-shadow:none!important}
+ul.hl-cards a:not(.ct){border:1px solid rgba(20,30,60,.08)!important}
+.hl-cw .hl-ar{border:1px solid #d9dee7!important}
+ul.hl-cards .ft .fi{transition:transform .35s ease}
+ul.hl-cards .ft a:hover .fi{transform:scale(1.04)}
+ul.hl-cards .ft .fh b{transition:letter-spacing .3s,transform .3s}
+ul.hl-cards .ft a:hover .fh b{transform:translateX(3px)}
 ul.hl-cards li.hl-rv,ul.hl-cards li{opacity:1!important;transform:none!important}
 ul.hl-cards b{font-size:15px!important;line-height:1.4;margin:12px 14px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 ul.hl-cards span{font-size:12.5px!important;margin:5px 14px 14px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -199,14 +208,14 @@ ul.hl-cards .ft a{position:relative}
             if not os.path.exists(os.path.join(root, sc[1:])):
                 return m.group(1)
             if i % 5 == 3:
-                return m.group(1).replace('<a ', f'<a class="tx" style="--tc:{PAL[(i + 2) % len(PAL)]}" ', 1) + '<img class="pg" src="/assets/art/cat2-' + cat + '.svg" alt="" width="34" height="34" loading="lazy">'
+                return m.group(1).replace('<a ', f'<a class="tx" style="--tc:{PAL[(i + 2) % len(PAL)]}" ', 1) + '<img class="pg" src="/assets/art/hl/pg-' + cat + '.svg" alt="" width="34" height="34" loading="lazy">'
             if i % 5 in (0, 1, 4):
                 bgc = '#fff'
             else:
                 bgc = PAL[i % len(PAL)]
             if cnt[1]:
                 return m.group(1).replace('<a ', f'<a class="tp" style="--tc:{TOP[i % len(TOP)]}" ', 1) + f'<i class="th"><img src="{sc}" alt="" width="200" height="140" loading="lazy"></i>'
-            return f'{m.group(1)}<i class="th" style="background:{bgc}"><img src="{sc}" alt="" width="200" height="140" loading="lazy"><img class="pg" src="/assets/art/cat2-{cat}.svg" alt="" width="30" height="30" loading="lazy"></i>'
+            return f'{m.group(1)}<i class="th" style="background:{bgc}"><img src="{sc}" alt="" width="200" height="140" loading="lazy"></i><img class="pg pgb" src="/assets/art/hl/pg-{cat}.svg" alt="" width="26" height="26" loading="lazy">'
         def row(m):
             h2, ul = m.group(1), m.group(2)
             mm = re.search(r'id="c-([a-z0-9-]+)"', h2)
@@ -227,7 +236,7 @@ ul.hl-cards .ft a{position:relative}
                     stack = f'<li class="stk">{mini(RAW[2], ["#FFE066", "#D0BFFF", "#FFD8A8", "#B2F2BB"][k % 4])}{mini(RAW[3], ["#5F3DC4", "#0B7285", "#C2255C", "#1864AB"][k % 4])}</li>'
                     r = RAW[5]
                     ri = cnt[2]; cnt[2] += 1
-                    PH = [('p-woman', '#EBB7BB'), ('p-man', '#9ECDDD'), ('p-student', '#E9DA99'), ('p-office', '#87BCAC')]
+                    PH = [('p-woman', '#ECB4B9'), ('p-man', '#98C7D8'), ('p-student', '#EBD793'), ('p-office', '#90C0B1')]
                     if ri % 2 == 0:
                         ph, bc = PH[(ri // 2) % 4]
                         pers = (f'<li class="pc ph"><a href="{r[0]}" style="--tc:{bc};--im:url(/assets/art/ph/{ph}.jpg)"><b>{r[1]}</b><span>{r[2]}</span></a></li>')
@@ -238,7 +247,7 @@ ul.hl-cards .ft a{position:relative}
                     pic = (f'<li class="pt"><a href="{r[0]}"><b>{r[1]}</b><span>{r[2]}</span>'
                            f'<i class="pi" style="background-image:url(/assets/art/hl/picto.svg)"></i></a></li>')
                     items = items[:2] + [stack] + items[4:5] + [pers] + items[6:7] + [pic] + items[8:]
-                    BIG = {'study': ('il-kid', '#432115'), 'ai': ('il-monkey', '#4E7D53'), 'calendar': ('phone-dark', '#394144'), 'sheet': ('phone-green', '#028841')}
+                    BIG = {'study': ('il-kid', '#432115'), 'ai': ('il-monkey', '#4E7D53'), 'calendar': ('phone-dark', '#292F33'), 'sheet': ('phone-green', '#038E45')}
                     if cat in BIG and len(RAW) > 9:
                         r = RAW[9]; ph, bc = BIG[cat]
                         big = f'<li class="pc ph pw"><a href="{r[0]}" style="--tc:{bc};--im:url(/assets/art/ph/{ph}.jpg)"><b>{r[1]}</b><span>{r[2]}</span></a></li>'
@@ -247,8 +256,8 @@ ul.hl-cards .ft a{position:relative}
             href = f'/{cat}/' if cat != 'pop' else '/#search'
             img = f'/assets/art/hl/ft-{cat}.svg'
             sub = f'도구 {n}가지' if cat != 'pop' else '자주 찾는 도구'
-            FTPH = {'image': ('p-woman', '#EBB7BB'), 'text': ('p-man', '#9ECDDD'), 'study': ('p-student', '#E9DA99'),
-                    'doc': ('p-office', '#87BCAC'), 'calendar': ('phone-dark', '#394144'), 'sheet': ('phone-green', '#028841')}
+            FTPH = {'image': ('p-woman', '#ECB4B9'), 'text': ('p-man', '#98C7D8'), 'study': ('p-student', '#EBD793'),
+                    'doc': ('p-office', '#90C0B1'), 'calendar': ('phone-dark', '#292F33'), 'sheet': ('phone-green', '#038E45')}
             if cat in FTPH:
                 ph, bc = FTPH[cat]
                 dark = cat in ('calendar', 'sheet')
