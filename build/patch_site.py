@@ -159,6 +159,10 @@ ul.hl-cards li.pw a{background:var(--im) center/cover no-repeat,var(--tc)!import
 ul.hl-cards li.pw a::before{content:"";position:absolute;inset:0 0 auto 0;height:55%;background:linear-gradient(rgba(0,0,0,.55),transparent);border-radius:18px 18px 0 0}
 ul.hl-cards li.pw a{position:relative}
 ul.hl-cards li.pw b,ul.hl-cards li.pw span{color:#fff!important}
+ul.hl-cards li.fp .fi{position:absolute;left:0;right:0;bottom:0;top:96px;height:auto;margin:0;background-size:cover;background-position:center 12%;border-radius:0 0 18px 18px}
+ul.hl-cards li.fp .fh{position:relative;z-index:1}
+ul.hl-cards li.fp:not(.fd) .fh,ul.hl-cards li.fp:not(.fd) .fh b,ul.hl-cards li.fp:not(.fd) .fh em{color:#111!important}
+ul.hl-cards li.fp .go{z-index:2}
 ul.hl-cards li.hl-rv,ul.hl-cards li{opacity:1!important;transform:none!important}
 ul.hl-cards b{font-size:15px!important;line-height:1.4;margin:12px 14px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 ul.hl-cards span{font-size:12.5px!important;margin:5px 14px 14px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -238,8 +242,16 @@ ul.hl-cards .ft a{position:relative}
             href = f'/{cat}/' if cat != 'pop' else '/#search'
             img = f'/assets/art/hl/ft-{cat}.svg'
             sub = f'도구 {n}가지' if cat != 'pop' else '자주 찾는 도구'
-            ft = (f'<li class="ft"><a href="{href}" style="--fc:{FEAT.get(cat, "#2563EB")}"><span class="fh"><em>{sub}</em><b>{title}</b></span>'
-                  f'<i class="fi" style="background-image:url({img})"></i><span class="go" aria-hidden="true">›</span></a></li>')
+            FTPH = {'image': ('p-woman', '#EBAEB5'), 'text': ('p-man', '#9ECDDD'), 'study': ('p-student', '#E5D290'),
+                    'doc': ('p-office', '#B8E3D0'), 'calendar': ('phone-dark', '#394144'), 'sheet': ('phone-green', '#40C957')}
+            if cat in FTPH:
+                ph, bc = FTPH[cat]
+                dark = cat in ('calendar', 'sheet')
+                ft = (f'<li class="ft fp{" fd" if dark else ""}"><a href="{href}" style="--fc:{bc}"><span class="fh"><em>{sub}</em><b>{title}</b></span>'
+                      f'<i class="fi" style="background-image:url(/assets/art/ph/{ph}.jpg)"></i><span class="go" aria-hidden="true">›</span></a></li>')
+            else:
+                ft = (f'<li class="ft"><a href="{href}" style="--fc:{FEAT.get(cat, "#2563EB")}"><span class="fh"><em>{sub}</em><b>{title}</b></span>'
+                      f'<i class="fi" style="background-image:url({img})"></i><span class="go" aria-hidden="true">›</span></a></li>')
             if cat == 'pop':
                 return h2 + lis.replace('<ul class="tlist">', '<ul class="tlist hl-cards hl-top">', 1)
             return h2 + lis.replace('<ul class="tlist">', '<ul class="tlist hl-cards">' + ft, 1)

@@ -84,7 +84,7 @@ for i, k in enumerate(K + ['pop']):
     sc = S.get(k, S['excel'])
     p = person(62, 72, SK[i % 4], HR[i % 4], SH_[i % 5], pose=i % 2, long_hair=i % 3 == 1)
     pc = pict(36, 40, ['star', 'check', 'heart', 'bolt'][i % 4], ['#FFB020', '#2F9E44', '#E64980', '#4F8CFF'][i % 4]) + pict(268, 30, ['check', 'bolt', 'star', 'heart'][i % 4], ['#2F9E44', '#4F8CFF', '#FFB020', '#E64980'][i % 4])
-    body = f'<ellipse cx="190" cy="190" rx="100" ry="7" fill="#000" opacity=".12"/><g transform="translate(96 50)">{sc}</g>{p}{pc}'
+    body = f'<ellipse cx="170" cy="182" rx="88" ry="6" fill="#000" opacity=".12"/><g transform="translate(82 34) scale(.78)">{sc}</g>{p}'
     open(os.path.join(out, f'ft-{k}.svg'), 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">{body}</svg>')
 print('feature art done')
 
