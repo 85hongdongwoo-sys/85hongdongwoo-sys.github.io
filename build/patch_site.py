@@ -134,6 +134,15 @@ ul.hl-cards a.tx{background:var(--tc)!important;padding:18px 16px!important;just
 ul.hl-cards a.tx .pg{width:34px;height:34px;border-radius:10px;filter:saturate(1.6);box-shadow:0 2px 6px rgba(0,0,0,.15)}
 ul.hl-cards a.tx b{color:#fff!important;font-size:21px!important;line-height:1.3;margin:auto 0 0!important;-webkit-line-clamp:4}
 ul.hl-cards a.tx span{color:rgba(255,255,255,.92)!important;margin:8px 0 0!important;font-size:13px!important;-webkit-line-clamp:3}
+h2.sec-h .tg{font-size:.82em;font-weight:600;color:#6b7280;letter-spacing:-.02em}
+ul.hl-top>li{flex-basis:220px}
+ul.hl-top a.tp{background:var(--tc)!important;flex-direction:column-reverse!important;justify-content:flex-end;height:300px}
+ul.hl-top a.tp .th{height:auto;flex:1 1 auto;display:flex;align-items:flex-end;margin-top:auto}
+ul.hl-top a.tp .th img{height:auto;transform:scale(1.15);transform-origin:bottom center}
+ul.hl-top a.tp b{order:-1;margin:16px 16px 0;font-size:17px!important;color:#111!important}
+ul.hl-top a.tp span{order:0;margin:6px 16px 0!important;color:#333!important}
+ul.hl-top a.tp{display:grid!important;grid-template-rows:auto auto 1fr}
+ul.hl-top a.tp .th{grid-row:3}
 ul.hl-cards li.hl-rv,ul.hl-cards li{opacity:1!important;transform:none!important}
 ul.hl-cards b{font-size:15px!important;line-height:1.4;margin:12px 14px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 ul.hl-cards span{font-size:12.5px!important;margin:5px 14px 14px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -157,7 +166,8 @@ ul.hl-cards .ft a{position:relative}
     a = s.find('<h2 class="sec-h">많이 쓰는 도구'); b = s.find('<section class="card guide"', a)
     if a > 0 and b > a:
         seg = s[a:b]
-        cnt = [0]
+        cnt = [0, 0]
+        TOP = ['#F9C9D9', '#B9D6F2', '#D3C5F3', '#FFE7A3', '#F7C9B5', '#F2763A', '#C1D9F7', '#DCE775', '#6B1E3A', '#F8B4D9', '#9FD8C9', '#FFD6A5']
         def card(m):
             cat = m.group(2); i = cnt[0]; cnt[0] += 1
             sc = f'/assets/art/hl/sc-{cat}.svg'
@@ -165,19 +175,30 @@ ul.hl-cards .ft a{position:relative}
                 return m.group(1)
             if i % 5 == 3:
                 return m.group(1).replace('<a ', f'<a class="tx" style="--tc:{PAL[(i + 2) % len(PAL)]}" ', 1) + '<img class="pg" src="/assets/art/cat2-' + cat + '.svg" alt="" width="34" height="34" loading="lazy">'
-            return f'{m.group(1)}<i class="th" style="background:{PAL[i % len(PAL)]}"><img src="{sc}" alt="" width="200" height="140" loading="lazy"><img class="pg" src="/assets/art/cat2-{cat}.svg" alt="" width="30" height="30" loading="lazy"></i>'
+            if i % 5 in (1, 4):
+                bgc = '#fff'
+            else:
+                bgc = PAL[i % len(PAL)]
+            if cnt[1]:
+                return m.group(1).replace('<a ', f'<a class="tp" style="--tc:{TOP[i % len(TOP)]}" ', 1) + f'<i class="th"><img src="{sc}" alt="" width="200" height="140" loading="lazy"></i>'
+            return f'{m.group(1)}<i class="th" style="background:{bgc}"><img src="{sc}" alt="" width="200" height="140" loading="lazy"><img class="pg" src="/assets/art/cat2-{cat}.svg" alt="" width="30" height="30" loading="lazy"></i>'
         def row(m):
             h2, ul = m.group(1), m.group(2)
             mm = re.search(r'id="c-([a-z0-9-]+)"', h2)
             cat = mm.group(1) if mm else 'pop'
             title = re.sub(r'<[^>]+>', '', h2).strip()
             n = ul.count('<li>')
+            cnt[1] = 1 if cat == 'pop' else 0
+            tag = '가장 많이 찾는 도구부터.' if cat == 'pop' else '바로 만들고, 바로 내려받기.'
+            h2 = h2.replace('</h2>', f' <small class="tg">{tag}</small></h2>', 1)
             lis = re.sub(r'(<li><a href="/([a-z0-9-]+)/[^"]*"[^>]*>)', card, ul)
             href = f'/{cat}/' if cat != 'pop' else '/#search'
             img = f'/assets/art/hl/ft-{cat}.svg'
             sub = f'도구 {n}가지' if cat != 'pop' else '자주 찾는 도구'
             ft = (f'<li class="ft"><a href="{href}" style="--fc:{FEAT.get(cat, "#2563EB")}"><span class="fh"><em>{sub}</em><b>{title}</b></span>'
                   f'<i class="fi" style="background-image:url({img})"></i><span class="go" aria-hidden="true">›</span></a></li>')
+            if cat == 'pop':
+                return h2 + lis.replace('<ul class="tlist">', '<ul class="tlist hl-cards hl-top">', 1)
             return h2 + lis.replace('<ul class="tlist">', '<ul class="tlist hl-cards">' + ft, 1)
         seg = re.sub(r'(<h2 class="sec-h"[^>]*>.*?</h2>)(<ul class="tlist">.*?</ul>)', row, seg, flags=re.S)
         s = s[:a] + seg + s[b:]
