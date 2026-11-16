@@ -229,3 +229,45 @@ ul.hl-cards .ft a{position:relative}
         seg = re.sub(r'(<h2 class="sec-h"[^>]*>.*?</h2>)(<ul class="tlist">.*?</ul>)', row, seg, flags=re.S)
         s = s[:a] + seg + s[b:]
     open(p, 'w', encoding='utf-8').write(s); print('home: flow hero + tool cards')
+
+# 홈: '분류별로 찾기'를 면 분할 색 카드(큰 장면 그림) 가로 줄로
+p = os.path.join(root, 'index.html')
+s = open(p, encoding='utf-8').read()
+if 'hl-catrow' not in s:
+    FC = {'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
+          'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#495057', 'life': '#2F9E44', 'medical': '#E64980',
+          'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C'}
+    def mix(c, t):
+        r, g, b = int(c[1:3], 16), int(c[3:5], 16), int(c[5:7], 16)
+        return '#%02X%02X%02X' % tuple(round(v + (255 - v) * t) for v in (r, g, b))
+    m = re.search(r'<div class="cats">(.*?)</div>', s, flags=re.S)
+    if m:
+        out = []
+        for i, mm in enumerate(re.finditer(r'<a href="/([a-z0-9-]+)/"><img[^>]*><b>(.*?)</b><em>(.*?)</em></a>', m.group(1))):
+            cat, name, n = mm.groups()
+            c = FC.get(cat, '#2563EB')
+            a, b, d = mix(c, .80), mix(c, .45), mix(c, .62)
+            v = i % 3
+            if v == 0:
+                bg = f'linear-gradient({a} 0 40%,{b} 40%)'
+            elif v == 1:
+                bg = f'linear-gradient(165deg,{a} 0 46%,{b} 46%)'
+            else:
+                bg = f'linear-gradient({a} 0 40%,transparent 40%),linear-gradient(90deg,{b} 0 58%,{d} 58%)'
+            img = f'/assets/art/hl/sc-{cat}.svg'
+            out.append(f'<li><a class="ct" href="/{cat}/" style="--bg:{bg}"><span class="ch"><em>{n}</em><b>{name}</b></span>'
+                       f'<i class="ci" style="background-image:url({img})"></i><span class="go" aria-hidden="true">›</span></a></li>')
+        s = s.replace(m.group(0), '<ul class="tlist hl-cards hl-catrow">' + ''.join(out) + '</ul>', 1)
+        CSS = """<style id="hl-catrow-css">
+ul.hl-catrow>li{flex:0 0 224px}
+ul.hl-catrow a.ct{position:relative;height:300px;background:var(--bg)!important;border-radius:20px!important;box-shadow:none!important}
+ul.hl-catrow a.ct .ch{display:block!important;margin:0!important;padding:18px 18px 0;-webkit-line-clamp:unset;overflow:visible!important}
+ul.hl-catrow a.ct em{display:block;font-style:normal;font-size:12px;font-weight:700;color:#333}
+ul.hl-catrow a.ct b{margin:4px 0 0!important;font-size:19px!important;color:#111!important;line-height:1.3}
+ul.hl-catrow a.ct .ci{position:absolute;left:-14px;right:-14px;bottom:4px;height:222px;background-repeat:no-repeat;background-size:contain;background-position:center bottom;transition:transform .3s}
+ul.hl-catrow a.ct:hover .ci{transform:scale(1.05)}
+ul.hl-catrow a.ct .go{position:absolute;right:12px;bottom:12px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.95);color:#111;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin:0!important}
+@media (max-width:600px){ul.hl-catrow>li{flex-basis:200px}ul.hl-catrow a.ct{height:270px}ul.hl-catrow a.ct .ci{height:180px}}
+</style>"""
+        s = s.replace('</head>', CSS + '\n</head>', 1)
+        open(p, 'w', encoding='utf-8').write(s); print('home: category row cards')
