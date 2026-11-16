@@ -165,7 +165,7 @@ ul.hl-cards li.fp:not(.fd) .fh,ul.hl-cards li.fp:not(.fd) .fh b,ul.hl-cards li.f
 ul.hl-cards li.fp .go{z-index:2}
 ul.hl-cards .th{overflow:hidden}
 ul.hl-cards .th img:not(.pg){transform:scale(1.32);transform-origin:center 40%}
-ul.hl-cards .ft:not(.fp) .fi{position:absolute;left:-30px;right:-46px;bottom:-26px;top:70px;height:auto;margin:0;background-size:cover;background-position:center bottom}
+ul.hl-cards .ft:not(.fp) .fi{position:absolute;left:-70px;right:-90px;bottom:-60px;top:40px;height:auto;margin:0;background-size:cover;background-position:center bottom}
 ul.hl-cards .ft:not(.fp) a{overflow:hidden}
 ul.hl-cards li.fp .fi{background-position:center 8%!important}
 ul.hl-cards li.ph:not(.pw) a{background-size:auto 80%!important}
