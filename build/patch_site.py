@@ -236,9 +236,9 @@ ul.hl-cards .ft a{position:relative}
                     stack = f'<li class="stk">{mini(RAW[2], ["#FFE066", "#D0BFFF", "#FFD8A8", "#B2F2BB"][k % 4])}{mini(RAW[3], ["#5F3DC4", "#0B7285", "#C2255C", "#1864AB"][k % 4])}</li>'
                     r = RAW[5]
                     ri = cnt[2]; cnt[2] += 1
-                    PH = [('p-woman', '#ECB4B9'), ('p-man', '#98C7D8'), ('p-student', '#EBD793'), ('p-office', '#90C0B1')]
+                    PH = [('p-woman', '#ECB4B9'), ('p-man', '#9DCBDB'), ('p-student', '#EBD793'), ('p-office', '#90C0B1')]
                     if ri % 2 == 0:
-                        ph, bc = PH[(ri // 2) % 4]
+                        ph, bc = PH[(ri // 2) % len(PH)]
                         pers = (f'<li class="pc ph"><a href="{r[0]}" style="--tc:{bc};--im:url(/assets/art/ph/{ph}.jpg)"><b>{r[1]}</b><span>{r[2]}</span></a></li>')
                     else:
                         pers = (f'<li class="pc"><a href="{r[0]}" style="--tc:{["#FCC2D7", "#A5D8FF", "#FFEC99", "#C3FAE8"][k % 4]}"><b>{r[1]}</b><span>{r[2]}</span>'
@@ -247,7 +247,7 @@ ul.hl-cards .ft a{position:relative}
                     pic = (f'<li class="pt"><a href="{r[0]}"><b>{r[1]}</b><span>{r[2]}</span>'
                            f'<i class="pi" style="background-image:url(/assets/art/hl/picto.svg)"></i></a></li>')
                     items = items[:2] + [stack] + items[4:5] + [pers] + items[6:7] + [pic] + items[8:]
-                    BIG = {'sheet': ('phone-green', '#038E45')}
+                    BIG = {'sheet': ('phone-green', '#038E45'), 'calendar': ('phone-dark', '#202425')}
                     if cat in BIG and len(RAW) > 9:
                         r = RAW[9]; ph, bc = BIG[cat]
                         big = f'<li class="pc ph pw"><a href="{r[0]}" style="--tc:{bc};--im:url(/assets/art/ph/{ph}.jpg)"><b>{r[1]}</b><span>{r[2]}</span></a></li>'
@@ -256,8 +256,8 @@ ul.hl-cards .ft a{position:relative}
             href = f'/{cat}/' if cat != 'pop' else '/#search'
             img = f'/assets/art/hl/ft-{cat}.svg'
             sub = f'도구 {n}가지' if cat != 'pop' else '자주 찾는 도구'
-            FTPH = {'image': ('p-woman', '#ECB4B9'), 'text': ('p-man', '#98C7D8'), 'study': ('p-student', '#EBD793'),
-                    'doc': ('p-office', '#90C0B1'), 'calendar': ('phone-dark', '#292F33'), 'sheet': ('phone-green', '#038E45')}
+            FTPH = {'image': ('p-woman', '#ECB4B9'), 'text': ('p-man', '#9DCBDB'), 'study': ('p-student', '#EBD793'),
+                    'doc': ('p-office', '#90C0B1'), 'calendar': ('phone-dark', '#202425'), 'sheet': ('phone-green', '#038E45')}
             if cat in FTPH:
                 ph, bc = FTPH[cat]
                 dark = cat in ('calendar', 'sheet')
