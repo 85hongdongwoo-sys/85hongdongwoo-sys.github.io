@@ -87,3 +87,35 @@ for i, k in enumerate(K + ['pop']):
     body = f'<ellipse cx="190" cy="190" rx="100" ry="7" fill="#000" opacity=".12"/><g transform="translate(96 50)">{sc}</g>{p}{pc}'
     open(os.path.join(out, f'ft-{k}.svg'), 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">{body}</svg>')
 print('feature art done')
+
+# 사람(상반신 크게) 카드 그림 + 선 픽토그램 카드 그림
+def bust(i):
+    sk, hr = SK[i % 4], HR[i % 4]
+    sh = ['#E03131', '#1C7ED6', '#2F9E44', '#7048E8'][i % 4]
+    s = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="220" height="220">'
+    if i % 2:
+        s += f'<path d="M66 96q0-62 44-62t44 62v60H66z" fill="{hr}"/>'
+    s += f'<path d="M30 220q0-62 50-70h60q50 8 50 70z" fill="{sh}"/>'
+    s += f'<rect x="96" y="120" width="28" height="34" rx="10" fill="{sk}"/>'
+    s += f'<ellipse cx="110" cy="96" rx="40" ry="46" fill="{sk}"/>'
+    s += f'<path d="M70 92q-2-50 40-50t40 50q-10-24-40-26t-40 26z" fill="{hr}"/>'
+    s += f'<ellipse cx="94" cy="100" rx="4" ry="5" fill="#2B2B33"/><ellipse cx="126" cy="100" rx="4" ry="5" fill="#2B2B33"/>'
+    s += f'<path d="M92 118q18 16 36 0" fill="#fff" stroke="#B5634B" stroke-width="3" stroke-linejoin="round"/>'
+    s += f'<ellipse cx="82" cy="114" rx="7" ry="4" fill="#F28B82" opacity=".45"/><ellipse cx="138" cy="114" rx="7" ry="4" fill="#F28B82" opacity=".45"/>'
+    s += f'<rect x="146" y="150" width="34" height="56" rx="7" fill="#1A1D24" transform="rotate(-12 163 178)"/><rect x="150" y="155" width="26" height="44" rx="4" fill="#7EC8FF" transform="rotate(-12 163 178)"/>'
+    s += f'<circle cx="160" cy="200" r="10" fill="{sk}"/>'
+    return s + '</svg>'
+for i in range(4):
+    open(os.path.join(out, f'pp-{i}.svg'), 'w').write(bust(i))
+B = '#1C7ED6'
+L = f'fill="none" stroke="{B}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"'
+pic = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" width="220" height="160">'
+       f'<rect x="20" y="20" width="44" height="58" rx="6" {L}/><path d="M30 36h24M30 46h24M30 56h14" {L}/>'
+       f'<rect x="86" y="14" width="56" height="44" rx="6" {L}/><path d="M104 70h20M114 58v12" {L}/>'
+       f'<rect x="164" y="18" width="32" height="54" rx="6" {L}/><path d="M176 64h8" {L}/>'
+       f'<path d="M24 120a14 14 0 0 1 2-27 18 18 0 0 1 34 4 12 12 0 0 1 0 23z" {L}/>'
+       f'<path d="M90 98h48v40H90zM90 110h48M106 98v40" {L}/>'
+       f'<circle cx="182" cy="118" r="20" {L}/><path d="M172 118l7 7 13-14" {L}/>'
+       f'<path d="M70 88l4 4M150 84l-4 4M74 140h4M150 140h4" {L}/></svg>')
+open(os.path.join(out, 'picto.svg'), 'w').write(pic)
+print('bust+picto')

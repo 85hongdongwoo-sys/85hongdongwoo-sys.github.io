@@ -143,6 +143,16 @@ ul.hl-top a.tp b{order:-1;margin:16px 16px 0;font-size:17px!important;color:#111
 ul.hl-top a.tp span{order:0;margin:6px 16px 0!important;color:#333!important}
 ul.hl-top a.tp{display:grid!important;grid-template-rows:auto auto 1fr}
 ul.hl-top a.tp .th{grid-row:3}
+ul.hl-cards li.stk{display:flex;flex-direction:column;gap:12px}
+ul.hl-cards a.mn{flex:1 1 0;background:var(--tc)!important;padding:16px!important;justify-content:flex-start}
+ul.hl-cards a.mn b{margin:0!important;font-size:15.5px!important}
+ul.hl-cards a.mn span{margin:6px 0 0!important}
+ul.hl-cards li.stk a.mn:nth-child(2) b,ul.hl-cards li.stk a.mn:nth-child(2) span{color:#fff!important}
+ul.hl-cards li.pc a{background:var(--tc)!important}
+ul.hl-cards li.pc b,ul.hl-cards li.pt b{margin:16px 16px 0}
+ul.hl-cards li.pc span,ul.hl-cards li.pt span{margin:6px 16px 0!important}
+ul.hl-cards .pi{display:block;flex:1 1 auto;min-height:150px;background-repeat:no-repeat;background-size:contain;background-position:center bottom;margin-top:10px}
+ul.hl-cards li.pt .pi{background-position:center;margin:10px 14px 14px}
 ul.hl-cards li.hl-rv,ul.hl-cards li{opacity:1!important;transform:none!important}
 ul.hl-cards b{font-size:15px!important;line-height:1.4;margin:12px 14px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 ul.hl-cards span{font-size:12.5px!important;margin:5px 14px 14px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -192,6 +202,22 @@ ul.hl-cards .ft a{position:relative}
             tag = '가장 많이 찾는 도구부터.' if cat == 'pop' else '바로 만들고, 바로 내려받기.'
             h2 = h2.replace('</h2>', f' <small class="tg">{tag}</small></h2>', 1)
             lis = re.sub(r'(<li><a href="/([a-z0-9-]+)/[^"]*"[^>]*>)', card, ul)
+            if cat != 'pop':
+                items = re.findall(r'<li>.*?</li>', lis, flags=re.S)
+                RAW = re.findall(r'<li><a href="([^"]*)"[^>]*><b>(.*?)</b><span>(.*?)</span></a></li>', ul, flags=re.S)
+                if len(items) >= 9 and len(RAW) == len(items):
+                    k = sum(map(ord, cat))
+                    def mini(r, c):
+                        return f'<a class="mn" href="{r[0]}" style="--tc:{c}"><b>{r[1]}</b><span>{r[2]}</span></a>'
+                    stack = f'<li class="stk">{mini(RAW[2], ["#FFE066", "#D0BFFF", "#FFD8A8", "#B2F2BB"][k % 4])}{mini(RAW[3], ["#5F3DC4", "#0B7285", "#C2255C", "#1864AB"][k % 4])}</li>'
+                    r = RAW[5]
+                    pers = (f'<li class="pc"><a href="{r[0]}" style="--tc:{["#FCC2D7", "#A5D8FF", "#FFEC99", "#C3FAE8"][k % 4]}"><b>{r[1]}</b><span>{r[2]}</span>'
+                            f'<i class="pi" style="background-image:url(/assets/art/hl/pp-{k % 4}.svg)"></i></a></li>')
+                    r = RAW[7]
+                    pic = (f'<li class="pt"><a href="{r[0]}"><b>{r[1]}</b><span>{r[2]}</span>'
+                           f'<i class="pi" style="background-image:url(/assets/art/hl/picto.svg)"></i></a></li>')
+                    items = items[:2] + [stack] + items[4:5] + [pers] + items[6:7] + [pic] + items[8:]
+                    lis = '<ul class="tlist">' + ''.join(items) + '</ul>'
             href = f'/{cat}/' if cat != 'pop' else '/#search'
             img = f'/assets/art/hl/ft-{cat}.svg'
             sub = f'도구 {n}가지' if cat != 'pop' else '자주 찾는 도구'
