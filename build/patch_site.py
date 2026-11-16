@@ -163,6 +163,12 @@ ul.hl-cards li.fp .fi{position:absolute;left:0;right:0;bottom:0;top:96px;height:
 ul.hl-cards li.fp .fh{position:relative;z-index:1}
 ul.hl-cards li.fp:not(.fd) .fh,ul.hl-cards li.fp:not(.fd) .fh b,ul.hl-cards li.fp:not(.fd) .fh em{color:#111!important}
 ul.hl-cards li.fp .go{z-index:2}
+ul.hl-cards .th{overflow:hidden}
+ul.hl-cards .th img:not(.pg){transform:scale(1.32);transform-origin:center 40%}
+ul.hl-cards .ft:not(.fp) .fi{position:absolute;left:-30px;right:-46px;bottom:-26px;top:70px;height:auto;margin:0;background-size:cover;background-position:center bottom}
+ul.hl-cards .ft:not(.fp) a{overflow:hidden}
+ul.hl-cards li.fp .fi{background-position:center 8%!important}
+ul.hl-cards li.ph:not(.pw) a{background-size:auto 80%!important}
 ul.hl-cards li.hl-rv,ul.hl-cards li{opacity:1!important;transform:none!important}
 ul.hl-cards b{font-size:15px!important;line-height:1.4;margin:12px 14px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 ul.hl-cards span{font-size:12.5px!important;margin:5px 14px 14px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -195,7 +201,7 @@ ul.hl-cards .ft a{position:relative}
                 return m.group(1)
             if i % 5 == 3:
                 return m.group(1).replace('<a ', f'<a class="tx" style="--tc:{PAL[(i + 2) % len(PAL)]}" ', 1) + '<img class="pg" src="/assets/art/cat2-' + cat + '.svg" alt="" width="34" height="34" loading="lazy">'
-            if i % 5 in (1, 4):
+            if i % 5 in (0, 1, 4):
                 bgc = '#fff'
             else:
                 bgc = PAL[i % len(PAL)]
@@ -222,7 +228,7 @@ ul.hl-cards .ft a{position:relative}
                     stack = f'<li class="stk">{mini(RAW[2], ["#FFE066", "#D0BFFF", "#FFD8A8", "#B2F2BB"][k % 4])}{mini(RAW[3], ["#5F3DC4", "#0B7285", "#C2255C", "#1864AB"][k % 4])}</li>'
                     r = RAW[5]
                     ri = cnt[2]; cnt[2] += 1
-                    PH = [('p-woman', '#EBAEB5'), ('p-man', '#9ECDDD'), ('p-student', '#E5D290'), ('p-office', '#B8E3D0')]
+                    PH = [('p-woman', '#EBB7BB'), ('p-man', '#9ECDDD'), ('p-student', '#E9DA99'), ('p-office', '#87BCAC')]
                     if ri % 2 == 0:
                         ph, bc = PH[(ri // 2) % 4]
                         pers = (f'<li class="pc ph"><a href="{r[0]}" style="--tc:{bc};--im:url(/assets/art/ph/{ph}.jpg)"><b>{r[1]}</b><span>{r[2]}</span></a></li>')
@@ -233,7 +239,7 @@ ul.hl-cards .ft a{position:relative}
                     pic = (f'<li class="pt"><a href="{r[0]}"><b>{r[1]}</b><span>{r[2]}</span>'
                            f'<i class="pi" style="background-image:url(/assets/art/hl/picto.svg)"></i></a></li>')
                     items = items[:2] + [stack] + items[4:5] + [pers] + items[6:7] + [pic] + items[8:]
-                    BIG = {'study': ('il-kid', '#432115'), 'ai': ('il-monkey', '#4E7D53'), 'calendar': ('phone-dark', '#394144'), 'sheet': ('phone-green', '#40C957')}
+                    BIG = {'study': ('il-kid', '#432115'), 'ai': ('il-monkey', '#4E7D53'), 'calendar': ('phone-dark', '#394144'), 'sheet': ('phone-green', '#028841')}
                     if cat in BIG and len(RAW) > 9:
                         r = RAW[9]; ph, bc = BIG[cat]
                         big = f'<li class="pc ph pw"><a href="{r[0]}" style="--tc:{bc};--im:url(/assets/art/ph/{ph}.jpg)"><b>{r[1]}</b><span>{r[2]}</span></a></li>'
@@ -242,8 +248,8 @@ ul.hl-cards .ft a{position:relative}
             href = f'/{cat}/' if cat != 'pop' else '/#search'
             img = f'/assets/art/hl/ft-{cat}.svg'
             sub = f'도구 {n}가지' if cat != 'pop' else '자주 찾는 도구'
-            FTPH = {'image': ('p-woman', '#EBAEB5'), 'text': ('p-man', '#9ECDDD'), 'study': ('p-student', '#E5D290'),
-                    'doc': ('p-office', '#B8E3D0'), 'calendar': ('phone-dark', '#394144'), 'sheet': ('phone-green', '#40C957')}
+            FTPH = {'image': ('p-woman', '#EBB7BB'), 'text': ('p-man', '#9ECDDD'), 'study': ('p-student', '#E9DA99'),
+                    'doc': ('p-office', '#87BCAC'), 'calendar': ('phone-dark', '#394144'), 'sheet': ('phone-green', '#028841')}
             if cat in FTPH:
                 ph, bc = FTPH[cat]
                 dark = cat in ('calendar', 'sheet')
@@ -293,7 +299,7 @@ ul.hl-catrow a.ct{position:relative;height:300px;background:var(--bg)!important;
 ul.hl-catrow a.ct .ch{display:block!important;margin:0!important;padding:18px 18px 0;-webkit-line-clamp:unset;overflow:visible!important}
 ul.hl-catrow a.ct em{display:block;font-style:normal;font-size:12px;font-weight:700;color:#333}
 ul.hl-catrow a.ct b{margin:4px 0 0!important;font-size:19px!important;color:#111!important;line-height:1.3}
-ul.hl-catrow a.ct .ci{position:absolute;left:-14px;right:-14px;bottom:4px;height:222px;background-repeat:no-repeat;background-size:contain;background-position:center bottom;transition:transform .3s}
+ul.hl-catrow a.ct .ci{position:absolute;left:-40px;right:-40px;bottom:-30px;height:270px;background-repeat:no-repeat;background-size:contain;background-position:center bottom;transition:transform .3s}
 ul.hl-catrow a.ct:hover .ci{transform:scale(1.05)}
 ul.hl-catrow a.ct .go{position:absolute;right:12px;bottom:12px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.95);color:#111;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin:0!important}
 @media (max-width:600px){ul.hl-catrow>li{flex-basis:200px}ul.hl-catrow a.ct{height:270px}ul.hl-catrow a.ct .ci{height:180px}}
