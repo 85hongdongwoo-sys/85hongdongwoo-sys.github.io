@@ -122,7 +122,7 @@ main.wrap{position:relative;z-index:1}
 .hero .sres,.hero .note{text-align:left;max-width:640px;margin-left:auto;margin-right:auto}
 @media (prefers-reduced-motion:reduce){.hl-flow i{animation:none!important}}
 .cats img{filter:saturate(1.6) brightness(1.02)}
-ul.hl-cards{display:flex;grid-template-columns:none;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 2px 18px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+ul.hl-cards{display:flex;grid-template-columns:none;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 4px 28px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 ul.hl-cards::-webkit-scrollbar{display:none}
 ul.hl-cards>li{flex:0 0 210px;scroll-snap-align:start}
 ul.hl-cards a{display:flex!important;flex-direction:column;padding:0!important;overflow:hidden;background:#fff!important;border:0!important;border-radius:18px!important;box-shadow:0 2px 10px rgba(20,30,60,.07)!important;height:100%;transition:transform .2s,box-shadow .2s}
@@ -131,14 +131,15 @@ ul.hl-cards .th{display:block;height:146px;flex:0 0 auto;position:relative}
 ul.hl-cards .th img{width:100%;height:100%;display:block}
 ul.hl-cards .th .pg{position:absolute;left:10px;top:10px;width:30px;height:30px;border-radius:9px;box-shadow:0 2px 6px rgba(0,0,0,.18);filter:saturate(1.6)}
 ul.hl-cards a.tx{background:var(--tc)!important;padding:18px 16px!important;justify-content:flex-start}
-ul.hl-cards a.tx .pg{width:34px;height:34px;border-radius:10px;filter:saturate(1.6);box-shadow:0 2px 6px rgba(0,0,0,.15)}
+ul.hl-cards a.tx .pg{width:34px;height:34px;border-radius:0;filter:none;box-shadow:none;background:none}
 ul.hl-cards a.tx b{color:#fff!important;font-size:21px!important;line-height:1.3;margin:auto 0 0!important;-webkit-line-clamp:4}
 ul.hl-cards a.tx span{color:rgba(255,255,255,.92)!important;margin:8px 0 0!important;font-size:13px!important;-webkit-line-clamp:3}
 h2.sec-h .tg{font-size:.82em;font-weight:600;color:#6b7280;letter-spacing:-.02em}
 ul.hl-top>li{flex-basis:220px}
 ul.hl-top a.tp{background:var(--tc)!important;flex-direction:column-reverse!important;justify-content:flex-end;height:300px}
 ul.hl-top a.tp .th{height:auto;flex:1 1 auto;display:flex;align-items:flex-end;margin-top:auto}
-ul.hl-top a.tp .th img{height:auto;transform:scale(1.15);transform-origin:bottom center}
+ul.hl-top a.tp .th{min-height:0;padding:10px 18px 16px;box-sizing:border-box}
+ul.hl-top a.tp .th img{width:100%;height:100%;max-height:150px;object-fit:contain;object-position:center bottom;transform:none}
 ul.hl-top a.tp b{order:-1;margin:16px 16px 0;font-size:17px!important;color:#111!important}
 ul.hl-top a.tp span{order:0;margin:6px 16px 0!important;color:#333!important}
 ul.hl-top a.tp{display:grid!important;grid-template-rows:auto auto 1fr}
@@ -153,9 +154,12 @@ ul.hl-cards li.pc b,ul.hl-cards li.pt b{margin:16px 16px 0}
 ul.hl-cards li.pc span,ul.hl-cards li.pt span{margin:6px 16px 0!important}
 ul.hl-cards .pi{display:block;flex:1 1 auto;min-height:150px;background-repeat:no-repeat;background-size:contain;background-position:center bottom;margin-top:10px}
 ul.hl-cards li.pt .pi{background-position:center;margin:10px 14px 14px}
-ul.hl-cards li.ph a{background:var(--im) center bottom/auto 68% no-repeat,var(--tc)!important}
+ul.hl-cards li.ph:not(.pw) a{background:#fff!important;flex-direction:column-reverse!important;justify-content:flex-end}
+ul.hl-cards li.ph:not(.pw) a::after{content:"";display:block;flex:1 1 auto;min-height:160px;background:var(--im) center 20%/cover no-repeat;border-radius:17px 17px 0 0}
+ul.hl-cards li.ph:not(.pw) b{order:-1;margin:12px 14px 0!important}
+ul.hl-cards li.ph:not(.pw) span{order:-2;margin:4px 14px 14px!important}
 ul.hl-cards li.ph b,ul.hl-cards li.ph span{position:relative;z-index:1}
-ul.hl-cards li.pw a{background:var(--im) center bottom/contain no-repeat,var(--tc)!important}
+ul.hl-cards li.pw a{background:var(--im) center 30%/cover no-repeat,var(--tc)!important}
 ul.hl-cards li.pw a::before{content:"";position:absolute;inset:0 0 auto 0;height:55%;background:linear-gradient(rgba(0,0,0,.55),transparent);border-radius:18px 18px 0 0}
 ul.hl-cards li.pw a{position:relative}
 ul.hl-cards li.pw b,ul.hl-cards li.pw span{color:#fff!important}
@@ -166,17 +170,20 @@ ul.hl-cards li.fp .go{z-index:2}
 ul.hl-cards .th{overflow:hidden}
 ul.hl-cards .ft:not(.fp) .fi{position:absolute;left:8px;right:8px;bottom:8px;top:84px;height:auto;margin:0;background-size:contain;background-position:center bottom}
 ul.hl-cards .ft:not(.fp) a{overflow:hidden}
-ul.hl-cards li.fp .fi{background-position:center bottom!important;background-size:contain!important;background-repeat:no-repeat}
-ul.hl-cards li.ph:not(.pw) a{background-size:auto 80%!important}
+ul.hl-cards li.fp .fi{background-position:center 20%!important;background-size:cover!important;background-repeat:no-repeat;border-radius:0 0 18px 18px!important}
 ul.hl-cards img.pgb{position:static!important;width:26px!important;height:26px!important;margin:12px 14px 0;box-shadow:none!important;filter:none!important;border-radius:8px}
 ul.hl-cards .pg{box-shadow:none!important;filter:none!important}
-ul.hl-cards a,ul.hl-cards a:hover,ul.hl-cards .go,.hl-cw .hl-ar,.hero .search{box-shadow:none!important}
+ul.hl-cards .go,.hl-cw .hl-ar,.hero .search{box-shadow:none!important}
+ul.hl-cards a,ul.hl-catrow a.ct{box-shadow:0 8px 20px -12px rgba(16,24,48,.16),0 1px 4px rgba(16,24,48,.04)!important}
+ul.hl-cards a:hover{box-shadow:0 12px 26px -12px rgba(16,24,48,.22),0 1px 4px rgba(16,24,48,.05)!important}
 ul.hl-cards a:not(.ct){border:1px solid rgba(20,30,60,.08)!important}
 .hl-cw .hl-ar{border:1px solid #d9dee7!important}
 ul.hl-cards .ft .fi{transition:transform .35s ease}
 ul.hl-cards .ft a:hover .fi{transform:scale(1.04)}
 ul.hl-cards .ft .fh b{transition:letter-spacing .3s,transform .3s}
 ul.hl-cards .ft a:hover .fh b{transform:translateX(3px)}
+ul.hl-cards li.ft:not(.fp) a{background:color-mix(in srgb,var(--fc) 70%,#1b2233)!important}
+ul.hl-cards a.tx{background:color-mix(in srgb,var(--tc) 82%,#1b2233)!important}
 ul.hl-cards li.hl-rv,ul.hl-cards li{opacity:1!important;transform:none!important}
 ul.hl-cards b{font-size:15px!important;line-height:1.4;margin:12px 14px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 ul.hl-cards span{font-size:12.5px!important;margin:5px 14px 14px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -208,13 +215,12 @@ ul.hl-cards .ft a{position:relative}
             if not os.path.exists(os.path.join(root, sc[1:])):
                 return m.group(1)
             if i % 5 == 3:
-                return m.group(1).replace('<a ', f'<a class="tx" style="--tc:{PAL[(i + 2) % len(PAL)]}" ', 1) + '<img class="pg" src="/assets/art/hl/pg-' + cat + '.svg" alt="" width="34" height="34" loading="lazy">'
-            if i % 5 in (0, 1, 4):
-                bgc = '#fff'
-            else:
-                bgc = PAL[i % len(PAL)]
+                return m.group(1).replace('<a ', f'<a class="tx" style="--tc:{PAL[(i + 2) % len(PAL)]}" ', 1) + '<img class="pg" src="/assets/art/hl/pgw-' + cat + '.svg" alt="" width="34" height="34" loading="lazy">'
+            DK = ['#1E2A4A', '#2B1F3D', '#12352B', '#3A1E24', '#1F3340']
+            kind = 'wvdwvdwwvd'[i % 10]
+            bgc = '#fff' if kind == 'w' else (PAL[i % len(PAL)] if kind == 'v' else DK[i % len(DK)])
             if cnt[1]:
-                return m.group(1).replace('<a ', f'<a class="tp" style="--tc:{TOP[i % len(TOP)]}" ', 1) + f'<i class="th"><img src="{sc}" alt="" width="200" height="140" loading="lazy"></i>'
+                return m.group(1).replace('<a ', f'<a class="tp" style="--tc:{TOP[i % len(TOP)]}" ', 1) + f'<i class="th"><img src="{sc.replace("/sc-", "/cs-")}" alt="" width="200" height="140" loading="lazy"></i>'
             return f'{m.group(1)}<i class="th" style="background:{bgc}"><img src="{sc}" alt="" width="200" height="140" loading="lazy"></i><img class="pg pgb" src="/assets/art/hl/pg-{cat}.svg" alt="" width="26" height="26" loading="lazy">'
         def row(m):
             h2, ul = m.group(1), m.group(2)
@@ -276,7 +282,7 @@ ul.hl-cards .ft a{position:relative}
 # 홈: '분류별로 찾기'를 면 분할 색 카드(큰 장면 그림) 가로 줄로
 p = os.path.join(root, 'index.html')
 s = open(p, encoding='utf-8').read()
-if 'hl-catrow' not in s:
+if 'hl-catrow-css' not in s:
     FC = {'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
           'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#495057', 'life': '#2F9E44', 'medical': '#E64980',
           'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C'}
@@ -294,23 +300,23 @@ if 'hl-catrow' not in s:
             if v == 0:
                 bg = f'linear-gradient({a} 0 40%,{b} 40%)'
             elif v == 1:
-                bg = f'linear-gradient(165deg,{a} 0 46%,{b} 46%)'
+                bg = f'linear-gradient({a} 0 40%,transparent 40%),linear-gradient(90deg,{d} 0 36%,{b} 36%)'
             else:
                 bg = f'linear-gradient({a} 0 40%,transparent 40%),linear-gradient(90deg,{b} 0 58%,{d} 58%)'
-            img = f'/assets/art/hl/sc-{cat}.svg'
+            img = f'/assets/art/hl/cs-{cat}.svg'
             out.append(f'<li><a class="ct" href="/{cat}/" style="--bg:{bg}"><span class="ch"><em>{n}</em><b>{name}</b></span>'
                        f'<i class="ci" style="background-image:url({img})"></i><span class="go" aria-hidden="true">›</span></a></li>')
         s = s.replace(m.group(0), '<ul class="tlist hl-cards hl-catrow">' + ''.join(out) + '</ul>', 1)
         CSS = """<style id="hl-catrow-css">
 ul.hl-catrow>li{flex:0 0 224px}
-ul.hl-catrow a.ct{position:relative;height:300px;background:var(--bg)!important;border-radius:20px!important;box-shadow:none!important}
+ul.hl-catrow a.ct{position:relative;height:300px;background:var(--bg)!important;border-radius:20px!important;box-shadow:0 8px 20px -12px rgba(16,24,48,.16),0 1px 4px rgba(16,24,48,.04)!important}
 ul.hl-catrow a.ct .ch{display:block!important;margin:0!important;padding:18px 18px 0;-webkit-line-clamp:unset;overflow:visible!important}
 ul.hl-catrow a.ct em{display:block;font-style:normal;font-size:12px;font-weight:700;color:#333}
 ul.hl-catrow a.ct b{margin:4px 0 0!important;font-size:19px!important;color:#111!important;line-height:1.3}
-ul.hl-catrow a.ct .ci{position:absolute;left:4px;right:4px;top:calc(40% - 12px);bottom:4px;height:auto;background-repeat:no-repeat;background-size:contain;background-position:center top;transition:transform .3s}
-ul.hl-catrow a.ct:hover .ci{transform:scale(1.05)}
+ul.hl-catrow a.ct .ci{position:absolute;top:40%;bottom:16px;left:16px;right:16px;height:auto;background-repeat:no-repeat;background-size:contain;background-position:center top;transition:transform .3s}
+ul.hl-catrow a.ct:hover .ci{transform:scale(1.04);transform-origin:center top}
 ul.hl-catrow a.ct .go{position:absolute;right:12px;bottom:12px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.95);color:#111;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin:0!important}
-@media (max-width:600px){ul.hl-catrow>li{flex-basis:200px}ul.hl-catrow a.ct{height:270px}ul.hl-catrow a.ct .ci{height:180px}}
+@media (max-width:600px){ul.hl-catrow>li{flex-basis:200px}ul.hl-catrow a.ct{height:270px}}
 </style>"""
         s = s.replace('</head>', CSS + '\n</head>', 1)
         open(p, 'w', encoding='utf-8').write(s); print('home: category row cards')

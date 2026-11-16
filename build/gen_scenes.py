@@ -134,4 +134,24 @@ if src:
         out_svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">'
                    '<rect x="2" y="2" width="60" height="60" rx="14" fill="#fff" stroke="#1f2430" stroke-opacity=".18" stroke-width="2"/>' + body + '</svg>')
         open(os.path.join(out, f'pg-{k}.svg'), 'w').write(out_svg)
+        wb = body.replace('#1f2430', '#fff')
+        open(os.path.join(out, f'pgw-{k}.svg'), 'w').write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 8 48 48" width="48" height="48">' + wb + '</svg>')
     print('line pictos')
+
+# 분류 카드용: 그림 맨 윗선이 정확히 SVG 위쪽 끝에 오도록 잘라낸 버전 (cs-*.svg)
+import subprocess, tempfile
+try:
+    from PIL import Image as _I
+    for k in S:
+        f = os.path.join(out, f'sc-{k}.svg')
+        tmp = tempfile.mktemp(suffix='.png')
+        full = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W*4}" height="{H*4}">{S[k]}</svg>'
+        tf = tempfile.mktemp(suffix='.svg'); open(tf, 'w').write(full)
+        subprocess.run(['rsvg-convert', tf, '-o', tmp], check=True)
+        im = _I.open(tmp).convert('RGBA'); bb = im.getbbox()
+        x0, y0, x1, y1 = [v / 4 for v in bb]
+        vb = f'{x0:.1f} {y0:.1f} {x1-x0:.1f} {y1-y0:.1f}'
+        open(os.path.join(out, f'cs-{k}.svg'), 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" width="{x1-x0:.0f}" height="{y1-y0:.0f}">{S[k]}</svg>')
+    print('tight scenes')
+except Exception as e:
+    print('tight scenes failed', e)
