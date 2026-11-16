@@ -166,7 +166,7 @@ ul.hl-cards li.fp .go{z-index:2}
 ul.hl-cards .th{overflow:hidden}
 ul.hl-cards .ft:not(.fp) .fi{position:absolute;left:8px;right:8px;bottom:8px;top:84px;height:auto;margin:0;background-size:contain;background-position:center bottom}
 ul.hl-cards .ft:not(.fp) a{overflow:hidden}
-ul.hl-cards li.fp .fi{background-position:center bottom!important;background-size:contain!important;background-repeat:no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28%,#000 72%,transparent 100%),linear-gradient(transparent 0,#000 18%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 28%,#000 72%,transparent 100%),linear-gradient(transparent 0,#000 18%);mask-composite:intersect}
+ul.hl-cards li.fp .fi{background-position:center bottom!important;background-size:contain!important;background-repeat:no-repeat}
 ul.hl-cards li.ph:not(.pw) a{background-size:auto 80%!important}
 ul.hl-cards img.pgb{position:static!important;width:26px!important;height:26px!important;margin:12px 14px 0;box-shadow:none!important;filter:none!important;border-radius:8px}
 ul.hl-cards .pg{box-shadow:none!important;filter:none!important}
