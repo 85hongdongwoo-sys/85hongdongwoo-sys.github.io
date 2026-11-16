@@ -92,61 +92,93 @@ if 'ipsi/pyeonip-2027.html' not in s:
                   '<url><loc>https://honglife.co.kr/ipsi/pyeonip-2027.html</loc><lastmod>2026-11-16</lastmod></url>\n<url><loc>https://honglife.co.kr/trip/</loc>', 1)
     open(p, 'w', encoding='utf-8').write(s); print('sitemap: pyeonip added')
 
-# 홈: 상단 흰 배경 + 블루 계열 흐르는 애니메이션(가운데 정렬) / 하단 도구 목록을 그림 카드 가로 줄로
+# 홈: 상단 흰 배경 + 블루 계열 흐르는 애니메이션(칸 없이 화면 위쪽 전체, 아래로 자연스럽게 사라짐)
+#      하단 도구 목록 = 줄마다 큰 색 카드 + 장면 그림(엑셀 창·핸드폰 화면·문서) 카드 가로 줄
 p = os.path.join(root, 'index.html')
 s = open(p, encoding='utf-8').read()
 if 'hl-flow' not in s:
-    TINT = {'excel':'#E3F0E8','sheet':'#E4F3EC','doc':'#E7EEFB','pdf':'#FBE9E7','image':'#F3E8FA','convert':'#E5F4F7',
-            'text':'#F6F0E2','ai':'#ECEAFD','calendar':'#FDEEE6','qr':'#EAEEF3','life':'#E9F5E9','medical':'#FCE9EF',
-            'legal':'#F1EDE6','study':'#E8F1FC','ipsi':'#E6EEFF','dev':'#E9ECF2','net':'#E4F2FA','design':'#FCEBF3','shop':'#FFF1E0'}
-    CSS = '''<style id="hl-flow-css">
-.hero{position:relative;overflow:hidden;background:#fff!important;background-image:none!important;text-align:center}
-.hero>.hl-flow{position:absolute;inset:0;z-index:0;pointer-events:none;animation:none!important}
-.hl-flow i{position:absolute;display:block;filter:blur(48px);will-change:transform,border-radius}
-.hl-flow .f1{width:42%;height:62%;left:2%;top:4%;background:#2563eb;opacity:.42;animation:hlf1 20s ease-in-out infinite}
-.hl-flow .f2{width:36%;height:64%;right:4%;top:0;background:#38bdf8;opacity:.45;animation:hlf2 24s ease-in-out infinite}
-.hl-flow .f3{width:40%;height:52%;left:34%;bottom:-6%;background:#6366f1;opacity:.32;animation:hlf3 28s ease-in-out infinite}
-@keyframes hlf1{0%,100%{transform:translate(0,0) rotate(0);border-radius:60% 40% 55% 45%/50% 60% 40% 50%}25%{transform:translate(18%,12%) rotate(40deg);border-radius:40% 60% 45% 55%/60% 40% 60% 40%}50%{transform:translate(34%,-4%) rotate(90deg);border-radius:55% 45% 60% 40%/45% 55% 45% 55%}75%{transform:translate(14%,-10%) rotate(140deg);border-radius:45% 55% 40% 60%/55% 45% 55% 45%}}
-@keyframes hlf2{0%,100%{transform:translate(0,0) rotate(0);border-radius:50% 50% 40% 60%/60% 40% 60% 40%}25%{transform:translate(-18%,16%) rotate(-50deg);border-radius:60% 40% 55% 45%/45% 55% 45% 55%}50%{transform:translate(-38%,6%) rotate(-100deg);border-radius:40% 60% 50% 50%/55% 45% 55% 45%}75%{transform:translate(-20%,-8%) rotate(-150deg);border-radius:55% 45% 60% 40%/40% 60% 40% 60%}}
-@keyframes hlf3{0%,100%{transform:translate(0,0) rotate(0);border-radius:45% 55% 60% 40%/55% 45% 55% 45%}33%{transform:translate(-32%,-18%) rotate(70deg);border-radius:60% 40% 45% 55%/40% 60% 40% 60%}66%{transform:translate(28%,-22%) rotate(140deg);border-radius:50% 50% 55% 45%/60% 40% 60% 40%}}
-.hero>:not(.hl-flow){position:relative;z-index:1}
+    PAL = ['#FF8A5B', '#4F7CFF', '#2EC4B6', '#FFC94D', '#A06CFF', '#FF5D8F', '#3BB273', '#5BC0EB']
+    FEAT = {'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
+            'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#343A40', 'life': '#2F9E44', 'medical': '#E64980',
+            'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#212529', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'pop': '#2563EB'}
+    CSS = r"""<style id="hl-flow-css">
+body{position:relative}
+.hl-flow{position:absolute;left:0;right:0;top:0;height:min(1100px,150vh);overflow:hidden;z-index:0;pointer-events:none;background:#fff;-webkit-mask-image:linear-gradient(#000 50%,transparent);mask-image:linear-gradient(#000 50%,transparent)}
+.hl-flow i{position:absolute;display:block;border-radius:50%}
+.hl-flow .f1{width:62vw;height:560px;left:-8vw;top:20px;background:radial-gradient(closest-side,rgba(37,99,235,.55),rgba(37,99,235,0));animation:hlf1 20s ease-in-out infinite}
+.hl-flow .f2{width:56vw;height:600px;right:-10vw;top:-40px;background:radial-gradient(closest-side,rgba(56,189,248,.6),rgba(56,189,248,0));animation:hlf2 24s ease-in-out infinite}
+.hl-flow .f3{width:58vw;height:520px;left:22vw;top:300px;background:radial-gradient(closest-side,rgba(99,102,241,.45),rgba(99,102,241,0));animation:hlf3 28s ease-in-out infinite}
+@keyframes hlf1{0%,100%{transform:translate(0,0) rotate(0) scale(1)}25%{transform:translate(14%,10%) rotate(30deg) scale(1.1)}50%{transform:translate(28%,-4%) rotate(70deg) scale(.95)}75%{transform:translate(10%,-8%) rotate(110deg) scale(1.05)}}
+@keyframes hlf2{0%,100%{transform:translate(0,0) rotate(0) scale(1)}25%{transform:translate(-14%,14%) rotate(-40deg) scale(1.08)}50%{transform:translate(-30%,6%) rotate(-80deg) scale(.92)}75%{transform:translate(-16%,-6%) rotate(-120deg) scale(1.04)}}
+@keyframes hlf3{0%,100%{transform:translate(0,0) rotate(0) scale(1)}33%{transform:translate(-26%,-14%) rotate(50deg) scale(1.1)}66%{transform:translate(22%,-18%) rotate(100deg) scale(.94)}}
+.brandbar{position:relative;z-index:2;background:rgba(255,255,255,.55)!important;backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px)}
+main.wrap{position:relative;z-index:1}
+.hero{background:transparent!important;background-image:none!important;box-shadow:none!important;border:0!important;border-radius:0!important;text-align:center;padding-top:64px!important;padding-bottom:56px!important}
+.hero::before{display:none!important}
 .hero h1,.hero h1 b{color:#111!important}
 .hero p{color:#2b2f36!important;margin-left:auto;margin-right:auto}
-.hero .safe{display:inline-flex;background:rgba(255,255,255,.7)!important;color:#1d3f7a!important;backdrop-filter:blur(4px)}
-.hero .search{max-width:640px;margin-left:auto;margin-right:auto}
+.hero .safe{display:inline-flex;background:rgba(255,255,255,.7)!important;color:#1d3f7a!important}
+.hero .search{max-width:640px;margin-left:auto;margin-right:auto;background:#fff;box-shadow:0 10px 30px -12px rgba(30,60,140,.35)}
 .hero .sres,.hero .note{text-align:left;max-width:640px;margin-left:auto;margin-right:auto}
 @media (prefers-reduced-motion:reduce){.hl-flow i{animation:none!important}}
-ul.hl-cards{display:flex;grid-template-columns:none;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 2px 14px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
-ul.hl-cards>li{flex:0 0 176px;scroll-snap-align:start}
-ul.hl-cards a{display:flex!important;flex-direction:column;padding:0!important;overflow:hidden;background:#fff!important;border:1px solid #e3e7ee!important;border-radius:14px!important;box-shadow:none!important;height:100%}
-ul.hl-cards a:hover{border-color:#9ec0f5!important;transform:translateY(-2px)}
-ul.hl-cards .th{display:flex;align-items:center;justify-content:center;height:112px;flex:0 0 auto}
-ul.hl-cards .th img{width:56px;height:56px}
-ul.hl-cards b{font-size:14.5px!important;line-height:1.4;margin:10px 12px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-ul.hl-cards span{font-size:12.5px!important;margin:4px 12px 12px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cats img{filter:saturate(1.6) brightness(1.02)}
+ul.hl-cards{display:flex;grid-template-columns:none;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 2px 18px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+ul.hl-cards::-webkit-scrollbar{display:none}
+ul.hl-cards>li{flex:0 0 210px;scroll-snap-align:start}
+ul.hl-cards a{display:flex!important;flex-direction:column;padding:0!important;overflow:hidden;background:#fff!important;border:0!important;border-radius:18px!important;box-shadow:0 2px 10px rgba(20,30,60,.07)!important;height:100%;transition:transform .2s,box-shadow .2s}
+ul.hl-cards a:hover{transform:translateY(-3px);box-shadow:0 10px 24px -8px rgba(20,30,60,.22)!important}
+ul.hl-cards .th{display:block;height:146px;flex:0 0 auto;position:relative}
+ul.hl-cards .th img{width:100%;height:100%;display:block}
+ul.hl-cards .th .pg{position:absolute;left:10px;top:10px;width:30px;height:30px;border-radius:9px;box-shadow:0 2px 6px rgba(0,0,0,.18);filter:saturate(1.6)}
+ul.hl-cards a.tx{background:var(--tc)!important;padding:18px 16px!important;justify-content:flex-start}
+ul.hl-cards a.tx .pg{width:34px;height:34px;border-radius:10px;filter:saturate(1.6);box-shadow:0 2px 6px rgba(0,0,0,.15)}
+ul.hl-cards a.tx b{color:#fff!important;font-size:21px!important;line-height:1.3;margin:auto 0 0!important;-webkit-line-clamp:4}
+ul.hl-cards a.tx span{color:rgba(255,255,255,.92)!important;margin:8px 0 0!important;font-size:13px!important;-webkit-line-clamp:3}
+ul.hl-cards li.hl-rv,ul.hl-cards li{opacity:1!important;transform:none!important}
+ul.hl-cards b{font-size:15px!important;line-height:1.4;margin:12px 14px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ul.hl-cards span{font-size:12.5px!important;margin:5px 14px 14px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ul.hl-cards>li.ft{flex:0 0 300px}
+ul.hl-cards .ft a{color:#fff!important;justify-content:space-between;background:var(--fc)!important}
+ul.hl-cards .ft .fh{padding:20px 20px 0;margin:0!important;display:block!important;overflow:visible!important;color:#fff!important}
+@media (max-width:600px){ul.hl-cards>li.ft{flex-basis:260px}ul.hl-cards>li{flex-basis:190px}}
+ul.hl-cards .ft em{color:#fff;font-style:normal;font-size:12px;font-weight:700;opacity:.85;letter-spacing:.02em}
+ul.hl-cards .ft b{color:#fff!important;font-size:22px!important;margin:6px 0 0;line-height:1.3;-webkit-line-clamp:3}
+ul.hl-cards .ft .fi{display:block;height:200px;background-size:contain;background-repeat:no-repeat;background-position:center bottom;margin:8px 10px 0}
+ul.hl-cards .ft .go{position:absolute;right:16px;bottom:14px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.92);color:#111;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+ul.hl-cards .ft a{position:relative}
 .hl-cw{position:relative}
-.hl-cw .hl-ar{position:absolute;top:44px;width:38px;height:38px;border-radius:50%;border:1px solid #d9dee7;background:#fff;color:#111;font-size:20px;line-height:1;cursor:pointer;box-shadow:0 4px 12px rgba(10,30,60,.12);z-index:2;display:none}
-.hl-cw .hl-l{left:-14px}.hl-cw .hl-r{right:-14px}
-@media (hover:hover) and (min-width:700px){.hl-cw .hl-ar{display:block}}
+.hl-cw .hl-ar{position:absolute;top:120px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.95);color:#111;font-size:22px;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(10,30,60,.18);z-index:2;display:none}
+.hl-cw .hl-l{left:-12px}.hl-cw .hl-r{right:-12px}
+@media (hover:hover) and (min-width:700px){.hl-cw .hl-ar{display:block}.hl-cw .hl-ar[hidden]{display:none}}
 </style>
-<script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('ul.hl-cards').forEach(function(u){var w=document.createElement('div');w.className='hl-cw';u.parentNode.insertBefore(w,u);w.appendChild(u);[['hl-l','\u2039',-1],['hl-r','\u203A',1]].forEach(function(a){var b=document.createElement('button');b.type='button';b.className='hl-ar '+a[0];b.textContent=a[1];b.setAttribute('aria-label',a[2]<0?'이전 도구':'다음 도구');b.onclick=function(){u.scrollBy({left:a[2]*u.clientWidth*.8,behavior:'smooth'})};w.appendChild(b)})})});</script>'''
+<script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('ul.hl-cards').forEach(function(u){var w=document.createElement('div');w.className='hl-cw';u.parentNode.insertBefore(w,u);w.appendChild(u);var bs=[];[['hl-l','‹',-1],['hl-r','›',1]].forEach(function(a){var b=document.createElement('button');b.type='button';b.className='hl-ar '+a[0];b.textContent=a[1];b.setAttribute('aria-label',a[2]<0?'이전 도구':'다음 도구');b.onclick=function(){u.scrollBy({left:a[2]*u.clientWidth*.8,behavior:'smooth'})};w.appendChild(b);bs.push(b)});function up(){bs[0].hidden=u.scrollLeft<8;bs[1].hidden=u.scrollLeft+u.clientWidth>=u.scrollWidth-8}u.addEventListener('scroll',up,{passive:true});up()})});</script>"""
     s = s.replace('</head>', CSS + '\n</head>', 1)
-    s = s.replace('<section class="hero" id="search">', '<section class="hero" id="search"><div class="hl-flow" aria-hidden="true"><i class="f1"></i><i class="f2"></i><i class="f3"></i></div>', 1)
+    s = re.sub(r'(<body[^>]*>)', r'\1<div class="hl-flow" aria-hidden="true"><i class="f1"></i><i class="f2"></i><i class="f3"></i></div>', s, count=1)
     a = s.find('<h2 class="sec-h">많이 쓰는 도구'); b = s.find('<section class="card guide"', a)
     if a > 0 and b > a:
+        seg = s[a:b]
+        cnt = [0]
         def card(m):
-            cat = m.group(2)
-            t = TINT.get(cat, '#EEF2F8')
-            img = f'<img src="/assets/art/cat2-{cat}.svg" alt="" width="56" height="56" loading="lazy">' if os.path.exists(os.path.join(root, 'assets/art', f'cat2-{cat}.svg')) else ''
-            return f'{m.group(1)}<i class="th" style="background:{t}">{img}</i>'
-        seg = s[a:b].replace('<ul class="tlist">', '<ul class="tlist hl-cards">')
-        seg = re.sub(r'(<li><a href="/([a-z0-9-]+)/[^"]*"[^>]*>)', card, seg)
+            cat = m.group(2); i = cnt[0]; cnt[0] += 1
+            sc = f'/assets/art/hl/sc-{cat}.svg'
+            if not os.path.exists(os.path.join(root, sc[1:])):
+                return m.group(1)
+            if i % 5 == 3:
+                return m.group(1).replace('<a ', f'<a class="tx" style="--tc:{PAL[(i + 2) % len(PAL)]}" ', 1) + '<img class="pg" src="/assets/art/cat2-' + cat + '.svg" alt="" width="34" height="34" loading="lazy">'
+            return f'{m.group(1)}<i class="th" style="background:{PAL[i % len(PAL)]}"><img src="{sc}" alt="" width="200" height="140" loading="lazy"><img class="pg" src="/assets/art/cat2-{cat}.svg" alt="" width="30" height="30" loading="lazy"></i>'
+        def row(m):
+            h2, ul = m.group(1), m.group(2)
+            mm = re.search(r'id="c-([a-z0-9-]+)"', h2)
+            cat = mm.group(1) if mm else 'pop'
+            title = re.sub(r'<[^>]+>', '', h2).strip()
+            n = ul.count('<li>')
+            lis = re.sub(r'(<li><a href="/([a-z0-9-]+)/[^"]*"[^>]*>)', card, ul)
+            href = f'/{cat}/' if cat != 'pop' else '/#search'
+            img = f'/assets/art/hl/ft-{cat}.svg'
+            sub = f'도구 {n}가지' if cat != 'pop' else '자주 찾는 도구'
+            ft = (f'<li class="ft"><a href="{href}" style="--fc:{FEAT.get(cat, "#2563EB")}"><span class="fh"><em>{sub}</em><b>{title}</b></span>'
+                  f'<i class="fi" style="background-image:url({img})"></i><span class="go" aria-hidden="true">›</span></a></li>')
+            return h2 + lis.replace('<ul class="tlist">', '<ul class="tlist hl-cards">' + ft, 1)
+        seg = re.sub(r'(<h2 class="sec-h"[^>]*>.*?</h2>)(<ul class="tlist">.*?</ul>)', row, seg, flags=re.S)
         s = s[:a] + seg + s[b:]
     open(p, 'w', encoding='utf-8').write(s); print('home: flow hero + tool cards')
-
-# 홈: 분류 아이콘·도구 카드 아이콘 채도 조금 올리기
-p = os.path.join(root, 'index.html')
-s = open(p, encoding='utf-8').read()
-if 'hl-sat' not in s:
-    s = s.replace('</head>', '<style id="hl-sat">.cats img,ul.hl-cards .th img{filter:saturate(1.6) brightness(1.02)}</style>\n</head>', 1)
-    open(p, 'w', encoding='utf-8').write(s); print('home: icon saturation')
