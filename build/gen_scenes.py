@@ -3,7 +3,7 @@ import os, sys
 out = sys.argv[1]
 os.makedirs(out, exist_ok=True)
 W, H = 200, 140
-def svg(body): return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">{body}</svg>'
+def svg(body): return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 2 176 138" width="{W}" height="{H}">{body}</svg>'
 SH = '<ellipse cx="100" cy="132" rx="62" ry="5" fill="#000" opacity=".10"/>'
 def win(x, y, w, h, bar, inner, dark=False):
     bg = '#1E2433' if dark else '#fff'
@@ -85,7 +85,7 @@ for i, k in enumerate(K + ['pop']):
     p = person(62, 72, SK[i % 4], HR[i % 4], SH_[i % 5], pose=i % 2, long_hair=i % 3 == 1)
     pc = pict(36, 40, ['star', 'check', 'heart', 'bolt'][i % 4], ['#FFB020', '#2F9E44', '#E64980', '#4F8CFF'][i % 4]) + pict(268, 30, ['check', 'bolt', 'star', 'heart'][i % 4], ['#2F9E44', '#4F8CFF', '#FFB020', '#E64980'][i % 4])
     body = f'<ellipse cx="170" cy="182" rx="88" ry="6" fill="#000" opacity=".12"/><g transform="translate(82 34) scale(.78)">{sc}</g>{p}'
-    open(os.path.join(out, f'ft-{k}.svg'), 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">{body}</svg>')
+    open(os.path.join(out, f'ft-{k}.svg'), 'w').write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 26 248 172" width="300" height="200">{body}</svg>')
 print('feature art done')
 
 # 사람(상반신 크게) 카드 그림 + 선 픽토그램 카드 그림
