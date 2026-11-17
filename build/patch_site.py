@@ -372,8 +372,9 @@ ul.hl-grid li.ft em{display:block;font-style:normal;font-size:12px;font-weight:7
 ul.hl-grid li.ft b{color:#fff!important;font-size:22px!important;margin:6px 20px 0}
 ul.hl-grid li.ft span{color:rgba(255,255,255,.85)!important;margin:6px 20px 0!important}
 ul.hl-grid li.ft .fi{flex:1 1 auto;min-height:150px;margin:8px 20px 16px;background-repeat:no-repeat;background-size:contain;background-position:center bottom}
+@media (max-width:900px){section.rel ul.hl-rel{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:600px){section.rel ul.hl-rel{grid-template-columns:1fr 1fr;gap:10px}ul.hl-grid li.ft>a{flex-direction:column!important}ul.hl-grid{grid-template-columns:1fr 1fr;gap:10px}ul.hl-grid .th{height:110px;padding:12px 14px 0}ul.hl-grid li.ft{grid-column:1/-1}}
-section.rel ul.hl-rel{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;padding:4px 0 24px;margin:0;list-style:none}
+section.rel ul.hl-rel{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;padding:4px 0 24px;margin:0;list-style:none}
 section.rel ul.hl-rel::-webkit-scrollbar{display:none}
 ul.hl-rel>li{margin:0;min-width:0}
 ul.hl-rel a{display:block!important;position:relative;aspect-ratio:1/1;height:auto;border-radius:18px!important;overflow:hidden;background:var(--bg)!important;color:#111;text-decoration:none;padding:0!important;border:0!important;box-shadow:0 8px 20px -12px rgba(16,24,48,.16),0 1px 4px rgba(16,24,48,.04)!important}
@@ -384,8 +385,9 @@ ul.hl-rel a i{position:absolute;left:14px;right:14px;top:34%;bottom:14px;backgro
 def _mix(c, t):
     r, g, b = int(c[1:3], 16), int(c[3:5], 16), int(c[5:7], 16)
     return '#%02X%02X%02X' % tuple(round(v + (255 - v) * t) for v in (r, g, b))
-for cat in sorted(os.listdir(root)):
-    p = os.path.join(root, cat, 'index.html')
+for base, cat in [('', c) for c in sorted(os.listdir(root))] + ([('en', c) for c in sorted(os.listdir(os.path.join(root, 'en')))] if os.path.isdir(os.path.join(root, 'en')) else []):
+    p = os.path.join(root, base, cat, 'index.html')
+    pre = '/en' if base else ''
     if not os.path.isfile(p) or cat not in HFC:
         continue
     s = open(p, encoding='utf-8').read()
@@ -428,15 +430,33 @@ for cat in sorted(os.listdir(root)):
         first[0] = False
         return '<ul class="tlist hl-grid">' + ''.join(out) + '</ul>'
     s = re.sub(r'<ul class="tlist">(.*?)</ul>', conv_ul, s, flags=re.S)
-    def conv_rel(m):
-        items = re.findall(r'<li><a href="/([a-z0-9-]+)/"><b>(.*?)</b><span>(.*?)</span></a></li>', m.group(1))
+    def conv_rel2(m):
+        items = re.findall(r'<li><a href="/(?:en/)?([a-z0-9-]+)/"><b>(.*?)</b><span>(.*?)</span></a></li>', m.group(2))
         out = []
         for c2, b, sp in items:
             c = HFC.get(c2, '#2563EB'); a, bb = _mix(c, .80), _mix(c, .45)
             img = f'/assets/art/hl/cs-{c2}.svg' if os.path.exists(os.path.join(root, 'assets/art/hl', f'cs-{c2}.svg')) else ''
-            out.append(f'<li><a href="/{c2}/" style="--bg:linear-gradient({a} 0 34%,{bb} 34%)"><b>{b}</b><span>{sp}</span>'
+            out.append(f'<li><a href="{pre}/{c2}/" style="--bg:linear-gradient({a} 0 34%,{bb} 34%)"><b>{b}</b><span>{sp}</span>'
                        + (f'<i style="background-image:url({img})"></i>' if img else '') + '</a></li>')
-        return '<section class="card rel"><h2>다른 분류</h2><ul class="hl-rel">' + ''.join(out) + '</ul></section>'
-    s = re.sub(r'<section class="card rel"><h2>다른 분류</h2><ul>(.*?)</ul></section>', conv_rel, s, flags=re.S)
+        return f'<section class="card rel"><h2>{m.group(1)}</h2><ul class="hl-rel">' + ''.join(out) + '</ul></section>'
+    s = re.sub(r'<section class="card rel"><h2>(다른 분류|Other categories)</h2><ul>(.*?)</ul></section>', conv_rel2, s, flags=re.S)
     open(p, 'w', encoding='utf-8').write(s)
 print('hub pages styled')
+
+
+# 영문 홈(/en/)에도 같은 홈 디자인 적용 — 위 한국어 홈 블록을 영문 문구로 바꿔 한 번 더 실행
+if os.path.isfile(os.path.join(root, 'en', 'index.html')):
+    _src = open(__file__, encoding='utf-8').read()
+    _a = _src.index('# 홈: 상단 흰 배경'); _b = _src.index('# 분류 허브 페이지')
+    _blk = _src[_a:_b]
+    for _x, _y in [("os.path.join(root, 'index.html')", "os.path.join(root, 'en', 'index.html')"),
+                   ('<h2 class="sec-h">많이 쓰는 도구', '<h2 class="sec-h">Popular tools'),
+                   ('<li><a href="/([a-z0-9-]+)/[^"]*"[^>]*>)', '<li><a href="/en/([a-z0-9-]+)/[^"]*"[^>]*>)'),
+                   ("f'/{cat}/' if cat != 'pop' else '/#search'", "f'/en/{cat}/' if cat != 'pop' else '/en/#search'"),
+                   ("f'도구 {n}가지'", "f'{n} tools'"), ("'자주 찾는 도구'", "'Most used'"),
+                   ("'가장 많이 찾는 도구부터.'", "'Start with the favorites.'"), ("'바로 만들고, 바로 내려받기.'", "'Make it, download it, done.'"),
+                   ('<a href="/([a-z0-9-]+)/"><img', '<a href="/en/([a-z0-9-]+)/"><img'),
+                   ('href="/{cat}/" style="--bg:{bg}"', 'href="/en/{cat}/" style="--bg:{bg}"'),
+                   ("'이전 도구'", "'Previous'"), ("'다음 도구'", "'Next'")]:
+        _blk = _blk.replace(_x, _y)
+    exec(_blk)
