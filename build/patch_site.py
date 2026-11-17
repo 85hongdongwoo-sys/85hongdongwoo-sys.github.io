@@ -372,8 +372,7 @@ ul.hl-grid li.ft em{display:block;font-style:normal;font-size:12px;font-weight:7
 ul.hl-grid li.ft b{color:#fff!important;font-size:22px!important;margin:6px 20px 0}
 ul.hl-grid li.ft span{color:rgba(255,255,255,.85)!important;margin:6px 20px 0!important}
 ul.hl-grid li.ft .fi{flex:1 1 auto;min-height:150px;margin:8px 20px 16px;background-repeat:no-repeat;background-size:contain;background-position:center bottom}
-@media (max-width:900px){section.rel ul.hl-rel{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:600px){section.rel ul.hl-rel{grid-template-columns:1fr 1fr;gap:10px}ul.hl-grid li.ft>a{flex-direction:column!important}ul.hl-grid{grid-template-columns:1fr 1fr;gap:10px}ul.hl-grid .th{height:110px;padding:12px 14px 0}ul.hl-grid li.ft{grid-column:1/-1}}
+@media (max-width:600px){ul.hl-grid li.ft>a{flex-direction:column!important}ul.hl-grid{grid-template-columns:1fr 1fr;gap:10px}ul.hl-grid .th{height:110px;padding:12px 14px 0}ul.hl-grid li.ft{grid-column:1/-1}}
 section.rel ul.hl-rel{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;padding:4px 0 24px;margin:0;list-style:none}
 section.rel ul.hl-rel::-webkit-scrollbar{display:none}
 ul.hl-rel>li{margin:0;min-width:0}
@@ -381,6 +380,10 @@ ul.hl-rel a{display:block!important;position:relative;aspect-ratio:1/1;height:au
 ul.hl-rel a b{display:block;padding:16px 16px 0;font-size:16px!important;line-height:1.3;color:#111!important}
 ul.hl-rel a span{display:none!important;padding:4px 16px 0;font-size:12px!important;color:#333!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 ul.hl-rel a i{position:absolute;left:14px;right:14px;top:34%;bottom:14px;background-repeat:no-repeat;background-size:contain;background-position:center top}
+@media (max-width:900px){section.rel ul.hl-rel{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+ul.hl-rel a{border-radius:14px!important}
+ul.hl-rel a b{padding:9px 9px 0!important;font-size:12px!important;line-height:1.25!important;word-break:keep-all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ul.hl-rel a i{left:8px!important;right:8px!important;top:34%!important;bottom:8px!important}}
 </style>"""
 def _mix(c, t):
     r, g, b = int(c[1:3], 16), int(c[3:5], 16), int(c[5:7], 16)
