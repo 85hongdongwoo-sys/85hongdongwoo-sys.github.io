@@ -53,19 +53,26 @@ function say(st){return st.text}
 function fmt(m){return m>=1000?(m/1000).toFixed(1)+'km':(Math.round(m/10)*10)+'m'}
 var voice=true,KV=[];function vopt(){var S=store()||{};return S.voice||{}}
 function pick(){var o=vopt();return KV.filter(function(v){return v.name==o.name})[0]||KV.filter(function(v){return v.localService!==false})[0]||KV[0]||null}
+var CL={ok:null,a:null,q:[],base:'/assets/voice/ko/'};
+fetch(CL.base+'try.mp3',{method:'HEAD'}).then(function(r){CL.ok=r.ok;if(r.ok)vlist()}).catch(function(){CL.ok=false});
+function useClips(){return CL.ok&&(vopt().name||'__hl')=='__hl'}
+function playNext(){if(!CL.q.length){CL.busy=false;return}CL.busy=true;var k=CL.q.shift();if(!CL.a){CL.a=new Audio()}var o=vopt();CL.a.src=CL.base+k+'.mp3';CL.a.playbackRate=o.rate?Math.max(.8,Math.min(1.4,o.rate/1.05)):1;CL.a.onended=CL.a.onerror=function(){setTimeout(playNext,120)};CL.a.play().catch(function(){CL.busy=false;CL.q=[]})}
+function say2(keys,text,urgent){if(!voice)return;if(useClips()){if(urgent){CL.q=[];if(CL.a)CL.a.pause();CL.busy=false}CL.q=CL.q.concat(keys);if(!CL.busy)playNext()}else speak(text,urgent)}
+function mk(m){return String(m||'straight').replace(/ /g,'_')}
+function dk(dm){var B=[100,150,200,250,300,400,500,600,700,800,1000],b=B[0];B.forEach(function(x){if(Math.abs(x-dm)<Math.abs(b-dm))b=x});return b}
 var LAST='';function speak(t,urgent){if(!voice||!window.speechSynthesis||!t)return;if(t==LAST&&speechSynthesis.speaking)return;LAST=t;var o=vopt(),u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=o.rate||1.05;u.pitch=o.pitch||1;var v=pick();if(v)u.voice=v;
  if(urgent||speechSynthesis.pending)speechSynthesis.cancel();speechSynthesis.resume();speechSynthesis.speak(u)}
 setInterval(function(){if(window.speechSynthesis&&speechSynthesis.speaking&&!speechSynthesis.paused){speechSynthesis.pause();speechSynthesis.resume()}},10000);
 function vput(k,val){var S=store();if(!S)return;S.voice=S.voice||{};S.voice[k]=val;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
 function vlist(){if(!window.speechSynthesis)return;KV=speechSynthesis.getVoices().filter(function(v){return /^ko/i.test(v.lang)});var sel=$('vsel'),o=vopt();
- if(!KV.length){sel.innerHTML='<option>이 기기에 한국어 목소리가 없어요</option>';return}
- sel.innerHTML=KV.map(function(v,i){var nm=v.name.replace(/Microsoft |Google |Samsung |\(.*?\)|Korean|한국어|ko[-_]KR/gi,'').replace(/\s+/g,' ').trim();return '<option value="'+v.name.replace(/"/g,'&quot;')+'"'+(v===pick()?' selected':'')+'>'+(i+1)+'. '+(nm||'기본 목소리')+(v.localService===false?' (온라인 · 끊길 수 있음)':' (휴대폰 안)')+'</option>'}).join('')}
+ if(!KV.length&&!CL.ok){sel.innerHTML='<option>이 기기에 한국어 목소리가 없어요</option>';return}
+ sel.innerHTML=(CL.ok?'<option value="__hl"'+((o.name||'__hl')=='__hl'?' selected':'')+'>홍라이프 목소리 (권장 · 끊김 없음)</option>':'')+KV.map(function(v,i){var nm=v.name.replace(/Microsoft |Google |Samsung |\(.*?\)|Korean|한국어|ko[-_]KR/gi,'').replace(/\s+/g,' ').trim();return '<option value="'+v.name.replace(/"/g,'&quot;')+'"'+(v===pick()&&o.name&&o.name!='__hl'?' selected':'')+'>'+(i+1)+'. '+(nm||'기본 목소리')+(v.localService===false?' (온라인 · 끊길 수 있음)':' (휴대폰 안)')+'</option>'}).join('')}
 if(window.speechSynthesis){vlist();speechSynthesis.onvoiceschanged=vlist}
 (function(){var o=vopt();$('vrate').value=o.rate||1.05;$('vpitch').value=o.pitch||1;var show=function(){$('vrv').textContent=(+$('vrate').value).toFixed(2);$('vpv').textContent=(+$('vpitch').value).toFixed(2)};show();
- $('vsel').onchange=function(){vput('name',this.value);speak('300미터 앞에서 우회전입니다')};
+ $('vsel').onchange=function(){vput('name',this.value);say2(['d300-right'],'300미터 앞에서 우회전입니다')};
  $('vrate').oninput=function(){vput('rate',+this.value);show()};$('vpitch').oninput=function(){vput('pitch',+this.value);show()};
- $('vrate').onchange=$('vpitch').onchange=function(){speak('곧 3번 정류장입니다')};
- $('vtry').onclick=function(){speak('안내를 시작합니다. 300미터 앞에서 송도컨벤시아 방면으로 좌회전입니다')}})();
+ $('vrate').onchange=$('vpitch').onchange=function(){say2(['soon-3'],'곧 3번 정류장입니다')};
+ $('vtry').onclick=function(){say2(['try'],'안내를 시작합니다. 300미터 앞에서 송도컨벤시아 방면으로 좌회전입니다')}})();
 var N=null;
 function route(from,list){var S0=store()||{};return HM.route((from?[from]:[]).concat(list.map(function(s){return [s.lat,s.lng]})),S0.opt||{})}
 // 경로 위로 맞추기(맵 매칭): 가까운 선분에 수직으로 내려 진행 거리(s)를 정확히 구한다
@@ -86,10 +93,10 @@ function start(sim){var st=stops();if(st.length<1){alert('먼저 정류장을 �
  $('nv-d').textContent='경로 준비 중…';$('nv-r').textContent='';
  var go=function(from){route(from,N.stops).then(function(r){N.r=prep(r);N.k=0;N.ci=0;N.s=0;N.v=0;N.lt=Date.now();N.lastRe=0;N.base=0;
    N.todo=N.map.line(r.co,{color:'#F04452',weight:4,opacity:.9});N.done=N.map.line([],{color:'#9AA4B1',weight:4,opacity:.85});N.objs.push(N.todo,N.done);
-   if(sim)simrun();else watch();speak('안내를 시작합니다. 첫 정류장은 '+N.stops[0].n+'입니다.')}).catch(function(){$('nv-d').textContent='경로를 못 찾았어요';$('nv-r').textContent='인터넷 연결을 확인하거나 잠시 뒤 다시 시도해 주세요'})};
+   if(sim)simrun();else watch();say2(['first-'+N.stops[0].no],'안내를 시작합니다. 첫 정류장은 '+N.stops[0].n+'입니다.')}).catch(function(){$('nv-d').textContent='경로를 못 찾았어요';$('nv-r').textContent='인터넷 연결을 확인하거나 잠시 뒤 다시 시도해 주세요'})};
  if(sim)go(null);else navigator.geolocation.getCurrentPosition(function(g){go([g.coords.latitude,g.coords.longitude])},function(){go(null)},{enableHighAccuracy:true,timeout:8000});
 }
-function reroute(p){if(N.busy||Date.now()-(N.lastRe||0)<10000)return;N.busy=true;$('nv-r').textContent='경로를 다시 찾는 중…';speak('경로를 다시 탐색합니다');
+function reroute(p){if(N.busy||Date.now()-(N.lastRe||0)<10000)return;N.busy=true;$('nv-r').textContent='경로를 다시 찾는 중…';say2(['reroute'],'경로를 다시 탐색합니다');
  route(p,N.stops.slice(N.si)).then(function(r){N.base=N.si;N.r=prep(r);N.k=0;N.ci=0;N.s=0;N.off=0;N.said={};N.todo.set(r.co);N.done.set([]);N.busy=false;N.lastRe=Date.now()}).catch(function(e){N.busy=false;try{console.warn('reroute fail',e&&e.message)}catch(_){}})}
 function onPos(p,hd,acc,spd,dr){if(!N||!N.r||N.busy)return;var r=N.r,now=Date.now();
  if(!dr){if(acc&&acc>60&&N.s>0)return;N.lt=now;}
@@ -105,17 +112,17 @@ function onPos(p,hd,acc,spd,dr){if(!N||!N.r||N.busy)return;var r=N.r,now=Date.no
  N.done.set(r.co.slice(0,at.i+1).concat([at.q]));
  // 정류장 도착: 진행 거리 기준(가까이 오거나 지나치면)
  var j=N.si-N.base,sst=N.stops[N.si];
- if(sst&&r.ss[j]!=null&&(N.s>=r.ss[j]-25&&hv(show,[sst.lat,sst.lng])<90||N.s>r.ss[j]+40)){speak(sst.no+'번 '+sst.n+'에 도착했습니다.'+(N.stops[N.si+1]?' 다음은 '+N.stops[N.si+1].n+'입니다.':' 마지막 정류장입니다. 수고하셨습니다.'));sync(sst.no);N.si++;j++;
+ if(sst&&r.ss[j]!=null&&(N.s>=r.ss[j]-25&&hv(show,[sst.lat,sst.lng])<90||N.s>r.ss[j]+40)){say2(['arr-'+sst.no].concat(N.stops[N.si+1]?['next-'+N.stops[N.si+1].no]:['last']),sst.no+'번 '+sst.n+'에 도착했습니다.'+(N.stops[N.si+1]?' 다음은 '+N.stops[N.si+1].n+'입니다.':' 마지막 정류장입니다. 수고하셨습니다.'));sync(sst.no);N.si++;j++;
   if(N.si>=N.stops.length){$('nv-d').textContent='운행 끝';$('nv-r').textContent='모든 정류장을 돌았어요';$('nv-ic').innerHTML=icon(null);stopWatch();return}}
  // 다음 회전: 속도에 맞춰 미리 안내
  while(N.k<r.steps.length&&r.cum[r.steps[N.k].ci]<=N.s+5)N.k++;
  var nx=r.steps[N.k],ns=N.stops[N.si],v=Math.max(N.v||0,5),far=Math.min(800,Math.max(250,v*18)),near=Math.min(150,Math.max(40,v*5));
  if(nx){var dm=r.cum[nx.ci]-N.s;$('nv-ic').innerHTML=icon(nx);$('nv-d').textContent=fmt(dm);$('nv-r').textContent=say(nx)+(nx.name&&say(nx).indexOf(nx.name)<0?' · '+nx.name:'');
-  var key=N.k;if(dm<far&&dm>near*1.8&&!N.said[key+'a']){N.said[key+'a']=1;speak(fmt(Math.round(dm/50)*50).replace('km','킬로미터').replace('m','미터')+' 앞에서 '+say(nx)+(/다$|요$/.test(say(nx))?'':'입니다'))}
-  if(dm<=near&&!N.said[key+'b']){N.said[key+'b']=1;speak(say(nx),true)}}
+  var key=N.k;if(dm<far&&dm>near*1.8&&!N.said[key+'a']){N.said[key+'a']=1;say2(['d'+dk(dm)+'-'+mk(nx.mod)],fmt(Math.round(dm/50)*50).replace('km','킬로미터').replace('m','미터')+' 앞에서 '+say(nx)+(/다$|요$/.test(say(nx))?'':'입니다'))}
+  if(dm<=near&&!N.said[key+'b']){N.said[key+'b']=1;say2(['now-'+mk(nx.mod)],say(nx),true)}}
  else{$('nv-ic').innerHTML=icon(null);$('nv-d').textContent=ns?fmt(Math.max(0,(r.ss[j]||0)-N.s)):'';$('nv-r').textContent='도로를 따라 직진'}
  if(ns&&r.ss[j]!=null){var sd=Math.max(0,r.ss[j]-N.s);$('nv-k').textContent='다음 정류장 '+ns.no+'번 · 남은 '+(N.stops.length-N.si)+'곳';$('nv-s').textContent=ns.n+' · '+fmt(sd)+' · 약 '+Math.max(1,Math.round(sd/Math.max(r.spd,1)/60))+'분';
-  if(sd<Math.max(250,v*15)&&sd>Math.max(80,v*4)&&!N.said['s'+N.si]){N.said['s'+N.si]=1;speak('곧 '+ns.no+'번 '+ns.n+'입니다')}}}
+  if(sd<Math.max(250,v*15)&&sd>Math.max(80,v*4)&&!N.said['s'+N.si]){N.said['s'+N.si]=1;say2(['soon-'+ns.no],'곧 '+ns.no+'번 '+ns.n+'입니다')}}}
 function sync(no){var S=store();if(!S)return;S.pos[S.cur]=Math.min(no,(S.routes[S.cur]||[]).length-1);if(no>=(S.routes[S.cur]||[]).length)S.pos[S.cur]=0;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
 // 터널 등에서 위치가 끊기면 마지막 속도로 경로를 따라 잠깐 이어 간다(최대 20초)
 setInterval(function(){if(!N||!N.r||N.sim||!N.w||N.busy)return;var gap=(Date.now()-N.lt)/1000;if(gap>3&&gap<20&&N.v>3){var q=atS(N.r,N.s+N.v).q;onPos(q,null,null,N.v,true)}},1000);
@@ -126,8 +133,9 @@ function stopWatch(){if(N&&N.w!=null){navigator.geolocation.clearWatch(N.w);N.w=
 function end(){try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}stopWatch();if(N&&N.wl){N.wl.release().catch(function(){});N.wl=null}if(window.speechSynthesis)speechSynthesis.cancel();$('nav').hidden=true;document.documentElement.style.overflow='';if(window.__rnRefresh)window.__rnRefresh()}
 $('nv-end').onclick=end;
 $('nv-mute').onclick=function(){voice=!voice;this.textContent=voice?'음성 켜짐':'음성 꺼짐';this.setAttribute('aria-pressed',!voice);if(!voice&&window.speechSynthesis)speechSynthesis.cancel()};
-$('self-go').onclick=function(){if(!navigator.geolocation){alert('이 기기에서는 위치를 쓸 수 없어요');return}speak('');start(false)};
-$('self-sim').onclick=function(){speak('');start(true)};
+function unlock(){if(!CL.a)CL.a=new Audio();try{CL.a.src='data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQxAADB8AhSmxhIIEVCSiJrDCQBTcu3UrAIwUdkRgQbFAZC1CQEwTJ9mjRvBA4UOLD8nKVOWfh+UlK3z/177OXrfOdKl7pyn3Xf//WreyTRUoAWgBgkOAGbZHBgG1OF6zM82DWbZaUmMBptgQhGjsyYqc9ae9XFz280948NMBWInljyzsNRFLPWdnZGWrddDsjK1unuSrVN9jJsK8KuQtQCtMBjCEtImISdNKJOopIpBFpNSMbIHCSRpRR5iakjTiyzLhchUUBwCgyKiweBv/7UsQbg8isVNoMPMjAAAA0gAAABEVFGmgqK////9bP/6XCykxBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq';CL.a.play().catch(function(){})}catch(e){}}
+$('self-go').onclick=function(){if(!navigator.geolocation){alert('이 기기에서는 위치를 쓸 수 없어요');return}unlock();speak('');start(false)};
+$('self-sim').onclick=function(){unlock();speak('');start(true)};
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&N&&N.wl===null&&!$('nav').hidden&&navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){N.wl=w}).catch(function(){})});
 (function(){function get(){var S=store()||{};return S.opt||{pr:'RECOMMEND',av:[]}}function put(o){var S=store();if(!S)return;S.opt=o;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
  function paint(){var o=get();document.querySelectorAll('.rn-seg button').forEach(function(b){b.setAttribute('role','radio');b.setAttribute('aria-checked',b.dataset.pr==(o.pr||'RECOMMEND'))});document.querySelectorAll('.rn-chk input').forEach(function(c){c.checked=(o.av||[]).indexOf(c.dataset.av)>=0})}
