@@ -88,6 +88,10 @@
 .nv-bt{display:flex;gap:6px;flex:none}.nv-bt button{min-height:46px;padding:0 12px;border-radius:12px;border:1px solid #E5E8EB;background:#F2F4F6;font-size:14px;font-weight:700;color:#333D4B;cursor:pointer}
 #nv-end{background:#191F28;color:#fff;border-color:#191F28}
 .nv-sim{position:absolute;left:50%;top:104px;transform:translateX(-50%);margin:0;background:#F59F00;color:#fff;font-size:13px;font-weight:800;padding:5px 12px;border-radius:99px;z-index:600}
+.nv-meter{position:absolute;right:12px;top:100px;z-index:600;display:flex;flex-direction:column;align-items:center;gap:8px}
+.nv-lim{width:58px;height:58px;border-radius:50%;background:#fff;border:6px solid #E03131;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}.nv-lim b{font-size:22px;font-weight:900;color:#191F28;letter-spacing:-1px}
+.nv-spd{min-width:58px;padding:6px 6px 4px;border-radius:14px;background:rgba(25,31,40,.88);color:#fff;text-align:center;line-height:1}.nv-spd b{display:block;font-size:22px;font-weight:800}.nv-spd small{font-size:10.5px;opacity:.8}.nv-spd.over{background:#E03131}
+.nv-cam{position:absolute;left:12px;right:84px;top:100px;z-index:600;margin:0;padding:10px 12px;border-radius:12px;background:rgba(224,49,49,.94);color:#fff;font-size:15px;font-weight:800;line-height:1.35;word-break:keep-all}
 .nv-car{width:34px;height:34px;display:grid;place-items:center}.nv-car svg{width:34px;height:34px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));transition:transform .4s}
 .rn-self{display:flex!important;flex-direction:column;align-items:center;gap:3px;min-height:72px;width:100%;padding:12px 10px;text-align:center;background:#1B64DA!important;border-color:#1B64DA!important;color:#fff!important}.rn-self b{font-size:18px}.rn-self span{font-size:13.5px;font-weight:600;opacity:.92;word-break:keep-all}
 .rn-sim{display:block;margin:8px auto 0;border:0;background:none;color:#1B64DA;font-size:14px;font-weight:700;text-decoration:underline;cursor:pointer}
@@ -151,6 +155,8 @@
  <div class="nv-bot"><div class="nv-st"><p class="nv-k" id="nv-k"></p><p class="nv-s" id="nv-s"></p></div>
   <div class="nv-bt"><button type="button" id="nv-mute" aria-pressed="false">음성 켜짐</button><button type="button" id="nv-end">안내 끝</button></div></div>
  <p class="nv-sim" id="nv-simtag" hidden>모의 주행 중</p>
+ <div class="nv-meter"><div class="nv-lim" id="nv-lim" hidden><b id="nv-limv">50</b></div><div class="nv-spd" id="nv-spd"><b id="nv-v">0</b><small>km/h</small></div></div>
+ <p class="nv-cam" id="nv-cam" hidden></p>
 </div><script src="/assets/vendor/leaflet/leaflet.js"></script>
 <script>
 window.HM=(function(){
@@ -345,6 +351,12 @@ function proj(r,p,from,to){var co=r.co,best=null,c=Math.cos(p[0]*Math.PI/180),M=
  for(var i=Math.max(0,from);i<Math.min(co.length-1,to);i++){var a=co[i],b=co[i+1],ax=(a[1]-p[1])*c*M,ay=(a[0]-p[0])*M,bx=(b[1]-p[1])*c*M,by=(b[0]-p[0])*M,dx=bx-ax,dy=by-ay,L=dx*dx+dy*dy,t=L?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/L)):0,x=ax+dx*t,y=ay+dy*t,d=Math.sqrt(x*x+y*y);
   if(!best||d<best.d-0.5)best={i:i,t:t,d:d,s:r.cum[i]+(r.cum[i+1]-r.cum[i])*t,q:[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]}}return best}
 function prep(r){var k=0;r.ss=N.stops.slice(N.si).map(function(st){var b=proj(r,[st.lat,st.lng],k,r.co.length);k=Math.max(0,b.i-2);return b.s});return r}
+var CAMC={};function loadCams(r){var ks={};for(var i=0;i<r.co.length;i+=3){ks[Math.floor(r.co[i][0]*10)+'_'+Math.floor(r.co[i][1]*10)]=1}
+ r.cams=[];return Promise.all(Object.keys(ks).map(function(k){return CAMC[k]?Promise.resolve(CAMC[k]):fetch('/assets/cam/'+k+'.json').then(function(x){return x.ok?x.json():[]}).catch(function(){return []}).then(function(a){CAMC[k]=a;return a})})).then(function(all){
+  all.forEach(function(a){a.forEach(function(c){var b=0,bd=1e12;for(var i=0;i<r.co.length;i++){var d=Math.abs(r.co[i][0]-c[0])+Math.abs(r.co[i][1]-c[1]);if(d<bd){bd=d;b=i}}if(bd>0.003)return;var pr=proj(r,[c[0],c[1]],Math.max(0,b-2),b+2);if(pr&&pr.d<25)r.cams.push({s:pr.s,sp:c[2],t:c[3],z:c[4]})})});
+  r.cams.sort(function(a,b){return a.s-b.s});return r})}
+function camKeys(c){if(c.t=='z')return ['zs-'+c.sp];if(c.t=='e')return ['ze'];if(c.t=='l')return ['caml'];if(c.z=='c')return ['camc-'+c.sp];if(c.z=='o')return ['camo-'+c.sp];return ['cam-'+c.sp]}
+function camText(c){if(c.t=='z')return '구간 단속이 시작됩니다. 제한속도 '+c.sp+'킬로미터입니다.';if(c.t=='e')return '구간 단속이 끝났습니다.';if(c.t=='l')return '신호 단속 카메라가 있습니다.';return (c.z=='c'?'어린이보호구역입니다. ':c.z=='o'?'노인보호구역입니다. ':'과속 단속 카메라가 있습니다. ')+'제한속도 '+c.sp+'킬로미터입니다.'}
 function atS(r,s){var i=0;while(i<r.cum.length-2&&r.cum[i+1]<s)i++;var f=(s-r.cum[i])/Math.max(r.cum[i+1]-r.cum[i],.01);f=Math.max(0,Math.min(1,f));return {i:i,q:[r.co[i][0]+(r.co[i+1][0]-r.co[i][0])*f,r.co[i][1]+(r.co[i+1][1]-r.co[i][1])*f]}}
 function start(sim){var st=stops();if(st.length<1){alert('먼저 정류장을 찍어 주세요');return}
  $('nav').hidden=false;document.documentElement.style.overflow='hidden';
@@ -356,13 +368,13 @@ function start(sim){var st=stops();if(st.length<1){alert('먼저 정류장을 �
  N.car=N.map.car(st[0].lat,st[0].lng);N.objs.push(N.car);
  try{if(navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){N.wl=w}).catch(function(){})}catch(e){}
  $('nv-d').textContent='경로 준비 중…';$('nv-r').textContent='';
- var go=function(from){route(from,N.stops).then(function(r){N.r=prep(r);N.k=0;N.ci=0;N.s=0;N.v=0;N.lt=Date.now();N.lastRe=0;N.base=0;
+ var go=function(from){route(from,N.stops).then(function(r){N.r=prep(r);loadCams(N.r);N.ck=0;N.zone=null;N.k=0;N.ci=0;N.s=0;N.v=0;N.lt=Date.now();N.lastRe=0;N.base=0;
    N.todo=N.map.line(r.co,{color:'#F04452',weight:4,opacity:.9});N.done=N.map.line([],{color:'#9AA4B1',weight:4,opacity:.85});N.objs.push(N.todo,N.done);
    if(sim)simrun();else watch();say2(['first-'+N.stops[0].no],'안내를 시작합니다. 첫 정류장은 '+N.stops[0].n+'입니다.')}).catch(function(){$('nv-d').textContent='경로를 못 찾았어요';$('nv-r').textContent='인터넷 연결을 확인하거나 잠시 뒤 다시 시도해 주세요'})};
  if(sim)go(null);else navigator.geolocation.getCurrentPosition(function(g){go([g.coords.latitude,g.coords.longitude])},function(){go(null)},{enableHighAccuracy:true,timeout:8000});
 }
 function reroute(p){if(N.busy||Date.now()-(N.lastRe||0)<10000)return;N.busy=true;$('nv-r').textContent='경로를 다시 찾는 중…';say2(['reroute'],'경로를 다시 탐색합니다');
- route(p,N.stops.slice(N.si)).then(function(r){N.base=N.si;N.r=prep(r);N.k=0;N.ci=0;N.s=0;N.off=0;N.said={};N.todo.set(r.co);N.done.set([]);N.busy=false;N.lastRe=Date.now()}).catch(function(e){N.busy=false;try{console.warn('reroute fail',e&&e.message)}catch(_){}})}
+ route(p,N.stops.slice(N.si)).then(function(r){N.base=N.si;N.r=prep(r);loadCams(N.r);N.ck=0;N.k=0;N.ci=0;N.s=0;N.off=0;N.said={};N.todo.set(r.co);N.done.set([]);N.busy=false;N.lastRe=Date.now()}).catch(function(e){N.busy=false;try{console.warn('reroute fail',e&&e.message)}catch(_){}})}
 function onPos(p,hd,acc,spd,dr){if(!N||!N.r||N.busy)return;var r=N.r,now=Date.now();
  if(!dr){if(acc&&acc>60&&N.s>0)return;N.lt=now;}
  var pr=proj(r,p,Math.max(0,N.ci-3),N.ci+400),lim=Math.max(45,(acc||10)*1.5);
@@ -379,6 +391,12 @@ function onPos(p,hd,acc,spd,dr){if(!N||!N.r||N.busy)return;var r=N.r,now=Date.no
  var j=N.si-N.base,sst=N.stops[N.si];
  if(sst&&r.ss[j]!=null&&(N.s>=r.ss[j]-25&&hv(show,[sst.lat,sst.lng])<90||N.s>r.ss[j]+40)){say2(['arr-'+sst.no].concat(N.stops[N.si+1]?['next-'+N.stops[N.si+1].no]:['last']),sst.no+'번 '+sst.n+'에 도착했습니다.'+(N.stops[N.si+1]?' 다음은 '+N.stops[N.si+1].n+'입니다.':' 마지막 정류장입니다. 수고하셨습니다.'));sync(sst.no);N.si++;j++;
   if(N.si>=N.stops.length){$('nv-d').textContent='운행 끝';$('nv-r').textContent='모든 정류장을 돌았어요';$('nv-ic').innerHTML=icon(null);stopWatch();return}}
+ // 단속카메라·제한속도
+ var cams=r.cams||[];while(N.ck<cams.length&&cams[N.ck].s<N.s-8){var pc=cams[N.ck];if(pc.t=='z')N.zone=pc.sp;if(pc.t=='e')N.zone=null;N.ck++}
+ var cc=cams[N.ck],lim=N.zone||0,vk=Math.round((N.v||0)*3.6);
+ if(cc){var dc=cc.s-N.s,va=Math.max(N.v||0,5);if(dc<Math.max(300,va*12)){if(cc.sp)lim=cc.sp;$('nv-cam').hidden=false;$('nv-cam').textContent=(cc.t=='z'?'구간 단속 시작':cc.t=='e'?'구간 단속 끝':cc.t=='l'?'신호 단속 카메라':cc.z=='c'?'어린이보호구역 단속':'과속 단속 카메라')+' · '+fmt(Math.max(0,dc))+' 앞';
+   if(!N.said['c'+N.ck]){N.said['c'+N.ck]=1;say2(camKeys(cc),camText(cc))}}else $('nv-cam').hidden=true}else $('nv-cam').hidden=true;
+ $('nv-lim').hidden=!lim;if(lim)$('nv-limv').textContent=lim;$('nv-v').textContent=vk;$('nv-spd').className='nv-spd'+(lim&&vk>lim?' over':'');
  // 다음 회전: 속도에 맞춰 미리 안내
  while(N.k<r.steps.length&&r.cum[r.steps[N.k].ci]<=N.s+5)N.k++;
  var nx=r.steps[N.k],ns=N.stops[N.si],v=Math.max(N.v||0,5),far=Math.min(800,Math.max(250,v*18)),near=Math.min(150,Math.max(40,v*5));
