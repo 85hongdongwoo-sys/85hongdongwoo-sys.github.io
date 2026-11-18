@@ -16,7 +16,8 @@ FAQ = [
  ('길 안내 음성은 어디서 나오나요?', '버튼을 누르면 휴대폰에 깔린 네이버 지도·카카오맵·티맵이 열려 평소처럼 음성 안내를 해요. 실시간 교통 정보도 그 앱의 것을 그대로 써요.'),
  ('만든 노선은 어디에 저장되나요?', '지금 쓰는 휴대폰(브라우저)에만 저장돼요. 서버로 보내지 않아요. 다른 기기로 옮기거나 다른 사람에게 보내려면 "노선 공유 링크"를 보내면 돼요.'),
  ('주소로도 넣을 수 있나요?', '네. 지도 위 검색 칸에 주소나 장소 이름(예: 송도컨벤시아)을 넣고 결과를 누르면 다음 번호 정류장으로 추가돼요. 주소를 몰라도 지도를 확대해 정류장 위치를 눌러 찍기만 하면 돼요. 찍은 핀은 길게 눌러 끌어서 위치를 고칠 수 있고, 이름은 목록에서 바꿀 수 있어요.'),
- ('전체 노선 한 번에 안내는 어떻게 작동하나요?', '출발할 때 한 번 누르면 모든 정류장을 이은 경로를 받아, 휴대폰 위치를 따라가며 회전 지점과 정류장 앞에서 음성으로 알려 줘요. 정류장에 닿으면 자동으로 다음 정류장으로 넘어가고, 길을 벗어나면 남은 정류장으로 경로를 다시 찾아요. 지금은 베타라 실시간 교통은 반영하지 않아요. 운전 전에 “모의 주행”으로 미리 확인해 보세요.'),
+ ('스타트(전체 노선 안내)는 어떻게 작동하나요?', '출발할 때 한 번 누르면 모든 정류장을 이은 경로를 받아, 휴대폰 위치를 따라가며 회전 지점과 정류장 앞에서 음성으로 알려 줘요. 정류장에 닿으면 자동으로 다음 정류장으로 넘어가고, 길을 벗어나면 남은 정류장으로 경로를 다시 찾아요. 지금은 베타라 실시간 교통은 반영하지 않아요. 운전 전에 “모의 주행”으로 미리 확인해 보세요.'),
+ ('경로가 이상하게 돌아가요.', '대부분 핀이 실제로 지나가는 길이 아닌 옆길(진입로, 주차장 길, 골목)이나 반대편 차선에 붙어서 생겨요. 노선 확인에서 주황 핀으로 표시된 정류장을 크게 확대해, 지나가는 큰길의 차를 세우는 쪽 차선 가장자리로 옮겨 보세요. 회전 금지나 일방통행처럼 지도에 있는 교통 규칙 때문에 도는 경우도 있어요. 현장 표지판이 항상 우선이에요.'),
  ('운전 중에 써도 되나요?', '달리는 중에는 휴대폰을 만지면 안 돼요(도로교통법). 그래서 버튼 한 번에 6곳씩 내비로 넘기고, 누르면 다음 묶음이 자동으로 준비되게 만들었어요. 정류장에 섰을 때만 누르면 30곳 노선도 5번이면 끝나요. 노선 만들기와 순서 수정은 운행 전에 해 두세요.'),
 ]
 
@@ -35,7 +36,14 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
 </div>
 <div id="pane-edit">
  <button type="button" class="btn rn-pv" id="pv">내가 찍은 노선, 실제 도로로 확인하기</button>
-  <p class="rn-sum" id="sum"></p>
+  <details class="rn-tip" open><summary>핀 찍는 요령 · 길이 이상하게 돌 때</summary><ul>
+<li><b>실제로 지나가는 큰길 위</b>, 차를 세우는 쪽 차선 가장자리에 찍어요. 길찾기는 핀을 가장 가까운 도로에 붙여요.</li>
+<li>병원·아파트 <b>진입로, 주차장 출입로, 골목</b> 바로 옆은 피하세요. 그 길에 붙으면 들어갔다 나오느라 돌아가요.</li>
+<li>중앙분리대가 있는 길은 <b>반대편 차선</b>에 찍으면 그쪽으로 가려고 블록을 돌거나 유턴해요.</li>
+<li>정류장 순서가 같은 길을 <b>오갔다 되돌아오면</b> 방향을 바꾸려고 돌아요. 순서를 한 방향으로 이어 주세요.</li>
+<li>다 찍으면 <b>노선 확인</b>을 눌러 보세요. 크게 돌거나 유턴하는 곳은 <b>주황 핀</b>으로 알려 줘요.</li>
+</ul></details>
+ <p class="rn-sum" id="sum"></p>
  <ol class="rn-list" id="list"></ol>
  <div class="rn-tb rn-bot"><button type="button" class="btn ghost" id="undo">마지막 정류장 빼기</button><button type="button" class="btn ghost" id="rev">순서 뒤집기</button><button type="button" class="btn" id="share">노선 공유 링크</button></div>
 </div>
@@ -47,13 +55,14 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
   <div class="rn-step"><button type="button" class="btn ghost" id="prev">이전 정류장</button><button type="button" class="btn ghost" id="next">다음 정류장으로</button></div>
   <button type="button" class="rn-reset" id="restart">처음 정류장부터 다시</button>
  </div>
- <p class="rn-warn">“전체 노선 한 번에 안내”는 출발 전 한 번만 누르면 끝까지 음성으로 안내하고, 정류장에 닿으면 알아서 다음 정류장으로 넘어가요. 화면을 켠 채 거치대에 꽂아 두세요. 내비 앱으로 넘기는 버튼은 정류장에 섰을 때만 누르세요.</p>
+ <p class="rn-warn">“스타트”는 출발 전 한 번만 누르면 끝까지 음성으로 안내하고, 정류장에 닿으면 알아서 다음 정류장으로 넘어가요. 화면을 켠 채 거치대에 꽂아 두세요. 내비 앱으로 넘기는 버튼은 정류장에 섰을 때만 누르세요.</p>
 </div>
 </section>
 <section class="card"><h2>이렇게 쓰세요</h2><ol class="rn-how">
 <li><b>노선 만들기</b>에서 지도를 확대하고 정류장 자리를 순서대로 눌러요. 번호가 붙은 핀이 생겨요.</li>
 <li>핀은 길게 눌러 끌면 위치가 바뀌어요. 목록에서 이름을 적고, 화살표로 순서를 바꿔요.</li>
 <li>노선을 여러 개(A코스, B코스…) 만들어 두고 위에서 골라 써요.</li>
+<li><b>노선 확인</b>으로 실제 도로 경로를 먼저 보고, 주황 핀이 있으면 위치를 고쳐요.</li>
 <li><b>운행하기</b>를 누르고, 정류장에 서 있을 때 초록 버튼을 한 번 누르면 네이버 내비가 6곳을 한 번에 안내해요. 누르는 순간 다음 묶음이 자동으로 준비되니, 6곳을 다 돌고 마지막 정류장에 섰을 때 또 한 번만 누르면 돼요.</li>
 <li><b>노선 공유 링크</b>를 보내면 받는 사람 휴대폰에서도 같은 노선이 그대로 열려요.</li>
 </ol></section>
@@ -83,6 +92,7 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 #pvbox .nv-top{min-height:0;background:#191F28}#pvbox .nv-r{white-space:normal;overflow:visible;line-height:1.4;word-break:keep-all}#pvbox .nv-s{font-size:15px}.pv-u{margin:0;padding:10px 14px;background:#FFF4E6;color:#7A3E00;font-size:14px;line-height:1.5;word-break:keep-all;border-bottom:1px solid #FFD8A8}.pv-u b{color:#D9480F}#pvmap{flex:1;min-height:0;background:#E8EEF3}
 .rn-pv{width:100%;min-height:52px;margin-top:12px;font-size:16px;background:#F04452!important;border-color:#F04452!important;color:#fff!important}
 .rn-pvs{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#FFF0F1;color:#C9303E;font-size:14px;font-weight:700;line-height:1.5;word-break:keep-all}
+.rn-tip{margin:12px 0 0;padding:12px 14px;border-radius:12px;background:#F7F9FC;border:1px solid var(--line)}.rn-tip summary{cursor:pointer;font-size:14.5px;font-weight:800;color:var(--head)}.rn-tip ul{margin:8px 0 0;padding-left:18px;display:grid;gap:6px;font-size:14px;line-height:1.55;color:#4E5968;word-break:keep-all}.rn-tip b{color:var(--head)}
 .rn-sum{margin:14px 0 8px;font-size:14px;color:var(--muted)}
 .rn-list{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:420px;overflow:auto}
 .rn-list li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 6px 6px 8px;border:1px solid var(--line);border-radius:12px;background:#fff}
@@ -95,10 +105,10 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 .rn-next{margin-top:14px;padding:18px 16px;border-radius:16px;background:#F7F9FC;border:1px solid var(--line)}
 .rn-k{margin:0;font-size:13px;font-weight:700;color:#F04452}.rn-nm{margin:4px 0 2px;font-size:24px;font-weight:800;color:var(--head);line-height:1.3;word-break:keep-all}
 .rn-sub{margin:0 0 14px;font-size:14px;color:var(--muted)}
-.rn-go{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.rn-go .btn{min-height:52px;font-size:15px;padding:8px 4px;justify-content:center;text-align:center;white-space:nowrap}
-.rn-nv{background:#03C75A!important;border-color:#03C75A!important;color:#fff!important}.rn-kk{background:#FEE500!important;border-color:#FEE500!important;color:#191919!important}.rn-tm{background:#EB2D3A!important;border-color:#EB2D3A!important;color:#fff!important}
-.rn-big{display:flex!important;flex-direction:column;align-items:center;gap:3px;min-height:72px;width:100%;padding:12px 10px;text-align:center}.rn-big b{font-size:18px}.rn-big span{font-size:13.5px;font-weight:600;opacity:.92;word-break:keep-all}
-.rn-or{margin:14px 0 8px;font-size:13px;color:var(--muted);text-align:center}
+.rn-go{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.rn-go .btn{min-height:46px;box-shadow:none!important;font-size:15px;padding:8px 4px;justify-content:center;text-align:center;white-space:nowrap}
+.rn-nv{background:#EAF6EF!important;border-color:#CFE9DA!important;color:#1E7A48!important}.rn-kk{background:#FBF6DD!important;border-color:#EFE5B5!important;color:#6B5A00!important}.rn-tm{background:#FCEDEE!important;border-color:#F3D3D6!important;color:#B4323C!important}
+.rn-big{display:flex!important;flex-direction:column;align-items:center;gap:3px;min-height:56px;box-shadow:none!important;width:100%;padding:12px 10px;text-align:center}.rn-big b{font-size:18px}.rn-big span{font-size:13.5px;font-weight:600;opacity:.92;word-break:keep-all}
+.rn-or{display:flex;align-items:center;gap:10px;margin:18px 0 10px;font-size:13px;color:#8B95A1;text-align:center}.rn-or::before,.rn-or::after{content:"";flex:1;height:1px;background:#E5E8EB}
 .rn-step{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.rn-step .btn{min-height:46px;font-size:15px}
 .rn-reset{display:block;margin:12px auto 0;border:0;background:none;color:var(--muted);font-size:13.5px;text-decoration:underline;cursor:pointer}
 .rn-warn{margin:12px 0 0;font-size:13px;color:var(--muted)}

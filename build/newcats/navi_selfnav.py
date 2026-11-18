@@ -34,17 +34,24 @@ CSS = r'''
 .nv-spd{min-width:58px;padding:6px 6px 4px;border-radius:14px;background:rgba(25,31,40,.88);color:#fff;text-align:center;line-height:1}.nv-spd b{display:block;font-size:22px;font-weight:800}.nv-spd small{font-size:10.5px;opacity:.8}.nv-spd.over{background:#E03131}
 .nv-cam{position:absolute;left:12px;right:84px;top:100px;z-index:600;margin:0;padding:10px 12px;border-radius:12px;background:rgba(224,49,49,.94);color:#fff;font-size:15px;font-weight:800;line-height:1.35;word-break:keep-all}
 .nv-car{width:34px;height:34px;display:grid;place-items:center}.nv-car svg{width:34px;height:34px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));transition:transform .4s}
-.rn-self{display:flex!important;flex-direction:column;align-items:center;gap:3px;min-height:72px;width:100%;padding:12px 10px;text-align:center;background:#1B64DA!important;border-color:#1B64DA!important;color:#fff!important}.rn-self b{font-size:18px}.rn-self span{font-size:13.5px;font-weight:600;opacity:.92;word-break:keep-all}
-.rn-sim{display:block;margin:8px auto 0;border:0;background:none;color:#1B64DA;font-size:14px;font-weight:700;text-decoration:underline;cursor:pointer}
+.rn-self{position:relative;display:flex!important;flex-direction:row;align-items:center;justify-content:center;gap:14px;min-height:84px;width:100%;padding:14px 18px;text-align:left;white-space:normal;border:0!important;border-radius:22px!important;color:#fff!important;cursor:pointer;
+ background:linear-gradient(180deg,#4C95FF 0%,#2471F0 48%,#1658D6 100%)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(0,0,0,.12),0 10px 22px -6px rgba(22,88,214,.55),0 2px 4px rgba(22,88,214,.25);transition:transform .12s ease,box-shadow .12s ease}
+.rn-self::before{content:"";position:absolute;inset:1px 1px 50% 1px;border-radius:21px 21px 40% 40%/21px 21px 14px 14px;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0));pointer-events:none}
+.rn-self:active{transform:scale(.98);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 4px 10px -4px rgba(22,88,214,.6)}
+.rn-self .pl{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.18),inset 0 -2px 0 rgba(0,0,0,.06)}
+.rn-self .pl svg{width:22px;height:22px;margin-left:3px;fill:#1C64F2}
+.rn-self .tx{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;white-space:normal}.rn-self b{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.1;text-shadow:0 1px 1px rgba(0,0,0,.15)}.rn-self span{font-size:13.5px;font-weight:600;opacity:.92;word-break:keep-all;line-height:1.35}
+.rn-sim{display:block;margin:10px auto 0;border:0;background:none;color:#4E5968;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 @media(max-width:380px){.nv-d{font-size:26px}.nv-bt button{padding:0 9px;font-size:13px}}
 '''
 BTN = r'''<div class="rn-opt"><p class="rn-opt-h">경로 고르는 기준</p><div class="rn-seg" role="radiogroup" aria-label="경로 기준"><button type="button" data-pr="RECOMMEND">추천</button><button type="button" data-pr="TIME">큰길·빠른 길</button><button type="button" data-pr="DISTANCE">짧은 길</button></div>
 <div class="rn-chk"><label><input type="checkbox" data-av="uturn">유턴 피하기</label><label><input type="checkbox" data-av="schoolzone">어린이보호구역 피하기</label><label><input type="checkbox" data-av="toll">유료도로 피하기</label><label><input type="checkbox" data-av="motorway">자동차전용도로 피하기</label></div>
 <div class="rn-vo"><p class="rn-opt-h">안내 목소리</p><div class="rn-vrow"><select id="vsel" aria-label="목소리 고르기"></select><button type="button" id="vtry">들어보기</button></div><label class="rn-rate">빠르기 <input type="range" id="vrate" min="0.8" max="1.4" step="0.05"><output id="vrv"></output></label><label class="rn-rate">높낮이 <input type="range" id="vpitch" min="0.6" max="1.4" step="0.05"><output id="vpv"></output></label><p class="rn-opt-n">목소리는 휴대폰에 깔린 음성 엔진을 써요. 원하는 목소리가 목록에 없으면 휴대폰 설정 → 텍스트 음성 변환(TTS)에서 한국어 음성을 더 내려받을 수 있어요.</p></div>
 <p class="rn-opt-n">차량 높이·무게 제한은 카카오 길찾기에서 아직 고를 수 없어요. 낮은 굴다리 같은 곳은 통과할 길 위에 정류장 핀을 하나 더 찍어 경로를 고정해 주세요.</p></div>
-<button type="button" class="btn rn-self" id="self-go"><b>전체 노선 한 번에 안내 (베타)</b><span id="self-s">정류장을 다 이어서 음성으로 안내해요</span></button>
+<button type="button" class="btn rn-self" id="self-go"><i class="pl" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg></i><span class="tx"><b>스타트</b><span id="self-s">전체 노선을 이어서 음성으로 안내해요</span></span></button>
   <button type="button" class="rn-sim" id="self-sim">안내 화면 미리 보기 (모의 주행)</button>
-  <p class="rn-or">또는 내비 앱으로 넘기기</p>'''
+  <p class="rn-or">다른 지도 앱으로 안내받기</p>'''
 JS = r'''<script>HM.ready(function(){
 var $=function(i){return document.getElementById(i)};
 function store(){try{return JSON.parse(localStorage.getItem('hl-route-navi-v1'))}catch(e){return null}}
