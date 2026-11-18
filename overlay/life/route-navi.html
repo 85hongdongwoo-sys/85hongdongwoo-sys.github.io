@@ -43,7 +43,7 @@
 .rn-pin{display:grid;place-items:center;width:30px;height:30px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);background:#3182F6;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
 .rn-pin b{transform:rotate(45deg);color:#fff;font:800 12.5px/1 system-ui,sans-serif}
 .rn-pin.done{background:#B0B8C1}.rn-pin.cur{background:#F04452;width:36px;height:36px}.rn-pin.cur b{font-size:14px}
-#pvbox .nv-top{min-height:0;background:#191F28}#pvbox .nv-r{white-space:normal;overflow:visible;line-height:1.4;word-break:keep-all}#pvbox .nv-s{font-size:15px}#pvmap{flex:1;min-height:0;background:#E8EEF3}
+#pvbox .nv-top{min-height:0;background:#191F28}#pvbox .nv-r{white-space:normal;overflow:visible;line-height:1.4;word-break:keep-all}#pvbox .nv-s{font-size:15px}.pv-u{margin:0;padding:10px 14px;background:#FFF4E6;color:#7A3E00;font-size:14px;line-height:1.5;word-break:keep-all;border-bottom:1px solid #FFD8A8}.pv-u b{color:#D9480F}#pvmap{flex:1;min-height:0;background:#E8EEF3}
 .rn-pv{width:100%;min-height:52px;margin-top:12px;font-size:16px;background:#F04452!important;border-color:#F04452!important;color:#fff!important}
 .rn-pvs{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#FFF0F1;color:#C9303E;font-size:14px;font-weight:700;line-height:1.5;word-break:keep-all}
 .rn-sum{margin:14px 0 8px;font-size:14px;color:var(--muted)}
@@ -147,7 +147,7 @@
 <li><b>노선 공유 링크</b>를 보내면 받는 사람 휴대폰에서도 같은 노선이 그대로 열려요.</li>
 </ol></section>
 <section class="card"><h2>자주 묻는 질문</h2><details class="xp"><summary>경유지를 몇 곳까지 넣을 수 있나요?</summary><p>개수 제한이 없어요. 30곳, 50곳도 넣을 수 있어요. 일반 내비 앱은 경유지를 몇 곳까지만 받기 때문에, 이 도구는 정류장을 하나씩(네이버 지도는 최대 5곳씩 묶어서) 내비 앱에 넘겨 줘요.</p></details><details class="xp"><summary>길 안내 음성은 어디서 나오나요?</summary><p>버튼을 누르면 휴대폰에 깔린 네이버 지도·카카오맵·티맵이 열려 평소처럼 음성 안내를 해요. 실시간 교통 정보도 그 앱의 것을 그대로 써요.</p></details><details class="xp"><summary>만든 노선은 어디에 저장되나요?</summary><p>지금 쓰는 휴대폰(브라우저)에만 저장돼요. 서버로 보내지 않아요. 다른 기기로 옮기거나 다른 사람에게 보내려면 &quot;노선 공유 링크&quot;를 보내면 돼요.</p></details><details class="xp"><summary>주소로도 넣을 수 있나요?</summary><p>네. 지도 위 검색 칸에 주소나 장소 이름(예: 송도컨벤시아)을 넣고 결과를 누르면 다음 번호 정류장으로 추가돼요. 주소를 몰라도 지도를 확대해 정류장 위치를 눌러 찍기만 하면 돼요. 찍은 핀은 길게 눌러 끌어서 위치를 고칠 수 있고, 이름은 목록에서 바꿀 수 있어요.</p></details><details class="xp"><summary>전체 노선 한 번에 안내는 어떻게 작동하나요?</summary><p>출발할 때 한 번 누르면 모든 정류장을 이은 경로를 받아, 휴대폰 위치를 따라가며 회전 지점과 정류장 앞에서 음성으로 알려 줘요. 정류장에 닿으면 자동으로 다음 정류장으로 넘어가고, 길을 벗어나면 남은 정류장으로 경로를 다시 찾아요. 지금은 베타라 실시간 교통은 반영하지 않아요. 운전 전에 “모의 주행”으로 미리 확인해 보세요.</p></details><details class="xp"><summary>운전 중에 써도 되나요?</summary><p>달리는 중에는 휴대폰을 만지면 안 돼요(도로교통법). 그래서 버튼 한 번에 6곳씩 내비로 넘기고, 누르면 다음 묶음이 자동으로 준비되게 만들었어요. 정류장에 섰을 때만 누르면 30곳 노선도 5번이면 끝나요. 노선 만들기와 순서 수정은 운행 전에 해 두세요.</p></details></section>
-<p class="upd">지도·경로 © Kakao, 카카오모빌리티 (연결이 안 될 때는 OpenStreetMap) · 내비 앱 안내는 각 앱이 제공해요 · 업데이트 2026년 11월 19일</p></main><div id="pvbox" class="nv" hidden role="dialog" aria-label="노선 확인"><div class="nv-top pv-top"><div class="nv-tx"><p class="nv-d" style="font-size:22px">노선 확인</p><p class="nv-r" id="pvb-r">실제 도로 경로를 찾는 중…</p></div></div><div id="pvmap"></div>
+<p class="upd">지도·경로 © Kakao, 카카오모빌리티 (연결이 안 될 때는 OpenStreetMap) · 내비 앱 안내는 각 앱이 제공해요 · 업데이트 2026년 11월 19일</p></main><div id="pvbox" class="nv" hidden role="dialog" aria-label="노선 확인"><div class="nv-top pv-top"><div class="nv-tx"><p class="nv-d" style="font-size:22px">노선 확인</p><p class="nv-r" id="pvb-r">실제 도로 경로를 찾는 중…</p></div></div><p class="pv-u" id="pvb-u" hidden></p><div id="pvmap"></div>
 <div class="nv-bot"><div class="nv-st"><p class="nv-k" id="pvb-k"></p><p class="nv-s" id="pvb-s"></p></div><div class="nv-bt"><button type="button" id="pvb-re">다시 그리기</button><button type="button" id="pvb-x">닫기</button></div></div></div>
 <div id="nav" class="nv" hidden role="dialog" aria-label="노선 길 안내">
  <div class="nv-top"><div class="nv-ic" id="nv-ic" aria-hidden="true"></div><div class="nv-tx"><p class="nv-d" id="nv-d">경로 준비 중…</p><p class="nv-r" id="nv-r"></p></div></div>
@@ -166,7 +166,7 @@ function ready(f){if(kind)f(kind);else READY.push(f)}
 (function(){var s=document.createElement('script');s.src='https://dapi.kakao.com/v2/maps/sdk.js?appkey=c4a8d8392dd6a362db17cc44e5ae398b&autoload=false&libraries=services';
  s.onload=function(){try{kakao.maps.load(function(){done('kakao')})}catch(e){done('leaflet')}};s.onerror=function(){done('leaflet')};document.head.appendChild(s);
  setTimeout(function(){done('leaflet')},6000)})();
-function pinSvg(n,cls){var c=cls=='cur'?'#F04452':cls=='done'?'#B0B8C1':'#3182F6',w=cls=='cur'?40:34;
+function pinSvg(n,cls){var c=cls=='cur'?'#F04452':cls=='done'?'#B0B8C1':cls=='warn'?'#F08C00':'#3182F6',w=cls=='cur'?40:34;
  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+Math.round(w*1.25)+'" viewBox="0 0 32 40"><path d="M16 39C16 39 3 24 3 15a13 13 0 0 1 26 0c0 9-13 24-13 24z" fill="'+c+'" stroke="#fff" stroke-width="2.4"/><text x="16" y="20" text-anchor="middle" font-family="system-ui,sans-serif" font-size="'+(String(n).length>2?10:13)+'" font-weight="800" fill="#fff">'+n+'</text></svg>')}
 function lv(z){return Math.max(1,Math.min(14,20-z))}
 function zk(l){return 20-l}
@@ -253,7 +253,10 @@ $('list').addEventListener('click',function(e){var b=e.target.closest('button');
  save();draw()});
 map.onClick(function(la,ln){if(mode!='edit')return;var st=R();st.push({lat:+la.toFixed(6),lng:+ln.toFixed(6),n:''});save();draw();
  var ins=$('list').querySelectorAll('input');if(ins.length&&window.innerWidth>700)ins[ins.length-1].focus({preventScroll:true})});
-var PV=null,pvdata=null;function pvdraw(){if(!pvdata)return;var r=pvdata,st=R();(PV.objs||[]).forEach(function(o){o.remove()});PV.objs=st.map(function(p,i){return PV.m.pin(p.lat,p.lng,{label:i+1})});
+function uturnStops(r,st){var vi=[],k=0;st.forEach(function(p){var b=k,bd=1e12;for(var i=k;i<r.co.length;i++){var d=HM.hv(r.co[i],[p.lat,p.lng]);if(d<bd){bd=d;b=i}}vi.push(b);k=b});
+ var bad={};r.steps.forEach(function(s){if(s.mod!='uturn')return;for(var j=0;j<vi.length;j++){if(vi[j]>=s.ci-2){bad[j]=1;break}}});return Object.keys(bad).map(Number)}
+var PV=null,pvdata=null;function pvdraw(){if(!pvdata)return;var r=pvdata,st=R(),ut=uturnStops(r,st);(PV.objs||[]).forEach(function(o){o.remove()});PV.objs=st.map(function(p,i){return PV.m.pin(p.lat,p.lng,{label:i+1,cls:ut.indexOf(i)>=0?'warn':''})});
+ $('pvb-u').hidden=!ut.length;if(ut.length)$('pvb-u').innerHTML='<b>유턴 '+r.steps.filter(function(s){return s.mod=='uturn'}).length+'번</b> · 주황 핀 '+ut.map(function(j){return (j+1)+'번'}).join(', ')+' 근처예요. 핀이 <b>도로 반대편</b>에 찍혀 있으면 그 정류장에 닿으려고 유턴해요. 핀을 차가 서는 쪽 차선 가장자리로 옮기거나, 운행하기의 <b>유턴 피하기</b>를 켜 보세요.';
  var ln=PV.m.line([r.co[0]],{color:'#F04452',weight:3,opacity:.95});PV.objs.push(ln);PV.m.fit(st.map(function(p){return [p.lat,p.lng]}).concat(r.co.filter(function(_,i){return i%10==0})));
  var n=r.co.length,k=1,step=Math.max(1,Math.ceil(n/150));clearInterval(window.__rnAnim);window.__rnAnim=setInterval(function(){k=Math.min(n,k+step);ln.set(r.co.slice(0,k));
   var d=r.cum[k-1],si=0;for(var j=0;j<st.length;j++){var best=1e12;for(var q=0;q<k;q+=Math.max(1,Math.floor(k/400))){var dd=HM.hv(r.co[q],[st[j].lat,st[j].lng]);if(dd<best)best=dd}if(best<80)si=j+1}
@@ -263,7 +266,7 @@ var PV=null,pvdata=null;function pvdraw(){if(!pvdata)return;var r=pvdata,st=R();
 $('pv').onclick=function(){var st=R();if(st.length<2){toast('정류장을 2곳 이상 찍어 주세요');return}
  $('pvbox').hidden=false;document.documentElement.style.overflow='hidden';$('pvb-r').textContent='실제 도로 경로를 찾는 중…';$('pvb-k').textContent='';$('pvb-s').textContent='';
  if(!PV){PV={m:HM.make(document.getElementById('pvmap'),st[0].lat,st[0].lng,13)}}setTimeout(function(){PV.m.relayout()},60);
- HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){pvdata=r;setTimeout(pvdraw,120)}).catch(function(){$('pvb-r').textContent='경로를 찾지 못했어요. 잠시 뒤 다시 눌러 주세요'})};
+ HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{pr:'RECOMMEND',av:['uturn']}).then(function(r){pvdata=r;setTimeout(pvdraw,120)}).catch(function(){$('pvb-r').textContent='경로를 찾지 못했어요. 잠시 뒤 다시 눌러 주세요'})};
 $('pvb-re').onclick=pvdraw;
 $('pvb-x').onclick=function(){clearInterval(window.__rnAnim);$('pvbox').hidden=true;document.documentElement.style.overflow=''};
 var QR=[];$('qf').onsubmit=function(e){e.preventDefault();var q=$('qi').value.trim();if(!q)return;$('qr').hidden=false;$('qr').innerHTML='<li class="em">찾는 중…</li>';
@@ -345,7 +348,7 @@ if(window.speechSynthesis){vlist();speechSynthesis.onvoiceschanged=vlist}
  $('vrate').onchange=$('vpitch').onchange=function(){say2(['soon-3'],'곧 3번 정류장입니다')};
  $('vtry').onclick=function(){say2(['try'],'안내를 시작합니다. 300미터 앞에서 송도컨벤시아 방면으로 좌회전입니다')}})();
 var N=null;
-function route(from,list){var S0=store()||{};return HM.route((from?[from]:[]).concat(list.map(function(s){return [s.lat,s.lng]})),S0.opt||{})}
+function route(from,list){var S0=store()||{};return HM.route((from?[from]:[]).concat(list.map(function(s){return [s.lat,s.lng]})),S0.opt||{pr:'RECOMMEND',av:['uturn']})}
 // 경로 위로 맞추기(맵 매칭): 가까운 선분에 수직으로 내려 진행 거리(s)를 정확히 구한다
 function proj(r,p,from,to){var co=r.co,best=null,c=Math.cos(p[0]*Math.PI/180),M=111320;
  for(var i=Math.max(0,from);i<Math.min(co.length-1,to);i++){var a=co[i],b=co[i+1],ax=(a[1]-p[1])*c*M,ay=(a[0]-p[0])*M,bx=(b[1]-p[1])*c*M,by=(b[0]-p[0])*M,dx=bx-ax,dy=by-ay,L=dx*dx+dy*dy,t=L?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/L)):0,x=ax+dx*t,y=ay+dy*t,d=Math.sqrt(x*x+y*y);
@@ -420,7 +423,7 @@ function unlock(){if(!CL.a)CL.a=new Audio();try{CL.a.src='data:audio/mp3;base64,
 $('self-go').onclick=function(){if(!navigator.geolocation){alert('이 기기에서는 위치를 쓸 수 없어요');return}unlock();speak('');start(false)};
 $('self-sim').onclick=function(){unlock();speak('');start(true)};
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&N&&N.wl===null&&!$('nav').hidden&&navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){N.wl=w}).catch(function(){})});
-(function(){function get(){var S=store()||{};return S.opt||{pr:'RECOMMEND',av:[]}}function put(o){var S=store();if(!S)return;S.opt=o;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
+(function(){function get(){var S=store()||{};return S.opt||{pr:'RECOMMEND',av:['uturn']}}function put(o){var S=store();if(!S)return;S.opt=o;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
  function paint(){var o=get();document.querySelectorAll('.rn-seg button').forEach(function(b){b.setAttribute('role','radio');b.setAttribute('aria-checked',b.dataset.pr==(o.pr||'RECOMMEND'))});document.querySelectorAll('.rn-chk input').forEach(function(c){c.checked=(o.av||[]).indexOf(c.dataset.av)>=0})}
  document.querySelectorAll('.rn-seg button').forEach(function(b){b.onclick=function(){var o=get();o.pr=b.dataset.pr;put(o);paint()}});
  document.querySelectorAll('.rn-chk input').forEach(function(c){c.onchange=function(){var o=get();o.av=[].slice.call(document.querySelectorAll('.rn-chk input:checked')).map(function(x){return x.dataset.av});put(o)}});paint()})();

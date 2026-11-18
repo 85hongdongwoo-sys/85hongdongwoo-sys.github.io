@@ -9,7 +9,7 @@ function ready(f){if(kind)f(kind);else READY.push(f)}
 (function(){var s=document.createElement('script');s.src='https://dapi.kakao.com/v2/maps/sdk.js?appkey=__JSKEY__&autoload=false&libraries=services';
  s.onload=function(){try{kakao.maps.load(function(){done('kakao')})}catch(e){done('leaflet')}};s.onerror=function(){done('leaflet')};document.head.appendChild(s);
  setTimeout(function(){done('leaflet')},6000)})();
-function pinSvg(n,cls){var c=cls=='cur'?'#F04452':cls=='done'?'#B0B8C1':'#3182F6',w=cls=='cur'?40:34;
+function pinSvg(n,cls){var c=cls=='cur'?'#F04452':cls=='done'?'#B0B8C1':cls=='warn'?'#F08C00':'#3182F6',w=cls=='cur'?40:34;
  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+Math.round(w*1.25)+'" viewBox="0 0 32 40"><path d="M16 39C16 39 3 24 3 15a13 13 0 0 1 26 0c0 9-13 24-13 24z" fill="'+c+'" stroke="#fff" stroke-width="2.4"/><text x="16" y="20" text-anchor="middle" font-family="system-ui,sans-serif" font-size="'+(String(n).length>2?10:13)+'" font-weight="800" fill="#fff">'+n+'</text></svg>')}
 function lv(z){return Math.max(1,Math.min(14,20-z))}
 function zk(l){return 20-l}

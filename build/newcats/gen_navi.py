@@ -80,7 +80,7 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 .rn-pin{display:grid;place-items:center;width:30px;height:30px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);background:#3182F6;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
 .rn-pin b{transform:rotate(45deg);color:#fff;font:800 12.5px/1 system-ui,sans-serif}
 .rn-pin.done{background:#B0B8C1}.rn-pin.cur{background:#F04452;width:36px;height:36px}.rn-pin.cur b{font-size:14px}
-#pvbox .nv-top{min-height:0;background:#191F28}#pvbox .nv-r{white-space:normal;overflow:visible;line-height:1.4;word-break:keep-all}#pvbox .nv-s{font-size:15px}#pvmap{flex:1;min-height:0;background:#E8EEF3}
+#pvbox .nv-top{min-height:0;background:#191F28}#pvbox .nv-r{white-space:normal;overflow:visible;line-height:1.4;word-break:keep-all}#pvbox .nv-s{font-size:15px}.pv-u{margin:0;padding:10px 14px;background:#FFF4E6;color:#7A3E00;font-size:14px;line-height:1.5;word-break:keep-all;border-bottom:1px solid #FFD8A8}.pv-u b{color:#D9480F}#pvmap{flex:1;min-height:0;background:#E8EEF3}
 .rn-pv{width:100%;min-height:52px;margin-top:12px;font-size:16px;background:#F04452!important;border-color:#F04452!important;color:#fff!important}
 .rn-pvs{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#FFF0F1;color:#C9303E;font-size:14px;font-weight:700;line-height:1.5;word-break:keep-all}
 .rn-sum{margin:14px 0 8px;font-size:14px;color:var(--muted)}
@@ -138,7 +138,10 @@ $('list').addEventListener('click',function(e){var b=e.target.closest('button');
  save();draw()});
 map.onClick(function(la,ln){if(mode!='edit')return;var st=R();st.push({lat:+la.toFixed(6),lng:+ln.toFixed(6),n:''});save();draw();
  var ins=$('list').querySelectorAll('input');if(ins.length&&window.innerWidth>700)ins[ins.length-1].focus({preventScroll:true})});
-var PV=null,pvdata=null;function pvdraw(){if(!pvdata)return;var r=pvdata,st=R();(PV.objs||[]).forEach(function(o){o.remove()});PV.objs=st.map(function(p,i){return PV.m.pin(p.lat,p.lng,{label:i+1})});
+function uturnStops(r,st){var vi=[],k=0;st.forEach(function(p){var b=k,bd=1e12;for(var i=k;i<r.co.length;i++){var d=HM.hv(r.co[i],[p.lat,p.lng]);if(d<bd){bd=d;b=i}}vi.push(b);k=b});
+ var bad={};r.steps.forEach(function(s){if(s.mod!='uturn')return;for(var j=0;j<vi.length;j++){if(vi[j]>=s.ci-2){bad[j]=1;break}}});return Object.keys(bad).map(Number)}
+var PV=null,pvdata=null;function pvdraw(){if(!pvdata)return;var r=pvdata,st=R(),ut=uturnStops(r,st);(PV.objs||[]).forEach(function(o){o.remove()});PV.objs=st.map(function(p,i){return PV.m.pin(p.lat,p.lng,{label:i+1,cls:ut.indexOf(i)>=0?'warn':''})});
+ $('pvb-u').hidden=!ut.length;if(ut.length)$('pvb-u').innerHTML='<b>유턴 '+r.steps.filter(function(s){return s.mod=='uturn'}).length+'번</b> · 주황 핀 '+ut.map(function(j){return (j+1)+'번'}).join(', ')+' 근처예요. 핀이 <b>도로 반대편</b>에 찍혀 있으면 그 정류장에 닿으려고 유턴해요. 핀을 차가 서는 쪽 차선 가장자리로 옮기거나, 운행하기의 <b>유턴 피하기</b>를 켜 보세요.';
  var ln=PV.m.line([r.co[0]],{color:'#F04452',weight:3,opacity:.95});PV.objs.push(ln);PV.m.fit(st.map(function(p){return [p.lat,p.lng]}).concat(r.co.filter(function(_,i){return i%10==0})));
  var n=r.co.length,k=1,step=Math.max(1,Math.ceil(n/150));clearInterval(window.__rnAnim);window.__rnAnim=setInterval(function(){k=Math.min(n,k+step);ln.set(r.co.slice(0,k));
   var d=r.cum[k-1],si=0;for(var j=0;j<st.length;j++){var best=1e12;for(var q=0;q<k;q+=Math.max(1,Math.floor(k/400))){var dd=HM.hv(r.co[q],[st[j].lat,st[j].lng]);if(dd<best)best=dd}if(best<80)si=j+1}
@@ -148,7 +151,7 @@ var PV=null,pvdata=null;function pvdraw(){if(!pvdata)return;var r=pvdata,st=R();
 $('pv').onclick=function(){var st=R();if(st.length<2){toast('정류장을 2곳 이상 찍어 주세요');return}
  $('pvbox').hidden=false;document.documentElement.style.overflow='hidden';$('pvb-r').textContent='실제 도로 경로를 찾는 중…';$('pvb-k').textContent='';$('pvb-s').textContent='';
  if(!PV){PV={m:HM.make(document.getElementById('pvmap'),st[0].lat,st[0].lng,13)}}setTimeout(function(){PV.m.relayout()},60);
- HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){pvdata=r;setTimeout(pvdraw,120)}).catch(function(){$('pvb-r').textContent='경로를 찾지 못했어요. 잠시 뒤 다시 눌러 주세요'})};
+ HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{pr:'RECOMMEND',av:['uturn']}).then(function(r){pvdata=r;setTimeout(pvdraw,120)}).catch(function(){$('pvb-r').textContent='경로를 찾지 못했어요. 잠시 뒤 다시 눌러 주세요'})};
 $('pvb-re').onclick=pvdraw;
 $('pvb-x').onclick=function(){clearInterval(window.__rnAnim);$('pvbox').hidden=true;document.documentElement.style.overflow=''};
 var QR=[];$('qf').onsubmit=function(e){e.preventDefault();var q=$('qi').value.trim();if(!q)return;$('qr').hidden=false;$('qr').innerHTML='<li class="em">찾는 중…</li>';
@@ -197,7 +200,7 @@ function imp(){var m=location.hash.match(/^#r=([^|]+)\|(.+)$/);if(!m)return;try{
 imp();sel();draw(true);window.__rnRefresh=function(){try{S=JSON.parse(localStorage.getItem(KEY))||S}catch(e){}draw()};
 });</script>'''
 
-PVBOX = r'''<div id="pvbox" class="nv" hidden role="dialog" aria-label="노선 확인"><div class="nv-top pv-top"><div class="nv-tx"><p class="nv-d" style="font-size:22px">노선 확인</p><p class="nv-r" id="pvb-r">실제 도로 경로를 찾는 중…</p></div></div><div id="pvmap"></div>
+PVBOX = r'''<div id="pvbox" class="nv" hidden role="dialog" aria-label="노선 확인"><div class="nv-top pv-top"><div class="nv-tx"><p class="nv-d" style="font-size:22px">노선 확인</p><p class="nv-r" id="pvb-r">실제 도로 경로를 찾는 중…</p></div></div><p class="pv-u" id="pvb-u" hidden></p><div id="pvmap"></div>
 <div class="nv-bot"><div class="nv-st"><p class="nv-k" id="pvb-k"></p><p class="nv-s" id="pvb-s"></p></div><div class="nv-bt"><button type="button" id="pvb-re">다시 그리기</button><button type="button" id="pvb-x">닫기</button></div></div></div>
 '''
 

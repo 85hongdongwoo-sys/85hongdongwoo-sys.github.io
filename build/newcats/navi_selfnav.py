@@ -80,7 +80,7 @@ if(window.speechSynthesis){vlist();speechSynthesis.onvoiceschanged=vlist}
  $('vrate').onchange=$('vpitch').onchange=function(){say2(['soon-3'],'곧 3번 정류장입니다')};
  $('vtry').onclick=function(){say2(['try'],'안내를 시작합니다. 300미터 앞에서 송도컨벤시아 방면으로 좌회전입니다')}})();
 var N=null;
-function route(from,list){var S0=store()||{};return HM.route((from?[from]:[]).concat(list.map(function(s){return [s.lat,s.lng]})),S0.opt||{})}
+function route(from,list){var S0=store()||{};return HM.route((from?[from]:[]).concat(list.map(function(s){return [s.lat,s.lng]})),S0.opt||{pr:'RECOMMEND',av:['uturn']})}
 // 경로 위로 맞추기(맵 매칭): 가까운 선분에 수직으로 내려 진행 거리(s)를 정확히 구한다
 function proj(r,p,from,to){var co=r.co,best=null,c=Math.cos(p[0]*Math.PI/180),M=111320;
  for(var i=Math.max(0,from);i<Math.min(co.length-1,to);i++){var a=co[i],b=co[i+1],ax=(a[1]-p[1])*c*M,ay=(a[0]-p[0])*M,bx=(b[1]-p[1])*c*M,by=(b[0]-p[0])*M,dx=bx-ax,dy=by-ay,L=dx*dx+dy*dy,t=L?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/L)):0,x=ax+dx*t,y=ay+dy*t,d=Math.sqrt(x*x+y*y);
@@ -155,7 +155,7 @@ function unlock(){if(!CL.a)CL.a=new Audio();try{CL.a.src='data:audio/mp3;base64,
 $('self-go').onclick=function(){if(!navigator.geolocation){alert('이 기기에서는 위치를 쓸 수 없어요');return}unlock();speak('');start(false)};
 $('self-sim').onclick=function(){unlock();speak('');start(true)};
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&N&&N.wl===null&&!$('nav').hidden&&navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){N.wl=w}).catch(function(){})});
-(function(){function get(){var S=store()||{};return S.opt||{pr:'RECOMMEND',av:[]}}function put(o){var S=store();if(!S)return;S.opt=o;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
+(function(){function get(){var S=store()||{};return S.opt||{pr:'RECOMMEND',av:['uturn']}}function put(o){var S=store();if(!S)return;S.opt=o;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
  function paint(){var o=get();document.querySelectorAll('.rn-seg button').forEach(function(b){b.setAttribute('role','radio');b.setAttribute('aria-checked',b.dataset.pr==(o.pr||'RECOMMEND'))});document.querySelectorAll('.rn-chk input').forEach(function(c){c.checked=(o.av||[]).indexOf(c.dataset.av)>=0})}
  document.querySelectorAll('.rn-seg button').forEach(function(b){b.onclick=function(){var o=get();o.pr=b.dataset.pr;put(o);paint()}});
  document.querySelectorAll('.rn-chk input').forEach(function(c){c.onchange=function(){var o=get();o.av=[].slice.call(document.querySelectorAll('.rn-chk input:checked')).map(function(x){return x.dataset.av});put(o)}});paint()})();
