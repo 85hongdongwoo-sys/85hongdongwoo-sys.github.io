@@ -463,3 +463,35 @@ if os.path.isfile(os.path.join(root, 'en', 'index.html')):
                    ("'이전 도구'", "'Previous'"), ("'다음 도구'", "'Next'")]:
         _blk = _blk.replace(_x, _y)
     exec(_blk)
+
+# ── 새 분류: 심리 테스트(/test/) · 게임 계산기(/game/) (overlay, 2026-11-18) ──
+import json as _json
+_nc_p = os.path.join(root, 'newcats.json')
+if os.path.exists(_nc_p):
+    NC = _json.load(open(_nc_p, encoding='utf-8')); os.remove(_nc_p)
+    A, B = '<a href="/trip/">여행</a>', '<a href="/trip/">여행</a><a href="/test/">테스트</a><a href="/game/">게임</a>'
+    k = 0
+    for dp, dn, fn in os.walk(root):
+        for f in fn:
+            if f.endswith('.html'):
+                p = os.path.join(dp, f); s = open(p, encoding='utf-8').read()
+                if A in s and '<a href="/test/">테스트</a>' not in s:
+                    open(p, 'w', encoding='utf-8').write(s.replace(A, B, 1)); k += 1
+    print('menu +test/game:', k)
+    p = os.path.join(root, 'index.html'); s = open(p, encoding='utf-8').read()
+    m = re.search(r'<li><a class="ct" href="/ipsi/".*?</a></li>', s, flags=re.S)
+    if m and 'href="/test/"' not in s[m.end():m.end() + 2000]:
+        def ct(href, n, name, art, c1, c2, c3):
+            return (f'<li><a class="ct" href="{href}" style="--bg:linear-gradient({c1} 0 40%,transparent 40%),linear-gradient(90deg,{c2} 0 58%,{c3} 58%)">'
+                    f'<span class="ch"><em>{n}개</em><b>{name}</b></span><i class="ci" style="background-image:url(/assets/art/hl/cs-{art}.svg)"></i><span class="go" aria-hidden="true">›</span></a></li>')
+        add = ct('/test/', len(NC['test']), '심리 테스트', 'test', '#F8D7E3', '#E67FA5', '#F1A9C3') + ct('/game/', len(NC['game']), '게임 계산기', 'game', '#D3F0DA', '#6CC58A', '#A3DCB3')
+        s = s[:m.end()] + add + s[m.end():]; print('home: test/game cards')
+    entries = [_json.dumps({"t": n, "d": d, "k": kw, "c": "심리 테스트" if c == 'test' else "게임 계산기", "u": u}, ensure_ascii=False, separators=(',', ':')) for c in ('test', 'game') for u, n, d, kw in NC[c]]
+    if TRIP in s and '"u":"/test/' not in s:
+        s = s.replace(TRIP, TRIP + ',' + ','.join(entries), 1); print('search index +', len(entries))
+    open(p, 'w', encoding='utf-8').write(s)
+    p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
+    if 'honglife.co.kr/test/' not in s:
+        urls = ['/test/', '/game/'] + [u for c in ('test', 'game') for u, *_ in NC[c]]
+        s = s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-18</lastmod></url>\n' for u in urls) + '</urlset>', 1)
+        open(p, 'w', encoding='utf-8').write(s); print('sitemap +', len(urls))
