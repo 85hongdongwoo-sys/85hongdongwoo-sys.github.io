@@ -52,14 +52,14 @@ function icon(st){var m=st?st.mod:'straight',rot={'left':-90,'sharp left':-135,'
 function say(st){return st.text}
 function fmt(m){return m>=1000?(m/1000).toFixed(1)+'km':(Math.round(m/10)*10)+'m'}
 var voice=true,KV=[];function vopt(){var S=store()||{};return S.voice||{}}
-function pick(){var o=vopt();return KV.filter(function(v){return v.name==o.name})[0]||KV[0]||null}
+function pick(){var o=vopt();return KV.filter(function(v){return v.name==o.name})[0]||KV.filter(function(v){return v.localService!==false})[0]||KV[0]||null}
 var LAST='';function speak(t,urgent){if(!voice||!window.speechSynthesis||!t)return;if(t==LAST&&speechSynthesis.speaking)return;LAST=t;var o=vopt(),u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=o.rate||1.05;u.pitch=o.pitch||1;var v=pick();if(v)u.voice=v;
  if(urgent||speechSynthesis.pending)speechSynthesis.cancel();speechSynthesis.resume();speechSynthesis.speak(u)}
 setInterval(function(){if(window.speechSynthesis&&speechSynthesis.speaking&&!speechSynthesis.paused){speechSynthesis.pause();speechSynthesis.resume()}},10000);
 function vput(k,val){var S=store();if(!S)return;S.voice=S.voice||{};S.voice[k]=val;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
 function vlist(){if(!window.speechSynthesis)return;KV=speechSynthesis.getVoices().filter(function(v){return /^ko/i.test(v.lang)});var sel=$('vsel'),o=vopt();
  if(!KV.length){sel.innerHTML='<option>이 기기에 한국어 목소리가 없어요</option>';return}
- sel.innerHTML=KV.map(function(v,i){var nm=v.name.replace(/Microsoft |Google |Samsung |\(.*?\)|Korean|한국어|ko[-_]KR/gi,'').replace(/\s+/g,' ').trim();return '<option value="'+v.name.replace(/"/g,'&quot;')+'"'+(v.name==(o.name||KV[0].name)?' selected':'')+'>'+(i+1)+'. '+(nm||'기본 목소리')+(v.localService===false?' (온라인)':'')+'</option>'}).join('')}
+ sel.innerHTML=KV.map(function(v,i){var nm=v.name.replace(/Microsoft |Google |Samsung |\(.*?\)|Korean|한국어|ko[-_]KR/gi,'').replace(/\s+/g,' ').trim();return '<option value="'+v.name.replace(/"/g,'&quot;')+'"'+(v===pick()?' selected':'')+'>'+(i+1)+'. '+(nm||'기본 목소리')+(v.localService===false?' (온라인 · 끊길 수 있음)':' (휴대폰 안)')+'</option>'}).join('')}
 if(window.speechSynthesis){vlist();speechSynthesis.onvoiceschanged=vlist}
 (function(){var o=vopt();$('vrate').value=o.rate||1.05;$('vpitch').value=o.pitch||1;var show=function(){$('vrv').textContent=(+$('vrate').value).toFixed(2);$('vpv').textContent=(+$('vpitch').value).toFixed(2)};show();
  $('vsel').onchange=function(){vput('name',this.value);speak('300미터 앞에서 우회전입니다')};
