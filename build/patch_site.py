@@ -517,3 +517,42 @@ for cat, u, n, d, kw, cn in MOVED:
     p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
     if f'honglife.co.kr{u}<' not in s:
         open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-19</lastmod></url>\n</urlset>', 1)); print('sitemap +', u)
+
+# ── 상단 분류 줄 고정: 모든 한국어 페이지에 같은 분류 전체 목록(가로 스크롤 한 줄) ──
+CATBAR = [('excel', '엑셀 수식'), ('sheet', '엑셀 양식'), ('doc', '문서'), ('pdf', 'PDF'), ('image', '이미지'), ('convert', '파일 변환'),
+          ('text', '텍스트'), ('ai', 'AI'), ('calendar', '날짜·달력'), ('qr', 'QR'), ('life', '생활·행정'), ('medical', '병원·건강'),
+          ('legal', '법률'), ('study', '학생·공부'), ('ipsi', '입시'), ('trip', '여행'), ('test', '심리 테스트'), ('game', '게임 계산기'),
+          ('design', '디자인'), ('shop', '소상공인'), ('dev', '개발'), ('net', '인터넷')]
+CATCSS = ('<style id="hl-catbar-css">.brandbar .in nav a:not(.srch):not(.lang){display:none!important}'
+          '.catbar{border-top:1px solid rgba(0,0,0,.06)}.catbar .in2{max-width:1080px;margin:0 auto;padding:7px 12px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;'
+          '-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}.catbar .in2::-webkit-scrollbar{display:none}'
+          '.brandbar .catbar a{display:inline-block!important;flex:none;padding:6px 12px;border-radius:999px;font-size:14px;font-weight:600;line-height:1.35;color:#4E5968;text-decoration:none;white-space:nowrap}'
+          '.catbar a:hover{background:rgba(0,0,0,.05);color:#191F28}.catbar a[aria-current]{background:#191F28;color:#fff}'
+          '@media(max-width:600px){.catbar .in2{padding:6px 10px}.catbar a{font-size:13.5px;padding:6px 11px}}</style>')
+NAV_RE = re.compile(r'(<div class="brandbar"><div class="in">.*?</div>)(</div>)', re.S)
+k = 0
+for dp, dn, fn in os.walk(root):
+    rel = os.path.relpath(dp, root).split(os.sep)
+    if len(rel[0]) == 2 and rel[0] not in ('ai', 'qr'):  # 영어 등 다른 언어 폴더(en, ja ...) 제외
+        continue
+    for f in fn:
+        if not f.endswith('.html'):
+            continue
+        p = os.path.join(dp, f); s = open(p, encoding='utf-8').read()
+        if 'class="catbar"' in s or '<nav aria-label="주요 분류">' not in s:
+            continue
+        cur = rel[0] if rel[0] != '.' else ''
+        links = ''.join(f'<a href="/{c}/"' + (' aria-current="page"' if c == cur else '') + f'>{n}</a>' for c, n in CATBAR)
+        s2 = NAV_RE.sub(lambda m: m.group(1) + f'<div class="catbar" role="navigation" aria-label="분류 전체"><div class="in2">{links}</div></div><script>(function(){{var a=document.querySelector(".catbar a[aria-current]");if(a)a.parentNode.scrollLeft=a.offsetLeft-a.parentNode.clientWidth/2+a.offsetWidth/2}})()</script>' + m.group(2), s, count=1)
+        if s2 != s:
+            s2 = s2.replace('</head>', CATCSS + '</head>', 1)
+            open(p, 'w', encoding='utf-8').write(s2); k += 1
+print('catbar:', k)
+
+# ── 홈 도구 수·분류 카드 수를 실제 개수로 맞춤 ──
+p = os.path.join(root, 'index.html'); s = open(p, encoding='utf-8').read()
+n_tools = len(set(re.findall(r'"u":"(/[^"]*)"', s)))
+s = re.sub(r'도구 \d+가지', f'도구 {n_tools}가지', s, count=1)
+for cat, add in (('calendar', 1), ('life', 2)):
+    s = re.sub(r'(<a class="ct" href="/' + cat + r'/"[^>]*><span class="ch"><em>)(\d+)(개</em>)', lambda m: m.group(1) + str(int(m.group(2)) + add) + m.group(3), s, count=1)
+open(p, 'w', encoding='utf-8').write(s); print('home tool count:', n_tools)
