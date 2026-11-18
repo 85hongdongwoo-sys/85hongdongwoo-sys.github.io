@@ -6,7 +6,7 @@ window.HM=(function(){
 var READY=[],kind=null;
 function done(k){if(kind)return;kind=k;READY.forEach(function(f){f(k)})}
 function ready(f){if(kind)f(kind);else READY.push(f)}
-(function(){var s=document.createElement('script');s.src='https://dapi.kakao.com/v2/maps/sdk.js?appkey=__JSKEY__&autoload=false';
+(function(){var s=document.createElement('script');s.src='https://dapi.kakao.com/v2/maps/sdk.js?appkey=__JSKEY__&autoload=false&libraries=services';
  s.onload=function(){try{kakao.maps.load(function(){done('kakao')})}catch(e){done('leaflet')}};s.onerror=function(){done('leaflet')};document.head.appendChild(s);
  setTimeout(function(){done('leaflet')},6000)})();
 function pinSvg(n,cls){var c=cls=='cur'?'#F04452':cls=='done'?'#B0B8C1':'#3182F6',w=cls=='cur'?40:34;
@@ -63,5 +63,8 @@ function route(pts,op){var chunks=[],i=0;while(i<pts.length-1){var c=pts.slice(i
   steps.forEach(function(s){var b=0,bd=1e12;for(var k=0;k<co.length;k++){var d=hv(co[k],s.p);if(d<bd){bd=d;b=k}}s.ci=b});steps.sort(function(a,b){return a.ci-b.ci});
   return {co:co,cum:cum,steps:steps,spd:dist/Math.max(dur,1),src:fn===kakaoChunk?'kakao':'osrm'}})};
  return all(kakaoChunk).catch(function(){return all(osrm)})}
-return {ready:ready,make:make,route:route,hv:hv}})();
+function search(q){return new Promise(function(res){if(kind!='kakao'||!kakao.maps.services){res(null);return}var S=kakao.maps.services,out=[],n=0,fin=function(){if(++n==2)res(out)};
+ new S.Places().keywordSearch(q,function(d,st){if(st==S.Status.OK)d.slice(0,8).forEach(function(x){out.push({n:x.place_name,a:x.road_address_name||x.address_name,lat:+x.y,lng:+x.x})});fin()});
+ new S.Geocoder().addressSearch(q,function(d,st){if(st==S.Status.OK)d.slice(0,3).forEach(function(x){out.unshift({n:x.address_name,a:(x.road_address&&x.road_address.address_name)||'',lat:+x.y,lng:+x.x})});fin()})})}
+return {ready:ready,make:make,route:route,hv:hv,search:search}})();
 </script>'''

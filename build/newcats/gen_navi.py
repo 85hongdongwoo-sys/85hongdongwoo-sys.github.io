@@ -15,7 +15,7 @@ FAQ = [
  ('경유지를 몇 곳까지 넣을 수 있나요?', '개수 제한이 없어요. 30곳, 50곳도 넣을 수 있어요. 일반 내비 앱은 경유지를 몇 곳까지만 받기 때문에, 이 도구는 정류장을 하나씩(네이버 지도는 최대 5곳씩 묶어서) 내비 앱에 넘겨 줘요.'),
  ('길 안내 음성은 어디서 나오나요?', '버튼을 누르면 휴대폰에 깔린 네이버 지도·카카오맵·티맵이 열려 평소처럼 음성 안내를 해요. 실시간 교통 정보도 그 앱의 것을 그대로 써요.'),
  ('만든 노선은 어디에 저장되나요?', '지금 쓰는 휴대폰(브라우저)에만 저장돼요. 서버로 보내지 않아요. 다른 기기로 옮기거나 다른 사람에게 보내려면 "노선 공유 링크"를 보내면 돼요.'),
- ('주소를 몰라도 되나요?', '네. 지도를 확대해 정류장 위치를 눌러 찍기만 하면 돼요. 찍은 핀은 길게 눌러 끌어서 위치를 고칠 수 있고, 이름은 목록에서 바꿀 수 있어요.'),
+ ('주소로도 넣을 수 있나요?', '네. 지도 위 검색 칸에 주소나 장소 이름(예: 송도컨벤시아)을 넣고 결과를 누르면 다음 번호 정류장으로 추가돼요. 주소를 몰라도 지도를 확대해 정류장 위치를 눌러 찍기만 하면 돼요. 찍은 핀은 길게 눌러 끌어서 위치를 고칠 수 있고, 이름은 목록에서 바꿀 수 있어요.'),
  ('전체 노선 한 번에 안내는 어떻게 작동하나요?', '출발할 때 한 번 누르면 모든 정류장을 이은 경로를 받아, 휴대폰 위치를 따라가며 회전 지점과 정류장 앞에서 음성으로 알려 줘요. 정류장에 닿으면 자동으로 다음 정류장으로 넘어가고, 길을 벗어나면 남은 정류장으로 경로를 다시 찾아요. 지금은 베타라 실시간 교통은 반영하지 않아요. 운전 전에 “모의 주행”으로 미리 확인해 보세요.'),
  ('운전 중에 써도 되나요?', '달리는 중에는 휴대폰을 만지면 안 돼요(도로교통법). 그래서 버튼 한 번에 6곳씩 내비로 넘기고, 누르면 다음 묶음이 자동으로 준비되게 만들었어요. 정류장에 섰을 때만 누르면 30곳 노선도 5번이면 끝나요. 노선 만들기와 순서 수정은 운행 전에 해 두세요.'),
 ]
@@ -28,6 +28,7 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
  <div class="rn-tb"><button type="button" class="btn ghost" id="rnew">새 노선</button><button type="button" class="btn ghost" id="rren">이름 바꾸기</button><button type="button" class="btn ghost" id="rdel">삭제</button></div>
 </div>
 <div class="rn-mode" role="tablist"><button type="button" role="tab" id="m-edit" aria-selected="true">노선 만들기</button><button type="button" role="tab" id="m-run" aria-selected="false">운행하기</button></div>
+<form class="rn-q" id="qf" role="search"><input id="qi" type="search" placeholder="주소나 장소 이름으로 정류장 추가 (예: 송도컨벤시아)" aria-label="주소나 장소 검색" enterkeyhint="search"><button type="submit" class="btn">찾기</button></form><ul class="rn-qr" id="qr" hidden></ul>
 <div class="rn-map"><div id="map" aria-label="정류장 지도"></div>
  <p class="rn-hint" id="hint">지도를 눌러 1번 정류장부터 차례로 찍어 주세요</p>
  <button type="button" class="rn-me" id="me" aria-label="내 위치로 이동"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
@@ -70,6 +71,8 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 .rn-mode{display:grid;grid-template-columns:1fr 1fr;margin:14px 0 10px;background:#F2F4F6;border-radius:14px;padding:4px}
 .rn-mode button{border:0;background:none;min-height:42px;border-radius:11px;font-size:15px;font-weight:700;color:var(--muted);cursor:pointer}
 .rn-mode button[aria-selected=true]{background:#fff;color:var(--head);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.rn-q{display:flex;gap:6px;margin:0 0 8px}.rn-q input{flex:1;min-width:0;height:46px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font-size:15px;background:#fff;color:var(--head)}.rn-q .btn{flex:none;min-height:46px;padding:0 16px}
+.rn-qr{list-style:none;margin:0 0 8px;padding:4px;border:1px solid var(--line);border-radius:12px;background:#fff;max-height:280px;overflow:auto}.rn-qr li button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px;border-radius:9px;cursor:pointer}.rn-qr li button:hover{background:#F2F4F6}.rn-qr b{display:block;font-size:15px;color:var(--head);word-break:keep-all}.rn-qr span{display:block;font-size:13px;color:var(--muted);margin-top:2px;word-break:keep-all}.rn-qr .em{padding:12px;color:var(--muted);font-size:14px}
 .rn-map{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
 #map{height:min(62vh,520px);min-height:340px;background:#E8EEF3}
 .rn-hint{position:absolute;left:10px;right:10px;bottom:28px;text-align:center;margin:0;z-index:500;background:rgba(25,31,40,.86);color:#fff;font-size:13.5px;font-weight:600;padding:8px 12px;border-radius:10px;pointer-events:none;line-height:1.4;word-break:keep-all}
@@ -148,6 +151,11 @@ $('pv').onclick=function(){var st=R();if(st.length<2){toast('정류장을 2곳 �
  HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){pvdata=r;setTimeout(pvdraw,120)}).catch(function(){$('pvb-r').textContent='경로를 찾지 못했어요. 잠시 뒤 다시 눌러 주세요'})};
 $('pvb-re').onclick=pvdraw;
 $('pvb-x').onclick=function(){clearInterval(window.__rnAnim);$('pvbox').hidden=true;document.documentElement.style.overflow=''};
+var QR=[];$('qf').onsubmit=function(e){e.preventDefault();var q=$('qi').value.trim();if(!q)return;$('qr').hidden=false;$('qr').innerHTML='<li class="em">찾는 중…</li>';
+ HM.search(q).then(function(r){if(r===null){$('qr').innerHTML='<li class="em">지금은 검색을 쓸 수 없어요. 지도를 눌러 추가해 주세요.</li>';return}QR=r;
+  $('qr').innerHTML=r.length?r.map(function(x,i){return '<li><button type="button" data-k="'+i+'"><b>'+x.n.replace(/</g,'&lt;')+'</b>'+(x.a&&x.a!=x.n?'<span>'+x.a.replace(/</g,'&lt;')+'</span>':'')+'</button></li>'}).join(''):'<li class="em">결과가 없어요. 다른 이름이나 주소로 찾아보세요.</li>'})};
+$('qr').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var x=QR[+b.dataset.k];if(mode!='edit')setMode('edit');R().push({lat:+x.lat.toFixed(6),lng:+x.lng.toFixed(6),n:x.n.slice(0,40)});save();draw();map.view(x.lat,x.lng,16);
+ $('qr').hidden=true;$('qi').value='';toast(R().length+'번 정류장으로 추가했어요')});
 $('undo').onclick=function(){R().pop();save();draw()};
 $('rev').onclick=function(){R().reverse();save();draw()};
 function sel(){$('rsel').innerHTML=Object.keys(S.routes).map(function(k){return '<option'+(k==S.cur?' selected':'')+'>'+k.replace(/</g,'&lt;')+'</option>'}).join('')}
