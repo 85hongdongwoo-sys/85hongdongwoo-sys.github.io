@@ -33,6 +33,8 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
  <button type="button" class="rn-me" id="me" aria-label="내 위치로 이동"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
 </div>
 <div id="pane-edit">
+ <button type="button" class="btn rn-pv" id="pv">내가 찍은 노선, 실제 도로로 확인하기</button>
+ <p class="rn-pvs" id="pvs" hidden></p>
  <p class="rn-sum" id="sum"></p>
  <ol class="rn-list" id="list"></ol>
  <div class="rn-tb rn-bot"><button type="button" class="btn ghost" id="undo">마지막 정류장 빼기</button><button type="button" class="btn ghost" id="rev">순서 뒤집기</button><button type="button" class="btn" id="share">노선 공유 링크</button></div>
@@ -75,6 +77,8 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 .rn-pin{display:grid;place-items:center;width:30px;height:30px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);background:#3182F6;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
 .rn-pin b{transform:rotate(45deg);color:#fff;font:800 12.5px/1 system-ui,sans-serif}
 .rn-pin.done{background:#B0B8C1}.rn-pin.cur{background:#F04452;width:36px;height:36px}.rn-pin.cur b{font-size:14px}
+.rn-pv{width:100%;min-height:52px;margin-top:12px;font-size:16px;background:#F04452!important;border-color:#F04452!important;color:#fff!important}
+.rn-pvs{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#FFF0F1;color:#C9303E;font-size:14px;font-weight:700;line-height:1.5;word-break:keep-all}
 .rn-sum{margin:14px 0 8px;font-size:14px;color:var(--muted)}
 .rn-list{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:420px;overflow:auto}
 .rn-list li{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 6px 6px 8px;border:1px solid var(--line);border-radius:12px;background:#fff}
@@ -113,10 +117,11 @@ var map=HM.make(document.getElementById('map'),37.45,126.7,11),pins=[],line=map.
 var mode='edit';
 function idx(){return Math.min(S.pos[S.cur]||0,Math.max(R().length-1,0))}
 function km(a,b){var r=Math.PI/180,x=(b.lng-a.lng)*r*Math.cos((a.lat+b.lat)/2*r),y=(b.lat-a.lat)*r;return Math.sqrt(x*x+y*y)*6371}
-function draw(fit){pins.forEach(function(x){x.remove()});var st=R(),ci=idx();
+var rl=null,rsig='';function sig(){return JSON.stringify(R().map(function(p){return [p.lat,p.lng]}))+S.cur}
+function draw(fit){if(rl&&rsig!=sig()){rl.remove();rl=null;$('pvs').hidden=true}pins.forEach(function(x){x.remove()});var st=R(),ci=idx();
  pins=st.map(function(p,i){var cls=mode=='run'?(i<ci?'done':i==ci?'cur':''):'';
   return map.pin(p.lat,p.lng,{label:i+1,cls:cls,drag:mode=='edit',title:(i+1)+'. '+(p.n||'정류장'),onDrag:function(a,b){p.lat=+a.toFixed(6);p.lng=+b.toFixed(6);save();draw()}})});
- line.set(st.map(function(p){return [p.lat,p.lng]}));
+ line.set(rl?[]:st.map(function(p){return [p.lat,p.lng]}));
  if(fit&&st.length)map.fit(st.map(function(p){return [p.lat,p.lng]}));
  list();run();}
 function list(){var st=R(),ol=$('list');var d=0;for(var i=1;i<st.length;i++)d+=km(st[i-1],st[i]);
@@ -130,6 +135,10 @@ $('list').addEventListener('click',function(e){var b=e.target.closest('button');
  save();draw()});
 map.onClick(function(la,ln){if(mode!='edit')return;var st=R();st.push({lat:+la.toFixed(6),lng:+ln.toFixed(6),n:''});save();draw();
  var ins=$('list').querySelectorAll('input');if(ins.length&&window.innerWidth>700)ins[ins.length-1].focus({preventScroll:true})});
+$('pv').onclick=function(){var st=R();if(st.length<2){toast('정류장을 2곳 이상 찍어 주세요');return}var b=this;b.disabled=true;b.textContent='실제 도로 경로를 찾는 중…';
+ HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){if(rl)rl.remove();rl=map.line(r.co,{color:'#F04452',weight:6,opacity:.9});rsig=sig();line.set([]);map.fit(r.co.filter(function(_,i){return i%5==0}).concat([r.co[r.co.length-1]]));
+  var km=r.cum[r.cum.length-1]/1000,mn=Math.round(r.cum[r.cum.length-1]/r.spd/60);$('pvs').hidden=false;$('pvs').textContent='빨간 선이 실제로 달릴 길이에요 · 총 '+km.toFixed(1)+'km · 약 '+mn+'분'+(r.src=='kakao'?' (카카오 기준)':' (예비 경로 서버 기준)')+'. 이상한 길로 돌면 그 길 위에 핀을 하나 더 찍어 고정하세요.'})
+ .catch(function(){toast('경로를 찾지 못했어요. 잠시 뒤 다시 눌러 주세요')}).then(function(){b.disabled=false;b.textContent='내가 찍은 노선, 실제 도로로 확인하기'})};
 $('undo').onclick=function(){R().pop();save();draw()};
 $('rev').onclick=function(){R().reverse();save();draw()};
 function sel(){$('rsel').innerHTML=Object.keys(S.routes).map(function(k){return '<option'+(k==S.cur?' selected':'')+'>'+k.replace(/</g,'&lt;')+'</option>'}).join('')}

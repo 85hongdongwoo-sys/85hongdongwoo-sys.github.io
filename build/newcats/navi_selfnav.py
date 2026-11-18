@@ -32,7 +32,7 @@ BTN = r'''<div class="rn-opt"><p class="rn-opt-h">경로 고르는 기준</p><di
 <div class="rn-chk"><label><input type="checkbox" data-av="uturn">유턴 피하기</label><label><input type="checkbox" data-av="schoolzone">어린이보호구역 피하기</label><label><input type="checkbox" data-av="toll">유료도로 피하기</label><label><input type="checkbox" data-av="motorway">자동차전용도로 피하기</label></div>
 <p class="rn-opt-n">차량 높이·무게 제한은 카카오 길찾기에서 아직 고를 수 없어요. 낮은 굴다리 같은 곳은 통과할 길 위에 정류장 핀을 하나 더 찍어 경로를 고정해 주세요.</p></div>
 <button type="button" class="btn rn-self" id="self-go"><b>전체 노선 한 번에 안내 (베타)</b><span id="self-s">정류장을 다 이어서 음성으로 안내해요</span></button>
-  <button type="button" class="rn-sim" id="self-sim">운전하지 않고 모의 주행으로 미리 보기</button>
+  <button type="button" class="rn-sim" id="self-sim">안내 화면 미리 보기 (모의 주행)</button>
   <p class="rn-or">또는 내비 앱으로 넘기기</p>'''
 JS = r'''<script>HM.ready(function(){
 var $=function(i){return document.getElementById(i)};
