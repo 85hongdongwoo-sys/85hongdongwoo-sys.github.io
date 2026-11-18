@@ -484,7 +484,7 @@ if os.path.exists(_nc_p):
         def ct(href, n, name, art, c1, c2, c3):
             return (f'<li><a class="ct" href="{href}" style="--bg:linear-gradient({c1} 0 40%,transparent 40%),linear-gradient(90deg,{c2} 0 58%,{c3} 58%)">'
                     f'<span class="ch"><em>{n}개</em><b>{name}</b></span><i class="ci" style="background-image:url(/assets/art/hl/cs-{art}.svg)"></i><span class="go" aria-hidden="true">›</span></a></li>')
-        add = ct('/test/', len(NC['test']), '심리 테스트', 'test', '#F8D7E3', '#E67FA5', '#F1A9C3') + ct('/game/', len(NC['game']), '게임 계산기', 'game', '#D3F0DA', '#6CC58A', '#A3DCB3')
+        add = ct('/test/', len(NC['test']), '심리 테스트', 'test', '#EFDDF3', '#C98ED6', '#DDB6E6') + ct('/game/', len(NC['game']), '게임 계산기', 'game', '#E9F2CF', '#A8C64A', '#C6DB86')
         s = s[:m.end()] + add + s[m.end():]; print('home: test/game cards')
     entries = [_json.dumps({"t": n, "d": d, "k": kw, "c": "심리 테스트" if c == 'test' else "게임 계산기", "u": u}, ensure_ascii=False, separators=(',', ':')) for c in ('test', 'game') for u, n, d, kw in NC[c]]
     if TRIP in s and '"u":"/test/' not in s:

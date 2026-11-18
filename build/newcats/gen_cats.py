@@ -3,6 +3,11 @@ import os, json, html, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from data_tests import TESTS
 from data_games import GAMES
+from data_tests_extra import EXTRA
+import re as _re
+for _t in TESTS:
+    _t['q'] = _t['q'] + EXTRA.get(_t['slug'], [])
+    _t['lead'] = _re.sub(r'\d+문항', f"{len(_t['q'])}문항", _t['lead'])
 D = os.path.dirname(__file__)
 OUT = sys.argv[1]  # repo/overlay
 E = lambda x: html.escape(str(x), quote=True)
@@ -184,12 +189,33 @@ def art():
     for k, (col, p) in ART.items():
         pg = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><rect x="2" y="2" width="60" height="60" rx="14" fill="#fff" stroke="#1f2430" stroke-opacity=".18" stroke-width="2"/>{p.format(c="#1f2430")}</svg>'
         open(f'{d}/pg-{k}.svg', 'w').write(pg)
-        lab = '테스트 결과' if k == 'test' else '강화 기댓값'
         if k == 'test':
-            inner = '<rect x="74" y="40" width="52" height="8" rx="4" fill="#F3D9E3"/><rect x="74" y="40" width="38" height="8" rx="4" fill="#E64980"/><rect x="74" y="54" width="52" height="8" rx="4" fill="#F3D9E3"/><rect x="74" y="54" width="24" height="8" rx="4" fill="#F06595"/><rect x="74" y="68" width="52" height="8" rx="4" fill="#F3D9E3"/><rect x="74" y="68" width="44" height="8" rx="4" fill="#C2255C"/><rect x="72" y="104" width="56" height="12" rx="6" fill="#C2255C"/><text x="84" y="113" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#fff">결과 공유</text>'
+            rows = ''
+            for r, (yy, sel) in enumerate([(44, 3), (64, 1), (84, 4)]):
+                rows += f'<rect x="50" y="{yy-8}" width="{40+r*8}" height="5" rx="2.5" fill="#E9ECF2"/>'
+                for c in range(5):
+                    cx = 56 + c * 15
+                    rows += f'<circle cx="{cx}" cy="{yy+4}" r="4.5" fill="{"#B14FC5" if c == sel else "#fff"}" stroke="{"#B14FC5" if c == sel else "#CDD2DB"}" stroke-width="1.5"/>'
+            cs = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="40.0 16.0 120.0 108.0" width="120" height="108"><g>'
+                  '<rect x="40" y="16" width="120" height="108" rx="6" fill="#fff"/><rect x="40" y="16" width="120" height="16" rx="6" fill="#B14FC5"/><rect x="40" y="26" width="120" height="6" fill="#B14FC5"/>'
+                  '<text x="48" y="27.5" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#fff">애착유형 테스트</text>'
+                  '<rect x="122" y="21" width="30" height="5" rx="2.5" fill="#fff" fill-opacity=".35"/><rect x="122" y="21" width="20" height="5" rx="2.5" fill="#fff"/>'
+                  + rows +
+                  '<rect x="128" y="40" width="26" height="54" rx="5" fill="#F6E8F9"/><circle cx="141" cy="56" r="8" fill="none" stroke="#B14FC5" stroke-width="3"/><path d="M137 76h8M135 83h12" stroke="#D9A8E4" stroke-width="3" stroke-linecap="round"/>'
+                  '<rect x="50" y="102" width="56" height="13" rx="6.5" fill="#B14FC5"/><text x="60" y="111" font-family="Arial,Helvetica,sans-serif" font-size="7.5" font-weight="700" fill="#fff">결과: 안정형</text>'
+                  '</g></svg>')
         else:
-            inner = '<circle cx="100" cy="66" r="22" fill="none" stroke="#D3F9D8" stroke-width="9"/><path d="M100 44a22 22 0 0 1 20 31" fill="none" stroke="#2B8A3E" stroke-width="9" stroke-linecap="round"/><text x="88" y="70" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#1A1D24">63%</text><rect x="72" y="104" width="56" height="12" rx="6" fill="#2B8A3E"/><text x="86" y="113" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#fff">계산하기</text>'
-        cs = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="64.0 6.0 72.0 128.0" width="72" height="128"><g><rect x="64" y="6" width="72" height="128" rx="12" fill="#1A1D24"/><rect x="68" y="10" width="64" height="120" rx="9" fill="#fff"/><rect x="91.0" y="13" width="18" height="4" rx="2" fill="#1A1D24"/><text x="74" y="32" font-family="Arial,Helvetica,sans-serif" font-size="9" font-weight="700" fill="#1A1D24">{lab}</text>{inner}</g></svg>'
+            cs = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="30.0 18.0 140.0 106.0" width="140" height="106"><g>'
+                  '<rect x="30" y="18" width="140" height="106" rx="9" fill="#fff"/><rect x="30" y="18" width="140" height="18" rx="9" fill="#5C7A12"/><rect x="30" y="28" width="140" height="8" fill="#5C7A12"/>'
+                  '<circle cx="40" cy="27" r="2.5" fill="#fff" fill-opacity=".7"/><circle cx="48" cy="27" r="2.5" fill="#fff" fill-opacity=".7"/><circle cx="56" cy="27" r="2.5" fill="#fff" fill-opacity=".7"/>'
+                  '<text x="66" y="30" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#fff">가챠 확률 · 강화 기댓값</text>'
+                  '<circle cx="70" cy="74" r="22" fill="none" stroke="#EAF3D2" stroke-width="9"/><path d="M70 52a22 22 0 1 1-21.6 26" fill="none" stroke="#7FA21B" stroke-width="9" stroke-linecap="round"/>'
+                  '<text x="59" y="78" font-family="Arial,Helvetica,sans-serif" font-size="11" font-weight="700" fill="#1A1D24">63%</text>'
+                  '<rect x="106" y="50" width="52" height="7" rx="3.5" fill="#EAF3D2"/><rect x="106" y="50" width="40" height="7" rx="3.5" fill="#7FA21B"/>'
+                  '<rect x="106" y="64" width="52" height="7" rx="3.5" fill="#EAF3D2"/><rect x="106" y="64" width="26" height="7" rx="3.5" fill="#A8C64A"/>'
+                  '<rect x="106" y="78" width="52" height="7" rx="3.5" fill="#EAF3D2"/><rect x="106" y="78" width="46" height="7" rx="3.5" fill="#5C7A12"/>'
+                  '<rect x="104" y="98" width="56" height="16" rx="8" fill="#1A1D24"/><path d="M114 106h6M117 103v6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="148" cy="104" r="1.8" fill="#C8E06A"/><circle cx="152" cy="108" r="1.8" fill="#C8E06A"/>'
+                  '</g></svg>')
         open(f'{d}/cs-{k}.svg', 'w').write(cs)
 
 for t in TESTS: test_page(t)
