@@ -44,10 +44,10 @@ function make(el,lat,lng,z){
 // 경로: 카카오모빌리티 다중 경유지(30곳씩 나눠 이어 붙임) → 실패하면 OSRM
 function hv(a,b){var r=Math.PI/180,dl=(b[0]-a[0])*r,dg=(b[1]-a[1])*r,x=Math.sin(dl/2)*Math.sin(dl/2)+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dg/2)*Math.sin(dg/2);return 12742000*Math.asin(Math.sqrt(x))}
 function modOf(t){return /유턴/.test(t)?'uturn':/회전교차로/.test(t)?'round':/좌회전/.test(t)?'left':/우회전/.test(t)?'right':/왼쪽/.test(t)?'slight left':/오른쪽/.test(t)?'slight right':'straight'}
-function kakaoChunk(pts){var o=pts[0],d=pts[pts.length-1],w=pts.slice(1,-1);
+function kakaoChunk(pts,op){op=op||{};var o=pts[0],d=pts[pts.length-1],w=pts.slice(1,-1);
  if(!'__PROXY__')return Promise.reject(new Error('no proxy'));
  return fetch('__PROXY__',{method:'POST',headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({origin:{x:o[1],y:o[0]},destination:{x:d[1],y:d[0]},waypoints:w.map(function(p){return {x:p[1],y:p[0]}}),priority:'RECOMMEND',summary:false})}).then(function(r){return r.json()}).then(function(j){
+  body:JSON.stringify({origin:{x:o[1],y:o[0]},destination:{x:d[1],y:d[0]},waypoints:w.map(function(p){return {x:p[1],y:p[0]}}),priority:op.pr||'RECOMMEND',avoid:(op.av&&op.av.length)?op.av:undefined,summary:false})}).then(function(r){return r.json()}).then(function(j){
   var R=j.routes&&j.routes[0];if(!R||R.result_code!==0)throw new Error(R?R.result_msg:'kakao');var co=[],steps=[];
   R.sections.forEach(function(sc){sc.roads.forEach(function(rd){for(var i=0;i<rd.vertexes.length;i+=2){var p=[rd.vertexes[i+1],rd.vertexes[i]],l=co[co.length-1];if(!l||l[0]!=p[0]||l[1]!=p[1])co.push(p)}});
    sc.guides.forEach(function(g){if(g.type==100||g.type==101||g.type==1000)return;steps.push({p:[g.y,g.x],text:g.guidance,name:g.name||'',mod:modOf(g.guidance)})})});
@@ -57,8 +57,8 @@ function osrm(pts){return fetch('https://router.project-osrm.org/route/v1/drivin
   var R=j.routes&&j.routes[0];if(!R)throw new Error('osrm');var steps=[];R.legs.forEach(function(l){l.steps.forEach(function(s){var t=s.maneuver.type;if(t=='depart'||t=='arrive')return;var m=s.maneuver.modifier||'straight';
    var tx=(t=='roundabout'||t=='rotary')?'회전교차로 '+(s.maneuver.exit||1)+'번째 출구':(OM[m]||'직진');steps.push({p:[s.maneuver.location[1],s.maneuver.location[0]],text:tx,name:s.name||'',mod:(t=='roundabout'||t=='rotary')?'round':m})})});
   return {co:R.geometry.coordinates.map(function(c){return [c[1],c[0]]}),steps:steps,dist:R.distance,dur:R.duration}})}
-function route(pts){var chunks=[],i=0;while(i<pts.length-1){var c=pts.slice(i,i+32);chunks.push(c);i+=c.length-1}
- var all=function(fn){return Promise.all(chunks.map(fn)).then(function(rs){var co=[],steps=[],dist=0,dur=0;rs.forEach(function(r){co=co.concat(co.length?r.co.slice(1):r.co);steps=steps.concat(r.steps);dist+=r.dist;dur+=r.dur});
+function route(pts,op){var chunks=[],i=0;while(i<pts.length-1){var c=pts.slice(i,i+32);chunks.push(c);i+=c.length-1}
+ var all=function(fn){return Promise.all(chunks.map(function(c){return fn(c,op)})).then(function(rs){var co=[],steps=[],dist=0,dur=0;rs.forEach(function(r){co=co.concat(co.length?r.co.slice(1):r.co);steps=steps.concat(r.steps);dist+=r.dist;dur+=r.dur});
   var cum=[0];for(var k=1;k<co.length;k++)cum.push(cum[k-1]+hv(co[k-1],co[k]));
   steps.forEach(function(s){var b=0,bd=1e12;for(var k=0;k<co.length;k++){var d=hv(co[k],s.p);if(d<bd){bd=d;b=k}}s.ci=b});steps.sort(function(a,b){return a.ci-b.ci});
   return {co:co,cum:cum,steps:steps,spd:dist/Math.max(dur,1),src:fn===kakaoChunk?'kakao':'osrm'}})};

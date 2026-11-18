@@ -62,6 +62,11 @@
 .rn-how{margin:0;padding-left:20px;display:grid;gap:8px;line-height:1.6}
 .rn-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#191F28;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;z-index:9999;max-width:90vw}
 [hidden]{display:none!important}
+.rn-opt{margin:0 0 14px;padding:14px;border-radius:14px;background:#fff;border:1px solid var(--line)}.rn-opt-h{margin:0 0 8px;font-size:14px;font-weight:800;color:var(--head)}
+.rn-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:#F2F4F6;border-radius:12px;padding:4px}.rn-seg button{border:0;background:none;min-height:40px;border-radius:9px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap}.rn-seg button[aria-checked=true]{background:#fff;color:var(--head);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.rn-chk{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:10px}.rn-chk label{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--head);min-width:0;word-break:keep-all}.rn-chk input{width:18px;height:18px;flex:none;accent-color:#1B64DA}
+.rn-opt-n{margin:10px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5;word-break:keep-all}
+@media(max-width:380px){.rn-chk{grid-template-columns:1fr}}
 .nv{position:fixed;inset:0;z-index:10000;background:#111;display:flex;flex-direction:column}
 .nv-top{display:flex;gap:12px;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 14px 12px;background:#1B64DA;color:#fff;min-height:84px}
 .nv-ic{flex:none;width:58px;height:58px;border-radius:14px;background:rgba(255,255,255,.16);display:grid;place-items:center}
@@ -103,7 +108,10 @@
 </div>
 <div id="pane-run" hidden>
  <div class="rn-next"><p class="rn-k" id="nk"></p><p class="rn-nm" id="nn"></p><p class="rn-sub" id="ns"></p>
-  <button type="button" class="btn rn-self" id="self-go"><b>전체 노선 한 번에 안내 (베타)</b><span id="self-s">정류장을 다 이어서 음성으로 안내해요</span></button>
+  <div class="rn-opt"><p class="rn-opt-h">경로 고르는 기준</p><div class="rn-seg" role="radiogroup" aria-label="경로 기준"><button type="button" data-pr="RECOMMEND">추천</button><button type="button" data-pr="TIME">큰길·빠른 길</button><button type="button" data-pr="DISTANCE">짧은 길</button></div>
+<div class="rn-chk"><label><input type="checkbox" data-av="uturn">유턴 피하기</label><label><input type="checkbox" data-av="schoolzone">어린이보호구역 피하기</label><label><input type="checkbox" data-av="toll">유료도로 피하기</label><label><input type="checkbox" data-av="motorway">자동차전용도로 피하기</label></div>
+<p class="rn-opt-n">차량 높이·무게 제한은 카카오 길찾기에서 아직 고를 수 없어요. 낮은 굴다리 같은 곳은 통과할 길 위에 정류장 핀을 하나 더 찍어 경로를 고정해 주세요.</p></div>
+<button type="button" class="btn rn-self" id="self-go"><b>전체 노선 한 번에 안내 (베타)</b><span id="self-s">정류장을 다 이어서 음성으로 안내해요</span></button>
   <button type="button" class="rn-sim" id="self-sim">운전하지 않고 모의 주행으로 미리 보기</button>
   <p class="rn-or">또는 내비 앱으로 넘기기</p><a class="btn rn-nv rn-big" id="go-naver5" href="#"><b id="b5t">네이버 내비로 6곳 한 번에</b><span id="b5s"></span></a>
   <p class="rn-or">한 곳씩 안내</p>
@@ -172,10 +180,10 @@ function make(el,lat,lng,z){
 // 경로: 카카오모빌리티 다중 경유지(30곳씩 나눠 이어 붙임) → 실패하면 OSRM
 function hv(a,b){var r=Math.PI/180,dl=(b[0]-a[0])*r,dg=(b[1]-a[1])*r,x=Math.sin(dl/2)*Math.sin(dl/2)+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dg/2)*Math.sin(dg/2);return 12742000*Math.asin(Math.sqrt(x))}
 function modOf(t){return /유턴/.test(t)?'uturn':/회전교차로/.test(t)?'round':/좌회전/.test(t)?'left':/우회전/.test(t)?'right':/왼쪽/.test(t)?'slight left':/오른쪽/.test(t)?'slight right':'straight'}
-function kakaoChunk(pts){var o=pts[0],d=pts[pts.length-1],w=pts.slice(1,-1);
+function kakaoChunk(pts,op){op=op||{};var o=pts[0],d=pts[pts.length-1],w=pts.slice(1,-1);
  if(!'https://hl-route.a599307.workers.dev/')return Promise.reject(new Error('no proxy'));
  return fetch('https://hl-route.a599307.workers.dev/',{method:'POST',headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({origin:{x:o[1],y:o[0]},destination:{x:d[1],y:d[0]},waypoints:w.map(function(p){return {x:p[1],y:p[0]}}),priority:'RECOMMEND',summary:false})}).then(function(r){return r.json()}).then(function(j){
+  body:JSON.stringify({origin:{x:o[1],y:o[0]},destination:{x:d[1],y:d[0]},waypoints:w.map(function(p){return {x:p[1],y:p[0]}}),priority:op.pr||'RECOMMEND',avoid:(op.av&&op.av.length)?op.av:undefined,summary:false})}).then(function(r){return r.json()}).then(function(j){
   var R=j.routes&&j.routes[0];if(!R||R.result_code!==0)throw new Error(R?R.result_msg:'kakao');var co=[],steps=[];
   R.sections.forEach(function(sc){sc.roads.forEach(function(rd){for(var i=0;i<rd.vertexes.length;i+=2){var p=[rd.vertexes[i+1],rd.vertexes[i]],l=co[co.length-1];if(!l||l[0]!=p[0]||l[1]!=p[1])co.push(p)}});
    sc.guides.forEach(function(g){if(g.type==100||g.type==101||g.type==1000)return;steps.push({p:[g.y,g.x],text:g.guidance,name:g.name||'',mod:modOf(g.guidance)})})});
@@ -185,8 +193,8 @@ function osrm(pts){return fetch('https://router.project-osrm.org/route/v1/drivin
   var R=j.routes&&j.routes[0];if(!R)throw new Error('osrm');var steps=[];R.legs.forEach(function(l){l.steps.forEach(function(s){var t=s.maneuver.type;if(t=='depart'||t=='arrive')return;var m=s.maneuver.modifier||'straight';
    var tx=(t=='roundabout'||t=='rotary')?'회전교차로 '+(s.maneuver.exit||1)+'번째 출구':(OM[m]||'직진');steps.push({p:[s.maneuver.location[1],s.maneuver.location[0]],text:tx,name:s.name||'',mod:(t=='roundabout'||t=='rotary')?'round':m})})});
   return {co:R.geometry.coordinates.map(function(c){return [c[1],c[0]]}),steps:steps,dist:R.distance,dur:R.duration}})}
-function route(pts){var chunks=[],i=0;while(i<pts.length-1){var c=pts.slice(i,i+32);chunks.push(c);i+=c.length-1}
- var all=function(fn){return Promise.all(chunks.map(fn)).then(function(rs){var co=[],steps=[],dist=0,dur=0;rs.forEach(function(r){co=co.concat(co.length?r.co.slice(1):r.co);steps=steps.concat(r.steps);dist+=r.dist;dur+=r.dur});
+function route(pts,op){var chunks=[],i=0;while(i<pts.length-1){var c=pts.slice(i,i+32);chunks.push(c);i+=c.length-1}
+ var all=function(fn){return Promise.all(chunks.map(function(c){return fn(c,op)})).then(function(rs){var co=[],steps=[],dist=0,dur=0;rs.forEach(function(r){co=co.concat(co.length?r.co.slice(1):r.co);steps=steps.concat(r.steps);dist+=r.dist;dur+=r.dur});
   var cum=[0];for(var k=1;k<co.length;k++)cum.push(cum[k-1]+hv(co[k-1],co[k]));
   steps.forEach(function(s){var b=0,bd=1e12;for(var k=0;k<co.length;k++){var d=hv(co[k],s.p);if(d<bd){bd=d;b=k}}s.ci=b});steps.sort(function(a,b){return a.ci-b.ci});
   return {co:co,cum:cum,steps:steps,spd:dist/Math.max(dur,1),src:fn===kakaoChunk?'kakao':'osrm'}})};
@@ -275,7 +283,7 @@ function fmt(m){return m>=1000?(m/1000).toFixed(1)+'km':(Math.round(m/10)*10)+'m
 var voice=true,ko=null;function speak(t){if(!voice||!window.speechSynthesis)return;var u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=1.05;if(ko)u.voice=ko;speechSynthesis.cancel();speechSynthesis.speak(u)}
 if(window.speechSynthesis){var lv=function(){ko=speechSynthesis.getVoices().filter(function(v){return /ko/i.test(v.lang)})[0]||null};lv();speechSynthesis.onvoiceschanged=lv}
 var N=null;
-function route(from,list){return HM.route((from?[from]:[]).concat(list.map(function(s){return [s.lat,s.lng]})))}
+function route(from,list){var S0=store()||{};return HM.route((from?[from]:[]).concat(list.map(function(s){return [s.lat,s.lng]})),S0.opt||{})}
 function nearest(co,p,from){var b=from||0,bd=1e12,lim=Math.min(co.length,(from||0)+400);for(var i=Math.max(0,(from||0)-20);i<lim;i++){var d=hv(co[i],p);if(d<bd){bd=d;b=i}}return {i:b,d:bd}}
 function start(sim){var st=stops();if(st.length<1){alert('먼저 정류장을 찍어 주세요');return}
  $('nav').hidden=false;document.documentElement.style.overflow='hidden';$('nv-simtag').hidden=!sim;
@@ -287,7 +295,7 @@ function start(sim){var st=stops();if(st.length<1){alert('먼저 정류장을 �
  try{if(navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){N.wl=w}).catch(function(){})}catch(e){}
  $('nv-d').textContent='경로 준비 중…';$('nv-r').textContent='';
  var go=function(from){route(from,N.stops).then(function(r){N.r=r;N.k=0;N.ci=0;
-   N.todo=N.map.line(r.co,{color:'#1B64DA',weight:7,opacity:.85});N.done=N.map.line([],{color:'#9AA4B1',weight:7,opacity:.8});N.objs.push(N.todo,N.done);
+   N.todo=N.map.line(r.co,{color:'#F04452',weight:7,opacity:.9});N.done=N.map.line([],{color:'#9AA4B1',weight:7,opacity:.8});N.objs.push(N.todo,N.done);
    if(sim)simrun();else watch();speak('안내를 시작합니다. 첫 정류장은 '+N.stops[0].n+'입니다.')}).catch(function(){$('nv-d').textContent='경로를 못 찾았어요';$('nv-r').textContent='인터넷 연결을 확인하거나 잠시 뒤 다시 시도해 주세요'})};
  if(sim)go(null);else navigator.geolocation.getCurrentPosition(function(g){go([g.coords.latitude,g.coords.longitude])},function(){go(null)},{enableHighAccuracy:true,timeout:8000});
 }
@@ -323,6 +331,10 @@ $('nv-mute').onclick=function(){voice=!voice;this.textContent=voice?'음성 켜�
 $('self-go').onclick=function(){if(!navigator.geolocation){alert('이 기기에서는 위치를 쓸 수 없어요');return}speak('');start(false)};
 $('self-sim').onclick=function(){speak('');start(true)};
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&N&&N.wl===null&&!$('nav').hidden&&navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){N.wl=w}).catch(function(){})});
+(function(){function get(){var S=store()||{};return S.opt||{pr:'RECOMMEND',av:[]}}function put(o){var S=store();if(!S)return;S.opt=o;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
+ function paint(){var o=get();document.querySelectorAll('.rn-seg button').forEach(function(b){b.setAttribute('role','radio');b.setAttribute('aria-checked',b.dataset.pr==(o.pr||'RECOMMEND'))});document.querySelectorAll('.rn-chk input').forEach(function(c){c.checked=(o.av||[]).indexOf(c.dataset.av)>=0})}
+ document.querySelectorAll('.rn-seg button').forEach(function(b){b.onclick=function(){var o=get();o.pr=b.dataset.pr;put(o);paint()}});
+ document.querySelectorAll('.rn-chk input').forEach(function(c){c.onchange=function(){var o=get();o.av=[].slice.call(document.querySelectorAll('.rn-chk input:checked')).map(function(x){return x.dataset.av});put(o)}});paint()})();
 window.__selfnav={onPos:onPos,start:start};
 });</script>
 
