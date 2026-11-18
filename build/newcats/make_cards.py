@@ -4,8 +4,8 @@
 사용: python3 make_cards.py <overlay 경로>"""
 import os, sys, json, html, re, asyncio
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from data_tests import TESTS
-from data_tests_extra import EXTRA
+from prep import TESTS
+EXTRA = {}
 from thumbs import ICON, COL
 OUT = sys.argv[1]
 E = lambda x: html.escape(str(x), quote=True)
@@ -164,7 +164,7 @@ def share_page(t, key, name, desc, tpl):
     h += MID + '<style>.rs{max-width:520px;margin:0 auto;text-align:center}.rs img{width:100%;height:auto;border-radius:22px;box-shadow:0 18px 40px -18px rgba(16,24,48,.35)}.rs .btn{margin-top:18px;width:100%}.rs p{margin:16px 0 0;color:var(--muted)}</style>\n</head>\n<body>\n\n' + BRAND
     h += (f'<main class="wrap"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/test/">심리 테스트</a></p><h1>친구의 {E(t["name"].split(" (")[0])} 결과</h1></header>'
           f'<section class="card rs"><img src="/assets/share/test/{t["slug"]}-{key}.png" width="1080" height="1350" alt="{E(t["name"])} 결과: {E(name)}. {E(first_sentence(desc))}">'
-          f'<a class="btn" href="{turl}">나도 {E(t["name"].split(" (")[0])} 해 보기</a><p>{len(t["q"])}문항 · 회원가입 없이 무료 · 답은 서버로 보내지 않아요</p></section></main>' + TAIL)
+          f'<a class="btn" href="{turl}">나도 {E(t["name"].split(" (")[0])} 해 보기</a><p>{t.get("qlabel", str(len(t["q"]))+"문항")} · 회원가입 없이 무료 · 답은 서버로 보내지 않아요</p></section></main>' + TAIL)
     fp = OUT + path; os.makedirs(os.path.dirname(fp), exist_ok=True)
     open(fp, 'w', encoding='utf-8').write(h)
 
@@ -180,7 +180,7 @@ async def main():
         ph = await b.new_page(viewport={'width': 1200, 'height': 630})
         for t in TESTS:
             if t['kind'] == 'phq9': continue
-            t = dict(t); t['q'] = t['q'] + EXTRA.get(t['slug'], [])
+            t = dict(t)
             rs = results(t); keys[t['slug']] = [r[0] for r in rs]
             for key, name, desc, info in rs:
                 for pg, mode, fn in ((pv, 'v', f'{t["slug"]}-{key}.png'), (ph, 'h', f'og-{t["slug"]}-{key}.png')):
@@ -193,10 +193,10 @@ async def main():
             for t in L:
                 t = dict(t); nm = t['name'].split(' (')[0]
                 head = nm
-                desc = re.sub(r'\d+문항', f"{len(t.get('q', []) + EXTRA.get(t['slug'], []))}문항", t['lead'])
+                desc = t['lead']
                 info = {}
                 html_ = card_html(dict(t, name=('심리 테스트' if kind == 'test' else '게임 계산기'), kind='dim'), 'intro', head, desc, info, 'h', '')
-                html_ = html_.replace('>나는<', '>' + ('무료 · ' + str(len(t.get('q', []) + EXTRA.get(t['slug'], []))) + '문항' if kind == 'test' else '무료 계산기') + '<').replace(' 결과</span>', '</span>').replace('honglife.co.kr/test', 'honglife.co.kr/' + kind).replace('나도 해 보기 →', '바로 해 보기 →' if kind == 'test' else '계산해 보기 →')
+                html_ = html_.replace('>나는<', '>' + ('무료 · ' + t['qlabel'] if kind == 'test' else '무료 계산기') + '<').replace(' 결과</span>', '</span>').replace('honglife.co.kr/test', 'honglife.co.kr/' + kind).replace('나도 해 보기 →', '바로 해 보기 →' if kind == 'test' else '계산해 보기 →')
                 await ph.set_content(html_); await ph.wait_for_timeout(120)
                 await ph.screenshot(path=f'{OUT}/assets/share/{kind}/og-{t["slug"]}.png', type='png')
         await b.close()

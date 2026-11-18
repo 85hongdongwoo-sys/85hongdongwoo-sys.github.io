@@ -36,6 +36,11 @@
 .qbar{position:sticky;top:0;z-index:3;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:10px 0;margin:-4px 0 4px}
 .qbar .pg{height:8px;border-radius:99px;background:var(--line);overflow:hidden}.qbar .pg i{display:block;height:100%;width:0;background:var(--acc);transition:width .25s}
 .qbar p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.qbar[hidden],#go[hidden]{display:none!important}
+.qmode{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 4px}.qm-h{grid-column:1/-1;margin:0 0 2px;font-weight:800;color:var(--head);font-size:16px}
+.qmode button{display:flex;flex-direction:column;gap:6px;align-items:flex-start;text-align:left;padding:18px 16px;border:1.5px solid var(--line);border-radius:16px;background:#fff;cursor:pointer;min-width:0}.qmode button:hover,.qmode button:focus-visible{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
+.qmode b{font-size:18px;color:var(--head)}.qmode span{font-size:13px;color:var(--muted);line-height:1.45;word-break:keep-all}
+@media(max-width:480px){.qmode{grid-template-columns:1fr}}
 .qres{margin-top:18px;border-radius:18px;padding:22px 18px;background:linear-gradient(160deg,#F3F7FF,#FFF);border:1px solid var(--line)}
 .qres .tag{display:inline-block;font-size:13px;font-weight:700;color:var(--acc);margin-bottom:6px}
 .qres h2{margin:0 0 8px!important;font-size:26px!important;line-height:1.25}

@@ -1,13 +1,8 @@
 """홍라이프 도구: 새 분류 2개(심리 테스트 /test/, 게임 계산기 /game/) 페이지 생성 → overlay/ 에 씀"""
 import os, json, html, sys
 sys.path.insert(0, os.path.dirname(__file__))
-from data_tests import TESTS
+from prep import TESTS
 from data_games import GAMES
-from data_tests_extra import EXTRA
-import re as _re
-for _t in TESTS:
-    _t['q'] = _t['q'] + EXTRA.get(_t['slug'], [])
-    _t['lead'] = _re.sub(r'\d+문항', f"{len(_t['q'])}문항", _t['lead'])
 D = os.path.dirname(__file__)
 OUT = sys.argv[1]  # repo/overlay
 E = lambda x: html.escape(str(x), quote=True)
@@ -32,6 +27,11 @@ CSS = """<style id="hl-newcat">
 .qbar{position:sticky;top:0;z-index:3;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:10px 0;margin:-4px 0 4px}
 .qbar .pg{height:8px;border-radius:99px;background:var(--line);overflow:hidden}.qbar .pg i{display:block;height:100%;width:0;background:var(--acc);transition:width .25s}
 .qbar p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.qbar[hidden],#go[hidden]{display:none!important}
+.qmode{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 4px}.qm-h{grid-column:1/-1;margin:0 0 2px;font-weight:800;color:var(--head);font-size:16px}
+.qmode button{display:flex;flex-direction:column;gap:6px;align-items:flex-start;text-align:left;padding:18px 16px;border:1.5px solid var(--line);border-radius:16px;background:#fff;cursor:pointer;min-width:0}.qmode button:hover,.qmode button:focus-visible{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
+.qmode b{font-size:18px;color:var(--head)}.qmode span{font-size:13px;color:var(--muted);line-height:1.45;word-break:keep-all}
+@media(max-width:480px){.qmode{grid-template-columns:1fr}}
 .qres{margin-top:18px;border-radius:18px;padding:22px 18px;background:linear-gradient(160deg,#F3F7FF,#FFF);border:1px solid var(--line)}
 .qres .tag{display:inline-block;font-size:13px;font-weight:700;color:var(--acc);margin-bottom:6px}
 .qres h2{margin:0 0 8px!important;font-size:26px!important;line-height:1.25}
@@ -98,15 +98,15 @@ def rel(cat, cur, items, label):
     lis = ''.join(f'<li><a href="/{cat}/{x["slug"]}.html"><b>{E(x["name"])}</b><span>{E(x["lead"][:46])}…</span></a></li>' for x in items if x['slug'] != cur)
     return f'<section class="card rel"><h2>다른 {label}</h2><ul>{lis}<li><a href="/{cat}/"><b>{label} 모음</b><span>전체 목록 보기</span></a></li></ul></section>'
 
-ENGINE = r"""<script>(function(){var T=__T__;var L=T.L||['전혀 아니다','아니다','보통','그렇다','매우 그렇다'];var MX=L.length-1;var A=new Array(T.q.length).fill(null);var box=document.getElementById('qz'),res=document.getElementById('qres'),pg=document.querySelector('.qbar i'),pt=document.querySelector('.qbar p');
-box.innerHTML=T.q.map(function(q,i){return '<div class="qi" id="q'+i+'"><p class="qt"><i>'+(i+1)+'</i>'+q[0]+'</p><div class="lk" role="group" aria-label="'+(i+1)+'번 응답">'+L.map(function(l,v){return '<button type="button" aria-pressed="false" data-i="'+i+'" data-v="'+v+'">'+l+'</button>'}).join('')+'</div></div>'}).join('');
+ENGINE = r"""<script>(function(){var T=__T__;var L=T.L||['전혀 아니다','아니다','보통','그렇다','매우 그렇다'];var MX=L.length-1;var Q=T.q,A=[];var box=document.getElementById('qz'),res=document.getElementById('qres'),pg=document.querySelector('.qbar i'),pt=document.querySelector('.qbar p');
+function render(n){Q=T.q.slice(0,n);A=new Array(Q.length).fill(null);box.innerHTML=Q.map(function(q,i){return '<div class="qi" id="q'+i+'"><p class="qt"><i>'+(i+1)+'</i>'+q[0]+'</p><div class="lk" role="group" aria-label="'+(i+1)+'번 응답">'+L.map(function(l,v){return '<button type="button" aria-pressed="false" data-i="'+i+'" data-v="'+v+'">'+l+'</button>'}).join('')+'</div></div>'}).join('');upd();}
 function upd(){var n=A.filter(function(x){return x!==null}).length;pg.style.width=(n/A.length*100)+'%';pt.textContent=n+' / '+A.length+'문항 답했어요';document.getElementById('go').disabled=n<A.length;}
-box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=+b.dataset.i;A[i]=+b.dataset.v;b.parentNode.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});upd();var nx=document.getElementById('q'+(i+1));if(nx&&A[i+1]===null){nx.scrollIntoView({behavior:'smooth',block:'center'})}});
-function val(i){var q=T.q[i];return q[2]?MX-A[i]:A[i]}
-function dims(){var s={},c={};T.q.forEach(function(q,i){s[q[1]]=(s[q[1]]||0)+val(i);c[q[1]]=(c[q[1]]||0)+MX});var o={};for(var k in s)o[k]=Math.round(s[k]/c[k]*100);return o}
+box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.dataset.i==null)return;var i=+b.dataset.i;A[i]=+b.dataset.v;b.parentNode.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});upd();var nx=document.getElementById('q'+(i+1));if(nx&&A[i+1]===null){nx.scrollIntoView({behavior:'smooth',block:'center'})}});
+function val(i){var q=Q[i];return q[2]?MX-A[i]:A[i]}
+function dims(){var s={},c={};Q.forEach(function(q,i){s[q[1]]=(s[q[1]]||0)+val(i);c[q[1]]=(c[q[1]]||0)+MX});var o={};for(var k in s)o[k]=Math.round(s[k]/c[k]*100);return o}
 function bars(o,names,top){return '<div class="qbars">'+Object.keys(o).sort(function(a,b){return o[b]-o[a]}).map(function(k){return '<div class="'+(k==top?'top':'')+'"><span>'+names[k]+'</span><i><em style="width:'+o[k]+'%"></em></i><b>'+o[k]+'</b></div>'}).join('')+'</div>'}
 function tips(t){return '<ul class="tips">'+t.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>'}
-document.getElementById('go').onclick=function(){var h='',tt='',total=0;T.q.forEach(function(q,i){total+=val(i)});var pct=Math.round(total/(T.q.length*MX)*100);
+document.getElementById('go').onclick=function(){var h='',tt='',total=0;Q.forEach(function(q,i){total+=val(i)});var pct=Math.round(total/(Q.length*MX)*100);
 var KEY='';if(T.kind=='phq9'){var b=T.bands.find(function(x){return total<x[0]});tt=b[1]+' ('+total+'점)';if(A[8]>0)h+='<div class="qalert"><b>마지막 문항에 “있다”고 답하셨어요.</b> 점수와 상관없이 지금 바로 이야기를 나눠 보세요. <a href="tel:109">자살예방상담 109</a>(24시간, 무료)에 전화하거나, 위험하다고 느끼면 <a href="tel:112">112</a>·<a href="tel:119">119</a>에 연락하세요. 가까운 사람에게 지금 곁에 있어 달라고 말하는 것도 큰 도움이 돼요.</div>';h+='<span class="tag">'+T.name+' 결과</span><h2>'+b[1]+'</h2><p class="sc">총점 '+total+'점 / 27점</p><p class="d">'+b[2]+'</p>'+tips(b[3]);}
 else if(T.kind=='score'){var b=T.bands.find(function(x){return pct<x[0]});KEY='b'+T.bands.indexOf(b);tt=b[1];h='<span class="tag">'+T.name+' 결과</span><h2>'+b[1]+'</h2><p class="sc">'+(T.bip?(T.bip[0]+' '+(100-pct)+' : '+pct+' '+T.bip[1]):'점수 '+pct+'점 / 100점')+'</p><p class="d">'+b[2]+'</p>'+tips(b[3]);
  if(T.areas){var o=dims(),low=Object.keys(o).sort(function(a,b){return o[a]-o[b]})[0];h+='<p class="sc" style="margin-top:14px">영역별 점수 · 가장 먼저 챙길 영역: <b>'+T.areas[low]+'</b></p>'+bars(o,T.areas,low)}}
@@ -123,15 +123,17 @@ res.innerHTML=h;res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'st
 if(KEY){var tst=function(m){var t=document.createElement('div');t.className='qs-toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2200)};
 document.getElementById('qs-copy').onclick=function(){navigator.clipboard.writeText(TX+' '+SURL).then(function(){tst('링크를 복사했어요')})};
 document.getElementById('qs-share').onclick=function(){fetch(IMG).then(function(r){return r.blob()}).then(function(bl){var f=new File([bl],T.slug+'-'+KEY+'.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){return navigator.share({files:[f],text:TX+' '+SURL})}if(navigator.share){return navigator.share({title:T.name,text:TX,url:SURL})}var a=document.createElement('a');a.href=IMG;a.download=f.name;a.click();tst('이미지를 저장했어요. 올릴 곳에 붙여 주세요')}).catch(function(){})};}
-document.getElementById('re').onclick=function(){A.fill(null);box.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false')});res.hidden=true;upd();window.scrollTo({top:box.offsetTop-80,behavior:'smooth'})};};
-upd();})();</script>"""
+document.getElementById('re').onclick=function(){res.hidden=true;if(T.quick){chooser()}else{A.fill(null);box.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false')});upd()}window.scrollTo({top:box.offsetTop-80,behavior:'smooth'})};};
+var bar=document.querySelector('.qbar'),gob=document.getElementById('go');function chooser(){bar.hidden=true;gob.hidden=true;box.innerHTML='<div class="qmode"><p class="qm-h">문항 수를 골라 주세요</p><button type="button" data-n="'+T.quick+'"><b>간편 '+T.quick+'문항</b><span>약 5분 · 핵심 문항만 골라 빠르게</span></button><button type="button" data-n="'+T.q.length+'"><b>정밀 '+T.q.length+'문항</b><span>약 15~20분 · 모든 문항으로 더 정확하게</span></button></div>';box.querySelectorAll('.qmode button').forEach(function(b){b.onclick=function(){bar.hidden=false;gob.hidden=false;render(+b.dataset.n);box.scrollIntoView({behavior:'smooth',block:'start'})}})}
+if(T.quick){chooser()}else{render(T.q.length)}})();</script>"""
 
 def test_page(t):
     path = f'/test/{t["slug"]}.html'
     nq = len(t['q'])
-    title = f'{t["name"]} 무료 · {nq}문항 자가 점검 | 홍라이프 도구'
+    title = f'{t["name"]} 무료 · {t["qlabel"]} 자가 점검 | 홍라이프 도구'
     desc = t['lead']
     T = dict(name=t['name'], slug=t['slug'], kind=t['kind'], q=t['q'], care=t.get('care', False))
+    if t.get('quick'): T['quick'] = t['quick']
     if t.get('L'): T['L'] = t['L']
     if t['kind'] == 'phq9': T['bands'] = [list(b) for b in t['bands']]
     if t['kind'] == 'score':
@@ -155,8 +157,8 @@ def test_page(t):
             types += f'<li><b>{E(b[1])}</b> ({prev}~{min(b[0]-1,100 if t["kind"]=="score" else 27)}점) — {E(b[2])}</li>'; prev = b[0]
     else:
         types = '<li>젊은 마음 문항과 어른스러운 마음 문항의 점수 차이를 8세~70세 사이 나이로 바꿔 보여 줘요.</li>'
-    how = {'score': f'{nq}개 문항에 0~4점(전혀 아니다~매우 그렇다)을 매겨 더한 뒤 100점 만점으로 바꿔요. 표시된 몇몇 문항은 반대로 계산해요. 점수 구간에 따라 결과를 보여 줘요.',
-           'dim': f'{nq}개 문항이 유형별로 나뉘어 있어요. 유형마다 0~4점 응답을 모아 100점 만점으로 바꾸고, 가장 높은 유형을 대표 결과로 보여 줘요. 모든 유형 점수도 막대로 함께 보여 줘요.',
+    how = {'score': f'간편 40문항 또는 정밀 {nq}문항 중 고른 문항에 0~4점(전혀 아니다~매우 그렇다)을 매겨 더한 뒤 100점 만점으로 바꿔요. 표시된 몇몇 문항은 반대로 계산해요. 점수 구간에 따라 결과를 보여 줘요.',
+           'dim': f'간편 40문항이나 정밀 {nq}문항이 유형별로 고르게 나뉘어 있어요. 유형마다 0~4점 응답을 모아 100점 만점으로 바꾸고, 가장 높은 유형을 대표 결과로 보여 줘요. 모든 유형 점수도 막대로 함께 보여 줘요.',
            'axis2': '문항이 두 기준으로 나뉘어 있어요. 각 기준 점수를 100점 만점으로 바꿔 50점을 기준으로 높고 낮음을 나누고, 두 점수의 조합으로 네 유형 중 하나를 보여 줘요.',
            'age': '재미로 보는 테스트예요. 문항별 0~4점 응답을 모아 계산해요.',
            'phq9': '9개 문항에 0점(전혀 없음)~3점(거의 매일)을 매겨 더해요. 총점은 0~27점이고, 5·10·15·20점을 기준으로 우울 정도를 나눠요. 마지막 문항(죽음·자해에 대한 생각)에 1점 이상 답하면 점수와 관계없이 바로 도움을 받을 수 있는 곳을 먼저 안내해요.'}[t['kind']]
