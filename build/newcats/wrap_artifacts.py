@@ -15,7 +15,10 @@ LOCK = '<div class="safe"><svg width="16" height="16" viewBox="0 0 24 24" fill="
 
 THEME = """#hlx{--bg:#F2F4F6;--paper:#FFFFFF;--ink:#191F28;--muted:#6B7684;--line:#E5E8EB;--accent:#1B64DA;--accent-soft:#E8F3FF;
 --stamp:#E03131;--stamp-soft:#FFF0F0;--tax:#E03131;--tax-soft:#FFF0F0;--ok:#2F9E44;--ok-soft:#EBFBEE;--warn:#B76E00;--warn-soft:#FFF4DB;
---f-display:var(--f);--f-body:var(--f);--f-mono:var(--f);--f-num:var(--f);font-family:var(--f);color:var(--ink);background:transparent;padding:0!important;font-size:15px}
+--f-display:var(--f);--f-body:var(--f);--f-mono:var(--f);--f-num:var(--f);font-family:var(--f);color:var(--ink);background:#fff;padding:28px!important;font-size:15px;overflow:visible}
+@media (max-width:600px){#hlx{padding:16px!important}}
+#hlx ul,#hlx ol{padding-left:1.3em}
+#hlx .guide:empty{display:none}
 #hlx .wrap{max-width:none!important;margin:0!important;padding:0!important}
 #hlx [class*="num"],#hlx .asof,#hlx b{font-variant-numeric:tabular-nums}
 #hlx .ad-slot,#hlx .ad,#hlx .ad-foot,#hlx .side-ad,#hlx .ad-note{display:none!important}
