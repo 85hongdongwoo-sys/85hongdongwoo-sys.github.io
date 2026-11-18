@@ -18,7 +18,7 @@ THEME = """#hlx{--bg:#F2F4F6;--paper:#FFFFFF;--ink:#191F28;--muted:#6B7684;--lin
 --f-display:var(--f);--f-body:var(--f);--f-mono:var(--f);--f-num:var(--f);font-family:var(--f);color:var(--ink);background:transparent;padding:0!important;font-size:15px}
 #hlx .wrap{max-width:none!important;margin:0!important;padding:0!important}
 #hlx [class*="num"],#hlx .asof,#hlx b{font-variant-numeric:tabular-nums}
-#hlx .ad-slot,#hlx .ad,#hlx .ad-foot{display:none!important}
+#hlx .ad-slot,#hlx .ad,#hlx .ad-foot,#hlx .side-ad,#hlx .ad-note{display:none!important}
 #hlx .info{background:none!important;border:0!important;padding:0!important;margin:0!important;box-shadow:none!important}
 """
 
@@ -69,11 +69,24 @@ PAGES = [
       h1='청약·줍줍 일정 + 투자계산기', lead='청약홈에 올라온 일반 청약과 무순위 줍줍 공고를 매일 아침 새로 모으고, 주식·ETF 세금부터 연금·은퇴, 대출 한도·청약 가점·전세 안전도까지 계산기 29가지를 탭으로 바로 써요.',
       crumb=('생활·행정', '/life/'), lock='입력한 숫자는 서버로 전송되지 않고 내 기기에서만 계산돼요',
       hide='#hlx header.hx-top h1,#hlx header.hx-top .sub{display:none}#hlx header.hx-top{padding:0 0 10px!important}'),
+ dict(src='art_subsidy.html', path='/life/subsidy.html', name='조건으로 찾는 정부 지원금',
+      title='정부 지원금 조회 — 지역·대상·나이·분야로 찾기 (보조금24 1만여 건) | 홍라이프 도구',
+      desc='보조금24에 올라온 정부·지자체 지원금 1만여 건을 지역, 대상(개인·가구·소상공인), 나이, 분야로 걸러 보여 줘요. 신청 기간과 신청 페이지로 바로 가는 링크, 즐겨찾기까지.',
+      h1='조건으로 찾는 정부 지원금', lead='지역, 대상, 나이, 관심 분야를 고르면 보조금24에 올라온 정부·지자체 지원금 가운데 받을 수 있는 것만 걸러서 보여 줘요. 신청 기간을 확인하고 정부24 신청 페이지로 바로 가요.',
+      crumb=('생활·행정', '/life/'), lock='고른 조건과 즐겨찾기는 이 기기에만 저장되고 서버로 보내지 않아요',
+      hide='#hlx header.hx-top,#hlx .hero h1,#hlx .hero>.lead{display:none}#hlx .hero{padding:0!important;margin:0 0 8px!important;background:none!important;box-shadow:none!important;border:0!important;min-height:0!important}'),
 ]
 
 for p in PAGES:
     s = open(f'{D}/{p["src"]}', encoding='utf-8').read()
-    body = s[s.find('<body>') + 6:].replace('</body>', '').replace('</html>', '')
+    body = s[s.find('<body>') + 6:]
+    if '<body>' in body:  # 문서 안에 문서가 한 번 더 들어 있는 경우: 안쪽 head의 style만 살리고 body부터 씀
+        inner_head, body = body.split('<body>', 1)
+        body = ''.join(re.findall(r'<style[^>]*>.*?</style>', inner_head, flags=re.S)) + body
+    body = body.replace('</body>', '').replace('</html>', '')
+    body = re.sub(r'<aside class="side-ad">.*?</aside>', '', body, flags=re.S)
+    body = re.sub(r'<div class="ad-slot"[^>]*>.*?</div>', '', body, flags=re.S)
+    body = body.replace("var TODAY = '2026-09-25';", "var TODAY = new Date(Date.now()+9*3600e3).toISOString().slice(0,10);")
     body = re.sub(r'<title>[^<]*</title>', '', body)
     body = re.sub(r'<link rel="(preconnect|stylesheet)"[^>]*fonts\.(googleapis|gstatic)[^>]*>', '', body)
     css = ''
