@@ -495,3 +495,24 @@ if os.path.exists(_nc_p):
         urls = ['/test/', '/game/'] + [u for c in ('test', 'game') for u, *_ in NC[c]]
         s = s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-18</lastmod></url>\n' for u in urls) + '</urlset>', 1)
         open(p, 'w', encoding='utf-8').write(s); print('sitemap +', len(urls))
+
+# ── 아티팩트에서 옮긴 페이지: 자격증 시험달력(/calendar/exam-schedule.html), 청약·줍줍+투자계산기(/life/invest.html) ──
+MOVED = [('calendar', '/calendar/exam-schedule.html', '자격증 시험일정 달력 (국가기술·국가전문·한국사·토익·JLPT)', '원서접수·시험일·합격발표를 한 달력에, 매달 업데이트', '자격증 시험일정 달력 큐넷 기사 산업기사 기능사 한국사 토익 JLPT 원서접수', '날짜·달력'),
+         ('life', '/life/invest.html', '청약·줍줍 일정 + 투자계산기', '오늘 넣을 수 있는 청약·무순위 줍줍 매일 업데이트, 주식 세금·대출·연금 계산', '청약 일정 줍줍 무순위 청약 투자계산기 주식 세금 대출 한도 청약 가점', '생활·행정')]
+for cat, u, n, d, kw, cn in MOVED:
+    p = os.path.join(root, cat, 'index.html')
+    if os.path.exists(p):
+        s = open(p, encoding='utf-8').read()
+        if f'href="{u}"' not in s:
+            li = (f'<li><a href="{u}"><i class="th"><img src="/assets/art/hl/cs-{cat}.svg" alt="" width="200" height="140" loading="lazy"></i>'
+                  f'<img class="pg" src="/assets/art/hl/pg-{cat}.svg" alt="" width="26" height="26" loading="lazy"><b>{n}</b><span>{d}</span></a></li>')
+            s2 = re.sub(r'(<ul class="tlist[^"]*">)', lambda m: m.group(1) + li, s, count=1)
+            if s2 != s:
+                open(p, 'w', encoding='utf-8').write(s2); print('hub +', u)
+    p = os.path.join(root, 'index.html'); s = open(p, encoding='utf-8').read()
+    if f'"u":"{u}"' not in s and TRIP in s:
+        e = _json.dumps({"t": n, "d": d, "k": kw, "c": cn, "u": u}, ensure_ascii=False, separators=(',', ':'))
+        open(p, 'w', encoding='utf-8').write(s.replace(TRIP, TRIP + ',' + e, 1)); print('search +', u)
+    p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
+    if f'honglife.co.kr{u}<' not in s:
+        open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-19</lastmod></url>\n</urlset>', 1)); print('sitemap +', u)
