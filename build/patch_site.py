@@ -556,3 +556,32 @@ s = re.sub(r'도구 \d+가지', f'도구 {n_tools}가지', s, count=1)
 for cat, add in (('calendar', 1), ('life', 2)):
     s = re.sub(r'(<a class="ct" href="/' + cat + r'/"[^>]*><span class="ch"><em>)(\d+)(개</em>)', lambda m: m.group(1) + str(int(m.group(2)) + add) + m.group(3), s, count=1)
 open(p, 'w', encoding='utf-8').write(s); print('home tool count:', n_tools)
+
+# ── 분류 페이지 아래 '다른 분류' 카드 줄을 모든 분류에서 같은 목록·순서로 ──
+REL_RE = re.compile(r'(<ul class="hl-rel">)(.*?)(</ul>)', re.S)
+LI_RE = re.compile(r'<li><a href="(/[a-z]+/)".*?</li>', re.S)
+canon = {}
+for c, _ in CATBAR:
+    p = os.path.join(root, c, 'index.html')
+    if os.path.exists(p):
+        m = REL_RE.search(open(p, encoding='utf-8').read())
+        if m:
+            for lm in LI_RE.finditer(m.group(2)):
+                canon.setdefault(lm.group(1), lm.group(0))
+if '/trip/' not in canon:
+    canon['/trip/'] = ('<li><a href="/trip/" style="--bg:linear-gradient(#D6ECF7 0 34%,#7CBDE3 34%)"><b>여행·패키지</b><span>출발확정 해외 패키지 특가, 여행 쇼츠</span>'
+                       '<i style="background-image:url(/assets/art/hl/cs-calendar.svg)"></i></a></li>')
+k = 0
+for c, _ in CATBAR:
+    p = os.path.join(root, c, 'index.html')
+    if not os.path.exists(p):
+        continue
+    s = open(p, encoding='utf-8').read()
+    m = REL_RE.search(s)
+    if not m:
+        continue
+    lis = ''.join(canon[f'/{o}/'] for o, _ in CATBAR if o != c and f'/{o}/' in canon)
+    s2 = s[:m.start(2)] + lis + s[m.end(2):]
+    if s2 != s:
+        open(p, 'w', encoding='utf-8').write(s2); k += 1
+print('other-category rows unified:', k, 'cards:', len(canon))
