@@ -1,6 +1,6 @@
 KAKAO_JS = 'c4a8d8392dd6a362db17cc44e5ae398b'
 KAKAO_REST = ''  # 공개 저장소에 넣지 않음 — 중계 서버(PROXY) 뒤에서만 사용
-PROXY = ''  # 예: https://hl-route.<계정>.workers.dev
+PROXY = 'https://hl-route.a599307.workers.dev/'
 JS = r'''<script>
 window.HM=(function(){
 var READY=[],kind=null;
