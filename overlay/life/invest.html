@@ -1265,7 +1265,7 @@ function renderFallback(slot){
   slot.dataset.pool=0; slot.replaceChildren(box);
 }
 const adLast={};
-function renderAds(){
+function renderAds(){return;
   document.querySelectorAll('.ad-slot').forEach(slot=>renderSlot(slot));
 }
 function renderSlot(slot, rotate){

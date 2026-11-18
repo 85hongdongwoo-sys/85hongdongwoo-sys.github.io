@@ -82,6 +82,7 @@ for p in PAGES:
         css += m.group(1); return ''
     body = re.sub(r'<style[^>]*>(.*?)</style>', grab, body, flags=re.S)
     body = body.replace('<header class="top">', '<header class="hx-top">')
+    body = body.replace('function renderAds(){', 'function renderAds(){return;', 1)
     style = '<style id="hlx-css">' + scope(css) + THEME + p['hide'] + '</style>'
     url = SITE + p['path']
     ld = {"@context": "https://schema.org", "@graph": [
