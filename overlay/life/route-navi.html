@@ -228,6 +228,7 @@ return {ready:ready,make:make,route:route,hv:hv,search:search}})();
 <script>HM.ready(function(){
 var KEY='hl-route-navi-v1',S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 if(!S||!S.routes){S={routes:{'A코스':[]},cur:'A코스',pos:{}}}
+if(!S.opt)S.opt={pr:'RECOMMEND',av:['uturn']};if(!S.opt.u1){S.opt.av=S.opt.av||[];if(S.opt.av.indexOf('uturn')<0)S.opt.av.push('uturn');S.opt.u1=1;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function R(){return S.routes[S.cur]||(S.routes[S.cur]=[])}
 function toast(m){var t=document.createElement('div');t.className='rn-toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2400)}
