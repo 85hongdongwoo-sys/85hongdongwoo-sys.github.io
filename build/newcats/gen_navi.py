@@ -14,7 +14,7 @@ FAQ = [
  ('길 안내 음성은 어디서 나오나요?', '버튼을 누르면 휴대폰에 깔린 네이버 지도·카카오맵·티맵이 열려 평소처럼 음성 안내를 해요. 실시간 교통 정보도 그 앱의 것을 그대로 써요.'),
  ('만든 노선은 어디에 저장되나요?', '지금 쓰는 휴대폰(브라우저)에만 저장돼요. 서버로 보내지 않아요. 다른 기기나 동료에게 옮기려면 "노선 공유 링크"를 보내면 돼요.'),
  ('주소를 몰라도 되나요?', '네. 지도를 확대해 정류장 위치를 눌러 찍기만 하면 돼요. 찍은 핀은 길게 눌러 끌어서 위치를 고칠 수 있고, 이름은 목록에서 바꿀 수 있어요.'),
- ('운전 중에 써도 되나요?', '운전 중에는 휴대폰을 조작하지 마세요. 정차한 상태에서 "도착, 다음 정류장"을 누르고 내비를 연 뒤 출발하세요. 노선 만들기와 순서 수정도 운행 전에 해 두세요.'),
+ ('운전 중에 써도 되나요?', '달리는 중에는 휴대폰을 만지면 안 돼요(도로교통법). 그래서 버튼 한 번에 6곳씩 내비로 넘기고, 누르면 다음 묶음이 자동으로 준비되게 만들었어요. 정류장에 섰을 때만 누르면 30곳 노선도 5번이면 끝나요. 노선 만들기와 순서 수정은 운행 전에 해 두세요.'),
 ]
 
 BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌러 정류장을 차례로 찍으면 노선이 돼요. 운행할 땐 “다음 정류장 안내”를 누르면 네이버 지도·카카오맵·티맵이 다음 정류장까지 길을 안내해요. 경유지가 30곳을 넘어도 괜찮아요.</p>
@@ -36,19 +36,20 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
 </div>
 <div id="pane-run" hidden>
  <div class="rn-next"><p class="rn-k" id="nk"></p><p class="rn-nm" id="nn"></p><p class="rn-sub" id="ns"></p>
-  <div class="rn-go"><a class="btn rn-nv" id="go-naver" href="#">네이버 지도</a><a class="btn rn-kk" id="go-kakao" href="#" target="_blank" rel="noopener">카카오맵</a><a class="btn rn-tm" id="go-tmap" href="#">티맵</a></div>
-  <a class="rn-five" id="go-naver5" href="#">네이버 지도로 다음 5곳 묶어서 안내</a>
-  <div class="rn-step"><button type="button" class="btn ghost" id="prev">이전 정류장</button><button type="button" class="btn" id="next">도착, 다음 정류장</button></div>
+  <a class="btn rn-nv rn-big" id="go-naver5" href="#"><b id="b5t">네이버 내비로 6곳 한 번에</b><span id="b5s"></span></a>
+  <p class="rn-or">한 곳씩 안내</p>
+  <div class="rn-go"><a class="btn rn-nv" id="go-naver" href="#">네이버</a><a class="btn rn-kk" id="go-kakao" href="#" target="_blank" rel="noopener">카카오맵</a><a class="btn rn-tm" id="go-tmap" href="#">티맵</a></div>
+  <div class="rn-step"><button type="button" class="btn ghost" id="prev">이전 정류장</button><button type="button" class="btn ghost" id="next">다음 정류장으로</button></div>
   <button type="button" class="rn-reset" id="restart">처음 정류장부터 다시</button>
  </div>
- <p class="rn-warn">운전 중에는 휴대폰을 만지지 마세요. 정차한 뒤 버튼을 누르고 출발하세요.</p>
+ <p class="rn-warn">버튼을 누르면 다음 묶음으로 자동으로 넘어가요. 정류장에 섰을 때 한 번만 누르고, 달리는 동안엔 내비 음성만 들으세요. 30곳 노선이면 운행 중 5번만 누르면 돼요.</p>
 </div>
 </section>
 <section class="card"><h2>이렇게 쓰세요</h2><ol class="rn-how">
 <li><b>노선 만들기</b>에서 지도를 확대하고 정류장 자리를 순서대로 눌러요. 번호가 붙은 핀이 생겨요.</li>
 <li>핀은 길게 눌러 끌면 위치가 바뀌어요. 목록에서 이름을 적고, 화살표로 순서를 바꿔요.</li>
 <li>노선을 여러 개(A코스, B코스…) 만들어 두고 위에서 골라 써요.</li>
-<li><b>운행하기</b>를 누르고, 정차한 상태에서 내비 버튼을 누르면 다음 정류장까지 안내가 시작돼요. 도착하면 “도착, 다음 정류장”을 눌러요.</li>
+<li><b>운행하기</b>를 누르고, 정류장에 서 있을 때 초록 버튼을 한 번 누르면 네이버 내비가 6곳을 한 번에 안내해요. 누르는 순간 다음 묶음이 자동으로 준비되니, 6곳을 다 돌고 마지막 정류장에 섰을 때 또 한 번만 누르면 돼요.</li>
 <li>동료 기사에게는 <b>노선 공유 링크</b>를 보내면 같은 노선이 그대로 열려요.</li>
 </ol></section>
 <section class="card"><h2>자주 묻는 질문</h2>__FAQ__</section>
@@ -85,8 +86,9 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 .rn-sub{margin:0 0 14px;font-size:14px;color:var(--muted)}
 .rn-go{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.rn-go .btn{min-height:52px;font-size:15px;padding:8px 4px;justify-content:center;text-align:center;white-space:nowrap}
 .rn-nv{background:#03C75A!important;border-color:#03C75A!important;color:#fff!important}.rn-kk{background:#FEE500!important;border-color:#FEE500!important;color:#191919!important}.rn-tm{background:#EB2D3A!important;border-color:#EB2D3A!important;color:#fff!important}
-.rn-five{display:block;margin:10px 0 0;text-align:center;font-size:14px;font-weight:700;color:#03A34A}
-.rn-step{display:grid;grid-template-columns:1fr 1.6fr;gap:8px;margin-top:14px}.rn-step .btn{min-height:52px;font-size:16px}
+.rn-big{display:flex!important;flex-direction:column;align-items:center;gap:3px;min-height:72px;width:100%;padding:12px 10px;text-align:center}.rn-big b{font-size:18px}.rn-big span{font-size:13.5px;font-weight:600;opacity:.92;word-break:keep-all}
+.rn-or{margin:14px 0 8px;font-size:13px;color:var(--muted);text-align:center}
+.rn-step{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.rn-step .btn{min-height:46px;font-size:15px}
 .rn-reset{display:block;margin:12px auto 0;border:0;background:none;color:var(--muted);font-size:13.5px;text-decoration:underline;cursor:pointer}
 .rn-warn{margin:12px 0 0;font-size:13px;color:var(--muted)}
 .rn-how{margin:0;padding-left:20px;display:grid;gap:8px;line-height:1.6}
@@ -148,10 +150,15 @@ function run(){var st=R();if(mode!='run'||!st.length)return;var i=idx(),p=st[i],
  $('go-tmap').href='tmap://route?goalname='+q+'&goalx='+p.lng+'&goaly='+p.lat;
  var rest=st.slice(i,i+6),last=rest[rest.length-1],u='nmap://route/car?dlat='+last.lat+'&dlng='+last.lng+'&dname='+encodeURIComponent(nm(last,i+rest.length-1));
  rest.slice(0,-1).forEach(function(v,k){u+='&v'+(k+1)+'lat='+v.lat+'&v'+(k+1)+'lng='+v.lng+'&v'+(k+1)+'name='+encodeURIComponent(nm(v,i+k))});
- $('go-naver5').href=u+'&appname=honglife.co.kr';$('go-naver5').hidden=rest.length<2;
- $('prev').disabled=i==0;$('next').textContent=i<st.length-1?'도착, 다음 정류장':'운행 끝';}
+ $('go-naver5').href=u+'&appname=honglife.co.kr';$('go-naver5').dataset.n=rest.length;
+ $('b5t').textContent=rest.length>1?'네이버 내비로 '+rest.length+'곳 한 번에':'네이버 내비로 안내';
+ $('b5s').textContent=rest.length>1?((i+1)+'번 '+nm(st[i],i)+' → '+(i+rest.length)+'번 '+nm(last,i+rest.length-1)):((i+1)+'번 '+nm(st[i],i));
+ $('prev').disabled=i==0;$('next').textContent=i<st.length-1?'다음 정류장으로':'운행 끝';}
 function mob(){return /Android|iPhone|iPad/i.test(navigator.userAgent)}
 ['go-naver','go-tmap','go-naver5'].forEach(function(id){$(id).addEventListener('click',function(e){if(!mob()){e.preventDefault();toast('휴대폰에서 누르면 내비 앱이 열려요')}})});
+function adv(n){var st=R(),i=idx();setTimeout(function(){S.pos[S.cur]=Math.min(i+n,st.length-1);if(i+n>st.length-1)S.pos[S.cur]=0;save();draw()},1500)}
+$('go-naver5').addEventListener('click',function(){if(mob())adv(+this.dataset.n)});
+['go-naver','go-kakao','go-tmap'].forEach(function(id){$(id).addEventListener('click',function(){if(mob())adv(1)})});
 $('next').onclick=function(){var st=R(),i=idx();if(i>=st.length-1){toast('운행을 마쳤어요. 수고하셨어요!');S.pos[S.cur]=0}else S.pos[S.cur]=i+1;save();draw();var p=R()[idx()];map.panTo([p.lat,p.lng])};
 $('prev').onclick=function(){S.pos[S.cur]=Math.max(0,idx()-1);save();draw();var p=R()[idx()];map.panTo([p.lat,p.lng])};
 $('restart').onclick=function(){S.pos[S.cur]=0;save();draw(true)};
