@@ -34,8 +34,7 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
 </div>
 <div id="pane-edit">
  <button type="button" class="btn rn-pv" id="pv">내가 찍은 노선, 실제 도로로 확인하기</button>
- <p class="rn-pvs" id="pvs" hidden></p>
- <p class="rn-sum" id="sum"></p>
+  <p class="rn-sum" id="sum"></p>
  <ol class="rn-list" id="list"></ol>
  <div class="rn-tb rn-bot"><button type="button" class="btn ghost" id="undo">마지막 정류장 빼기</button><button type="button" class="btn ghost" id="rev">순서 뒤집기</button><button type="button" class="btn" id="share">노선 공유 링크</button></div>
 </div>
@@ -63,7 +62,7 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
 CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 <style id="hl-rn">
 .rn{padding-top:16px}
-#map svg,#map img,#nvmap svg,#nvmap img{max-width:none!important;max-height:none!important}
+#map svg,#map img,#nvmap svg,#nvmap img,#pvmap svg,#pvmap img{max-width:none!important;max-height:none!important}
 .rn-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
 .rn-sel{display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 220px}.rn-sel span{font-weight:700;color:var(--head);flex:none}
 .rn-sel select{flex:1;min-width:0;height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font-size:16px;font-weight:700;background:#fff;color:var(--head)}
@@ -78,6 +77,7 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 .rn-pin{display:grid;place-items:center;width:30px;height:30px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);background:#3182F6;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
 .rn-pin b{transform:rotate(45deg);color:#fff;font:800 12.5px/1 system-ui,sans-serif}
 .rn-pin.done{background:#B0B8C1}.rn-pin.cur{background:#F04452;width:36px;height:36px}.rn-pin.cur b{font-size:14px}
+#pvbox .nv-top{min-height:0;background:#191F28}#pvbox .nv-r{white-space:normal;overflow:visible;line-height:1.4;word-break:keep-all}#pvbox .nv-s{font-size:15px}#pvmap{flex:1;min-height:0;background:#E8EEF3}
 .rn-pv{width:100%;min-height:52px;margin-top:12px;font-size:16px;background:#F04452!important;border-color:#F04452!important;color:#fff!important}
 .rn-pvs{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#FFF0F1;color:#C9303E;font-size:14px;font-weight:700;line-height:1.5;word-break:keep-all}
 .rn-sum{margin:14px 0 8px;font-size:14px;color:var(--muted)}
@@ -118,11 +118,10 @@ var map=HM.make(document.getElementById('map'),37.45,126.7,11),pins=[],line=map.
 var mode='edit';
 function idx(){return Math.min(S.pos[S.cur]||0,Math.max(R().length-1,0))}
 function km(a,b){var r=Math.PI/180,x=(b.lng-a.lng)*r*Math.cos((a.lat+b.lat)/2*r),y=(b.lat-a.lat)*r;return Math.sqrt(x*x+y*y)*6371}
-var rl=null,rsig='';function sig(){return JSON.stringify(R().map(function(p){return [p.lat,p.lng]}))+S.cur}
-function draw(fit){if(rl&&rsig!=sig()){rl.remove();rl=null;$('pvs').hidden=true}pins.forEach(function(x){x.remove()});var st=R(),ci=idx();
+function draw(fit){pins.forEach(function(x){x.remove()});var st=R(),ci=idx();
  pins=st.map(function(p,i){var cls=mode=='run'?(i<ci?'done':i==ci?'cur':''):'';
   return map.pin(p.lat,p.lng,{label:i+1,cls:cls,drag:mode=='edit',title:(i+1)+'. '+(p.n||'정류장'),onDrag:function(a,b){p.lat=+a.toFixed(6);p.lng=+b.toFixed(6);save();draw()}})});
- line.set(rl?[]:st.map(function(p){return [p.lat,p.lng]}));
+ line.set(st.map(function(p){return [p.lat,p.lng]}));
  if(fit&&st.length)map.fit(st.map(function(p){return [p.lat,p.lng]}));
  list();run();}
 function list(){var st=R(),ol=$('list');var d=0;for(var i=1;i<st.length;i++)d+=km(st[i-1],st[i]);
@@ -136,12 +135,19 @@ $('list').addEventListener('click',function(e){var b=e.target.closest('button');
  save();draw()});
 map.onClick(function(la,ln){if(mode!='edit')return;var st=R();st.push({lat:+la.toFixed(6),lng:+ln.toFixed(6),n:''});save();draw();
  var ins=$('list').querySelectorAll('input');if(ins.length&&window.innerWidth>700)ins[ins.length-1].focus({preventScroll:true})});
-$('pv').onclick=function(){var st=R();if(st.length<2){toast('정류장을 2곳 이상 찍어 주세요');return}var b=this;b.disabled=true;b.textContent='실제 도로 경로를 찾는 중…';
- HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){if(rl)rl.remove();rl=map.line([r.co[0]],{color:'#F04452',weight:3.5,opacity:.95});rsig=sig();line.set([]);
-  document.querySelector('.rn-map').scrollIntoView({behavior:'smooth',block:'center'});map.fit(st.map(function(p){return [p.lat,p.lng]}).concat(r.co.filter(function(_,i){return i%10==0})));
-  var n=r.co.length,k=1,step=Math.max(1,Math.ceil(n/120)),me=rl;clearInterval(window.__rnAnim);window.__rnAnim=setInterval(function(){if(rl!==me){clearInterval(window.__rnAnim);return}k=Math.min(n,k+step);me.set(r.co.slice(0,k));if(k>=n)clearInterval(window.__rnAnim)},40);
-  var km=r.cum[r.cum.length-1]/1000,mn=Math.round(r.cum[r.cum.length-1]/r.spd/60);$('pvs').hidden=false;$('pvs').textContent='1번부터 순서대로 그려지는 빨간 선이 실제로 달릴 길이에요 · 총 '+km.toFixed(1)+'km · 약 '+mn+'분'+(r.src=='kakao'?' (카카오 기준)':' (예비 경로 서버 기준)')+'. 이상한 길로 돌면 그 길 위에 핀을 하나 더 찍어 고정하세요.'})
- .catch(function(){toast('경로를 찾지 못했어요. 잠시 뒤 다시 눌러 주세요')}).then(function(){b.disabled=false;b.textContent='내가 찍은 노선, 실제 도로로 확인하기'})};
+var PV=null,pvdata=null;function pvdraw(){if(!pvdata)return;var r=pvdata,st=R();(PV.objs||[]).forEach(function(o){o.remove()});PV.objs=st.map(function(p,i){return PV.m.pin(p.lat,p.lng,{label:i+1})});
+ var ln=PV.m.line([r.co[0]],{color:'#F04452',weight:3,opacity:.95});PV.objs.push(ln);PV.m.fit(st.map(function(p){return [p.lat,p.lng]}).concat(r.co.filter(function(_,i){return i%10==0})));
+ var n=r.co.length,k=1,step=Math.max(1,Math.ceil(n/150));clearInterval(window.__rnAnim);window.__rnAnim=setInterval(function(){k=Math.min(n,k+step);ln.set(r.co.slice(0,k));
+  var d=r.cum[k-1],si=0;for(var j=0;j<st.length;j++){var best=1e12;for(var q=0;q<k;q+=Math.max(1,Math.floor(k/400))){var dd=HM.hv(r.co[q],[st[j].lat,st[j].lng]);if(dd<best)best=dd}if(best<80)si=j+1}
+  $('pvb-k').textContent=si+'번 정류장까지 그렸어요';if(k>=n){clearInterval(window.__rnAnim);$('pvb-k').textContent='1번 → '+st.length+'번 전체 경로'}},40);
+ $('pvb-s').textContent='총 '+(r.cum[n-1]/1000).toFixed(1)+'km · 약 '+Math.round(r.cum[n-1]/r.spd/60)+'분'+(r.src=='kakao'?' (카카오)':' (예비 서버)');
+ $('pvb-r').textContent='빨간 선이 1번부터 순서대로 실제로 달릴 길이에요. 이상한 곳은 닫고 핀을 더 찍어 고정하세요.'}
+$('pv').onclick=function(){var st=R();if(st.length<2){toast('정류장을 2곳 이상 찍어 주세요');return}
+ $('pvbox').hidden=false;document.documentElement.style.overflow='hidden';$('pvb-r').textContent='실제 도로 경로를 찾는 중…';$('pvb-k').textContent='';$('pvb-s').textContent='';
+ if(!PV){PV={m:HM.make(document.getElementById('pvmap'),st[0].lat,st[0].lng,13)}}setTimeout(function(){PV.m.relayout()},60);
+ HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){pvdata=r;setTimeout(pvdraw,120)}).catch(function(){$('pvb-r').textContent='경로를 찾지 못했어요. 잠시 뒤 다시 눌러 주세요'})};
+$('pvb-re').onclick=pvdraw;
+$('pvb-x').onclick=function(){clearInterval(window.__rnAnim);$('pvbox').hidden=true;document.documentElement.style.overflow=''};
 $('undo').onclick=function(){R().pop();save();draw()};
 $('rev').onclick=function(){R().reverse();save();draw()};
 function sel(){$('rsel').innerHTML=Object.keys(S.routes).map(function(k){return '<option'+(k==S.cur?' selected':'')+'>'+k.replace(/</g,'&lt;')+'</option>'}).join('')}
@@ -183,6 +189,10 @@ function imp(){var m=location.hash.match(/^#r=([^|]+)\|(.+)$/);if(!m)return;try{
 imp();sel();draw(true);window.__rnRefresh=function(){try{S=JSON.parse(localStorage.getItem(KEY))||S}catch(e){}draw()};
 });</script>'''
 
+PVBOX = r'''<div id="pvbox" class="nv" hidden role="dialog" aria-label="노선 확인"><div class="nv-top pv-top"><div class="nv-tx"><p class="nv-d" style="font-size:22px">노선 확인</p><p class="nv-r" id="pvb-r">실제 도로 경로를 찾는 중…</p></div></div><div id="pvmap"></div>
+<div class="nv-bot"><div class="nv-st"><p class="nv-k" id="pvb-k"></p><p class="nv-s" id="pvb-s"></p></div><div class="nv-bt"><button type="button" id="pvb-re">다시 그리기</button><button type="button" id="pvb-x">닫기</button></div></div></div>
+'''
+
 def main():
     faq = ''.join(f'<details class="xp"><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q, a in FAQ)
     ld = {"@context": "https://schema.org", "@graph": [
@@ -193,7 +203,7 @@ def main():
     h += f'<meta property="og:type" content="website"><meta property="og:url" content="{SITE}{PATH}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="홍라이프 도구">\n'
     h += f'<meta property="og:title" content="{E(TITLE)}"><meta property="og:description" content="{E(DESC)}"><meta property="og:image" content="{SITE}/assets/og/site.png">\n'
     h += MID + '\n<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>\n' + CSS + '\n</head>\n<body>\n\n' + BRAND
-    h += '<main class="wrap wide"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/life/">생활·행정</a></p>' + BODY.replace('__FAQ__', faq).replace('__SELFBTN__', SN.BTN) + '</main>' + SN.HTML + JS.replace('__ADAPTER__', AD.JS.replace('__JSKEY__', AD.KAKAO_JS).replace('__PROXY__', AD.PROXY)) + SN.JS + TAIL
+    h += '<main class="wrap wide"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/life/">생활·행정</a></p>' + BODY.replace('__FAQ__', faq).replace('__SELFBTN__', SN.BTN) + '</main>' + PVBOX + SN.HTML + JS.replace('__ADAPTER__', AD.JS.replace('__JSKEY__', AD.KAKAO_JS).replace('__PROXY__', AD.PROXY)) + SN.JS + TAIL
     os.makedirs(OUT + '/life', exist_ok=True)
     open(OUT + PATH, 'w', encoding='utf-8').write(h)
     print('ok', PATH)
