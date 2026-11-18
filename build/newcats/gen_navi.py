@@ -137,7 +137,7 @@ $('list').addEventListener('click',function(e){var b=e.target.closest('button');
 map.onClick(function(la,ln){if(mode!='edit')return;var st=R();st.push({lat:+la.toFixed(6),lng:+ln.toFixed(6),n:''});save();draw();
  var ins=$('list').querySelectorAll('input');if(ins.length&&window.innerWidth>700)ins[ins.length-1].focus({preventScroll:true})});
 $('pv').onclick=function(){var st=R();if(st.length<2){toast('정류장을 2곳 이상 찍어 주세요');return}var b=this;b.disabled=true;b.textContent='실제 도로 경로를 찾는 중…';
- HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){if(rl)rl.remove();rl=map.line([r.co[0]],{color:'#F04452',weight:7,opacity:.95});rsig=sig();line.set([]);
+ HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){if(rl)rl.remove();rl=map.line([r.co[0]],{color:'#F04452',weight:3.5,opacity:.95});rsig=sig();line.set([]);
   document.querySelector('.rn-map').scrollIntoView({behavior:'smooth',block:'center'});map.fit(st.map(function(p){return [p.lat,p.lng]}).concat(r.co.filter(function(_,i){return i%10==0})));
   var n=r.co.length,k=1,step=Math.max(1,Math.ceil(n/120)),me=rl;clearInterval(window.__rnAnim);window.__rnAnim=setInterval(function(){if(rl!==me){clearInterval(window.__rnAnim);return}k=Math.min(n,k+step);me.set(r.co.slice(0,k));if(k>=n)clearInterval(window.__rnAnim)},40);
   var km=r.cum[r.cum.length-1]/1000,mn=Math.round(r.cum[r.cum.length-1]/r.spd/60);$('pvs').hidden=false;$('pvs').textContent='1번부터 순서대로 그려지는 빨간 선이 실제로 달릴 길이에요 · 총 '+km.toFixed(1)+'km · 약 '+mn+'분'+(r.src=='kakao'?' (카카오 기준)':' (예비 경로 서버 기준)')+'. 이상한 길로 돌면 그 길 위에 핀을 하나 더 찍어 고정하세요.'})

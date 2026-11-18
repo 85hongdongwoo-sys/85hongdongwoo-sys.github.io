@@ -68,9 +68,13 @@
 .rn-opt{margin:0 0 14px;padding:14px;border-radius:14px;background:#fff;border:1px solid var(--line)}.rn-opt-h{margin:0 0 8px;font-size:14px;font-weight:800;color:var(--head)}
 .rn-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:#F2F4F6;border-radius:12px;padding:4px}.rn-seg button{border:0;background:none;min-height:40px;border-radius:9px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap}.rn-seg button[aria-checked=true]{background:#fff;color:var(--head);box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .rn-chk{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:10px}.rn-chk label{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--head);min-width:0;word-break:keep-all}.rn-chk input{width:18px;height:18px;flex:none;accent-color:#1B64DA}
+.rn-vo{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.rn-vrow{display:flex;gap:6px}.rn-vrow select{flex:1;min-width:0;height:42px;border:1px solid var(--line);border-radius:10px;padding:0 10px;font-size:14px;background:#fff;color:var(--head)}.rn-vrow button{flex:none;height:42px;padding:0 14px;border-radius:10px;border:1px solid #1B64DA;background:#fff;color:#1B64DA;font-weight:700;font-size:14px;cursor:pointer}
+.rn-rate{display:grid;grid-template-columns:52px 1fr 40px;align-items:center;gap:8px;margin-top:8px;font-size:14px;color:var(--head)}.rn-rate input{width:100%;accent-color:#1B64DA}.rn-rate output{font-size:13px;color:var(--muted);text-align:right}
 .rn-opt-n{margin:10px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5;word-break:keep-all}
 @media(max-width:380px){.rn-chk{grid-template-columns:1fr}}
 .nv{position:fixed;inset:0;z-index:10000;background:#111;display:flex;flex-direction:column}
+@media(min-width:560px){.nv{left:50%;right:auto;width:440px;transform:translateX(-50%);box-shadow:0 0 0 100vmax rgba(17,17,17,.82)}}
+@media(orientation:landscape) and (max-height:500px){.nv-top{min-height:64px;padding-top:8px;padding-bottom:8px}.nv-d{font-size:24px}.nv-ic{width:46px;height:46px}}
 .nv-top{display:flex;gap:12px;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 14px 12px;background:#1B64DA;color:#fff;min-height:84px}
 .nv-ic{flex:none;width:58px;height:58px;border-radius:14px;background:rgba(255,255,255,.16);display:grid;place-items:center}
 .nv-ic svg{width:40px;height:40px}
@@ -115,6 +119,7 @@
  <div class="rn-next"><p class="rn-k" id="nk"></p><p class="rn-nm" id="nn"></p><p class="rn-sub" id="ns"></p>
   <div class="rn-opt"><p class="rn-opt-h">경로 고르는 기준</p><div class="rn-seg" role="radiogroup" aria-label="경로 기준"><button type="button" data-pr="RECOMMEND">추천</button><button type="button" data-pr="TIME">큰길·빠른 길</button><button type="button" data-pr="DISTANCE">짧은 길</button></div>
 <div class="rn-chk"><label><input type="checkbox" data-av="uturn">유턴 피하기</label><label><input type="checkbox" data-av="schoolzone">어린이보호구역 피하기</label><label><input type="checkbox" data-av="toll">유료도로 피하기</label><label><input type="checkbox" data-av="motorway">자동차전용도로 피하기</label></div>
+<div class="rn-vo"><p class="rn-opt-h">안내 목소리</p><div class="rn-vrow"><select id="vsel" aria-label="목소리 고르기"></select><button type="button" id="vtry">들어보기</button></div><label class="rn-rate">빠르기 <input type="range" id="vrate" min="0.8" max="1.4" step="0.05"><output id="vrv"></output></label><label class="rn-rate">높낮이 <input type="range" id="vpitch" min="0.6" max="1.4" step="0.05"><output id="vpv"></output></label><p class="rn-opt-n">목소리는 휴대폰에 깔린 음성 엔진을 써요. 원하는 목소리가 목록에 없으면 휴대폰 설정 → 텍스트 음성 변환(TTS)에서 한국어 음성을 더 내려받을 수 있어요.</p></div>
 <p class="rn-opt-n">차량 높이·무게 제한은 카카오 길찾기에서 아직 고를 수 없어요. 낮은 굴다리 같은 곳은 통과할 길 위에 정류장 핀을 하나 더 찍어 경로를 고정해 주세요.</p></div>
 <button type="button" class="btn rn-self" id="self-go"><b>전체 노선 한 번에 안내 (베타)</b><span id="self-s">정류장을 다 이어서 음성으로 안내해요</span></button>
   <button type="button" class="rn-sim" id="self-sim">안내 화면 미리 보기 (모의 주행)</button>
@@ -236,7 +241,7 @@ $('list').addEventListener('click',function(e){var b=e.target.closest('button');
 map.onClick(function(la,ln){if(mode!='edit')return;var st=R();st.push({lat:+la.toFixed(6),lng:+ln.toFixed(6),n:''});save();draw();
  var ins=$('list').querySelectorAll('input');if(ins.length&&window.innerWidth>700)ins[ins.length-1].focus({preventScroll:true})});
 $('pv').onclick=function(){var st=R();if(st.length<2){toast('정류장을 2곳 이상 찍어 주세요');return}var b=this;b.disabled=true;b.textContent='실제 도로 경로를 찾는 중…';
- HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){if(rl)rl.remove();rl=map.line([r.co[0]],{color:'#F04452',weight:7,opacity:.95});rsig=sig();line.set([]);
+ HM.route(st.map(function(p){return [p.lat,p.lng]}),S.opt||{}).then(function(r){if(rl)rl.remove();rl=map.line([r.co[0]],{color:'#F04452',weight:3.5,opacity:.95});rsig=sig();line.set([]);
   document.querySelector('.rn-map').scrollIntoView({behavior:'smooth',block:'center'});map.fit(st.map(function(p){return [p.lat,p.lng]}).concat(r.co.filter(function(_,i){return i%10==0})));
   var n=r.co.length,k=1,step=Math.max(1,Math.ceil(n/120)),me=rl;clearInterval(window.__rnAnim);window.__rnAnim=setInterval(function(){if(rl!==me){clearInterval(window.__rnAnim);return}k=Math.min(n,k+step);me.set(r.co.slice(0,k));if(k>=n)clearInterval(window.__rnAnim)},40);
   var km=r.cum[r.cum.length-1]/1000,mn=Math.round(r.cum[r.cum.length-1]/r.spd/60);$('pvs').hidden=false;$('pvs').textContent='1번부터 순서대로 그려지는 빨간 선이 실제로 달릴 길이에요 · 총 '+km.toFixed(1)+'km · 약 '+mn+'분'+(r.src=='kakao'?' (카카오 기준)':' (예비 경로 서버 기준)')+'. 이상한 길로 돌면 그 길 위에 핀을 하나 더 찍어 고정하세요.'})
@@ -292,13 +297,27 @@ function icon(st){var m=st?st.mod:'straight',rot={'left':-90,'sharp left':-135,'
  return '<svg viewBox="0 0 24 24" style="transform:rotate('+(rot||0)+'deg)" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V4"/><path d="M5 11l7-7 7 7"/></svg>'}
 function say(st){return st.text}
 function fmt(m){return m>=1000?(m/1000).toFixed(1)+'km':(Math.round(m/10)*10)+'m'}
-var voice=true,ko=null;function speak(t){if(!voice||!window.speechSynthesis)return;var u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=1.05;if(ko)u.voice=ko;speechSynthesis.cancel();speechSynthesis.speak(u)}
-if(window.speechSynthesis){var lv=function(){ko=speechSynthesis.getVoices().filter(function(v){return /ko/i.test(v.lang)})[0]||null};lv();speechSynthesis.onvoiceschanged=lv}
+var voice=true,KV=[];function vopt(){var S=store()||{};return S.voice||{}}
+function pick(){var o=vopt();return KV.filter(function(v){return v.name==o.name})[0]||KV[0]||null}
+var LAST='';function speak(t,urgent){if(!voice||!window.speechSynthesis||!t)return;if(t==LAST&&speechSynthesis.speaking)return;LAST=t;var o=vopt(),u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=o.rate||1.05;u.pitch=o.pitch||1;var v=pick();if(v)u.voice=v;
+ if(urgent||speechSynthesis.pending)speechSynthesis.cancel();speechSynthesis.resume();speechSynthesis.speak(u)}
+setInterval(function(){if(window.speechSynthesis&&speechSynthesis.speaking&&!speechSynthesis.paused){speechSynthesis.pause();speechSynthesis.resume()}},10000);
+function vput(k,val){var S=store();if(!S)return;S.voice=S.voice||{};S.voice[k]=val;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
+function vlist(){if(!window.speechSynthesis)return;KV=speechSynthesis.getVoices().filter(function(v){return /^ko/i.test(v.lang)});var sel=$('vsel'),o=vopt();
+ if(!KV.length){sel.innerHTML='<option>이 기기에 한국어 목소리가 없어요</option>';return}
+ sel.innerHTML=KV.map(function(v,i){var nm=v.name.replace(/Microsoft |Google |Samsung |\(.*?\)|Korean|한국어|ko[-_]KR/gi,'').replace(/\s+/g,' ').trim();return '<option value="'+v.name.replace(/"/g,'&quot;')+'"'+(v.name==(o.name||KV[0].name)?' selected':'')+'>'+(i+1)+'. '+(nm||'기본 목소리')+(v.localService===false?' (온라인)':'')+'</option>'}).join('')}
+if(window.speechSynthesis){vlist();speechSynthesis.onvoiceschanged=vlist}
+(function(){var o=vopt();$('vrate').value=o.rate||1.05;$('vpitch').value=o.pitch||1;var show=function(){$('vrv').textContent=(+$('vrate').value).toFixed(2);$('vpv').textContent=(+$('vpitch').value).toFixed(2)};show();
+ $('vsel').onchange=function(){vput('name',this.value);speak('300미터 앞에서 우회전입니다')};
+ $('vrate').oninput=function(){vput('rate',+this.value);show()};$('vpitch').oninput=function(){vput('pitch',+this.value);show()};
+ $('vrate').onchange=$('vpitch').onchange=function(){speak('곧 3번 정류장입니다')};
+ $('vtry').onclick=function(){speak('안내를 시작합니다. 300미터 앞에서 송도컨벤시아 방면으로 좌회전입니다')}})();
 var N=null;
 function route(from,list){var S0=store()||{};return HM.route((from?[from]:[]).concat(list.map(function(s){return [s.lat,s.lng]})),S0.opt||{})}
 function nearest(co,p,from){var b=from||0,bd=1e12,lim=Math.min(co.length,(from||0)+400);for(var i=Math.max(0,(from||0)-20);i<lim;i++){var d=hv(co[i],p);if(d<bd){bd=d;b=i}}return {i:b,d:bd}}
 function start(sim){var st=stops();if(st.length<1){alert('먼저 정류장을 찍어 주세요');return}
- $('nav').hidden=false;document.documentElement.style.overflow='hidden';$('nv-simtag').hidden=!sim;
+ $('nav').hidden=false;document.documentElement.style.overflow='hidden';
+ try{if(!sim&&screen.orientation&&screen.orientation.lock&&document.documentElement.requestFullscreen&&/Android/i.test(navigator.userAgent)){document.documentElement.requestFullscreen().then(function(){return screen.orientation.lock('portrait')}).catch(function(){})}}catch(e){}$('nv-simtag').hidden=!sim;
  if(!N||!N.map){N={map:HM.make(document.getElementById('nvmap'),st[0].lat,st[0].lng,16)}}
  setTimeout(function(){N.map.relayout()},60);
  N.stops=st;N.si=0;N.k=0;N.ci=0;N.off=0;N.said={};N.sim=sim;N.busy=false;
@@ -307,7 +326,7 @@ function start(sim){var st=stops();if(st.length<1){alert('먼저 정류장을 �
  try{if(navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){N.wl=w}).catch(function(){})}catch(e){}
  $('nv-d').textContent='경로 준비 중…';$('nv-r').textContent='';
  var go=function(from){route(from,N.stops).then(function(r){N.r=r;N.k=0;N.ci=0;
-   N.todo=N.map.line(r.co,{color:'#F04452',weight:7,opacity:.9});N.done=N.map.line([],{color:'#9AA4B1',weight:7,opacity:.8});N.objs.push(N.todo,N.done);
+   N.todo=N.map.line(r.co,{color:'#F04452',weight:4,opacity:.9});N.done=N.map.line([],{color:'#9AA4B1',weight:4,opacity:.85});N.objs.push(N.todo,N.done);
    if(sim)simrun();else watch();speak('안내를 시작합니다. 첫 정류장은 '+N.stops[0].n+'입니다.')}).catch(function(){$('nv-d').textContent='경로를 못 찾았어요';$('nv-r').textContent='인터넷 연결을 확인하거나 잠시 뒤 다시 시도해 주세요'})};
  if(sim)go(null);else navigator.geolocation.getCurrentPosition(function(g){go([g.coords.latitude,g.coords.longitude])},function(){go(null)},{enableHighAccuracy:true,timeout:8000});
 }
@@ -328,16 +347,16 @@ function onPos(p,hd){if(!N||!N.r)return;var r=N.r,nb=nearest(r.co,p,N.ci);
  var nx=r.steps[N.k],ns=N.stops[N.si];
  if(nx){var dm=r.cum[nx.ci]-r.cum[N.ci];$('nv-ic').innerHTML=icon(nx);$('nv-d').textContent=fmt(dm);$('nv-r').textContent=say(nx)+(nx.name&&say(nx).indexOf(nx.name)<0?' · '+nx.name:'');
   var key=N.k;if(dm<320&&dm>150&&!N.said[key+'a']){N.said[key+'a']=1;speak(fmt(dm).replace('km','킬로미터').replace('m','미터')+' 앞에서 '+say(nx)+(/다$|요$/.test(say(nx))?'':'입니다'))}
-  if(dm<60&&!N.said[key+'b']){N.said[key+'b']=1;speak(say(nx))}}
+  if(dm<60&&!N.said[key+'b']){N.said[key+'b']=1;speak(say(nx),true)}}
  else{$('nv-ic').innerHTML=icon(null);$('nv-d').textContent=ns?fmt(hv(p,[ns.lat,ns.lng])):'';$('nv-r').textContent='도로를 따라 직진'}
  if(ns){var sd=hv(p,[ns.lat,ns.lng]);$('nv-k').textContent='다음 정류장 '+ns.no+'번 · 남은 '+(N.stops.length-N.si)+'곳';$('nv-s').textContent=ns.n+' · '+fmt(sd)+' · 약 '+Math.max(1,Math.round(sd*1.3/r.spd/60))+'분';
   if(sd<300&&sd>120&&!N.said['s'+N.si]){N.said['s'+N.si]=1;speak('곧 '+ns.no+'번 '+ns.n+'입니다')}}}
 function sync(no){var S=store();if(!S)return;S.pos[S.cur]=Math.min(no,(S.routes[S.cur]||[]).length-1);if(no>=(S.routes[S.cur]||[]).length)S.pos[S.cur]=0;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
 function watch(){stopWatch();N.w=navigator.geolocation.watchPosition(function(g){onPos([g.coords.latitude,g.coords.longitude],g.coords.heading)},function(){$('nv-r').textContent='위치를 받을 수 없어요. 위치 권한을 확인해 주세요'},{enableHighAccuracy:true,maximumAge:1000,timeout:15000})}
-function simrun(){stopWatch();var co=N.r.co,cum=N.r.cum,t=0,v=16;N.t=setInterval(function(){t+=v*1.0;var i=0;while(i<cum.length-1&&cum[i+1]<t)i++;if(i>=cum.length-1){onPos(co[co.length-1]);stopWatch();return}
-  var f=(t-cum[i])/Math.max(cum[i+1]-cum[i],.01),p=[co[i][0]+(co[i+1][0]-co[i][0])*f,co[i][1]+(co[i+1][1]-co[i][1])*f];onPos(p,brg(co[i],co[i+1]))},250)}
+function simrun(){stopWatch();var co=N.r.co,cum=N.r.cum,t=0,v=14;N.t=setInterval(function(){t+=v;var i=0;while(i<cum.length-1&&cum[i+1]<t)i++;if(i>=cum.length-1){onPos(co[co.length-1]);stopWatch();return}
+  var f=(t-cum[i])/Math.max(cum[i+1]-cum[i],.01),p=[co[i][0]+(co[i+1][0]-co[i][0])*f,co[i][1]+(co[i+1][1]-co[i][1])*f];onPos(p,brg(co[i],co[i+1]))},500)}
 function stopWatch(){if(N&&N.w!=null){navigator.geolocation.clearWatch(N.w);N.w=null}if(N&&N.t){clearInterval(N.t);N.t=null}}
-function end(){stopWatch();if(N&&N.wl){N.wl.release().catch(function(){});N.wl=null}if(window.speechSynthesis)speechSynthesis.cancel();$('nav').hidden=true;document.documentElement.style.overflow='';if(window.__rnRefresh)window.__rnRefresh()}
+function end(){try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}stopWatch();if(N&&N.wl){N.wl.release().catch(function(){});N.wl=null}if(window.speechSynthesis)speechSynthesis.cancel();$('nav').hidden=true;document.documentElement.style.overflow='';if(window.__rnRefresh)window.__rnRefresh()}
 $('nv-end').onclick=end;
 $('nv-mute').onclick=function(){voice=!voice;this.textContent=voice?'음성 켜짐':'음성 꺼짐';this.setAttribute('aria-pressed',!voice);if(!voice&&window.speechSynthesis)speechSynthesis.cancel()};
 $('self-go').onclick=function(){if(!navigator.geolocation){alert('이 기기에서는 위치를 쓸 수 없어요');return}speak('');start(false)};
