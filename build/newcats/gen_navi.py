@@ -1,5 +1,7 @@
 """경유지 많은 노선 내비 (/life/route-navi.html) — 지도에서 찍어 정류장 등록 → 순서대로 내비 앱으로 안내"""
 import os, json, html, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import navi_selfnav as SN
 D = os.path.dirname(os.path.abspath(__file__))
 OUT = sys.argv[1]
 E = lambda x: html.escape(str(x), quote=True)
@@ -14,6 +16,7 @@ FAQ = [
  ('길 안내 음성은 어디서 나오나요?', '버튼을 누르면 휴대폰에 깔린 네이버 지도·카카오맵·티맵이 열려 평소처럼 음성 안내를 해요. 실시간 교통 정보도 그 앱의 것을 그대로 써요.'),
  ('만든 노선은 어디에 저장되나요?', '지금 쓰는 휴대폰(브라우저)에만 저장돼요. 서버로 보내지 않아요. 다른 기기나 동료에게 옮기려면 "노선 공유 링크"를 보내면 돼요.'),
  ('주소를 몰라도 되나요?', '네. 지도를 확대해 정류장 위치를 눌러 찍기만 하면 돼요. 찍은 핀은 길게 눌러 끌어서 위치를 고칠 수 있고, 이름은 목록에서 바꿀 수 있어요.'),
+ ('전체 노선 한 번에 안내는 어떻게 작동하나요?', '출발할 때 한 번 누르면 모든 정류장을 이은 경로를 받아, 휴대폰 위치를 따라가며 회전 지점과 정류장 앞에서 음성으로 알려 줘요. 정류장에 닿으면 자동으로 다음 정류장으로 넘어가고, 길을 벗어나면 남은 정류장으로 경로를 다시 찾아요. 지금은 베타라 실시간 교통은 반영하지 않아요. 운전 전에 “모의 주행”으로 미리 확인해 보세요.'),
  ('운전 중에 써도 되나요?', '달리는 중에는 휴대폰을 만지면 안 돼요(도로교통법). 그래서 버튼 한 번에 6곳씩 내비로 넘기고, 누르면 다음 묶음이 자동으로 준비되게 만들었어요. 정류장에 섰을 때만 누르면 30곳 노선도 5번이면 끝나요. 노선 만들기와 순서 수정은 운행 전에 해 두세요.'),
 ]
 
@@ -36,13 +39,13 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
 </div>
 <div id="pane-run" hidden>
  <div class="rn-next"><p class="rn-k" id="nk"></p><p class="rn-nm" id="nn"></p><p class="rn-sub" id="ns"></p>
-  <a class="btn rn-nv rn-big" id="go-naver5" href="#"><b id="b5t">네이버 내비로 6곳 한 번에</b><span id="b5s"></span></a>
+  __SELFBTN__<a class="btn rn-nv rn-big" id="go-naver5" href="#"><b id="b5t">네이버 내비로 6곳 한 번에</b><span id="b5s"></span></a>
   <p class="rn-or">한 곳씩 안내</p>
   <div class="rn-go"><a class="btn rn-nv" id="go-naver" href="#">네이버</a><a class="btn rn-kk" id="go-kakao" href="#" target="_blank" rel="noopener">카카오맵</a><a class="btn rn-tm" id="go-tmap" href="#">티맵</a></div>
   <div class="rn-step"><button type="button" class="btn ghost" id="prev">이전 정류장</button><button type="button" class="btn ghost" id="next">다음 정류장으로</button></div>
   <button type="button" class="rn-reset" id="restart">처음 정류장부터 다시</button>
  </div>
- <p class="rn-warn">버튼을 누르면 다음 묶음으로 자동으로 넘어가요. 정류장에 섰을 때 한 번만 누르고, 달리는 동안엔 내비 음성만 들으세요. 30곳 노선이면 운행 중 5번만 누르면 돼요.</p>
+ <p class="rn-warn">“전체 노선 한 번에 안내”는 출발 전 한 번만 누르면 끝까지 음성으로 안내하고, 정류장에 닿으면 알아서 다음 정류장으로 넘어가요. 화면을 켠 채 거치대에 꽂아 두세요. 내비 앱으로 넘기는 버튼은 정류장에 섰을 때만 누르세요.</p>
 </div>
 </section>
 <section class="card"><h2>이렇게 쓰세요</h2><ol class="rn-how">
@@ -53,7 +56,7 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
 <li>동료 기사에게는 <b>노선 공유 링크</b>를 보내면 같은 노선이 그대로 열려요.</li>
 </ol></section>
 <section class="card"><h2>자주 묻는 질문</h2>__FAQ__</section>
-<p class="upd">지도 © OpenStreetMap 기여자 · 길 안내는 각 내비 앱이 제공해요 · 업데이트 2026년 11월 19일</p>'''
+<p class="upd">지도·경로 © OpenStreetMap 기여자(OSRM) · 내비 앱 안내는 각 앱이 제공해요 · 업데이트 2026년 11월 19일</p>'''
 
 CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 <style id="hl-rn">
@@ -93,7 +96,7 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 .rn-warn{margin:12px 0 0;font-size:13px;color:var(--muted)}
 .rn-how{margin:0;padding-left:20px;display:grid;gap:8px;line-height:1.6}
 .rn-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#191F28;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;z-index:9999;max-width:90vw}
-[hidden]{display:none!important}
+[hidden]{display:none!important}'''+SN.CSS+r'''
 @media(max-width:480px){.rn-tb .btn{font-size:13.5px;padding:8px 10px}.rn-nm{font-size:21px}}
 </style>'''
 
@@ -169,7 +172,7 @@ $('share').onclick=function(){var st=R();if(!st.length){toast('정류장을 먼�
  if(navigator.share){navigator.share({title:S.cur+' 노선',text:S.cur+' 노선 ('+st.length+'곳)',url:url}).catch(function(){})}else{navigator.clipboard.writeText(url).then(function(){toast('공유 링크를 복사했어요')})}};
 function imp(){var m=location.hash.match(/^#r=([^|]+)\|(.+)$/);if(!m)return;try{var n=decodeURIComponent(m[1]).slice(0,20),st=m[2].split(';').map(function(s){var a=s.split(',');return {lat:+a[0],lng:+a[1],n:decodeURIComponent(a.slice(2).join(',')).slice(0,40)}}).filter(function(p){return isFinite(p.lat)&&isFinite(p.lng)});
  if(!st.length)return;if(S.routes[n]&&S.routes[n].length&&!confirm('이미 “'+n+'” 노선이 있어요. 받은 노선으로 바꿀까요?'))n=n+' (받음)';S.routes[n]=st;S.cur=n;S.pos[n]=0;save();history.replaceState(null,'',location.pathname);toast('“'+n+'” 노선을 불러왔어요 ('+st.length+'곳)')}catch(e){}}
-imp();sel();draw(true);
+imp();sel();draw(true);window.__rnRefresh=function(){try{S=JSON.parse(localStorage.getItem(KEY))||S}catch(e){}draw()};
 })();</script>'''
 
 def main():
@@ -182,7 +185,7 @@ def main():
     h += f'<meta property="og:type" content="website"><meta property="og:url" content="{SITE}{PATH}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="홍라이프 도구">\n'
     h += f'<meta property="og:title" content="{E(TITLE)}"><meta property="og:description" content="{E(DESC)}"><meta property="og:image" content="{SITE}/assets/og/site.png">\n'
     h += MID + '\n<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>\n' + CSS + '\n</head>\n<body>\n\n' + BRAND
-    h += '<main class="wrap wide"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/life/">생활·행정</a></p>' + BODY.replace('__FAQ__', faq) + '</main>' + JS + TAIL
+    h += '<main class="wrap wide"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/life/">생활·행정</a></p>' + BODY.replace('__FAQ__', faq).replace('__SELFBTN__', SN.BTN) + '</main>' + SN.HTML + JS + SN.JS + TAIL
     os.makedirs(OUT + '/life', exist_ok=True)
     open(OUT + PATH, 'w', encoding='utf-8').write(h)
     print('ok', PATH)
