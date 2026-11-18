@@ -175,10 +175,11 @@ def game_page(g):
           crumbs([('홈', '/'), ('게임 계산기', '/game/'), (g['name'], path)]), faqld(g['faq'])]}
     page(path, title, g['lead'], crumb, body, ld, HELP.replace('__JS__', g['js']))
 
+OTHER = open(f'{D}/tpl_other.html', encoding='utf-8').read() if os.path.exists(f'{D}/tpl_other.html') else ''
 def hub(cat, items, h1, lead, title, desc):
     path = f'/{cat}/'
     lis = ''.join(f'<li><a href="/{cat}/{x["slug"]}.html"><i class="th"><img src="/assets/art/hl/t/{cat}-{x["slug"]}.svg" alt="" width="200" height="140" loading="lazy"></i><img class="pg" src="/assets/art/hl/pg-{cat}.svg" alt="" width="26" height="26" loading="lazy"><b>{E(x["name"])}</b><span>{E(x["lead"][:60])}…</span></a></li>' for x in items)
-    body = f'<h1>{E(h1)}</h1><p class="lead">{E(lead)}</p>{LOCK}</header><section class="card"><h2>{E(h1)} {len(items)}가지</h2><ul class="tlist hl-grid">{lis}</ul></section>'
+    body = f'<h1>{E(h1)}</h1><p class="lead">{E(lead)}</p>{LOCK}</header><section class="card"><h2>{E(h1)} {len(items)}가지</h2><ul class="tlist hl-grid">{lis}</ul></section>' + OTHER
     ld = {"@context": "https://schema.org", "@graph": [{"@type": "CollectionPage", "name": h1, "url": SITE + path, "hasPart": [{"@type": "WebApplication", "name": x['name'], "url": f'{SITE}/{cat}/{x["slug"]}.html'} for x in items]}, crumbs([('홈', '/'), (h1, path)])]}
     page(path, title, desc, f'<a href="/">홈</a> › {E(h1)}', body.replace('<header class="top">', ''), ld)
     # hub uses header class "top hub"
@@ -231,7 +232,7 @@ for _c, _L in (('test', TESTS), ('game', GAMES)):
         open(OUT + f'/assets/art/hl/t/{_c}-{_x["slug"]}.svg', 'w').write(thumb(_x['slug'], _x['name']))
 for t in TESTS: test_page(t)
 for g in GAMES: game_page(g)
-hub('test', TESTS, '심리 테스트', '번아웃·애착유형·소비성향·HSP·직업 적성·연애 성향까지, 나를 돌아보는 심리·성격 테스트 모음이에요. 문항은 모두 새로 쓴 참고용이고, 답과 결과는 서버로 보내지 않아요.', '심리 테스트 모음 | 번아웃·애착유형·소비성향·HSP·직업 적성 무료 테스트 | 홍라이프 도구', '번아웃 테스트, 애착유형 테스트, 소비성향 테스트, HSP 테스트, 행복지수, 스마트폰 의존도, 직업 적성, 4기질, 좌뇌 우뇌, 정신연령, 연애 성향, 갈등 대처 유형까지 무료 심리 테스트 모음.')
+hub('test', TESTS, '심리 테스트', '번아웃·애착유형·우울증(PHQ-9)·소비성향·HSP·직업 적성·연애 성향까지, 나를 돌아보는 심리·성격 테스트 모음이에요. 문항은 모두 새로 쓴 참고용이고, 답과 결과는 서버로 보내지 않아요.', '심리 테스트 모음 | 번아웃·애착유형·소비성향·HSP·직업 적성 무료 테스트 | 홍라이프 도구', '번아웃 테스트, 애착유형 테스트, 소비성향 테스트, HSP 테스트, 행복지수, 스마트폰 의존도, 직업 적성, 4기질, 좌뇌 우뇌, 정신연령, 연애 성향, 갈등 대처 유형까지 무료 심리 테스트 모음.')
 hub('game', GAMES, '게임 계산기', '메이플 경매장 수수료, 로아 경매 입찰가, 가챠 확률, 강화 기댓값, FPS 감도 변환, 볼링 점수, 승률까지 게임할 때 쓰는 계산기 모음이에요.', '게임 계산기 모음 | 메이플 수수료·로아 경매·가챠 확률·강화 기댓값·감도 변환 | 홍라이프 도구', '메이플 경매장 수수료, 로스트아크 경매 입찰 적정가, 게임 거래소 수수료, 가챠 확률(천장), 강화 기댓값, eDPI 감도 변환, 볼링 점수, 승률·KDA 계산기 무료 모음.')
 art()
 json.dump({'test': [[f'/test/{t["slug"]}.html', t['name'], t['lead'][:70], t['kw']] for t in TESTS], 'game': [[f'/game/{g["slug"]}.html', g['name'], g['lead'][:70], g['kw']] for g in GAMES]}, open(OUT + '/newcats.json', 'w'), ensure_ascii=False)

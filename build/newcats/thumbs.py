@@ -32,7 +32,8 @@ COL = {
  'enhance': ('#F59F00', '#FFF0C2'), 'edpi': ('#2F9E44', '#D9F2DE'), 'bowling': ('#5F3DC4', '#E5DEFA'), 'winrate': ('#C08A00', '#FBEFC9'),
 }
 
-def thumb(slug, title):
+SHORT={}
+def thumb_old(slug, title):
     c, bg = COL[slug]
     ic = ICON[slug].replace('fill="#fff"', f'fill="#fff"')
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140" width="200" height="140">'
@@ -42,3 +43,18 @@ def thumb(slug, title):
             f'<g transform="translate(76 42)" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">{ic}</g>'
             f'<rect x="54" y="112" width="92" height="7" rx="3.5" fill="{c}" fill-opacity=".28"/><rect x="54" y="112" width="{30 + (sum(map(ord, slug)) % 55)}" height="7" rx="3.5" fill="{c}"/>'
             f'</svg>')
+
+def thumb(slug, title):
+    c, bg = COL[slug]
+    lab = title.split(' (')[0].replace(' 테스트','').replace(' 계산기','')[:9]
+    btn = '결과 보기' if slug in ICON and slug not in GAME_SLUGS else '계산하기'
+    ic = ICON[slug]
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="64.0 6.0 72.0 128.0" width="72" height="128"><g>'
+            '<rect x="64" y="6" width="72" height="128" rx="12" fill="#1A1D24"/><rect x="68" y="10" width="64" height="120" rx="9" fill="#fff"/><rect x="91.0" y="13" width="18" height="4" rx="2" fill="#1A1D24"/>'
+            f'<text x="74" y="32" font-family="Arial,Helvetica,sans-serif" font-size="8.5" font-weight="700" fill="#1A1D24">{lab}</text>'
+            f'<rect x="76" y="40" width="48" height="48" rx="13" fill="{c}"/>'
+            f'<g transform="translate(78 42) scale(.917)" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">{ic}</g>'
+            f'<rect x="74" y="94" width="52" height="5" rx="2.5" fill="{bg}"/><rect x="74" y="94" width="{20 + (sum(map(ord, slug)) % 30)}" height="5" rx="2.5" fill="{c}"/>'
+            f'<rect x="72" y="106" width="56" height="12" rx="6" fill="{c}"/><text x="{100 - len(btn)*4.2}" y="114.6" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#fff">{btn}</text>'
+            '</g></svg>')
+GAME_SLUGS = {'maple-auction-fee','lostark-auction','market-fee','gacha','enhance','edpi','bowling','winrate'}
