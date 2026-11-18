@@ -1,7 +1,7 @@
 """경유지 많은 노선 내비 (/life/route-navi.html) — 지도에서 찍어 정류장 등록 → 순서대로 내비 앱으로 안내"""
 import os, json, html, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import navi_selfnav as SN
+import navi_selfnav as SN, navi_adapter as AD
 D = os.path.dirname(os.path.abspath(__file__))
 OUT = sys.argv[1]
 E = lambda x: html.escape(str(x), quote=True)
@@ -56,7 +56,7 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
 <li>동료 기사에게는 <b>노선 공유 링크</b>를 보내면 같은 노선이 그대로 열려요.</li>
 </ol></section>
 <section class="card"><h2>자주 묻는 질문</h2>__FAQ__</section>
-<p class="upd">지도·경로 © OpenStreetMap 기여자(OSRM) · 내비 앱 안내는 각 앱이 제공해요 · 업데이트 2026년 11월 19일</p>'''
+<p class="upd">지도·경로 © Kakao, 카카오모빌리티 (연결이 안 될 때는 OpenStreetMap) · 내비 앱 안내는 각 앱이 제공해요 · 업데이트 2026년 11월 19일</p>'''
 
 CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 <style id="hl-rn">
@@ -101,27 +101,23 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 </style>'''
 
 JS = r'''<script src="/assets/vendor/leaflet/leaflet.js"></script>
-<script>(function(){
+__ADAPTER__
+<script>HM.ready(function(){
 var KEY='hl-route-navi-v1',S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 if(!S||!S.routes){S={routes:{'A코스':[]},cur:'A코스',pos:{}}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function R(){return S.routes[S.cur]||(S.routes[S.cur]=[])}
 function toast(m){var t=document.createElement('div');t.className='rn-toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2400)}
 var $=function(i){return document.getElementById(i)};
-var map=L.map('map',{zoomControl:true,tap:true}).setView([37.45,126.7],11);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
-var layer=L.layerGroup().addTo(map),line=L.polyline([],{color:'#3182F6',weight:4,opacity:.75,dashArray:'6 8'}).addTo(map);
+var map=HM.make(document.getElementById('map'),37.45,126.7,11),pins=[],line=map.line([],{color:'#3182F6',weight:4,opacity:.75,dash:true}),me=null;
 var mode='edit';
 function idx(){return Math.min(S.pos[S.cur]||0,Math.max(R().length-1,0))}
 function km(a,b){var r=Math.PI/180,x=(b.lng-a.lng)*r*Math.cos((a.lat+b.lat)/2*r),y=(b.lat-a.lat)*r;return Math.sqrt(x*x+y*y)*6371}
-function draw(fit){layer.clearLayers();var st=R(),ci=idx();
- st.forEach(function(p,i){var cls=mode=='run'?(i<ci?' done':i==ci?' cur':''):'';
-  var m=L.marker([p.lat,p.lng],{draggable:mode=='edit',icon:L.divIcon({className:'',html:'<div class="rn-pin'+cls+'"><b>'+(i+1)+'</b></div>',iconSize:[30,30],iconAnchor:[4,30]})}).addTo(layer);
-  m.bindTooltip((i+1)+'. '+(p.n||'정류장'),{direction:'top',offset:[10,-28]});
-  m.on('dragend',function(e){var ll=e.target.getLatLng();p.lat=+ll.lat.toFixed(6);p.lng=+ll.lng.toFixed(6);save();draw()});
- });
- line.setLatLngs(st.map(function(p){return [p.lat,p.lng]}));
- if(fit&&st.length)map.fitBounds(L.latLngBounds(st.map(function(p){return [p.lat,p.lng]})).pad(.2),{maxZoom:16});
+function draw(fit){pins.forEach(function(x){x.remove()});var st=R(),ci=idx();
+ pins=st.map(function(p,i){var cls=mode=='run'?(i<ci?'done':i==ci?'cur':''):'';
+  return map.pin(p.lat,p.lng,{label:i+1,cls:cls,drag:mode=='edit',title:(i+1)+'. '+(p.n||'정류장'),onDrag:function(a,b){p.lat=+a.toFixed(6);p.lng=+b.toFixed(6);save();draw()}})});
+ line.set(st.map(function(p){return [p.lat,p.lng]}));
+ if(fit&&st.length)map.fit(st.map(function(p){return [p.lat,p.lng]}));
  list();run();}
 function list(){var st=R(),ol=$('list');var d=0;for(var i=1;i<st.length;i++)d+=km(st[i-1],st[i]);
  $('sum').textContent=st.length?('정류장 '+st.length+'곳 · 직선거리 합계 약 '+d.toFixed(1)+'km (실제 도로는 더 길어요)'):'';
@@ -130,9 +126,9 @@ function list(){var st=R(),ol=$('list');var d=0;for(var i=1;i<st.length;i++)d+=k
  ol.innerHTML=st.map(function(p,i){return '<li><span class="no">'+(i+1)+'</span><input value="'+(p.n||'').replace(/"/g,'&quot;')+'" placeholder="정류장 '+(i+1)+' 이름" data-i="'+i+'" aria-label="'+(i+1)+'번 정류장 이름"><span class="ac"><button type="button" data-a="up" data-i="'+i+'" aria-label="위로"'+(i?'':' disabled')+'>↑</button><button type="button" data-a="dn" data-i="'+i+'" aria-label="아래로"'+(i<st.length-1?'':' disabled')+'>↓</button><button type="button" data-a="go" data-i="'+i+'" aria-label="지도에서 보기">◎</button><button type="button" data-a="rm" data-i="'+i+'" aria-label="삭제">✕</button></span></li>'}).join('');}
 $('list').addEventListener('input',function(e){var i=e.target.dataset.i;if(i==null)return;R()[+i].n=e.target.value.slice(0,40);save();draw()});
 $('list').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=+b.dataset.i,st=R(),a=b.dataset.a;
- if(a=='up'&&i>0){st.splice(i-1,0,st.splice(i,1)[0])}else if(a=='dn'&&i<st.length-1){st.splice(i+1,0,st.splice(i,1)[0])}else if(a=='rm'){st.splice(i,1)}else if(a=='go'){map.setView([st[i].lat,st[i].lng],17);return}
+ if(a=='up'&&i>0){st.splice(i-1,0,st.splice(i,1)[0])}else if(a=='dn'&&i<st.length-1){st.splice(i+1,0,st.splice(i,1)[0])}else if(a=='rm'){st.splice(i,1)}else if(a=='go'){map.view(st[i].lat,st[i].lng,17);return}
  save();draw()});
-map.on('click',function(e){if(mode!='edit')return;var st=R();st.push({lat:+e.latlng.lat.toFixed(6),lng:+e.latlng.lng.toFixed(6),n:''});save();draw();
+map.onClick(function(la,ln){if(mode!='edit')return;var st=R();st.push({lat:+la.toFixed(6),lng:+ln.toFixed(6),n:''});save();draw();
  var ins=$('list').querySelectorAll('input');if(ins.length&&window.innerWidth>700)ins[ins.length-1].focus({preventScroll:true})});
 $('undo').onclick=function(){R().pop();save();draw()};
 $('rev').onclick=function(){R().reverse();save();draw()};
@@ -142,7 +138,7 @@ $('rnew').onclick=function(){var n=prompt('새 노선 이름 (예: B코스)');if
 $('rren').onclick=function(){var n=prompt('노선 이름',S.cur);if(!n)return;n=n.trim().slice(0,20);if(!n||n==S.cur)return;S.routes[n]=R();delete S.routes[S.cur];S.pos[n]=S.pos[S.cur];S.cur=n;save();sel()};
 $('rdel').onclick=function(){if(!confirm('“'+S.cur+'” 노선을 지울까요? 되돌릴 수 없어요.'))return;delete S.routes[S.cur];var k=Object.keys(S.routes);if(!k.length){S.routes={'A코스':[]};k=['A코스']}S.cur=k[0];save();sel();draw(true)};
 function setMode(m){mode=m;$('m-edit').setAttribute('aria-selected',m=='edit');$('m-run').setAttribute('aria-selected',m=='run');$('pane-edit').hidden=m!='edit';$('pane-run').hidden=m!='run';draw();
- if(m=='run'){var p=R()[idx()];if(p)map.setView([p.lat,p.lng],15)}}
+ if(m=='run'){var p=R()[idx()];if(p)map.view(p.lat,p.lng,15)}}
 $('m-edit').onclick=function(){setMode('edit')};$('m-run').onclick=function(){if(!R().length){toast('먼저 정류장을 찍어 주세요');return}setMode('run')};
 function nm(p,i){return p.n||('정류장 '+(i+1))}
 function run(){var st=R();if(mode!='run'||!st.length)return;var i=idx(),p=st[i],q=encodeURIComponent(nm(p,i));
@@ -162,10 +158,10 @@ function mob(){return /Android|iPhone|iPad/i.test(navigator.userAgent)}
 function adv(n){var st=R(),i=idx();setTimeout(function(){S.pos[S.cur]=Math.min(i+n,st.length-1);if(i+n>st.length-1)S.pos[S.cur]=0;save();draw()},1500)}
 $('go-naver5').addEventListener('click',function(){if(mob())adv(+this.dataset.n)});
 ['go-naver','go-kakao','go-tmap'].forEach(function(id){$(id).addEventListener('click',function(){if(mob())adv(1)})});
-$('next').onclick=function(){var st=R(),i=idx();if(i>=st.length-1){toast('운행을 마쳤어요. 수고하셨어요!');S.pos[S.cur]=0}else S.pos[S.cur]=i+1;save();draw();var p=R()[idx()];map.panTo([p.lat,p.lng])};
-$('prev').onclick=function(){S.pos[S.cur]=Math.max(0,idx()-1);save();draw();var p=R()[idx()];map.panTo([p.lat,p.lng])};
+$('next').onclick=function(){var st=R(),i=idx();if(i>=st.length-1){toast('운행을 마쳤어요. 수고하셨어요!');S.pos[S.cur]=0}else S.pos[S.cur]=i+1;save();draw();var p=R()[idx()];map.pan(p.lat,p.lng)};
+$('prev').onclick=function(){S.pos[S.cur]=Math.max(0,idx()-1);save();draw();var p=R()[idx()];map.pan(p.lat,p.lng)};
 $('restart').onclick=function(){S.pos[S.cur]=0;save();draw(true)};
-$('me').onclick=function(){if(!navigator.geolocation){toast('이 기기에서는 위치를 쓸 수 없어요');return}navigator.geolocation.getCurrentPosition(function(g){map.setView([g.coords.latitude,g.coords.longitude],16);L.circleMarker([g.coords.latitude,g.coords.longitude],{radius:8,color:'#fff',weight:3,fillColor:'#3182F6',fillOpacity:1}).addTo(layer)},function(){toast('위치 권한을 허용해 주세요')},{enableHighAccuracy:true,timeout:8000})};
+$('me').onclick=function(){if(!navigator.geolocation){toast('이 기기에서는 위치를 쓸 수 없어요');return}navigator.geolocation.getCurrentPosition(function(g){map.view(g.coords.latitude,g.coords.longitude,16);map.dot(g.coords.latitude,g.coords.longitude)},function(){toast('위치 권한을 허용해 주세요')},{enableHighAccuracy:true,timeout:8000})};
 $('share').onclick=function(){var st=R();if(!st.length){toast('정류장을 먼저 찍어 주세요');return}
  var enc=encodeURIComponent(S.cur)+'|'+st.map(function(p){return p.lat.toFixed(5)+','+p.lng.toFixed(5)+','+encodeURIComponent(p.n||'')}).join(';');
  var url=location.origin+location.pathname+'#r='+enc;
@@ -173,7 +169,7 @@ $('share').onclick=function(){var st=R();if(!st.length){toast('정류장을 먼�
 function imp(){var m=location.hash.match(/^#r=([^|]+)\|(.+)$/);if(!m)return;try{var n=decodeURIComponent(m[1]).slice(0,20),st=m[2].split(';').map(function(s){var a=s.split(',');return {lat:+a[0],lng:+a[1],n:decodeURIComponent(a.slice(2).join(',')).slice(0,40)}}).filter(function(p){return isFinite(p.lat)&&isFinite(p.lng)});
  if(!st.length)return;if(S.routes[n]&&S.routes[n].length&&!confirm('이미 “'+n+'” 노선이 있어요. 받은 노선으로 바꿀까요?'))n=n+' (받음)';S.routes[n]=st;S.cur=n;S.pos[n]=0;save();history.replaceState(null,'',location.pathname);toast('“'+n+'” 노선을 불러왔어요 ('+st.length+'곳)')}catch(e){}}
 imp();sel();draw(true);window.__rnRefresh=function(){try{S=JSON.parse(localStorage.getItem(KEY))||S}catch(e){}draw()};
-})();</script>'''
+});</script>'''
 
 def main():
     faq = ''.join(f'<details class="xp"><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q, a in FAQ)
@@ -185,7 +181,7 @@ def main():
     h += f'<meta property="og:type" content="website"><meta property="og:url" content="{SITE}{PATH}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="홍라이프 도구">\n'
     h += f'<meta property="og:title" content="{E(TITLE)}"><meta property="og:description" content="{E(DESC)}"><meta property="og:image" content="{SITE}/assets/og/site.png">\n'
     h += MID + '\n<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>\n' + CSS + '\n</head>\n<body>\n\n' + BRAND
-    h += '<main class="wrap wide"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/life/">생활·행정</a></p>' + BODY.replace('__FAQ__', faq).replace('__SELFBTN__', SN.BTN) + '</main>' + SN.HTML + JS + SN.JS + TAIL
+    h += '<main class="wrap wide"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/life/">생활·행정</a></p>' + BODY.replace('__FAQ__', faq).replace('__SELFBTN__', SN.BTN) + '</main>' + SN.HTML + JS.replace('__ADAPTER__', AD.JS.replace('__JSKEY__', AD.KAKAO_JS).replace('__PROXY__', AD.PROXY)) + SN.JS + TAIL
     os.makedirs(OUT + '/life', exist_ok=True)
     open(OUT + PATH, 'w', encoding='utf-8').write(h)
     print('ok', PATH)
