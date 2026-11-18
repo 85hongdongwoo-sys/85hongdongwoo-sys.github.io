@@ -499,6 +499,7 @@ if os.path.exists(_nc_p):
 # ── 아티팩트에서 옮긴 페이지: 자격증 시험달력(/calendar/exam-schedule.html), 청약·줍줍+투자계산기(/life/invest.html) ──
 MOVED = [('calendar', '/calendar/exam-schedule.html', '자격증 시험일정 달력 (국가기술·국가전문·한국사·토익·JLPT)', '원서접수·시험일·합격발표를 한 달력에, 매달 업데이트', '자격증 시험일정 달력 큐넷 기사 산업기사 기능사 한국사 토익 JLPT 원서접수', '날짜·달력'),
          ('life', '/life/subsidy.html', '조건으로 찾는 정부 지원금 (보조금24 1만여 건)', '지역·대상·나이·분야로 받을 수 있는 지원금만 걸러 보기', '정부 지원금 조회 보조금24 지원금 찾기 청년 지원금 소상공인 지원금 노인 지원금', '생활·행정'),
+         ('life', '/life/route-navi.html', '경유지 많은 노선 내비 (지도에서 찍어 만들기)', '정류장 30곳 넘어도 순서대로 네이버·카카오·티맵 안내', '경유지 많은 내비 다중 경유지 길찾기 경유지 30개 셔틀버스 노선 통학버스 택배 동선 순서 길안내', '생활·행정'),
          ('life', '/life/invest.html', '청약·줍줍 일정 + 투자계산기', '오늘 넣을 수 있는 청약·무순위 줍줍 매일 업데이트, 주식 세금·대출·연금 계산', '청약 일정 줍줍 무순위 청약 투자계산기 주식 세금 대출 한도 청약 가점', '생활·행정')]
 for cat, u, n, d, kw, cn in MOVED:
     p = os.path.join(root, cat, 'index.html')
@@ -553,7 +554,7 @@ print('catbar:', k)
 p = os.path.join(root, 'index.html'); s = open(p, encoding='utf-8').read()
 n_tools = len(set(re.findall(r'"u":"(/[^"]*)"', s)))
 s = re.sub(r'도구 \d+가지', f'도구 {n_tools}가지', s, count=1)
-for cat, add in (('calendar', 1), ('life', 2)):
+for cat, add in (('calendar', 1), ('life', 3)):
     s = re.sub(r'(<a class="ct" href="/' + cat + r'/"[^>]*><span class="ch"><em>)(\d+)(개</em>)', lambda m: m.group(1) + str(int(m.group(2)) + add) + m.group(3), s, count=1)
 open(p, 'w', encoding='utf-8').write(s); print('home tool count:', n_tools)
 
