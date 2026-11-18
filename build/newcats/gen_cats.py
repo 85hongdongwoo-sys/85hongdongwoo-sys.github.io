@@ -48,6 +48,16 @@ CSS = """<style id="hl-newcat">
 .qmap span{position:absolute;font-size:12px;color:var(--muted);font-weight:700}
 .qmap .dot{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 5px rgba(49,130,246,.2)}
 .qalert{margin:0 0 16px;padding:14px 16px;border-radius:12px;background:#FFF0F0;border:1px solid #F5B5B5;font-size:15px;line-height:1.65;color:#5a1414}.qalert a{font-weight:800;color:#C92A2A}
+.qshare{margin:18px 0 6px;padding:18px;border-radius:18px;background:#fff;border:1px solid var(--line)}
+.qs-h{margin:0 0 10px!important;font-weight:800;font-size:15px;color:var(--head)}
+.qshare img{display:block;width:100%;max-width:420px;height:auto;margin:0 auto;border-radius:16px;box-shadow:0 16px 36px -18px rgba(16,24,48,.4)}
+.qs-b{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.qs-b .btn{width:100%;min-width:0;padding:11px 8px;font-size:15px}
+.qs-sns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.qs-sns a,.qs-sns button{flex:none;width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--head);font-size:12.5px;font-weight:700;text-decoration:none;white-space:nowrap}
+.qs-sns b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;color:#fff;font-size:16px}
+.qs-sns .th{background:#111}.qs-sns .nv{background:#03C75A}.qs-sns .xx{background:#000}.qs-sns .ln{background:#E9ECEF;color:#333}
+.qs-n{font-size:13px!important;color:var(--muted);margin:10px 0 0!important;line-height:1.55}
+.qs-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#191F28;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;z-index:99}
 .qcare{margin-top:12px;padding:12px 14px;border-radius:12px;background:#FFF8E6;font-size:14px;line-height:1.6;color:#5c4400}
 .gm-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:14px}
 .gm-out div{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}
@@ -63,12 +73,12 @@ CSS = """<style id="hl-newcat">
 .bf b{display:block;border-top:1px solid var(--line);padding:6px 0;font-size:16px;min-height:1.6em}
 </style>"""
 
-def page(path, title, desc, crumb, body, ld, extra_js=''):
+def page(path, title, desc, crumb, body, ld, extra_js='', og=None):
     url = SITE + path
     h = HEAD + f'<title>{E(title)}</title>\n<meta name="description" content="{E(desc)}">\n<link rel="canonical" href="{url}">\n'
     h += f'<meta property="og:type" content="website"><meta property="og:url" content="{url}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="홍라이프 도구">\n'
-    h += f'<meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:image" content="{SITE}/assets/og/site.png">\n'
-    h += '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://honglife.co.kr/assets/og/site.png">\n'
+    h += f'<meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:image" content="{SITE}{og or "/assets/og/site.png"}">\n'
+    h += f'<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{SITE}{og or "/assets/og/site.png"}">\n'
     h += MID + '\n<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>\n' + CSS + '\n</head>\n<body>\n\n' + BRAND
     h += f'<main class="wrap wide"><header class="top"><p class="crumb">{crumb}</p>' + body + '</main>' + extra_js + TAIL
     os.makedirs(os.path.dirname(OUT + path if not path.endswith('/') else OUT + path + 'x'), exist_ok=True)
@@ -97,16 +107,22 @@ function dims(){var s={},c={};T.q.forEach(function(q,i){s[q[1]]=(s[q[1]]||0)+val
 function bars(o,names,top){return '<div class="qbars">'+Object.keys(o).sort(function(a,b){return o[b]-o[a]}).map(function(k){return '<div class="'+(k==top?'top':'')+'"><span>'+names[k]+'</span><i><em style="width:'+o[k]+'%"></em></i><b>'+o[k]+'</b></div>'}).join('')+'</div>'}
 function tips(t){return '<ul class="tips">'+t.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul>'}
 document.getElementById('go').onclick=function(){var h='',tt='',total=0;T.q.forEach(function(q,i){total+=val(i)});var pct=Math.round(total/(T.q.length*MX)*100);
-if(T.kind=='phq9'){var b=T.bands.find(function(x){return total<x[0]});tt=b[1]+' ('+total+'점)';if(A[8]>0)h+='<div class="qalert"><b>마지막 문항에 “있다”고 답하셨어요.</b> 점수와 상관없이 지금 바로 이야기를 나눠 보세요. <a href="tel:109">자살예방상담 109</a>(24시간, 무료)에 전화하거나, 위험하다고 느끼면 <a href="tel:112">112</a>·<a href="tel:119">119</a>에 연락하세요. 가까운 사람에게 지금 곁에 있어 달라고 말하는 것도 큰 도움이 돼요.</div>';h+='<span class="tag">'+T.name+' 결과</span><h2>'+b[1]+'</h2><p class="sc">총점 '+total+'점 / 27점</p><p class="d">'+b[2]+'</p>'+tips(b[3]);}
-else if(T.kind=='score'){var b=T.bands.find(function(x){return pct<x[0]});tt=b[1];h='<span class="tag">'+T.name+' 결과</span><h2>'+b[1]+'</h2><p class="sc">'+(T.bip?(T.bip[0]+' '+(100-pct)+' : '+pct+' '+T.bip[1]):'점수 '+pct+'점 / 100점')+'</p><p class="d">'+b[2]+'</p>'+tips(b[3]);
+var KEY='';if(T.kind=='phq9'){var b=T.bands.find(function(x){return total<x[0]});tt=b[1]+' ('+total+'점)';if(A[8]>0)h+='<div class="qalert"><b>마지막 문항에 “있다”고 답하셨어요.</b> 점수와 상관없이 지금 바로 이야기를 나눠 보세요. <a href="tel:109">자살예방상담 109</a>(24시간, 무료)에 전화하거나, 위험하다고 느끼면 <a href="tel:112">112</a>·<a href="tel:119">119</a>에 연락하세요. 가까운 사람에게 지금 곁에 있어 달라고 말하는 것도 큰 도움이 돼요.</div>';h+='<span class="tag">'+T.name+' 결과</span><h2>'+b[1]+'</h2><p class="sc">총점 '+total+'점 / 27점</p><p class="d">'+b[2]+'</p>'+tips(b[3]);}
+else if(T.kind=='score'){var b=T.bands.find(function(x){return pct<x[0]});KEY='b'+T.bands.indexOf(b);tt=b[1];h='<span class="tag">'+T.name+' 결과</span><h2>'+b[1]+'</h2><p class="sc">'+(T.bip?(T.bip[0]+' '+(100-pct)+' : '+pct+' '+T.bip[1]):'점수 '+pct+'점 / 100점')+'</p><p class="d">'+b[2]+'</p>'+tips(b[3]);
  if(T.areas){var o=dims(),low=Object.keys(o).sort(function(a,b){return o[a]-o[b]})[0];h+='<p class="sc" style="margin-top:14px">영역별 점수 · 가장 먼저 챙길 영역: <b>'+T.areas[low]+'</b></p>'+bars(o,T.areas,low)}}
-else if(T.kind=='dim'){var o=dims(),top=Object.keys(o).sort(function(a,b){return o[b]-o[a]})[0],d=T.dims[top],nm={};for(var k in T.dims)nm[k]=T.dims[k][0];tt=d[0];h='<span class="tag">'+T.name+' 결과</span><h2>'+d[0]+'</h2><p class="d">'+d[1]+'</p>'+tips(d[2])+bars(o,nm,top)}
-else if(T.kind=='axis2'){var o=dims(),x=o.x,y=o.y,key=(x>=50?'H':'L')+(y>=50?'H':'L'),d=T.axis.types[key];tt=d[0];h='<span class="tag">'+T.name+' 결과</span><h2>'+d[0]+'</h2><p class="sc">'+T.axis.x+' '+x+'점 · '+T.axis.y+' '+y+'점</p><div class="qmap"><span style="left:8px;top:6px">회피형</span><span style="right:8px;top:6px">혼란형</span><span style="left:8px;bottom:6px">안정형</span><span style="right:8px;bottom:6px">불안형</span><i class="dot" style="left:'+x+'%;top:'+(100-y)+'%"></i></div><p class="sc" style="text-align:center">가로: '+T.axis.x+' · 세로: '+T.axis.y+'</p><p class="d">'+d[1]+'</p>'+tips(d[2])}
-else if(T.kind=='age'){var o=dims(),age=Math.round(35+(o.o-o.y)*0.25);age=Math.max(8,Math.min(70,age));var g=age<15?['초등학생 마음','호기심 많고 솔직한 어린이 같은 마음이에요. 재미있는 일 앞에서는 망설이지 않아요.']:age<23?['10대 마음','유행에 빠르고 에너지가 넘쳐요. 하고 싶은 게 많은 청춘 그 자체예요.']:age<33?['20대 마음','새로운 경험을 즐기면서도 나름의 기준이 생긴 마음이에요.']:age<45?['30대 마음','열정과 현실 감각이 균형을 이룬 마음이에요. 할 땐 하고 쉴 땐 쉬어요.']:age<57?['40대 마음','여유롭고 차분하게 상황을 보는 어른스러운 마음이에요.']:['60대 이상 마음','웬만한 일에는 흔들리지 않는 넉넉한 마음이에요. 주변 사람들이 기대고 싶어 해요.'];tt='정신연령 '+age+'세';h='<span class="tag">'+T.name+' 결과</span><h2>정신연령 '+age+'세</h2><p class="sc">'+g[0]+' · 젊은 마음 '+o.y+'점 / 어른스러운 마음 '+o.o+'점</p><p class="d">'+g[1]+' 재미로 보는 결과이니 친구와 비교해 보세요.</p>'}
+else if(T.kind=='dim'){var o=dims(),top=Object.keys(o).sort(function(a,b){return o[b]-o[a]})[0],d=T.dims[top],nm={};KEY=top;for(var k in T.dims)nm[k]=T.dims[k][0];tt=d[0];h='<span class="tag">'+T.name+' 결과</span><h2>'+d[0]+'</h2><p class="d">'+d[1]+'</p>'+tips(d[2])+bars(o,nm,top)}
+else if(T.kind=='axis2'){var o=dims(),x=o.x,y=o.y,key=(x>=50?'H':'L')+(y>=50?'H':'L'),d=T.axis.types[key];KEY=key;tt=d[0];h='<span class="tag">'+T.name+' 결과</span><h2>'+d[0]+'</h2><p class="sc">'+T.axis.x+' '+x+'점 · '+T.axis.y+' '+y+'점</p><div class="qmap"><span style="left:8px;top:6px">회피형</span><span style="right:8px;top:6px">혼란형</span><span style="left:8px;bottom:6px">안정형</span><span style="right:8px;bottom:6px">불안형</span><i class="dot" style="left:'+x+'%;top:'+(100-y)+'%"></i></div><p class="sc" style="text-align:center">가로: '+T.axis.x+' · 세로: '+T.axis.y+'</p><p class="d">'+d[1]+'</p>'+tips(d[2])}
+else if(T.kind=='age'){var o=dims(),age=Math.round(35+(o.o-o.y)*0.25);age=Math.max(8,Math.min(70,age));KEY='g'+(age<15?0:age<23?1:age<33?2:age<45?3:age<57?4:5);var g=age<15?['초등학생 마음','호기심 많고 솔직한 어린이 같은 마음이에요. 재미있는 일 앞에서는 망설이지 않아요.']:age<23?['10대 마음','유행에 빠르고 에너지가 넘쳐요. 하고 싶은 게 많은 청춘 그 자체예요.']:age<33?['20대 마음','새로운 경험을 즐기면서도 나름의 기준이 생긴 마음이에요.']:age<45?['30대 마음','열정과 현실 감각이 균형을 이룬 마음이에요. 할 땐 하고 쉴 땐 쉬어요.']:age<57?['40대 마음','여유롭고 차분하게 상황을 보는 어른스러운 마음이에요.']:['60대 이상 마음','웬만한 일에는 흔들리지 않는 넉넉한 마음이에요. 주변 사람들이 기대고 싶어 해요.'];tt='정신연령 '+age+'세';h='<span class="tag">'+T.name+' 결과</span><h2>정신연령 '+age+'세</h2><p class="sc">'+g[0]+' · 젊은 마음 '+o.y+'점 / 어른스러운 마음 '+o.o+'점</p><p class="d">'+g[1]+' 재미로 보는 결과이니 친구와 비교해 보세요.</p>'}
 if(T.care)h+='<p class="qcare">이 결과는 스스로를 돌아보는 참고용이에요. 힘든 마음이 2주 넘게 이어지면 정신건강 위기상담 전화 <b>109</b>(24시간)나 가까운 정신건강복지센터에서 상담을 받을 수 있어요.</p>';
-h+='<div class="btns">'+(T.kind=='phq9'?'':'<button class="btn" type="button" id="sh">결과 공유하기</button>')+'<button class="btn ghost" type="button" id="re">다시 하기</button></div>';
+if(KEY){var IMG='/assets/share/test/'+T.slug+'-'+KEY+'.png',SURL='https://honglife.co.kr/test/r/'+T.slug+'-'+KEY+'.html',TX='['+T.name.split(' (')[0]+'] 나는 '+tt+'! 나도 해 보기 👉';
+h+='<div class="qshare"><p class="qs-h">내 결과 카드</p><img src="'+IMG+'" width="1080" height="1350" alt="'+T.name+' 결과 카드: '+tt+'"><div class="qs-b"><button class="btn" type="button" id="qs-share">이미지로 공유하기</button><a class="btn ghost" id="qs-save" href="'+IMG+'" download="'+T.slug+'-'+KEY+'.png">이미지 저장</a></div>'
++'<div class="qs-sns"><a target="_blank" rel="noopener" href="https://www.threads.net/intent/post?text='+encodeURIComponent(TX+' '+SURL)+'"><b class="th">@</b>스레드</a><a target="_blank" rel="noopener" href="https://share.naver.com/web/shareView?url='+encodeURIComponent(SURL)+'&title='+encodeURIComponent(TX)+'"><b class="nv">N</b>네이버 블로그</a><a target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text='+encodeURIComponent(TX)+'&url='+encodeURIComponent(SURL)+'"><b class="xx">𝕏</b>X</a><button type="button" id="qs-copy"><b class="ln">🔗</b>링크 복사</button></div>'
++'<p class="qs-n">인스타그램은 “이미지로 공유하기”에서 인스타그램을 고르거나, 이미지를 저장해 스토리·피드에 올리세요. 링크로 공유하면 이 결과 카드가 미리보기로 보여요.</p></div>';}
+h+='<div class="btns"><button class="btn ghost" type="button" id="re">다시 하기</button></div>';
 res.innerHTML=h;res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'start'});
-var SH=document.getElementById('sh');if(SH)SH.onclick=function(){var tx='['+T.name+'] 내 결과: '+tt+' — 나도 해 보기';if(navigator.share){navigator.share({title:T.name,text:tx,url:location.href}).catch(function(){})}else{navigator.clipboard.writeText(tx+' '+location.href).then(function(){alert('링크를 복사했어요')})}};
+if(KEY){var tst=function(m){var t=document.createElement('div');t.className='qs-toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2200)};
+document.getElementById('qs-copy').onclick=function(){navigator.clipboard.writeText(TX+' '+SURL).then(function(){tst('링크를 복사했어요')})};
+document.getElementById('qs-share').onclick=function(){fetch(IMG).then(function(r){return r.blob()}).then(function(bl){var f=new File([bl],T.slug+'-'+KEY+'.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]})){return navigator.share({files:[f],text:TX+' '+SURL})}if(navigator.share){return navigator.share({title:T.name,text:TX,url:SURL})}var a=document.createElement('a');a.href=IMG;a.download=f.name;a.click();tst('이미지를 저장했어요. 올릴 곳에 붙여 주세요')}).catch(function(){})};}
 document.getElementById('re').onclick=function(){A.fill(null);box.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false')});res.hidden=true;upd();window.scrollTo({top:box.offsetTop-80,behavior:'smooth'})};};
 upd();})();</script>"""
 
@@ -115,7 +131,7 @@ def test_page(t):
     nq = len(t['q'])
     title = f'{t["name"]} 무료 · {nq}문항 자가 점검 | 홍라이프 도구'
     desc = t['lead']
-    T = dict(name=t['name'], kind=t['kind'], q=t['q'], care=t.get('care', False))
+    T = dict(name=t['name'], slug=t['slug'], kind=t['kind'], q=t['q'], care=t.get('care', False))
     if t.get('L'): T['L'] = t['L']
     if t['kind'] == 'phq9': T['bands'] = [list(b) for b in t['bands']]
     if t['kind'] == 'score':
@@ -152,12 +168,59 @@ def test_page(t):
     body += xp + faqhtml(t['faq']) + extra + rel('test', t['slug'], TESTS, '심리 테스트')
     ld = {"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": t['name'], "url": SITE + path, "applicationCategory": "LifestyleApplication", "operatingSystem": "Any", "inLanguage": "ko", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "KRW"}},
           crumbs([('홈', '/'), ('심리 테스트', '/test/'), (t['name'], path)]), faqld(t['faq'])]}
-    page(path, title, desc, crumb, body, ld, js)
+    page(path, title, desc, crumb, body, ld, js, og=f'/assets/share/test/og-{t["slug"]}.png')
 
+GJS = r'''
+(function(){var tool=document.getElementById('tool');if(!tool)return;var G=__G__;
+var box=document.createElement('div');box.className='qshare';box.innerHTML='<p class="qs-h">결과 카드로 공유하기</p><p class="qs-n" style="margin:0 0 10px!important">지금 계산한 숫자로 카드가 만들어져요. 숫자를 바꾸고 다시 누르면 새로 그려요.</p><button class="btn" type="button" id="gc-make" style="width:100%">결과 카드 만들기</button><div id="gc-out" hidden><img id="gc-img" alt="계산 결과 카드" style="margin-top:14px"><div class="qs-b"><button class="btn" type="button" id="qs-share">이미지로 공유하기</button><a class="btn ghost" id="qs-save" download="'+G.slug+'.png">이미지 저장</a></div><div class="qs-sns"><a target="_blank" rel="noopener" id="s-th"><b class="th">@</b>스레드</a><a target="_blank" rel="noopener" id="s-nv"><b class="nv">N</b>네이버 블로그</a><a target="_blank" rel="noopener" id="s-x"><b class="xx">𝕏</b>X</a><button type="button" id="qs-copy"><b class="ln">🔗</b>링크 복사</button></div><p class="qs-n">인스타그램은 “이미지로 공유하기”에서 인스타그램을 고르거나, 이미지를 저장해 스토리·피드에 올리세요.</p></div>';
+tool.appendChild(box);
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+function fit(x,t,max,size,weight){var s=size;do{x.font=weight+' '+s+'px '+F;s-=2}while(x.measureText(t).width>max&&s>20);return s+2}
+var F='"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif';
+function shade(c,f){c=c.replace('#','');return '#'+[0,2,4].map(function(i){return ('0'+Math.round(parseInt(c.substr(i,2),16)*f).toString(16)).slice(-2)}).join('')}
+function draw(){var rows=[].slice.call(tool.querySelectorAll('.gm-out>div')).map(function(d){return [d.querySelector('span').textContent.trim(),d.querySelector('b').textContent.trim(),d.classList.contains('hi')]}).filter(function(r){return r[1]&&r[1]!='-'});
+var hi=rows.filter(function(r){return r[2]})[0]||rows[0];var rest=rows.filter(function(r){return r!==hi}).slice(0,4);
+var inputs=[].slice.call(tool.querySelectorAll('.f')).slice(0,4).map(function(f){var l=f.querySelector('label'),i=f.querySelector('input,select');if(!l||!i)return null;var v=i.tagName=='SELECT'?i.options[i.selectedIndex].text:i.value;return [l.textContent.trim(),v]}).filter(Boolean);
+var cv=document.createElement('canvas');cv.width=1080;cv.height=1350;var x=cv.getContext('2d');
+x.fillStyle='#FFFDF9';x.fillRect(0,0,1080,1350);
+var g=x.createLinearGradient(0,0,1080,640);g.addColorStop(0,G.c);g.addColorStop(1,shade(G.c,.7));x.fillStyle=g;x.fillRect(0,0,1080,640);
+var rg=x.createRadialGradient(160,0,10,160,0,600);rg.addColorStop(0,'rgba(255,255,255,.25)');rg.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=rg;x.fillRect(0,0,1080,640);
+x.save();x.globalAlpha=.14;x.strokeStyle='#fff';x.lineWidth=2;x.translate(660,40);x.scale(8,8);x.lineCap='round';x.lineJoin='round';G.p.forEach(function(d){x.stroke(new Path2D(d))});x.restore();
+x.fillStyle='rgba(255,255,255,.18)';rr(x,80,76,0,64,32);x.font='700 30px '+F;var lw=x.measureText(G.name).width+56;rr(x,80,76,lw,62,31);x.fill();x.strokeStyle='rgba(255,255,255,.4)';x.lineWidth=2;x.stroke();x.fillStyle='#fff';x.fillText(G.name,108,118);
+x.font='500 40px '+F;x.fillStyle='rgba(255,255,255,.9)';x.fillText(hi[0],80,300);
+var fs=fit(x,hi[1],920,150,'900');x.fillStyle='#fff';x.font='900 '+fs+'px '+F;x.fillText(hi[1],76,300+fs*1.02);
+var y=720;x.fillStyle='#1F2430';
+rest.forEach(function(r){x.font='500 30px '+F;x.fillStyle='#6B7684';x.fillText(r[0],80,y);var f2=fit(x,r[1],520,46,'800');x.fillStyle='#1F2430';x.font='800 '+f2+'px '+F;x.textAlign='right';x.fillText(r[1],1000,y+6);x.textAlign='left';x.fillStyle=G.soft;x.fillRect(80,y+32,920,3);y+=92});
+inputs=inputs.slice(0,Math.max(0,Math.floor((1190-y-76)/44)));if(inputs.length){x.fillStyle=G.soft;rr(x,80,y+4,920,72+inputs.length*44,24);x.fill();x.font='700 26px '+F;x.fillStyle=shade(G.c,.7);x.fillText('입력한 값',112,y+52);inputs.forEach(function(r,i){x.font='500 26px '+F;x.fillStyle='#3A3F4B';var t=r[0]+': '+r[1];while(x.measureText(t).width>840)t=t.slice(0,-2);x.fillText(t,112,y+98+i*44)});}
+x.setLineDash([10,10]);x.strokeStyle=G.soft;x.lineWidth=3;x.beginPath();x.moveTo(0,1214);x.lineTo(1080,1214);x.stroke();x.setLineDash([]);
+x.fillStyle='#16325C';rr(x,80,1248,52,52,12);x.fill();x.fillStyle='#fff';x.font='900 30px '+F;x.fillText('H',94,1285);x.fillStyle='#1F2430';x.font='800 32px '+F;x.fillText('홍라이프 도구',148,1272);x.fillStyle='#6B7684';x.font='500 24px '+F;x.fillText('honglife.co.kr/game',148,1304);
+x.fillStyle='#191F28';rr(x,756,1240,244,70,35);x.fill();x.fillStyle='#fff';x.font='800 30px '+F;x.fillText('계산해 보기 →',786,1286);
+return {cv:cv,tx:'['+G.name+'] '+hi[0]+' '+hi[1]+' 👉 직접 계산해 보기'}}
+var last=null,URL='https://honglife.co.kr/game/'+G.slug+'.html';
+document.getElementById('gc-make').onclick=function(){(document.fonts?document.fonts.ready:Promise.resolve()).then(function(){var r=draw();last=r;var u=r.cv.toDataURL('image/png');document.getElementById('gc-img').src=u;document.getElementById('qs-save').href=u;document.getElementById('gc-out').hidden=false;
+document.getElementById('s-th').href='https://www.threads.net/intent/post?text='+encodeURIComponent(r.tx+' '+URL);document.getElementById('s-nv').href='https://share.naver.com/web/shareView?url='+encodeURIComponent(URL)+'&title='+encodeURIComponent(r.tx);document.getElementById('s-x').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(r.tx)+'&url='+encodeURIComponent(URL);})};
+document.getElementById('qs-copy').onclick=function(){navigator.clipboard.writeText((last?last.tx:'')+' '+URL).then(function(){alert('링크를 복사했어요')})};
+document.getElementById('qs-share').onclick=function(){if(!last)return;last.cv.toBlob(function(bl){var f=new File([bl],G.slug+'.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],text:last.tx+' '+URL}).catch(function(){});else if(navigator.share)navigator.share({text:last.tx,url:URL}).catch(function(){});else{var a=document.createElement('a');a.href=URL.createObjectURL?window.URL.createObjectURL(bl):'';a.download=f.name;a.click()}})};
+})();'''
 HELP = r"""<script>(function(){function $(i){return document.getElementById(i)}function N(i){var v=($(i).value||'').toString().replace(/[^0-9.\-]/g,'');return parseFloat(v)||0}function S(i,v){$(i).textContent=v}function K(n){return Math.round(n).toLocaleString('ko-KR')}
 function M(n){n=Math.floor(n);var j=Math.floor(n/1e12),e=Math.floor(n%1e12/1e8),m=Math.floor(n%1e8/1e4),r=n%1e4,s=[];if(j)s.push(j+'조');if(e)s.push(e+'억');if(m)s.push(m+'만');if(r||!s.length)s.push(r);return s.join(' ')+' 메소'}function G(n){return K(n)+' 골드'}
 __JS__
-document.querySelectorAll('#tool input,#tool select').forEach(function(x){x.addEventListener('input',c);x.addEventListener('change',c)});c();})();</script>"""
+document.querySelectorAll('#tool input,#tool select').forEach(function(x){x.addEventListener('input',c);x.addEventListener('change',c)});c();})();
+__GJS__</script>"""
+
+def svg_paths(svg):
+    import re
+    out = re.findall(r'<path[^>]*\sd="([^"]+)"', svg)
+    for m in re.finditer(r'<circle([^>]*)/?>', svg):
+        a = dict(re.findall(r'(\w+)="([^"]+)"', m.group(1))); cx, cy, r = float(a['cx']), float(a['cy']), float(a['r'])
+        out.append(f'M{cx-r} {cy}a{r} {r} 0 1 0 {2*r} 0a{r} {r} 0 1 0 {-2*r} 0')
+    for m in re.finditer(r'<ellipse([^>]*)/?>', svg):
+        a = dict(re.findall(r'(\w+)="([^"]+)"', m.group(1))); cx, cy, rx, ry = (float(a[k]) for k in ('cx', 'cy', 'rx', 'ry'))
+        out.append(f'M{cx-rx} {cy}a{rx} {ry} 0 1 0 {2*rx} 0a{rx} {ry} 0 1 0 {-2*rx} 0')
+    for m in re.finditer(r'<rect([^>]*)/?>', svg):
+        a = dict(re.findall(r'(\w+)="([^"]+)"', m.group(1))); x, y, w, h = (float(a[k]) for k in ('x', 'y', 'width', 'height'))
+        out.append(f'M{x} {y}h{w}v{h}h{-w}Z')
+    return out
 
 def game_page(g):
     path = f'/game/{g["slug"]}.html'
@@ -173,7 +236,10 @@ def game_page(g):
     body += faqhtml(g['faq']) + rel('game', g['slug'], GAMES, '게임 계산기')
     ld = {"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": g['name'], "url": SITE + path, "applicationCategory": "GameApplication", "operatingSystem": "Any", "inLanguage": "ko", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "KRW"}},
           crumbs([('홈', '/'), ('게임 계산기', '/game/'), (g['name'], path)]), faqld(g['faq'])]}
-    page(path, title, g['lead'], crumb, body, ld, HELP.replace('__JS__', g['js']))
+    from thumbs import ICON as _I, COL as _C
+    import re as _r2
+    gobj = dict(slug=g['slug'], name=g['name'].split(' (')[0], c=_C[g['slug']][0], soft=_C[g['slug']][1], p=svg_paths(_I[g['slug']]))
+    page(path, title, g['lead'], crumb, body, ld, HELP.replace('__JS__', g['js']).replace('__GJS__', GJS.replace('__G__', json.dumps(gobj, ensure_ascii=False))), og=f'/assets/share/game/og-{g["slug"]}.png')
 
 OTHER = open(f'{D}/tpl_other.html', encoding='utf-8').read() if os.path.exists(f'{D}/tpl_other.html') else ''
 def hub(cat, items, h1, lead, title, desc):
