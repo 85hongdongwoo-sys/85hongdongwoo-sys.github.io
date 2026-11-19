@@ -88,7 +88,7 @@ function search(q,cb){if(!places||!q)return cb([]);var c=map?map.getCenter():nul
 function nameAt(lat,lng,cb){if(!geo)return cb('지도에서 고른 곳');geo.coord2Address(lng,lat,function(r,st){if(st===K.services.Status.OK&&r[0]){var a=r[0].road_address||r[0].address;cb((r[0].road_address&&r[0].road_address.building_name)||a.address_name)}else cb('지도에서 고른 곳')})}
 function route(o,d,w,opt){opt=opt||{};return fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
  body:JSON.stringify({origin:{x:o.lng,y:o.lat},destination:{x:d.lng,y:d.lat},waypoints:(w||[]).map(function(p){return {x:p.lng,y:p.lat}}),priority:opt.priority||'RECOMMEND',avoid:opt.avoid&&opt.avoid.length?opt.avoid:undefined,summary:!!opt.summaryOnly})})
- .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json()}).then(function(j){var R=j.routes&&j.routes[0];if(!R||R.tfrult_code!==0)throw new Error(R?R.tfrult_msg:'길찾기 실패');
+ .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json()}).then(function(j){var R=j.routes&&j.routes[0];if(!R||R.result_code!==0)throw new Error(R?R.result_msg:'길찾기 실패');
   var pts=[];(R.sections||[]).forEach(function(sc){(sc.roads||[]).forEach(function(rd){for(var i=0;i<rd.vertexes.length;i+=2)pts.push([rd.vertexes[i+1],rd.vertexes[i]])})});
   return {distance:R.summary.distance,duration:R.summary.duration,taxi:(R.summary.fare||{}).taxi||0,toll:(R.summary.fare||{}).toll||0,pts:pts}})}
 function draw(pts,color){if(line)line.setMap(null);if(!pts.length)return;var path=pts.map(function(p){return new K.LatLng(p[0],p[1])});
