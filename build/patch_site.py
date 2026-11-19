@@ -285,7 +285,7 @@ s = open(p, encoding='utf-8').read()
 if 'hl-catrow-css' not in s:
     FC = {'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
           'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#495057', 'life': '#2F9E44', 'medical': '#E64980',
-          'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6'}
+          'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6', 'gov': '#0B7285'}
     def mix(c, t):
         r, g, b = int(c[1:3], 16), int(c[3:5], 16), int(c[5:7], 16)
         return '#%02X%02X%02X' % tuple(round(v + (255 - v) * t) for v in (r, g, b))
@@ -326,7 +326,7 @@ HPAL = ['#FFD6A5', '#C9DCFF', '#D7C8FF', '#BFEBD8', '#FFC9D6', '#FFE89A']
 HDK = ['#1E2A4A', '#2B1F3D', '#12352B', '#3A1E24', '#1F3340']
 HFC = {'test': '#B14FC5', 'game': '#7FA21B', 'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
        'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#495057', 'life': '#2F9E44', 'medical': '#E64980',
-       'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6'}
+       'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6', 'gov': '#0B7285'}
 KW = [('bus', r'노선 내비|경유지'), ('pdf', r'PDF'), ('image', r'이미지|사진|PNG|JPG|증명'), ('qr', r'QR|바코드'), ('ai', r'AI|챗GPT|클로드|프롬프트'),
       ('calendar', r'달력|D-day|날짜|공휴일|요일'), ('sheet', r'차트|그래프|가계부|근무표'), ('excel', r'엑셀|수식|CSV'),
       ('dev', r'JSON|코드|정규식|Base64|HTML'), ('doc', r'계약서|견적서|이력서|서식|영수증'), ('text', r'글자|텍스트|맞춤법')]
@@ -520,9 +520,31 @@ for cat, u, n, d, kw, cn in MOVED:
     if f'honglife.co.kr{u}<' not in s:
         open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-19</lastmod></url>\n</urlset>', 1)); print('sitemap +', u)
 
+
+# ── 새 분류: 공문서·민원(/gov/) (overlay, 2026-11-19) ──
+_gv_p = os.path.join(root, 'govcats.json')
+if os.path.exists(_gv_p):
+    GV = _json.load(open(_gv_p, encoding='utf-8')); os.remove(_gv_p)
+    p = os.path.join(root, 'index.html'); s = open(p, encoding='utf-8').read()
+    m = re.search(r'<li><a class="ct" href="/life/".*?</a></li>', s, flags=re.S)
+    if m and 'href="/gov/"' not in s:
+        card = (f'<li><a class="ct" href="/gov/" style="--bg:linear-gradient(#D7EEF2 0 40%,transparent 40%),linear-gradient(90deg,#3BA3B6 0 58%,#8CCBD6 58%)">'
+                f'<span class="ch"><em>{len(GV)}개</em><b>공문서·민원</b></span><i class="ci" style="background-image:url(/assets/art/hl/cs-gov.svg)"></i><span class="go" aria-hidden="true">›</span></a></li>')
+        s = s[:m.end()] + card + s[m.end():]; print('home: gov card')
+    if TRIP in s and '"u":"/gov/' not in s:
+        ent = [_json.dumps({"t": n, "d": d, "k": kw, "c": "공문서·민원", "u": u}, ensure_ascii=False, separators=(',', ':')) for u, n, d, kw in GV]
+        ent.append(_json.dumps({"t": "공문서·민원 도우미 모음", "d": "위임장 인쇄, 대리 발급 위임장 예시, 주민센터 준비물", "k": "민원 위임장 주민센터 서류 공문서", "c": "공문서·민원", "u": "/gov/"}, ensure_ascii=False, separators=(',', ':')))
+        s = s.replace(TRIP, TRIP + ',' + ','.join(ent), 1); print('search index + gov', len(ent))
+    open(p, 'w', encoding='utf-8').write(s)
+    p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
+    if 'honglife.co.kr/gov/' not in s:
+        urls = ['/gov/'] + [u for u, *_ in GV]
+        s = s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-19</lastmod></url>\n' for u in urls) + '</urlset>', 1)
+        open(p, 'w', encoding='utf-8').write(s); print('sitemap + gov', len(urls))
+
 # ── 상단 분류 줄 고정: 모든 한국어 페이지에 같은 분류 전체 목록(가로 스크롤 한 줄) ──
 CATBAR = [('excel', '엑셀 수식'), ('sheet', '엑셀 양식'), ('doc', '문서'), ('pdf', 'PDF'), ('image', '이미지'), ('convert', '파일 변환'),
-          ('text', '텍스트'), ('ai', 'AI'), ('calendar', '날짜·달력'), ('qr', 'QR'), ('life', '생활·행정'), ('medical', '병원·건강'),
+          ('text', '텍스트'), ('ai', 'AI'), ('calendar', '날짜·달력'), ('qr', 'QR'), ('life', '생활·행정'), ('gov', '공문서·민원'), ('medical', '병원·건강'),
           ('legal', '법률'), ('study', '학생·공부'), ('ipsi', '입시'), ('trip', '여행'), ('test', '심리 테스트'), ('game', '게임 계산기'),
           ('design', '디자인'), ('shop', '소상공인'), ('dev', '개발'), ('net', '인터넷')]
 CATCSS = ('<style id="hl-catbar-css">.brandbar .in nav a:not(.srch):not(.lang){display:none!important}'
@@ -570,6 +592,9 @@ for c, _ in CATBAR:
         if m:
             for lm in LI_RE.finditer(m.group(2)):
                 canon.setdefault(lm.group(1), lm.group(0))
+if '/gov/' not in canon:
+    canon['/gov/'] = ('<li><a href="/gov/" style="--bg:linear-gradient(#D7EEF2 0 34%,#3BA3B6 34%)"><b>공문서·민원</b><span>위임장 인쇄, 주민센터 방문 준비물</span>'
+                      '<i style="background-image:url(/assets/art/hl/cs-gov.svg)"></i></a></li>')
 if '/trip/' not in canon:
     canon['/trip/'] = ('<li><a href="/trip/" style="--bg:linear-gradient(#D6ECF7 0 34%,#7CBDE3 34%)"><b>여행·패키지</b><span>출발확정 해외 패키지 특가, 여행 쇼츠</span>'
                        '<i style="background-image:url(/assets/art/hl/cs-trip.svg)"></i></a></li>')
