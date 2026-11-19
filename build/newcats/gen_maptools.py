@@ -59,17 +59,17 @@ COMMON_CSS = '''
 .opts .ck{flex-direction:row;align-items:center;gap:8px;min-height:44px}.opts .ck input{width:20px;height:20px}
 .go-btn{display:block;width:100%;margin-top:14px;min-height:52px;border:0;border-radius:14px;background:var(--acc);color:#fff;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
 .go-btn:disabled{background:#B0B8C1;cursor:default}
-.res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
-.res div{background:#F4F7FB;border-radius:12px;padding:12px 6px;text-align:center}
-.res b{display:block;font-size:21px;color:var(--head);line-height:1.25;font-variant-numeric:tabular-nums;word-break:keep-all}
-.res span{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
-.res .big{grid-column:span 3;background:#0B5ED7}.res .big b,.res .big span{color:#fff}.res .big b{font-size:28px}
-.msg{font-size:13.5px;line-height:1.6;margin:10px 0 0;color:var(--ink)}
-.msg.err{color:#C92A2A;font-weight:700}
+.tfr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+.tfr div{background:#F4F7FB;border-radius:12px;padding:12px 6px;text-align:center}
+.tfr b{display:block;font-size:21px;white-space:nowrap;color:var(--head);line-height:1.25;font-variant-numeric:tabular-nums;word-break:keep-all}
+.tfr span{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+.tfr .big{grid-column:span 3;background:#0B5ED7}.tfr .big b,.tfr .big span{color:#fff}.tfr .big b{font-size:28px}
+.tfm{font-size:13.5px;line-height:1.6;margin:10px 0 0;color:var(--ink)}
+.tfm.err{color:#C92A2A;font-weight:700}
 .ext{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.ext a{flex:1 1 140px;text-align:center;padding:12px;border-radius:12px;background:#FEE500;color:#191919;font-weight:800;text-decoration:none;font-size:14.5px}
 .ext a.n{background:#03C75A;color:#fff}
 .pe-faq dt{font-weight:700;margin-top:12px;color:var(--head)}.pe-faq dd{margin:4px 0 0;line-height:1.65;color:var(--ink)}
-@media(max-width:520px){.res b{font-size:18px}.res .big b{font-size:24px}#map{height:46vh}}
+@media(max-width:520px){.tfr b{font-size:16.5px;letter-spacing:-.3px}.tfr .big b{font-size:24px}#map{height:46vh}}
 '''
 
 COMMON_JS = r'''
@@ -88,7 +88,7 @@ function search(q,cb){if(!places||!q)return cb([]);var c=map?map.getCenter():nul
 function nameAt(lat,lng,cb){if(!geo)return cb('지도에서 고른 곳');geo.coord2Address(lng,lat,function(r,st){if(st===K.services.Status.OK&&r[0]){var a=r[0].road_address||r[0].address;cb((r[0].road_address&&r[0].road_address.building_name)||a.address_name)}else cb('지도에서 고른 곳')})}
 function route(o,d,w,opt){opt=opt||{};return fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
  body:JSON.stringify({origin:{x:o.lng,y:o.lat},destination:{x:d.lng,y:d.lat},waypoints:(w||[]).map(function(p){return {x:p.lng,y:p.lat}}),priority:opt.priority||'RECOMMEND',avoid:opt.avoid&&opt.avoid.length?opt.avoid:undefined,summary:!!opt.summaryOnly})})
- .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json()}).then(function(j){var R=j.routes&&j.routes[0];if(!R||R.result_code!==0)throw new Error(R?R.result_msg:'길찾기 실패');
+ .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json()}).then(function(j){var R=j.routes&&j.routes[0];if(!R||R.tfrult_code!==0)throw new Error(R?R.tfrult_msg:'길찾기 실패');
   var pts=[];(R.sections||[]).forEach(function(sc){(sc.roads||[]).forEach(function(rd){for(var i=0;i<rd.vertexes.length;i+=2)pts.push([rd.vertexes[i+1],rd.vertexes[i]])})});
   return {distance:R.summary.distance,duration:R.summary.duration,taxi:(R.summary.fare||{}).taxi||0,toll:(R.summary.fare||{}).toll||0,pts:pts}})}
 function draw(pts,color){if(line)line.setMap(null);if(!pts.length)return;var path=pts.map(function(p){return new K.LatLng(p[0],p[1])});
@@ -116,15 +116,15 @@ TAXI_MAIN = '''<section class="card tool"><h2>출발지·도착지 고르기</h2
 <label class="ck"><input type="checkbox" id="rt">왕복으로 계산</label>
 </div>
 <button class="go-btn" id="go" disabled>요금 계산하기</button>
-<div id="out" hidden><div class="res">
+<div id="out" hidden><div class="tfr">
 <div class="big"><b id="o-taxi">–</b><span id="o-taxi-l">예상 택시비 (주간)</span></div>
 <div><b id="o-dist">–</b><span>거리</span></div><div><b id="o-time">–</b><span>예상 시간</span></div><div><b id="o-toll">–</b><span>통행료</span></div>
 <div><b id="o-gas">–</b><span>내 차 기름값</span></div><div><b id="o-car">–</b><span>내 차 합계</span></div><div><b id="o-per">–</b><span>택시 1인당</span></div>
 </div>
-<p class="msg" id="o-msg"></p>
+<p class="tfm" id="o-msg"></p>
 <div class="ext"><a id="o-kakao" target="_blank" rel="noopener">카카오맵으로 길안내</a><a class="n" id="o-naver" target="_blank" rel="noopener">네이버 지도로 보기</a></div></div>
-<p class="msg err" id="err" hidden></p>
-<p class="msg" style="color:var(--muted)">기름값 1,700원은 예시예요. 주유소 가격으로 바꿔 넣으면 바로 다시 계산돼요. 택시비는 카카오 길찾기가 알려 주는 주간 기본요금 기준이고, 심야·시계외 할증과 호출비는 빠져 있어요.</p>
+<p class="tfm err" id="err" hidden></p>
+<p class="tfm" style="color:var(--muted)">기름값 1,700원은 예시예요. 주유소 가격으로 바꿔 넣으면 바로 다시 계산돼요. 택시비는 카카오 길찾기가 알려 주는 주간 기본요금 기준이고, 심야·시계외 할증과 호출비는 빠져 있어요.</p>
 </section>
 <section class="card"><h2>이렇게 계산해요</h2><ul class="xp">
 <li><b>거리·시간·택시비·통행료</b>는 카카오모빌리티 자동차 길찾기 결과를 그대로 써요. 실시간 교통이 반영된 지금 출발 기준이에요.</li>
