@@ -140,7 +140,7 @@
 </ul></details>
  <p class="rn-sum" id="sum"></p>
  <ol class="rn-list" id="list"></ol>
- <div class="rn-tb rn-bot"><button type="button" class="btn ghost" id="undo">마지막 정류장 빼기</button><button type="button" class="btn ghost" id="rev">순서 뒤집기</button><button type="button" class="btn" id="share">노선 공유 링크</button></div>
+ <div class="rn-tb rn-bot"><button type="button" class="btn ghost" id="undo">마지막 정류장 빼기</button><button type="button" class="btn ghost" id="rev">순서 뒤집기</button><button type="button" class="btn ghost" id="revnew">반대 방향 새 노선으로 저장</button><button type="button" class="btn" id="share">노선 공유 링크</button></div>
 </div>
 <div id="pane-run" hidden>
  <div class="rn-next"><p class="rn-k" id="nk"></p><p class="rn-nm" id="nn"></p><p class="rn-sub" id="ns"></p>
@@ -340,6 +340,7 @@ $('qr').addEventListener('click',function(e){var b=e.target.closest('button');if
  $('qr').hidden=true;$('qi').value='';toast(R().length+'번 정류장으로 추가했어요')});
 $('undo').onclick=function(){R().pop();save();draw()};
 $('rev').onclick=function(){R().reverse();save();draw()};
+$('revnew').onclick=function(){var st=R();if(st.length<2){toast('정류장이 2곳 이상일 때 만들 수 있어요');return}var d=(S.cur+' 반대').slice(0,20),n=prompt('반대 방향 노선 이름',d);if(n==null)return;n=(n.trim()||d).slice(0,20);var b0=n,k=2;while(S.routes[n]){n=(b0.slice(0,17)+' '+k);k++}S.routes[n]=st.slice().reverse().map(function(p){return {lat:p.lat,lng:p.lng,n:p.n||''}});S.cur=n;save();sel();draw(true);toast('\''+n+'\' 노선을 만들었어요 (정류장 '+st.length+'곳, 순서 반대)')};
 function sel(){$('rsel').innerHTML=Object.keys(S.routes).map(function(k){return '<option'+(k==S.cur?' selected':'')+'>'+k.replace(/</g,'&lt;')+'</option>'}).join('')}
 $('rsel').onchange=function(){S.cur=this.value;save();draw(true)};
 $('rnew').onclick=function(){var n=prompt('새 노선 이름 (예: B코스)');if(!n)return;n=n.trim().slice(0,20);if(!n)return;if(!S.routes[n])S.routes[n]=[];S.cur=n;save();sel();draw()};
