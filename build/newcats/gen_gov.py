@@ -316,8 +316,51 @@ tool_page('visit-docs', '주민센터 방문 서류 준비물 찾기', '주민�
     VD_TOOL, VD_EX, FAQ_VISIT, VD_JS,
     '주민등록법·시행규칙, 인감증명법 시행령, 본인서명사실 확인 등에 관한 법률 시행령, 장애인복지법 시행규칙 제3조, 정부24 민원 안내, 지자체 민원 안내 (2026년 11월 확인)')
 
+
+# ───────────────────────── 2차: 기한 계산 + 준비물 안내 10종 ─────────────────────────
+from gov_data2 import G
+GUIDE_JS = r"""
+function addM(d,m){var x=new Date(d.getFullYear(),d.getMonth()+m,d.getDate());if(x.getDate()!=d.getDate())x=new Date(d.getFullYear(),d.getMonth()+m+1,0);return x}
+function addD(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n)}
+var WD='일월화수목금토';function fmt(d){return d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 ('+WD[d.getDay()]+')'}
+function dd(d){var t=new Date();t=new Date(t.getFullYear(),t.getMonth(),t.getDate());var n=Math.round((d-t)/864e5);return n>0?'D-'+n:(n==0?'오늘':(-n)+'일 지남')}
+function box(lab,d,hi){return '<div'+(hi?' class="hi"':'')+'><span>'+lab+'</span><b>'+fmt(d)+'</b><span style="margin-top:4px">'+dd(d)+'</span></div>'}
+var MED=[0,2564238,4199292,5359036,6494738,7556719,8555952];
+function calc(){var o=$('cout');if(!o)return;var C=__C__;
+ if(C[0]=='hh'){var n=+$('cin').value,m=MED[n];o.innerHTML=[['생계급여 (32%)',.32],['의료급여 (40%)',.4],['주거급여 (48%)',.48],['교육급여 (50%)',.5]].map(function(x,i){return '<div'+(i?'':' class="hi"')+'><span>'+x[0]+'</span><b>'+Math.floor(m*x[1]).toLocaleString()+'원</b><span style="margin-top:4px">월 소득인정액 이하</span></div>'}).join('');return}
+ var v=$('cin').value;if(!v){o.innerHTML='';return}var p=v.split('-'),d=new Date(+p[0],+p[1]-1,+p[2]);
+ if(C[0]=='months')o.innerHTML=box(C[3],addD(addM(d,C[2]),-1),1);
+ else if(C[0]=='monthend_year'){var e=new Date(d.getFullYear(),d.getMonth()+1,0);o.innerHTML=box(C[3],addD(addM(e,12),-1),1)+box('상속포기·한정승인 판단 기한 (안 날부터 3개월, 사망일 기준 예시)',addD(addM(d,3),-1))}
+ else if(C[0]=='days')o.innerHTML=box(C[3],addD(d,C[2]),1)+(C[2]==14&&C[3].indexOf('전입')>=0?box('대항력이 생기는 때 (이사 당일 전입신고 시)',addD(d,1)):'');
+ else if(C[0]=='days2')o.innerHTML=box(C[3],addD(addM(d,1),-1),1)+box('부모급여 소급 신청 마감 (출생 후 60일)',addD(d,60));
+ else if(C[0]=='age65'){var b=new Date(d.getFullYear()+65,d.getMonth(),1);o.innerHTML=box(C[3],addM(b,-1),1)+box('만 65세 생일',new Date(d.getFullYear()+65,d.getMonth(),d.getDate()))}
+ else if(C[0]=='before')o.innerHTML=box(C[3],addD(d,-C[2]),1)+box('출국일',d);}
+"""
+def guide_page(g):
+    c = g['calc']
+    calc_html = ''
+    if c:
+        if c[0] == 'hh':
+            calc_html = '<div class="grid g3"><div class="f"><label for="cin">가구원 수</label><select id="cin">' + ''.join(f'<option value="{i}"{" selected" if i == 1 else ""}>{i}인 가구</option>' for i in range(1, 7)) + '</select></div></div><div class="gv-fee" id="cout"></div><p class="gv-src" style="margin-top:8px">2026년 기준 중위소득에 급여별 비율을 곱한 선정기준이에요. 소득인정액이 이 금액 이하인지 봐요.</p>'
+        else:
+            calc_html = f'<div class="grid g3"><div class="f"><label for="cin">{E(c[1])}</label><input id="cin" type="date"></div></div><div class="gv-fee" id="cout"></div>'
+    kv = '<dl class="gv-kv" style="margin-top:14px">' + ''.join(f'<dt>{E(k)}</dt><dd>{E(v)}</dd>' for k, v in g['kv']) + '</dl>'
+    tool = (calc_html + kv +
+            '<div class="gv-tab" id="how"><button type="button" aria-pressed="true" data-v="s">본인이 가요</button><button type="button" aria-pressed="false" data-v="p">다른 사람이 가요</button></div>'
+            '<ul class="gv-ck" id="ck"></ul>'
+            '<p class="gv-warn">수수료·서식·기준은 바뀔 수 있어요. 방문 전에 주민센터나 정부24 민원 안내에서 한 번 더 확인하세요.</p>')
+    js = ('<script>(function(){' + TODAY_JS + GUIDE_JS.replace('__C__', json.dumps(list(c) if c else ['none'], ensure_ascii=False))
+          + 'var L=' + json.dumps({'s': g['self'], 'p': g['proxy']}, ensure_ascii=False) + r""";var H='s';
+function ck(){$('ck').innerHTML=L[H].map(function(x,i){return '<li><input type="checkbox" id="k'+i+'"><label for="k'+i+'">'+esc(x)+'</label></li>'}).join('')}
+$('how').onclick=function(e){var b=e.target.closest('button');if(!b)return;H=b.dataset.v;$('how').querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});ck()};
+var ci=$('cin');if(ci){if(ci.type=='date'){var C0=__C0__,t=new Date();if(C0=='before')t=new Date(t.getFullYear(),t.getMonth(),t.getDate()+60);if(C0=='age65')t=new Date(t.getFullYear()-65,t.getMonth()+2,15);ci.value=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0')}ci.addEventListener('input',calc);ci.addEventListener('change',calc)}ck();calc();})();</script>""").replace('__C0__', json.dumps(c[0] if c else ''))
+    ex = (f'<h2>{E(g["h1"])}, 이것만 챙기면 돼요</h2><ul>' + ''.join(f'<li>{E(x)}</li>' for x in g['steps']) + '</ul>')
+    tool_page(g['slug'], g['name'], g['h1'], g['lead'], g['title'], g['desc'], g['kw'], tool, ex, g['faq'], js, g['src'])
+for _g in G:
+    guide_page(_g)
+
 # 허브 순서: 준비물 찾기 → 위임장 → 예시들 → 전입세대
-ORDER = ['visit-docs', 'poa', 'resident-copy-poa', 'seal-poa', 'household-check']
+ORDER = ['visit-docs', 'poa', 'resident-copy-poa', 'seal-poa', 'household-check', 'fixed-date', 'death-report', 'inheritance-onestop', 'birth-report', 'marriage-report', 'divorce-report', 'id-reissue', 'passport', 'basic-pension', 'basic-livelihood']
 TOOLS.sort(key=lambda t: ORDER.index(t[0]))
 for path, title, desc, crumb, body, ld, js, slug in PAGES:
     page(path, title, desc, crumb, body.replace('__REL__', rel(slug)), ld, js)
@@ -327,17 +370,27 @@ ICON = {'visit-docs': '<rect x="8" y="6" width="28" height="34" rx="4"/><path d=
         'poa': '<rect x="9" y="5" width="26" height="36" rx="3"/><path d="M15 14h14M15 20h14"/><path d="M15 32c3-4 5 2 8-2s4 2 6 0"/>',
         'resident-copy-poa': '<rect x="7" y="7" width="22" height="30" rx="3"/><rect x="15" y="11" width="22" height="30" rx="3" fill="#0B7285"/><path d="M20 20h12M20 26h12M20 32h7"/>',
         'seal-poa': '<circle cx="22" cy="15" r="8"/><path d="M18 23h8v8h-8z"/><rect x="10" y="31" width="24" height="8" rx="2"/>',
-        'household-check': '<path d="M7 22L22 9l15 13"/><path d="M11 20v18h22V20"/><circle cx="22" cy="28" r="4"/><path d="M25 31l4 4"/>'}
+        'household-check': '<path d="M7 22L22 9l15 13"/><path d="M11 20v18h22V20"/><circle cx="22" cy="28" r="4"/><path d="M25 31l4 4"/>',
+        'fixed-date': '<rect x="8" y="8" width="28" height="30" rx="3"/><path d="M8 16h28M15 5v6M29 5v6"/><circle cx="22" cy="27" r="6"/><path d="M22 24v3l2 2"/>',
+        'death-report': '<path d="M14 40V18a8 8 0 0 1 16 0v22"/><path d="M10 40h24M22 16v8M18 20h8"/>',
+        'inheritance-onestop': '<rect x="8" y="16" width="28" height="22" rx="3"/><path d="M16 16v-4a6 6 0 0 1 12 0v4"/><circle cx="22" cy="27" r="3"/>',
+        'birth-report': '<circle cx="22" cy="16" r="7"/><path d="M10 40c1-8 6-12 12-12s11 4 12 12"/><path d="M19 15h.01M25 15h.01"/>',
+        'marriage-report': '<circle cx="16" cy="24" r="9"/><circle cx="28" cy="24" r="9"/>',
+        'divorce-report': '<rect x="8" y="8" width="28" height="30" rx="3"/><path d="M14 16h16M14 22h10"/><path d="M26 30l6 6M32 30l-6 6"/>',
+        'id-reissue': '<rect x="5" y="11" width="34" height="24" rx="3"/><circle cx="15" cy="22" r="4"/><path d="M24 19h10M24 25h7"/>',
+        'passport': '<rect x="10" y="5" width="24" height="34" rx="3"/><circle cx="22" cy="19" r="6"/><path d="M16 19h12M22 13c3 3 3 9 0 12M16 31h12"/>',
+        'basic-pension': '<circle cx="22" cy="14" r="6"/><path d="M12 38c1-8 5-12 10-12s9 4 10 12"/><path d="M34 22v10M30 26h8"/>',
+        'basic-livelihood': '<path d="M7 22L22 9l15 13"/><path d="M11 20v18h22V20"/><path d="M22 34s-6-4-6-8a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 8-6 8z"/>'}
 def thumb(slug, title):
     c, bg = COLOR, '#D7EEF2'
-    lab = {'visit-docs':'방문 준비물','poa':'민원 위임장','resident-copy-poa':'등본 위임장','seal-poa':'인감 위임장','household-check':'전입세대 확인'}[slug]
+    lab = {'visit-docs':'방문 준비물','poa':'민원 위임장','resident-copy-poa':'등본 위임장','seal-poa':'인감 위임장','household-check':'전입세대 확인','fixed-date':'확정일자','death-report':'사망신고','inheritance-onestop':'안심상속','birth-report':'출생신고','marriage-report':'혼인신고','divorce-report':'이혼신고','id-reissue':'주민증 재발급','passport':'여권 발급','basic-pension':'기초연금','basic-livelihood':'기초수급 신청'}[slug]
     return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="64.0 6.0 72.0 128.0" width="72" height="128"><g>'
             '<rect x="64" y="6" width="72" height="128" rx="12" fill="#1A1D24"/><rect x="68" y="10" width="64" height="120" rx="9" fill="#fff"/><rect x="91.0" y="13" width="18" height="4" rx="2" fill="#1A1D24"/>'
             f'<text x="74" y="32" font-family="Arial,Helvetica,sans-serif" font-size="8.5" font-weight="700" fill="#1A1D24">{E(lab)}</text>'
             f'<rect x="76" y="40" width="48" height="48" rx="13" fill="{c}"/>'
             f'<g transform="translate(78 42) scale(.917)" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">{ICON[slug]}</g>'
             f'<rect x="74" y="94" width="52" height="5" rx="2.5" fill="{bg}"/><rect x="74" y="94" width="{20 + (sum(map(ord, slug)) % 30)}" height="5" rx="2.5" fill="{c}"/>'
-            f'<rect x="72" y="106" width="56" height="12" rx="6" fill="{c}"/><text x="83" y="114.6" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#fff">작성하기</text>'
+            f'<rect x="72" y="106" width="56" height="12" rx="6" fill="{c}"/><text x="{83 if slug in ("poa","resident-copy-poa","seal-poa") else 81}" y="114.6" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#fff">{"작성하기" if slug in ("poa","resident-copy-poa","seal-poa") else "준비물 보기"}</text>'
             '</g></svg>')
 os.makedirs(OUT + '/assets/art/hl/t', exist_ok=True)
 for s, n, l, k in TOOLS:
@@ -359,7 +412,7 @@ open(OUT + '/assets/art/hl/cs-gov.svg', 'w').write(CS)
 
 # 허브
 H1 = '공문서·민원'
-lead = '주민센터·구청에 직접 가서 내야 하는 서류를 준비하는 도구 모음이에요. 민원 위임장을 바로 인쇄하고, 등본·인감증명서 대리 발급 위임장 작성 예시와 전입세대확인서 준비물, 민원별 준비물·수수료를 확인해요.'
+lead = '주민센터·구청에 직접 가서 내야 하는 서류를 준비하는 도구 모음이에요. 민원 위임장 인쇄, 등본·인감 대리 발급 위임장 작성 예시, 사망·출생·혼인·이혼 신고 기한 계산, 확정일자·여권·기초연금 준비물까지 한 번에 확인해요.'
 lis = ''.join(f'<li><a href="/gov/{s}.html"><i class="th"><img src="/assets/art/hl/t/gov-{s}.svg" alt="" width="200" height="140" loading="lazy"></i><img class="pg" src="/assets/art/hl/pg-gov.svg" alt="" width="26" height="26" loading="lazy"><b>{E(n)}</b><span>{E(l[:60])}…</span></a></li>' for s, n, l, k in TOOLS)
 body = f'<h1>{E(H1)}</h1><p class="lead">{E(lead)}</p>{LOCK}</header><section class="card"><h2>{H1} 도구 {len(TOOLS)}가지</h2><ul class="tlist hl-grid">{lis}</ul></section>' + OTHER
 ld = {"@context": "https://schema.org", "@graph": [{"@type": "CollectionPage", "name": H1, "url": SITE + '/gov/', "hasPart": [{"@type": "WebApplication", "name": n, "url": f'{SITE}/gov/{s}.html'} for s, n, l, k in TOOLS]}, crumbs([('홈', '/'), (H1, '/gov/')])]}
