@@ -412,6 +412,8 @@ function route(from,list){var S0=store()||{};return HM.route((from?[from]:[]).co
 function proj(r,p,from,to){var co=r.co,best=null,c=Math.cos(p[0]*Math.PI/180),M=111320;
  for(var i=Math.max(0,from);i<Math.min(co.length-1,to);i++){var a=co[i],b=co[i+1],ax=(a[1]-p[1])*c*M,ay=(a[0]-p[0])*M,bx=(b[1]-p[1])*c*M,by=(b[0]-p[0])*M,dx=bx-ax,dy=by-ay,L=dx*dx+dy*dy,t=L?Math.max(0,Math.min(1,-(ax*dx+ay*dy)/L)):0,x=ax+dx*t,y=ay+dy*t,d=Math.sqrt(x*x+y*y);
   if(!best||d<best.d-0.5)best={i:i,t:t,d:d,s:r.cum[i]+(r.cum[i+1]-r.cum[i])*t,q:[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]}}return best}
+// 현재 위치 → 1번 정류장까지(아직 1번 전일 때)는 회색 점선, 그 뒤 노선은 빨간 선. 안내는 전체 경로 그대로.
+function split(r){if(N.si>0||!r.ss||r.ss[0]==null||!r.cum)return [[],r.co];var k=0;while(k<r.cum.length-1&&r.cum[k]<r.ss[0])k++;return [r.co.slice(0,k+1),r.co.slice(k)]}
 function prep(r){var k=0;r.ss=N.stops.slice(N.si).map(function(st){var b=proj(r,[st.lat,st.lng],k,r.co.length);k=Math.max(0,b.i-2);return b.s});return r}
 var CAMC={};function loadCams(r){var ks={};for(var i=0;i<r.co.length;i+=3){ks[Math.floor(r.co[i][0]*10)+'_'+Math.floor(r.co[i][1]*10)]=1}
  r.cams=[];return Promise.all(Object.keys(ks).map(function(k){return CAMC[k]?Promise.resolve(CAMC[k]):fetch('/assets/cam/'+k+'.json').then(function(x){return x.ok?x.json():[]}).catch(function(){return []}).then(function(a){CAMC[k]=a;return a})})).then(function(all){
@@ -431,7 +433,7 @@ function start(sim){var st=stops();if(st.length<1){alert('먼저 정류장을 �
  try{if(navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){N.wl=w}).catch(function(){})}catch(e){}
  $('nv-d').textContent='경로 준비 중…';$('nv-r').textContent='';
  var go=function(from){route(from,N.stops).then(function(r){N.r=prep(r);loadCams(N.r);N.ck=0;N.zone=null;N.k=0;N.ci=0;N.s=0;N.v=0;N.lt=Date.now();N.lastRe=0;N.base=0;
-   N.todo=N.map.line(r.co,{color:'#F04452',weight:4,opacity:.9});N.done=N.map.line([],{color:'#9AA4B1',weight:4,opacity:.85});N.objs.push(N.todo,N.done);
+   var sp=split(r);N.app=N.map.line(sp[0],{color:'#8B95A1',weight:5,opacity:.9,dash:true});N.todo=N.map.line(sp[1],{color:'#F04452',weight:4,opacity:.9});N.done=N.map.line([],{color:'#9AA4B1',weight:4,opacity:.85});N.objs.push(N.app,N.todo,N.done);
    if(sim)simrun();else watch();say2(['first-'+N.stops[0].no],'안내를 시작합니다. 첫 정류장은 '+N.stops[0].n+'입니다.')}).catch(function(){$('nv-d').textContent='경로를 못 찾았어요';$('nv-r').textContent='인터넷 연결을 확인하거나 잠시 뒤 다시 시도해 주세요'})};
  if(sim)go(null);else{ // 정확한 GPS가 잡힐 때까지 최대 12초 기다렸다가 출발점으로 쓴다
   var best=null,t0=Date.now(),done=false,wid=null;$('nv-d').textContent='GPS 잡는 중…';$('nv-r').textContent='하늘이 보이는 곳에서 잠시만 기다려 주세요';
@@ -441,7 +443,7 @@ function start(sim){var st=stops();if(st.length<1){alert('먼저 정류장을 �
   setTimeout(fin,12000)}
 }
 function reroute(p){if(N.busy||Date.now()-(N.lastRe||0)<10000)return;N.busy=true;$('nv-r').textContent='경로를 다시 찾는 중…';say2(['reroute'],'경로를 다시 탐색합니다');
- route(p,N.stops.slice(N.si)).then(function(r){N.base=N.si;N.r=prep(r);loadCams(N.r);N.ck=0;N.k=0;N.ci=0;N.s=0;N.off=0;N.said={};N.todo.set(r.co);N.done.set([]);N.busy=false;N.lastRe=Date.now()}).catch(function(e){N.busy=false;try{console.warn('reroute fail',e&&e.message)}catch(_){}})}
+ route(p,N.stops.slice(N.si)).then(function(r){N.base=N.si;N.r=prep(r);loadCams(N.r);N.ck=0;N.k=0;N.ci=0;N.s=0;N.off=0;N.said={};var sp=split(r);if(N.app)N.app.set(sp[0]);N.todo.set(sp[1]);N.done.set([]);N.busy=false;N.lastRe=Date.now()}).catch(function(e){N.busy=false;try{console.warn('reroute fail',e&&e.message)}catch(_){}})}
 function onPos(p,hd,acc,spd,dr){if(!N||!N.r||N.busy)return;var r=N.r,now=Date.now();
  if(!dr){if(acc&&acc>60){N.weak=(N.weak||0)+1;if(N.weak>2)$('nv-k').textContent='GPS 신호가 약해요 · 오차 약 '+Math.round(acc)+'m';return}N.weak=0;N.lt=now;}
  var pr=proj(r,p,Math.max(0,N.ci-3),N.ci+400),lim=Math.max(45,Math.min(acc||10,60)*1.5);
