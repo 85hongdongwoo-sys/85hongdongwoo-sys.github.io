@@ -92,6 +92,32 @@ if 'ipsi/pyeonip-2027.html' not in s:
                   '<url><loc>https://honglife.co.kr/ipsi/pyeonip-2027.html</loc><lastmod>2026-11-16</lastmod></url>\n<url><loc>https://honglife.co.kr/trip/</loc>', 1)
     open(p, 'w', encoding='utf-8').write(s); print('sitemap: pyeonip added')
 
+# 2027 수능 등급컷·수험표 할인 (/ipsi/suneung-2027.html, overlay) — 입시 허브, 홈 개수, 사이트맵
+LI_SN = ('<li><a href="/ipsi/suneung-2027.html"><b>2027 수능 등급컷·예상 백분위 + 수험표 할인</b>'
+         '<span>작년 수능 등급컷·누적 비율 비교, 내 점수 등급 보기, 수험표 할인 모음</span></a></li>')
+p = os.path.join(root, 'ipsi', 'index.html')
+if os.path.exists(p):
+    s = open(p, encoding='utf-8').read()
+    if '/ipsi/suneung-2027.html' not in s.split('<section class="card rel">')[0]:
+        s = s.replace('<ul class="tlist">', '<ul class="tlist">' + LI_SN, 1)
+        s = re.sub(r'입시 도구 (\d+)가지', lambda m: f'입시 도구 {int(m.group(1)) + 1}가지', s, count=1)
+        s = s.replace('"hasPart":[', '"hasPart":[{"@type":"WebApplication","name":"2027 수능 등급컷·예상 백분위","url":"https://honglife.co.kr/ipsi/suneung-2027.html"},', 1)
+        open(p, 'w', encoding='utf-8').write(s); print('ipsi hub: suneung added')
+p = os.path.join(root, 'index.html')
+s = open(p, encoding='utf-8').read()
+if 'data-sn="1"' not in s:
+    s2 = re.sub(r'(<a href="/ipsi/"><img[^>]*><b>입시</b><em>)(\d+)개(</em>)',
+                lambda m: f'{m.group(1)}{int(m.group(2)) + 1}개{m.group(3)}', s, count=1)
+    if s2 != s:
+        s2 = s2.replace('</head>', '<meta name="hl-sn" data-sn="1">\n</head>', 1)
+        open(p, 'w', encoding='utf-8').write(s2); print('home: 입시 count +1 (sn)')
+p = os.path.join(root, 'sitemap.xml')
+s = open(p, encoding='utf-8').read()
+if 'ipsi/suneung-2027.html' not in s:
+    s = s.replace('<url><loc>https://honglife.co.kr/trip/</loc>',
+                  '<url><loc>https://honglife.co.kr/ipsi/suneung-2027.html</loc><lastmod>2026-11-19</lastmod></url>\n<url><loc>https://honglife.co.kr/trip/</loc>', 1)
+    open(p, 'w', encoding='utf-8').write(s); print('sitemap: suneung added')
+
 # 홈: 상단 흰 배경 + 블루 계열 흐르는 애니메이션(칸 없이 화면 위쪽 전체, 아래로 자연스럽게 사라짐)
 #      하단 도구 목록 = 줄마다 큰 색 카드 + 장면 그림(엑셀 창·핸드폰 화면·문서) 카드 가로 줄
 p = os.path.join(root, 'index.html')
