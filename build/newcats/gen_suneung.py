@@ -27,6 +27,12 @@ TAM26 = [('생활과 윤리',66,64,59,71),('윤리와 사상',66,64,59,70),('한
  ('동아시아사',65,62,59,68),('세계사',68,64,59,72),('경제',68,65,59,70),('정치와 법',65,62,59,67),('사회·문화',65,62,59,70),
  ('물리학Ⅰ',66,64,60,70),('화학Ⅰ',67,64,59,71),('생명과학Ⅰ',67,63,59,74),('지구과학Ⅰ',65,63,59,68),
  ('물리학Ⅱ',66,63,60,68),('화학Ⅱ',68,64,59,70),('생명과학Ⅱ',65,63,60,69),('지구과학Ⅱ',68,65,60,69)]
+RAW26 = {  # 선택과목별 원점수 등급컷(1~8) / 만점 표준점수 / 만점 백분위 / 등급컷 백분위
+ 'kor': {'sub': [('화작', [90,83,73,63,49,37,27,20], 142, 99), ('언매', [85,78,69,59,46,35,25,17], 147, 100)],
+         'pc': [96,89,77,61,40,23,11,4]},
+ 'math': {'sub': [('확통', [87,82,76,65,41,24,17,13], 137, 100), ('미적', [85,80,73,62,37,20,14,10], 139, 100), ('기하', [85,81,74,63,37,20,14,10], 139, 100)],
+          'pc': [96,88,76,60,40,23,12,5]},
+}
 # 2027 예상 원점수 등급컷 — 입시기관 발표 후 채움 (None = 아직 발표 전)
 Y27 = None
 
@@ -74,15 +80,25 @@ def cum(p):
     for x in p: c += x; out.append(round(c, 2))
     return out
 def table(key):
-    d = Y26[key]; c = cum(d['pct']); rel = key in ('kor', 'math')
+    d = Y26[key]; c = cum(d['pct'])
+    if key in RAW26:
+        R = RAW26[key]; subs = R['sub']
+        head = ('<tr><th>등급</th>' + ''.join(f'<th>{n}<small>원점수</small></th>' for n, *_ in subs)
+                + '<th>표준<small>점수</small></th><th>백분위</th><th>2027<small>예상</small></th></tr>')
+        rows = []
+        for g in range(9):
+            if g < 8:
+                raws = ''.join(f'<td class="b">{cuts[g]}</td>' for n, cuts, *_ in subs)
+                rows.append(f'<tr><th>{g+1}</th>{raws}<td>{d["cut"][g]}</td><td>{R["pc"][g]}</td><td class="y27">발표 전</td></tr>')
+            else:
+                raws = ''.join(f'<td>{cuts[7]} 미만</td>' for n, cuts, *_ in subs)
+                rows.append(f'<tr><th>9</th>{raws}<td>{d["cut"][7]} 미만</td><td>–</td><td class="y27">발표 전</td></tr>')
+        return f'<div class="sn-tw"><table class="sn-t" data-k="{key}"><thead>{head}</thead><tbody>{"".join(rows)}</tbody></table></div>'
     rows = []
     for g in range(9):
         cut = f"{d['cut'][g]} 이상" if d['cut'][g] is not None else f"{d['cut'][g-1]} 미만"
-        y27 = '<td class="y27">발표 전</td>'
-        rows.append(f'<tr><th>{g+1}</th><td class="b">{cut}</td><td>{d["pct"][g]:.2f}%</td><td>{c[g]:.2f}%</td>'
-                    + (f'<td>{PB[g]}%</td>' if rel else '') + y27 + '</tr>')
-    head = (f'<tr><th>등급</th><th>2026 등급컷<small>({d["unit"]})</small></th><th>2026 비율</th><th>2026 누적</th>'
-            + ('<th>기준 누적</th>' if rel else '') + '<th>2027 예상<small>(원점수)</small></th></tr>')
+        rows.append(f'<tr><th>{g+1}</th><td class="b">{cut}</td><td>{d["pct"][g]:.2f}%</td><td>{c[g]:.2f}%</td><td class="y27">절대평가</td></tr>')
+    head = f'<tr><th>등급</th><th>2026 등급컷<small>({d["unit"]})</small></th><th>2026 비율</th><th>2026 누적</th><th>2027</th></tr>'
     return f'<div class="sn-tw"><table class="sn-t" data-k="{key}"><thead>{head}</thead><tbody>{"".join(rows)}</tbody></table></div>'
 
 tabs = ''.join(f'<button role="tab" aria-selected="{"true" if k=="kor" else "false"}" data-k="{k}">{Y26[k]["name"]}</button>' for k in Y26) \
@@ -96,11 +112,11 @@ def card(x):
     n, cat, ben, per, cond, off, src = x
     cn, ic, bg, fg = CAT[cat]
     href = off or SRC[src][1]
-    lab = '공식 홈페이지' if off else '근거 기사'
+    lab = '공식 홈페이지' if off else '자세히 보기'
     return (f'<article class="dc" data-c="{cat}"><a class="im" href="{href}" target="_blank" rel="noopener" style="--bg:{bg};--fg:{fg}" aria-label="{esc(n)} {lab} 열기">'
             f'<span class="ic" aria-hidden="true">{ic}</span><span class="nm">{esc(n)}</span><span class="go">{lab} ↗</span></a>'
             f'<div class="tx"><b>{esc(ben)}</b><p><span class="pd">{esc(per)}</span> {esc(cond)}</p>'
-            f'<p class="sr"><a href="{SRC[src][1]}" target="_blank" rel="noopener">근거: {SRC[src][0]}</a></p></div></article>')
+            f'</div></article>')
 filt = '<button aria-pressed="true" data-v="">전체 ' + str(len(DC)) + '</button>' + ''.join(
     f'<button aria-pressed="false" data-v="{k}">{v[0]} {sum(1 for d in DC if d[1]==k)}</button>' for k, v in CAT.items())
 
@@ -156,7 +172,7 @@ CSS = '''<style id="hl-sn">
 .dc .pd{display:inline-block;background:#F1F3F5;border-radius:6px;padding:1px 6px;font-weight:700;font-size:12.5px;margin-right:2px}
 .dc .sr a{font-size:12.5px;color:var(--muted)}
 .pe-faq dt{font-weight:700;margin-top:12px;color:var(--head)}.pe-faq dd{margin:4px 0 0;line-height:1.65;color:var(--ink)}
-@media(max-width:520px){.sn-t{font-size:12.5px}.sn-t th,.sn-t td{padding:7px 3px}.sn-t thead th{white-space:normal;font-size:11.5px;word-break:keep-all}.sn-t thead small{font-size:10.5px}.sn-t td.y27{font-size:11.5px;white-space:normal}.sn-t thead th:first-child{white-space:nowrap}.sn-calc{grid-template-columns:1fr}.sn-out b{font-size:21px}}
+@media(max-width:520px){.sn-t{font-size:12.5px}.sn-t th,.sn-t td{padding:7px 2px}.sn-t thead th{white-space:normal;font-size:11.5px;word-break:keep-all}.sn-t thead small{font-size:10.5px}.sn-t td.y27{font-size:11px;white-space:nowrap;letter-spacing:-.3px}.sn-t thead th{white-space:nowrap}.sn-t thead th:first-child{white-space:nowrap}.sn-calc{grid-template-columns:1fr}.sn-out b{font-size:21px}}
 </style>
 '''
 
@@ -165,31 +181,30 @@ MAIN = f'''<main class="wrap wide"><header class="top hub"><p class="crumb"><a h
 <p class="lead">2027학년도 수능(2026년 11월 19일) 예상 등급컷을 작년 2026학년도 수능 실제 등급 구분 점수·비율과 나란히 놓고 비교해요. 점수를 넣으면 작년 기준 등급과 추정 백분위가 나오고, 아래에 확인된 수험표 할인을 모았어요.</p>
 <p class="sn-note"><b>올해 예상 등급컷은 오늘 저녁 입시기관 발표 후 채워요.</b> 지금 보이는 숫자는 모두 작년(2026학년도) 평가원 채점 결과예요. 성적 통지는 12월 11일(금). 마지막 확인: {UPDATED}</p>
 </header>
-<section class="card"><h2>작년 수능 등급컷·백분위 비교표</h2>
+<section class="card"><h2>작년(2026) 수능 등급컷 원점수·백분위</h2>
 <div class="sn-tabs" role="tablist" aria-label="영역">{tabs}</div>
 {panels}
-<p class="sn-s">국어·수학은 선택과목 조정을 거친 <b>표준점수</b> 기준이라 원점수 컷과 다르고, 평가원은 원점수 등급컷을 따로 발표하지 않아요. ‘기준 누적’은 상대평가 등급의 원래 누적 비율이고, ‘2026 누적’은 동점자 때문에 실제로 그 등급까지 든 비율이에요. 영어·한국사는 절대평가라 원점수로 등급이 정해져요.</p>
+<p class="sn-s">국어·수학은 작년 수능 실제 성적(표준점수)에 맞춘 <b>선택과목별 원점수 컷</b>이에요. 같은 등급이라도 선택과목마다 원점수가 달라요. 원점수는 표준점수에서 거꾸로 계산한 값이라 1점 안팎 차이가 날 수 있어요. 영어·한국사는 절대평가라 해마다 같은 원점수로 등급이 정해져요.</p>
 </section>
 <section class="card tool"><h2>내 점수로 등급·추정 백분위 보기</h2>
-<div class="sn-calc"><label>영역<select id="sk"><option value="kor">국어 (표준점수)</option><option value="math">수학 (표준점수)</option><option value="eng">영어 (원점수)</option><option value="his">한국사 (원점수)</option></select></label>
-<label><span id="sl">표준점수</span><input id="sv" type="number" inputmode="numeric" min="0" max="200" placeholder="예: 128"></label></div>
+<div class="sn-calc"><label>영역<select id="sk"><option value="kor:0">국어 화작 (원점수)</option><option value="kor:1">국어 언매 (원점수)</option><option value="math:0">수학 확통 (원점수)</option><option value="math:1">수학 미적 (원점수)</option><option value="math:2">수학 기하 (원점수)</option><option value="kor">국어 (표준점수)</option><option value="math">수학 (표준점수)</option><option value="eng">영어 (원점수)</option><option value="his">한국사 (원점수)</option></select></label>
+<label><span id="sl">원점수</span><input id="sv" type="number" inputmode="numeric" min="0" max="200" placeholder="예: 85"></label></div>
 <div class="sn-out" aria-live="polite"><div><b id="og">–</b><span>작년 기준 등급</span></div><div><b id="op">–</b><span>추정 백분위</span></div><div><b id="ot">–</b><span>상위 누적</span></div>
 <p class="sn-msg" id="om">가채점 서비스나 성적표의 점수를 넣어 보세요. 국어·수학은 표준점수, 영어·한국사는 원점수예요.</p></div>
-<p class="sn-s">추정 백분위는 작년 등급 구분 점수와 등급별 비율 사이를 직선으로 이어 계산한 대략값이에요. 실제 백분위는 성적표에서 확인하세요.</p>
+<p class="sn-s">추정 백분위는 작년 등급컷과 등급별 비율 사이를 직선으로 이어 계산한 대략값이에요. 실제 백분위는 성적표에서 확인하세요.</p>
 </section>
 <section class="card" id="discount"><h2>2027 수능 수험표 할인 모음</h2>
-<p class="sn-s" style="margin:0 0 10px">기사로 조건까지 확인된 곳만 모았어요. 카드 위쪽 그림을 누르면 공식 홈페이지(없으면 근거 기사)로 이동해요. 대부분 <b>수험표 원본+신분증</b>이 필요하니 수험표를 버리지 마세요.</p>
+<p class="sn-s" style="margin:0 0 10px">조건까지 확인된 곳만 모았어요. 카드 위쪽 그림을 누르면 공식 홈페이지나 자세한 안내로 이동해요. 대부분 <b>수험표 원본+신분증</b>이 필요하니 수험표를 버리지 마세요.</p>
 <div class="sn-f" role="group" aria-label="분류">{filt}</div>
 <div class="dcl" id="dcl">{"".join(card(x) for x in DC)}</div>
 <p class="sn-s">혜택과 기간은 업체 사정으로 바뀌거나 조기 종료될 수 있어요. 방문·예약 전 공식 안내를 꼭 확인하세요.</p>
 </section>
 <section class="card"><h2>자주 묻는 질문</h2><dl class="pe-faq">{faq_html}</dl></section>
-<section class="card"><h2>출처</h2><p class="pe-src">2026학년도 등급 구분 점수·비율: 한국교육과정평가원 2026학년도 수능 채점 결과(2025년 12월 4일 발표). 2027 일정: 평가원 시행 세부계획. 수험표 할인: <a href="{SRC['v'][1]}" target="_blank" rel="noopener">베리타스알파(11/17)</a>, <a href="{SRC['m'][1]}" target="_blank" rel="noopener">마이데일리(11/19)</a> 및 각 업체 안내.</p></section>
 <section class="card rel"><h2>함께 쓰면 좋은 도구</h2><ul class="tlist"><li><a href="/ipsi/"><b>입시 도구 모음</b><span>정시·미대·편입 도구 전체 보기</span></a></li><li><a href="/ipsi/pyeonip-2027.html"><b>2027 편입 일정·경쟁률</b><span>수도권·거점국립대 71곳</span></a></li></ul></section>
 </main>
 '''
 
-JS = '<script>\n(function(){\nvar Y=' + json.dumps(Y26, ensure_ascii=False) + ';\n' + r'''
+JS = '<script>\n(function(){\nvar Y=' + json.dumps(Y26, ensure_ascii=False) + ',R=' + json.dumps(RAW26, ensure_ascii=False) + ';\n' + r'''
 function cum(p){var o=[],c=0;p.forEach(function(x){c+=x;o.push(c)});return o}
 var tl=document.querySelector('.sn-tabs');
 tl.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
@@ -198,25 +213,28 @@ tl.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)r
  if(window.gtag)gtag('event','sn_tab',{k:b.dataset.k});});
 var sk=document.getElementById('sk'),sv=document.getElementById('sv');
 function calc(){
- var k=sk.value,d=Y[k],v=parseFloat(sv.value),rel=(k==='kor'||k==='math');
- document.getElementById('sl').textContent=d.unit;sv.placeholder=rel?'예: 128':(k==='eng'?'예: 85':'예: 42');sv.max=d.max;
+ var sel=sk.value.split(':'),k=sel[0],si=sel.length>1?+sel[1]:-1,d=Y[k],v=parseFloat(sv.value),rel=(k==='kor'||k==='math'),raw=si>=0;
+ var unit=raw?'원점수':d.unit,mx=raw?100:d.max;
+ document.getElementById('sl').textContent=unit;sv.placeholder=raw?'예: 85':(rel?'예: 128':(k==='eng'?'예: 85':'예: 42'));sv.max=mx;
  [].forEach.call(document.querySelectorAll('.sn-t tr.me'),function(r){r.classList.remove('me')});
  var G=document.getElementById('og'),P=document.getElementById('op'),T=document.getElementById('ot'),M=document.getElementById('om');
- if(isNaN(v)){G.textContent=P.textContent=T.textContent='–';M.textContent='가채점 서비스나 성적표의 점수를 넣어 보세요. 국어·수학은 표준점수, 영어·한국사는 원점수예요.';return}
- if(v>d.max||v<0){G.textContent=P.textContent=T.textContent='–';M.textContent=d.name+' '+d.unit+'는 0~'+d.max+'점 사이로 넣어 주세요. (작년 최고점 '+d.max+')';return}
- var g=8;for(var i=0;i<8;i++){if(v>=d.cut[i]){g=i;break}}
- var c=cum(d.pct),lo=g?c[g-1]:0,hi=c[g],top,hiS,loS;
- if(g===0){hiS=d.max;loS=d.cut[0]}else if(g===8){hiS=d.cut[7];loS=0}else{hiS=d.cut[g-1];loS=d.cut[g]}
- var f=hiS===loS?0.5:(hiS-v)/(hiS-loS);f=Math.max(0,Math.min(1,f));top=lo+(hi-lo)*f;
+ var hint='가채점 점수를 넣어 보세요. 국어·수학은 선택과목별 원점수나 표준점수, 영어·한국사는 원점수예요.';
+ if(isNaN(v)){G.textContent=P.textContent=T.textContent='–';M.textContent=hint;return}
+ if(v>mx||v<0){G.textContent=P.textContent=T.textContent='–';M.textContent=unit+'는 0~'+mx+'점 사이로 넣어 주세요.';return}
+ var cuts=raw?R[k].sub[si][1]:d.cut,g=8;for(var i=0;i<8;i++){if(v>=cuts[i]){g=i;break}}
+ var c=cum(d.pct),lo=g?c[g-1]:0,hi=c[g],hiS,loS;
+ if(g===0){hiS=mx;loS=cuts[0]}else if(g===8){hiS=cuts[7];loS=0}else{hiS=cuts[g-1];loS=cuts[g]}
+ var f=hiS===loS?0.5:(hiS-v)/(hiS-loS);f=Math.max(0,Math.min(1,f));var top=lo+(hi-lo)*f;
  G.textContent=(g+1)+'등급';T.textContent=top.toFixed(1)+'%';
  P.textContent=rel?Math.max(0,Math.min(100,Math.round(100-top))):'–';
  var tr=document.querySelector('.sn-t[data-k="'+k+'"] tbody').children[g];if(tr)tr.classList.add('me');
- M.textContent=rel?('작년 '+d.name+' '+(g+1)+'등급 구간('+(g===8?d.cut[7]+' 미만':d.cut[g]+' 이상')+')이에요. 추정 백분위는 대략값이니 참고만 하세요.')
-  :(d.name+'은 절대평가라 올해도 '+(g===8?d.cut[7]+'점 미만':d.cut[g]+'점 이상')+'이면 '+(g+1)+'등급이에요. 상위 누적은 작년 비율 기준이에요. 영어·한국사는 백분위가 없어요.');
- if(window.gtag)gtag('event','sn_calc',{k:k});
+ var nm=raw?(d.name+' '+R[k].sub[si][0]):d.name;
+ M.textContent=rel?('작년 '+nm+' 기준 '+(g+1)+'등급 구간('+(g===8?cuts[7]+'점 미만':cuts[g]+'점 이상')+')이에요. 올해 등급컷은 난이도에 따라 달라지니, 오늘 밤 올라오는 2027 예상 칸과 함께 보세요.')
+  :(d.name+'은 절대평가라 올해도 '+(g===8?cuts[7]+'점 미만':cuts[g]+'점 이상')+'이면 '+(g+1)+'등급이에요. 상위 누적은 작년 비율 기준이에요. 영어·한국사는 백분위가 없어요.');
+ if(window.gtag)gtag('event','sn_calc',{k:sk.value});
 }
 sk.addEventListener('change',function(){sv.value='';calc();
- [].forEach.call(tl.children,function(x){if(x.dataset.k===sk.value)x.click()})});
+ [].forEach.call(tl.children,function(x){if(x.dataset.k===sk.value.split(':')[0])x.click()})});
 sv.addEventListener('input',calc);calc();
 var ff=document.querySelector('.sn-f');
 ff.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
