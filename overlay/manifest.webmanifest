@@ -1,0 +1,25 @@
+{
+  "name": "홍라이프 도구",
+  "short_name": "홍라이프",
+  "description": "회원가입 없이 쓰는 무료 생활 도구 모음 — 엑셀·문서·PDF·계산기·지도 도구",
+  "id": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "ko",
+  "background_color": "#FFFFFF",
+  "theme_color": "#14286A",
+  "icons": [
+    {"src": "/assets/brand/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "/assets/brand/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+    {"src": "/assets/brand/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "노선 내비", "short_name": "노선 내비", "url": "/life/route-navi.html?source=pwa", "icons": [{"src": "/assets/brand/icon-192.png", "sizes": "192x192"}]},
+    {"name": "택시비·통행료 계산기", "short_name": "택시비", "url": "/life/taxi-fare.html?source=pwa", "icons": [{"src": "/assets/brand/icon-192.png", "sizes": "192x192"}]},
+    {"name": "중간지점 찾기", "short_name": "중간지점", "url": "/life/midpoint.html?source=pwa", "icons": [{"src": "/assets/brand/icon-192.png", "sizes": "192x192"}]},
+    {"name": "도구 찾기", "short_name": "도구 찾기", "url": "/?source=pwa#search", "icons": [{"src": "/assets/brand/icon-192.png", "sizes": "192x192"}]}
+  ]
+}

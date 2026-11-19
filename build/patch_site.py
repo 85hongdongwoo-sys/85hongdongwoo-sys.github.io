@@ -610,6 +610,8 @@ for dp, dn, fn in os.walk(root):
         if 'class="catbar"' in s or '<nav aria-label="주요 분류">' not in s:
             continue
         cur = rel[0] if rel[0] != '.' else ''
+        if rel[0] == 'life' and f in ('route-navi.html', 'taxi-fare.html', 'midpoint.html'):
+            cur = 'drive'
         links = ''.join(f'<a href="/{c}/"' + (' aria-current="page"' if c == cur else '') + f'>{n}</a>' for c, n in CATBAR)
         s2 = NAV_RE.sub(lambda m: m.group(1) + f'<div class="catbar" role="navigation" aria-label="분류 전체"><div class="in2">{links}</div></div><script>(function(){{var a=document.querySelector(".catbar a[aria-current]");if(a)a.parentNode.scrollLeft=a.offsetLeft-a.parentNode.clientWidth/2+a.offsetWidth/2}})()</script>' + m.group(2), s, count=1)
         if s2 != s:
@@ -826,3 +828,23 @@ if os.path.exists(_p4):
               'if(/^\\/kcal\\//.test(p)){location.replace("https://honglifecalc.com/ko/calorie.html");return}'
               'if(m&&m[1]!=="en"){location.replace("https://honglifecalc.com"+p+location.search)}})();</script>')
         open(_p4, 'w', encoding='utf-8').write(s.replace('</head>', js + '</head>', 1)); print('404 old-address redirect added')
+
+# ── 앱 설치(PWA): 모든 페이지에 매니페스트·설치 스크립트 연결 (2026-11-20) ──
+PWA = ('<link rel="manifest" href="/manifest.webmanifest">'
+       '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">'
+       '<meta name="apple-mobile-web-app-title" content="홍라이프"><meta name="apple-mobile-web-app-status-bar-style" content="default">'
+       '<script src="/assets/js/hl-install.js?v=4" defer></script>\n')
+k = 0
+for dp, dn, fn in os.walk(root):
+    for f in fn:
+        if not f.endswith('.html'):
+            continue
+        p = os.path.join(dp, f)
+        try:
+            s = open(p, encoding='utf-8').read()
+        except Exception:
+            continue
+        if 'rel="manifest"' in s or '</head>' not in s:
+            continue
+        open(p, 'w', encoding='utf-8').write(s.replace('</head>', PWA + '</head>', 1)); k += 1
+print('pwa head:', k)
