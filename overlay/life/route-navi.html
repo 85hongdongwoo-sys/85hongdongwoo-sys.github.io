@@ -92,10 +92,10 @@
 .nv-bt{display:flex;gap:6px;flex:none}.nv-bt button{min-height:46px;padding:0 12px;border-radius:12px;border:1px solid #E5E8EB;background:#F2F4F6;font-size:14px;font-weight:700;color:#333D4B;cursor:pointer}
 #nv-end{background:#191F28;color:#fff;border-color:#191F28}
 .nv-sim{position:absolute;left:50%;top:104px;transform:translateX(-50%);margin:0;background:#F59F00;color:#fff;font-size:13px;font-weight:800;padding:5px 12px;border-radius:99px;z-index:600}
-.nv-meter{position:absolute;right:12px;top:100px;z-index:600;display:flex;flex-direction:column;align-items:center;gap:8px}
+.nv-meter{position:absolute;left:12px;bottom:calc(var(--nvb,84px) + 44px);z-index:600;display:flex;flex-direction:row;align-items:center;gap:8px}
 .nv-lim{width:58px;height:58px;border-radius:50%;background:#fff;border:6px solid #E03131;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}.nv-lim b{font-size:22px;font-weight:900;color:#191F28;letter-spacing:-1px}
 .nv-spd{min-width:58px;padding:6px 6px 4px;border-radius:14px;background:rgba(25,31,40,.88);color:#fff;text-align:center;line-height:1}.nv-spd b{display:block;font-size:22px;font-weight:800}.nv-spd small{font-size:10.5px;opacity:.8}.nv-spd.over{background:#E03131}
-.nv-cam{position:absolute;left:12px;right:84px;top:100px;z-index:600;margin:0;padding:10px 12px;border-radius:12px;background:rgba(224,49,49,.94);color:#fff;font-size:15px;font-weight:800;line-height:1.35;word-break:keep-all}
+.nv-cam{position:absolute;left:12px;right:64px;top:100px;z-index:600;margin:0;padding:10px 12px;border-radius:12px;background:rgba(224,49,49,.94);color:#fff;font-size:15px;font-weight:800;line-height:1.35;word-break:keep-all}
 .nv-car{width:34px;height:34px;display:grid;place-items:center}.nv-car svg{width:34px;height:34px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));transition:transform .4s}
 .rn-self{position:relative;display:flex!important;flex-direction:row;align-items:center;justify-content:center;gap:14px;min-height:84px;width:100%;padding:14px 18px;text-align:left;white-space:normal;border:0!important;border-radius:22px!important;color:#fff!important;cursor:pointer;
  background:linear-gradient(180deg,#4C95FF 0%,#2471F0 48%,#1658D6 100%)!important;
@@ -506,5 +506,5 @@ d.setAttribute('lang','en');d.style.cssText='position:relative;z-index:50;backgr
 d.innerHTML=(a?'This page is available in English.':'This site is in Korean. Free tools in English are here:')+' <a href="'+u+'" style="color:#9ECBFF;font-weight:700">'+(a?'View in English':'HongLife Tools in English')+' →</a> <button type="button" style="background:none;border:1px solid #8a93a6;color:#cfd5e0;border-radius:6px;padding:2px 10px;cursor:pointer" aria-label="Close and stay on the Korean page">Close ✕</button>';
 d.querySelector('button').onclick=function(){try{localStorage.setItem('hl_lang','ko')}catch(e){}d.remove()};document.body.insertBefore(d,document.body.firstChild)}catch(e){}})();</script>
 
-</body>
+<script>(function(){function f(){var n=document.getElementById("nav"),b=n&&n.querySelector(".nv-bot");if(b&&b.offsetHeight)n.style.setProperty("--nvb",b.offsetHeight+"px")}addEventListener("resize",f);new MutationObserver(f).observe(document.body,{attributes:true,subtree:true,attributeFilter:["hidden","class"]});f()})();</script></body>
 </html>
