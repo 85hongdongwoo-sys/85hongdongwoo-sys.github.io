@@ -5,9 +5,11 @@ base = open(os.path.join(ROOT, 'overlay/ipsi/pyeonip-2027.html'), encoding='utf-
 PROXY = 'https://hl-route.a599307.workers.dev/'
 KAKAO_JS = 'c4a8d8392dd6a362db17cc44e5ae398b'
 
+REL = [('/life/taxi-fare.html', '택시비·통행료·기름값 계산기', '택시 vs 내 차 비용 비교'), ('/life/midpoint.html', '중간지점 찾기', '친구들과 만날 곳 추천 + 공유 카드'), ('/life/route-navi.html', '경유지 많은 노선 내비', '정류장 30곳 넘어도 순서대로 안내')]
+
 def esc(t): return t.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
-def shell(slug, title, desc, h1, lead, css, main_html, js, faq, crumb=('생활·행정', '/life/')):
+def shell(slug, title, desc, h1, lead, css, main_html, js, faq, crumb=('자동차·지도', '/drive/')):
     url = f'https://honglife.co.kr/life/{slug}.html'
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebApplication", "name": h1, "url": url, "applicationCategory": "TravelApplication", "operatingSystem": "Any", "inLanguage": "ko",
@@ -24,16 +26,17 @@ def shell(slug, title, desc, h1, lead, css, main_html, js, faq, crumb=('생활·
         head = re.sub(r'(<meta ' + prop + r' content=")[^"]*', lambda m: m.group(1) + esc(desc), head)
     head = re.sub(r'(<meta property="og:title" content=")[^"]*', lambda m: m.group(1) + esc(title), head)
     head = head.replace('https://honglife.co.kr/ipsi/pyeonip-2027.html', url)
+    head = head.replace('<meta property="og:url" content="https://honglife.co.kr/ipsi/">', f'<meta property="og:url" content="{url}">')
     faq_html = ''.join(f'<dt>{esc(q)}</dt><dd>{esc(a)}</dd>' for q, a in faq)
     main = (f'<main class="wrap wide"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="{crumb[1]}">{crumb[0]}</a></p>'
             f'<h1>{h1}</h1><p class="lead">{lead}</p></header>\n' + main_html +
             f'<section class="card"><h2>자주 묻는 질문</h2><dl class="pe-faq">{faq_html}</dl></section>\n'
             '<section class="card rel"><h2>함께 쓰면 좋은 도구</h2><ul class="tlist">'
-            '<li><a href="/life/route-navi.html"><b>경유지 많은 노선 내비</b><span>정류장 30곳 넘어도 순서대로 안내</span></a></li>'
-            '<li><a href="/life/"><b>생활·행정 도구 모음</b><span>생활 계산기·지도 도구 전체 보기</span></a></li></ul></section>\n</main>\n')
+            + ''.join(f'<li><a href="{u}"><b>{n}</b><span>{d}</span></a></li>' for u, n, d in REL if u != f'/life/{slug}.html') +
+            '<li><a href="/drive/"><b>자동차·지도 도구 모음</b><span>지도로 쓰는 자동차 도구 전체 보기</span></a></li></ul></section>\n</main>\n')
     out = (head + '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>\n' + css
            + base[i_ste:i_main] + main + js + base[i_ft:])
-    out = out.replace('<a href="/ipsi/">입시</a>', '<a href="/life/">생활·행정</a>')
+    out = out.replace('<a href="/ipsi/">입시</a>', f'<a href="{crumb[1]}">{crumb[0]}</a>')
     open(os.path.join(ROOT, f'overlay/life/{slug}.html'), 'w', encoding='utf-8').write(out)
     print('wrote', slug, len(out))
 
@@ -175,9 +178,169 @@ TAXI_FAQ = [
  ('유료도로 피하기를 켜면 어떻게 되나요?', '고속도로 같은 유료 구간을 빼고 다시 길을 찾아요. 통행료는 줄지만 시간이 늘 수 있으니 두 결과를 비교해 보세요.'),
 ]
 
-if __name__ == '__main__':
+def build_all():
     shell('taxi-fare', '택시비 계산기 · 통행료·기름값까지 한 번에 (카카오 길찾기 지도) | 홍라이프 도구',
           '출발지와 도착지를 지도에서 고르면 예상 택시비, 고속도로 통행료, 내 차 기름값, 거리·시간을 카카오모빌리티 길찾기로 바로 계산해요. 왕복·인원 나누기·유료도로 피하기도 돼요.',
           '택시비·통행료·기름값 계산기',
           '출발지와 도착지만 고르면 예상 택시비, 고속도로 통행료, 내 차로 갈 때 기름값까지 한 번에 비교해요. 카카오모빌리티 길찾기로 지금 교통 상황을 반영해요.',
           '<style id="hl-mt">' + COMMON_CSS + '</style>\n', TAXI_MAIN, TAXI_JS, TAXI_FAQ)
+
+# ───────────────── 2) 중간지점 찾기 (약속 장소) + 공유 카드 ─────────────────
+MID_CSS = '''
+.pp{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.pp li{display:grid;grid-template-columns:auto 84px 1fr auto;gap:6px;align-items:center}
+.pp .dot{width:30px;height:30px;border-radius:50%;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+.pp input{font:inherit;font-size:16px;padding:10px;border:1px solid var(--line-s);border-radius:10px;min-height:44px;width:100%;box-sizing:border-box;background:#fff}
+.pp input.on{border-color:var(--acc);box-shadow:0 0 0 3px rgba(49,130,246,.15)}
+.pp button{font:inherit;font-size:13px;font-weight:700;border:1px solid var(--line-s);background:#fff;border-radius:10px;min-height:44px;padding:0 9px;cursor:pointer;white-space:nowrap}
+.pp button[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+.pp .sug{grid-column:2/-1;margin:0}
+.addp{margin-top:10px;font:inherit;font-size:14.5px;font-weight:700;border:1px dashed #9AA6B2;background:#fff;border-radius:12px;min-height:44px;width:100%;cursor:pointer;color:var(--head)}
+.rk{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.rk li{border:1px solid var(--line-s);border-radius:14px;padding:12px 14px;background:#fff}
+.rk li.best{border:2px solid #F59F00;background:#FFF9E6}
+.rk h3{margin:0;font-size:17px;color:var(--head);display:flex;gap:8px;align-items:center;flex-wrap:wrap;word-break:keep-all}
+.rk h3 em{font-style:normal;font-size:12px;font-weight:800;background:#F59F00;color:#fff;border-radius:999px;padding:2px 8px}
+.rk .sub{font-size:13px;color:var(--muted);margin:3px 0 8px}
+.bars{display:flex;flex-direction:column;gap:5px}
+.bar{display:grid;grid-template-columns:52px 1fr 56px;gap:8px;align-items:center;font-size:13.5px}
+.bar i{display:block;height:10px;border-radius:6px}
+.bar b{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.near{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.near a{padding:7px 11px;border-radius:999px;background:#F1F3F5;color:var(--head);font-size:13px;font-weight:700;text-decoration:none}
+.shr{margin-top:16px;border-radius:16px;background:#F4F7FB;padding:14px}
+.shr h3{margin:0 0 10px;font-size:16px;color:var(--head)}
+.shr canvas{display:block;width:100%;max-width:360px;margin:0 auto;border-radius:14px;box-shadow:0 4px 18px rgba(0,0,0,.12)}
+.shb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.shb button{font:inherit;font-size:14px;font-weight:800;border:0;border-radius:12px;min-height:48px;cursor:pointer;background:#191F28;color:#fff}
+.shb button:nth-child(2){background:#FEE500;color:#191919}.shb button:nth-child(3){background:#fff;color:var(--head);border:1px solid var(--line-s)}
+.prog{height:6px;border-radius:4px;background:#E9ECEF;overflow:hidden;margin-top:12px}.prog i{display:block;height:100%;width:0;background:var(--acc);transition:width .2s}
+@media(max-width:520px){.pp li{grid-template-columns:auto 70px 1fr auto}.shb button{font-size:13px}}
+'''
+MID_MAIN = '''<section class="card tool"><h2>누가 어디서 출발하나요?</h2>
+<div class="mp-wrap"><div id="map" role="application" aria-label="지도"></div><p class="mp-hint" id="mp-hint">지도를 불러오는 중…</p></div>
+<ul class="pp" id="pp"></ul>
+<button type="button" class="addp" id="addp">+ 사람 추가 (최대 6명)</button>
+<div class="opts"><label>만날 곳 후보<select id="ct"><option value="SW8">지하철역 근처</option><option value="CE7">카페</option><option value="FD6">음식점</option><option value="CT1">문화시설(영화관·공연장)</option></select></label>
+<label>기준<select id="mode"><option value="max">가장 오래 걸리는 사람 기준 (공평)</option><option value="sum">모두 합친 시간 기준</option></select></label></div>
+<button class="go-btn" id="go" disabled>중간지점 찾기</button>
+<div class="prog" id="prog" hidden><i id="progi"></i></div>
+<p class="tfm err" id="err" hidden></p>
+<div id="out" hidden><ol class="rk" id="rk"></ol>
+<div class="shr"><h3>단톡방에 보낼 공유 카드</h3><canvas id="cv" width="1080" height="1350" aria-label="중간지점 공유 카드"></canvas>
+<div class="shb"><button type="button" id="b-share">공유하기</button><button type="button" id="b-link">링크 복사</button><button type="button" id="b-save">이미지 저장</button></div>
+<p class="tfm" id="shmsg" style="text-align:center"></p></div></div>
+<p class="tfm" style="color:var(--muted)">자동차로 가는 시간 기준이에요. 카카오모빌리티 길찾기로 지금 교통 상황을 반영해 각자 출발지에서 후보 장소까지 걸리는 시간을 하나씩 계산해요.</p>
+</section>
+<section class="card"><h2>이렇게 찾아요</h2><ul class="xp">
+<li>모두의 출발지 한가운데를 잡고, 그 주변 4km 안에서 지하철역·카페·음식점 같은 후보를 최대 8곳 골라요.</li>
+<li>후보마다 각자 차로 몇 분 걸리는지 길찾기로 계산해요.</li>
+<li><b>공평 기준</b>은 가장 오래 걸리는 사람의 시간이 제일 짧은 곳을 1등으로, <b>합계 기준</b>은 모두의 시간을 더한 값이 제일 작은 곳을 1등으로 골라요.</li>
+<li>공유 카드는 이 기기 안에서 그림으로 만들어져요. 출발지는 링크를 연 사람에게만 보여요.</li></ul></section>
+'''
+MID_JS = '<script>\n' + COMMON_JS + r'''
+(function(){
+var H=HLMAP,$=function(i){return document.getElementById(i)},COL=['#3182F6','#F04452','#12B886','#F59F00','#7950F2','#E64980'],P=[],pick=0,best=null,RES=[];
+function blank(i){return {name:'친구'+(i+1),pt:null,mk:null}}
+P=[blank(0),blank(1)];P[0].name='나';
+function render(){var ul=$('pp');ul.innerHTML='';P.forEach(function(p,i){var li=document.createElement('li');
+ li.innerHTML='<span class="dot" style="background:'+COL[i]+'">'+(i+1)+'</span><input class="nm" maxlength="6" aria-label="이름"><input class="q" placeholder="출발지 검색" autocomplete="off" aria-label="출발지"><button type="button">'+(P.length>2?'빼기':'지도에서')+'</button><ul class="sug" hidden></ul>';
+ var nm=li.querySelector('.nm'),q=li.querySelector('.q'),bt=li.querySelector('button'),sg=li.querySelector('.sug');nm.value=p.name;q.value=p.pt?p.pt.name:'';
+ nm.oninput=function(){p.name=nm.value.trim()||('친구'+(i+1));if(best)drawCard()};
+ q.onfocus=function(){setPick(i)};var t;q.oninput=function(){clearTimeout(t);var s=q.value.trim();if(s.length<2){sg.hidden=true;return}
+  t=setTimeout(function(){H.search(s,function(r){sg.innerHTML='';r.forEach(function(o){var l2=document.createElement('li'),b=document.createElement('button');b.type='button';b.textContent=o.name;var sm=document.createElement('small');sm.textContent=o.addr;b.appendChild(sm);b.onclick=function(){setPt(i,o);sg.hidden=true;H.map.setCenter(new kakao.maps.LatLng(o.lat,o.lng))};l2.appendChild(b);sg.appendChild(l2)});sg.hidden=!r.length})},250)};
+ bt.onclick=function(){if(P.length>2){if(p.mk)p.mk.setMap(null);P.splice(i,1);P.forEach(function(x,j){if(x.mk){x.mk.setMap(null);x.mk=H.pin(x.pt.lat,x.pt.lng,j+1,COL[j])}});render()}else setPick(i)};
+ ul.appendChild(li)});$('addp').hidden=P.length>=6;upd();setPick(Math.min(pick,P.length-1))}
+function setPick(i){pick=i;[].forEach.call(document.querySelectorAll('.pp .q'),function(q,j){q.classList.toggle('on',j==i)});$('mp-hint').textContent=(i+1)+'번 '+(P[i]?P[i].name:'')+'의 출발지를 검색하거나 지도를 누르세요'}
+function setPt(i,o){var p=P[i];p.pt=o;if(p.mk)p.mk.setMap(null);p.mk=H.pin(o.lat,o.lng,i+1,COL[i]);var q=document.querySelectorAll('.pp .q')[i];if(q)q.value=o.name;
+ var nx=P.findIndex(function(x){return !x.pt});if(nx>=0)setPick(nx);upd()}
+function upd(){$('go').disabled=P.filter(function(p){return p.pt}).length<2}
+$('addp').onclick=function(){if(P.length<6){P.push(blank(P.length));render();setPick(P.length-1)}};
+H.onReady(function(){H.init($('map'),37.5547,126.9707,8);
+ kakao.maps.event.addListener(H.map,'click',function(e){var ll=e.latLng,o={lat:ll.getLat(),lng:ll.getLng(),name:'지도에서 고른 곳'};setPt(pick,o);var k=pick;H.nameAt(o.lat,o.lng,function(n){o.name=n;var q=document.querySelectorAll('.pp .q')[k];if(q&&P[k]&&P[k].pt===o)q.value=n})});
+ loadShared()});
+render();
+function cats(c,lat,lng){return new Promise(function(res){var ps=new kakao.maps.services.Places();ps.categorySearch(c,function(d,st){res(st===kakao.maps.services.Status.OK?d:[])},{location:new kakao.maps.LatLng(lat,lng),radius:4000,sort:kakao.maps.services.SortBy.DISTANCE})})}
+function pool(tasks,n,onp){var i=0,done=0,out=new Array(tasks.length);return new Promise(function(res){function next(){if(i>=tasks.length){if(done===tasks.length)res(out);return}var k=i++;tasks[k]().then(function(v){out[k]=v},function(){out[k]=null}).then(function(){done++;onp(done/tasks.length);next()})}for(var j=0;j<Math.min(n,tasks.length);j++)next();if(!tasks.length)res(out)})}
+var cand=[];
+function run(){var ps=P.filter(function(p){return p.pt});if(ps.length<2)return;$('err').hidden=true;$('go').disabled=true;$('go').textContent='계산하는 중…';$('prog').hidden=false;$('progi').style.width='0';
+ var lat=ps.reduce(function(a,p){return a+p.pt.lat},0)/ps.length,lng=ps.reduce(function(a,p){return a+p.pt.lng},0)/ps.length;
+ cats($('ct').value,lat,lng).then(function(d){var seen={};var c=d.filter(function(x){var k=x.place_name.replace(/\s*\d+번?\s*출구.*/,'');if(seen[k])return false;seen[k]=1;return true}).slice(0,8).map(function(x){return {name:x.place_name,addr:x.road_address_name||x.address_name,lat:+x.y,lng:+x.x,url:x.place_url}});
+  if(!c.length)c=[{name:'한가운데 지점',addr:'',lat:lat,lng:lng}];cand=c;
+  var tasks=[];c.forEach(function(cd,ci){ps.forEach(function(p,pi){tasks.push(function(){return H.route(p.pt,cd,[],{summaryOnly:true}).then(function(r){return {ci:ci,pi:pi,s:r.duration,m:r.distance}})})})});
+  return pool(tasks,4,function(f){$('progi').style.width=Math.round(f*100)+'%'}).then(function(rs){
+   RES=c.map(function(cd,ci){var t=ps.map(function(p,pi){var r=rs.find(function(x){return x&&x.ci===ci&&x.pi===pi});return r?r.s:null});return {c:cd,t:t,ok:t.every(function(x){return x!=null})}}).filter(function(x){return x.ok});
+   if(!RES.length)throw new Error('후보까지 길을 찾지 못했어요');var md=$('mode').value;
+   RES.forEach(function(r){r.max=Math.max.apply(null,r.t);r.sum=r.t.reduce(function(a,b){return a+b},0);r.gap=r.max-Math.min.apply(null,r.t)});
+   RES.sort(function(a,b){return md=='max'?(a.max-b.max)||(a.sum-b.sum):(a.sum-b.sum)||(a.max-b.max)});best=RES[0];show(ps);if(window.gtag)gtag('event','midpoint_calc',{n:ps.length})})})
+ .catch(function(e){$('err').textContent='중간지점을 찾지 못했어요. 출발지를 도로 가까이 다시 골라 보세요. ('+e.message+')';$('err').hidden=false})
+ .then(function(){$('go').disabled=false;$('go').textContent='다시 찾기';$('prog').hidden=true})}
+$('go').onclick=run;
+var cmk=[];
+function show(ps){var ol=$('rk');ol.innerHTML='';var mx=Math.max.apply(null,RES.slice(0,3).map(function(r){return r.max}));
+ cmk.forEach(function(m){m.setMap(null)});cmk=[];
+ RES.slice(0,3).forEach(function(r,k){var li=document.createElement('li');if(!k)li.className='best';
+  li.innerHTML='<h3>'+(k?(k+1)+'위':'<em>추천</em>')+' <span></span></h3><p class="sub"></p><div class="bars"></div><div class="near"></div>';
+  li.querySelector('h3 span').textContent=r.c.name;li.querySelector('.sub').textContent=(r.c.addr||'')+' · 가장 오래 '+H.fmtMin(r.max)+' · 차이 '+H.fmtMin(r.gap);
+  var bs=li.querySelector('.bars');ps.forEach(function(p,i){var pi=P.indexOf(p),d=document.createElement('div');d.className='bar';
+   d.innerHTML='<span></span><i style="background:'+COL[pi]+';width:'+Math.max(6,Math.round(r.t[i]/mx*100))+'%"></i><b>'+H.fmtMin(r.t[i])+'</b>';d.querySelector('span').textContent=p.name;bs.appendChild(d)});
+  var nr=li.querySelector('.near'),base=r.c.name.replace(/\s*\d+번?\s*출구.*/,'');['맛집','카페','주차장'].forEach(function(w){var a=document.createElement('a');a.href='https://map.kakao.com/link/search/'+encodeURIComponent(base+' '+w);a.target='_blank';a.rel='noopener';a.textContent=w;nr.appendChild(a)});
+  if(r.c.url){var a=document.createElement('a');a.href=r.c.url;a.target='_blank';a.rel='noopener';a.textContent='장소 정보';nr.appendChild(a)}
+  ol.appendChild(li);
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" viewBox="0 0 32 40"><path d="M16 39C16 39 3 24 3 15a13 13 0 0 1 26 0c0 9-13 24-13 24z" fill="'+(k?'#868E96':'#F59F00')+'" stroke="#fff" stroke-width="2.4"/><text x="16" y="20" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="800" fill="#fff">'+(k?k+1:'★')+'</text></svg>';
+  cmk.push(new kakao.maps.Marker({map:H.map,position:new kakao.maps.LatLng(r.c.lat,r.c.lng),image:new kakao.maps.MarkerImage('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg),new kakao.maps.Size(40,50),{offset:new kakao.maps.Point(20,49)}),zIndex:k?1:5}))});
+ var b=new kakao.maps.LatLngBounds();ps.forEach(function(p){b.extend(new kakao.maps.LatLng(p.pt.lat,p.pt.lng))});b.extend(new kakao.maps.LatLng(best.c.lat,best.c.lng));H.map.setBounds(b,50,40,50,40);
+ $('out').hidden=false;drawCard();history.replaceState(null,'',location.pathname+'?p='+shareParam())}
+function shareParam(){return encodeURIComponent(P.filter(function(p){return p.pt}).map(function(p){return [p.name.replace(/[~|]/g,''),p.pt.lat.toFixed(5),p.pt.lng.toFixed(5),p.pt.name.replace(/[~|]/g,'').slice(0,30)].join('~')}).join('|'))+'&c='+$('ct').value+'&m='+$('mode').value}
+function loadShared(){var q=new URLSearchParams(location.search),s=q.get('p');if(!s)return;try{var arr=s.split('|').map(function(x){var a=x.split('~');return {name:a[0],pt:{lat:+a[1],lng:+a[2],name:a[3]||'출발지'}}}).filter(function(x){return isFinite(x.pt.lat)&&isFinite(x.pt.lng)}).slice(0,6);
+ if(arr.length<2)return;if(q.get('c'))$('ct').value=q.get('c');if(q.get('m'))$('mode').value=q.get('m');
+ P=arr.map(function(a,i){return {name:a.name||('친구'+(i+1)),pt:a.pt,mk:null}});render();P.forEach(function(p,i){p.mk=H.pin(p.pt.lat,p.pt.lng,i+1,COL[i])});run()}catch(e){}}
+// 공유 카드
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+function fit(x,t,max,size,weight){var s=size;do{x.font=weight+' '+s+'px "Pretendard Variable",Pretendard,system-ui,sans-serif';s-=2}while(x.measureText(t).width>max&&s>24);return s+2}
+function drawCard(){if(!best)return;var cv=$('cv'),x=cv.getContext('2d'),W=1080,Hh=1350,ps=P.filter(function(p){return p.pt});
+ var g=x.createLinearGradient(0,0,W,Hh);g.addColorStop(0,'#FFE066');g.addColorStop(1,'#FFA94D');x.fillStyle=g;x.fillRect(0,0,W,Hh);
+ x.fillStyle='rgba(255,255,255,.35)';for(var i=0;i<6;i++){x.beginPath();x.arc(900-i*40,140+i*20,120-i*14,0,7);x.fill()}
+ x.fillStyle='#3B2F00';x.font='800 54px "Pretendard Variable",Pretendard,system-ui,sans-serif';x.fillText('우리 어디서 만나?',80,150);
+ x.font='600 34px "Pretendard Variable",Pretendard,system-ui,sans-serif';x.fillStyle='#6B5300';x.fillText(ps.length+'명 모두 차로 공평하게 가는 곳',80,206);
+ rr(x,60,250,960,330,36);x.fillStyle='#fff';x.fill();
+ x.fillStyle='#F59F00';rr(x,100,290,170,56,28);x.fill();x.fillStyle='#fff';x.font='800 30px "Pretendard Variable",Pretendard,system-ui,sans-serif';x.fillText('★ 추천',128,328);
+ var nm=best.c.name;fit(x,nm,880,88,'800');x.fillStyle='#191F28';x.fillText(nm,100,450);
+ x.font='600 34px "Pretendard Variable",Pretendard,system-ui,sans-serif';x.fillStyle='#4E5968';var ad=best.c.addr||'';while(x.measureText(ad).width>880&&ad.length)ad=ad.slice(0,-1);x.fillText(ad,100,510);
+ x.fillStyle='#868E96';x.font='600 30px "Pretendard Variable",Pretendard,system-ui,sans-serif';x.fillText('가장 오래 걸려도 '+H.fmtMin(best.max),100,556);
+ var top=640,rowH=Math.min(110,(1180-top)/Math.max(ps.length,1)),mx=best.max;
+ ps.forEach(function(p,i){var pi=P.indexOf(p),y=top+i*rowH;x.fillStyle=COL[pi];x.beginPath();x.arc(110,y+30,30,0,7);x.fill();
+  x.fillStyle='#fff';x.font='800 30px "Pretendard Variable",Pretendard,system-ui,sans-serif';x.textAlign='center';x.fillText(String(i+1),110,y+41);x.textAlign='left';
+  x.fillStyle='#3B2F00';var n=p.name;fit(x,n,190,38,'800');x.fillText(n,160,y+44);
+  rr(x,370,y+14,500,32,16);x.fillStyle='rgba(255,255,255,.6)';x.fill();rr(x,370,y+14,Math.max(40,500*best.t[i]/mx),32,16);x.fillStyle=COL[pi];x.fill();
+  x.fillStyle='#3B2F00';x.font='800 36px "Pretendard Variable",Pretendard,system-ui,sans-serif';x.textAlign='right';x.fillText(H.fmtMin(best.t[i]),1020,y+44);x.textAlign='left'});
+ x.fillStyle='rgba(59,47,0,.75)';x.font='700 30px "Pretendard Variable",Pretendard,system-ui,sans-serif';x.fillText('홍라이프 도구 · 중간지점 찾기',80,1290);
+ x.textAlign='right';x.font='600 26px "Pretendard Variable",Pretendard,system-ui,sans-serif';x.fillText('honglife.co.kr',1000,1290);x.textAlign='left'}
+function shareURL(){return location.origin+location.pathname+'?p='+shareParam()}
+function blob(){return new Promise(function(r){$('cv').toBlob(r,'image/png')})}
+$('b-save').onclick=function(){blob().then(function(b){var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='중간지점-'+(best?best.c.name:'')+'.png';a.click();$('shmsg').textContent='이미지를 저장했어요.'})};
+$('b-link').onclick=function(){var u=shareURL();(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){$('shmsg').textContent='링크를 복사했어요. 단톡방에 붙여 넣으세요.'},function(){prompt('이 링크를 복사하세요',u)})};
+$('b-share').onclick=function(){var u=shareURL(),t='우리 '+(best?best.c.name:'')+'에서 만나요! 각자 걸리는 시간 보기';
+ blob().then(function(b){var f=new File([b],'midpoint.png',{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[f]}))return navigator.share({files:[f],title:'중간지점',text:t+' '+u});
+  if(navigator.share)return navigator.share({title:'중간지점',text:t,url:u});$('b-link').onclick()}).catch(function(){})};
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(best)drawCard()});
+})();
+</script>
+'''
+MID_FAQ = [
+ ('중간지점은 어떻게 정하나요?', '모두의 출발지 한가운데 근처에서 지하철역·카페 같은 후보를 고른 뒤, 후보마다 각자 차로 걸리는 시간을 카카오모빌리티 길찾기로 계산해요. 공평 기준이면 가장 오래 걸리는 사람의 시간이 제일 짧은 곳이 1등이에요.'),
+ ('대중교통으로도 계산되나요?', '지금은 자동차 기준이에요. 지하철역 근처 후보를 고르면 대중교통으로 모이기에도 좋은 곳이 나오는 경우가 많아요.'),
+ ('공유 카드에 내 주소가 나오나요?', '카드에는 추천 장소와 사람별 이름·걸리는 시간만 나오고 출발지 주소는 넣지 않아요. 다만 링크 복사로 보낸 링크에는 출발 위치 좌표가 들어 있어서, 링크를 연 사람의 화면에 같은 결과가 다시 계산돼요.'),
+ ('몇 명까지 되나요?', '2명부터 6명까지 넣을 수 있어요. 사람이 많을수록 계산할 길이 늘어나서 몇 초 더 걸려요.'),
+]
+
+def build_mid():
+    shell('midpoint', '중간지점 찾기 · 약속 장소 추천 (차로 공평하게, 공유 카드) | 홍라이프 도구',
+          '친구들 출발지를 지도에 찍으면 모두 차로 공평하게 갈 수 있는 지하철역·카페·음식점을 카카오모빌리티 길찾기로 찾아 줘요. 사람별 걸리는 시간과 단톡방 공유 카드까지.',
+          '중간지점 찾기 (약속 장소 추천)',
+          '친구들 출발지를 넣으면 모두가 차로 비슷하게 걸리는 만날 곳을 찾아요. 사람별 걸리는 시간을 비교하고, 결과를 공유 카드로 단톡방에 바로 보낼 수 있어요.',
+          '<style id="hl-mt">' + COMMON_CSS + MID_CSS + '</style>\n', MID_MAIN, MID_JS, MID_FAQ)
+
+if __name__ == '__main__':
+    build_all(); build_mid()

@@ -311,7 +311,7 @@ s = open(p, encoding='utf-8').read()
 if 'hl-catrow-css' not in s:
     FC = {'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
           'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#495057', 'life': '#2F9E44', 'medical': '#E64980',
-          'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6', 'gov': '#0B7285'}
+          'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6', 'gov': '#0B7285', 'drive': '#E8590C'}
     def mix(c, t):
         r, g, b = int(c[1:3], 16), int(c[3:5], 16), int(c[5:7], 16)
         return '#%02X%02X%02X' % tuple(round(v + (255 - v) * t) for v in (r, g, b))
@@ -352,7 +352,7 @@ HPAL = ['#FFD6A5', '#C9DCFF', '#D7C8FF', '#BFEBD8', '#FFC9D6', '#FFE89A']
 HDK = ['#1E2A4A', '#2B1F3D', '#12352B', '#3A1E24', '#1F3340']
 HFC = {'test': '#B14FC5', 'game': '#7FA21B', 'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
        'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#495057', 'life': '#2F9E44', 'medical': '#E64980',
-       'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6', 'gov': '#0B7285'}
+       'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6', 'gov': '#0B7285', 'drive': '#E8590C'}
 KW = [('bus', r'노선 내비|경유지'), ('pdf', r'PDF'), ('image', r'이미지|사진|PNG|JPG|증명'), ('qr', r'QR|바코드'), ('ai', r'AI|챗GPT|클로드|프롬프트'),
       ('calendar', r'달력|D-day|날짜|공휴일|요일'), ('sheet', r'차트|그래프|가계부|근무표'), ('excel', r'엑셀|수식|CSV'),
       ('dev', r'JSON|코드|정규식|Base64|HTML'), ('doc', r'계약서|견적서|이력서|서식|영수증'), ('text', r'글자|텍스트|맞춤법')]
@@ -525,15 +525,16 @@ if os.path.exists(_nc_p):
 # ── 아티팩트에서 옮긴 페이지: 자격증 시험달력(/calendar/exam-schedule.html), 청약·줍줍+투자계산기(/life/invest.html) ──
 MOVED = [('calendar', '/calendar/exam-schedule.html', '자격증 시험일정 달력 (국가기술·국가전문·한국사·토익·JLPT)', '원서접수·시험일·합격발표를 한 달력에, 매달 업데이트', '자격증 시험일정 달력 큐넷 기사 산업기사 기능사 한국사 토익 JLPT 원서접수', '날짜·달력'),
          ('life', '/life/subsidy.html', '조건으로 찾는 정부 지원금 (보조금24 1만여 건)', '지역·대상·나이·분야로 받을 수 있는 지원금만 걸러 보기', '정부 지원금 조회 보조금24 지원금 찾기 청년 지원금 소상공인 지원금 노인 지원금', '생활·행정'),
-         ('life', '/life/route-navi.html', '경유지 많은 노선 내비 (지도에서 찍어 만들기)', '정류장 30곳 넘어도 순서대로 네이버·카카오·티맵 안내', '경유지 많은 내비 다중 경유지 길찾기 경유지 30개 셔틀버스 노선 통학버스 택배 동선 순서 길안내', '생활·행정'),
-         ('life', '/life/taxi-fare.html', '택시비·통행료·기름값 계산기 (지도)', '출발·도착만 고르면 택시비, 고속도로 통행료, 내 차 기름값 비교', '택시비 계산기 택시요금 계산 통행료 계산 고속도로 통행료 기름값 계산 유류비 계산 카카오 길찾기 거리 계산', '생활·행정'),
+         ('drive', '/life/route-navi.html', '경유지 많은 노선 내비', '정류장 30곳 넘어도 순서대로 길안내', '경유지 많은 내비 다중 경유지 길찾기 경유지 30개 셔틀버스 노선 통학버스 택배 동선 순서 길안내', '자동차·지도'),
+         ('drive', '/life/taxi-fare.html', '택시비·통행료 계산기', '택시비와 내 차 기름값·통행료 비교', '택시비 계산기 택시요금 계산 통행료 계산 고속도로 통행료 기름값 계산 유류비 계산 카카오 길찾기 거리 계산', '자동차·지도'),
+         ('drive', '/life/midpoint.html', '중간지점 찾기', '친구들과 만날 곳 추천 + 공유 카드', '중간지점 찾기 약속장소 추천 중간 위치 만날 장소 친구 중간 지점 지하철역 중간 카카오 길찾기', '자동차·지도'),
          ('life', '/life/invest.html', '청약·줍줍 일정 + 투자계산기', '오늘 넣을 수 있는 청약·무순위 줍줍 3일마다 업데이트, 주식 세금·대출·연금 계산', '청약 일정 줍줍 무순위 청약 투자계산기 주식 세금 대출 한도 청약 가점', '생활·행정')]
 for cat, u, n, d, kw, cn in MOVED:
     p = os.path.join(root, cat, 'index.html')
     if os.path.exists(p):
         s = open(p, encoding='utf-8').read()
         if f'href="{u}"' not in s:
-            art = {'/life/route-navi.html': 'bus', '/life/taxi-fare.html': 'bus'}.get(u, cat)
+            art = {'/life/route-navi.html': 'bus', '/life/taxi-fare.html': 'drive', '/life/midpoint.html': 'drive'}.get(u, cat)
             li = (f'<li><a href="{u}"><i class="th"><img src="/assets/art/hl/cs-{art}.svg" alt="" width="200" height="140" loading="lazy"></i>'
                   f'<img class="pg" src="/assets/art/hl/pg-{cat}.svg" alt="" width="26" height="26" loading="lazy"><b>{n}</b><span>{d}</span></a></li>')
             s2 = re.sub(r'(<ul class="tlist[^"]*">)', lambda m: m.group(1) + li, s, count=1)
@@ -569,9 +570,25 @@ if os.path.exists(_gv_p):
         s = s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-19</lastmod></url>\n' for u in urls) + '</urlset>', 1)
         open(p, 'w', encoding='utf-8').write(s); print('sitemap + gov', len(urls))
 
+# ── 새 분류: 자동차·지도(/drive/) (overlay, 2026-11-20) — 홈 카드, 허브 검색, 사이트맵 ──
+p = os.path.join(root, 'index.html'); s = open(p, encoding='utf-8').read()
+if 'href="/drive/"' not in s:
+    m = re.search(r'<li><a class="ct" href="/gov/".*?</a></li>', s, flags=re.S) or re.search(r'<li><a class="ct" href="/life/".*?</a></li>', s, flags=re.S)
+    if m:
+        nd = sum(1 for e in MOVED if e[0] == 'drive')
+        card = (f'<li><a class="ct" href="/drive/" style="--bg:linear-gradient(#FFE8CC 0 40%,transparent 40%),linear-gradient(90deg,#FF922B 0 58%,#FFC078 58%)">'
+                f'<span class="ch"><em>{nd}개</em><b>자동차·지도</b></span><i class="ci" style="background-image:url(/assets/art/hl/cs-drive.svg)"></i><span class="go" aria-hidden="true">›</span></a></li>')
+        s = s[:m.end()] + card + s[m.end():]; print('home: drive card')
+    if TRIP in s and '"u":"/drive/"' not in s:
+        s = s.replace(TRIP, TRIP + ',' + _json.dumps({"t": "자동차·지도 도구 모음", "d": "택시비·통행료 계산, 중간지점 찾기, 경유지 많은 노선 내비", "k": "자동차 지도 길찾기 택시비 중간지점 내비", "c": "자동차·지도", "u": "/drive/"}, ensure_ascii=False, separators=(',', ':')), 1)
+    open(p, 'w', encoding='utf-8').write(s)
+p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
+if 'honglife.co.kr/drive/<' not in s:
+    open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', '<url><loc>https://honglife.co.kr/drive/</loc><lastmod>2026-11-20</lastmod></url>\n</urlset>', 1)); print('sitemap + drive')
+
 # ── 상단 분류 줄 고정: 모든 한국어 페이지에 같은 분류 전체 목록(가로 스크롤 한 줄) ──
 CATBAR = [('excel', '엑셀 수식'), ('sheet', '엑셀 양식'), ('doc', '문서'), ('pdf', 'PDF'), ('image', '이미지'), ('convert', '파일 변환'),
-          ('text', '텍스트'), ('ai', 'AI'), ('calendar', '날짜·달력'), ('qr', 'QR'), ('life', '생활·행정'), ('gov', '공문서·민원'), ('medical', '병원·건강'),
+          ('text', '텍스트'), ('ai', 'AI'), ('calendar', '날짜·달력'), ('qr', 'QR'), ('life', '생활·행정'), ('gov', '공문서·민원'), ('drive', '자동차·지도'), ('medical', '병원·건강'),
           ('legal', '법률'), ('study', '학생·공부'), ('ipsi', '입시'), ('trip', '여행'), ('test', '심리 테스트'), ('game', '게임 계산기'),
           ('design', '디자인'), ('shop', '소상공인'), ('dev', '개발'), ('net', '인터넷')]
 CATCSS = ('<style id="hl-catbar-css">.brandbar .in nav a:not(.srch):not(.lang){display:none!important}'
@@ -622,6 +639,9 @@ for c, _ in CATBAR:
 if '/gov/' not in canon:
     canon['/gov/'] = ('<li><a href="/gov/" style="--bg:linear-gradient(#D7EEF2 0 34%,#3BA3B6 34%)"><b>공문서·민원</b><span>위임장 인쇄, 주민센터 방문 준비물</span>'
                       '<i style="background-image:url(/assets/art/hl/cs-gov.svg)"></i></a></li>')
+if '/drive/' not in canon:
+    canon['/drive/'] = ('<li><a href="/drive/" style="--bg:linear-gradient(#FFE8CC 0 34%,#FFA94D 34%)"><b>자동차·지도</b><span>택시비·통행료 계산, 중간지점 찾기, 노선 내비</span>'
+                        '<i style="background-image:url(/assets/art/hl/cs-drive.svg)"></i></a></li>')
 if '/trip/' not in canon:
     canon['/trip/'] = ('<li><a href="/trip/" style="--bg:linear-gradient(#D6ECF7 0 34%,#7CBDE3 34%)"><b>여행·패키지</b><span>출발확정 해외 패키지 특가, 여행 쇼츠</span>'
                        '<i style="background-image:url(/assets/art/hl/cs-trip.svg)"></i></a></li>')
