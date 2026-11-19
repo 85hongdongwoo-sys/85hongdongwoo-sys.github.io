@@ -638,3 +638,29 @@ for c, _ in CATBAR:
     if s2 != s:
         open(p, 'w', encoding='utf-8').write(s2); k += 1
 print('other-category rows unified:', k, 'cards:', len(canon))
+
+# ── 검색 품질: 구글 노출이 거의 없는 대량 자동 생성 하위 페이지는 구글 색인에서만 제외(googlebot noindex,follow)하고
+#    사이트맵에서 뺀다. 네이버 등 다른 검색엔진과 사이트 안 이용은 그대로. 허브(index.html)는 유지.
+THIN = ['text/emoji', 'text/romanize', 'text/symbol', 'life/length', 'life/weight', 'life/temp', 'life/pyeong',
+        'calendar/worldtime', 'dev/color', 'dev/mime', 'dev/http']
+GB = '<meta name="googlebot" content="noindex,follow">'
+thin_urls, k = set(), 0
+for d in THIN:
+    base_d = os.path.join(root, d)
+    if not os.path.isdir(base_d):
+        continue
+    for fn in os.listdir(base_d):
+        if not fn.endswith('.html') or fn == 'index.html':
+            continue
+        p = os.path.join(base_d, fn)
+        s = open(p, encoding='utf-8').read()
+        if GB not in s and '</head>' in s:
+            s = s.replace('</head>', GB + '\n</head>', 1)
+            open(p, 'w', encoding='utf-8').write(s); k += 1
+        thin_urls.add(f'https://honglife.co.kr/{d}/{fn}')
+p = os.path.join(root, 'sitemap.xml')
+s = open(p, encoding='utf-8').read()
+lines = s.split('\n')
+keep = [l for l in lines if not (l.startswith('<url><loc>') and l[len('<url><loc>'):l.find('</loc>')] in thin_urls)]
+open(p, 'w', encoding='utf-8').write('\n'.join(keep))
+print('thin pages googlebot-noindex:', k, 'sitemap removed:', len(lines) - len(keep))
