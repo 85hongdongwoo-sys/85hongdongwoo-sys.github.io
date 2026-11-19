@@ -848,3 +848,44 @@ for dp, dn, fn in os.walk(root):
             continue
         open(p, 'w', encoding='utf-8').write(s.replace('</head>', PWA + '</head>', 1)); k += 1
 print('pwa head:', k)
+
+# ── 네이버 대비 정리 (2026-11-20): RSS에 새 페이지 추가, 이미지 사이트맵을 본 사이트맵과 맞춤, 홈에 RSS 링크
+import html as _h, email.utils as _eu, time as _tm
+_rp = os.path.join(root, 'rss.xml')
+if os.path.exists(_rp):
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'newcats'))
+        from gov_data3 import F as _F3
+        _new = [(f'https://honglife.co.kr/gov/{g["slug"]}.html', g['h1'], g['desc']) for g in _F3]
+    except Exception as e:
+        print('rss gov load fail', e); _new = []
+    _new.append(('https://honglife.co.kr/terms.html', '이용약관', '홍라이프 도구 이용약관 — 무료 서비스 범위, 결과의 이용과 책임, 금지 행위, 광고, 문의 방법.'))
+    s = open(_rp, encoding='utf-8').read()
+    _pd = 'Fri, 20 Nov 2026 01:00:00 GMT'
+    add = ''.join(f'<item><title>{_h.escape(t)}</title><link>{u}</link><guid isPermaLink="true">{u}</guid><description>{_h.escape(d)}</description><pubDate>{_pd}</pubDate></item>\n'
+                  for u, t, d in _new if f'<link>{u}</link>' not in s)
+    if add:
+        i = s.find('<item>')
+        s = s[:i] + add + s[i:]
+        items = re.findall(r'<item>.*?</item>\n?', s, flags=re.S)
+        if len(items) > 50:
+            for it in items[50:]: s = s.replace(it, '', 1)
+        s = re.sub(r'<lastBuildDate>[^<]*</lastBuildDate>', '<lastBuildDate>' + _eu.formatdate(usegmt=True) + '</lastBuildDate>', s, count=1)
+        open(_rp, 'w', encoding='utf-8').write(s)
+    print('rss new items:', add.count('<item>'))
+_sm = os.path.join(root, 'sitemap.xml'); _si = os.path.join(root, 'sitemap-images.xml')
+if os.path.exists(_sm) and os.path.exists(_si):
+    keep = set(re.findall(r'<loc>([^<]+)</loc>', open(_sm, encoding='utf-8').read()))
+    s = open(_si, encoding='utf-8').read()
+    blocks = re.findall(r'<url>.*?</url>\s*', s, flags=re.S); n0 = len(blocks); out = s
+    for b in blocks:
+        m = re.search(r'<loc>([^<]+)</loc>', b)
+        if m and m.group(1) not in keep: out = out.replace(b, '', 1)
+    open(_si, 'w', encoding='utf-8').write(out)
+    print('image sitemap', n0, '->', len(re.findall(r'<url>', out)))
+_ih = os.path.join(root, 'index.html')
+if os.path.exists(_ih):
+    s = open(_ih, encoding='utf-8').read()
+    if 'application/rss+xml' not in s:
+        open(_ih, 'w', encoding='utf-8').write(s.replace('</head>', '<link rel="alternate" type="application/rss+xml" title="홍라이프 도구 새 도구" href="https://honglife.co.kr/rss.xml">\n</head>', 1))
+        print('home rss link added')
