@@ -22,7 +22,7 @@ FAQ = [
 ]
 
 BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌러 정류장을 차례로 찍으면 노선이 돼요. 운행할 땐 “다음 정류장 안내”를 누르면 네이버 지도·카카오맵·티맵이 다음 정류장까지 길을 안내해요. 경유지가 30곳을 넘어도 괜찮아요.</p>
-<div class="safe"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>노선과 정류장은 서버로 보내지 않고 이 기기에만 저장돼요</div></header>
+<div class="safe"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>노선은 이 기기에만 저장돼요 · 경로를 계산할 때만 위치가 카카오로 전달돼요</div></header>
 <section class="card rn">
 <div class="rn-top">
  <label class="rn-sel"><span>노선</span><select id="rsel" aria-label="노선 고르기"></select></label>
@@ -66,6 +66,43 @@ BODY = r'''<h1>경유지 많은 노선 내비</h1><p class="lead">지도를 눌�
 <li><b>운행하기</b>를 누르고, 정류장에 서 있을 때 초록 버튼을 한 번 누르면 네이버 내비가 6곳을 한 번에 안내해요. 누르는 순간 다음 묶음이 자동으로 준비되니, 6곳을 다 돌고 마지막 정류장에 섰을 때 또 한 번만 누르면 돼요.</li>
 <li><b>노선 공유 링크</b>를 보내면 받는 사람 휴대폰에서도 같은 노선이 그대로 열려요.</li>
 </ol></section>
+<section class="card rn-cau"><h2>꼭 읽어 주세요 · 주의사항</h2>
+<p class="rn-cau-l">이 도구는 무료 베타 서비스예요. 길 안내는 운전을 돕는 참고 정보이고, 실제 도로 상황과 교통 법규, 현장 표지판이 항상 우선이에요. 운전과 그 결과에 대한 책임은 운전자에게 있어요.</p>
+<details open><summary>운전 중 안전</summary><ul>
+<li>달리는 중에는 휴대폰을 손으로 조작하지 마세요. 도로교통법상 운전 중 휴대폰 사용은 금지돼 있어요. 노선 만들기·수정·버튼 누르기는 <b>출발 전이나 안전한 곳에 정차한 뒤</b>에 하세요.</li>
+<li>휴대폰은 시야를 가리지 않는 거치대에 고정하고, 화면은 흘끗 보는 정도로만 쓰세요. 안내는 음성 위주로 들으세요.</li>
+<li>어린이·노인·장애인을 태우는 차량은 승하차 시 안전 확인이 먼저예요. 정류장 도착 안내가 나와도 주변을 직접 확인하세요.</li>
+</ul></details>
+<details><summary>경로가 틀릴 수 있는 경우</summary><ul>
+<li>경로는 카카오모빌리티 길찾기로 계산해요. 지도 자료가 현장보다 늦게 바뀌면 공사, 새로 생긴 길, 바뀐 회전 금지·일방통행이 반영되지 않을 수 있어요.</li>
+<li><b>차량 높이·무게·길이 제한, 버스전용차로, 대형차 통행 제한</b>은 경로에 반영되지 않아요. 큰 차량은 낮은 굴다리, 좁은 골목, 회전반경이 부족한 교차로를 미리 노선 확인으로 살펴보고, 피해야 할 곳은 지나갈 길 위에 핀을 더 찍어 고정하세요.</li>
+<li>실시간 교통은 출발할 때와 경로를 다시 찾을 때만 반영돼요. 운행 중 새로 생긴 정체는 반영되지 않을 수 있어요.</li>
+<li>핀이 진입로, 주차장 출입로, 골목, 반대편 차선에 붙으면 크게 돌거나 유턴할 수 있어요. 처음 쓰는 노선은 꼭 <b>노선 확인</b>과 <b>모의 주행</b>으로 미리 확인하세요.</li>
+<li>카카오 길찾기를 쓸 수 없을 때(하루 이용 한도 초과, 연결 오류)는 자동으로 공개 경로 서버(OpenStreetMap)로 바뀌어요. 이때는 안내 문구와 경로 품질이 떨어질 수 있어요.</li>
+</ul></details>
+<details><summary>단속카메라·제한속도 안내</summary><ul>
+<li>경찰청 「전국무인교통단속카메라 표준데이터」(2026년 10월 기준)를 써요. 새로 생기거나 옮긴 카메라, 이동식 단속은 안내되지 않아요.</li>
+<li>카메라가 어느 방향 차선을 찍는지 정확하지 않아, 반대편 차선 카메라도 안내될 수 있어요.</li>
+<li>화면의 제한속도는 근처 카메라 기준이에요. 카메라가 없는 도로의 제한속도는 표지판을 따르세요. 현재 속도는 GPS로 잰 값이라 계기판과 조금 다를 수 있어요.</li>
+</ul></details>
+<details><summary>위치(GPS)와 화면</summary><ul>
+<li>터널, 지하차도, 고층 건물 사이, 고가 아래에서는 GPS가 끊기거나 흔들릴 수 있어요. 잠깐 끊기면 마지막 속도로 경로를 따라 최대 20초 이어 가요.</li>
+<li>출발 때 정확한 위치를 잡느라 최대 12초 기다려요. 하늘이 보이는 곳에서 시작하세요.</li>
+<li>안내 중에는 이 화면을 켜 둬야 해요. 다른 앱으로 넘어가거나 화면이 꺼지면 위치 추적과 음성이 멈출 수 있어요. 오래 운행할 때는 충전기를 연결하세요.</li>
+<li>컴퓨터는 GPS가 없어서 위치가 크게 틀려요. 실제 안내는 휴대폰으로 하고, 컴퓨터에서는 모의 주행으로만 확인하세요.</li>
+</ul></details>
+<details><summary>음성 안내</summary><ul>
+<li>휴대폰 무음·방해 금지 모드, 미디어 음량이 0이면 소리가 나지 않아요. 출발 전 <b>들어보기</b>로 확인하세요.</li>
+<li>정류장 이름과 "○○ 방면" 같은 장소 이름은 음성으로 말하지 않고 화면에만 보여 줘요. 음성은 정류장 번호로 안내해요.</li>
+<li>블루투스·차량 스피커 연결 상태에 따라 앞부분이 잘리거나 늦게 나올 수 있어요.</li>
+</ul></details>
+<details><summary>저장과 개인정보</summary><ul>
+<li>노선은 홍라이프 서버가 아니라 <b>지금 쓰는 휴대폰의 브라우저 안</b>에만 저장돼요. 다른 휴대폰이나 다른 브라우저에서는 보이지 않아요.</li>
+<li>브라우저 기록·데이터를 지우거나 시크릿 모드로 쓰면 노선이 사라져요. 아이폰 사파리는 7일 넘게 열지 않으면 지울 수 있어요. 홈 화면에 추가해 쓰거나 <b>노선 공유 링크</b>로 꼭 백업해 두세요.</li>
+<li>경로를 계산할 때 정류장 좌표와 현재 위치가 홍라이프 중계 서버(Cloudflare)를 거쳐 카카오모빌리티로 전달돼요. 홍라이프는 이 위치를 저장하지 않아요. 지도는 카카오 지도를 써요.</li>
+<li>노선 공유 링크에는 정류장 위치와 이름이 그대로 들어 있어요. 승객의 집 주소처럼 민감한 위치가 담긴 노선은 꼭 필요한 사람에게만 보내세요.</li>
+</ul></details>
+</section>
 <section class="card"><h2>자주 묻는 질문</h2>__FAQ__</section>
 <p class="upd">지도·경로 © Kakao, 카카오모빌리티 (연결이 안 될 때는 OpenStreetMap) · 내비 앱 안내는 각 앱이 제공해요 · 업데이트 2026년 11월 19일</p>'''
 
@@ -92,6 +129,8 @@ CSS = r'''<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
 #pvbox .nv-top{min-height:0;background:#191F28}#pvbox .nv-r{white-space:normal;overflow:visible;line-height:1.4;word-break:keep-all}#pvbox .nv-s{font-size:15px}.pv-u{margin:0;padding:10px 14px;background:#FFF4E6;color:#7A3E00;font-size:14px;line-height:1.5;word-break:keep-all;border-bottom:1px solid #FFD8A8}.pv-u b{color:#D9480F}#pvmap{flex:1;min-height:0;background:#E8EEF3}
 .rn-pv{width:100%;min-height:52px;margin-top:12px;font-size:16px;background:#F04452!important;border-color:#F04452!important;color:#fff!important}
 .rn-pvs{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#FFF0F1;color:#C9303E;font-size:14px;font-weight:700;line-height:1.5;word-break:keep-all}
+.rn-cau h2{margin-bottom:8px}.rn-cau-l{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:#FFF4E6;color:#7A3E00;font-size:14.5px;line-height:1.6;word-break:keep-all}
+.rn-cau details{border-top:1px solid var(--line);padding:12px 2px}.rn-cau details:last-child{padding-bottom:2px}.rn-cau summary{cursor:pointer;font-weight:800;font-size:15.5px;color:var(--head)}.rn-cau ul{margin:10px 0 0;padding-left:20px;display:grid;gap:8px;font-size:14.5px;line-height:1.65;color:#4E5968;word-break:keep-all}.rn-cau b{color:var(--head)}
 .rn-tip{margin:12px 0 0;padding:12px 14px;border-radius:12px;background:#F7F9FC;border:1px solid var(--line)}.rn-tip summary{cursor:pointer;font-size:14.5px;font-weight:800;color:var(--head)}.rn-tip ul{margin:8px 0 0;padding-left:18px;display:grid;gap:6px;font-size:14px;line-height:1.55;color:#4E5968;word-break:keep-all}.rn-tip b{color:var(--head)}
 .rn-sum{margin:14px 0 8px;font-size:14px;color:var(--muted)}
 .rn-list{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:420px;overflow:auto}
