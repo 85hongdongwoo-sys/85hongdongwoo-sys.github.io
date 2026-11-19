@@ -754,3 +754,72 @@ lines = s.split('\n')
 keep = [l for l in lines if not (l.startswith('<url><loc>') and l[len('<url><loc>'):l.find('</loc>')] in thin_urls)]
 open(p, 'w', encoding='utf-8').write('\n'.join(keep))
 print('thin pages googlebot-noindex:', k, 'sitemap removed:', len(lines) - len(keep))
+
+# ── 이용약관 페이지 (/terms.html) — 개인정보처리방침 페이지 틀을 그대로 써서 만든다 (2026-11-20)
+_pp = os.path.join(root, 'privacy.html')
+if os.path.exists(_pp):
+    s = open(_pp, encoding='utf-8').read()
+    T_TITLE = '이용약관 | 홍라이프 도구'
+    T_DESC = '홍라이프 도구(honglife.co.kr) 이용약관 — 무료 서비스 범위, 결과의 이용과 책임, 금지 행위, 광고, 문의 방법.'
+    body = ('<main class="wrap"><header class="top"><p class="crumb"><a href="/">홈</a></p><h1>이용<b>약관</b></h1></header><section class="card guide"><h2>이용약관</h2><p>시행일: 2026년 11월 20일</p>'
+     '<h3>1. 목적</h3><p>이 약관은 홍라이프 도구(honglife.co.kr, 이하 ‘사이트’)가 제공하는 무료 도구와 안내 글(이하 ‘서비스’)을 이용하는 조건을 정해요.</p>'
+     '<h3>2. 서비스</h3><ul><li>사이트의 도구는 회원가입 없이 무료로 쓸 수 있어요.</li><li>도구에 입력한 내용과 올린 파일은 서버로 전송되지 않고 이용자 기기의 브라우저 안에서 처리돼요.</li><li>사이트는 서비스 내용을 바꾸거나 일부 도구를 중단할 수 있어요.</li></ul>'
+     '<h3>3. 결과의 이용과 책임</h3><ul><li>계산 결과, 서식, 안내 글은 공식 자료를 바탕으로 정확하게 만들려고 노력하지만 참고용이에요. 중요한 서류 제출, 세금·법률·의료 판단 전에는 해당 기관이나 전문가에게 꼭 확인하세요.</li><li>사이트의 내용은 법률·세무·의료 자문이 아니에요.</li><li>이용자가 입력한 내용과 그 결과를 쓰는 책임은 이용자에게 있어요. 사이트는 고의 또는 중대한 과실이 없는 한 이용 결과로 생긴 손해를 책임지지 않아요.</li></ul>'
+     '<h3>4. 권리</h3><ul><li>도구로 만든 결과물(문서, 이미지, 파일)은 만든 이용자의 것이에요.</li><li>사이트의 화면 디자인, 글, 그림의 권리는 사이트에 있어요. 출처를 밝힌 짧은 인용과 링크는 자유롭게 해도 돼요.</li><li>법령의 별지 서식처럼 저작권 보호 대상이 아닌 자료는 원래 출처의 조건을 따라요.</li></ul>'
+     '<h3>5. 하지 말아야 할 일</h3><ul><li>자동화된 방법으로 사이트에 과도한 요청을 보내 서비스를 방해하는 행위</li><li>도구로 다른 사람의 서명·도장을 몰래 쓰거나 공문서·사문서를 거짓으로 만드는 행위</li><li>법령이나 다른 사람의 권리를 침해하는 행위</li></ul>'
+     '<h3>6. 광고와 외부 링크</h3><p>사이트에는 Google 애드센스 등 제3자 광고가 표시될 수 있어요. 광고와 외부 링크로 연결된 사이트의 내용과 거래는 그 운영자의 책임이에요. 광고에 쓰이는 쿠키는 <a href="/privacy.html">개인정보처리방침</a>에서 안내해요.</p>'
+     '<h3>7. 약관 변경과 문의</h3><p>약관을 바꾸면 이 페이지에 시행일과 함께 알려요. 궁금한 점이나 오류 제보는 <a href="/contact.html">문의</a> 페이지로 보내 주세요.</p></section></main>')
+    i, j = s.find('<main'), s.find('</main>') + len('</main>')
+    t = s[:i] + body + s[j:]
+    t = re.sub(r'<title>[^<]*</title>', f'<title>{T_TITLE}</title>', t, count=1)
+    t = re.sub(r'(<meta name="description" content=")[^"]*', r'\g<1>' + T_DESC, t, count=1)
+    t = t.replace('https://honglife.co.kr/privacy.html', 'https://honglife.co.kr/terms.html')
+    t = re.sub(r'(<meta property="og:title" content=")[^"]*', r'\g<1>' + T_TITLE, t, count=1)
+    t = re.sub(r'(<meta property="og:description" content=")[^"]*', r'\g<1>' + T_DESC, t, count=1)
+    t = re.sub(r'<script type="application/ld\+json">.*?</script>', '', t, flags=re.S)
+    open(os.path.join(root, 'terms.html'), 'w', encoding='utf-8').write(t)
+    sp = os.path.join(root, 'sitemap.xml'); s2 = open(sp, encoding='utf-8').read()
+    if '/terms.html<' not in s2:
+        open(sp, 'w', encoding='utf-8').write(s2.replace('</urlset>', '<url><loc>https://honglife.co.kr/terms.html</loc><lastmod>2026-11-20</lastmod></url>\n</urlset>', 1))
+    # 모든 페이지 하단 메뉴에 이용약관 추가
+    OLDF = '<a href="/privacy.html">개인정보처리방침</a><a href="/contact.html">문의</a>'
+    NEWF = '<a href="/privacy.html">개인정보처리방침</a><a href="/terms.html">이용약관</a><a href="/contact.html">문의</a>'
+    _k = 0
+    for dp, dn, fn in os.walk(root):
+        if '/.git' in dp: continue
+        for f in fn:
+            if not f.endswith('.html'): continue
+            fp = os.path.join(dp, f)
+            try: s3 = open(fp, encoding='utf-8').read()
+            except Exception: continue
+            if OLDF in s3 and NEWF not in s3:
+                open(fp, 'w', encoding='utf-8').write(s3.replace(OLDF, NEWF)); _k += 1
+    print('terms page + footer links:', _k)
+
+# ── 옛 계산기 주소(예전에 이 도메인에서 운영) → honglifecalc.com 이동 페이지. 없는 파일만 만든다 (2026-11-20)
+import gzip as _gz
+_cp = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'com_paths.txt.gz')
+if os.path.exists(_cp):
+    _k = 0
+    for cp in _gz.open(_cp).read().decode().split('\n'):
+        if not cp: continue
+        local = cp[3:] if cp.startswith('ko/') else cp
+        fp = os.path.join(root, local)
+        if os.path.exists(fp): continue
+        url = 'https://honglifecalc.com/' + cp
+        msg = (f'<p>이 계산기는 <a href="{url}">홍라이프 계산기</a>로 옮겼어요.</p>' if cp.startswith('ko/')
+               else f'<p>This page moved to <a href="{url}">{url}</a></p>')
+        ttl = '홍라이프 계산기로 이동했어요' if cp.startswith('ko/') else 'Moved to honglifecalc.com'
+        os.makedirs(os.path.dirname(fp) or root, exist_ok=True)
+        open(fp, 'w', encoding='utf-8').write(f'<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>{ttl}</title><link rel="canonical" href="{url}"><meta http-equiv="refresh" content="0; url={url}"><script>location.replace("{url}"+location.search+location.hash)</script></head><body>{msg}</body></html>')
+        _k += 1
+    print('old calculator redirect stubs:', _k)
+# 404 페이지: 목록에 없던 옛 주소도 계산기 사이트로 보낸다 (칼로리 → 칼로리 계산기, 나라 코드 경로 → 같은 주소)
+_p4 = os.path.join(root, '404.html')
+if os.path.exists(_p4):
+    s = open(_p4, encoding='utf-8').read()
+    if 'hl-old-redirect' not in s:
+        js = ('<script id="hl-old-redirect">(function(){var p=location.pathname,m=p.match(/^\\/([a-z]{2})\\//);'
+              'if(/^\\/kcal\\//.test(p)){location.replace("https://honglifecalc.com/ko/calorie.html");return}'
+              'if(m&&m[1]!=="en"){location.replace("https://honglifecalc.com"+p+location.search)}})();</script>')
+        open(_p4, 'w', encoding='utf-8').write(s.replace('</head>', js + '</head>', 1)); print('404 old-address redirect added')
