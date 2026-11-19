@@ -792,8 +792,11 @@ if os.path.exists(_pp):
             fp = os.path.join(dp, f)
             try: s3 = open(fp, encoding='utf-8').read()
             except Exception: continue
+            OLD2 = '<a href="/privacy.html">개인정보처리방침</a><a href="https://honglifecalc.com/ko/">'
             if OLDF in s3 and NEWF not in s3:
                 open(fp, 'w', encoding='utf-8').write(s3.replace(OLDF, NEWF)); _k += 1
+            elif OLD2 in s3 and '/terms.html">이용약관' not in s3:
+                open(fp, 'w', encoding='utf-8').write(s3.replace(OLD2, NEWF + '<a href="https://honglifecalc.com/ko/">')); _k += 1
     print('terms page + footer links:', _k)
 
 # ── 옛 계산기 주소(예전에 이 도메인에서 운영) → honglifecalc.com 이동 페이지. 없는 파일만 만든다 (2026-11-20)
