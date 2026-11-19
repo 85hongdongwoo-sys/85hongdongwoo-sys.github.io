@@ -71,7 +71,8 @@
 [hidden]{display:none!important}
 .rn-opt{margin:0 0 14px;padding:14px;border-radius:14px;background:#fff;border:1px solid var(--line)}.rn-opt-h{margin:0 0 8px;font-size:14px;font-weight:800;color:var(--head)}
 .rn-seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:#F2F4F6;border-radius:12px;padding:4px}.rn-seg button{border:0;background:none;min-height:40px;border-radius:9px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap}.rn-seg button[aria-checked=true]{background:#fff;color:var(--head);box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.rn-chk{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:10px}.rn-chk label{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--head);min-width:0;word-break:keep-all}.rn-chk input{width:18px;height:18px;flex:none;accent-color:#1B64DA}
+.rn-chk{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:10px}.rn-chk .hw{grid-column:1/-1;font-weight:700}.rn-chk input:disabled+*,.rn-chk label:has(input:disabled){opacity:.45}
+.rn-chk label{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--head);min-width:0;word-break:keep-all}.rn-chk input{width:18px;height:18px;flex:none;accent-color:#1B64DA}
 .rn-vo{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.rn-vrow{display:flex;gap:6px}.rn-vrow select{flex:1;min-width:0;height:42px;border:1px solid var(--line);border-radius:10px;padding:0 10px;font-size:14px;background:#fff;color:var(--head)}.rn-vrow button{flex:none;height:42px;padding:0 14px;border-radius:10px;border:1px solid #1B64DA;background:#fff;color:#1B64DA;font-weight:700;font-size:14px;cursor:pointer}
 .rn-rate{display:grid;grid-template-columns:52px 1fr 40px;align-items:center;gap:8px;margin-top:8px;font-size:14px;color:var(--head)}.rn-rate input{width:100%;accent-color:#1B64DA}.rn-rate output{font-size:13px;color:var(--muted);text-align:right}
 .rn-opt-n{margin:10px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5;word-break:keep-all}
@@ -139,8 +140,8 @@
 </div>
 <div id="pane-run" hidden>
  <div class="rn-next"><p class="rn-k" id="nk"></p><p class="rn-nm" id="nn"></p><p class="rn-sub" id="ns"></p>
-  <div class="rn-opt"><p class="rn-opt-h">경로 고르는 기준</p><div class="rn-seg" role="radiogroup" aria-label="경로 기준"><button type="button" data-pr="RECOMMEND">추천</button><button type="button" data-pr="TIME">큰길·빠른 길</button><button type="button" data-pr="DISTANCE">짧은 길</button></div>
-<div class="rn-chk"><label><input type="checkbox" data-av="uturn">유턴 피하기</label><label><input type="checkbox" data-av="schoolzone">어린이보호구역 피하기</label><label><input type="checkbox" data-av="toll">유료도로 피하기</label><label><input type="checkbox" data-av="motorway">자동차전용도로 피하기</label></div>
+  <div class="rn-opt"><p class="rn-opt-h">경로 설정</p><p class="rn-opt-n" style="margin:0 0 8px">기본은 카카오 추천 경로(실시간 교통 반영)예요. 필요한 것만 체크하세요.</p>
+<div class="rn-chk"><label class="hw"><input type="checkbox" id="hwy">고속도로·큰길 위주로</label><label><input type="checkbox" data-av="uturn">유턴 피하기</label><label><input type="checkbox" data-av="schoolzone">어린이보호구역 피하기</label><label><input type="checkbox" data-av="toll">유료도로 피하기</label><label><input type="checkbox" data-av="motorway">자동차전용도로 피하기</label></div>
 <div class="rn-vo"><p class="rn-opt-h">안내 목소리</p><div class="rn-vrow"><select id="vsel" aria-label="목소리 고르기"></select><button type="button" id="vtry">들어보기</button></div><label class="rn-rate">빠르기 <input type="range" id="vrate" min="0.8" max="1.4" step="0.05"><output id="vrv"></output></label><label class="rn-rate">높낮이 <input type="range" id="vpitch" min="0.6" max="1.4" step="0.05"><output id="vpv"></output></label><p class="rn-opt-n">목소리는 휴대폰에 깔린 음성 엔진을 써요. 원하는 목소리가 목록에 없으면 휴대폰 설정 → 텍스트 음성 변환(TTS)에서 한국어 음성을 더 내려받을 수 있어요.</p></div>
 <p class="rn-opt-n">차량 높이·무게 제한은 카카오 길찾기에서 아직 고를 수 없어요. 낮은 굴다리 같은 곳은 통과할 길 위에 정류장 핀을 하나 더 찍어 경로를 고정해 주세요.</p></div>
 <button type="button" class="btn rn-self" id="self-go"><i class="pl" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg></i><span class="tx"><b>스타트</b><span id="self-s">전체 노선을 이어서 음성으로 안내해요</span></span></button>
@@ -447,10 +448,10 @@ function unlock(){if(!CL.a)CL.a=new Audio();try{CL.a.src='data:audio/mp3;base64,
 $('self-go').onclick=function(){if(!navigator.geolocation){alert('이 기기에서는 위치를 쓸 수 없어요');return}unlock();speak('');start(false)};
 $('self-sim').onclick=function(){unlock();speak('');start(true)};
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&N&&N.wl===null&&!$('nav').hidden&&navigator.wakeLock)navigator.wakeLock.request('screen').then(function(w){N.wl=w}).catch(function(){})});
-(function(){function get(){var S=store()||{};return S.opt||{pr:'RECOMMEND',av:['uturn']}}function put(o){var S=store();if(!S)return;S.opt=o;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
- function paint(){var o=get();document.querySelectorAll('.rn-seg button').forEach(function(b){b.setAttribute('role','radio');b.setAttribute('aria-checked',b.dataset.pr==(o.pr||'RECOMMEND'))});document.querySelectorAll('.rn-chk input').forEach(function(c){c.checked=(o.av||[]).indexOf(c.dataset.av)>=0})}
- document.querySelectorAll('.rn-seg button').forEach(function(b){b.onclick=function(){var o=get();o.pr=b.dataset.pr;put(o);paint()}});
- document.querySelectorAll('.rn-chk input').forEach(function(c){c.onchange=function(){var o=get();o.av=[].slice.call(document.querySelectorAll('.rn-chk input:checked')).map(function(x){return x.dataset.av});put(o)}});paint()})();
+(function(){function get(){var S=store()||{},o=S.opt||{pr:'RECOMMEND',av:['uturn']};o.av=(o.av||[]).filter(Boolean);if(o.pr!='TIME')o.pr='RECOMMEND';return o}function put(o){var S=store();if(!S)return;S.opt=o;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
+ function paint(){var o=get();var h=document.getElementById('hwy');h.checked=o.pr=='TIME';var mw=document.querySelector('.rn-chk input[data-av=motorway]');if(mw){mw.disabled=h.checked;if(h.checked)mw.checked=false}document.querySelectorAll('.rn-chk input[data-av]').forEach(function(c){c.checked=(o.av||[]).indexOf(c.dataset.av)>=0})}
+ document.getElementById('hwy').onchange=function(){var o=get();o.pr=this.checked?'TIME':'RECOMMEND';if(this.checked)o.av=(o.av||[]).filter(function(x){return x!='motorway'});put(o);paint()};
+ document.querySelectorAll('.rn-chk input[data-av]').forEach(function(c){c.onchange=function(){var o=get();o.av=[].slice.call(document.querySelectorAll('.rn-chk input[data-av]:checked')).map(function(x){return x.dataset.av});put(o)}});paint()})();
 window.__selfnav={onPos:onPos,start:start,st:function(){return N&&{s:N.s,ci:N.ci,si:N.si,off:N.off,busy:N.busy,v:N.v,lt:N.lt}}};
 });</script>
 
