@@ -641,8 +641,68 @@ print('other-category rows unified:', k, 'cards:', len(canon))
 
 # ── 검색 품질: 구글 노출이 거의 없는 대량 자동 생성 하위 페이지는 구글 색인에서만 제외(googlebot noindex,follow)하고
 #    사이트맵에서 뺀다. 네이버 등 다른 검색엔진과 사이트 안 이용은 그대로. 허브(index.html)는 유지.
+# ── 공휴일·24절기·띠: 페이지마다 다른 유래·풍습 설명 추가 (build/enrich_cal.py), 사진은 assets/photo/cal/<키>.webp 가 있으면 표시
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import enrich_cal as _ec
+def _photo(key, alt):
+    for ext in ('webp', 'jpg'):
+        if os.path.exists(os.path.join(root, 'assets', 'photo', 'cal', key + '.' + ext)):
+            return (f'<figure class="calph"><img src="/assets/photo/cal/{key}.{ext}" alt="{alt}" width="1200" height="675" '
+                    f'loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:14px"><figcaption>{alt} (AI로 만든 이미지)</figcaption></figure>')
+    return ''
+_SRC_EK = '<li><a href="https://encykorea.aks.ac.kr/" rel="noopener" target="_blank">한국민족문화대백과사전</a> ‘{n}’ 항목</li>'
+_SRC_FK = '<li><a href="https://folkency.nfm.go.kr/" rel="noopener" target="_blank">국립민속박물관 한국세시풍속사전</a></li>'
+_SRC_LAW = '<li><a href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B4%80%EA%B3%B5%EC%84%9C%EC%9D%98%EA%B3%B5%ED%9C%B4%EC%9D%BC%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" rel="noopener" target="_blank">국가법령정보센터 「관공서의 공휴일에 관한 규정」</a></li>'
+def _ins(rel, sec):
+    p = os.path.join(root, rel)
+    if not os.path.exists(p): return 0
+    s = open(p, encoding='utf-8').read()
+    if 'class="card guide more"' in s: return 0
+    i = s.find('<section class="card guide">')
+    if i < 0: return 0
+    j = s.find('</section>', i) + len('</section>')
+    open(p, 'w', encoding='utf-8').write(s[:j] + sec + s[j:]); return 1
+_k = 0
+for key, (n, mean, cust, tip) in _ec.J.items():
+    lis = ''.join(f'<li>{x}</li>' for x in cust)
+    _k += _ins(f'calendar/jeolgi/{key}.html', f'<section class="card guide more"><h2>{n}, 더 알아보기</h2>{_photo("jeolgi-"+key, n+" 무렵 풍경")}<p>{mean}</p><h3>{n} 풍습과 제철 이야기</h3><ul>{lis}</ul><p class="note">{tip}</p><h3>참고한 자료</h3><ul class="src">{_SRC_EK.format(n=n)}{_SRC_FK}</ul></section>')
+for key, (n, ji, tm, dr, sym) in _ec.T.items():
+    _k += _ins(f'calendar/tti/{key}.html', f'<section class="card guide more"><h2>{n}띠 이야기</h2>{_photo("tti-"+key, n+" 그림")}<ul><li><b>12지</b>: {ji}</li><li><b>옛 시각</b>: {tm}</li><li><b>방위</b>: {dr}</li></ul><p>{sym}</p><p class="note">띠별 성격이나 운세는 전해 오는 민속 이야기로, 과학적 근거는 없어요.</p><h3>참고한 자료</h3><ul class="src">{_SRC_EK.format(n="십이지")}</ul></section>')
+for key, (n, mean, pts) in _ec.H.items():
+    lis = ''.join(f'<li>{x}</li>' for x in pts)
+    _k += _ins(f'calendar/holiday/2027-{key}.html', f'<section class="card guide more"><h2>{n}, 어떤 날일까요?</h2>{_photo("holiday-"+key, n+" 풍경")}<p>{mean}</p><ul>{lis}</ul><h3>참고한 자료</h3><ul class="src">{_SRC_EK.format(n=n)}{_SRC_LAW}</ul></section>')
+print('calendar enrich sections:', _k)
+# 내용이 짧아 빌드에서 noindex 됐던 2027년 공휴일 페이지는, 설명을 채운 뒤 색인·사이트맵에 다시 넣는다
+_k, _add = 0, []
+for key in _ec.H:
+    p = os.path.join(root, 'calendar', 'holiday', f'2027-{key}.html')
+    if not os.path.exists(p): continue
+    s = open(p, encoding='utf-8').read()
+    if '<meta name="robots" content="noindex">' in s and 'class="card guide more"' in s:
+        open(p, 'w', encoding='utf-8').write(s.replace('<meta name="robots" content="noindex">', '', 1)); _k += 1
+    _add.append(f'https://honglife.co.kr/calendar/holiday/2027-{key}.html')
+p = os.path.join(root, 'sitemap.xml')
+if os.path.exists(p):
+    s = open(p, encoding='utf-8').read()
+    new = [u for u in _add if f'<loc>{u}</loc>' not in s]
+    if new:
+        s = s.replace('</urlset>', ''.join(f'<url><loc>{u}</loc><lastmod>2026-11-20</lastmod></url>\n' for u in new) + '</urlset>', 1)
+        open(p, 'w', encoding='utf-8').write(s)
+    print('holiday 2027 reindexed:', _k, 'sitemap +', len(new))
+
+# ── 허브 제목 '도구 도구 모음' 오타
+_k = 0
+for d in ('pdf', 'image', 'text', 'dev'):
+    p = os.path.join(root, d, 'index.html')
+    if os.path.exists(p):
+        s = open(p, encoding='utf-8').read(); s2 = s.replace('도구 도구 모음', '도구 모음')
+        if s2 != s: open(p, 'w', encoding='utf-8').write(s2); _k += 1
+print('hub title fix:', _k)
+
 THIN = ['text/emoji', 'text/romanize', 'text/symbol', 'life/length', 'life/weight', 'life/temp', 'life/pyeong',
-        'calendar/worldtime', 'dev/color', 'dev/mime', 'dev/http']
+        'calendar/worldtime', 'dev/color', 'dev/mime', 'dev/http',
+        # 숫자만 바뀌는 대량 페이지(AdSense 재심사 대비, 승인 뒤 묶음별로 다시 열 예정)
+        'study/grade', 'shop/fee', 'calendar/born', 'calendar/month', 'life/volume', 'calendar/after']
 GB = '<meta name="googlebot" content="noindex,follow">'
 thin_urls, k = set(), 0
 for d in THIN:
@@ -658,6 +718,15 @@ for d in THIN:
             s = s.replace('</head>', GB + '\n</head>', 1)
             open(p, 'w', encoding='utf-8').write(s); k += 1
         thin_urls.add(f'https://honglife.co.kr/{d}/{fn}')
+# 공휴일은 해마다 같은 내용이라 2027년 페이지만 구글 색인, 나머지 연도는 제외
+_hd = os.path.join(root, 'calendar', 'holiday')
+if os.path.isdir(_hd):
+    for fn in os.listdir(_hd):
+        if fn.endswith('.html') and fn != 'index.html' and not fn.startswith('2027-'):
+            p = os.path.join(_hd, fn); s = open(p, encoding='utf-8').read()
+            if GB not in s and '</head>' in s:
+                open(p, 'w', encoding='utf-8').write(s.replace('</head>', GB + '\n</head>', 1)); k += 1
+            thin_urls.add(f'https://honglife.co.kr/calendar/holiday/{fn}')
 p = os.path.join(root, 'sitemap.xml')
 s = open(p, encoding='utf-8').read()
 lines = s.split('\n')
