@@ -393,7 +393,7 @@ var voice=true,KV=[];function vopt(){var S=store()||{};return S.voice||{}}
 function pick(){var o=vopt();return KV.filter(function(v){return v.name==o.name})[0]||KV.filter(function(v){return v.localService!==false})[0]||KV[0]||null}
 var CL={ok:null,a:null,q:[],base:'/assets/voice/ko/'};
 fetch(CL.base+'try.mp3',{method:'HEAD'}).then(function(r){CL.ok=r.ok;if(r.ok)vlist()}).catch(function(){CL.ok=false});
-function useClips(){return CL.ok&&(vopt().name||'__hl')=='__hl'}
+function useClips(){return !!CL.ok}  // 기본 목소리 한 명(홍라이프 목소리)으로 고정, 녹음 파일을 못 받을 때만 휴대폰 음성으로
 function playNext(){if(!CL.q.length){CL.busy=false;return}CL.busy=true;var k=CL.q.shift();if(!CL.a){CL.a=new Audio()}var o=vopt();CL.a.src=CL.base+k+'.mp3';CL.a.playbackRate=o.rate?Math.max(.8,Math.min(1.4,o.rate/1.05)):1;CL.a.onended=CL.a.onerror=function(){setTimeout(playNext,120)};CL.a.play().catch(function(){CL.busy=false;CL.q=[]})}
 function say2(keys,text,urgent){if(!voice)return;if(useClips()){if(urgent){CL.q=[];if(CL.a)CL.a.pause();CL.busy=false}CL.q=CL.q.concat(keys);if(!CL.busy)playNext()}else speak(text,urgent)}
 function mk(m){return String(m||'straight').replace(/ /g,'_')}
@@ -402,7 +402,7 @@ var LAST='';function speak(t,urgent){if(!voice||!window.speechSynthesis||!t)retu
  if(urgent||speechSynthesis.pending)speechSynthesis.cancel();speechSynthesis.resume();speechSynthesis.speak(u)}
 setInterval(function(){if(window.speechSynthesis&&speechSynthesis.speaking&&!speechSynthesis.paused){speechSynthesis.pause();speechSynthesis.resume()}},10000);
 function vput(k,val){var S=store();if(!S)return;S.voice=S.voice||{};S.voice[k]=val;try{localStorage.setItem('hl-route-navi-v1',JSON.stringify(S))}catch(e){}}
-function vlist(){if(!window.speechSynthesis)return;KV=speechSynthesis.getVoices().filter(function(v){return /^ko/i.test(v.lang)});var sel=$('vsel'),o=vopt();
+function vlist(){if(CL.ok){var sl=$('vsel');sl.innerHTML='<option value="__hl" selected>홍라이프 목소리 (기본)</option>';sl.disabled=true;var pv=$('vpitch');if(pv&&pv.closest('label'))pv.closest('label').hidden=true;var nt=document.querySelector('.rn-vo .rn-opt-n');if(nt)nt.hidden=true;return}if(!window.speechSynthesis)return;KV=speechSynthesis.getVoices().filter(function(v){return /^ko/i.test(v.lang)});var sel=$('vsel'),o=vopt();
  if(!KV.length&&!CL.ok){sel.innerHTML='<option>이 기기에 한국어 목소리가 없어요</option>';return}
  sel.innerHTML=(CL.ok?'<option value="__hl"'+((o.name||'__hl')=='__hl'?' selected':'')+'>홍라이프 목소리 (권장 · 끊김 없음)</option>':'')+KV.map(function(v,i){var nm=v.name.replace(/Microsoft |Google |Samsung |\(.*?\)|Korean|한국어|ko[-_]KR/gi,'').replace(/\s+/g,' ').trim();return '<option value="'+v.name.replace(/"/g,'&quot;')+'"'+(v===pick()&&o.name&&o.name!='__hl'?' selected':'')+'>'+(i+1)+'. '+(nm||'기본 목소리')+(v.localService===false?' (온라인 · 끊길 수 있음)':' (휴대폰 안)')+'</option>'}).join('')}
 if(window.speechSynthesis){vlist();speechSynthesis.onvoiceschanged=vlist}
