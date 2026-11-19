@@ -9,8 +9,9 @@ REL = [('/life/taxi-fare.html', '택시비·통행료·기름값 계산기', '�
 
 def esc(t): return t.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
-def shell(slug, title, desc, h1, lead, css, main_html, js, faq, crumb=('자동차·지도', '/drive/')):
-    url = f'https://honglife.co.kr/life/{slug}.html'
+def shell(slug, title, desc, h1, lead, css, main_html, js, faq, crumb=('자동차·지도', '/drive/'), dirn='life', rel=None):
+    url = f'https://honglife.co.kr/{dirn}/{slug}.html'
+    rel = REL if rel is None else rel
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebApplication", "name": h1, "url": url, "applicationCategory": "TravelApplication", "operatingSystem": "Any", "inLanguage": "ko",
          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "KRW"}},
@@ -32,12 +33,12 @@ def shell(slug, title, desc, h1, lead, css, main_html, js, faq, crumb=('자동�
             f'<h1>{h1}</h1><p class="lead">{lead}</p></header>\n' + main_html +
             f'<section class="card"><h2>자주 묻는 질문</h2><dl class="pe-faq">{faq_html}</dl></section>\n'
             '<section class="card rel"><h2>함께 쓰면 좋은 도구</h2><ul class="tlist">'
-            + ''.join(f'<li><a href="{u}"><b>{n}</b><span>{d}</span></a></li>' for u, n, d in REL if u != f'/life/{slug}.html') +
-            '<li><a href="/drive/"><b>자동차·지도 도구 모음</b><span>지도로 쓰는 자동차 도구 전체 보기</span></a></li></ul></section>\n</main>\n')
+            + ''.join(f'<li><a href="{u}"><b>{n}</b><span>{d}</span></a></li>' for u, n, d in rel if u != f'/{dirn}/{slug}.html') +
+            f'<li><a href="{crumb[1]}"><b>{crumb[0]} 도구 모음</b><span>{crumb[0]} 도구 전체 보기</span></a></li></ul></section>\n</main>\n')
     out = (head + '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>\n' + css
            + base[i_ste:i_main] + main + js + base[i_ft:])
     out = out.replace('<a href="/ipsi/">입시</a>', f'<a href="{crumb[1]}">{crumb[0]}</a>')
-    open(os.path.join(ROOT, f'overlay/life/{slug}.html'), 'w', encoding='utf-8').write(out)
+    os.makedirs(os.path.join(ROOT, f'overlay/{dirn}'), exist_ok=True); open(os.path.join(ROOT, f'overlay/{dirn}/{slug}.html'), 'w', encoding='utf-8').write(out)
     print('wrote', slug, len(out))
 
 # 공통 지도 + 장소 검색 + 카카오 길찾기 (전역 HLMAP)

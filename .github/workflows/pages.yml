@@ -3,6 +3,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'   # 매시간: 공공데이터(응급실·대기질 등) 새로고침
 permissions:
   contents: read
   pages: write
@@ -27,6 +29,17 @@ jobs:
         run: |
           cp -r overlay/. _site/
           python3 build/patch_site.py _site
+      - name: Fetch public data (약국·응급실·충전소·주차장·화장실·대기질·축제·캠핑·주유소·휴게소)
+        continue-on-error: true
+        timeout-minutes: 25
+        env:
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+          OPINET_KEY: ${{ secrets.OPINET_KEY }}
+          EX_KEY: ${{ secrets.EX_KEY }}
+          PUB_FORCE: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
+        run: |
+          if [ -n "$OPINET_KEY" ]; then pip install -q pyproj; fi
+          python3 build/pubdata/fetch.py _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

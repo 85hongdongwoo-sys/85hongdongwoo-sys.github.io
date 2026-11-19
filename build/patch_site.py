@@ -528,13 +528,23 @@ MOVED = [('calendar', '/calendar/exam-schedule.html', '자격증 시험일정 �
          ('drive', '/life/route-navi.html', '경유지 많은 노선 내비', '정류장 30곳 넘어도 순서대로 길안내', '경유지 많은 내비 다중 경유지 길찾기 경유지 30개 셔틀버스 노선 통학버스 택배 동선 순서 길안내', '자동차·지도'),
          ('drive', '/life/taxi-fare.html', '택시비·통행료 계산기', '택시비와 내 차 기름값·통행료 비교', '택시비 계산기 택시요금 계산 통행료 계산 고속도로 통행료 기름값 계산 유류비 계산 카카오 길찾기 거리 계산', '자동차·지도'),
          ('drive', '/life/midpoint.html', '중간지점 찾기', '친구들과 만날 곳 추천 + 공유 카드', '중간지점 찾기 약속장소 추천 중간 위치 만날 장소 친구 중간 지점 지하철역 중간 카카오 길찾기', '자동차·지도'),
+         ('medical', '/medical/pharmacy-open.html', '지금 문 연 약국', '밤·주말·공휴일 영업 약국 지도', '지금 문 연 약국 영업중인 약국 근처 약국 일요일 약국 공휴일 약국 심야약국 야간약국', '병원·건강'),
+         ('medical', '/medical/emergency-room.html', '응급실 실시간 병상', '근처 응급실 빈 병상·전화', '응급실 병상 근처 응급실 응급실 실시간 응급실 가용병상 야간 응급실', '병원·건강'),
+         ('drive', '/drive/gas-station.html', '싼 주유소 지도', '동네별 최저가 휘발유·경유', '싼 주유소 최저가 주유소 근처 주유소 기름값 휘발유 가격 경유 가격 오피넷', '자동차·지도'),
+         ('drive', '/drive/ev-charger.html', '전기차 충전소 지도', '지금 빈 충전기·급속 충전', '전기차 충전소 근처 충전소 급속충전 빈 충전기 전기차 충전', '자동차·지도'),
+         ('drive', '/drive/parking.html', '공영·무료 주차장', '요금·운영시간 지도', '공영주차장 무료주차장 근처 주차장 주차요금 주차장 찾기', '자동차·지도'),
+         ('drive', '/drive/rest-area.html', '고속도로 휴게소', '대표 메뉴·기름값 지도', '고속도로 휴게소 휴게소 맛집 휴게소 음식 휴게소 기름값 휴게소 메뉴', '자동차·지도'),
+         ('life', '/life/toilet.html', '근처 공중화장실', '개방시간·장애인 화장실 지도', '공중화장실 근처 화장실 화장실 찾기 개방 화장실 24시간 화장실', '생활·행정'),
+         ('life', '/life/air-quality.html', '우리 동네 미세먼지', '측정소별 실시간 미세·초미세먼지', '미세먼지 초미세먼지 오늘 미세먼지 실시간 미세먼지 우리동네 미세먼지 대기질', '생활·행정'),
+         ('trip', '/trip/festival.html', '이번 주말 축제 지도', '지금 열리는 축제·행사', '이번 주말 축제 축제 지도 지역 축제 행사 일정 가볼만한 축제', '여행'),
+         ('trip', '/trip/camping.html', '캠핑장 찾기', '글램핑·카라반·반려견 동반', '캠핑장 글램핑 카라반 오토캠핑장 애견캠핑장 반려견 동반 캠핑장', '여행'),
          ('life', '/life/invest.html', '청약·줍줍 일정 + 투자계산기', '오늘 넣을 수 있는 청약·무순위 줍줍 3일마다 업데이트, 주식 세금·대출·연금 계산', '청약 일정 줍줍 무순위 청약 투자계산기 주식 세금 대출 한도 청약 가점', '생활·행정')]
 for cat, u, n, d, kw, cn in MOVED:
     p = os.path.join(root, cat, 'index.html')
     if os.path.exists(p):
         s = open(p, encoding='utf-8').read()
         if f'href="{u}"' not in s:
-            art = {'/life/route-navi.html': 'bus', '/life/taxi-fare.html': 'drive', '/life/midpoint.html': 'drive'}.get(u, cat)
+            art = {'/life/route-navi.html': 'bus', '/life/taxi-fare.html': 'drive', '/life/midpoint.html': 'drive', '/life/toilet.html': 'life', '/life/air-quality.html': 'life'}.get(u, cat)
             li = (f'<li><a href="{u}"><i class="th"><img src="/assets/art/hl/cs-{art}.svg" alt="" width="200" height="140" loading="lazy"></i>'
                   f'<img class="pg" src="/assets/art/hl/pg-{cat}.svg" alt="" width="26" height="26" loading="lazy"><b>{n}</b><span>{d}</span></a></li>')
             s2 = re.sub(r'(<ul class="tlist[^"]*">)', lambda m: m.group(1) + li, s, count=1)
