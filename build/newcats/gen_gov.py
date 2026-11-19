@@ -359,8 +359,53 @@ var ci=$('cin');if(ci){if(ci.type=='date'){var C0=__C0__,t=new Date();if(C0=='be
 for _g in G:
     guide_page(_g)
 
+# ───────────────────────── 3차: 작성 → A4 인쇄·PDF 11종 (gov_data3) ─────────────────────────
+from gov_data3 import F as F3
+FORM_JS = r"""
+function fmtv(id,raw){var el=$(id);if(!el)return '';var v=el.value.trim();if(!v)return '';if(el.type=='date'){var p=v.split('-');return p[0]+'년 '+(+p[1])+'월 '+(+p[2])+'일'}return esc(v).replace(/\n/g,'<br>')}
+function fill(t,blank){return t.replace(/\{(\w+)(?:\|([^}]*))?\}/g,function(m,id,dflt){var v=blank?'':fmtv(id);return v||(blank?'&nbsp;':(dflt||'<span style="color:#aaa">&nbsp;</span>'))})}
+function draw(blank){var tl=S.sheet.replace(/ /g,'').length,hs=tl>6?' style="letter-spacing:.12em;text-indent:.12em"':'';
+ var h='<p class="lw">'+S.law+'</p><h3'+hs+'>'+S.sheet+'</h3><table><colgroup><col style="width:25%"><col style="width:75%"></colgroup>';
+ S.rows.forEach(function(r){var big=/내용|취지|증거/.test(r[0]);h+='<tr><th style="word-break:keep-all">'+r[0]+'</th><td class="v"'+(big?' style="height:'+(blank?'120px':'auto')+';vertical-align:top"':'')+'>'+fill(r[1],blank)+'</td></tr>'});
+ h+='</table><p class="stm">'+fill(S.stm,blank)+'</p><p class="dt">'+(blank?kd(''):kd($('d1').value))+'</p>';
+ S.sign.forEach(function(g){h+='<p class="sg">'+g[0]+' <b>'+(blank?'&nbsp;':(fmtv(g[1])||'&nbsp;'))+'</b> (서명 또는 인)</p>'});
+ (S.after||[]).forEach(function(g){h+='<p class="sg" style="font-size:12px;margin-top:2px">'+g[0]+': '+(blank?'':fmtv(g[1]))+'<span style="display:inline-block;min-width:'+(blank?'150':'0')+'px"></span></p>'});
+ if(S.to)h+='<p class="to">'+fill(S.to,blank).replace(/<span style="color:#aaa">&nbsp;<\/span>/g,'○○○')+'</p>';
+ if(S.attach.length)h+='<p class="stm" style="margin-top:14px;font-size:12px">첨부: '+S.attach.map(function(a,i){return (i+1)+'. '+a}).join('&nbsp;&nbsp;')+'</p>';
+ h+='<p class="ps">홍라이프 도구에서 작성 · 210mm×297mm(A4)</p>';$('sheet').innerHTML=h}
+document.querySelectorAll('#tool input,#tool textarea').forEach(function(e){e.addEventListener('input',function(){draw()});e.addEventListener('change',function(){draw()})});
+if($('d1'))$('d1').value=td();
+var ch=$('chips');if(ch)ch.onclick=function(e){var b=e.target.closest('button');if(!b)return;var t=$(S.chip);if(t.tagName=='TEXTAREA')t.value=(t.value.trim()?t.value.trim()+'\n':'')+b.textContent;else t.value=b.textContent;draw()};
+$('pr').onclick=function(){draw();gvPrint()};$('bl').onclick=function(){draw(true);gvPrint();setTimeout(function(){draw()},500)};
+draw();"""
+def form_page(g):
+    out = ''
+    for lab, fields in g['groups']:
+        out += f'<h2 class="gv-h">{E(lab)}</h2><div class="grid g2">'
+        for fid, l, ph, typ, wide in fields:
+            st = ' style="grid-column:1/-1"' if (wide or typ == 'area') else ''
+            if typ == 'area':
+                out += f'<div class="f"{st}><label for="{fid}">{E(l)}</label><textarea id="{fid}" rows="4" placeholder="{E(ph)}"></textarea></div>'
+            else:
+                t = {'date': 'date', 'tel': 'tel'}.get(typ, 'text')
+                out += f'<div class="f"{st}><label for="{fid}">{E(l)}</label><input id="{fid}" type="{t}" placeholder="{E(ph)}" autocomplete="off"></div>'
+        out += '</div>'
+        if g.get('chips') and any(f[0] == g['chips'][0] for f in fields):
+            out += '<div class="gv-chips" id="chips">' + ''.join(f'<button type="button">{E(c)}</button>' for c in g['chips'][1]) + '</div>'
+    out += ('<div class="gv-acts"><button class="btn" type="button" id="pr">인쇄·PDF로 저장</button><button class="btn ghost" type="button" id="bl">빈 양식 인쇄</button></div>'
+            f'<p class="gv-note">{g["note"]}</p><p class="gv-warn">{g["warn"]}</p>'
+            '<div class="gv-sheet-wrap"><div class="gv-sheet gv-print" id="sheet"></div></div>')
+    spec = {k: g[k] for k in ('sheet', 'law', 'rows', 'stm', 'sign', 'to', 'attach')}
+    spec['after'] = g.get('after', []); spec['chip'] = g['chips'][0] if g.get('chips') else ''
+    js = '<script>(function(){' + TODAY_JS + 'var S=' + json.dumps(spec, ensure_ascii=False) + ';' + FORM_JS + '})();</script>'
+    ex = ''.join(f'<h3>{E(h)}</h3><ul>' + ''.join(f'<li>{x}</li>' for x in items) + '</ul>' for h, items in g['ex'])
+    ex = f'<h2>{E(g["h1"])}, 이것만 알면 돼요</h2>' + ex
+    tool_page(g['slug'], g['name'], g['h1'], g['lead'], g['title'], g['desc'], g['kw'], out, ex, g['faq'], js, g['src'])
+for _g in F3:
+    form_page(_g)
+
 # 허브 순서: 준비물 찾기 → 위임장 → 예시들 → 전입세대
-ORDER = ['visit-docs', 'poa', 'resident-copy-poa', 'seal-poa', 'household-check', 'fixed-date', 'death-report', 'inheritance-onestop', 'birth-report', 'marriage-report', 'divorce-report', 'id-reissue', 'passport', 'basic-pension', 'basic-livelihood']
+ORDER = ['visit-docs', 'poa', 'resident-copy-poa', 'seal-poa', 'family-cert-poa', 'free-residence', 'fact-confirmation', 'guarantor-statement', 'residence-confirm', 'no-income-statement', 'parent-consent', 'minor-work-consent', 'complaint-petition', 'pledge', 'assignment-notice', 'household-check', 'fixed-date', 'death-report', 'inheritance-onestop', 'birth-report', 'marriage-report', 'divorce-report', 'id-reissue', 'passport', 'basic-pension', 'basic-livelihood']
 TOOLS.sort(key=lambda t: ORDER.index(t[0]))
 for path, title, desc, crumb, body, ld, js, slug in PAGES:
     page(path, title, desc, crumb, body.replace('__REL__', rel(slug)), ld, js)
@@ -380,17 +425,28 @@ ICON = {'visit-docs': '<rect x="8" y="6" width="28" height="34" rx="4"/><path d=
         'id-reissue': '<rect x="5" y="11" width="34" height="24" rx="3"/><circle cx="15" cy="22" r="4"/><path d="M24 19h10M24 25h7"/>',
         'passport': '<rect x="10" y="5" width="24" height="34" rx="3"/><circle cx="22" cy="19" r="6"/><path d="M16 19h12M22 13c3 3 3 9 0 12M16 31h12"/>',
         'basic-pension': '<circle cx="22" cy="14" r="6"/><path d="M12 38c1-8 5-12 10-12s9 4 10 12"/><path d="M34 22v10M30 26h8"/>',
-        'basic-livelihood': '<path d="M7 22L22 9l15 13"/><path d="M11 20v18h22V20"/><path d="M22 34s-6-4-6-8a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 8-6 8z"/>'}
+        'basic-livelihood': '<path d="M7 22L22 9l15 13"/><path d="M11 20v18h22V20"/><path d="M22 34s-6-4-6-8a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 8-6 8z"/>',
+        'family-cert-poa': '<circle cx="15" cy="15" r="5"/><circle cx="29" cy="15" r="5"/><path d="M6 36c1-7 5-10 9-10s8 3 9 10M20 36c1-7 5-10 9-10s8 3 9 10"/>',
+        'free-residence': '<path d="M7 22L22 9l15 13"/><path d="M11 20v18h22V20"/><path d="M17 29l4 4 7-8"/>',
+        'fact-confirmation': '<rect x="9" y="5" width="26" height="34" rx="3"/><path d="M15 14h14M15 20h14M15 26h8"/><path d="M24 32l3 3 6-7"/>',
+        'guarantor-statement': '<circle cx="14" cy="14" r="5"/><circle cx="30" cy="14" r="5"/><path d="M5 34c1-6 5-9 9-9s8 3 9 9M21 34c1-6 5-9 9-9s8 3 9 9"/><path d="M18 40h8"/>',
+        'residence-confirm': '<circle cx="16" cy="22" r="7"/><path d="M22 22h16M32 22v6M37 22v4"/>',
+        'no-income-statement': '<circle cx="22" cy="22" r="14"/><path d="M14 14l16 16"/><path d="M18 22h8"/>',
+        'parent-consent': '<circle cx="16" cy="13" r="6"/><circle cx="31" cy="19" r="4"/><path d="M6 38c1-8 5-12 10-12s9 4 10 12M25 38c1-6 3-9 6-9s5 3 6 9"/>',
+        'minor-work-consent': '<rect x="7" y="16" width="30" height="20" rx="3"/><path d="M16 16v-4h12v4"/><path d="M7 25h30"/>',
+        'complaint-petition': '<path d="M10 40V6"/><path d="M10 7h22l-5 7 5 7H10"/>',
+        'pledge': '<path d="M30 6l8 8-20 20H10v-8z"/><path d="M26 10l8 8"/><path d="M8 40h28"/>',
+        'assignment-notice': '<rect x="5" y="11" width="34" height="24" rx="3"/><path d="M5 13l17 12 17-12"/>'}
 def thumb(slug, title):
     c, bg = COLOR, '#D7EEF2'
-    lab = {'visit-docs':'방문 준비물','poa':'민원 위임장','resident-copy-poa':'등본 위임장','seal-poa':'인감 위임장','household-check':'전입세대 확인','fixed-date':'확정일자','death-report':'사망신고','inheritance-onestop':'안심상속','birth-report':'출생신고','marriage-report':'혼인신고','divorce-report':'이혼신고','id-reissue':'주민증 재발급','passport':'여권 발급','basic-pension':'기초연금','basic-livelihood':'기초수급 신청'}[slug]
+    lab = {'visit-docs':'방문 준비물','poa':'민원 위임장','resident-copy-poa':'등본 위임장','seal-poa':'인감 위임장','household-check':'전입세대 확인','fixed-date':'확정일자','death-report':'사망신고','inheritance-onestop':'안심상속','birth-report':'출생신고','marriage-report':'혼인신고','divorce-report':'이혼신고','id-reissue':'주민증 재발급','passport':'여권 발급','basic-pension':'기초연금','basic-livelihood':'기초수급 신청', 'family-cert-poa':'가족관계 위임', 'free-residence':'무상거주', 'fact-confirmation':'사실확인서', 'guarantor-statement':'인우보증서', 'residence-confirm':'거주사실', 'no-income-statement':'무소득 확인', 'parent-consent':'부모 동의서', 'minor-work-consent':'알바 동의서', 'complaint-petition':'진정서', 'pledge':'각서', 'assignment-notice':'채권양도'}[slug]
     return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="64.0 6.0 72.0 128.0" width="72" height="128"><g>'
             '<rect x="64" y="6" width="72" height="128" rx="12" fill="#1A1D24"/><rect x="68" y="10" width="64" height="120" rx="9" fill="#fff"/><rect x="91.0" y="13" width="18" height="4" rx="2" fill="#1A1D24"/>'
             f'<text x="74" y="32" font-family="Arial,Helvetica,sans-serif" font-size="8.5" font-weight="700" fill="#1A1D24">{E(lab)}</text>'
             f'<rect x="76" y="40" width="48" height="48" rx="13" fill="{c}"/>'
             f'<g transform="translate(78 42) scale(.917)" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">{ICON[slug]}</g>'
             f'<rect x="74" y="94" width="52" height="5" rx="2.5" fill="{bg}"/><rect x="74" y="94" width="{20 + (sum(map(ord, slug)) % 30)}" height="5" rx="2.5" fill="{c}"/>'
-            f'<rect x="72" y="106" width="56" height="12" rx="6" fill="{c}"/><text x="{83 if slug in ("poa","resident-copy-poa","seal-poa") else 81}" y="114.6" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#fff">{"작성하기" if slug in ("poa","resident-copy-poa","seal-poa") else "준비물 보기"}</text>'
+            f'<rect x="72" y="106" width="56" height="12" rx="6" fill="{c}"/><text x="{83 if slug in ("poa","resident-copy-poa","seal-poa")+tuple(x["slug"] for x in F3) else 81}" y="114.6" font-family="Arial,Helvetica,sans-serif" font-size="8" font-weight="700" fill="#fff">{"작성하기" if slug in ("poa","resident-copy-poa","seal-poa")+tuple(x["slug"] for x in F3) else "준비물 보기"}</text>'
             '</g></svg>')
 os.makedirs(OUT + '/assets/art/hl/t', exist_ok=True)
 for s, n, l, k in TOOLS:
