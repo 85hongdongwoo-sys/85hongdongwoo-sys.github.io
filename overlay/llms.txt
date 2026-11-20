@@ -1,0 +1,49 @@
+# 홍라이프 도구 (HongLife Tools)
+
+> honglife.co.kr 은 설치·회원가입 없이 브라우저에서 바로 쓰는 한국어 무료 도구 모음이에요. 엑셀 수식·양식, 문서·공문서 서식, PDF·이미지·파일 변환, 입시(정시·편입·미대), 생활·행정, 자동차·지도 도구 1,000여 개가 있어요. 파일과 입력 내용은 대부분 서버로 보내지 않고 사용자의 브라우저 안에서 처리돼요.
+
+운영: 홍라이프 (개인 운영). 문의: https://honglife.co.kr/contact.html · 개인정보처리방침: https://honglife.co.kr/privacy.html · 이용약관: https://honglife.co.kr/terms.html
+수치(세율·요금·입시 결과 등)는 각 페이지 아래에 출처와 기준일을 적어 두었어요. 법률·의료 관련 페이지는 참고용이며 법률 자문이나 진단이 아니에요.
+세금·연봉·대출 같은 계산기는 자매 사이트 홍라이프 계산기(https://honglifecalc.com/ko/)에 있어요.
+
+## 분류 (도구 수는 2026년 11월 기준)
+- [엑셀 수식·함수 (61)](https://honglife.co.kr/excel/): VLOOKUP·XLOOKUP·SUMIFS 등 수식 만들기와 오류 해결
+- [엑셀 양식 만들기 (65)](https://honglife.co.kr/sheet/): 가계부·출퇴근 기록·할 일·습관 기록표 등 내려받는 양식
+- [문서·서식 만들기 (80)](https://honglife.co.kr/doc/): 견적서·영수증·사직서·차용증 등 작성 후 PDF 저장
+- [PDF 도구 (64)](https://honglife.co.kr/pdf/): 합치기·나누기·편집·서명·스캔 보정
+- [이미지 도구 (77)](https://honglife.co.kr/image/): 배경 지우기·크기 줄이기·확대·증명사진·모자이크
+- [파일·데이터 변환 (101)](https://honglife.co.kr/convert/): 영상 자르기·자막·오디오·문서 형식 변환
+- [텍스트·글자 도구 (64)](https://honglife.co.kr/text/): 글자 수 세기·맞춤법 보조·변환
+- [AI 활용 (39)](https://honglife.co.kr/ai/)
+- [날짜·달력 (37)](https://honglife.co.kr/calendar/): D-day·공휴일·절기·타이머
+- [QR 코드 (15)](https://honglife.co.kr/qr/)
+- [생활·행정 (58)](https://honglife.co.kr/life/)
+- [공문서·민원 (26)](https://honglife.co.kr/gov/): 위임장·확인서·진술서 작성과 주민센터 준비물
+- [자동차·지도 (7)](https://honglife.co.kr/drive/)
+- [병원·건강 일정 (10)](https://honglife.co.kr/medical/)
+- [법률·서식 (10)](https://honglife.co.kr/legal/)
+- [학생·공부·취준 (74)](https://honglife.co.kr/study/)
+- [입시 (6)](https://honglife.co.kr/ipsi/)
+- [심리 테스트 (13)](https://honglife.co.kr/test/) · [게임 계산기 (8)](https://honglife.co.kr/game/)
+- [개발·웹 도구 (62)](https://honglife.co.kr/dev/) · [인터넷·네트워크 (16)](https://honglife.co.kr/net/)
+- [디자인 (48)](https://honglife.co.kr/design/) · [소상공인·가게 (26)](https://honglife.co.kr/shop/)
+
+## 대표 도구
+- [2027 정시 합격 가능성 계산기](https://honglife.co.kr/ipsi/jeongsi-2027.html): 전국 4년제 202개 대학 작년 입결과 비교
+- [2027 전문대 정시 합격 가능성 계산기](https://honglife.co.kr/ipsi/jeonmun-jeongsi-2027.html): 전문대 117곳
+- [2027 미대 정시 판독기](https://honglife.co.kr/ipsi/midae-jeongsi-2027.html): 수능 + 실기 자가진단
+- [2027 수능 등급컷·예상 백분위 + 수험표 할인](https://honglife.co.kr/ipsi/suneung-2027.html)
+- [2027 편입 일정·경쟁률·시험과목](https://honglife.co.kr/ipsi/pyeonip-2027.html)
+- [N빵 정산 계산기](https://honglife.co.kr/life/split-bill.html): 모임·여행 더치페이, 누가 누구에게 얼마
+- [택시비·통행료·기름값 계산기](https://honglife.co.kr/life/taxi-fare.html)
+- [중간지점 찾기](https://honglife.co.kr/life/midpoint.html)
+- [경유지 많은 노선 내비](https://honglife.co.kr/life/route-navi.html): 정류장 30곳 이상 순서대로 안내
+- [조건으로 찾는 정부 지원금](https://honglife.co.kr/life/subsidy.html): 보조금24 1만여 건
+- [청약·줍줍 일정 + 투자계산기](https://honglife.co.kr/life/invest.html)
+- [민원 위임장 만들기](https://honglife.co.kr/gov/poa.html) · [주민센터 방문 서류 준비물](https://honglife.co.kr/gov/visit-docs.html)
+- [사실확인서](https://honglife.co.kr/gov/fact-confirmation.html) · [무상거주 확인서](https://honglife.co.kr/gov/free-residence.html) · [인우보증서](https://honglife.co.kr/gov/guarantor-statement.html)
+- [이미지 배경 지우기](https://honglife.co.kr/image/remove-bg.html) · [PDF 편집](https://honglife.co.kr/pdf/edit.html)
+
+## 전체 목록
+- [사이트맵](https://honglife.co.kr/sitemap.xml)
+- [새 도구 RSS](https://honglife.co.kr/rss.xml)
