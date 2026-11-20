@@ -847,7 +847,7 @@ if os.path.exists(_p4):
 PWA = ('<link rel="manifest" href="/manifest.webmanifest">'
        '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">'
        '<meta name="apple-mobile-web-app-title" content="홍라이프"><meta name="apple-mobile-web-app-status-bar-style" content="default">'
-       '<script src="/assets/js/hl-install.js?v=4" defer></script>\n')
+       '<script src="/assets/js/hl-install.js?v=5" defer></script>\n')
 k = 0
 for dp, dn, fn in os.walk(root):
     for f in fn:
