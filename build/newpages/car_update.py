@@ -23,7 +23,7 @@ CSS = ('<style id="cu-css">'
        '.cu-go{display:inline-block;margin:6px 6px 0 0;padding:11px 16px;border-radius:12px;background:#1D4ED8;color:#fff!important;font-weight:800;text-decoration:none}'
        '.cu-go.s{background:#EEF4FF;color:#1D4ED8!important}'
        '.cu-t{width:100%;border-collapse:collapse;font-size:14.5px}.cu-t th,.cu-t td{padding:9px 8px;border-bottom:1px solid var(--line-s,#E3E7EE);text-align:left;vertical-align:top;word-break:keep-all}'
-       '.cu-t th{color:var(--muted,#5B6B82);font-weight:700;white-space:nowrap}'
+       '.cu-t th{color:var(--muted,#5B6B82);font-weight:700;white-space:nowrap}.cu-t td:first-child{min-width:5.5em}'
        '.cu-chk{list-style:none;padding:0;margin:0}.cu-chk li{padding:8px 0 8px 30px;position:relative;line-height:1.6;border-bottom:1px dashed var(--line-s,#E3E7EE)}'
        '.cu-chk li:before{content:"✓";position:absolute;left:4px;top:7px;width:20px;height:20px;border-radius:50%;background:#EEF4FF;color:#1D4ED8;font-weight:900;font-size:12px;display:grid;place-items:center}'
        '.cu-src{font-size:12.5px;color:var(--muted,#5B6B82);line-height:1.6}'
@@ -258,20 +258,182 @@ def brand_page(k):
     write(path, title + ' | 홍라이프 도구', desc, main, ld)
     return path
 
+# ── 2차: 방식이 다른 브랜드 (공식 안내 2026-11-21 확인) ─────────────
+def pcwin(title, lines, buttons, hi, url='공식 업데이트 사이트', extra=''):
+    t = f'<text x="44" y="62" font-size="13" font-weight="800" fill="#111">{E(title)}</text>'
+    y = 80
+    for ln in lines:
+        t += f'<text x="44" y="{y}" font-size="10.5" fill="#495057">{E(ln)}</text>'
+        y += 15
+    bx = 44
+    by = max(y + 4, 108)
+    for i, b_ in enumerate(buttons):
+        w = 12 * len(b_) + 22
+        t += btn(bx, by, w, 28, b_, '#1D4ED8' if i == hi else '#E9ECEF', '#fff' if i == hi else '#333', 10.5)
+        if i == hi:
+            t += ring(bx, by, w, 28, '✓')
+        bx += w + 10
+    return pc(t + extra, url)
+
+
+def carpop(title, sub, buttons, hi, note=''):
+    t = ('<rect x="70" y="56" width="220" height="118" rx="12" fill="#0F172A" stroke="#475569"/>'
+         f'<text x="180" y="86" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">{E(title)}</text>'
+         f'<text x="180" y="106" text-anchor="middle" font-size="10.5" fill="#CBD5E1">{E(sub)}</text>')
+    n = len(buttons)
+    w = 72
+    x0 = 180 - (n * w + (n - 1) * 12) / 2
+    for i, b_ in enumerate(buttons):
+        x = x0 + i * (w + 12)
+        t += btn(x, 124, w, 30, b_, '#1D4ED8' if i == hi else '#334155', '#fff', 11)
+        if i == hi:
+            t += ring(x, 124, w, 30, '✓')
+    if note:
+        t += f'<text x="180" y="192" text-anchor="middle" font-size="10" fill="#FCD34D">{E(note)}</text>'
+    return car(t)
+
+
+def carusb(label, note):
+    return car('<text x="180" y="70" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">' + E(label) + '</text>'
+               '<g transform="translate(150 86)"><rect x="0" y="6" width="44" height="22" rx="4" fill="#94A3B8"/><rect x="44" y="11" width="12" height="12" rx="2" fill="#CBD5E1"/></g>'
+               '<path d="M214 103 h40" stroke="#60A5FA" stroke-width="3" marker-end="url(#a)"/><defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#60A5FA"/></marker></defs>'
+               f'<text x="180" y="150" text-anchor="middle" font-size="10.5" fill="#CBD5E1">{E(note)}</text>')
+
+
+O = {
+    'renault': {'name': '르노코리아', 'title': '르노코리아 내비게이션·openR link 업데이트 방법 (무선 + 지도 USB)',
+                'desc': '르노코리아 openR link는 주행 중 무선으로 소프트웨어를 받고 시동을 끈 뒤 설치해요. openR link 9.3인치 세로형 지도는 TMAP 공식 페이지에서 받아 16GB 이상 FAT32 USB로 설치해요. 그림으로 쉽게 정리했어요.',
+                'ans': '<b>openR link 소프트웨어</b>는 새 버전이 있으면 <b>주행 중 무선으로 자동 다운로드</b>되고, 시동을 끄면 설치할지 묻는 창이 떠요. <b>[예]</b>를 누르면 끝이에요. '
+                       '<b>openR link 9.3인치(세로형) 지도</b>는 TMAP 공식 페이지에서 파일을 받아 <b>16GB 이상, FAT32</b> USB 맨 위 폴더에 넣고 차에 꽂으면 자동으로 업데이트돼요.',
+                'parts': [('소프트웨어: 무선으로 자동 (openR link)', [
+                    ('주행하면 저절로 받아져요', '새 소프트웨어가 있으면 차가 <b>주행 중에 알아서 내려받아요.</b> 받는 동안에도 내비와 멀티미디어는 그대로 쓸 수 있어요.',
+                     carpop('업데이트 받는 중', '주행하면서 자동으로 받아요', [], -1, '받는 동안 내비 사용 가능'), '주행 시간이 짧으면 다음 주행 때 이어서 받아요.'),
+                    ('시동 끄고 [예] 누르기', '다 받으면 <b>시동을 끌 때 설치할지 묻는 창</b>이 떠요. <b>[예]</b>를 누르면 운전자 없이 설치가 진행되고, 끝나면 시스템이 저절로 꺼져요.',
+                     carpop('업데이트를 설치할까요?', '시동을 끈 상태로 설치돼요', ['아니요', '예'], 1))]),
+                    ('지도: openR link 9.3인치 세로형 (USB)', [
+                    ('TMAP 공식 페이지에서 지도 받기', 'TMAP 모빌리티 공식 페이지에서 <b>르노코리아 openR link 9.3" 지도 파일</b>을 받아 <b>압축을 풀어요.</b> 그러면 <b>TMAP 폴더</b>가 생겨요.',
+                     pcwin('르노코리아 openR link 9.3"', ['세로형 전용 지도', '압축 파일 받기 → 압축 풀기'], ['다운로드'], 0, 'tmapmobility.com')),
+                    ('USB 맨 위에 TMAP 폴더 넣기', '<b>16GB 이상 USB</b>를 <b>FAT32</b>로 포맷한 뒤, TMAP 폴더를 <b>USB 맨 위(루트)</b>에 복사해요.',
+                     pcwin('USB 드라이브 (E:)', ['📁 TMAP  ← 여기에 그대로'], ['FAT32 포맷', '복사'], 1, '내 PC'), '8GB 이하 USB는 설치가 제대로 안 될 수 있다고 공식 안내에 적혀 있어요.'),
+                    ('차에 꽂으면 자동 업데이트', '차의 USB 단자에 꽂으면 지도 업데이트가 <b>자동으로</b> 진행돼요.',
+                     carusb('USB 꽂기', '꽂으면 지도 업데이트가 자동으로 시작돼요'))])],
+                'links': [('르노코리아 openR link 무선 업데이트 안내', 'https://www.renault.co.kr/ko/service/easy_connect_sub02.jsp'),
+                          ('openR link 9.3" 지도 업데이트 (TMAP 공식)', 'https://www.tmapmobility.com/support/auto/renault/easyconnect/update')],
+                'src': '르노코리아 공식 사이트(renault.co.kr) connectivity 차량관리 안내, TMAP 모빌리티 르노코리아 openR link 9.3" 지도 업데이트 안내',
+                'faq': [('openR link 업데이트는 직접 해야 하나요?', '아니요. 새 소프트웨어가 있으면 차가 주행 중 알아서 받고, 시동을 끌 때 설치할지 물어요. [예]만 누르면 돼요.'),
+                        ('지도 업데이트 USB는 몇 GB가 필요해요?', 'TMAP 공식 안내는 16GB 이상을 권장하고, FAT32로 포맷하라고 해요. 8GB 이하는 설치가 안 될 수 있어요.'),
+                        ('문의는 어디로 하나요?', '르노코리아 엔젤센터 080-300-3000이에요(공식 사이트 기재). 지도 파일 문의는 TMAP 앱 마이 → 고객센터 → 1:1 문의로 하라고 TMAP 공식 페이지에 안내돼 있어요.')]},
+    'chevrolet': {'name': '쉐보레', 'title': '쉐보레 내비게이션 지도 업데이트 방법 (SD 카드 + 업데이터, 인증번호 백업)',
+                  'desc': '쉐보레 말리부·트레일블레이저·트래버스·콜로라도·이쿼녹스·볼트 내비 지도는 SD 카드를 PC에 꽂아 공식 업데이터로 업데이트해요. 처음 한 번 인증번호 백업이 중요해요. 그림으로 쉽게 정리했어요.',
+                  'ans': '쉐보레 내비 지도는 <b>차에서 SD 카드를 빼서 PC에 꽂고</b>, 쉐보레 공식 사이트의 <b>내비게이션 업데이터</b>로 최신 지도를 넣는 방식이에요. '
+                         '파일은 <b>차대번호(VIN) 인증</b>이나 쉐보레 멤버스 로그인 후 받을 수 있고, <b>처음 한 번은 꼭 [인증 번호 백업]</b>을 눌러 두세요.',
+                  'models': ['더 뉴 말리부 (2019년형~)', '트레일블레이저', '트래버스', '콜로라도', '더 뉴 카마로 (2019년형~)', '이쿼녹스 (2019년형~)', 'BOLT EUV', 'BOLT EV (2022년형~)'],
+                  'parts': [('지도 업데이트 (SD 카드)', [
+                      ('차에서 SD 카드 빼기', '시동을 끄고 화면이 <b>완전히 꺼진 뒤</b> SD 카드를 빼요. 차종에 따라 홈 화면 알림 아이콘의 <b>꺼내기</b> 메뉴를 먼저 눌러야 해요.',
+                       carpop('SD 카드 꺼내기', '화면이 꺼진 뒤 빼세요', ['꺼내기'], 0), '키로 시동 거는 차는 키를 차에서 완전히 뺀 뒤 진행하세요.'),
+                      ('업데이터와 지도 파일 받기', '쉐보레 공식 사이트에서 <b>차대번호 인증</b>(또는 쉐보레 멤버스 로그인 후 차량 등록)을 하고 <b>내비게이션 업데이터</b>와 <b>최신 지도 파일(zip)</b>을 받아요.',
+                       pcwin('쉐보레 내비게이션 업데이트', ['차대번호(VIN) 인증', '업데이터 + 지도 파일(zip)'], ['업데이터', '지도 파일'], 1, 'chevrolet.co.kr')),
+                      ('SD 카드 꽂고 인증번호 백업 (처음 1번)', 'SD 카드 옆 <b>잠금 스위치가 위로</b> 올라가 있는지 보고 PC에 꽂아요. 업데이터에서 <b>[인증 번호 백업]</b>을 눌러 SD 카드 고유 번호를 저장해 두세요.',
+                       pcwin('내비게이션 업데이터', ['SD 카드 인식됨'], ['인증 번호 백업', '맵 업데이트'], 0, 'PC 프로그램'), 'SD 카드 슬롯이 없는 PC는 카드 리더기가 필요해요.'),
+                      ('지도 업데이트 누르기', '받은 <b>zip 지도 파일을 고르고 업데이트</b>해요. 시간은 PC 성능에 따라 달라요.',
+                       pcwin('내비게이션 업데이터', ['지도 파일: 최신.zip'], ['인증 번호 백업', '맵 업데이트'], 1, 'PC 프로그램'), '"인증 파일이 없다"는 경고가 나오면 백업 폴더를 고르거나 [최근 사용된 인증파일로 복구]를 누르세요. 오류가 계속되면 SD 카드를 포맷한 뒤 [수동 업데이트]를 쓰라고 공식 안내에 있어요.'),
+                      ('안전하게 빼고 차에 꽂기', '윈도우에서 <b>하드웨어 안전하게 제거</b> 후 SD 카드를 빼요. <b>시동을 끈 상태</b>에서 차에 꽂고, 시동을 걸어 내비가 잘 켜지는지 확인해요.',
+                       carusb('SD 카드 꽂기', '시동 끈 상태에서 꽂고 → 시동 켜서 확인'))])],
+                  'links': [('쉐보레 내비게이션 업데이트 (적용 차종·다운로드)', 'https://www.chevrolet.co.kr/telenav/navigation-update'),
+                            ('쉐보레 내비게이션 업데이트 공지사항', 'https://www.chevrolet.co.kr/telenav/notice')],
+                  'src': '쉐보레 공식 사이트(chevrolet.co.kr) 내비게이션 업데이트 — 적용 차종 및 업데이트 안내',
+                  'faq': [('인증번호 백업은 왜 해요?', 'SD 카드에는 고유 인증 정보가 있어요. 처음 업데이트할 때 [인증 번호 백업]을 해 두면, 나중에 인증 파일 오류가 나도 백업 폴더로 복구할 수 있어요.'),
+                          ('내 차가 대상인지 어떻게 알아요?', '공식 안내의 적용 차종은 더 뉴 말리부(2019년형~), 트레일블레이저, 트래버스, 콜로라도, 더 뉴 카마로(2019년형~), 이쿼녹스(2019년형~), BOLT EUV, BOLT EV(2022년형~)예요.'),
+                          ('SD 카드를 그냥 빼도 되나요?', '아니요. 시동을 끄고 화면이 완전히 꺼진 뒤 빼야 해요. 차종에 따라 알림 아이콘의 꺼내기 메뉴를 먼저 눌러야 해요.')]},
+    'kgm': {'name': 'KG모빌리티(KGM)', 'title': 'KGM(쌍용) 내비게이션 업데이트 방법 — 차종별 공식 업데이트 사이트 정리',
+            'desc': 'KG모빌리티(옛 쌍용) 토레스·액티언·무쏘·코란도·렉스턴·티볼리 순정 내비 업데이트는 차종에 따라 아이나비·지니 등 공식 업데이트 사이트가 달라요. 내 차에 맞는 곳을 쉽게 찾게 정리했어요.',
+            'ans': 'KGM 순정 내비는 <b>내 차가 커넥티드카 서비스 적용 모델인지</b>에 따라 업데이트하는 곳이 달라요. KGM 공식 사이트 S/W 업데이트 메뉴가 연결하는 곳은 '
+                   '<b>커넥티드카 적용 모델 → 아이나비 업그레이드</b>, <b>미적용 모델 → 지니(현대오토에버) 업데이트</b>예요. 체어맨 W는 업데이트 서비스가 끝났어요.',
+            'table': [('커넥티드카 적용', '액티언/토레스 하이브리드, 액티언(신형), 토레스/EVX, 무쏘 스포츠/칸, 코란도/EV/이모션, 렉스턴(G4/올뉴/뉴아레나), 티볼리', '아이나비 업그레이드 (아이나비 매니저)', 'https://www.inavi.com/upgrades/autosmartupgrade/'),
+                      ('커넥티드카 미적용', '체어맨H, 코란도, 렉스턴(W/G4/올뉴), 티볼리, 렉스턴스포츠/칸 (체어맨W 제외)', '지니(GINI) 업데이트 — 현대오토에버', 'https://update.hyundai-autoever.com/Gproduct/'),
+                      ('체어맨 W', '업데이트 서비스 종료 (마지막 버전 2022.11)', '—', ''),
+                      ('체어맨 W 카이져', '업데이트 서비스 종료 (마지막 버전 2022.12.21)', '—', '')],
+            'parts': [('커넥티드카 적용 모델: 아이나비로 업데이트', [
+                ('아이나비 매니저 설치·회원가입', 'PC에 <b>아이나비 매니저</b>를 설치하고 <b>아이나비 회원가입</b>을 해요. 회원가입 후에 업그레이드를 할 수 있어요.',
+                 pcwin('아이나비 매니저', ['회원가입 후 업그레이드 가능'], ['다운로드 받기'], 0, 'inavi.com')),
+                ('메모리카드를 PC에 꽂기', '카드 리더기로 내비 <b>메모리카드를 PC에 꽂으면</b> 오토스마트 업그레이드가 <b>자동 실행</b>되고 매니저에 접속돼요. 매니저가 없으면 자동으로 설치돼요.',
+                 pcwin('오토스마트 업그레이드', ['메모리카드 인식', '매니저 자동 실행'], ['다음'], 0, 'PC 프로그램')),
+                ('원클릭 업그레이드', '<b>[최신지도 원클릭 업그레이드]</b>를 누르면 지도와 펌웨어가 함께 설치돼요. 메모리카드 용량은 자동으로 인식해요.',
+                 pcwin('아이나비 매니저', ['최신 지도 + 펌웨어 자동 설치'], ['원클릭 업그레이드'], 0, 'PC 프로그램'))])],
+            'links': [('KGM 공식 S/W 업데이트 안내', 'https://www.kg-mobility.com/sr/update-download/software-update'),
+                      ('아이나비 내비게이션 업그레이드', 'https://www.inavi.com/upgrades/autosmartupgrade/'),
+                      ('지니(GINI) 업데이트 — 현대오토에버', 'https://update.hyundai-autoever.com/Gproduct/')],
+            'src': 'KGM 공식 사이트(kg-mobility.com) 고객 서비스 → 차량 운영 지원 → S/W 업데이트, 아이나비 공식 내비게이션 업그레이드 안내',
+            'faq': [('토레스 내비 업데이트는 어디서 해요?', 'KGM 공식 사이트 기준 토레스/EVX는 커넥티드카 서비스 적용 모델이라 아이나비 업그레이드로 연결돼요.'),
+                    ('체어맨 W도 업데이트되나요?', '아니요. KGM 공식 안내에 따르면 체어맨 W(마지막 2022.11)와 체어맨 W 카이져(마지막 2022.12.21)는 내비 업데이트 서비스가 끝났어요.'),
+                    ('KGM 고객센터 번호는요?', 'KGM 공식 사이트에 적힌 고객센터는 080-500-5582예요.')]},
+    'inavi': {'name': '아이나비', 'title': '아이나비 내비게이션 지도 업그레이드 방법 (아이나비 매니저 원클릭)',
+              'desc': '아이나비 내비 지도 업그레이드는 메모리카드를 PC에 꽂고 아이나비 매니저로 원클릭 업그레이드하면 돼요. 회원가입, 제품등록, 순서를 그림으로 쉽게 정리했어요.',
+              'ans': '아이나비 내비는 <b>메모리카드를 PC에 꽂고</b> <b>아이나비 매니저</b>에서 <b>[최신지도 원클릭 업그레이드]</b>를 누르면 지도와 펌웨어가 함께 최신으로 바뀌어요. <b>아이나비 회원가입</b>이 먼저 필요해요.',
+              'parts': [('지도 업그레이드 4단계', [
+                  ('아이나비 매니저 설치·회원가입', '아이나비 공식 사이트에서 <b>아이나비 매니저</b>를 받아 설치하고 회원가입해요.',
+                   pcwin('아이나비 매니저', ['회원가입 후 업그레이드 가능'], ['다운로드 받기'], 0, 'inavi.com')),
+                  ('카드 리더기로 메모리카드 꽂기', '내비에서 뺀 <b>메모리카드를 카드 리더기로 PC에 꽂아요.</b> 메모리카드에 오토스마트 업그레이드 파일이 있으면 자동 실행돼요.',
+                   pcwin('오토스마트 업그레이드', ['메모리카드 인식됨'], ['다음'], 0, 'PC 프로그램'), '자동 실행 파일이 없으면 아이나비 매니저를 직접 실행하면 돼요.'),
+                  ('매니저 접속', '매니저가 없으면 자동으로 설치되고 접속돼요.',
+                   pcwin('아이나비 매니저', ['나의 제품 확인'], ['로그인'], 0, 'PC 프로그램')),
+                  ('원클릭 업그레이드', '<b>[최신지도 원클릭 업그레이드]</b>를 누르면 백업 → 다운로드 → 설치 → 데이터 복사까지 자동으로 해요. 메모리카드에 있던 데이터는 그대로 두고 최신 지도를 넣어줘요.',
+                   pcwin('아이나비 매니저', ['최신 지도 + 펌웨어 자동 설치'], ['원클릭 업그레이드'], 0, 'PC 프로그램'))])],
+              'links': [('아이나비 내비게이션 업그레이드 안내', 'https://www.inavi.com/upgrades/autosmartupgrade/')],
+              'src': '아이나비 공식 사이트(inavi.com) 업그레이드 센터 — 내비게이션 업그레이드 안내',
+              'faq': [('회원가입을 꼭 해야 하나요?', '네. 아이나비 공식 안내에 "회원가입 후 업그레이드를 진행할 수 있다"고 적혀 있어요.'),
+                      ('메모리카드 안의 데이터가 지워지나요?', '공식 안내에는 원클릭 업그레이드가 "SD 메모리에 있던 데이터는 그대로" 최신 지도를 설치해 준다고 적혀 있어요. 그래도 중요한 파일은 미리 따로 복사해 두세요.'),
+                      ('펌웨어도 따로 해야 하나요?', '원클릭 업그레이드로 지도를 설치하면 최신 펌웨어도 자동으로 설치된다고 공식 안내에 있어요.')]},
+}
+
+
+def other_page(k):
+    o = O[k]
+    path = f'/drive/update/{k}.html'
+    cr, crld = crumb([('차 업데이트 모음', '/drive/update/'), (f'{o["name"]} 업데이트', '')])
+    body = ''
+    n = 0
+    for sec, steps_ in o['parts']:
+        inner = ''
+        for st in steps_:
+            n += 1
+            inner += step(n, st[0], st[1], st[2], st[3] if len(st) > 3 else '')
+        body += f'<section class="card"><h2>{E(sec)}</h2>{inner}</section>'
+    extra = ''
+    if 'models' in o:
+        extra += '<section class="card"><h2>적용 차종 (공식 안내)</h2><ul style="columns:2;gap:16px;padding-left:20px;margin:6px 0">' + ''.join(f'<li>{E(x)}</li>' for x in o['models']) + '</ul></section>'
+    if 'table' in o:
+        extra += ('<section class="card"><h2>내 차는 어디서 업데이트하나요?</h2><div style="overflow-x:auto"><table class="cu-t"><thead><tr><th>구분</th><th>차종</th><th>업데이트하는 곳</th></tr></thead><tbody>'
+                  + ''.join(f'<tr><td><b>{E(a)}</b></td><td>{E(b_)}</td><td>' + (f'<a href="{u}" target="_blank" rel="noopener nofollow">{E(c)}</a>' if u else E(c)) + '</td></tr>' for a, b_, c, u in o['table'])
+                  + '</tbody></table></div><p class="cu-src">KGM 공식 사이트 S/W 업데이트 메뉴가 연결하는 곳 기준이에요.</p></section>')
+    links = ('<section class="card"><h2>공식 사이트 바로가기</h2>' + ''.join(
+        f'<a class="cu-go{"" if i == 0 else " s"}" href="{u}" target="_blank" rel="noopener nofollow">{E(t)}</a>' for i, (t, u) in enumerate(o['links']))
+        + f'<p class="cu-src" style="margin-top:10px">출처: {E(o["src"])} · 확인 {CHECKED}. 그림은 이해를 돕기 위해 단순하게 그린 것이라 실제 화면과 다를 수 있어요.</p></section>')
+    fq, fqld = faq(o['faq'])
+    rel = ''.join(f'<li><a href="/drive/update/{x}.html"><b>{nm} 업데이트</b><span>그림으로 쉽게</span></a></li>'
+                  for x, nm in [(x, B[x]['name']) for x in B] + [(x, O[x]['name']) for x in O] if x != k)
+    main = (f'<header class="top hub">{cr}<h1>{E(o["title"].split(" (")[0].split(" —")[0])}</h1>'
+            f'<p class="lead">{E(o["name"])} 내비·소프트웨어를 최신으로 바꾸는 방법을 그림으로 쉽게 정리했어요.</p>'
+            f'<p class="cu-ans">{o["ans"]}</p></header>' + extra + body + links + fq +
+            f'<section class="card rel"><h2>다른 브랜드</h2><ul class="tlist">{rel}<li><a href="/drive/update/"><b>차 업데이트 모음</b><span>브랜드별 전체</span></a></li></ul></section>')
+    write(path, o['title'] + ' | 홍라이프 도구', o['desc'], main, [crld, fqld])
+    return path
+
 
 def hub():
     path = '/drive/update/'
-    title = '자동차 내비·블랙박스 업데이트 모음 (현대·기아·제네시스) — 그림으로 쉽게'
-    desc = '현대·기아·제네시스 순정 내비게이션 지도 업데이트와 빌트인 캠 업데이트 방법을 그림으로 쉽게 정리했어요. 공식 업데이트 사이트로 바로 연결돼요.'
+    title = '자동차 내비 업데이트 모음 (현대·기아·제네시스·르노코리아·쉐보레·KGM·아이나비) — 그림으로 쉽게'
+    desc = '현대·기아·제네시스·르노코리아·쉐보레·KG모빌리티 순정 내비와 아이나비 지도 업데이트 방법을 그림으로 쉽게 정리했어요. 공식 업데이트 사이트로 바로 연결돼요.'
     cr, crld = crumb([('차 업데이트 모음', '')])
-    cards = ''.join(f'<li><a href="/drive/update/{k}.html"><b>{b["name"]}</b><span>내비 지도·SW 업데이트 · 빌트인 캠</span></a></li>' for k, b in B.items())
+    cards = ''.join(f'<li><a href="/drive/update/{k}.html"><b>{b["name"]}</b><span>내비 지도·SW 업데이트 · 빌트인 캠</span></a></li>' for k, b in B.items()) + ''.join(
+        f'<li><a href="/drive/update/{k}.html"><b>{o["name"]}</b><span>{"지도·SW 업데이트" if k != "inavi" else "애프터마켓 내비 지도"}</span></a></li>' for k, o in O.items())
     qa = [('차 내비 업데이트는 왜 해야 하나요?', '새로 생긴 도로와 바뀐 길, 과속 단속 정보가 반영되고 내비 오류도 고쳐져요. 오래 안 하면 없는 길로 안내하거나 새 도로를 모를 수 있어요.'),
           ('무선으로 자동 업데이트되는 차도 있나요?', '현대 블루링크, 기아 커넥트, 제네시스 커넥티드 서비스에 가입한 차는 무선(OTA)으로 자동 업데이트돼요. 가입하지 않았다면 PC로 USB·SD 카드에 받아서 하면 돼요.'),
-          ('다른 브랜드도 있나요?', '르노코리아, 쉐보레, KG모빌리티, 수입차와 블랙박스 업데이트를 공식 안내를 확인하는 대로 차례로 추가할게요.')]
+          ('브랜드마다 방법이 다른가요?', '네. 현대·기아·제네시스는 PC 프로그램(Navigation Updater)과 USB·SD, 르노코리아는 무선 + 지도 USB, 쉐보레는 SD 카드 + 업데이터, KGM은 차종에 따라 아이나비 또는 지니 업데이트예요. 수입차와 블랙박스도 차례로 추가할게요.')]
     fq, fqld = faq(qa)
     main = (f'<header class="top hub">{cr}<h1>차 내비·블랙박스 업데이트 모음</h1>'
             '<p class="lead">내 차 내비 지도와 블랙박스를 최신으로 바꾸는 방법을 브랜드별로 그림과 함께 쉽게 정리했어요. 파일은 꼭 제조사 공식 사이트에서 받으세요.</p>'
-            '<p class="cu-ans">현대·기아·제네시스는 같은 방식이에요. <b>① PC에 Navigation Updater 설치 → ② 내 차 고르고 다운로드 → ③ USB·SD 카드에 복사 → ④ 차에서 설정 → 일반 → SW 정보/업데이트 → 업데이트</b>. 커넥티드 서비스에 가입한 차는 무선으로 자동 업데이트돼요.</p></header>'
+            '<p class="cu-ans">브랜드마다 방법이 조금씩 달라요. 가장 많은 현대·기아·제네시스는 <b>① PC에 Navigation Updater 설치 → ② 내 차 고르고 다운로드 → ③ USB·SD 카드에 복사 → ④ 차에서 설정 → 일반 → SW 정보/업데이트 → 업데이트</b>. 커넥티드 서비스에 가입한 차는 무선으로 자동 업데이트돼요.</p></header>'
             f'<section class="card"><h2>브랜드 고르기</h2><ul class="cu-brand">{cards}</ul></section>'
             f'<section class="card"><h2>한눈에 보는 순서</h2>{step(1, "PC에 프로그램 깔기", "브랜드 공식 업데이트 사이트에서 Navigation Updater를 받아요.", S1("공식 업데이트 사이트"))}'
             f'{step(4, "차에서 업데이트 누르기", "USB·SD를 꽂고 설정 → 일반 → SW 정보/업데이트 → 업데이트.", S4())}</section>'
@@ -283,5 +445,5 @@ def hub():
 
 
 if __name__ == '__main__':
-    made = [hub()] + [brand_page(k) for k in B]
+    made = [hub()] + [brand_page(k) for k in B] + [other_page(k) for k in O]
     print('\n'.join(made))
