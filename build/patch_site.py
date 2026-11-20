@@ -680,9 +680,10 @@ import enrich_cal as _ec
 def _photo(key, alt):
     for ext in ('webp', 'jpg'):
         if os.path.exists(os.path.join(root, 'assets', 'photo', 'cal', key + '.' + ext)):
-            return (f'<figure class="calph"><img src="/assets/photo/cal/{key}.{ext}" alt="{alt}" width="1200" height="675" '
-                    f'loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:14px"><figcaption>{alt} (AI로 만든 이미지)</figcaption></figure>')
+            return (f'<figure class="calph"><img src="/assets/photo/cal/{key}.{ext}" alt="{alt}" width="1344" height="756" '
+                    f'loading="lazy" decoding="async"></figure>')
     return ''
+_CALPH_CSS = ('<style id="hl-calph">.calph{margin:18px 0;padding:0}.calph img{display:block;width:100%;height:auto;border-radius:14px}</style>')
 _SRC_EK = '<li><a href="https://encykorea.aks.ac.kr/" rel="noopener" target="_blank">한국민족문화대백과사전</a> ‘{n}’ 항목</li>'
 _SRC_FK = '<li><a href="https://folkency.nfm.go.kr/" rel="noopener" target="_blank">국립민속박물관 한국세시풍속사전</a></li>'
 _SRC_LAW = '<li><a href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B4%80%EA%B3%B5%EC%84%9C%EC%9D%98%EA%B3%B5%ED%9C%B4%EC%9D%BC%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" rel="noopener" target="_blank">국가법령정보센터 「관공서의 공휴일에 관한 규정」</a></li>'
@@ -691,6 +692,7 @@ def _ins(rel, sec):
     if not os.path.exists(p): return 0
     s = open(p, encoding='utf-8').read()
     if 'class="card guide more"' in s: return 0
+    if 'calph' in sec and 'hl-calph' not in s: s = s.replace('</head>', _CALPH_CSS + '</head>', 1)
     i = s.find('<section class="card guide">')
     if i < 0: return 0
     j = s.find('</section>', i) + len('</section>')
@@ -698,12 +700,12 @@ def _ins(rel, sec):
 _k = 0
 for key, (n, mean, cust, tip) in _ec.J.items():
     lis = ''.join(f'<li>{x}</li>' for x in cust)
-    _k += _ins(f'calendar/jeolgi/{key}.html', f'<section class="card guide more"><h2>{n}, 더 알아보기</h2>{_photo("jeolgi-"+key, n+" 무렵 풍경")}<p>{mean}</p><h3>{n} 풍습과 제철 이야기</h3><ul>{lis}</ul><p class="note">{tip}</p><h3>참고한 자료</h3><ul class="src">{_SRC_EK.format(n=n)}{_SRC_FK}</ul></section>')
+    _k += _ins(f'calendar/jeolgi/{key}.html', f'<section class="card guide more"><h2>{n}, 더 알아보기</h2>{_photo("jeolgi-"+key, n+" 무렵 풍경")}<p>{mean}</p><h3>{n} 풍습과 제철 이야기</h3><ul>{lis}</ul>{_photo("jeolgi-"+key+"-2", n+" 무렵 모습")}<p class="note">{tip}</p><h3>참고한 자료</h3><ul class="src">{_SRC_EK.format(n=n)}{_SRC_FK}</ul></section>')
 for key, (n, ji, tm, dr, sym) in _ec.T.items():
-    _k += _ins(f'calendar/tti/{key}.html', f'<section class="card guide more"><h2>{n}띠 이야기</h2>{_photo("tti-"+key, n+" 그림")}<ul><li><b>12지</b>: {ji}</li><li><b>옛 시각</b>: {tm}</li><li><b>방위</b>: {dr}</li></ul><p>{sym}</p><p class="note">띠별 성격이나 운세는 전해 오는 민속 이야기로, 과학적 근거는 없어요.</p><h3>참고한 자료</h3><ul class="src">{_SRC_EK.format(n="십이지")}</ul></section>')
+    _k += _ins(f'calendar/tti/{key}.html', f'<section class="card guide more"><h2>{n}띠 이야기</h2>{_photo("tti-"+key, n+" 그림")}<ul><li><b>12지</b>: {ji}</li><li><b>옛 시각</b>: {tm}</li><li><b>방위</b>: {dr}</li></ul><p>{sym}</p>{_photo("tti-"+key+"-2", n+"띠 민화")}<p class="note">띠별 성격이나 운세는 전해 오는 민속 이야기로, 과학적 근거는 없어요.</p><h3>참고한 자료</h3><ul class="src">{_SRC_EK.format(n="십이지")}</ul></section>')
 for key, (n, mean, pts) in _ec.H.items():
     lis = ''.join(f'<li>{x}</li>' for x in pts)
-    _k += _ins(f'calendar/holiday/2027-{key}.html', f'<section class="card guide more"><h2>{n}, 어떤 날일까요?</h2>{_photo("holiday-"+key, n+" 풍경")}<p>{mean}</p><ul>{lis}</ul><h3>참고한 자료</h3><ul class="src">{_SRC_EK.format(n=n)}{_SRC_LAW}</ul></section>')
+    _k += _ins(f'calendar/holiday/2027-{key}.html', f'<section class="card guide more"><h2>{n}, 어떤 날일까요?</h2>{_photo("holiday-"+key, n+" 풍경")}<p>{mean}</p><ul>{lis}</ul>{_photo("holiday-"+key+"-2", n+" 모습")}<h3>참고한 자료</h3><ul class="src">{_SRC_EK.format(n=n)}{_SRC_LAW}</ul></section>')
 print('calendar enrich sections:', _k)
 # 내용이 짧아 빌드에서 noindex 됐던 2027년 공휴일 페이지는, 설명을 채운 뒤 색인·사이트맵에 다시 넣는다
 _k, _add = 0, []
