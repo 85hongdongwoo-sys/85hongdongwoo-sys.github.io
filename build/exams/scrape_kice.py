@@ -33,7 +33,14 @@ def rows(page_html):
         tds = re.findall(r'<td[^>]*>(.*?)</td>', tr, re.S)
         if len(tds) < 6:
             continue
-        files = re.findall(r"fn_fileDown\('([0-9a-f]+)'\);\"\s*title=\"([^\"]*)\"", tr)
+        files = []
+        for a in re.findall(r'<a\b[^>]*fn_fileDown[^>]*>.*?</a>', tr, re.S | re.I):
+            f = re.search(r"fn_fileDown\(\s*['\"]([0-9a-fA-F]+)['\"]", a)
+            t = (re.search(r'title\s*=\s*"([^"]*)"', a) or re.search(r'alt\s*=\s*"([^"]*)"', a))
+            if f:
+                files.append((f.group(1), t.group(1) if t else ''))
+        if not files and 'fn_fileDown' in tr:
+            print('WARN unparsed file cell:', re.sub(r'\s+', ' ', tr)[:400])
         seq = re.search(r"goView\('\d+','(\d+)'", tr)
         cells = [text(t) for t in tds]
         out.append({'cells': cells, 'seq': seq.group(1) if seq else '',
