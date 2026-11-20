@@ -359,6 +359,7 @@ def rename_category():
             fp = os.path.join(dp, f)
             s = open(fp, encoding='utf-8', errors='ignore').read()
             s2 = re.sub(r'(<a href="/ipsi/"[^>]*>)입시(</a>)', r'\1입시·시험\2', s)
+            s2 = s2.replace('"c":"입시"', '"c":"입시·시험"')
             s2 = re.sub(r'(<a href="/ipsi/"><img[^>]*><b>)입시(</b>)', r'\1입시·시험\2', s2)
             s2 = re.sub(r'(href="/ipsi/"[^>]*>.{0,400}?<b>)입시(</b>)', r'\1입시·시험\2', s2, flags=re.S)
             if s2 != s:
@@ -377,9 +378,15 @@ def register(paths):
     s = open(idx, encoding='utf-8').read()
     TRIP = '"u":"/trip/"}'
     if '"u":"/ipsi/gichul/"' not in s and TRIP in s:
-        e = json.dumps({"t": "수능·모의평가 기출문제 전체 (학년도별)", "d": "학년도별 문제지·정답·듣기 파일, 실전 타이머",
-                        "k": "수능 기출문제 모의평가 기출 6월 모평 9월 모평 수능 정답 평가원 기출 다운로드 수능 듣기 파일 기출 pdf",
-                        "c": "입시·시험", "u": "/ipsi/gichul/"}, ensure_ascii=False, separators=(',', ':'))
+        ent = [{"t": "수능·모의평가 기출문제 전체 (학년도별)", "d": "학년도별 문제지·정답·듣기 파일, 많이 본 기출, 실전 타이머",
+                "k": "수능 기출 기출문제 수능기출 모의고사 모의평가 모평 6월 모평 9월 모평 수능 정답 정답표 평가원 기출 다운로드 수능 듣기 파일 기출 pdf 시험지 문제지 수능 타이머",
+                "c": "입시·시험", "u": "/ipsi/gichul/"}]
+        for p in sorted([p for p in paths if 'suneung-' in p], reverse=True):
+            y = re.search(r'(\d{4})', p).group(1); y2 = y[2:]
+            ent.append({"t": f"{y}학년도 수능·모의평가 기출문제", "d": f"{y}학년도 수능·6월·9월 모평 문제지·정답·듣기 (평가원 공식)",
+                        "k": f"{y} 수능 {y}수능 {y2}수능 {y} 기출 {y}학년도 수능 기출 {y} 6월 모평 {y} 9월 모평 {y} 모의고사 {y} 수능 정답 {int(y) - 1} 수능 기출문제 시험지",
+                        "c": "입시·시험", "u": p})
+        e = ','.join(json.dumps(x, ensure_ascii=False, separators=(',', ':')) for x in ent)
         open(idx, 'w', encoding='utf-8').write(s.replace(TRIP, TRIP + ',' + e, 1))
     print('exam pages registered:', len(paths), 'sitemap +', add.count('<url>'))
 
