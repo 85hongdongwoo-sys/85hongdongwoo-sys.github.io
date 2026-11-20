@@ -1,0 +1,26 @@
+name: IndexNow (Naver · Bing)
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "all = every URL in the live sitemap, changed = pages changed in the last commit"
+        default: changed
+  push:
+    branches: [main]
+    paths: ['overlay/**', 'build/newcats/**']
+permissions:
+  contents: read
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Wait for the Pages deploy to go live
+        if: github.event_name == 'push'
+        run: sleep 240
+      - name: Submit URLs
+        env:
+          MODE: ${{ github.event.inputs.mode || 'changed' }}
+        run: python3 build/indexnow.py
