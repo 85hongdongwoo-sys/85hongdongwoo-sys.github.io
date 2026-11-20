@@ -6,16 +6,15 @@ jobs:
     steps:
       - run: |
           UA="Mozilla/5.0 (HongLifeTools)"
-          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00302&gSite=L&gId=08&artlSeq=5212459&boardId=Q004" -o d.html; wc -c d.html
-          grep -o -i '[^"]*\(file\|down\|attach\)[^"]*' d.html | sort -u | head -40
-          python3 -c "
-          import re;s=open('d.html',encoding='utf-8',errors='replace').read()
-          for m in re.finditer(r'(?is)<a[^>]+>[^<]*(zip|pdf)[^<]*</a>',s): print(m.group(0)[:400])
-          i=s.find('첨부'); print(s[i-200:i+1500])"
+          curl -s -m 60 -A "$UA" -c cj -b cj "https://www.q-net.or.kr/cst003.do?id=cst00302&gSite=L&gId=08&artlSeq=5212459&boardId=Q004" -o /dev/null
+          curl -s -m 120 -A "$UA" -c cj -b cj -G "https://www.q-net.or.kr/cst003.do" --data-urlencode "id=cst00302s01" --data-urlencode "gSite=L" --data-urlencode "gId=08" --data-urlencode "fileCode=R001" --data-urlencode "filePath=bbs/Q004/Q004_2208340" --data-urlencode "fileName=2023년 제34회 시험문제지.zip" --data-urlencode "fileSeq=2208340" -o f.bin -D h.txt; head -20 h.txt; ls -la f.bin; file f.bin; unzip -l f.bin 2>&1 | head -20
           echo ==== list
-          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00309&gSite=L&gId=08" -o l.html; wc -c l.html
-          python3 -c "
+          grep -o 'cst003\.do[^"'"'"' ]*' l.html 2>/dev/null | head
+          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00309&gSite=L&gId=08" -o l.html
+          python3 - <<'PY'
           import re;s=open('l.html',encoding='utf-8',errors='replace').read()
-          print(set(re.findall(r'artlSeq=\d+[^\"\']*',s)) and list(set(re.findall(r'artlSeq=\d+[^\"\']{0,80}',s)))[:5])
-          for m in re.findall(r'(?s)<td[^>]*class=\"[^\"]*tit[^\"]*\"[^>]*>(.*?)</td>',s)[:5]: print(re.sub(r'\s+',' ',m)[:300])
-          i=s.find('공인중개사 자격시험');print(s[i-800:i+400])"
+          print(sorted(set(re.findall(r'cst003\.do\?[^"\'\s<>]{0,160}',s)))[:30])
+          print(re.findall(r'(?is)<form[^>]*>',s)[:5])
+          print(sorted(set(re.findall(r'fn\w*\([^)]{0,80}\)',s)))[:30])
+          i=s.find('tbody');print(re.sub(r'\s+',' ',s[i:i+3000]))
+          PY
