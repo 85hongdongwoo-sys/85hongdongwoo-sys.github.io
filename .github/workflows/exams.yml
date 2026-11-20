@@ -1,0 +1,24 @@
+name: Exam links (official boards)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 19 * * 0'   # 매주 월요일 04:23 KST — 공식 게시판 새 시험 반영 + 링크 점검
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scrape official exam boards
+        run: python3 build/exams/scrape_kice.py
+      - name: Check official links
+        run: python3 build/exams/check_links.py || true
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add build/exams/data
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git commit -m "Exam data: refresh official board links ($(date +%F))"
+          git push
