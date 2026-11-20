@@ -6,10 +6,16 @@ jobs:
     steps:
       - run: |
           UA="Mozilla/5.0 (HongLifeTools)"
-          for b in "Q004&code=1008" "Q008&code=1008" "Q008" "Q120"; do
-            curl -s -m 40 -A "$UA" -H "X-Requested-With: XMLHttpRequest" -e "https://www.q-net.or.kr/cst003.do?id=cst00309&gSite=L&gId=08" "https://www.q-net.or.kr/cst003.do?id=cst00301s01&gSite=L&gId=08&gName=%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC&page=1&schText=&schType=&boardId=$b" -o x.html
-            echo "== $b $(wc -c < x.html)"; python3 -c "
+          L="https://www.q-net.or.kr/cst003.do?id=cst00301s01&gSite=L&gId=08&gName=x&page=1&schText=&schType=&boardId=Q004&code=1008"
+          curl -s -m 40 -A "$UA" "$L" -o x.html
+          python3 - <<'PY'
           import re;s=open('x.html',encoding='utf-8',errors='replace').read()
-          t=re.sub(r'\s+',' ',re.sub(r'<[^>]+>',' | ',s));print(t[:1800]);print(re.findall(r'goView\([^)]*\)|goDetail\([^)]*\)|fn\w+\(\s*\'?\d{5,}[^)]*\)',s)[:8])"; done
-          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00308&gSite=L&gId=08" -o y.html; python3 -c "
-          import re;s=open('y.html',encoding='utf-8',errors='replace').read();print(re.findall(r'<title>[^<]*',s), re.findall(r'boardId=Q\d+[^\"\']{0,40}',s)[:5])"
+          i=s.find('2026년 제37회');print(s[i-1200:i+100])
+          PY
+          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/anc002.do?id=anc00201&gSite=L&gId=08" -o a.html
+          python3 - <<'PY'
+          import re;s=open('a.html',encoding='utf-8',errors='replace').read()
+          t=re.sub(r'\s+',' ',re.sub(r'<script.*?</script>','',s,flags=re.S));t=re.sub(r'<[^>]+>',' | ',t);t=re.sub(r'(\|\s*)+','| ',t)
+          i=t.find('정답');print(t[i-300:i+2500])
+          print(sorted(set(re.findall(r'anc00\d\.do\?[^"\'\s<>]{0,120}|fn\w+\([^)]{0,80}\)',s)))[:40])
+          PY
