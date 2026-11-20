@@ -45,7 +45,7 @@ def allrows(svc, cap=None, **p):
     out, page = [], 1
     while True:
         rows, total = get(svc, pIndex=page, **p); out += rows
-        if not rows or len(out) >= total or (cap and len(out) >= cap): return out
+        if not KEY or not rows or len(out) >= total or (cap and len(out) >= cap): return out   # 키 없으면 1쪽(5건)만 줌
         page += 1
 
 # ── 날짜: 보여 줄 주(토·일이면 다음 주), 비교용 지난주, 미리보기 다음 주 ──
@@ -61,7 +61,8 @@ def norm(s):
     s = re.sub(r'[\*★☆♥♡#@&※◆◇■□●○▶►◀~!^`$%+=|\\/]+', ' ', s)
     s = re.sub(r'\((?:[가-힣A-Za-z]{1,4})\)\s*$', '', s.strip())
     s = re.sub(r'^\d+[.)]?\s*', '', s)
-    return re.sub(r'\s+', '', s)[:24]
+    s = re.sub(r'(?<=[가-힣])\s*[A-Za-z]$', '', s)
+    return re.sub(r'\s+', '', s).strip('-_.,·:;')[:24]
 KEEP_RICE = re.compile(r'볶음밥|비빔밥|덮밥|김밥|주먹밥|컵밥|초밥|짜장밥|카레|오므라이스|필라프|리조또|라이스|국밥|솥밥')
 def staple(n):
     if not n or len(n) < 2: return True
@@ -77,7 +78,7 @@ def kind(k):
 def fetch_sido(code, slug, name):
     t = time.time()
     sch = allrows('schoolInfo', cap=(LIMIT or None), ATPT_OFCDC_SC_CODE=code)
-    sch = [s for s in sch if s.get('SCHUL_KND_SC_NM') in ('초등학교', '중학교', '고등학교', '특수학교')]
+    seen = set(); sch = [s for s in sch if s.get('SCHUL_KND_SC_NM') in ('초등학교', '중학교', '고등학교', '특수학교') and (s.get('SD_SCHUL_CODE') or '').strip() and not (s['SD_SCHUL_CODE'] in seen or seen.add(s['SD_SCHUL_CODE']))]
     if LIMIT: sch = sch[:LIMIT]
     def one(s):
         rows = allrows('mealServiceDietInfo', ATPT_OFCDC_SC_CODE=code, SD_SCHUL_CODE=s['SD_SCHUL_CODE'], MLSV_FROM_YMD=DS[0], MLSV_TO_YMD=DS[-1])
@@ -96,10 +97,11 @@ def build(res, name):
     for s, rows in res:
         sc = s['SD_SCHUL_CODE']; addr = (s.get('ORG_RDNMA') or '').split(' ')
         schools.append([sc, s['SCHUL_NM'], kind(s['SCHUL_KND_SC_NM']), addr[1] if len(addr) > 1 else ''])
-        seen_c, seen_p, out = set(), set(), []
+        seen_c, seen_p, out, got = set(), set(), [], set()
         for r in rows:
-            day = r.get('MLSV_YMD'); 
-            if day not in DS: continue
+            day = r.get('MLSV_YMD')
+            if day not in DS or (day, r.get('MMEAL_SC_CODE')) in got: continue
+            got.add((day, r.get('MMEAL_SC_CODE')))
             items = [x.strip() for x in re.split(r'<br\s*/?>', r.get('DDISH_NM') or '') if x.strip()]
             cal = r.get('CAL_INFO', '').replace('Kcal', '').strip()
             try: cal = round(float(cal))

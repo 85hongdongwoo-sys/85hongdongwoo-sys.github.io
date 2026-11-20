@@ -527,6 +527,7 @@ MOVED = [('calendar', '/calendar/exam-schedule.html', '자격증 시험일정 �
          ('life', '/life/subsidy.html', '조건으로 찾는 정부 지원금 (보조금24 1만여 건)', '지역·대상·나이·분야로 받을 수 있는 지원금만 걸러 보기', '정부 지원금 조회 보조금24 지원금 찾기 청년 지원금 소상공인 지원금 노인 지원금', '생활·행정'),
          ('drive', '/life/route-navi.html', '경유지 많은 노선 내비', '정류장 30곳 넘어도 순서대로 길안내', '경유지 많은 내비 다중 경유지 길찾기 경유지 30개 셔틀버스 노선 통학버스 택배 동선 순서 길안내', '자동차·지도'),
          ('drive', '/life/taxi-fare.html', '택시비·통행료 계산기', '택시비와 내 차 기름값·통행료 비교', '택시비 계산기 택시요금 계산 통행료 계산 고속도로 통행료 기름값 계산 유류비 계산 카카오 길찾기 거리 계산', '자동차·지도'),
+         ('study', '/study/meal-ranking.html', '전국 학교 급식 랭킹', '이번 주 전국·시도별 인기 메뉴 TOP 20, 우리 학교 급식', '급식 급식표 오늘 급식 학교 급식 메뉴 급식 순위 급식 랭킹 인기 급식 메뉴 우리학교 급식 식단표 알레르기', '학생·공부'),
          ('drive', '/drive/bus-share.html', '셔틀버스 위치 공유 (기사용)', '링크 하나로 승객에게 실시간 버스 위치·도착 예상', '셔틀버스 위치 공유 통학버스 학원차 실시간 위치 버스 지금 어디 기사 위치 공유 링크 도착 예정 시간', '자동차·지도'),
          ('drive', '/life/midpoint.html', '중간지점 찾기', '친구들과 만날 곳 추천 + 공유 카드', '중간지점 찾기 약속장소 추천 중간 위치 만날 장소 친구 중간 지점 지하철역 중간 카카오 길찾기', '자동차·지도'),
          ('medical', '/medical/pharmacy-open.html', '지금 문 연 약국', '밤·주말·공휴일 영업 약국 지도', '지금 문 연 약국 영업중인 약국 근처 약국 일요일 약국 공휴일 약국 심야약국 야간약국', '병원·건강'),
@@ -560,6 +561,13 @@ for cat, u, n, d, kw, cn in MOVED:
     if f'honglife.co.kr{u}<' not in s:
         open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-19</lastmod></url>\n</urlset>', 1)); print('sitemap +', u)
 
+
+# ── 시도별 급식 랭킹 17쪽: 사이트맵 ──
+p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
+for _sl in ('seoul', 'busan', 'daegu', 'incheon', 'gwangju', 'daejeon', 'ulsan', 'sejong', 'gyeonggi', 'gangwon', 'chungbuk', 'chungnam', 'jeonbuk', 'jeonnam', 'gyeongbuk', 'gyeongnam', 'jeju'):
+    if os.path.exists(os.path.join(root, 'study', 'meal', _sl + '.html')) and f'/study/meal/{_sl}.html<' not in s:
+        s = s.replace('</urlset>', f'<url><loc>https://honglife.co.kr/study/meal/{_sl}.html</loc><lastmod>2026-11-21</lastmod></url>\n</urlset>', 1)
+open(p, 'w', encoding='utf-8').write(s)
 
 # ── 새 분류: 공문서·민원(/gov/) (overlay, 2026-11-19) ──
 _gv_p = os.path.join(root, 'govcats.json')
