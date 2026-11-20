@@ -6,16 +6,17 @@ jobs:
     steps:
       - run: |
           UA="Mozilla/5.0 (HongLifeTools)"
+          show(){ python3 - "$1" <<'PY'
+          import re,sys;s=open(sys.argv[1],encoding='utf-8',errors='replace').read()
+          print(re.findall(r"fileDown\([^)]*\)",s)[:12])
+          t=re.sub(r'<script.*?</script>|<style.*?</style>','',s,flags=re.S);t=re.sub(r'<[^>]+>',' ',t);t=re.sub(r'\s+',' ',t)
+          i=t.find('첨부파일');print(t[i:i+900])
+          PY
+          }
+          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00302&gSite=L&gId=08&artlSeq=5281124&boardId=Q004" -o d1.html; show d1.html
           L="https://www.q-net.or.kr/cst003.do?id=cst00301s01&gSite=L&gId=08&gName=x&page=1&schText=&schType=&boardId=Q004&code=1008"
-          curl -s -m 40 -A "$UA" "$L" -o x.html
-          python3 - <<'PY'
-          import re;s=open('x.html',encoding='utf-8',errors='replace').read()
-          i=s.find('2026년 제37회');print(s[i-1200:i+100])
-          PY
-          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/anc002.do?id=anc00201&gSite=L&gId=08" -o a.html
-          python3 - <<'PY'
-          import re;s=open('a.html',encoding='utf-8',errors='replace').read()
-          t=re.sub(r'\s+',' ',re.sub(r'<script.*?</script>','',s,flags=re.S));t=re.sub(r'<[^>]+>',' | ',t);t=re.sub(r'(\|\s*)+','| ',t)
-          i=t.find('정답');print(t[i-300:i+2500])
-          print(sorted(set(re.findall(r'anc00\d\.do\?[^"\'\s<>]{0,120}|fn\w+\([^)]{0,80}\)',s)))[:40])
-          PY
+          curl -s -m 40 -A "$UA" "$L" | grep -o "goNext('[0-9]*'" | head -3
+          N=$(curl -s -m 40 -A "$UA" "$L" | grep -o "goNext('[0-9]*'" | sed -n 2p | grep -o "[0-9]*"); echo notice $N
+          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00302&gSite=L&gId=08&artlSeq=$N&boardId=Q004" -o d2.html; show d2.html
+          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/anc002.do?id=anc00202&gSite=L&gId=08" -o a2.html; python3 -c "
+          import re;s=open('a2.html',encoding='utf-8',errors='replace').read();t=re.sub(r'<script.*?</script>','',s,flags=re.S);t=re.sub(r'<[^>]+>',' ',t);t=re.sub(r'\s+',' ',t);i=t.find('정답');print(len(s),t[i-200:i+1500])"
