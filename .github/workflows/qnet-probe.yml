@@ -6,14 +6,10 @@ jobs:
     steps:
       - run: |
           UA="Mozilla/5.0 (HongLifeTools)"
-          curl -s -m 60 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00302&gSite=L&gId=08&artlSeq=5212459&boardId=Q004&menuType=cst00309" -o d.html
-          python3 - <<'PY'
-          import re;s=open('d.html',encoding='utf-8',errors='replace').read()
-          for k in ('목록','이전글','다음글','goList','fnList','pageIndex','boardId','정답'):
-              for m in re.finditer(k,s):
-                  print(k,'::',re.sub(r'\s+',' ',s[max(0,m.start()-250):m.start()+250]));break
-          print(sorted(set(re.findall(r'[a-zA-Z0-9_]+\.do\?[^"\'\s<>]{0,200}',s)))[:60])
-          PY
-          for u in "cst003.do?id=cst00309&gSite=L&gId=08&boardId=Q004" "cst003.do?id=cst00309s01&gSite=L&gId=08&boardId=Q004&pageIndex=1" "cst003.do?id=cst00302s02&gSite=L&gId=08&boardId=Q004&pageIndex=1"; do
-            curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/$u" -o x.html; echo "== $u $(wc -c < x.html)"; python3 -c "
-          import re;s=open('x.html',encoding='utf-8',errors='replace').read();print(re.findall(r'artlSeq[^\"\'<]{0,60}',s)[:6]);print(re.sub(r'\s+',' ',re.sub(r'<[^>]+>',' ',s))[:600])"; done
+          for b in "Q004&code=1008" "Q008&code=1008" "Q008" "Q120"; do
+            curl -s -m 40 -A "$UA" -H "X-Requested-With: XMLHttpRequest" -e "https://www.q-net.or.kr/cst003.do?id=cst00309&gSite=L&gId=08" "https://www.q-net.or.kr/cst003.do?id=cst00301s01&gSite=L&gId=08&gName=%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC&page=1&schText=&schType=&boardId=$b" -o x.html
+            echo "== $b $(wc -c < x.html)"; python3 -c "
+          import re;s=open('x.html',encoding='utf-8',errors='replace').read()
+          t=re.sub(r'\s+',' ',re.sub(r'<[^>]+>',' | ',s));print(t[:1800]);print(re.findall(r'goView\([^)]*\)|goDetail\([^)]*\)|fn\w+\(\s*\'?\d{5,}[^)]*\)',s)[:8])"; done
+          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00308&gSite=L&gId=08" -o y.html; python3 -c "
+          import re;s=open('y.html',encoding='utf-8',errors='replace').read();print(re.findall(r'<title>[^<]*',s), re.findall(r'boardId=Q\d+[^\"\']{0,40}',s)[:5])"
