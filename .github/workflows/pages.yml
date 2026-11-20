@@ -43,6 +43,12 @@ jobs:
         run: |
           if [ -n "$OPINET_KEY" ]; then pip install -q pyproj; fi
           python3 build/pubdata/fetch.py _site
+      - name: 전국 급식 랭킹 데이터 넣기 (data-meal 브랜치)
+        continue-on-error: true
+        run: |
+          mkdir -p _site/data/meal
+          if git fetch -q --depth 1 origin data-meal; then git archive FETCH_HEAD | tar -x -C _site/data/meal; fi
+          python3 build/meal/render_meal.py _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

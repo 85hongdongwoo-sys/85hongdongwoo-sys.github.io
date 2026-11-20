@@ -1,0 +1,33 @@
+name: 전국 급식 수집
+on:
+  workflow_dispatch:
+    inputs:
+      only: {description: '시도 slug (쉼표, 비우면 전체)', required: false, default: ''}
+  schedule:
+    - cron: '7 20 * * *'    # 매일 05:07 (KST)
+permissions:
+  contents: write
+  actions: write
+concurrency: {group: meal, cancel-in-progress: false}
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - name: 나이스 급식 수집·집계
+        env:
+          NEIS_KEY: ${{ secrets.NEIS_KEY }}
+          ONLY: ${{ github.event.inputs.only }}
+          THREADS: '8'
+        run: python3 build/meal/fetch_meal.py meal-out
+      - name: data-meal 브랜치에 올리기 (기록 없이 덮어쓰기)
+        run: |
+          cd meal-out
+          git init -q -b data-meal
+          git config user.name "meal-bot"; git config user.email "meal-bot@users.noreply.github.com"
+          git add -A && git commit -qm "급식 데이터 $(date -u +%F)"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" data-meal
+      - name: 사이트 다시 배포
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: gh workflow run pages.yml --ref main -R ${{ github.repository }}
