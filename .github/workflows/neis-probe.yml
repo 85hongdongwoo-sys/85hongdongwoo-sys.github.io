@@ -1,0 +1,10 @@
+name: neis-probe
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for q in "ATPT_OFCDC_SC_CODE=E10&MLSV_YMD=20261120" "ATPT_OFCDC_SC_CODE=E10&MLSV_FROM_YMD=20261116&MLSV_TO_YMD=20261120" ; do
+            echo "== $q"; curl -s -m 30 "https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json&pIndex=1&pSize=100&$q" | head -c 2500; echo; done
+          echo "== school"; curl -s -m 30 "https://open.neis.go.kr/hub/schoolInfo?Type=json&pIndex=1&pSize=3&ATPT_OFCDC_SC_CODE=E10" | head -c 1500
