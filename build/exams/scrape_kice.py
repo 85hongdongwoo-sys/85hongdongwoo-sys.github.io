@@ -36,9 +36,16 @@ def rows(page_html):
         files = []
         for a in re.findall(r'<a\b[^>]*fn_fileDown[^>]*>.*?</a>', tr, re.S | re.I):
             f = re.search(r"fn_fileDown\(\s*['\"]([0-9a-fA-F]+)['\"]", a)
-            t = (re.search(r'title\s*=\s*"([^"]*)"', a) or re.search(r'alt\s*=\s*"([^"]*)"', a))
+            t = None
+            for attr in ('title', 'alt'):
+                for m in re.finditer(attr + r'\s*=\s*(["\'])(.*?)\1', a, re.S):
+                    if m.group(2).strip():
+                        t = m.group(2).strip(); break
+                if t: break
+            if not t and not getattr(rows, '_shown', 0):
+                rows._shown = 1; print('WARN no file name in:', re.sub(r'\s+', ' ', a)[:300])
             if f:
-                files.append((f.group(1), t.group(1) if t else ''))
+                files.append((f.group(1), t or ''))
         if not files and 'fn_fileDown' in tr:
             print('WARN unparsed file cell:', re.sub(r'\s+', ' ', tr)[:400])
         seq = re.search(r"goView\('\d+','(\d+)'", tr)
