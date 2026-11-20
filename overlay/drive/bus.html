@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta name="robots" content="noindex,follow">
+<meta charset="utf-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="naver-site-verification" content="9dd8345221a046c23d3f8d30ca6f5c1decb99590">
+<meta name="naver-site-verification" content="6ca51088f689edccc88338c01854ede72fc2edb3">
+<meta name="color-scheme" content="only light">
+<title>셔틀 지금 어디? 실시간 버스 위치 | 홍라이프 도구</title>
+<meta name="description" content="기사님이 공유한 셔틀버스의 실시간 위치와 정류장별 도착 예상 시간을 보여 줘요.">
+<link rel="canonical" href="https://honglife.co.kr/drive/bus.html">
+<meta property="og:type" content="website"><meta property="og:url" content="https://honglife.co.kr/drive/bus.html"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="홍라이프 도구">
+<meta property="og:title" content="셔틀 지금 어디? 실시간 버스 위치 | 홍라이프 도구"><meta property="og:description" content="기사님이 공유한 셔틀버스의 실시간 위치와 정류장별 도착 예상 시간을 보여 줘요."><meta property="og:url" content="https://honglife.co.kr/drive/bus.html"><meta property="og:image" content="https://honglife.co.kr/assets/og/site.png">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://honglife.co.kr/assets/og/site.png">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/assets/brand/favicon-32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon-180.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/assets/css/site.css?v=c979392f">
+<script src="/assets/js/hlmotion.js?v=0bbd556a" defer></script>
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "셔틀 지금 어디?", "url": "https://honglife.co.kr/drive/bus.html", "applicationCategory": "TravelApplication", "operatingSystem": "Any", "inLanguage": "ko", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "KRW"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "홈", "item": "https://honglife.co.kr/"}, {"@type": "ListItem", "position": 2, "name": "자동차·지도", "item": "https://honglife.co.kr/drive/"}, {"@type": "ListItem", "position": 3, "name": "셔틀 지금 어디?", "item": "https://honglife.co.kr/drive/bus.html"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "도착 시간은 얼마나 정확한가요?", "acceptedAnswer": {"@type": "Answer", "text": "버스 위치와 남은 정류장 사이 거리를 차가 다니는 평균 속도로 나눈 값이에요. 신호·정체·승하차 시간에 따라 몇 분 달라질 수 있어요."}}, {"@type": "Question", "name": "위치가 한동안 안 바뀌어요.", "acceptedAnswer": {"@type": "Answer", "text": "버스가 정차 중이거나 기사님 휴대폰 신호가 약할 때 그래요. 3분 넘게 소식이 없으면 화면에 따로 알려 드려요."}}, {"@type": "Question", "name": "내 정류장은 어떻게 정하나요?", "acceptedAnswer": {"@type": "Answer", "text": "정류장 목록에서 내가 타는 정류장을 누르세요. 이 휴대폰에 저장되고, 화면 위에 남은 시간이 크게 보여요."}}]}]}</script>
+<style id="hl-mt">
+.mp-wrap{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line-s);background:#EEF1F5}
+#map{width:100%;height:min(56vh,440px)}
+#map svg,#map img{max-width:none!important;max-height:none!important}
+.mp-hint{position:absolute;left:10px;top:10px;z-index:3;background:rgba(255,255,255,.95);border-radius:10px;padding:6px 10px;font-size:13px;font-weight:700;color:var(--head);box-shadow:0 1px 4px rgba(0,0,0,.12);max-width:calc(100% - 70px)}
+.pt{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;margin-top:10px}
+.pt .dot{width:30px;height:30px;border-radius:50%;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+.pt input{font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line-s);border-radius:10px;min-height:44px;width:100%;box-sizing:border-box;background:#fff}
+.pt input.on{border-color:var(--acc);box-shadow:0 0 0 3px rgba(49,130,246,.15)}
+.pt button{font:inherit;font-size:13.5px;font-weight:700;border:1px solid var(--line-s);background:#fff;border-radius:10px;min-height:44px;padding:0 10px;cursor:pointer;white-space:nowrap}
+.pt button[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+.sug{list-style:none;margin:4px 0 0 38px;padding:0;border:1px solid var(--line-s);border-radius:10px;background:#fff;max-height:240px;overflow:auto}
+.sug li button{display:block;width:100%;text-align:left;padding:9px 12px;border:0;background:none;font:inherit;font-size:14.5px;cursor:pointer;border-top:1px solid var(--line-s)}
+.sug li:first-child button{border-top:0}.sug li button small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.sug li button:hover,.sug li button:focus{background:#F4F7FB}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.opts label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--head)}
+.opts select,.opts input[type=number]{font:inherit;font-size:16px;padding:9px 10px;border:1px solid var(--line-s);border-radius:10px;min-height:44px;width:100%;box-sizing:border-box;background:#fff}
+.opts .ck{flex-direction:row;align-items:center;gap:8px;min-height:44px}.opts .ck input{width:20px;height:20px}
+.go-btn{display:block;width:100%;margin-top:14px;min-height:52px;border:0;border-radius:14px;background:var(--acc);color:#fff;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
+.go-btn:disabled{background:#B0B8C1;cursor:default}
+.tfr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+.tfr div{background:#F4F7FB;border-radius:12px;padding:12px 6px;text-align:center}
+.tfr b{display:block;font-size:21px;white-space:nowrap;color:var(--head);line-height:1.25;font-variant-numeric:tabular-nums;word-break:keep-all}
+.tfr span{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+.tfr .big{grid-column:span 3;background:#0B5ED7}.tfr .big b,.tfr .big span{color:#fff}.tfr .big b{font-size:28px}
+.tfm{font-size:13.5px;line-height:1.6;margin:10px 0 0;color:var(--ink)}
+.tfm.err{color:#C92A2A;font-weight:700}
+.ext{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.ext a{flex:1 1 140px;text-align:center;padding:12px;border-radius:12px;background:#FEE500;color:#191919;font-weight:800;text-decoration:none;font-size:14.5px}
+.ext a.n{background:#03C75A;color:#fff}
+.pe-faq dt{font-weight:700;margin-top:12px;color:var(--head)}.pe-faq dd{margin:4px 0 0;line-height:1.65;color:var(--ink)}
+@media(max-width:520px){.tfr b{font-size:16.5px;letter-spacing:-.3px}.tfr .big b{font-size:24px}#map{height:46vh}}
+
+.bs-st{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:#F4F7FB;margin-top:12px;font-weight:700;color:var(--head);font-size:15px;line-height:1.45}
+.bs-st i{flex:none;width:12px;height:12px;border-radius:50%;background:#B0B8C1}
+.bs-st.on{background:#E8F3FF}.bs-st.on i{background:#16A34A;box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:bsp 1.6s infinite}
+.bs-st.warn{background:#FFF4E5}.bs-st.warn i{background:#F59E0B}.bs-st.end{background:#F2F4F6;color:var(--muted)}
+@keyframes bsp{70%{box-shadow:0 0 0 10px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+@media (prefers-reduced-motion:reduce){.bs-st.on i{animation:none}}
+.bs-st small{display:block;font-weight:500;color:var(--muted);font-size:13px}
+.bs-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px;align-items:end}
+.bs-row label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--head);min-width:0}
+.bs-row select,.bs-row input{font:inherit;font-size:16px;padding:9px 10px;border:1px solid var(--line-s);border-radius:10px;min-height:46px;width:100%;box-sizing:border-box;background:#fff;min-width:0}
+.bs-btn{font:inherit;font-size:14.5px;font-weight:700;border:1px solid var(--line-s);background:#fff;border-radius:10px;min-height:46px;padding:0 14px;cursor:pointer;white-space:nowrap;color:var(--head);text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.bs-go{display:block;width:100%;margin-top:14px;min-height:56px;border:0;border-radius:14px;background:#16A34A;color:#fff;font:inherit;font-size:18px;font-weight:800;cursor:pointer}
+.bs-go.stop{background:#F04452}.bs-go:disabled{background:#B0B8C1;cursor:default}
+.bs-link{margin-top:14px;padding:14px;border:1px dashed var(--line-s);border-radius:14px}
+.bs-link p{margin:0 0 8px;font-size:13.5px;color:var(--muted)}
+.bs-link code{display:block;font-size:14px;word-break:break-all;background:#F4F7FB;border-radius:8px;padding:10px;color:var(--head)}
+.bs-acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.bs-acts .bs-btn{padding:0 6px;font-size:14px}
+.bs-note{font-size:13.5px;line-height:1.6;color:var(--muted);margin:10px 0 0}
+.bs-stops{list-style:none;margin:12px 0 0;padding:0;counter-reset:s}
+.bs-stops li{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:10px 4px;border-top:1px solid var(--line-s)}
+.bs-stops li:first-child{border-top:0}
+.bs-stops .no{width:28px;height:28px;border-radius:50%;background:#E8F3FF;color:#1B64DA;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.bs-stops .nm{font-weight:700;color:var(--head);font-size:15px;min-width:0;overflow-wrap:anywhere}
+.bs-stops .et{font-weight:800;font-size:15px;color:#1B64DA;white-space:nowrap;font-variant-numeric:tabular-nums}
+.bs-stops li.past .no{background:#F2F4F6;color:#B0B8C1}.bs-stops li.past .nm,.bs-stops li.past .et{color:#B0B8C1;font-weight:500}
+.bs-stops li.next{background:#F0F7FF;border-radius:10px}
+.bs-stops li.mine .nm::after{content:"내 정류장";margin-left:6px;font-size:11.5px;font-weight:800;color:#fff;background:#F59E0B;border-radius:6px;padding:2px 6px;vertical-align:2px;white-space:nowrap}
+.bs-stops button{all:unset;cursor:pointer;display:contents}
+.bs-mine{margin-top:12px;padding:16px;border-radius:16px;background:#1B64DA;color:#fff}
+.bs-mine span{display:block;font-size:13.5px;opacity:.9}.bs-mine b{display:block;font-size:26px;line-height:1.3;margin-top:2px;word-break:keep-all}
+.bus-ic{width:40px;height:40px;border-radius:50%;background:#F59E0B;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:21px;line-height:1}
+.stop-ic{min-width:22px;height:22px;border-radius:11px;background:#fff;border:2px solid #1B64DA;color:#1B64DA;font:800 11.5px/18px system-ui,sans-serif;text-align:center;padding:0 3px;box-sizing:border-box}
+.stop-ic.past{border-color:#B0B8C1;color:#B0B8C1}.stop-ic.mine{background:#F59E0B;border-color:#F59E0B;color:#fff}
+</style>
+</head>
+<body>
+
+<div class="brandbar"><div class="in"><a class="logo" href="/"><img class="mark" src="/assets/brand/symbol-small.svg" width="28" height="28" alt=""><span>홍라이프 도구</span></a><nav aria-label="주요 분류"><a href="/excel/">엑셀 수식</a><a href="/sheet/">엑셀 양식</a><a href="/doc/">문서</a><a href="/pdf/">PDF</a><a href="/image/">이미지</a><a href="/design/">디자인</a><a class="srch" href="/#search">도구 찾기</a></nav></div></div>
+<main class="wrap wide"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/drive/">자동차·지도</a></p><h1>셔틀 지금 어디?</h1><p class="lead">기사님이 공유한 버스 위치예요. 15초마다 자동으로 새로 고쳐져요.</p></header>
+<section class="card tool">
+<div class="bs-st" id="st"><i></i><div id="st-t">버스 위치를 불러오는 중…</div></div>
+<div class="bs-mine" id="mine" hidden><span id="mine-l">내 정류장까지</span><b id="mine-t">–</b></div>
+<div class="mp-wrap" style="margin-top:12px"><div id="map" role="application" aria-label="버스 위치 지도"></div><p class="mp-hint" id="mp-hint">지도를 불러오는 중…</p></div>
+<div class="bs-row"><button class="bs-btn" id="fit" type="button">버스 위치로</button><button class="bs-btn" id="rf" type="button">새로고침</button></div>
+<h2 style="margin-top:18px">정류장 도착 예상</h2>
+<p class="bs-note" style="margin-top:0">정류장을 누르면 ‘내 정류장’으로 정해져서 위에 크게 보여요.</p>
+<ol class="bs-stops" id="list"></ol>
+<p class="bs-note">도착 시간은 버스 위치와 정류장 사이 거리로 계산한 대략적인 값이에요. 신호와 정체에 따라 몇 분 달라질 수 있어요.</p>
+</section>
+<section class="card"><h2>자주 묻는 질문</h2><dl class="pe-faq"><dt>도착 시간은 얼마나 정확한가요?</dt><dd>버스 위치와 남은 정류장 사이 거리를 차가 다니는 평균 속도로 나눈 값이에요. 신호·정체·승하차 시간에 따라 몇 분 달라질 수 있어요.</dd><dt>위치가 한동안 안 바뀌어요.</dt><dd>버스가 정차 중이거나 기사님 휴대폰 신호가 약할 때 그래요. 3분 넘게 소식이 없으면 화면에 따로 알려 드려요.</dd><dt>내 정류장은 어떻게 정하나요?</dt><dd>정류장 목록에서 내가 타는 정류장을 누르세요. 이 휴대폰에 저장되고, 화면 위에 남은 시간이 크게 보여요.</dd></dl></section>
+<section class="card rel"><h2>함께 쓰면 좋은 도구</h2><ul class="tlist"><li><a href="/drive/bus-share.html"><b>셔틀버스 위치 공유 (기사용)</b><span>우리 버스도 위치 공유하기</span></a></li><li><a href="/life/route-navi.html"><b>경유지 많은 노선 내비</b><span>정류장 30곳 넘어도 순서대로 안내</span></a></li><li><a href="/drive/"><b>자동차·지도 도구 모음</b><span>자동차·지도 도구 전체 보기</span></a></li></ul></section>
+</main>
+<script>
+
+window.HLMAP=(function(){
+var PROXY='https://hl-route.a599307.workers.dev/',map=null,K=null,ready=[],ok=false,places=null,geo=null,line=null;
+function onReady(f){ok?f():ready.push(f)}
+(function(){var s=document.createElement('script');s.src='https://dapi.kakao.com/v2/maps/sdk.js?appkey=c4a8d8392dd6a362db17cc44e5ae398b&autoload=false&libraries=services';
+ s.onload=function(){kakao.maps.load(function(){K=kakao.maps;places=new K.services.Places();geo=new K.services.Geocoder();ok=true;ready.forEach(function(f){f()})})};
+ s.onerror=function(){var h=document.getElementById('mp-hint');if(h)h.textContent='지도를 불러오지 못했어요. 새로고침해 주세요.'};document.head.appendChild(s)})();
+function init(el,lat,lng,lv){map=new K.Map(el,{center:new K.LatLng(lat,lng),level:lv||8});map.addControl(new K.ZoomControl(),K.ControlPosition.RIGHT);return map}
+function pin(lat,lng,label,color){var svg='<svg xmlns="http://www.w3.org/2000/svg" width="34" height="43" viewBox="0 0 32 40"><path d="M16 39C16 39 3 24 3 15a13 13 0 0 1 26 0c0 9-13 24-13 24z" fill="'+color+'" stroke="#fff" stroke-width="2.4"/><text x="16" y="20" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="800" fill="#fff">'+label+'</text></svg>';
+ var img=new K.MarkerImage('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg),new K.Size(34,43),{offset:new K.Point(17,42)});
+ return new K.Marker({map:map,position:new K.LatLng(lat,lng),image:img})}
+function search(q,cb){if(!places||!q)return cb([]);var c=map?map.getCenter():null;
+ places.keywordSearch(q,function(d,st){cb(st===K.services.Status.OK?d.slice(0,7).map(function(p){return {name:p.place_name,addr:p.road_address_name||p.address_name,lat:+p.y,lng:+p.x}}):[])},c?{location:c,sort:K.services.SortBy.ACCURACY}:{})}
+function nameAt(lat,lng,cb){if(!geo)return cb('지도에서 고른 곳');geo.coord2Address(lng,lat,function(r,st){if(st===K.services.Status.OK&&r[0]){var a=r[0].road_address||r[0].address;cb((r[0].road_address&&r[0].road_address.building_name)||a.address_name)}else cb('지도에서 고른 곳')})}
+function route(o,d,w,opt){opt=opt||{};return fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
+ body:JSON.stringify({origin:{x:o.lng,y:o.lat},destination:{x:d.lng,y:d.lat},waypoints:(w||[]).map(function(p){return {x:p.lng,y:p.lat}}),priority:opt.priority||'RECOMMEND',avoid:opt.avoid&&opt.avoid.length?opt.avoid:undefined,summary:!!opt.summaryOnly})})
+ .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json()}).then(function(j){var R=j.routes&&j.routes[0];if(!R||R.result_code!==0)throw new Error(R?R.result_msg:'길찾기 실패');
+  var pts=[];(R.sections||[]).forEach(function(sc){(sc.roads||[]).forEach(function(rd){for(var i=0;i<rd.vertexes.length;i+=2)pts.push([rd.vertexes[i+1],rd.vertexes[i]])})});
+  return {distance:R.summary.distance,duration:R.summary.duration,taxi:(R.summary.fare||{}).taxi||0,toll:(R.summary.fare||{}).toll||0,pts:pts}})}
+function draw(pts,color){if(line)line.setMap(null);if(!pts.length)return;var path=pts.map(function(p){return new K.LatLng(p[0],p[1])});
+ line=new K.Polyline({map:map,path:path,strokeWeight:6,strokeColor:color||'#3182F6',strokeOpacity:.9});var b=new K.LatLngBounds();path.forEach(function(p){b.extend(p)});map.setBounds(b,40,40,40,40)}
+function fmtMin(s){var m=Math.round(s/60);return m>=60?Math.floor(m/60)+'시간 '+(m%60)+'분':m+'분'}
+function won(n){return Math.round(n).toLocaleString('ko-KR')+'원'}
+function km(m){return (m/1000).toFixed(m<10000?1:0)+'km'}
+return {onReady:onReady,init:init,pin:pin,search:search,nameAt:nameAt,route:route,draw:draw,fmtMin:fmtMin,won:won,km:km,get map(){return map},get K(){return K}};
+})();
+
+var API=(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)&&new URLSearchParams(location.search).get('api'))||'https://hl-bus.a599307.workers.dev';
+function dist(a,b,c,d){var R=6371000,x=(c-a)*Math.PI/180,y=(d-b)*Math.PI/180,s=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(y/2)*Math.sin(y/2);return 2*R*Math.asin(Math.sqrt(s))}
+function ago(ms){var s=Math.max(0,Math.round(ms/1000));return s<60?s+'초 전':s<3600?Math.floor(s/60)+'분 전':Math.floor(s/3600)+'시간 전'}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+(function(){
+var $=function(i){return document.getElementById(i)},H=HLMAP;
+var id=(new URLSearchParams(location.search).get('id')||'').toLowerCase();
+var MK='hl-bus-mine-'+id,mine=-1;try{mine=+(localStorage.getItem(MK)||-1)}catch(e){}
+var D=null,busOv=null,stopOv=[],line=null,fitted=false,timer=null,lastT=0;
+function status(cls,t,s){$('st').className='bs-st '+cls;$('st-t').innerHTML=esc(t)+(s?'<small>'+esc(s)+'</small>':'')}
+if(!/^[a-z0-9]{10,20}$/.test(id)){status('warn','링크가 올바르지 않아요','기사님께 받은 링크를 다시 열어 주세요');$('mp-hint').hidden=true;return}
+function speed(){var v=D&&D.spd;return v&&v>3?Math.min(v,16):6.4}
+function etas(){var s=D.stops||[],out=[],from=Math.max(0,(D.ix==null?-1:D.ix)+1),acc=0,pl=D.lat,pg=D.lng;
+ for(var i=0;i<s.length;i++){if(i<from||pl==null){out.push(null);continue}acc+=dist(pl,pg,s[i][0],s[i][1])*1.35;pl=s[i][0];pg=s[i][1];out.push(acc/speed()+(i-from)*25)}return out}
+function fmt(sec){if(sec==null)return '';var m=Math.round(sec/60);return m<1?'곧 도착':m>=60?Math.floor(m/60)+'시간 '+(m%60)+'분':'약 '+m+'분'}
+function list(){var s=(D&&D.stops)||[],e=D&&!D.end?etas():[],ix=D&&D.ix!=null?D.ix:-1;
+ if(!s.length){$('list').innerHTML='<li><span></span><span class="nm" style="font-weight:500;color:var(--muted)">기사님이 정류장을 등록하지 않았어요. 지도에서 버스 위치만 볼 수 있어요.</span><span></span></li>';$('mine').hidden=true;return}
+ $('list').innerHTML=s.map(function(p,i){var cls=(i<=ix?'past':'')+(i==ix+1&&!D.end?' next':'')+(i==mine?' mine':'');
+  return '<li class="'+cls+'"><button type="button" data-i="'+i+'" aria-label="'+esc(p[2])+' 내 정류장으로"><span class="no">'+(i+1)+'</span><span class="nm">'+esc(p[2])+'</span><span class="et">'+(i<=ix?'지남':D.end?'':fmt(e[i]))+'</span></button></li>'}).join('');
+ if(mine>=0&&mine<s.length&&!D.end){$('mine').hidden=false;$('mine-l').textContent=(mine+1)+'. '+s[mine][2]+'까지';$('mine-t').textContent=mine<=ix?'버스가 이미 지나갔어요':fmt(e[mine])}else $('mine').hidden=true}
+$('list').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=+b.dataset.i;mine=mine==i?-1:i;try{localStorage.setItem(MK,mine)}catch(x){}list();drawStops()});
+function ov(lat,lng,html,z){return new H.K.CustomOverlay({map:H.map,position:new H.K.LatLng(lat,lng),content:html,yAnchor:.5,xAnchor:.5,zIndex:z||1})}
+function drawStops(){if(!H.map||!D)return;stopOv.forEach(function(o){o.setMap(null)});stopOv=[];var s=D.stops||[],ix=D.ix!=null?D.ix:-1;
+ s.forEach(function(p,i){stopOv.push(ov(p[0],p[1],'<div class="stop-ic'+(i<=ix?' past':'')+(i==mine?' mine':'')+'">'+(i+1)+'</div>',2))});
+ if(line)line.setMap(null);if(s.length>1)line=new H.K.Polyline({map:H.map,path:s.map(function(p){return new H.K.LatLng(p[0],p[1])}),strokeWeight:4,strokeColor:'#1B64DA',strokeOpacity:.35,strokeStyle:'shortdash'})}
+function drawBus(){if(!H.map||!D||D.lat==null)return;var pos=new H.K.LatLng(D.lat,D.lng);
+ if(!busOv)busOv=ov(D.lat,D.lng,'<div class="bus-ic" aria-label="버스">🚌</div>',9);else busOv.setPosition(pos);
+ if(!fitted){fitted=true;var b=new H.K.LatLngBounds();b.extend(pos);(D.stops||[]).forEach(function(p){b.extend(new H.K.LatLng(p[0],p[1]))});if((D.stops||[]).length)H.map.setBounds(b,40,40,40,40);else H.map.setCenter(pos)}}
+function render(){var now=D.now||Date.now(),age=D.t?now-D.t:null;
+ document.title=(D.name||'셔틀')+' 지금 어디? | 홍라이프 도구';
+ if(D.end)status('end',(D.name||'셔틀')+' · 운행 종료','오늘 운행이 끝났어요. 다음 운행 때 이 링크를 다시 열면 돼요.');
+ else if(age==null)status('warn',(D.name||'셔틀')+' · 출발 준비 중','기사님 휴대폰의 위치를 기다리고 있어요');
+ else if(age>180000)status('warn',(D.name||'셔틀')+' · 위치 '+ago(age),'신호가 약하거나 잠시 멈췄을 수 있어요. 마지막 위치를 보여 줘요.');
+ else status('on',(D.name||'셔틀')+' · 운행 중','위치 '+ago(age)+' 업데이트');
+ list();if(H.map){drawStops();drawBus();$('mp-hint').hidden=true}}
+function load(){fetch(API+'/b/'+id,{cache:'no-store'}).then(function(r){if(r.status==404)return {none:1};return r.json()}).then(function(j){
+ if(j.none){D=null;status('warn','아직 운행 정보가 없어요','기사님이 위치 공유를 시작하면 자동으로 나타나요');$('list').innerHTML='';return}
+ D=j;lastT=Date.now();render()}).catch(function(){status('warn','연결이 불안정해요','잠시 뒤 자동으로 다시 시도해요')})}
+H.onReady(function(){H.init($('map'),37.39,126.65,7);$('mp-hint').textContent='버스 위치를 기다리는 중…';if(D)render()});
+function loop(){clearTimeout(timer);load();timer=setTimeout(loop,document.visibilityState=='visible'?15000:60000)}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState=='visible')loop()});
+setInterval(function(){if(D&&!D.end&&D.t){var a=Date.now()-lastT+(D.now-D.t);if(a<180000)$('st-t').querySelector('small')&&($('st-t').querySelector('small').textContent='위치 '+ago(a)+' 업데이트')}},5000);
+$('rf').onclick=loop;$('fit').onclick=function(){if(D&&D.lat!=null&&H.map)H.map.panTo(new H.K.LatLng(D.lat,D.lng))};
+loop();
+})();
+</script>
+<footer class="site"><div class="in"><div class="fl"><a href="/">홈</a><a href="/about.html">사이트 소개</a><a href="/privacy.html">개인정보처리방침</a><a href="https://honglifecalc.com/ko/">홍라이프 계산기</a></div>
+<div>홍라이프 도구는 회원가입 없이 쓰는 무료 도구 모음이에요. 파일과 입력한 내용은 서버로 전송되지 않고 이 기기의 브라우저 안에서만 처리돼요. 만든 결과는 참고용이니 중요한 서류와 계산은 꼭 한 번 더 확인하세요.</div>
+<div>© 홍라이프 · honglife.co.kr</div></div></footer>
+<script>window.HL_V={"/assets/seo/excel-common/xlcalc.js":"63e96789","/assets/seo/excel-common/xlmini.js":"f15097fa","/assets/fonts/NotoSansKR-Regular.ttf":"2d973a89","/assets/fonts/NotoSansKR-Bold.ttf":"d662b438","/assets/fonts/NotoSerif-Bold.ttf":"b7adf139","/assets/fonts/NotoSans-Bold.ttf":"c0fc49df","/assets/fonts/NotoSans-Regular.ttf":"2afe4ab9","/assets/fonts/NotoSerifKR-Hanja.ttf":"8a958ef1","/assets/fonts/NotoSerifKR-Bold.ttf":"b74af543","/assets/fonts/logo/SongMyung-Regular.ttf":"e4c7ca43","/assets/fonts/logo/Jua-Regular.ttf":"d9ff09c2","/assets/fonts/logo/Gaegu-Bold.ttf":"1a1a134e","/assets/fonts/logo/BlackHanSans-Regular.ttf":"aeee9737","/assets/fonts/logo/DoHyeon-Regular.ttf":"6c135243","/assets/fonts/design/GowunDodum-Regular.woff2":"67d7ca3c","/assets/fonts/design/NotoSerifKR-Hanja.woff2":"b280c8b6","/assets/fonts/design/NotoSansKR-Bold.woff2":"89402eb0","/assets/fonts/design/BlackHanSans-Regular.woff2":"2e543ccc","/assets/fonts/design/SongMyung-Regular.woff2":"fb7dca9b","/assets/fonts/design/NotoSerifKR-Bold.woff2":"fedc62fd","/assets/fonts/design/Jua-Regular.woff2":"c039e536","/assets/fonts/design/NotoSansKR-Regular.woff2":"88d90cdf","/assets/fonts/design/GowunBatang-Bold.woff2":"3da67785","/assets/fonts/design/Gaegu-Bold.woff2":"6724831e","/assets/fonts/design/YeonSung-Regular.woff2":"aa21fcce","/assets/fonts/design/DoHyeon-Regular.woff2":"7273996d","/assets/css/site.css":"c979392f","/assets/css/explain.css":"c349c972","/assets/vendor/qrcode_UTF8.js":"d6dcdaef","/assets/vendor/fontkit.umd.min.js":"f4a24bdd","/assets/vendor/xlsx.core.min.js":"b2f68038","/assets/vendor/qrcode.js":"fbb6b69b","/assets/vendor/jsqr.js":"9d20ee38","/assets/vendor/heic2any.min.js":"e9f06907","/assets/vendor/lamejs.js":"af8407d9","/assets/vendor/marked.min.js":"b7319d77","/assets/vendor/jszip.min.js":"2a8188d6","/assets/vendor/pdf-lib.min.js":"dec481b1","/assets/vendor/gifenc.js":"9b2e6ee4","/assets/vendor/msgreader-1.29.0/msgreader.esm.js":"e58c2f33","/assets/vendor/msgreader-1.29.0/iconv-lite-shim.js":"abc7e717","/assets/vendor/pptxgenjs-3.12.0/pptxgen.min.js":"6dc3f9e8","/assets/vendor/chess.js-1.4.0/chess.js":"b358e5d7","/assets/vendor/astronomy-engine-2.1.19/astronomy.browser.min.js":"007e65c5","/assets/vendor/sqljs-1.13.0/sql-wasm.js":"9b629335","/assets/vendor/rhwp/rhwp.js":"de306647","/assets/vendor/magick-wasm-0.0.45/magick.esm.js":"2f048e49","/assets/vendor/prettier-3.3.3/markdown.js":"da82c2f6","/assets/vendor/prettier-3.3.3/estree.js":"7e1833fe","/assets/vendor/prettier-3.3.3/babel.js":"46e28941","/assets/vendor/prettier-3.3.3/yaml.js":"a9bd2397","/assets/vendor/prettier-3.3.3/postcss.js":"a160a162","/assets/vendor/prettier-3.3.3/typescript.js":"379d1847","/assets/vendor/prettier-3.3.3/standalone.js":"dde94f42","/assets/vendor/prettier-3.3.3/html.js":"7f952d1f","/assets/vendor/jspdf-2.5.2/jspdf.umd.min.js":"e6c65801","/assets/vendor/katex-0.16.11/katex.min.js":"f4e1ebdc","/assets/vendor/transformers/transformers.min.js":"e65fb778","/assets/vendor/fflate-0.8.2/fflate.umd.js":"aaea4e81","/assets/vendor/libarchive.js-2.0.2/worker-bundle.js":"9312dd95","/assets/vendor/libarchive.js-2.0.2/libarchive.js":"5d22de9a","/assets/vendor/mediapipe-selfie-0.1.1675465747/selfie_segmentation_solution_simd_wasm_bin.js":"8351a222","/assets/vendor/mediapipe-selfie-0.1.1675465747/selfie_segmentation.js":"e946199c","/assets/vendor/postal-mime-4.2.1/postal-mime.esm.js":"e8837c11","/assets/vendor/zxing-0.21.3/zxing.min.js":"bc4aee4e","/assets/vendor/oxipng-jsquash-2.3.0/squoosh_oxipng.js":"c0ea379f","/assets/vendor/upng-2.1.0/upng.esm.js":"2a50c7a3","/assets/vendor/hash-wasm-4.12.0/hash-wasm.umd.min.js":"7964d127","/assets/vendor/pptx-renderer-1.4.0/aiden0z-pptx-renderer.browser.es.js":"2df94631","/assets/vendor/collapse-white-space-2.1.0/index.js":"62ad6b61","/assets/vendor/wanakana-5.3.1/wanakana.min.js":"6f5be3f7","/assets/vendor/opencc-js-1.4.2/full.js":"26291b08","/assets/vendor/pdfjs/pdf.worker.min.mjs":"6629862f","/assets/vendor/pdfjs/pdf.min.mjs":"f3471e91","/assets/vendor/dxf-parser-1.1.2/dxf-parser.js":"4bf706be","/assets/vendor/media/mp4-muxer.min.js":"cc079772","/assets/vendor/media/mp4box.all.min.js":"9c5e885f","/assets/vendor/media/webm-muxer.min.js":"a092fa1f","/assets/vendor/ag-psd-34.2.0/bundle.js":"2b747141","/assets/vendor/smol-toml-1.4.2/util.js":"452bed3a","/assets/vendor/smol-toml-1.4.2/parse.js":"98f1e35d","/assets/vendor/smol-toml-1.4.2/extract.js":"fa134757","/assets/vendor/smol-toml-1.4.2/primitive.js":"7665ab74","/assets/vendor/smol-toml-1.4.2/date.js":"4c03a79a","/assets/vendor/smol-toml-1.4.2/index.js":"ca86284b","/assets/vendor/smol-toml-1.4.2/error.js":"ed980104","/assets/vendor/smol-toml-1.4.2/struct.js":"66b54e15","/assets/vendor/smol-toml-1.4.2/stringify.js":"f90d1745","/assets/vendor/pinyin-pro-3.29.5/pinyin-pro.js":"4f6dbba2","/assets/vendor/tesseract/tesseract.min.js":"762c4256","/assets/vendor/tesseract/tesseract-core-lstm.wasm.js":"486dab56","/assets/vendor/tesseract/tesseract-core-simd-lstm.wasm.js":"ca8abab5","/assets/vendor/tesseract/worker.min.js":"65249fe4","/assets/vendor/matter-js-0.20.0/matter.min.js":"16937dab","/assets/vendor/lottie-web-5.12.2/lottie.min.js":"55bf8620","/assets/vendor/utif-3.1.0/UTIF.js":"76f67ae8","/assets/vendor/nerdamer-2.0.1/bundle.js":"5783eac1","/assets/vendor/js-yaml-4.1.0/js-yaml.min.js":"99f96803","/assets/vendor/hyparquet-1.33.0/hyparquet.bundle.mjs":"f05f4dc9","/assets/vendor/smartcrop-2.0.5/smartcrop.js":"c001ebba","/assets/vendor/mathjs-15.2.0/math.js":"f0e8ed8a","/assets/vendor/blockly-13.4.0/blockly_compressed.js":"febf30c2","/assets/vendor/blockly-13.4.0/python_compressed.js":"b8150089","/assets/vendor/blockly-13.4.0/javascript_compressed.js":"b6865445","/assets/vendor/blockly-13.4.0/blocks_compressed.js":"8d5e0992","/assets/vendor/blockly-13.4.0/msg/ko.js":"06b0c924","/assets/vendor/ort122/ort-wasm-simd-threaded.jsep.mjs":"6f8ef5f8","/assets/vendor/ort122/ort.webgpu.min.js":"58b83119","/assets/vendor/mathjax-3.2.2/tex-svg-full.js":"e903f718","/assets/vendor/svgo-3.3.2/svgo.browser.js":"a03d1335","/assets/vendor/bwip-js-4.5.1/bwip-js-min.js":"3ab42050","/assets/vendor/jsonpath-plus-10.3.0/jsonpath-plus.min.js":"5dfc4c98","/assets/vendor/dompurify-3.2.6/purify.min.js":"4f58a880","/assets/vendor/shpjs-6.2.0/shp.bundle.mjs":"467b2f72","/assets/vendor/sql-formatter-15.4.10/sql-formatter.min.js":"08ae7cbb","/assets/vendor/pako-1.0.11/pako_inflate.min.js":"8e548b1a","/assets/vendor/signalsmith-stretch-1.3.2/SignalsmithStretch.js":"18777b7e","/assets/vendor/n-gram-2.0.2/index.js":"312164f9","/assets/vendor/jstat-1.9.6/jstat.min.js":"a2f02a86","/assets/vendor/docx-preview-0.4.1/docx-preview.min.js":"b91f1bd5","/assets/vendor/hanzi-writer-3.7.3/hanzi-writer.min.js":"6d3f9a89","/assets/vendor/three-r170/GLTFExporter.js":"36c54260","/assets/vendor/three-r170/OBJExporter.js":"27fa3813","/assets/vendor/three-r170/RoundedBoxGeometry.js":"26403ce6","/assets/vendor/three-r170/meshopt_decoder.module.js":"cd7a7b72","/assets/vendor/three-r170/OBJLoader.js":"1178a82a","/assets/vendor/three-r170/BufferGeometryUtils.js":"adface28","/assets/vendor/three-r170/three.module.min.js":"954c1c22","/assets/vendor/three-r170/STLExporter.js":"be6ef8cc","/assets/vendor/three-r170/OrbitControls.js":"36695247","/assets/vendor/three-r170/GLTFLoader.js":"538a8dd6","/assets/vendor/three-r170/PLYExporter.js":"52159abe","/assets/vendor/three-r170/PLYLoader.js":"b8764bb6","/assets/vendor/three-r170/STLLoader.js":"f766b5e8","/assets/vendor/zxcvbn-4.4.2/zxcvbn.js":"9cf6916d","/assets/vendor/ua-parser-1.0.40/ua-parser.min.js":"c555243f","/assets/vendor/mediabunny-1.65.2/mediabunny.min.mjs":"962efe94","/assets/vendor/echarts-5.6.0/echarts.min.js":"b91b9de4","/assets/vendor/svg2pdf-2.2.4/svg2pdf.umd.min.js":"9f9cf405","/assets/vendor/trigram-utils-2.0.1/index.js":"7ddf1176","/assets/vendor/ort/ort-wasm-simd-threaded.mjs":"f5f6d7a8","/assets/vendor/ort/ort.wasm.min.js":"8699f690","/assets/vendor/franc-min-6.2.0/index.js":"58f77c54","/assets/vendor/franc-min-6.2.0/data.js":"ebdf58d9","/assets/vendor/franc-min-6.2.0/expressions.js":"b181d032","/assets/js/hlmotion.js":"0bbd556a","/assets/js/hlmap.js":"cc1cf4a8","/assets/js/hlgongmun.js":"2c20a5e8","/assets/js/hlchem.js":"61195bd4","/assets/js/hlocr.js":"44965ff9","/assets/js/hldesign.js":"5837f1b3","/assets/js/hlroom-out.js":"a00801d9","/assets/js/hlics.js":"49c93c0a","/assets/js/hlai.js":"c8857e7b","/assets/js/hlimg.js":"6b8ffd0b","/assets/js/sky-data.js":"23d263f3","/assets/js/hlaudio.js":"a86f3ba1","/assets/js/hlpdfenc.js":"d9caed63","/assets/js/hlroom-ui.js":"98b3ea02","/assets/js/hlfx.js":"c52813a6","/assets/js/hlstt-worker.js":"605afbeb","/assets/js/hlai-worker.js":"a561aa12","/assets/js/hlmb.js":"1f79952d","/assets/js/hllogo.js":"d2ce235b","/assets/js/hlpdfedit.js":"7fe1e2c2","/assets/js/hlcodec.js":"d009ead7","/assets/js/hlmagick.js":"01b40f06","/assets/js/hlsheet.js":"9c12f1fd","/assets/js/hlroom.js":"ee0539cf","/assets/js/hllink.js":"29801548","/assets/js/hlgeo-data.js":"550854b7","/assets/js/hlnet.js":"fdcedaee","/assets/js/hlaig.js":"8ada5110","/assets/js/emoji-data.js":"b70da7cb","/assets/js/hlmath.js":"af1f176f","/assets/js/hltpl.js":"e30280c3","/assets/js/hlbar.js":"20fc3907","/assets/js/hlarc.js":"4eb4a0ee","/assets/js/hlchart.js":"53f263ba","/assets/js/hlhangul.js":"163ca044","/assets/js/hlhwp.js":"04ee21e5","/assets/js/hlpdf.js":"c844ca9f","/assets/js/hlxlsx.js":"09b5f3c8","/assets/js/hldocx.js":"e476f5e8","/assets/js/kdata.js":"03edaaf4","/assets/js/hlcheck.js":"b11e21b6","/assets/js/hlmedia.js":"1952bdc2","/assets/js/hlqr.js":"1b60fdf5","/assets/js/hlfxui.js":"d7144e4a","/assets/js/hlroom3d.mjs":"c54cc99f","/assets/js/korean.js":"d91b0266","/assets/js/hlunlock.js":"1f739746","/assets/js/hl3d.mjs":"8d9741af","/assets/js/hlstat.js":"366b577f","/assets/js/hlvideo.js":"c5d01e88","/assets/js/hlsky.js":"74c29762","/assets/js/hldoc.js":"2d667499","/assets/js/hl3dmake.mjs":"6e2398fc","/assets/js/hlfx-kb.js":"72c8fc9d","/assets/js/hl.js":"543bc20f","/assets/js/hlcipher.js":"76040e06","/assets/js/hledit.js":"4b696454","/assets/js/hlgeoio.js":"833864bb","/assets/js/hldocui.js":"1744fb07","/assets/js/hanja-data.js":"68704471","/assets/js/hlmagick-worker.js":"40eb4660","/assets/js/hlmusic.js":"4145cdaa"};</script>
+<script src="/assets/js/hl.js?v=543bc20f"></script>
+<script>(function(){try{var L=(navigator.languages&&navigator.languages[0])||navigator.language||'';if(/^ko/i.test(L)||/bot|crawl|spider|lighthouse/i.test(navigator.userAgent))return;if(localStorage.getItem('hl_lang')==='ko')return;
+var a=document.querySelector('link[rel=alternate][hreflang=en]'),u=a?a.getAttribute('href'):'/en/',d=document.createElement('div');
+d.setAttribute('lang','en');d.style.cssText='position:relative;z-index:50;background:linear-gradient(90deg,#12235A,#070B14);color:#fff;padding:10px 16px;font-size:15px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap';
+d.innerHTML=(a?'This page is available in English.':'This site is in Korean. Free tools in English are here:')+' <a href="'+u+'" style="color:#9ECBFF;font-weight:700">'+(a?'View in English':'HongLife Tools in English')+' →</a> <button type="button" style="background:none;border:1px solid #8a93a6;color:#cfd5e0;border-radius:6px;padding:2px 10px;cursor:pointer" aria-label="Close and stay on the Korean page">Close ✕</button>';
+d.querySelector('button').onclick=function(){try{localStorage.setItem('hl_lang','ko')}catch(e){}d.remove()};document.body.insertBefore(d,document.body.firstChild)}catch(e){}})();</script>
+
+</body>
+</html>

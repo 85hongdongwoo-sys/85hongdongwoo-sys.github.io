@@ -527,6 +527,7 @@ MOVED = [('calendar', '/calendar/exam-schedule.html', '자격증 시험일정 �
          ('life', '/life/subsidy.html', '조건으로 찾는 정부 지원금 (보조금24 1만여 건)', '지역·대상·나이·분야로 받을 수 있는 지원금만 걸러 보기', '정부 지원금 조회 보조금24 지원금 찾기 청년 지원금 소상공인 지원금 노인 지원금', '생활·행정'),
          ('drive', '/life/route-navi.html', '경유지 많은 노선 내비', '정류장 30곳 넘어도 순서대로 길안내', '경유지 많은 내비 다중 경유지 길찾기 경유지 30개 셔틀버스 노선 통학버스 택배 동선 순서 길안내', '자동차·지도'),
          ('drive', '/life/taxi-fare.html', '택시비·통행료 계산기', '택시비와 내 차 기름값·통행료 비교', '택시비 계산기 택시요금 계산 통행료 계산 고속도로 통행료 기름값 계산 유류비 계산 카카오 길찾기 거리 계산', '자동차·지도'),
+         ('drive', '/drive/bus-share.html', '셔틀버스 위치 공유 (기사용)', '링크 하나로 승객에게 실시간 버스 위치·도착 예상', '셔틀버스 위치 공유 통학버스 학원차 실시간 위치 버스 지금 어디 기사 위치 공유 링크 도착 예정 시간', '자동차·지도'),
          ('drive', '/life/midpoint.html', '중간지점 찾기', '친구들과 만날 곳 추천 + 공유 카드', '중간지점 찾기 약속장소 추천 중간 위치 만날 장소 친구 중간 지점 지하철역 중간 카카오 길찾기', '자동차·지도'),
          ('medical', '/medical/pharmacy-open.html', '지금 문 연 약국', '밤·주말·공휴일 영업 약국 지도', '지금 문 연 약국 영업중인 약국 근처 약국 일요일 약국 공휴일 약국 심야약국 야간약국', '병원·건강'),
          ('medical', '/medical/emergency-room.html', '응급실 실시간 병상', '근처 응급실 빈 병상·전화', '응급실 병상 근처 응급실 응급실 실시간 응급실 가용병상 야간 응급실', '병원·건강'),
@@ -545,7 +546,7 @@ for cat, u, n, d, kw, cn in MOVED:
     if os.path.exists(p):
         s = open(p, encoding='utf-8').read()
         if f'href="{u}"' not in s:
-            art = {'/life/route-navi.html': 'bus', '/life/taxi-fare.html': 'drive', '/life/midpoint.html': 'drive', '/life/toilet.html': 'life', '/life/air-quality.html': 'life'}.get(u, cat)
+            art = {'/life/route-navi.html': 'bus', '/drive/bus-share.html': 'bus', '/life/taxi-fare.html': 'drive', '/life/midpoint.html': 'drive', '/life/toilet.html': 'life', '/life/air-quality.html': 'life'}.get(u, cat)
             li = (f'<li><a href="{u}"><i class="th"><img src="/assets/art/hl/cs-{art}.svg" alt="" width="200" height="140" loading="lazy"></i>'
                   f'<img class="pg" src="/assets/art/hl/pg-{cat}.svg" alt="" width="26" height="26" loading="lazy"><b>{n}</b><span>{d}</span></a></li>')
             s2 = re.sub(r'(<ul class="tlist[^"]*">)', lambda m: m.group(1) + li, s, count=1)
