@@ -336,7 +336,7 @@ def year_page(y, items, ys):
     title = f'{y}학년도 수능 기출문제 PDF·정답{gc} ({int(y) - 1}년 11월 시행) + 6월·9월 모의평가 PDF'
     if not has_su and not cdn_su:
         title = f'{y}학년도 6월·9월 모의평가 기출문제 PDF·정답{gc} (평가원 공식)'
-    desc = (f'{y}학년도 ' + (f'수능({int(y) - 1}년 11월 시행)과 ' if has_su or cdn_su else '') + '6월·9월 모의평가 기출문제 PDF·정답표 PDF·영어 듣기 파일을 과목별로 정리했어요. '
+    desc = (f'{y}학년도 ' + (f'수능({int(y) - 1}년 11월 시행)과 ' if has_su or cdn_su else '') + '6월·9월 모의평가 기출문제 PDF·정답표 PDF·영어 듣기 파일을 과목별로 정리했어요. ' +
             (f'평가원 채점 결과 등급컷(등급 구분 표준점수·비율)도 표로 정리했어요. {gsum} ' if gsec else '') +
             f'한국교육과정평가원 공식 다운로드로 바로 연결되고, 실제 시험 시간 타이머와 그해 시험 체제({era_t}) 설명을 함께 담았어요.')
     cr, crld = crumb(('수능·모의평가 기출', '/ipsi/gichul/'), (f'{y}학년도', ''))

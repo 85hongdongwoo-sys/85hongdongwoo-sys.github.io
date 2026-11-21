@@ -4,7 +4,7 @@
 - /ipsi/imyong/               임용 기출 허브 (학년도별)
 - /ipsi/imyong/imyong-YYYY.html 학년도별: 중등·초등 문제 PDF (평가원 공식 다운로드로 바로 연결)
 사용: python3 build/exams/gen_exams_more.py _site"""
-import json, os, re, sys, collections
+import html, json, os, re, sys, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gen_exams as GE
 from gen_exams import E, SITE, page, crumb, faq_ld, faq_html
@@ -20,7 +20,7 @@ SHORT = {'08': '9급 공무원', '06': '7급 공무원', '33': '지방직 공무
          '05': '5급 공채(과학기술)', '09': '외교관후보자', '18': '우정9급(계리직)', '76': '7급 기상직', '78': '9급 기상직',
          '15': '지역인재 7급', '16': '지역인재 9급', '28': '5급 민간경력자', '38': '7급 민간경력자', '96': '근로감독·산업안전 7급'}
 ANS = {'1': '정답가안', '3': '정답가안', '2': '최종정답', '4': '최종정답'}
-XCSS = ('<style id="gc2">.qy{font-size:15.5px;margin:16px 4px 4px;color:var(--head,#111)}.qyi{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}.qyi a{padding:4px 8px;border-radius:8px;background:#F1F3F5;color:#333;font-size:12.5px;text-decoration:none;white-space:nowrap}.gy.gy2{grid-template-columns:repeat(2,minmax(0,1fr))}.gy.gy2 a{padding:10px}.gy.gy2 a b{font-size:15px;overflow-wrap:anywhere}.gw-how{counter-reset:s;list-style:none;margin:8px 0 0;padding:0}.gw-how li{position:relative;padding:6px 0 6px 34px;line-height:1.6}'
+XCSS = ('<style id="gc2">.qib{padding:0 12px 10px;font-size:14px;line-height:1.65;overflow-wrap:anywhere}.qib p{margin:4px 0}.qit{border-collapse:collapse;font-size:13px;min-width:100%;margin:6px 0}.qit td,.qit th{border:1px solid var(--line-s,#E3E7EE);padding:6px;vertical-align:top;text-align:left;min-width:64px}.qit th{background:#F8FAFC}.qy{font-size:15.5px;margin:16px 4px 4px;color:var(--head,#111)}.qyi{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}.qyi a{padding:4px 8px;border-radius:8px;background:#F1F3F5;color:#333;font-size:12.5px;text-decoration:none;white-space:nowrap}.gy.gy2{grid-template-columns:repeat(2,minmax(0,1fr))}.gy.gy2 a{padding:10px}.gy.gy2 a b{font-size:15px;overflow-wrap:anywhere}.gw-how{counter-reset:s;list-style:none;margin:8px 0 0;padding:0}.gw-how li{position:relative;padding:6px 0 6px 34px;line-height:1.6}'
         '.gw-how li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;background:#1D4ED8;color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}'
         '.gw-btn{display:block;text-align:center;margin:12px 0 0;padding:14px;border-radius:12px;background:#1D4ED8;color:#fff!important;font-weight:800;text-decoration:none}'
         '.gw-sub{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:4px 12px 12px}'
@@ -329,6 +329,56 @@ def qlabel(name):
     b = re.sub(r'^(19|20)\d\d\s*년?\s*(제?\s*\d+\s*회)?\s*', '', b).strip(' _-')
     b = re.sub(r'(공인중개사|주택관리사보?|자격시험|시험)\s*', '', b).strip(' _-') or '문제지'
     return (b[:22] + ' ' + ext).strip()
+QI_ORDER = ['시험과목 및 배점', '시험과목', '합격기준', '시험일정', '응시자격', '응시수수료']
+
+
+def qinfo_sections(g):
+    QI = load('qnet_info') or {}
+    d = QI.get(g)
+    if not d:
+        return '', []
+    h = d['html']
+    h = re.sub(r'(?i)<!DOCTYPE[^>]*>', '', h)
+    h = re.sub(r'(?s)<caption>.*?</caption>', '', h)
+    h = h.replace('&nbsp;', ' ')
+    parts = re.split(r'<b>([^<]{2,20})</b>', h)
+    secs = {}
+    for i in range(1, len(parts) - 1, 2):
+        name, body = parts[i].strip(), parts[i + 1]
+        body = re.sub(r'<p>\s*</p>', '', body)
+        body = re.sub(r'\s+([,.)])', r'\1', body)
+        body = re.sub(r'[ \t]{2,}', ' ', body).strip()
+        body = re.sub(r'(?<![가-힣])((?:[가-힣] ){1,6}[가-힣])(?![가-힣])', lambda m: m.group(1).replace(' ', ''), body)
+        body = re.sub(r'^\s*' + re.escape(d['name']) + r'\s*' + re.escape(name) + r'\s*', '', body)
+        txt = re.sub(r'<[^>]+>|\s', '', body)
+        if len(txt) < 8 or name == '시험정보':
+            continue
+        body = re.sub(r'<table>', '<div class="gw"><table class="qit">', body).replace('</table>', '</table></div>')
+        secs[name] = body
+    out, names = [], []
+    for k in QI_ORDER + [k for k in secs if k not in QI_ORDER and k != '취득방법']:
+        if k in secs and k not in names:
+            names.append(k)
+            out.append(f'<details class="qg"{" open" if len(names) <= 2 else ""}><summary>{E(d["name"])} {E(k)}</summary><div class="qib">{secs[k]}</div></details>')
+    if not out:
+        return '', []
+    q = d['name']
+    html_ = (f'<section class="card" id="info"><h2>{E(q)} 시험정보 (과목·합격기준·일정)</h2>{"".join(out)}'
+             f'<p class="gc-src">출처: <a href="{d["src"]}" target="_blank" rel="noopener nofollow">한국산업인력공단 큐넷 자격상세정보</a> ({GE.fmt_date(QI.get("_checked", ""))} 확인). 시행 공고에 따라 바뀔 수 있으니 접수 전에 큐넷 공고를 확인하세요.</p></section>')
+    return html_, names
+
+
+def qi_plain(h, name):
+    m = re.search(r'<summary>[^<]*' + name + r'</summary><div class="qib">(.*?)</div></details>', h, re.S)
+    if not m:
+        return ''
+    t = html.unescape(re.sub(r'<[^>]+>', ' ', m.group(1))); t = re.sub(r'\s+', ' ', t).strip()
+    t = re.sub(r'^[□o○\s]*합격기준\s*', '', t)
+    t = re.sub(r'^구분\s*합격결정기준\s*', '', t)
+    if len(t) > 260:
+        t = t[:260].rsplit(' ', 1)[0] + '… (자세한 기준은 이 페이지 시험정보 참고)'
+    return t
+
 def qnet_pages(Q):
     PM = load('qnet_pdf') or {}
     rows = [r for r in Q['rows'] if r.get('files')]
@@ -389,11 +439,16 @@ def qnet_pages(Q):
                 rows.append(f'<li><div><b>{E(lab)}</b><small>큐넷 게시 {GE.fmt_date(r["date"])} · 원제목: {E(r["title"])}</small></div><span class="ql">{btns(r["files"])}</span></li>')
             lis += f'<h3 class="qy" id="y{y}{n}">{E(head)}</h3><ul class="qa">{"".join(rows)}</ul>'
         zipnote = '묶음 파일(ZIP)은 압축을 풀면 교시별 PDF가 들어 있어요. ' if any(f[0].lower().endswith('.zip') and not PM.get(f[2]) for r in rs for f in r['files']) else '버튼을 누르면 교시별 PDF가 바로 열려요. '
+        qi_html, qi_names = qinfo_sections(g)
+        if qi_html:
+            title = f'{q} 기출문제 PDF ({lo}~{hi}년) + 시험과목·합격기준'
+            desc = f'{q} 기출문제 문제지를 {lo}년부터 {hi}년까지 연도·회차별로 모으고, 시험과목·합격기준·시험일정을 큐넷 공식 자료로 정리했어요(공공누리 제1유형).'
         qa = [(f'{q} 기출문제는 무료인가요?', '네. 한국산업인력공단이 큐넷에 문제지를 무료로 공개해요. 출처만 밝히면 자유롭게 쓸 수 있는 공공누리 제1유형이에요.'),
+              *([(f'{q} 합격기준은 어떻게 되나요?', qi_plain(qi_html, '합격기준'))] if '합격기준' in qi_names and qi_plain(qi_html, '합격기준') else []),
               (f'{q} 정답은 어디서 보나요?', '정답(가답안·최종정답)은 시험이 끝난 뒤 큐넷 ‘가답안/최종정답 공개’ 메뉴에 일정 기간 올라와요.')]
         main = (f'<header class="top hub">{cr}<h1>{E(q)} 기출문제 PDF</h1><p class="lead">{lo}년부터 {hi}년까지 {E(q)} 시험 문제지 {len(groups)}회분({sum(len(r["files"]) for r in rs)}개 파일)을 연도·회차별로 모았어요.' + (f' 제{min(rounds)}회부터 제{max(rounds)}회까지 들어 있어요.' if rounds else '') + ' 버튼을 누르면 큐넷 공식 파일이 바로 내려받아져요.</p>'
                 f'<p class="gc-ans">{zipnote}출처: 한국산업인력공단 큐넷(Q-Net), 공공누리 제1유형 ({GE.fmt_date(Q["checked"])} 확인).</p></header>'
-                f'<section class="card"><h2>{E(q)} 연도별 기출문제</h2><p class="qyi">{"".join(yidx)}</p>{lis}</section>' + faq_html(qa) +
+                f'<section class="card"><h2>{E(q)} 연도별 기출문제</h2><p class="qyi">{"".join(yidx)}</p>{lis}</section>' + qi_html + faq_html(qa) +
                 '<section class="card"><h2>다른 자격증 기출</h2><p class="gc-nav"><a href="/ipsi/jagyeok/">자격증 기출 전체</a><a href="/ipsi/gongmuwon/">공무원 기출</a><a href="/ipsi/gumjung/">검정고시 기출</a></p></section>')
         ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
         made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + main, ld))
