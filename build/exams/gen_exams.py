@@ -213,10 +213,10 @@ def year_page(y, items, ys):
     era_t, era_d = era(y)
     total_views = sum(x['views'] for x in items)
     su_date = fmt_date(groups['수능'][0]['date']) if has_su else ''
-    title = f'{y}학년도 수능 기출문제·정답 + 6월·9월 모의평가 (평가원 공식 PDF)'
+    title = f'{y}학년도 수능 기출문제 PDF·정답 ({int(y) - 1}년 11월 시행) + 6월·9월 모의평가 PDF'
     if not has_su:
-        title = f'{y}학년도 6월·9월 모의평가 기출문제·정답 (평가원 공식 PDF)'
-    desc = (f'{y}학년도 ' + ('수능과 ' if has_su else '') + '6월·9월 모의평가 문제지·정답표·영어 듣기 파일을 과목별로 정리했어요. '
+        title = f'{y}학년도 6월·9월 모의평가 기출문제 PDF·정답 (평가원 공식)'
+    desc = (f'{y}학년도 ' + (f'수능({int(y) - 1}년 11월 시행)과 ' if has_su else '') + '6월·9월 모의평가 기출문제 PDF·정답표 PDF·영어 듣기 파일을 과목별로 정리했어요. '
             f'한국교육과정평가원 공식 다운로드로 바로 연결되고, 실제 시험 시간 타이머와 그해 시험 체제({era_t}) 설명을 함께 담았어요.')
     cr, crld = crumb(('수능·모의평가 기출', '/ipsi/gichul/'), (f'{y}학년도', ''))
     secs = []
@@ -230,8 +230,8 @@ def year_page(y, items, ys):
         board = BOARD['su' if m == '수능' else 'mo']
         secs.append(f'<details class="qg"{" open" if m == mons[0] else ""}><summary>{y}학년도 {nm} <em>{len(g)}개 영역</em></summary>'
                     f'<ul class="qa">{"".join(lis)}</ul><p class="gc-src" style="margin:0 14px 10px">출처: <a href="{board}" target="_blank" rel="noopener nofollow">한국교육과정평가원 기출문제 게시판</a></p></details>')
-    lead = (f'{y}학년도 ' + ('대학수학능력시험(수능)과 ' if has_su else '') + '6월·9월 모의평가의 문제지와 정답표를 영역별로 모았어요. '
-            '버튼을 누르면 한국교육과정평가원 공식 파일이 바로 열려요.')
+    lead = (f'{y}학년도 ' + ('대학수학능력시험(수능)과 ' if has_su else '') + '6월·9월 모의평가의 문제지 PDF와 정답표 PDF를 영역별로 모았어요. '
+            '버튼을 누르면 한국교육과정평가원 공식 PDF 파일이 바로 열려요.')
     ans = (f'<b>{y}학년도 수능</b>은 {yi - 1}년 11월에 치러졌고, 평가원은 {su_date}에 문제지와 정답표를 공개했어요. '
            if has_su else f'<b>{y}학년도 수능</b> 문제는 평가원 게시판에 아직 올라오지 않았어요. ')
     ans += (f'이 페이지의 {len(items)}개 영역 게시글은 평가원 사이트에서 모두 {man(total_views)}회 조회됐어요. '
@@ -281,8 +281,8 @@ def year_page(y, items, ys):
 def hub_page(ys, years, allp):
     path = '/ipsi/gichul/'
     lo, hi = ys[-1], ys[0]
-    title = f'수능·모의평가 기출문제 전체 ({lo}~{hi}학년도) · 정답·듣기 파일 모음'
-    desc = (f'{lo}학년도부터 {hi}학년도까지 수능과 6월·9월 모의평가 기출문제·정답표·영어 듣기 파일을 학년도별로 정리했어요. '
+    title = f'수능·모의평가 기출문제 PDF 전체 ({lo}~{hi}학년도) · 정답 PDF·듣기 파일 모음'
+    desc = (f'{lo}학년도부터 {hi}학년도까지 수능과 6월·9월 모의평가 기출문제 PDF·정답표 PDF·영어 듣기 파일을 학년도별로 정리했어요. '
             '한국교육과정평가원 공식 파일로 바로 연결되고, 가장 많이 본 기출 순위와 실전 타이머도 있어요.')
     cr, crld = crumb(('수능·모의평가 기출', ''))
     cards = []
@@ -308,8 +308,8 @@ def hub_page(ys, years, allp):
            '개인 공부를 위해 내려받아 인쇄해 푸는 것은 괜찮아요. 다만 저작권은 평가원에 있으니 다른 사람에게 배포하거나 판매하면 안 돼요.'),
           ('파일이 안 열려요.',
            '탐구·제2외국어처럼 과목이 많은 영역은 ZIP 압축 파일이라 압축을 풀어야 PDF가 보여요. 휴대폰에서는 파일 앱의 압축 풀기 기능을 쓰면 돼요. 그래도 안 되면 평가원 게시판에서 직접 받아 보세요.')]
-    main = (f'<header class="top hub">{cr}<h1>수능·모의평가 기출문제 전체</h1>'
-            '<p class="lead">수능과 6월·9월 모의평가 기출문제·정답표·영어 듣기 파일을 학년도별로 정리했어요. 학년도를 고르면 영역별 공식 파일 버튼이 나와요.</p>'
+    main = (f'<header class="top hub">{cr}<h1>수능·모의평가 기출문제 PDF 전체</h1>'
+            '<p class="lead">수능과 6월·9월 모의평가 기출문제 PDF·정답표 PDF·영어 듣기 파일을 학년도별로 정리했어요. 학년도를 고르면 영역별 공식 파일 버튼이 나와요.</p>'
             f'<p class="gc-ans">{ans}</p></header>'
             f'<section class="card"><h2>학년도별 기출 ({len(ys)}개 학년도)</h2><ul class="gy">{"".join(cards)}</ul></section>'
             f'<section class="card"><h2>가장 많이 본 기출 TOP 15</h2><p class="gc-src" style="margin:0 0 8px">평가원 기출문제 게시판의 게시글 조회수 기준이에요 ({fmt_date(CHECKED)}).</p>'
