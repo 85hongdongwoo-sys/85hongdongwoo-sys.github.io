@@ -7,20 +7,7 @@ jobs:
       - run: |
           UA="Mozilla/5.0 (honglife.co.kr exam-link index)"
           B=https://gongmuwon.gosi.kr
-          curl -s -m 40 -A "$UA" -c cj -b cj "$B/oprut/EvmArChcPrblmCransSbjctInqSbjctLst.do" -o c.html
-          python3 - <<'PY'
-          import re;s=open('c.html',encoding='utf-8',errors='replace').read()
-          for v,l in re.findall(r'(?s)name="testCd"[^>]*value="(\d+)".*?<label[^>]*>\s*([^<]+)',s): print('TEST',v,l.strip())
-          i=s.find('function fn_egov_downFile');print(re.sub(r'\s+',' ',s[i:i+2500]))
-          PY
-          curl -s -m 40 -A "$UA" -c cj -b cj -H "X-Requested-With: XMLHttpRequest" -d "testCd=08" "$B/oprut/EvmArChcPrblmCransSbjctLst.do" -o s.json; head -c 1500 s.json; echo
-          python3 - <<'PY' > args.txt
-          import json;d=json.load(open('s.json'));o=d[0];print(o['sbjctCd'],o.get('testCycl',''))
-          PY
-          read SB CY < args.txt; echo "SB=$SB CY=$CY"
-          curl -s -m 40 -A "$UA" -c cj -b cj -H "X-Requested-With: XMLHttpRequest" -d "testCd=08&sbjctCd=$SB&testCycl=$CY&hdn_curr_page=1" "$B/oprut/EvmArChcPrblmCransSbjctInqSbjctTblLst.do" -o t.json; head -c 2500 t.json; echo
-          PID=$(python3 -c "import json;d=json.load(open('t.json'));print(d['list'][0].get('pdfPstFileId'))"); echo PID=$PID
-          curl -s -m 40 -A "$UA" -c cj -b cj -H "X-Requested-With: XMLHttpRequest" -d "atchFileId=$PID" "$B/oprut/GetAtchFileLst.do" | head -c 1500; echo
-          python3 -c "import json;o=json.load(open('t.json'))['list'][0];print('/oprut/GosiJungdap.do?enfcYr=%s&planCd=%s&cransSeCd=%s&bktpNm=%s&testCd=%s&sbjctCd=%s'%(o['enfcYr'],o['planCd'],o['cransSeCd'],o['bktpNm'],o['testCd'],o['sbjctCd']))" > ju.txt; cat ju.txt
-          curl -s -m 40 -A "$UA" -G "$B$(cat ju.txt | sed 's/ /%20/g')" -o j.html; wc -c j.html; python3 -c "
-          import re;s=open('j.html',encoding='utf-8',errors='replace').read();t=re.sub(r'<script.*?</script>|<style.*?</style>','',s,flags=re.S);t=re.sub(r'<[^>]+>',' ',t);print(re.sub(r'\s+',' ',t)[:800])"
+          for u in "/aexm/docsscan/2026/08_68/crans/%EA%B1%B4%EC%B6%95%EA%B3%84%ED%9A%8D_%EA%B0%80.pdf" ; do
+            curl -s -m 60 -A "$UA" -D h.txt "$B$u" -o f.bin; head -8 h.txt; ls -la f.bin; file f.bin; done
+          sudo apt-get install -qq -y poppler-utils >/dev/null 2>&1; pdftotext -l 2 f.bin - 2>/dev/null | head -30; pdfinfo f.bin | grep Pages
+          grep -o 'raonk[^"'"'"' ]*' -i <(curl -s -A "$UA" "$B/oprut/EvmArChcPrblmCransSbjctInqSbjctLst.do") | sort -u | head
