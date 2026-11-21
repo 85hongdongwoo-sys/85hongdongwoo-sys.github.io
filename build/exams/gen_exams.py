@@ -228,7 +228,8 @@ def is_core(n):
 
 def is_abs(y, n):
     yi = int(y)
-    return (n.startswith('영어') and yi >= 2018) or (n.startswith('한국사') and yi >= 2017)
+    return ((n.startswith('영어') and yi >= 2018) or (n.startswith('한국사') and yi >= 2017)
+            or (yi >= 2022 and re.match(r'(독일어|프랑스어|스페인어|중국어|일본어|러시아어|아랍어|베트남어|한문)', n) is not None))
 
 
 def fnum(v):
@@ -258,8 +259,9 @@ def grade_tables(y, kind, d):
         for k in rest:
             m = {g: (cut, pct) for g, cut, n, pct in subs[k]}
             cells = ''.join(f'<td{" class=c" if g == 1 else ""}>{fnum(m[g][0]) if g in m else "–"}</td>' for g in range(1, 6))
-            rr.append(f'<tr><td>{E(sname(k))}</td>{cells}<td>{fnum(m[1][1]) + "%" if 1 in m else "–"}</td></tr>')
-        t = ('<h3 style="font-size:15px;margin:14px 0 6px">탐구·제2외국어/한문 과목별 등급컷 (표준점수)</h3><div class="gw"><table class="gt"><thead><tr><th>과목</th>'
+            rr.append(f'<tr><td>{E(sname(k))}{"<small> 원점수</small>" if is_abs(y, k) else ""}</td>{cells}<td>{fnum(m[1][1]) + "%" if 1 in m else "–"}</td></tr>')
+        ab = any(is_abs(y, k) for k in rest)
+        t = (f'<h3 style="font-size:15px;margin:14px 0 6px">탐구·제2외국어/한문 과목별 등급컷 (표준점수{", 제2외국어/한문은 절대평가 원점수" if ab else ""})</h3><div class="gw"><table class="gt"><thead><tr><th>과목</th>'
              + ''.join(f'<th>{g}등급</th>' for g in range(1, 6)) + '<th>1등급 비율</th></tr></thead><tbody>' + ''.join(rr) + '</tbody></table></div>')
     nm = GKIND[kind]
     return (f'<details class="qg"{" open" if kind == "수능" or (kind == "9월" and "수능" not in G.get(y, {})) else ""}><summary>{y}학년도 {nm} 등급컷 <em>평가원 {fmt_date(d["date"])} 발표</em></summary>'
