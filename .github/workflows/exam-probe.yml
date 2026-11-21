@@ -7,19 +7,11 @@ jobs:
       - run: |
           UA="Mozilla/5.0 (honglife.co.kr exam-link index)"
           B=https://gongmuwon.gosi.kr
-          curl -s -m 40 -A "$UA" -c cj -b cj "$B/oprut/EvmArPrblmCransGdLst.do" -o /dev/null
-          curl -s -m 40 -A "$UA" -c cj -b cj -d "pstId=4112&bbsId=BBSMSTR_000000000138" "$B/oprut/EvmArPrblmCransGdDtl.do" -o d.html
-          python3 - <<'PY'
-          import re;s=open('d.html',encoding='utf-8',errors='replace').read()
-          for k in ('atchFile','fileSn','FileDown','download','AddUploadedFile','.pdf','.hwp','fileList'):
-              for m in list(re.finditer(re.escape(k),s))[:3]: print(k,'::',re.sub(r'\s+',' ',s[max(0,m.start()-300):m.start()+300]))
-          PY
-          echo ==== SBJ
-          curl -s -m 40 -A "$UA" -c cj -b cj "$B/oprut/EvmArChcPrblmCransSbjctInqSbjctLst.do" -o c.html; wc -c c.html
+          curl -s -m 40 -A "$UA" -c cj -b cj "$B/oprut/EvmArChcPrblmCransSbjctInqSbjctLst.do" -o c.html
           python3 - <<'PY'
           import re;s=open('c.html',encoding='utf-8',errors='replace').read()
-          print(re.findall(r'(?is)<select[^>]*>.*?</select>',s)[:4])
-          t=re.sub(r'<script.*?</script>|<style.*?</style>','',s,flags=re.S);t=re.sub(r'<[^>]+>',' ',t);t=re.sub(r'\s+',' ',t);i=t.find('선택형 문제/정답',3000);print(t[i:i+2000])
-          for m in re.finditer(r'(?is)function\s+\w+\s*\([^)]*\)\s*\{[^}]{0,500}',s):
-              if re.search(r'ajax|url|\.do',m.group(0)): print('FN',re.sub(r'\s+',' ',m.group(0))[:500])
+          f=re.search(r'(?s)<form[^>]*id="frm".*?</form>',s); print(re.sub(r'\s+',' ',f.group(0))[:3000] if f else 'nofrm')
+          for name in ('fn_searchSubjectArea','fn_search','fn_searchList','fn_gosi_munje','fn_gosi_jungdap','fn_down'):
+              i=s.find('function '+name)
+              if i>=0: print('=====',name,re.sub(r'[ \t]+',' ',s[i:i+2600]))
           PY
