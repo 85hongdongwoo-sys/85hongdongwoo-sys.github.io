@@ -1,0 +1,10 @@
+name: nettest (temporary)
+on: workflow_dispatch
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for u in https://data.ex.co.kr/ https://data.ex.co.kr/openapi/locationinfo/locationinfoRest https://apis.data.go.kr/ https://www.opinet.co.kr/; do
+            echo "== $u"; curl -s -o /dev/null -m 25 -w "%{http_code} %{time_total}s\n" "$u" || echo "FAIL $?"
+          done
