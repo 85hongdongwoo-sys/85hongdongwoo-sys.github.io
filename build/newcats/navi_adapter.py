@@ -13,7 +13,18 @@ function pinSvg(n,cls){var c=cls=='cur'?'#F04452':cls=='done'?'#B0B8C1':cls=='wa
  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+Math.round(w*1.25)+'" viewBox="0 0 32 40"><path d="M16 39C16 39 3 24 3 15a13 13 0 0 1 26 0c0 9-13 24-13 24z" fill="'+c+'" stroke="#fff" stroke-width="2.4"/><text x="16" y="20" text-anchor="middle" font-family="system-ui,sans-serif" font-size="'+(String(n).length>2?10:13)+'" font-weight="800" fill="#fff">'+n+'</text></svg>')}
 function lv(z){return Math.max(1,Math.min(14,20-z))}
 function zk(l){return 20-l}
-function make(el,lat,lng,z){
+// 지도 유형(일반·위성·지형)·교통정보 버튼: 고른 값은 이 기기에 기억
+var LK='hl-map-layer';function lget(){try{return JSON.parse(localStorage.getItem(LK))||{}}catch(e){return {}}}function lset(o){try{localStorage.setItem(LK,JSON.stringify(o))}catch(e){}}
+function layerUI(el,a){if(!a.mtype)return;var st=lget(),t=st.t||'road',tf=!!st.tf&&!!a.traffic;
+ if(!document.getElementById('hl-lyr-css')){var cs=document.createElement('style');cs.id='hl-lyr-css';cs.textContent='.hl-lyr{position:absolute;right:10px;top:58px;z-index:600;font-family:inherit}.hl-lyr>button{width:40px;height:40px;border-radius:12px;border:1px solid #E5E8EB;background:#fff;display:grid;place-items:center;color:#191F28;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12);padding:0}.hl-lyr-p{position:absolute;right:0;top:46px;width:200px;background:#fff;border:1px solid #E5E8EB;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.16);padding:10px}.hl-lyr-p p{margin:0 0 6px;font-size:12.5px;font-weight:800;color:#4E5968}.hl-lyr-g{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}.hl-lyr-p .b{height:36px;border-radius:10px;border:1px solid #E5E8EB;background:#F9FAFB;font-size:13.5px;font-weight:700;color:#333D4B;cursor:pointer;padding:0}.hl-lyr-p .b[aria-pressed=true]{background:#3182F6;border-color:#3182F6;color:#fff}.hl-lyr-p .w{width:100%}';document.head.appendChild(cs)}
+ var w=document.createElement('div');w.className='hl-lyr';w.innerHTML='<button type="button" aria-label="지도 유형" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></button><div class="hl-lyr-p" hidden><p>지도 유형</p><div class="hl-lyr-g"><button type="button" class="b" data-t="road">일반</button><button type="button" class="b" data-t="sat">위성</button><button type="button" class="b" data-t="terrain">지형</button></div>'+(a.traffic?'<p>지도 추가 정보</p><button type="button" class="b w" data-x="tf">교통정보</button>':'')+'</div>';
+ ['mousedown','touchstart','click','dblclick','wheel','pointerdown'].forEach(function(e){w.addEventListener(e,function(ev){ev.stopPropagation()},{passive:true})});
+ var bt=w.firstChild,pn=w.lastChild;function paint(){[].forEach.call(pn.querySelectorAll('[data-t]'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-t')==t)});var x=pn.querySelector('[data-x]');if(x)x.setAttribute('aria-pressed',tf)}
+ bt.onclick=function(){pn.hidden=!pn.hidden;bt.setAttribute('aria-expanded',!pn.hidden)};
+ pn.onclick=function(e){var b=e.target.closest('button');if(!b)return;if(b.dataset.t){t=b.dataset.t;a.mtype(t)}else if(b.dataset.x){tf=!tf;a.traffic(tf)}st=lget();st.t=t;st.tf=tf;lset(st);paint()};
+ el.appendChild(w);if(t!='road')a.mtype(t);if(tf)a.traffic(true);paint()}
+function make(el,lat,lng,z){var a=make0(el,lat,lng,z);try{layerUI(el,a)}catch(e){}return a}
+function make0(el,lat,lng,z){
  if(kind=='kakao'){var K=kakao.maps,map=new K.Map(el,{center:new K.LatLng(lat,lng),level:lv(z)});map.addControl(new K.ZoomControl(),K.ControlPosition.RIGHT);
   return {kind:'kakao',
    onClick:function(f){K.event.addListener(map,'click',function(e){f(e.latLng.getLat(),e.latLng.getLng())})},
@@ -28,8 +39,10 @@ function make(el,lat,lng,z){
    car:function(a,b){var d=document.createElement('div');d.className='nv-car';d.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 2l7 19-7-4-7 4z" fill="#1B64DA" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>';
     var ov=new K.CustomOverlay({map:map,position:new K.LatLng(a,b),content:d,zIndex:10});return {set:function(x,y,h){ov.setPosition(new K.LatLng(x,y));if(h!=null)d.firstChild.style.transform='rotate('+h+'deg)'},remove:function(){ov.setMap(null)}}},
    dot:function(a,b){var d=document.createElement('div');d.style.cssText='width:16px;height:16px;border-radius:50%;background:#3182F6;border:3px solid #fff;box-shadow:0 0 0 6px rgba(49,130,246,.25)';new K.CustomOverlay({map:map,position:new K.LatLng(a,b),content:d})},
+   mtype:function(t){var M=K.MapTypeId;map.setMapTypeId(t=='sat'?M.HYBRID:M.ROADMAP);if(t=='terrain'){if(!map.__tr){map.addOverlayMapTypeId(M.TERRAIN);map.__tr=1}}else if(map.__tr){map.removeOverlayMapTypeId(M.TERRAIN);map.__tr=0}},
+   traffic:function(on){var M=K.MapTypeId;if(on&&!map.__tf){map.addOverlayMapTypeId(M.TRAFFIC);map.__tf=1}else if(!on&&map.__tf){map.removeOverlayMapTypeId(M.TRAFFIC);map.__tf=0}},
    relayout:function(){map.relayout()}}}
- var m=L.map(el,{zoomControl:true}).setView([lat,lng],z);L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(m);
+ var m=L.map(el,{zoomControl:true}).setView([lat,lng],z),TL={road:['https://tile.openstreetmap.org/{z}/{x}/{y}.png',19,'&copy; OpenStreetMap'],sat:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',19,'&copy; Esri'],terrain:['https://tile.opentopomap.org/{z}/{x}/{y}.png',17,'&copy; OpenStreetMap, SRTM, OpenTopoMap']},bl=L.tileLayer(TL.road[0],{maxZoom:19,attribution:TL.road[2]}).addTo(m);
  return {kind:'leaflet',
   onClick:function(f){m.on('click',function(e){f(e.latlng.lat,e.latlng.lng)})},
   view:function(a,b,zz){m.setView([a,b],zz||m.getZoom())},pan:function(a,b){m.panTo([a,b])},zoom:function(){return m.getZoom()},
@@ -40,6 +53,7 @@ function make(el,lat,lng,z){
   car:function(a,b){var mk=L.marker([a,b],{zIndexOffset:1000,icon:L.divIcon({className:'nv-car',html:'<svg viewBox="0 0 24 24"><path d="M12 2l7 19-7-4-7 4z" fill="#1B64DA" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>',iconSize:[34,34],iconAnchor:[17,17]})}).addTo(m);
    return {set:function(x,y,h){mk.setLatLng([x,y]);var e=mk.getElement();if(e&&h!=null)e.querySelector('svg').style.transform='rotate('+h+'deg)'},remove:function(){mk.remove()}}},
   dot:function(a,b){L.circleMarker([a,b],{radius:8,color:'#fff',weight:3,fillColor:'#3182F6',fillOpacity:1}).addTo(m)},
+  mtype:function(t){var d=TL[t]||TL.road;bl.remove();bl=L.tileLayer(d[0],{maxZoom:d[1],attribution:d[2]}).addTo(m)},
   relayout:function(){m.invalidateSize()}}}
 // 경로: 카카오모빌리티 다중 경유지(30곳씩 나눠 이어 붙임) → 실패하면 OSRM
 function hv(a,b){var r=Math.PI/180,dl=(b[0]-a[0])*r,dg=(b[1]-a[1])*r,x=Math.sin(dl/2)*Math.sin(dl/2)+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dg/2)*Math.sin(dg/2);return 12742000*Math.asin(Math.sqrt(x))}
