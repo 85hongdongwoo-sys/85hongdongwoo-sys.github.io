@@ -1,0 +1,22 @@
+name: exam-probe
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          UA="Mozilla/5.0 (honglife.co.kr exam-link index)"
+          curl -s -m 40 -A "$UA" "https://gongmuwon.gosi.kr/oprut/EvmArPrblmCransGdLst.do" -o g.html; wc -c g.html
+          python3 - <<'PY'
+          import re;s=open('g.html',encoding='utf-8',errors='replace').read()
+          print(re.findall(r'(?is)<form[^>]*>',s)[:4])
+          print(re.findall(r'(?is)<select[^>]*>.*?</select>',s)[:3])
+          b=re.search(r'(?s)<tbody>(.*?)</tbody>',s); print(re.sub(r'\s+',' ',b.group(1))[:2500] if b else 'NO TBODY')
+          print(sorted(set(re.findall(r'(?:onclick|href)="[^"]{0,200}"',s)))[-40:])
+          print(re.findall(r'(?i)(?:totalCnt|총\s*\d|pageIndex)[^<]{0,60}',s)[:5])
+          PY
+          echo ==== KICE
+          for u in "https://www.kice.re.kr/boardCnts/list.do?boardID=1500211&m=030306&s=kice" "https://www.kice.re.kr/main.do?s=kice" ; do curl -s -m 40 -A "$UA" "$u" -o k.html; echo "$u $(wc -c < k.html)"; python3 -c "
+          import re;s=open('k.html',encoding='utf-8',errors='replace').read()
+          print([m for m in set(re.findall(r'href=\"([^\"]*boardID=\d+[^\"]*)\"[^>]*>\s*([^<]{0,40})',s)) if re.search('임용|기출|교원|자료',m[1])][:30])
+          print(re.findall(r'<title>[^<]*',s))"; done
