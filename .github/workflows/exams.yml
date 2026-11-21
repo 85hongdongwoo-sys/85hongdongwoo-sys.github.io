@@ -12,6 +12,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Scrape official exam boards
         run: python3 build/exams/scrape_kice.py
+      - name: Scrape 공무원·임용 boards
+        continue-on-error: true
+        run: python3 build/exams/scrape_more.py
       - name: Check official links
         run: python3 build/exams/check_links.py || true
       - name: Commit if changed
