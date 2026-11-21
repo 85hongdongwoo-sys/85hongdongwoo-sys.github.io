@@ -30,6 +30,7 @@ jobs:
           cp -r overlay/. _site/
           python3 build/patch_site.py _site
           python3 build/exams/gen_exams.py _site
+          python3 build/exams/gen_exams_more.py _site || true
           python3 build/pwa/gen_pwa.py _site
           python3 build/patch_datemod.py _site https://honglife.co.kr
       - name: Fetch public data (약국·응급실·충전소·주차장·화장실·대기질·축제·캠핑·주유소·휴게소)
