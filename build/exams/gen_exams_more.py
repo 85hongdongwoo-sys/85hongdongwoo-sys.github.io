@@ -20,7 +20,7 @@ SHORT = {'08': '9급 공무원', '06': '7급 공무원', '33': '지방직 공무
          '05': '5급 공채(과학기술)', '09': '외교관후보자', '18': '우정9급(계리직)', '76': '7급 기상직', '78': '9급 기상직',
          '15': '지역인재 7급', '16': '지역인재 9급', '28': '5급 민간경력자', '38': '7급 민간경력자', '96': '근로감독·산업안전 7급'}
 ANS = {'1': '정답가안', '3': '정답가안', '2': '최종정답', '4': '최종정답'}
-XCSS = ('<style id="gc2">.gw-how{counter-reset:s;list-style:none;margin:8px 0 0;padding:0}.gw-how li{position:relative;padding:6px 0 6px 34px;line-height:1.6}'
+XCSS = ('<style id="gc2">.gy.gy2{grid-template-columns:repeat(2,minmax(0,1fr))}.gy.gy2 a{padding:10px}.gy.gy2 a b{font-size:15px;overflow-wrap:anywhere}.gw-how{counter-reset:s;list-style:none;margin:8px 0 0;padding:0}.gw-how li{position:relative;padding:6px 0 6px 34px;line-height:1.6}'
         '.gw-how li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;background:#1D4ED8;color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}'
         '.gw-btn{display:block;text-align:center;margin:12px 0 0;padding:14px;border-radius:12px;background:#1D4ED8;color:#fff!important;font-weight:800;text-decoration:none}'
         '.gw-sub{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:4px 12px 12px}'
@@ -61,6 +61,8 @@ def chip(sub, items):
     return (f'<li data-s="{E(sub)}">{E(sub)}{"<small>" + E(bks) + "책형</small>" if bks else ""}'
             f'{"<i" + ("" if a == "최종정답" else " class=p") + ">" + a + "</i>" if a else ""}</li>')
 
+def nz(x): return re.sub(r'[ㆍ·\s]', '', x)
+
 def year_block(items, use_jik):
     by = collections.OrderedDict()
     for r in sorted(items, key=lambda r: r['sub']): by.setdefault(r['sub'], []).append(r)
@@ -72,10 +74,12 @@ def year_block(items, use_jik):
     used = set()
     if use_jik:
         grp = []
+        nmap = {nz(k): k for k in by}
         for jn, subs in JIK:
-            if all(x in by for x in subs):
-                grp.append(f'<li class="gw-j" data-j="{E(jn)}"><b>{E(jn)}</b><ul class="gw-sub">' + ''.join(chip(x, by[x]) for x in subs) + '</ul></li>')
-                used.update(subs)
+            real = [nmap.get(nz(x)) for x in subs]
+            if all(real):
+                grp.append(f'<li class="gw-j" data-j="{E(jn)}"><b>{E(jn)}</b><ul class="gw-sub">' + ''.join(chip(x, by[x]) for x in real) + '</ul></li>')
+                used.update(real)
         if grp: h += '<p class="gw-h gw-jh">직렬별 전문과목</p><ul class="gw-jl">' + ''.join(grp) + '</ul>'
     left = [s for s in rest if s not in used]
     if left: h += f'<p class="gw-h gw-x">{"그 밖의 직렬 과목" if used else "전공·선택 과목"}</p><ul class="gw-sub gw-x">' + ''.join(chip(s, by[s]) for s in left) + '</ul>'
@@ -108,7 +112,8 @@ def gosi_pages(G):
         ys = sorted({r['y'] for r in rs}, reverse=True); lo, hi = ys[-1], ys[0]
         subs = collections.Counter(r['sub'] for r in rs)
         use_jik = slug == '9geup'
-        jiks = [jn for jn, ss in JIK if all(x in subs for x in ss)] if use_jik else []
+        nsubs = {nz(k) for k in subs}
+        jiks = [jn for jn, ss in JIK if all(nz(x) in nsubs for x in ss)] if use_jik else []
         on = ' · '.join(o for o, _ in orgs)
         title = f'{nm} 기출문제 PDF·정답 ({lo}~{hi}년, {on}, 과목별)'
         desc = (f'{nm} 필기시험 기출문제 PDF와 정답을 연도별로 {on}을 나눠 정리했어요. 공통 과목(국어·영어·한국사)과 '
@@ -168,10 +173,15 @@ def flabel(fn):
     part = (m.group(1) + ('교시' if '교시' in m.group(0) else '차')) if m else ''
     return ' '.join(x for x in (part, kind, ext) if x)
 
-def links(files):
-    return '<span class="ql">' + ''.join(f'<a{" class=a" if flabel(n).startswith("정답") else ""} href="{KDL}{s}" target="_blank" rel="noopener nofollow" title="{E(n)} (한국교육과정평가원 공식 파일)">{E(flabel(n))}</a>' for n, s in files) + '</span>'
+def fname_label(n):
+    b = n.rsplit('.', 1)[0]
+    b = re.sub(r'^\d{4}(학년도)?[_\s]*', '', b).replace('_', ' ').strip()
+    return b[:26] or flabel(n)
 
-SUBJ_SLUG = {'교육학': 'education', '국어': 'korean', '수학': 'math', '영어': 'english', '물리': 'physics', '화학': 'chemistry', '생물': 'biology',
+def links(files, by_name=False):
+    return '<span class="ql">' + ''.join(f'<a{" class=a" if flabel(n).startswith("정답") else ""} href="{KDL}{s}" target="_blank" rel="noopener nofollow" title="{E(n)} (한국교육과정평가원 공식 파일)">{E(fname_label(n) if by_name else flabel(n))}</a>' for n, s in files) + '</span>'
+
+SUBJ_SLUG = {'건설': 'construction', '관광': 'tourism', '기계금속': 'machine-metal', '기술가정': 'tech-home', '냉동': 'refrigeration', '농공': 'agri-engineering', '농산물유통': 'agri-distribution', '동물자원': 'animal-resources', '디자인공예': 'design-craft', '미용': 'beauty', '상업정보': 'commerce-info', '수산해양': 'fisheries-marine', '식물자원조경': 'plant-landscape', '식품가공': 'food-processing', '연극영화': 'theater-film', '요업': 'ceramics', '의상': 'fashion', '인쇄': 'printing', '전기전자통신': 'electric-electronic-comm', '항해기관': 'navigation-engine', '항해': 'navigation', '화공섬유': 'chemical-textile', '화공': 'chemical-eng', '환경': 'environment', '도덕윤리': 'ethics', '정보컴퓨터': 'computer', '교육학': 'education', '국어': 'korean', '수학': 'math', '영어': 'english', '물리': 'physics', '화학': 'chemistry', '생물': 'biology',
              '지구과학': 'earth-science', '일반사회': 'social', '역사': 'history', '지리': 'geography', '도덕·윤리': 'ethics', '도덕윤리': 'ethics', '윤리': 'ethics',
              '음악': 'music', '미술': 'art', '체육': 'pe', '정보·컴퓨터': 'computer', '정보컴퓨터': 'computer', '한문': 'hanmun', '가정': 'home-ec',
              '기술': 'technology', '보건': 'health', '영양': 'nutrition', '사서': 'librarian', '전문상담': 'counseling', '특수': 'special-ed',
@@ -179,19 +189,36 @@ SUBJ_SLUG = {'교육학': 'education', '국어': 'korean', '수학': 'math', '�
              '아랍어': 'arabic', '베트남어': 'vietnamese', '공통과학': 'general-science', '공통사회': 'general-social', '농업': 'agriculture',
              '상업': 'commerce', '공업': 'industry', '전기': 'electric', '전자': 'electronics', '기계': 'mechanical', '디자인': 'design', '조리': 'cooking'}
 import hashlib
+ALIAS = {'특수교육학': '특수', '특수전공': '특수', '특수교육전공': '특수', '중등교사임용시험': '미술', '특수교육': '특수', '도덕': '도덕윤리', '양호': '보건', '서울인천영어': '영어', '전국영어': '영어',
+         '영어서울': '영어', '영어서울인천': '영어', '영어전국': '영어', '교육학정답': '교육학', '교육학정답표': '교육학',
+         '특수교육학정답': '특수', '특수교육학정답표': '특수', '미술과목칼라도판': '미술', '중등교사임용시험1차미술과목칼라도판': '미술',
+         '2012중등학교전문상담교사선발시험': '전문상담', '전기전자통신': '전기전자통신', '전기전자': '전기전자통신'}
+SKIP = ('모의평가',)
 def base_subj(t):
-    b = re.sub(r'\s*\((?:[0-9]차|[0-9]교시|[^)]*차)\)\s*$', '', t).strip()
-    b = re.sub(r'^\d{4}학년도\s*', '', b)
-    return b
+    b = re.sub(r'^\d{4}학년도\s*', '', t)
+    b = re.sub(r'\s*\(\s*\d\s*차\s*\).*$', '', b)            # (1차) 문제 및 정답 …
+    b = re.sub(r'\((?:전공|서울|서울인천|전국)\)', lambda m: m.group(0).strip('()'), b)
+    b = re.sub(r'문제\s*및\s*정답|정답표$', '', b)
+    k = re.sub(r'[\s.,/·ㆍ()]', '', b)
+    if any(x in k for x in SKIP): return ''
+    return ALIAS.get(k, k)
+DISP = {'도덕윤리': '도덕·윤리', '정보컴퓨터': '정보·컴퓨터', '기계금속': '기계·금속', '기술가정': '기술·가정', '디자인공예': '디자인·공예',
+        '수산해양': '수산·해양', '식물자원조경': '식물자원·조경', '연극영화': '연극·영화', '전기전자통신': '전기·전자·통신', '항해기관': '항해·기관',
+        '화공섬유': '화공·섬유', '특수': '특수(교육학·전공)'}
 def subj_slug(b):
     if b in SUBJ_SLUG: return SUBJ_SLUG[b]
-    for k, v in SUBJ_SLUG.items():
-        if b.startswith(k): return v + '-' + hashlib.md5(b.encode()).hexdigest()[:4] if b != k else v
     return 's-' + hashlib.md5(b.encode()).hexdigest()[:8]
+
+def clean_title(x):
+    t = x['title']
+    if '유치원' in t or '초등' in t:
+        part = fname_label(x['files'][0][0]).split(' ')[-1] if x.get('files') else ''
+        return '유치원·초등·특수 · ' + part if part else '유치원·초등·특수 교사 임용'
+    return t
 
 def ul_items(items, show_year=False):
     return '<ul class="qa">' + ''.join(
-        f'<li><div><b>{(x["y"] + "학년도 ") if show_year else ""}{E(x["title"])}</b><small>평가원 게시 {GE.fmt_date(x["date"])} · 조회 {GE.man(x["views"])}회</small></div>{links(x["files"])}</li>'
+        f'<li><div><b>{(x["y"] + "학년도 ") if show_year else ""}{E(clean_title(x))}</b><small>평가원 게시 {GE.fmt_date(x["date"])} · 조회 {GE.man(x["views"])}회</small></div>{links(x["files"], "유치원" in x["title"] or "초등" in x["title"])}</li>'
         for x in items) + '</ul>'
 
 def imyong_pages(I):
@@ -201,12 +228,14 @@ def imyong_pages(I):
     years = sorted({x['y'] for x in mid + ele}, reverse=True)
     # ── 과목별 페이지 (중등) + 유치원·초등·특수
     groups = collections.defaultdict(list)
-    for x in mid: groups[base_subj(x['title'])].append(x)
+    for x in mid:
+        k = base_subj(x['title'])
+        if k: groups[k].append(x)
     if ele: groups['__ele__'] = ele
     subj_cards = []
     for b, items in sorted(groups.items(), key=lambda kv: (0 if kv[0] == '교육학' else 1 if kv[0] == '__ele__' else 2, -sum(i['views'] for i in kv[1]))):
         is_ele = b == '__ele__'
-        name = '유치원·초등·특수 임용' if is_ele else f'중등 임용 {b}'
+        name = '유치원·초등·특수 임용' if is_ele else f'중등 임용 {DISP.get(b, b)}'
         slug = 'elementary' if is_ele else subj_slug(b)
         path = f'/ipsi/imyong/{slug}.html'
         ys = sorted({i['y'] for i in items}, reverse=True); lo, hi = ys[-1], ys[0]
@@ -232,7 +261,7 @@ def imyong_pages(I):
         m = [x for x in mid if x['y'] == y]; e2 = [x for x in ele if x['y'] == y]
         path = f'/ipsi/imyong/imyong-{y}.html'
         title = f'{y}학년도 임용시험 기출문제 PDF ({int(y) - 1}년 시행, 과목별)'
-        desc = f'{y}학년도 교원 임용시험 기출문제 PDF를 과목별로 모았어요. 중등 {len({base_subj(x["title"]) for x in m})}개 과목과 유치원·초등·특수 시험지를 평가원 공식 파일로 바로 받을 수 있어요.'
+        desc = f'{y}학년도 교원 임용시험 기출문제 PDF를 과목별로 모았어요. 중등 {len({base_subj(x["title"]) for x in m} - {""})}개 과목과 유치원·초등·특수 시험지를 평가원 공식 파일로 바로 받을 수 있어요.'
         cr, crld = crumb(('임용 기출', '/ipsi/imyong/'), (f'{y}학년도', ''))
         m.sort(key=lambda x: (0 if '교육학' in x['title'] else 1, x['title']))
         secs = ''
@@ -253,8 +282,8 @@ def imyong_pages(I):
     qa = [('임용 기출은 몇 년 치가 있나요?', f'평가원 게시판에 올라온 {years[-1]}학년도부터 {years[0]}학년도까지 정리했어요. 매주 게시판을 확인해 새 시험을 반영해요.')]
     main = (f'<header class="top hub">{cr}<h1>임용시험 기출문제 PDF 과목별 모음</h1><p class="lead">과목을 고르면 그 과목 기출을 학년도별로 모아 보여 줘요. 학년도별로도 볼 수 있어요.</p>'
             f'<p class="gc-ans">버튼은 한국교육과정평가원 공식 PDF로 바로 연결돼요 ({GE.fmt_date(I["checked"])} 확인).</p></header>'
-            f'<section class="card"><h2>과목별 ({len(subj_cards)}개)</h2><ul class="gy">{sc}</ul></section>'
-            f'<section class="card"><h2>학년도별</h2><ul class="gy">{yc}</ul></section>' + faq_html(qa) +
+            f'<section class="card"><h2>과목별 ({len(subj_cards)}개)</h2><ul class="gy gy2">{sc}</ul></section>'
+            f'<section class="card"><h2>학년도별</h2><ul class="gy gy2">{yc}</ul></section>' + faq_html(qa) +
             '<section class="card"><h2>다른 시험 기출</h2><p class="gc-nav"><a href="/ipsi/gongmuwon/">공무원 기출</a><a href="/ipsi/gichul/">수능·모의평가 기출</a></p></section>')
     ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
     made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + main, ld))
