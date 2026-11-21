@@ -184,12 +184,27 @@ def gosi_pages(G):
     return made
 
 # ───────────── 임용 ─────────────
+def struct_html(b, name, ys):
+    if b == '교육학':
+        body = ('중등교사 임용시험 1차의 <b>교육학</b>은 2014학년도부터 논술형 1문항으로 치러요. 그 전에는 객관식으로 출제됐어요. '
+                '이 페이지의 2014학년도 이후 시험지가 지금과 같은 논술형이에요.')
+    else:
+        body = (f'지금의 중등교사 임용시험 1차는 <b>교육학(논술형)</b>과 <b>전공A·전공B</b>로 치러요(2014학년도부터). '
+                f'{E(name)} 시험지 버튼의 ‘전공A’, ‘전공B’가 각각 그 교시 문제지예요. 2013학년도까지는 1차 객관식, 2차 서술형으로 나눠 치렀어요. '
+                f'교육학 기출은 <a href="/ipsi/imyong/education.html">교육학 페이지</a>에 따로 모았어요.')
+    return f'<section class="card"><h2>{E(name)} 시험 구성</h2><p>{body}</p></section>'
+
 def flabel(fn):
     n = fn.rsplit('.', 1)[0]; ext = fn.rsplit('.', 1)[-1].upper() if '.' in fn else ''
     kind = '정답' if re.search('정답|답안|채점', n) else ('듣기' if re.search('듣기|음원', n) else '문제')
     m = re.search(r'([1-4])\s*교시', n) or re.search(r'([1-4])\s*차', n)
     part = (m.group(1) + ('교시' if '교시' in m.group(0) else '차')) if m else ''
-    return ' '.join(x for x in (part, kind, ext) if x)
+    sub = ''
+    a = re.search(r'전공\s*-?\s*([AB])', n)
+    if a: sub = '전공' + a.group(1)
+    elif '교육학' in n: sub = '교육학'
+    elif re.search(r'기입형|서술형|논술형', n): sub = re.search(r'기입형|서술형|논술형', n).group(0)
+    return ' '.join(x for x in (part, sub, kind, ext) if x)
 
 def fname_label(n):
     b = n.rsplit('.', 1)[0]
@@ -197,7 +212,13 @@ def fname_label(n):
     return b[:26] or flabel(n)
 
 def links(files, by_name=False):
-    return '<span class="ql">' + ''.join(f'<a{" class=a" if flabel(n).startswith("정답") else ""} href="{KDL}{s}" target="_blank" rel="noopener nofollow" title="{E(n)} (한국교육과정평가원 공식 파일)">{E(fname_label(n) if by_name else flabel(n))}</a>' for n, s in files) + '</span>'
+    out, used = [], collections.Counter()
+    for n, s in sorted(files, key=lambda f: (flabel(f[0]).startswith('정답'), flabel(f[0]))):
+        lab = fname_label(n) if by_name else flabel(n)
+        used[lab] += 1
+        if used[lab] > 1: lab += f' ({used[lab]})'
+        out.append(f'<a{" class=a" if flabel(n).startswith("정답") else ""} href="{KDL}{s}" target="_blank" rel="noopener nofollow" title="{E(n)} (한국교육과정평가원 공식 파일)">{E(lab)}</a>')
+    return '<span class="ql">' + ''.join(out) + '</span>'
 
 SUBJ_SLUG = {'건설': 'construction', '관광': 'tourism', '기계금속': 'machine-metal', '기술가정': 'tech-home', '냉동': 'refrigeration', '농공': 'agri-engineering', '농산물유통': 'agri-distribution', '동물자원': 'animal-resources', '디자인공예': 'design-craft', '미용': 'beauty', '상업정보': 'commerce-info', '수산해양': 'fisheries-marine', '식물자원조경': 'plant-landscape', '식품가공': 'food-processing', '연극영화': 'theater-film', '요업': 'ceramics', '의상': 'fashion', '인쇄': 'printing', '전기전자통신': 'electric-electronic-comm', '항해기관': 'navigation-engine', '항해': 'navigation', '화공섬유': 'chemical-textile', '화공': 'chemical-eng', '환경': 'environment', '도덕윤리': 'ethics', '정보컴퓨터': 'computer', '교육학': 'education', '국어': 'korean', '수학': 'math', '영어': 'english', '물리': 'physics', '화학': 'chemistry', '생물': 'biology',
              '지구과학': 'earth-science', '일반사회': 'social', '역사': 'history', '지리': 'geography', '도덕·윤리': 'ethics', '도덕윤리': 'ethics', '윤리': 'ethics',
@@ -263,13 +284,13 @@ def imyong_pages(I):
         secs = ''
         for y in ys:
             it = sorted([i for i in items if i['y'] == y], key=lambda i: i['title'])
-            secs += f'<details class="qg"{" open" if y in ys[:2] else ""}><summary>{y}학년도 <em>{int(y) - 1}년 시행 · {len(it)}건</em></summary>{ul_items(it)}</details>'
+            secs += f'<details class="qg"{" open" if y in ys[:2] else ""}><summary>{y}학년도 {E(name)} 기출 <em>{int(y) - 1}년 시행 · {len(it)}건</em></summary>{ul_items(it)}</details>'
         tv = sum(i['views'] for i in items)
         qa = [(f'{name} 기출 정답도 있나요?', '임용 1차는 쓰는 서답형이라 평가원이 정답표를 따로 공개하지 않아요. 채점기준은 응시자가 성적 발표 뒤 열람 신청으로 볼 수 있어요.'),
               ('몇 년 치를 풀면 좋나요?', '지금 시험 체제가 시작된 2014학년도 이후 기출을 먼저 모두 풀고, 교육과정이 바뀐 해는 출제 범위를 확인하며 보세요.')]
         main = (f'<header class="top hub">{cr}<h1>{E(name)} 기출문제 PDF</h1><p class="lead">{lo}학년도부터 {hi}학년도까지 {E(name)} 시험지를 연도별로 모았어요. 버튼을 누르면 평가원 공식 PDF가 바로 열려요.</p>'
                 f'<p class="gc-ans"><b>{len(ys)}개 학년도</b> 기출이 있고, 이 게시글들은 평가원 사이트에서 모두 {GE.man(tv)}회 조회됐어요 ({GE.fmt_date(I["checked"])} 확인).</p></header>'
-                f'<section class="card"><h2>연도별 시험지 PDF</h2>{secs}<p class="gc-src">출처: 한국교육과정평가원 교원임용 기출문제 게시판</p></section>' + faq_html(qa) +
+                f'<section class="card"><h2>{E(name)} 연도별 기출문제 PDF</h2>{secs}<p class="gc-src">출처: 한국교육과정평가원 교원임용 기출문제 게시판</p></section>' + (struct_html(b, name, ys) if not is_ele else '') + faq_html(qa) +
                 '<section class="card"><h2>다른 과목</h2><p class="gc-nav"><a href="/ipsi/imyong/">임용 기출 전체 (과목별)</a><a href="/ipsi/imyong/education.html">교육학</a><a href="/ipsi/gongmuwon/">공무원 기출</a></p></section>')
         ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
         made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + main, ld))
