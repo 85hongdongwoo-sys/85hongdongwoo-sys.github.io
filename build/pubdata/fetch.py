@@ -33,7 +33,10 @@ def get(url, params=None, tries=3, timeout=40):
     last = None
     for i in range(tries):
         try:
-            req = urllib.request.Request(url, headers={'User-Agent': 'HongLifeTools/1.0 (+https://honglife.co.kr)'})
+            ua = 'HongLifeTools/1.0 (+https://honglife.co.kr)'
+            if 'data.ex.co.kr' in url:  # 도로공사 방화벽이 프로그램 이름(User-Agent)을 막아 브라우저 이름으로 요청
+                ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36'
+            req = urllib.request.Request(url, headers={'User-Agent': ua, 'Accept': 'application/json,text/html'})
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read().decode('utf-8', 'replace')
         except Exception as e:
