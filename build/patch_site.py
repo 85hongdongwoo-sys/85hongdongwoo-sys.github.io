@@ -353,7 +353,7 @@ HDK = ['#1E2A4A', '#2B1F3D', '#12352B', '#3A1E24', '#1F3340']
 HFC = {'test': '#B14FC5', 'game': '#7FA21B', 'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
        'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#495057', 'life': '#2F9E44', 'medical': '#E64980',
        'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6', 'gov': '#0B7285', 'drive': '#E8590C'}
-KW = [('bus', r'노선 내비|경유지'), ('pdf', r'PDF'), ('image', r'이미지|사진|PNG|JPG|증명'), ('qr', r'QR|바코드'), ('ai', r'AI|챗GPT|클로드|프롬프트'),
+KW = [('bus', r'노선 내비|경유지|셔틀'), ('navup2', r'(기아|쉐보레|KGM).*(업데이트|업그레이드)'), ('navup3', r'(제네시스|르노|아이나비).*(업데이트|업그레이드)'), ('navup', r'내비게이션 업데이트|내비게이션 지도 업데이트|내비 업데이트|지도 업그레이드|업데이트 모음|openR'), ('rest', r'휴게소'), ('park', r'주차장'), ('ev', r'충전소'), ('fuel', r'주유소'), ('mid', r'중간지점'), ('taxi', r'택시비|통행료'), ('pdf', r'PDF'), ('image', r'이미지|사진|PNG|JPG|증명'), ('qr', r'QR|바코드'), ('ai', r'AI|챗GPT|클로드|프롬프트'),
       ('calendar', r'달력|D-day|날짜|공휴일|요일'), ('sheet', r'차트|그래프|가계부|근무표'), ('excel', r'엑셀|수식|CSV'),
       ('dev', r'JSON|코드|정규식|Base64|HTML'), ('doc', r'계약서|견적서|이력서|서식|영수증'), ('text', r'글자|텍스트|맞춤법')]
 HUBCSS = """<style id="hl-hub-css">
@@ -555,7 +555,9 @@ for cat, u, n, d, kw, cn in MOVED:
     if os.path.exists(p):
         s = open(p, encoding='utf-8').read()
         if f'href="{u}"' not in s:
-            art = {'/life/route-navi.html': 'bus', '/drive/bus-share.html': 'bus', '/life/taxi-fare.html': 'drive', '/life/midpoint.html': 'drive', '/life/toilet.html': 'life', '/life/air-quality.html': 'life'}.get(u, cat)
+            art = {'/life/route-navi.html': 'bus', '/drive/bus-share.html': 'bus', '/life/toilet.html': 'life', '/life/air-quality.html': 'life'}.get(u)
+            if not art:
+                art = next((k for k, rx in KW if re.search(rx, n) and os.path.exists(os.path.join(root, 'assets/art/hl', f'cs-{k}.svg'))), cat)
             li = (f'<li><a href="{u}"><i class="th"><img src="/assets/art/hl/cs-{art}.svg" alt="" width="200" height="140" loading="lazy"></i>'
                   f'<img class="pg" src="/assets/art/hl/pg-{cat}.svg" alt="" width="26" height="26" loading="lazy"><b>{n}</b><span>{d}</span></a></li>')
             s2 = re.sub(r'(<ul class="tlist[^"]*">)', lambda m: m.group(1) + li, s, count=1)
