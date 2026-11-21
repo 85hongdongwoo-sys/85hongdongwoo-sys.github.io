@@ -6,24 +6,23 @@ jobs:
     steps:
       - run: |
           UA="Mozilla/5.0 (honglife.co.kr exam-link index)"
-          curl -s -m 40 -A "$UA" -c cj -b cj "https://gongmuwon.gosi.kr/oprut/EvmArPrblmCransGdLst.do" -o g.html
+          B=https://gongmuwon.gosi.kr
+          curl -s -m 40 -A "$UA" -c cj -b cj "$B/oprut/EvmArPrblmCransGdLst.do" -o g.html
           python3 - <<'PY'
           import re;s=open('g.html',encoding='utf-8',errors='replace').read()
-          i=s.find("fn_egov_inqire_notice('6026'");print(re.sub(r'\s+',' ',s[i-1500:i+600]))
-          for f in ('fn_egov_inqire_notice','goPage','fn_search'):
-              m=re.search(r'function\s+'+f+r'\s*\([^)]*\)\s*\{.*?\n\s*\}',s,re.S);print('FUNC',f,re.sub(r'\s+',' ',m.group(0))[:900] if m else None)
+          f=re.search(r'(?s)<form[^>]*id="frm".*?</form>',s); print(re.findall(r'<input[^>]*type="hidden"[^>]*>',f.group(0)) if f else 'nofrm')
           PY
-          curl -s -m 40 -A "$UA" -c cj -b cj -d "nttId=6026&bbsId=BBSMSTR_000000000138" "https://gongmuwon.gosi.kr/oprut/EvmArPrblmCransGdDtl.do" -o d.html; wc -c d.html
+          curl -s -m 40 -A "$UA" -c cj -b cj -d "pstId=6026&bbsId=BBSMSTR_000000000138" "$B/oprut/EvmArPrblmCransGdDtl.do" -o d.html; wc -c d.html
           python3 - <<'PY'
           import re;s=open('d.html',encoding='utf-8',errors='replace').read()
           t=re.sub(r'<script.*?</script>|<style.*?</style>','',s,flags=re.S);t=re.sub(r'<[^>]+>',' ',t);t=re.sub(r'\s+',' ',t)
-          i=t.find('Home');print(t[i:i+1500])
-          print(sorted(set(re.findall(r'(?:href|onclick)="[^"]*(?:[Ff]ile|[Dd]own)[^"]*"',s)))[:20])
+          i=t.find('시험종류');print(t[i:i+1200])
+          print(sorted(set(re.findall(r'(?:href|onclick)="[^"]{0,300}"',s)))[:60])
+          for m in re.finditer(r'(?is)function\s+(fn_\w*[Ff]ile\w*|fn_\w*[Dd]own\w*)\s*\([^)]*\)\s*\{.*?\}',s): print('FUNC',re.sub(r'\s+',' ',m.group(0))[:600])
           PY
-          echo ==== KICE
-          for b in "1500212&m=030306" "10011&m=040108" "10019&m=040208" "1500213&m=030307"; do curl -s -m 40 -A "$UA" "https://www.kice.re.kr/boardCnts/list.do?boardID=$b&s=kice" -o k.html; python3 - "$b" <<'PY'
-          import re,sys;s=open('k.html',encoding='utf-8',errors='replace').read()
-          t=re.search(r'(?s)<tbody>(.*?)</tbody>',s); tt=re.sub(r'\s+',' ',re.sub(r'<[^>]+>',' | ',t.group(1))) if t else 'NOTBODY'
-          print('##',sys.argv[1],re.findall(r'<h3[^>]*>[^<]*',s)[:3],tt[:1500]); print(re.findall(r'fn_fileDown\([^)]*\)',s)[:3], re.findall(r'goView\([^)]*\)',s)[:3])
+          curl -s -m 40 -A "$UA" -c cj -b cj -d "hdn_curr_page=2&testSeCd=EXAM03&sGubun=&sKeyword=" "$B/oprut/EvmArPrblmCransGdLst.do" -o g2.html
+          python3 - <<'PY'
+          import re;s=open('g2.html',encoding='utf-8',errors='replace').read()
+          for a,b in re.findall(r"fn_egov_inqire_notice\('(\d+)','[^']+'\)\"[^>]*>\s*([^<]+)",s)[:12]: print(a,b.strip())
+          print(re.findall(r'goPage\((\d+)\)',s)[-3:])
           PY
-          done
