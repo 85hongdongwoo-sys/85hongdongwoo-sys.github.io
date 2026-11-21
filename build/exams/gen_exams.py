@@ -341,9 +341,9 @@ def patch_hub(ys):
     s = s.replace('<h2>입시 도구', '<h2>대학 입시 도구', 1)
     recent = ''.join(f'<li><a href="/ipsi/gichul/suneung-{y}.html"><b>{y}학년도 수능·모의평가 기출</b><span>문제지·정답표·듣기 파일 (평가원 공식)</span></a></li>' for y in ys[:4])
     sec = ('<section class="card" id="exam-sec"><h2>시험별 기출문제</h2>'
-           '<h3 style="margin:6px 0 8px">수능·모의평가</h3><ul class="tlist">'
+           '<ul class="tlist" id="exam-list">'
            f'<li><a href="/ipsi/gichul/"><b>수능·모의평가 기출문제 전체 ({ys[-1]}~{ys[0]}학년도)</b><span>학년도별 문제지·정답·듣기, 많이 본 기출 순위, 실전 타이머</span></a></li>'
-           + recent + '</ul></section>')
+           + '</ul></section>')
     i = s.find('<section class="card rel">')
     s = s[:i] + sec + ' ' + s[i:] if i > 0 else s.replace('</main>', sec + '</main>', 1)
     open(p, 'w', encoding='utf-8').write(s)

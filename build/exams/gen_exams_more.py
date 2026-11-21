@@ -275,11 +275,11 @@ def register(paths):
         open(idx, 'w', encoding='utf-8').write(s.replace(TRIP, TRIP + ',' + ','.join(json.dumps(x, ensure_ascii=False, separators=(',', ':')) for x in ent), 1))
     # /ipsi/ 허브 시험별 섹션에 링크 추가
     p = os.path.join(root, 'ipsi', 'index.html'); s = open(p, encoding='utf-8').read()
-    if 'id="exam-sec"' in s and '/ipsi/gongmuwon/' not in s:
+    if 'id="exam-list"' in s and '/ipsi/gongmuwon/' not in s:
         add = ''
-        if '/ipsi/gongmuwon/' in paths: add += '<h3 style="margin:14px 0 8px">공무원</h3><ul class="tlist"><li><a href="/ipsi/gongmuwon/"><b>공무원 기출문제 PDF·정답 모음</b><span>9급·7급·지방직·5급 시험별 연도·과목, 공식 PDF 받는 법</span></a></li></ul>'
-        if '/ipsi/imyong/' in paths: add += '<h3 style="margin:14px 0 8px">임용시험</h3><ul class="tlist"><li><a href="/ipsi/imyong/"><b>임용시험 기출문제 PDF 전체</b><span>중등·초등 학년도별 과목별 평가원 공식 PDF</span></a></li></ul>'
-        i = s.find('</section>', s.find('id="exam-sec"'))
+        if '/ipsi/gongmuwon/' in paths: add += '<li><a href="/ipsi/gongmuwon/"><b>공무원 기출문제 PDF·정답</b><span>9급·7급 국가직·지방직, 직렬별 과목, 공식 PDF 받는 법</span></a></li>'
+        if '/ipsi/imyong/' in paths: add += '<li><a href="/ipsi/imyong/"><b>임용시험 기출문제 PDF</b><span>교육학·국어·수학 등 과목별, 학년도별 평가원 공식 PDF</span></a></li>'
+        i = s.find('</ul>', s.find('id="exam-list"'))
         s = s[:i] + add + s[i:]; open(p, 'w', encoding='utf-8').write(s)
     print('more exam pages:', len(paths), 'sitemap +', smadd.count('<url>'))
 
