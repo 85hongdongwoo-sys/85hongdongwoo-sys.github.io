@@ -24,4 +24,4 @@ jobs:
           git add build/exams/data
           if git diff --cached --quiet; then echo "no change"; exit 0; fi
           git commit -m "Exam data: refresh official board links ($(date +%F))"
-          git push
+          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push && break; sleep 10; done
