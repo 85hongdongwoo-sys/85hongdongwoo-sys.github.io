@@ -10,8 +10,8 @@ jobs:
           curl -s -m 40 -A "$UA" -c cj -b cj "$B/oprut/EvmArChcPrblmCransSbjctInqSbjctLst.do" -o c.html
           python3 - <<'PY'
           import re;s=open('c.html',encoding='utf-8',errors='replace').read()
-          f=re.search(r'(?s)<form[^>]*id="frm".*?</form>',s); print(re.sub(r'\s+',' ',f.group(0))[:3000] if f else 'nofrm')
-          for name in ('fn_searchSubjectArea','fn_search','fn_searchList','fn_gosi_munje','fn_gosi_jungdap','fn_down'):
-              i=s.find('function '+name)
-              if i>=0: print('=====',name,re.sub(r'[ \t]+',' ',s[i:i+2600]))
+          i=s.find('function fn_searchsubjectArea');print(re.sub(r'[ \t]+',' ',s[i:i+4000]))
+          f=re.search(r'(?s)<form[^>]*id="frm".*?</form>',s).group(0)
+          for m in re.findall(r'(?is)<(?:select|input)[^>]*name="[^"]+"[^>]*>',f): print('FIELD',m[:200])
+          for m in re.findall(r'(?is)<input[^>]*type="radio"[^>]*>\s*<label[^>]*>[^<]*',f)[:40]: print('RADIO',re.sub(r'\s+',' ',m)[:200])
           PY
