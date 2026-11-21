@@ -1,0 +1,11 @@
+name: exam-probe
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+          U=https://gongmuwon.gosi.kr/oprut/EvmArChcPrblmCransSbjctInqSbjctLst.do
+          curl -s -m 40 -A "$UA" "$U?testCd=08&sbjctCd=927" -o a.html; curl -s -m 40 -A "$UA" -d "testCd=08&sbjctCd=927" "$U" -o b.html
+          for f in a.html b.html; do echo "== $f"; grep -o 'id="testCd08"[^>]*>' $f | head -2; grep -c 'checked' $f; grep -o 'param\.\w*\|\${param[^}]*}\|getParameter[^)]*)' $f | sort -u | head; done
