@@ -1,0 +1,30 @@
+name: Exam info (등급컷·자격 시험정보)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '41 21 * * 2'   # 매주 수요일 06:41 KST
+permissions:
+  contents: write
+  actions: write
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 수능 채점결과 등급컷
+        continue-on-error: true
+        run: pip install -q openpyxl && python3 build/exams/scrape_csat.py
+      - name: 큐넷 자격 시험정보
+        continue-on-error: true
+        run: python3 build/exams/scrape_qinfo.py 59
+      - name: Commit if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add build/exams/data
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git commit -m "Exam info: 등급컷·자격 시험정보 갱신 ($(date +%F))"
+          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push && break; sleep 10; done
+          gh workflow run pages.yml --ref main || true
