@@ -25,7 +25,12 @@ def changed():
     return urls + [f'https://{HOST}/', f'https://{HOST}/rss.xml']
 
 mode = os.environ.get('MODE', 'changed')
-urls = live_sitemap() if mode == 'all' else changed()
+extra = os.environ.get('URLS', '').split()
+if extra:
+    urls = [u if u.startswith('http') else f'https://{HOST}/' + u.lstrip('/') for u in extra]
+    mode = 'urls'
+else:
+    urls = live_sitemap() if mode == 'all' else changed()
 urls = list(dict.fromkeys(u for u in urls if u.startswith(f'https://{HOST}/')))
 print('mode', mode, 'urls', len(urls))
 for ep in ENDPOINTS:

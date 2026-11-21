@@ -5,6 +5,9 @@ on:
       mode:
         description: "all = every URL in the live sitemap, changed = pages changed in the last commit"
         default: changed
+      urls:
+        description: "space-separated paths or full URLs to send (overrides mode), e.g. /a.html /b.html"
+        default: ""
   push:
     branches: [main]
     paths: ['overlay/**', 'build/newcats/**']
@@ -23,4 +26,5 @@ jobs:
       - name: Submit URLs
         env:
           MODE: ${{ github.event.inputs.mode || 'changed' }}
+          URLS: ${{ github.event.inputs.urls || '' }}
         run: python3 build/indexnow.py
