@@ -3,9 +3,14 @@ UA={'User-Agent':'Mozilla/5.0'}
 def get(u, data=None):
     try: return urllib.request.urlopen(urllib.request.Request(u,data=data,headers=UA),timeout=40).read().decode('utf-8','replace')
     except Exception as e: return f'ERR {e}'
+def text(h):
+    h=re.sub(r'(?s)<(script|style)[^>]*>.*?</\1>','',h)
+    h=re.sub(r'<(br|/p|/tr|/li|/h\d|/div|/dt|/dd|/caption)[^>]*>','\n',h)
+    h=re.sub(r'</t[dh]>',' | ',h)
+    t=re.sub(r'<[^>]+>','',h); t=t.replace('&nbsp;',' ').replace('&lt;','<').replace('&gt;','>').replace('&amp;','&')
+    return '\n'.join(l.strip() for l in t.split('\n') if l.strip())
 h=get('https://www.q-net.or.kr/crf005.do?id=crf00503&gSite=L&gId=59')
-for m in sorted(set(re.findall(r'["\']([^"\']*\.do[^"\']*)["\']',h))): print('URL',m[:150])
-for m in re.findall(r'(?s)\$\.ajax\(\{.{0,400}',h)[:8]: print('AJAX',m.replace('\n',' ')[:400])
-for m in re.findall(r'(?s)function\s+(\w+)\s*\(([^)]*)\)\s*\{(.{0,300})',h):
-    if 'Subtab' in m[2] or 'gbn' in m[2] or 'crf' in m[2]: print('FN',m[0],m[1],m[2].replace('\n',' ')[:300])
-i=h.find('gbnSubtab1'); print('CTX',h[i-800:i+800])
+i=h.find('function goContents'); print('GOC',h[i:i+1500])
+for s in ['s01','s02','s03','s05']:
+    for u in [f'https://www.q-net.or.kr/crf005.do?id=crf00503{s}&gSite=L&gId=59', f'https://www.q-net.or.kr/crf005.do?id=crf00503{s}&gSite=L&gId=59&jmCd=&jmNm=']:
+        h=get(u); t=text(h); print('=====',u,len(h)); print(t[:2500]); break
