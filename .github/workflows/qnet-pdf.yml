@@ -1,0 +1,26 @@
+name: 자격증 기출 PDF 올리기
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '43 20 * * 1'   # 매주 화요일 05:43 KST — 새 문제지만 추가
+permissions:
+  contents: write
+concurrency: {group: qnet-pdf, cancel-in-progress: false}
+jobs:
+  up:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - name: ZIP 풀어 PDF를 릴리스에 올리기
+        env: {GH_TOKEN: '${{ github.token }}', MAX_MIN: '300'}
+        run: |
+          [ -f build/exams/data/qnet.json ] || { echo "qnet.json 없음"; exit 0; }
+          python3 build/exams/qnet_pdf.py
+      - name: 주소표 커밋
+        run: |
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add build/exams/data/qnet_pdf.json || true
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "자격증 기출 PDF 주소표 ($(date +%F))"
+          for i in 1 2 3 4 5; do git pull --rebase -q origin main && git push && break; sleep 10; done

@@ -327,6 +327,7 @@ def qlabel(name):
     b = re.sub(r'(공인중개사|주택관리사보?|자격시험|시험)\s*', '', b).strip(' _-') or '문제지'
     return (b[:22] + ' ' + ext).strip()
 def qnet_pages(Q):
+    PM = load('qnet_pdf') or {}
     rows = [r for r in Q['rows'] if r.get('files')]
     by = collections.defaultdict(list)
     for r in rows: by[(r['g'], r['q'])].append(r)
@@ -339,10 +340,13 @@ def qnet_pages(Q):
         title = f'{q} 기출문제 PDF ({lo}~{hi}년, 연도별 문제지)'
         desc = f'{q} 시험 기출문제 문제지를 {lo}년부터 {hi}년까지 연도별로 모았어요. 한국산업인력공단 큐넷 공식 파일로 바로 받을 수 있어요(공공누리 제1유형).'
         cr, crld = crumb(('자격증 기출', '/ipsi/jagyeok/'), (q, ''))
+        def btns(f):
+            pdfs = PM.get(f[2])
+            if pdfs: return ''.join(f'<a href="{E(u)}" target="_blank" rel="noopener" title="{E(f[0])} 중 {E(l)} (출처: 한국산업인력공단, 공공누리 제1유형)">{E(l)} PDF</a>' for l, u in pdfs)
+            return f'<a href="{E(qurl(g, f))}" target="_blank" rel="noopener nofollow" title="{E(f[0])} (한국산업인력공단 공식 파일)">{E(qlabel(f[0]))}</a>'
         lis = ''.join(f'<li><div><b>{E(r["title"])}</b><small>큐넷 게시 {GE.fmt_date(r["date"])}</small></div><span class="ql">'
-                      + ''.join(f'<a href="{E(qurl(g, f))}" target="_blank" rel="noopener nofollow" title="{E(f[0])} (한국산업인력공단 공식 파일)">{E(qlabel(f[0]))}</a>' for f in r['files'])
-                      + '</span></li>' for r in rs)
-        zipnote = '묶음 파일(ZIP)은 압축을 풀면 교시별 PDF가 들어 있어요. ' if any(f[0].lower().endswith('.zip') for r in rs for f in r['files']) else ''
+                      + ''.join(btns(f) for f in r['files']) + '</span></li>' for r in rs)
+        zipnote = '묶음 파일(ZIP)은 압축을 풀면 교시별 PDF가 들어 있어요. ' if any(f[0].lower().endswith('.zip') and not PM.get(f[2]) for r in rs for f in r['files']) else '버튼을 누르면 교시별 PDF가 바로 열려요. '
         qa = [(f'{q} 기출문제는 무료인가요?', '네. 한국산업인력공단이 큐넷에 문제지를 무료로 공개해요. 출처만 밝히면 자유롭게 쓸 수 있는 공공누리 제1유형이에요.'),
               (f'{q} 정답은 어디서 보나요?', '정답(가답안·최종정답)은 시험이 끝난 뒤 큐넷 ‘가답안/최종정답 공개’ 메뉴에 일정 기간 올라와요.')]
         main = (f'<header class="top hub">{cr}<h1>{E(q)} 기출문제 PDF</h1><p class="lead">{lo}년부터 {hi}년까지 {E(q)} 시험 문제지를 연도별로 모았어요. 버튼을 누르면 큐넷 공식 파일이 바로 내려받아져요.</p>'
