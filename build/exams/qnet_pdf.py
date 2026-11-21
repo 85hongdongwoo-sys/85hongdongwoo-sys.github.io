@@ -21,7 +21,7 @@ budget = float(os.environ.get('MAX_MIN', '300')) * 60; t0 = time.time()
 for r in Q['rows']:
     g = r['g']; tag = f'qnet-{g}'
     for name, path, seq in r['files']:
-        if seq in M or time.time() - t0 > budget: continue
+        if seq in M or time.time() - t0 > budget or not name.lower().endswith('.zip'): continue
         if tag not in done_rel:
             if gh('release', 'view', tag, '-R', REPO, check=False).returncode != 0:
                 gh('release', 'create', tag, '-R', REPO, '-t', f'{r["q"]} 기출 문제지 (큐넷, 공공누리 제1유형)', '-n', '출처: 한국산업인력공단 큐넷(Q-Net). 공공누리 제1유형.', '--latest=false')

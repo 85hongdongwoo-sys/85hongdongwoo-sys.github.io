@@ -323,6 +323,8 @@ def qurl(g, f):
     return f'{QN}/cst003.do?id=cst00302s01&gSite=L&gId={g}&fileCode=R001&filePath={urllib.parse.quote(path)}&fileName={urllib.parse.quote(name)}&fileSeq={seq}'
 def qlabel(name):
     b = name.rsplit('.', 1)[0]; ext = name.rsplit('.', 1)[-1].upper() if '.' in name else ''
+    parts = [x for t in re.findall(r'(\d\s*차)|(\d\s*교시)|([A-Z가-하]형)', b) for x in t if x]
+    if parts and ext != 'ZIP': return ' '.join(re.sub(r'\s', '', p) for p in parts) + ' ' + ext
     b = re.sub(r'^(19|20)\d\d\s*년?\s*(제?\s*\d+\s*회)?\s*', '', b).strip(' _-')
     b = re.sub(r'(공인중개사|주택관리사보?|자격시험|시험)\s*', '', b).strip(' _-') or '문제지'
     return (b[:22] + ' ' + ext).strip()
