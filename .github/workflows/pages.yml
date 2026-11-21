@@ -44,6 +44,9 @@ jobs:
         run: |
           if [ -n "$OPINET_KEY" ]; then pip install -q pyproj; fi
           python3 build/pubdata/fetch.py _site
+      - name: 공공데이터 지도 10종에 지역별 현황 표·사용법 글 넣기
+        continue-on-error: true
+        run: python3 build/pubdata/summary.py _site
       - name: 전국 급식 랭킹 데이터 넣기 (data-meal 브랜치)
         continue-on-error: true
         run: |
