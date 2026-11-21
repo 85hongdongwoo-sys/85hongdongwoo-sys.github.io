@@ -1,0 +1,8 @@
+name: exam-probe
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -s -m 60 -A "Mozilla/5.0" -D h.txt -o f.bin "https://www.kice.re.kr/boardCnts/fileDown.do?fileSeq=d7a2497e6b99ede4ab07b9612d734cf3"; head -12 h.txt; file f.bin; ls -la f.bin
