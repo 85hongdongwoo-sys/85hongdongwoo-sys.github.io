@@ -81,6 +81,9 @@
 .pub-more{display:block;width:100%;margin-top:10px;min-height:44px;border:1px solid var(--line-s);border-radius:12px;background:#fff;font:inherit;font-weight:700;cursor:pointer}
 .pub-empty{padding:18px;border-radius:14px;background:#F4F7FB;text-align:center;font-size:14.5px;line-height:1.6;color:var(--ink)}
 .pub-src{font-size:12px;color:var(--muted);margin-top:10px}
+.pub-list .lk a.rv{background:#E7F0FF;color:#1D4ED8}
+.rvw{margin-top:9px;cursor:default}.rvbox{width:100%;height:230px;border-radius:10px;overflow:hidden;background:#F1F3F5}
+.rvn{font-size:12px;color:var(--muted);margin:5px 0 0;line-height:1.45;word-break:keep-all}
 </style>
 </head>
 <body>
@@ -127,14 +130,21 @@ function render(){var c=center(),f=(C.filters||[])[flt],q=($('pub-q')&&$('pub-q'
  var V=L.slice(0,shown),ul=$('pub-list');ul.innerHTML='';
  mk.forEach(function(m){m.setMap(null)});mk=[];if(ov){ov.setMap(null)}
  V.forEach(function(o,i){var li=document.createElement('li');li.innerHTML='<div class="h"><b>'+esc(o.name)+'</b><span class="d">'+dtxt(o._d)+'</span></div>'+(C.card?C.card(o):'')+
-  '<div class="lk"><a class="k" target="_blank" rel="noopener" href="https://map.kakao.com/link/to/'+encodeURIComponent(o.name)+','+o.lat+','+o.lng+'">길찾기</a>'+(o.tel?'<a href="tel:'+esc(String(o.tel).replace(/[^0-9-]/g,''))+'">전화</a>':'')+(C.links?C.links(o):'')+'</div>';
-  li.onclick=function(e){if(e.target.closest('a'))return;focus(i,V)};ul.appendChild(li);
+  '<div class="lk"><a class="k" target="_blank" rel="noopener" href="https://map.kakao.com/link/to/'+encodeURIComponent(o.name)+','+o.lat+','+o.lng+'">길찾기</a>'+(o.tel?'<a href="tel:'+esc(String(o.tel).replace(/[^0-9-]/g,''))+'">전화</a>':'')+(C.rv?'<a href="#" class="rv">📷 가게 앞 보기</a>':'')+(C.links?C.links(o):'')+'</div>';
+  var rb=li.querySelector('a.rv');if(rb)rb.onclick=function(e){e.preventDefault();roadview(li,o,rb)};
+  li.onclick=function(e){if(e.target.closest('a')||e.target.closest('.rvw'))return;focus(i,V)};ul.appendChild(li);
   var col=C.color?C.color(o):'#3182F6',svg='<svg xmlns="http://www.w3.org/2000/svg" width="26" height="33" viewBox="0 0 32 40"><path d="M16 39C16 39 3 24 3 15a13 13 0 0 1 26 0c0 9-13 24-13 24z" fill="'+col+'" stroke="#fff" stroke-width="2.6"/><circle cx="16" cy="15" r="5" fill="#fff"/></svg>';
   var m=new K.Marker({map:map,position:new K.LatLng(o.lat,o.lng),image:new K.MarkerImage('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg),new K.Size(26,33),{offset:new K.Point(13,32)}),title:o.name});
   K.event.addListener(m,'click',function(){focus(i,V,true)});mk.push(m)});
  $('pub-more').hidden=L.length<=shown;
  $('pub-st').textContent=(L.length?((me?'내 위치':'지도 가운데')+'에서 가까운 순 '+Math.min(shown,L.length)+'곳 / 전체 '+L.length.toLocaleString()+'곳'):'조건에 맞는 곳이 없어요')+(META&&META.updated?' · '+META.updated+' 기준':'')+(C.note?' · '+C.note:'');
  if(!L.length)ul.innerHTML='<li class="pub-empty" style="cursor:default">조건에 맞는 곳이 없어요. 지역이나 필터를 바꿔 보세요.</li>'}
+function roadview(li,o,btn){var w=li.querySelector('.rvw');if(w){w.remove();btn.textContent='📷 가게 앞 보기';return}
+ [].forEach.call(document.querySelectorAll('.rvw'),function(x){var b=x.parentNode.querySelector('a.rv');if(b)b.textContent='📷 가게 앞 보기';x.remove()});
+ w=document.createElement('div');w.className='rvw';w.innerHTML='<div class="rvbox"></div><p class="rvn">카카오 로드뷰의 주변 거리 사진이에요. 촬영 시점에 따라 지금 모습과 다를 수 있어요.</p>';li.appendChild(w);btn.textContent='✕ 닫기';
+ if(window.gtag)gtag('event','pub_roadview',{t:C.key||C.single});
+ var pos=new K.LatLng(o.lat,o.lng),box=w.firstChild;new K.RoadviewClient().getNearestPanoId(pos,70,function(id){if(id===null){box.style.height='auto';box.innerHTML='<p class="pub-empty" style="margin:0">이 근처는 로드뷰 사진이 없어요.</p>';return}
+  var rv=new K.Roadview(box);rv.setPanoId(id,pos);K.event.addListener(rv,'init',function(){var p=rv.getPosition(),dy=o.lat-p.getLat(),dx=(o.lng-p.getLng())*Math.cos(o.lat*Math.PI/180),pan=(Math.atan2(dx,dy)*180/Math.PI+360)%360;rv.setViewpoint({pan:pan,tilt:0,zoom:0})})})}
 function focus(i,V,fromMap){var o=V[i];[].forEach.call($('pub-list').children,function(li,j){li.classList.toggle('sel',j===i)});map.panTo(new K.LatLng(o.lat,o.lng));
  if(ov)ov.setMap(null);var d=document.createElement('div');d.style.cssText='background:#191F28;color:#fff;font-size:13px;font-weight:800;padding:6px 10px;border-radius:9px;white-space:nowrap;transform:translateY(-44px);box-shadow:0 2px 8px rgba(0,0,0,.2)';d.textContent=o.name;
  ov=new K.CustomOverlay({map:map,position:new K.LatLng(o.lat,o.lng),content:d,yAnchor:1});if(fromMap){var li=$('pub-list').children[i];if(li)li.scrollIntoView({block:'nearest',behavior:'smooth'})}}
