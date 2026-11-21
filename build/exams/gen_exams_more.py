@@ -404,9 +404,10 @@ def qnet_pages(Q):
                         if used[lab] > 1: lab += f' ({used[lab]})'
                         out.append(f'<a href="{E(u)}" target="_blank" rel="noopener" title="{E(f[0])} 중 {E(l)} (출처: 한국산업인력공단, 공공누리 제1유형)">{E(lab)}</a>')
                     continue
-                lab = qlabel(f[0]); used[lab] += 1
-                if used[lab] > 1:
-                    lab += ' (고화질)' if '고화질' in f[0] else f' ({used[lab]})'
+                lab = qlabel(f[0])
+                if '고화질' in f[0]: lab += ' (고화질)'
+                used[lab] += 1
+                if used[lab] > 1: lab += f' ({used[lab]})'
                 cls = ' class="l"' if f[0].lower().endswith(('.hwp', '.hwpx')) else ''
                 out.append(f'<a{cls} href="{E(qurl(g, f))}" target="_blank" rel="noopener nofollow" title="{E(f[0])} (한국산업인력공단 공식 파일)">{E(lab)}</a>')
             return ''.join(out)
@@ -447,7 +448,7 @@ def qnet_pages(Q):
               *([(f'{q} 합격기준은 어떻게 되나요?', qi_plain(qi_html, '합격기준'))] if '합격기준' in qi_names and qi_plain(qi_html, '합격기준') else []),
               (f'{q} 정답은 어디서 보나요?', '정답(가답안·최종정답)은 시험이 끝난 뒤 큐넷 ‘가답안/최종정답 공개’ 메뉴에 일정 기간 올라와요.')]
         main = (f'<header class="top hub">{cr}<h1>{E(q)} 기출문제 PDF</h1><p class="lead">{lo}년부터 {hi}년까지 {E(q)} 시험 문제지 {len(groups)}회분({sum(len(r["files"]) for r in rs)}개 파일)을 연도·회차별로 모았어요.' + (f' 제{min(rounds)}회부터 제{max(rounds)}회까지 들어 있어요.' if rounds else '') + ' 버튼을 누르면 큐넷 공식 파일이 바로 내려받아져요.</p>'
-                f'<p class="gc-ans">{zipnote}출처: 한국산업인력공단 큐넷(Q-Net), 공공누리 제1유형 ({GE.fmt_date(Q["checked"])} 확인).</p></header>'
+                f'<p class="gc-ans">{zipnote}' + ('<a href="#info"><b>시험과목·합격기준·시험일정 보기</b></a>. ' if qi_html else '') + f'출처: 한국산업인력공단 큐넷(Q-Net), 공공누리 제1유형 ({GE.fmt_date(Q["checked"])} 확인).</p></header>'
                 f'<section class="card"><h2>{E(q)} 연도별 기출문제</h2><p class="qyi">{"".join(yidx)}</p>{lis}</section>' + qi_html + faq_html(qa) +
                 '<section class="card"><h2>다른 자격증 기출</h2><p class="gc-nav"><a href="/ipsi/jagyeok/">자격증 기출 전체</a><a href="/ipsi/gongmuwon/">공무원 기출</a><a href="/ipsi/gumjung/">검정고시 기출</a></p></section>')
         ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
