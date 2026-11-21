@@ -15,6 +15,9 @@ jobs:
       - name: Scrape 공무원·임용 boards
         continue-on-error: true
         run: python3 build/exams/scrape_more.py
+      - name: Scrape 수능 채점결과 등급컷
+        continue-on-error: true
+        run: pip install -q openpyxl && python3 build/exams/scrape_csat.py
       - name: Check official links
         run: python3 build/exams/check_links.py || true
       - name: Commit if changed

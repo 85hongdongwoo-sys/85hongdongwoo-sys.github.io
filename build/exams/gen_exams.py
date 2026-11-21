@@ -14,6 +14,10 @@ DL = 'https://www.suneung.re.kr/boardCnts/fileDown.do?fileSeq='
 BOARD = {'su': 'https://www.suneung.re.kr/boardCnts/list.do?boardID=1500234&m=0403&s=suneung',
          'mo': 'https://www.suneung.re.kr/boardCnts/list.do?boardID=1500236&m=0403&s=suneung'}
 CHECKED = K.get('checked', '')
+try:
+    G = json.load(open(os.path.join(HERE, 'data', 'csat_grades.json'), encoding='utf-8'))
+except Exception:
+    G = {}
 E = html.escape
 
 
@@ -50,6 +54,12 @@ CSS = ('<style id="gc-css">'
        '.gy a b{display:block;font-size:16px;color:var(--head,#111)}.gy a span{font-size:12.5px;color:var(--muted,#5B6B82)}'
        '.gc-t{width:100%;border-collapse:collapse;font-size:14px}.gc-t th,.gc-t td{padding:8px 6px;border-bottom:1px solid var(--line-s,#E3E7EE);text-align:left;vertical-align:top}'
        '.gc-t th{white-space:nowrap;color:var(--muted,#5B6B82);font-weight:700}.gc-t td.n{text-align:right;white-space:nowrap}'
+       '.gd{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin:0 0 6px}'
+       '.gd>div{border:1px solid var(--line-s,#E3E7EE);border-radius:12px;padding:8px 10px;background:#fff;min-width:0}'
+       '.gd h3{margin:2px 0 6px;font-size:15px;color:var(--head,#111)}'
+       '.gt{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}.gt th,.gt td{padding:5px 4px;border-bottom:1px solid var(--line-s,#E3E7EE);text-align:right;white-space:nowrap}'
+       '.gt th:first-child,.gt td:first-child{text-align:left}.gt thead th{color:var(--muted,#5B6B82);font-weight:700;font-size:12.5px}.gt td.c{font-weight:800;color:#1D4ED8}'
+       '.gw{overflow-x:auto;-webkit-overflow-scrolling:touch}.gw .gt td:first-child{white-space:normal;word-break:keep-all;min-width:84px}'
        '.tm{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:0 0 12px}'
        '.tm button{padding:10px 8px;border:1px solid var(--line-s,#E3E7EE);border-radius:10px;background:#fff;font:inherit;font-size:14px;cursor:pointer}'
        '.tm button[aria-pressed=true]{background:#1D4ED8;color:#fff;border-color:#1D4ED8}'
@@ -202,6 +212,100 @@ def build():
     return made
 
 
+GKIND = {'수능': '수능', '9월': '9월 모의평가', '6월': '6월 모의평가'}
+
+
+def sname(n):
+    n = re.sub(r'\s+([ⅠⅡ])', r'\1', n)
+    for a in ('한국 지리', '세계 지리', '생명 과학', '지구 과학', '물리 Ⅰ', '물리 Ⅱ'):
+        n = n.replace(a, a.replace(' ', ''))
+    return n.replace("‘", "'").replace("’", "'")
+
+
+def is_core(n):
+    return re.match(r'(국어|언어|수학|수리|영어|외국어|한국사)', n) is not None
+
+
+def is_abs(y, n):
+    yi = int(y)
+    return (n.startswith('영어') and yi >= 2018) or (n.startswith('한국사') and yi >= 2017)
+
+
+def fnum(v):
+    if isinstance(v, float):
+        return f'{v:.2f}'.rstrip('0').rstrip('.')
+    if isinstance(v, int):
+        return f'{v:,}'
+    return E(str(v))
+
+
+def grade_tables(y, kind, d):
+    subs = d['subjects']
+    core = [k for k in subs if is_core(k)]
+    rest = [k for k in subs if not is_core(k)]
+    boxes = []
+    for k in core:
+        unit = '원점수' if is_abs(y, k) else '표준점수'
+        cum, rows = 0.0, []
+        for g, cut, n, pct in subs[k]:
+            cum += pct if isinstance(pct, (int, float)) else 0
+            rows.append(f'<tr><td>{g}등급</td><td class="c">{fnum(cut)}</td><td>{fnum(pct)}%</td><td>{cum:.2f}%</td></tr>')
+        boxes.append(f'<div><h3>{E(sname(k))}</h3><table class="gt"><thead><tr><th>등급</th><th>{unit}</th><th>비율</th><th>누적</th></tr></thead>'
+                     f'<tbody>{"".join(rows)}</tbody></table></div>')
+    t = ''
+    if rest:
+        rr = []
+        for k in rest:
+            m = {g: (cut, pct) for g, cut, n, pct in subs[k]}
+            cells = ''.join(f'<td{" class=c" if g == 1 else ""}>{fnum(m[g][0]) if g in m else "–"}</td>' for g in range(1, 6))
+            rr.append(f'<tr><td>{E(sname(k))}</td>{cells}<td>{fnum(m[1][1]) + "%" if 1 in m else "–"}</td></tr>')
+        t = ('<h3 style="font-size:15px;margin:14px 0 6px">탐구·제2외국어/한문 과목별 등급컷 (표준점수)</h3><div class="gw"><table class="gt"><thead><tr><th>과목</th>'
+             + ''.join(f'<th>{g}등급</th>' for g in range(1, 6)) + '<th>1등급 비율</th></tr></thead><tbody>' + ''.join(rr) + '</tbody></table></div>')
+    nm = GKIND[kind]
+    return (f'<details class="qg"{" open" if kind == "수능" or (kind == "9월" and "수능" not in G.get(y, {})) else ""}><summary>{y}학년도 {nm} 등급컷 <em>평가원 {fmt_date(d["date"])} 발표</em></summary>'
+            f'<div style="padding:0 12px 10px"><div class="gd">{"".join(boxes)}</div>{t}'
+            f'<p class="gc-src" style="margin:8px 0 0">출처: <a href="{d["src"]}" target="_blank" rel="noopener nofollow">한국교육과정평가원 「{E(d["title"])}」</a> 첨부 등급 구분 표준점수 자료</p></div></details>')
+
+
+def cut1(subs, pat):
+    for k, v in subs.items():
+        if re.match(pat, k) and v and v[0][0] == 1:
+            return sname(k), v[0][1]
+    return None
+
+
+def grade_section(y):
+    d = G.get(y)
+    if not d:
+        return '', '', []
+    blocks = [grade_tables(y, k, d[k]) for k in ('수능', '9월', '6월') if k in d]
+    first = '수능' if '수능' in d else ('9월' if '9월' in d else '6월')
+    subs = d[first]['subjects']
+    picks = [c for c in (cut1(subs, r'(국어|언어)'), cut1(subs, r'(수학|수리)')) if c]
+    more = [cut1(subs, r'수학 나형|수학 B형|수리.나') ] if any('나형' in k or 'B형' in k or "나'" in k for k in subs) else []
+    for c in more:
+        if c and c not in picks:
+            picks.append(c)
+    s1 = ', '.join(f'{n} {fnum(c)}점' for n, c in picks)
+    summary = f'{y}학년도 {GKIND[first]} 1등급 컷(표준점수)은 {s1}이에요(평가원 채점 결과).' if s1 else ''
+    yi = int(y)
+    absn = []
+    if yi >= 2018:
+        absn.append('영어는 절대평가라 원점수 90점 이상 1등급, 80점 이상 2등급처럼 10점 간격으로 등급이 정해져요')
+    if yi >= 2017:
+        absn.append('한국사는 50점 만점에 40점 이상 1등급, 35점 이상 2등급처럼 5점 간격이에요')
+    note = ('평가원은 국어·수학·탐구의 등급 컷을 <b>표준점수</b>로 발표하고 원점수 컷은 따로 내지 않아요. '
+            '누적은 1등급부터 그 등급까지의 인원 비율을 더한 값이에요(상위 몇 %인지). ' + ('. '.join(absn) + '.' if absn else ''))
+    if y == '2022' and '수능' in d and '재채점' in d['수능']['title']:
+        note += ' 2022학년도 수능은 생명과학Ⅱ 정답 판결을 반영한 재채점 결과예요.'
+    sec = (f'<section class="card" id="grade"><h2>{y}학년도 등급컷 (등급 구분 표준점수·비율)</h2>'
+           f'<p class="sn-s" style="margin:0 0 10px;font-size:13.5px;color:var(--muted,#5B6B82);line-height:1.6">{note}</p>{"".join(blocks)}</section>')
+    qa = []
+    if s1:
+        qa.append((f'{y}학년도 {GKIND[first]} 1등급 컷은 몇 점인가요?', summary + ' 등급별 표준점수와 비율은 이 페이지 등급컷 표에 있어요.'))
+    return sec, summary, qa
+
+
 def year_page(y, items, ys):
     yi = int(y)
     path = f'/ipsi/gichul/suneung-{y}.html'
@@ -227,10 +331,13 @@ def year_page(y, items, ys):
     era_t, era_d = era(y)
     total_views = sum(x['views'] for x in items)
     su_date = fmt_date(groups['수능'][0]['date']) if has_su else ''
-    title = f'{y}학년도 수능 기출문제 PDF·정답 ({int(y) - 1}년 11월 시행) + 6월·9월 모의평가 PDF'
+    gsec, gsum, gqa = grade_section(y)
+    gc = '·등급컷' if gsec else ''
+    title = f'{y}학년도 수능 기출문제 PDF·정답{gc} ({int(y) - 1}년 11월 시행) + 6월·9월 모의평가 PDF'
     if not has_su and not cdn_su:
-        title = f'{y}학년도 6월·9월 모의평가 기출문제 PDF·정답 (평가원 공식)'
+        title = f'{y}학년도 6월·9월 모의평가 기출문제 PDF·정답{gc} (평가원 공식)'
     desc = (f'{y}학년도 ' + (f'수능({int(y) - 1}년 11월 시행)과 ' if has_su or cdn_su else '') + '6월·9월 모의평가 기출문제 PDF·정답표 PDF·영어 듣기 파일을 과목별로 정리했어요. '
+            (f'평가원 채점 결과 등급컷(등급 구분 표준점수·비율)도 표로 정리했어요. {gsum} ' if gsec else '') +
             f'한국교육과정평가원 공식 다운로드로 바로 연결되고, 실제 시험 시간 타이머와 그해 시험 체제({era_t}) 설명을 함께 담았어요.')
     cr, crld = crumb(('수능·모의평가 기출', '/ipsi/gichul/'), (f'{y}학년도', ''))
     secs = [cdn_su] if cdn_su else []
@@ -250,6 +357,8 @@ def year_page(y, items, ys):
            if has_su else (f'<b>{y}학년도 수능</b>은 {yi - 1}년 11월에 치러졌고, 문제지와 정답표는 평가원 공식 파일로 바로 받을 수 있어요(평가원 기출 게시판에는 곧 정리돼 올라와요). ' if cdn_su else f'<b>{y}학년도 수능</b> 문제는 평가원 게시판에 아직 올라오지 않았어요. '))
     ans += (f'이 페이지의 {len(items)}개 영역 게시글은 평가원 사이트에서 모두 {man(total_views)}회 조회됐어요. '
             f'그해 시험은 <b>{era_t}</b>였어요.')
+    if gsum:
+        ans += f' {gsum} <a href="#grade">등급컷 표 보기</a>'
     if y == '2027':
         ans += ' 2027학년도 수능(2026년 11월 19일) 문제·정답과 예상 등급컷은 <a href="/ipsi/suneung-2027.html">2027 수능 등급컷 페이지</a>에 있어요.'
     idx = ys.index(y)
@@ -272,13 +381,14 @@ def year_page(y, items, ys):
            '문제지 저작권은 한국교육과정평가원에 있어요. 개인 공부용으로 내려받아 풀 수 있지만, 허락 없이 복제해 배포하거나 출판하면 안 돼요. 홍라이프는 파일을 올리지 않고 공식 주소로만 연결해요.'),
           ('6월·9월 모의평가는 수능과 어떻게 다른가요?',
            '6월·9월 모의평가는 평가원이 그해 수능과 같은 방식으로 출제하는 시험이에요. 난이도와 출제 경향을 가늠할 수 있어서 수능 기출 다음으로 많이 풀어요.'),
+          *gqa,
           ('수능 시험 시간은 과목별로 얼마인가요?',
            '현행 수능은 국어 80분, 수학 100분, 영어 70분, 한국사 30분, 탐구 과목당 30분, 제2외국어/한문 40분이에요.')]
     main = (f'<header class="top hub">{cr}<h1>{E(title.split(" (")[0])}</h1><p class="lead">{lead}</p>'
             f'<p class="gc-ans">{ans}</p></header>'
             f'<section class="card"><h2>{y}학년도 문제지·정답표</h2>{"".join(secs)}'
             f'<p class="gc-src">파일은 홍라이프 서버에 없고 평가원 공식 주소로 열려요. 마지막 확인: {fmt_date(CHECKED)}. '
-            f'문제지 저작권은 한국교육과정평가원에 있어요.</p></section>'
+            f'문제지 저작권은 한국교육과정평가원에 있어요.</p></section>' + gsec +
             f'<section class="card"><h2>{y}학년도 시험 체제: {E(era_t)}</h2><p>{era_d}</p></section>'
             + TIMER_HTML + how + faq_html(qa) +
             f'<section class="card">{nav}</section>'
