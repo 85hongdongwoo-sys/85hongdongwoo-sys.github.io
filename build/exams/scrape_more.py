@@ -3,7 +3,7 @@
   파일은 그 사이트 안에서만 내려받을 수 있어 목록과 공식 페이지 안내만 쓴다.
 - 임용: 한국교육과정평가원 중등·초등 교원임용 기출 게시판 — 공식 파일 다운로드 주소(fileSeq).
 GitHub Actions(exams.yml)에서 주 1회 실행."""
-import http.cookiejar, json, os, re, sys, time, urllib.parse, urllib.request
+import html, http.cookiejar, json, os, re, sys, time, urllib.parse, urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from scrape_kice import rows   # 평가원 게시판 표 파서 재사용
 
@@ -65,21 +65,54 @@ def kice_board(bid, m):
             y = next((x for x in c if re.fullmatch(r'(19|20)\d\d', x)), '')
             kind = next((x for x in c if x in ('문제', '정답', '문제/정답', '채점기준', '답안')), '')
             title = max((x for x in c if x not in (y, kind, date) and not re.fullmatch(r'\d+', x)), key=len, default='')
-            data.append({'y': y, 'kind': kind, 'title': title, 'seq': r['seq'], 'date': date, 'views': views, 'files': r['files']})
+            data.append({'y': y, 'kind': kind, 'title': title, 'seq': r['seq'], 'date': date, 'views': views, 'files': r['files'], 'cells': [x for x in c if x][:6]})
         if len(rs) < 10 or not new: break
         time.sleep(0.6)
     return data
 
+QN = 'https://www.q-net.or.kr'
+QGIDS = [('07', '가맹거래사'), ('64', '감정사'), ('60', '감정평가사'), ('63', '검량사'), ('62', '검수사'), ('46', '경매사'), ('09', '경비지도사'),
+         ('49', '경영지도사'), ('05', '공인노무사'), ('08', '공인중개사'), ('37', '관광통역안내사'), ('24', '관세사'), ('40', '국내여행안내사'),
+         ('50', '기술지도사'), ('45', '농산물품질관리사'), ('43', '국가유산수리기능자'), ('42', '국가유산수리기술자'), ('61', '물류관리사'),
+         ('35', '박물관 및 미술관 준학예사'), ('51', '변리사'), ('52', '사회복지사1급'), ('57', '산업보건지도사'), ('56', '산업안전지도사'),
+         ('22', '세무사'), ('34', '소방시설관리사'), ('33', '소방안전교육사'), ('73', '손해평가사'), ('72', '수산물품질관리사'),
+         ('54', '정수시설운영관리사'), ('59', '주택관리사보'), ('67', '청소년상담사'), ('66', '청소년지도사'), ('36', '한국어교육능력검정시험'),
+         ('31', '행정사'), ('39', '호텔경영사'), ('38', '호텔관리사'), ('41', '호텔서비스사')]
+def qnet():
+    out = []
+    for g, name in QGIDS:
+        posts, seen = [], set()
+        for page in range(1, 8):
+            h = req(f'{QN}/cst003.do?id=cst00301s01&gSite=L&gId={g}&gName={urllib.parse.quote(name)}&page={page}&schText=&schType=&boardId=Q004&code=1008')
+            rows = re.findall(r"goNext\('(\d+)'[^>]*>\s*([^<]+?)\s*</a>.*?(\d{4}\.\d{2}\.\d{2})", h, re.S)
+            new = [r for r in rows if r[0] not in seen]
+            if not new: break
+            for a, t, d in new: seen.add(a); posts.append((a, re.sub(r'\s+', ' ', t).strip(), d.replace('.', '-')))
+            time.sleep(0.4)
+        n = 0
+        for a, t, d in posts:
+            if '공지' in t or '공공누리' in t: continue
+            h = req(f'{QN}/cst003.do?id=cst00302&gSite=L&gId={g}&artlSeq={a}&boardId=Q004')
+            files = [[html.unescape(nm), pth, sq] for pth, nm, sq in re.findall(r"fileDown\('([^']+)',\s*'([^']+)',\s*'(\d+)'\)", h)]
+            y = re.search(r'(20\d\d|19\d\d)\s*년', t)
+            out.append({'g': g, 'q': name, 'title': t, 'y': y.group(1) if y else '', 'date': d, 'seq': a, 'files': files}); n += 1
+            time.sleep(0.4)
+        print('자격', name, n, '건', flush=True)
+    if len(out) < 100: print('too few qnet rows — keep previous'); return None
+    return {'source': QN, 'checked': time.strftime('%Y-%m-%d'), 'license': '공공누리 제1유형(출처표시) — 한국산업인력공단', 'rows': out}
+
 def imyong():
     res = {'source': K, 'checked': time.strftime('%Y-%m-%d'), 'boards': {}}
-    for k, bid, m in (('mid', '1500212', '030306'), ('ele', '1500213', '030307')):
+    for k, bid, m in (('mid', '1500212', '030306'), ('ele', '1500213', '030307'), ('gum', '1500211', '030305')):
         res['boards'][k] = kice_board(bid, m); print('임용', k, len(res['boards'][k]), '건', flush=True)
-    if sum(len(v) for v in res['boards'].values()) < 100: print('too few imyong rows — keep previous'); return None
+    if sum(len(v) for v in res['boards'].values()) < 300: print('too few imyong rows — keep previous'); return None
     return res
 
 if __name__ == '__main__':
     os.makedirs(D, exist_ok=True)
-    for name, fn in (('imyong', imyong), ('gosi', gosi)):
+    only = os.environ.get('ONLY', '')
+    for name, fn in (('imyong', imyong), ('qnet', qnet), ('gosi', gosi)):
+        if only and name not in only.split(','): continue
         try:
             r = fn()
             if r: json.dump(r, open(os.path.join(D, name + '.json'), 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':')); print('saved', name)
