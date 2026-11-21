@@ -5,4 +5,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python3 -I build/probe/probe.py
+      - run: pip install -q openpyxl && python3 build/probe/probe.py
