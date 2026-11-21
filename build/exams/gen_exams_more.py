@@ -20,7 +20,7 @@ SHORT = {'08': '9급 공무원', '06': '7급 공무원', '33': '지방직 공무
          '05': '5급 공채(과학기술)', '09': '외교관후보자', '18': '우정9급(계리직)', '76': '7급 기상직', '78': '9급 기상직',
          '15': '지역인재 7급', '16': '지역인재 9급', '28': '5급 민간경력자', '38': '7급 민간경력자', '96': '근로감독·산업안전 7급'}
 ANS = {'1': '정답가안', '3': '정답가안', '2': '최종정답', '4': '최종정답'}
-XCSS = ('<style id="gc2">.gy.gy2{grid-template-columns:repeat(2,minmax(0,1fr))}.gy.gy2 a{padding:10px}.gy.gy2 a b{font-size:15px;overflow-wrap:anywhere}.gw-how{counter-reset:s;list-style:none;margin:8px 0 0;padding:0}.gw-how li{position:relative;padding:6px 0 6px 34px;line-height:1.6}'
+XCSS = ('<style id="gc2">.qy{font-size:15.5px;margin:16px 4px 4px;color:var(--head,#111)}.qyi{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}.qyi a{padding:4px 8px;border-radius:8px;background:#F1F3F5;color:#333;font-size:12.5px;text-decoration:none;white-space:nowrap}.gy.gy2{grid-template-columns:repeat(2,minmax(0,1fr))}.gy.gy2 a{padding:10px}.gy.gy2 a b{font-size:15px;overflow-wrap:anywhere}.gw-how{counter-reset:s;list-style:none;margin:8px 0 0;padding:0}.gw-how li{position:relative;padding:6px 0 6px 34px;line-height:1.6}'
         '.gw-how li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;background:#1D4ED8;color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}'
         '.gw-btn{display:block;text-align:center;margin:12px 0 0;padding:14px;border-radius:12px;background:#1D4ED8;color:#fff!important;font-weight:800;text-decoration:none}'
         '.gw-sub{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:4px 12px 12px}'
@@ -343,18 +343,57 @@ def qnet_pages(Q):
         title = f'{q} 기출문제 PDF ({lo}~{hi}년, 연도별 문제지)'
         desc = f'{q} 시험 기출문제 문제지를 {lo}년부터 {hi}년까지 연도별로 모았어요. 한국산업인력공단 큐넷 공식 파일로 바로 받을 수 있어요(공공누리 제1유형).'
         cr, crld = crumb(('자격증 기출', '/ipsi/jagyeok/'), (q, ''))
-        def btns(f):
-            pdfs = PM.get(f[2])
-            if pdfs: return ''.join(f'<a href="{E(u)}" target="_blank" rel="noopener" title="{E(f[0])} 중 {E(l)} (출처: 한국산업인력공단, 공공누리 제1유형)">{E(l)} PDF</a>' for l, u in pdfs)
-            return f'<a href="{E(qurl(g, f))}" target="_blank" rel="noopener nofollow" title="{E(f[0])} (한국산업인력공단 공식 파일)">{E(qlabel(f[0]))}</a>'
-        lis = ''.join(f'<li><div><b>{E(r["title"])}</b><small>큐넷 게시 {GE.fmt_date(r["date"])}</small></div><span class="ql">'
-                      + ''.join(btns(f) for f in r['files']) + '</span></li>' for r in rs)
+        def btns(files):
+            out, used = [], collections.Counter()
+            fs = sorted(files, key=lambda f: (0 if f[0].lower().endswith('.pdf') or PM.get(f[2]) else 1 if f[0].lower().endswith('.zip') else 2))
+            for f in fs:
+                pdfs = PM.get(f[2])
+                if pdfs:
+                    for l, u in pdfs:
+                        lab = f'{l} PDF'; used[lab] += 1
+                        if used[lab] > 1: lab += f' ({used[lab]})'
+                        out.append(f'<a href="{E(u)}" target="_blank" rel="noopener" title="{E(f[0])} 중 {E(l)} (출처: 한국산업인력공단, 공공누리 제1유형)">{E(lab)}</a>')
+                    continue
+                lab = qlabel(f[0]); used[lab] += 1
+                if used[lab] > 1:
+                    lab += ' (고화질)' if '고화질' in f[0] else f' ({used[lab]})'
+                cls = ' class="l"' if f[0].lower().endswith(('.hwp', '.hwpx')) else ''
+                out.append(f'<a{cls} href="{E(qurl(g, f))}" target="_blank" rel="noopener nofollow" title="{E(f[0])} (한국산업인력공단 공식 파일)">{E(lab)}</a>')
+            return ''.join(out)
+        def meta(r):
+            t = r['title']; y = r['y'] or r['date'][:4]
+            n = re.search(r'제?\s*(\d{1,2})\s*회', t) or next((re.search(r'제?\s*(\d{1,2})\s*회', f[0]) for f in r['files'] if re.search(r'제?\s*(\d{1,2})\s*회', f[0])), None)
+            c = re.search(r'([12])\s*차', t)
+            h = re.search(r'([A-Z가-하])\s*형', t)
+            kyo = re.search(r'(\d)\s*교시', t)
+            return y, (n.group(1) if n else ''), (c.group(1) if c else ''), (h.group(1) if h else ''), (kyo.group(1) if kyo else '')
+        groups = collections.OrderedDict()
+        for r in rs:
+            y, n, c, h, kyo = meta(r)
+            groups.setdefault((y, n), []).append((r, c, h, kyo))
+        def gkey(item):
+            r, c, h, kyo = item
+            return (c or '9', kyo or '0', h)
+        lis, yidx, rounds = '', [], set()
+        for (y, n), items in groups.items():
+            items.sort(key=gkey)
+            head = f'{y}년' + (f' 제{n}회' if n else '') + f' {q} 기출문제'
+            if n: rounds.add(int(n))
+            yidx.append(f'<a href="#y{y}{n}">{y}년' + (f' {n}회' if n else '') + '</a>')
+            rows = []
+            for r, c, h, kyo in items:
+                if c:
+                    lab = f'{c}차 시험' + (f' {kyo}교시' if kyo else '') + (f' {h}형' if h else '') + ' 문제지'
+                else:
+                    lab = r['title']
+                rows.append(f'<li><div><b>{E(lab)}</b><small>큐넷 게시 {GE.fmt_date(r["date"])} · 원제목: {E(r["title"])}</small></div><span class="ql">{btns(r["files"])}</span></li>')
+            lis += f'<h3 class="qy" id="y{y}{n}">{E(head)}</h3><ul class="qa">{"".join(rows)}</ul>'
         zipnote = '묶음 파일(ZIP)은 압축을 풀면 교시별 PDF가 들어 있어요. ' if any(f[0].lower().endswith('.zip') and not PM.get(f[2]) for r in rs for f in r['files']) else '버튼을 누르면 교시별 PDF가 바로 열려요. '
         qa = [(f'{q} 기출문제는 무료인가요?', '네. 한국산업인력공단이 큐넷에 문제지를 무료로 공개해요. 출처만 밝히면 자유롭게 쓸 수 있는 공공누리 제1유형이에요.'),
               (f'{q} 정답은 어디서 보나요?', '정답(가답안·최종정답)은 시험이 끝난 뒤 큐넷 ‘가답안/최종정답 공개’ 메뉴에 일정 기간 올라와요.')]
-        main = (f'<header class="top hub">{cr}<h1>{E(q)} 기출문제 PDF</h1><p class="lead">{lo}년부터 {hi}년까지 {E(q)} 시험 문제지를 연도별로 모았어요. 버튼을 누르면 큐넷 공식 파일이 바로 내려받아져요.</p>'
+        main = (f'<header class="top hub">{cr}<h1>{E(q)} 기출문제 PDF</h1><p class="lead">{lo}년부터 {hi}년까지 {E(q)} 시험 문제지 {len(groups)}회분({sum(len(r["files"]) for r in rs)}개 파일)을 연도·회차별로 모았어요.' + (f' 제{min(rounds)}회부터 제{max(rounds)}회까지 들어 있어요.' if rounds else '') + ' 버튼을 누르면 큐넷 공식 파일이 바로 내려받아져요.</p>'
                 f'<p class="gc-ans">{zipnote}출처: 한국산업인력공단 큐넷(Q-Net), 공공누리 제1유형 ({GE.fmt_date(Q["checked"])} 확인).</p></header>'
-                f'<section class="card"><h2>연도별 문제지</h2><ul class="qa">{lis}</ul></section>' + faq_html(qa) +
+                f'<section class="card"><h2>{E(q)} 연도별 기출문제</h2><p class="qyi">{"".join(yidx)}</p>{lis}</section>' + faq_html(qa) +
                 '<section class="card"><h2>다른 자격증 기출</h2><p class="gc-nav"><a href="/ipsi/jagyeok/">자격증 기출 전체</a><a href="/ipsi/gongmuwon/">공무원 기출</a><a href="/ipsi/gumjung/">검정고시 기출</a></p></section>')
         ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
         made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + main, ld))
