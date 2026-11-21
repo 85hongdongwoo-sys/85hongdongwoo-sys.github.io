@@ -210,16 +210,30 @@ def year_page(y, items, ys):
         groups[x['mon']].append(x)
     mons = sorted(groups, key=lambda m: MON_ORDER.get(m, 9))
     has_su = '수능' in groups
+    # 평가원 게시판에 아직 안 올라온 최신 수능: 수능 당일 평가원 공식 CDN(cdn.kice.re.kr)에 올라온 문제·정답 링크를 그해 등급컷 페이지에서 가져온다
+    cdn_su = ''
+    if not has_su:
+        try:
+            sp = open(os.path.join(root, 'ipsi', f'suneung-{y}.html'), encoding='utf-8').read()
+            i = sp.find('id="exam"'); j = sp.find('</section>', i)
+            blocks = re.findall(r'<details class="qg".*?</details>', sp[i:j], re.S) if i > 0 else []
+            blocks = [b for b in blocks if 'cdn.kice.re.kr' in b]
+            if blocks:
+                blocks = [re.sub(r'<details class="qg"( open)?><summary>', f'<details class="qg"{{1}}><summary>{y}학년도 수능 · '.replace('{1}', ' open' if k == 0 else ''), b, count=1)
+                          .replace('rel="noopener"', 'rel="noopener nofollow"') for k, b in enumerate(blocks)]
+                cdn_su = ''.join(blocks)
+        except Exception:
+            cdn_su = ''
     era_t, era_d = era(y)
     total_views = sum(x['views'] for x in items)
     su_date = fmt_date(groups['수능'][0]['date']) if has_su else ''
     title = f'{y}학년도 수능 기출문제 PDF·정답 ({int(y) - 1}년 11월 시행) + 6월·9월 모의평가 PDF'
-    if not has_su:
+    if not has_su and not cdn_su:
         title = f'{y}학년도 6월·9월 모의평가 기출문제 PDF·정답 (평가원 공식)'
-    desc = (f'{y}학년도 ' + (f'수능({int(y) - 1}년 11월 시행)과 ' if has_su else '') + '6월·9월 모의평가 기출문제 PDF·정답표 PDF·영어 듣기 파일을 과목별로 정리했어요. '
+    desc = (f'{y}학년도 ' + (f'수능({int(y) - 1}년 11월 시행)과 ' if has_su or cdn_su else '') + '6월·9월 모의평가 기출문제 PDF·정답표 PDF·영어 듣기 파일을 과목별로 정리했어요. '
             f'한국교육과정평가원 공식 다운로드로 바로 연결되고, 실제 시험 시간 타이머와 그해 시험 체제({era_t}) 설명을 함께 담았어요.')
     cr, crld = crumb(('수능·모의평가 기출', '/ipsi/gichul/'), (f'{y}학년도', ''))
-    secs = []
+    secs = [cdn_su] if cdn_su else []
     for m in mons:
         g = sorted(groups[m], key=lambda x: (AREA_ORDER.index(x['area']) if x['area'] in AREA_ORDER else 99, -x['views']))
         lis = []
@@ -230,10 +244,10 @@ def year_page(y, items, ys):
         board = BOARD['su' if m == '수능' else 'mo']
         secs.append(f'<details class="qg"{" open" if m == mons[0] else ""}><summary>{y}학년도 {nm} <em>{len(g)}개 영역</em></summary>'
                     f'<ul class="qa">{"".join(lis)}</ul><p class="gc-src" style="margin:0 14px 10px">출처: <a href="{board}" target="_blank" rel="noopener nofollow">한국교육과정평가원 기출문제 게시판</a></p></details>')
-    lead = (f'{y}학년도 ' + ('대학수학능력시험(수능)과 ' if has_su else '') + '6월·9월 모의평가의 문제지 PDF와 정답표 PDF를 영역별로 모았어요. '
+    lead = (f'{y}학년도 ' + ('대학수학능력시험(수능)과 ' if has_su or cdn_su else '') + '6월·9월 모의평가의 문제지 PDF와 정답표 PDF를 영역별로 모았어요. '
             '버튼을 누르면 한국교육과정평가원 공식 PDF 파일이 바로 열려요.')
     ans = (f'<b>{y}학년도 수능</b>은 {yi - 1}년 11월에 치러졌고, 평가원은 {su_date}에 문제지와 정답표를 공개했어요. '
-           if has_su else f'<b>{y}학년도 수능</b> 문제는 평가원 게시판에 아직 올라오지 않았어요. ')
+           if has_su else (f'<b>{y}학년도 수능</b>은 {yi - 1}년 11월에 치러졌고, 문제지와 정답표는 평가원 공식 파일로 바로 받을 수 있어요(평가원 기출 게시판에는 곧 정리돼 올라와요). ' if cdn_su else f'<b>{y}학년도 수능</b> 문제는 평가원 게시판에 아직 올라오지 않았어요. '))
     ans += (f'이 페이지의 {len(items)}개 영역 게시글은 평가원 사이트에서 모두 {man(total_views)}회 조회됐어요. '
             f'그해 시험은 <b>{era_t}</b>였어요.')
     if y == '2027':
@@ -289,6 +303,10 @@ def hub_page(ys, years, allp):
     for y in ys:
         it = years[y]
         ms = sorted({x['mon'] for x in it}, key=lambda m: MON_ORDER.get(m, 9))
+        if '수능' not in ms:
+            try:
+                if 'cdn.kice.re.kr' in open(os.path.join(root, 'ipsi', f'suneung-{y}.html'), encoding='utf-8').read(): ms = ['수능'] + ms
+            except Exception: pass
         cards.append(f'<li><a href="/ipsi/gichul/suneung-{y}.html"><b>{y}학년도</b><span>{" · ".join("수능" if m == "수능" else (m + " 모평" if m in ("6월", "9월") else m) for m in ms)}</span></a></li>')
     allp = [x for v in years.values() for x in v]
     top = sorted(allp, key=lambda x: -x['views'])[:15]
