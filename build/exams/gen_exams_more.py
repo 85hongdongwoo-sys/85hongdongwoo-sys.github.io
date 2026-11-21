@@ -307,6 +307,120 @@ def imyong_pages(I):
     made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + main, ld))
     return made
 
+
+# ───────────── 국가전문자격 (큐넷, 공공누리 제1유형) ─────────────
+import urllib.parse
+QN = 'https://www.q-net.or.kr'
+QSLUG = {'07': 'gamaeng', '64': 'gamjeongsa', '60': 'gamjeong-pyeongga', '63': 'geomryang', '62': 'geomsu', '46': 'gyeongmae', '09': 'gyeongbi',
+         '49': 'gyeongyeong-jido', '05': 'nomusa', '08': 'junggaesa', '37': 'gwangwang-tongyeok', '24': 'gwanse', '40': 'gungnae-yeohaeng',
+         '50': 'gisul-jido', '45': 'nongsanmul-pumjil', '43': 'gukgayusan-gineung', '42': 'gukgayusan-gisul', '61': 'mulryu', '35': 'junhakye',
+         '51': 'byeonri', '52': 'sahoebokji-1', '57': 'saneop-bogeon', '56': 'saneop-anjeon', '22': 'semusa', '34': 'sobang-gwanri',
+         '33': 'sobang-anjeon-gyoyuk', '73': 'sonhae-pyeongga', '72': 'susanmul-pumjil', '54': 'jeongsu-siseol', '59': 'jutaek-gwanri',
+         '67': 'cheongsonyeon-sangdam', '66': 'cheongsonyeon-jido', '36': 'hangugeo-gyoyuk', '31': 'haengjeongsa', '39': 'hotel-gyeongyeong',
+         '38': 'hotel-gwanri', '41': 'hotel-service'}
+def qurl(g, f):
+    name, path, seq = f
+    return f'{QN}/cst003.do?id=cst00302s01&gSite=L&gId={g}&fileCode=R001&filePath={urllib.parse.quote(path)}&fileName={urllib.parse.quote(name)}&fileSeq={seq}'
+def qlabel(name):
+    b = name.rsplit('.', 1)[0]; ext = name.rsplit('.', 1)[-1].upper() if '.' in name else ''
+    b = re.sub(r'^(19|20)\d\d\s*년?\s*(제?\s*\d+\s*회)?\s*', '', b).strip(' _-')
+    b = re.sub(r'(공인중개사|주택관리사보?|자격시험|시험)\s*', '', b).strip(' _-') or '문제지'
+    return (b[:22] + ' ' + ext).strip()
+def qnet_pages(Q):
+    rows = [r for r in Q['rows'] if r.get('files')]
+    by = collections.defaultdict(list)
+    for r in rows: by[(r['g'], r['q'])].append(r)
+    made, cards = [], []
+    for (g, q), rs in sorted(by.items(), key=lambda kv: -len(kv[1])):
+        slug = QSLUG.get(g, 'q' + g); path = f'/ipsi/jagyeok/{slug}.html'
+        rs.sort(key=lambda r: (r['y'] or r['date'][:4], r['date']), reverse=True)
+        ys = sorted({r['y'] for r in rs if r['y']}, reverse=True) or ['']
+        lo, hi = ys[-1], ys[0]
+        title = f'{q} 기출문제 PDF ({lo}~{hi}년, 연도별 문제지)'
+        desc = f'{q} 시험 기출문제 문제지를 {lo}년부터 {hi}년까지 연도별로 모았어요. 한국산업인력공단 큐넷 공식 파일로 바로 받을 수 있어요(공공누리 제1유형).'
+        cr, crld = crumb(('자격증 기출', '/ipsi/jagyeok/'), (q, ''))
+        lis = ''.join(f'<li><div><b>{E(r["title"])}</b><small>큐넷 게시 {GE.fmt_date(r["date"])}</small></div><span class="ql">'
+                      + ''.join(f'<a href="{E(qurl(g, f))}" target="_blank" rel="noopener nofollow" title="{E(f[0])} (한국산업인력공단 공식 파일)">{E(qlabel(f[0]))}</a>' for f in r['files'])
+                      + '</span></li>' for r in rs)
+        zipnote = '묶음 파일(ZIP)은 압축을 풀면 교시별 PDF가 들어 있어요. ' if any(f[0].lower().endswith('.zip') for r in rs for f in r['files']) else ''
+        qa = [(f'{q} 기출문제는 무료인가요?', '네. 한국산업인력공단이 큐넷에 문제지를 무료로 공개해요. 출처만 밝히면 자유롭게 쓸 수 있는 공공누리 제1유형이에요.'),
+              (f'{q} 정답은 어디서 보나요?', '정답(가답안·최종정답)은 시험이 끝난 뒤 큐넷 ‘가답안/최종정답 공개’ 메뉴에 일정 기간 올라와요.')]
+        main = (f'<header class="top hub">{cr}<h1>{E(q)} 기출문제 PDF</h1><p class="lead">{lo}년부터 {hi}년까지 {E(q)} 시험 문제지를 연도별로 모았어요. 버튼을 누르면 큐넷 공식 파일이 바로 내려받아져요.</p>'
+                f'<p class="gc-ans">{zipnote}출처: 한국산업인력공단 큐넷(Q-Net), 공공누리 제1유형 ({GE.fmt_date(Q["checked"])} 확인).</p></header>'
+                f'<section class="card"><h2>연도별 문제지</h2><ul class="qa">{lis}</ul></section>' + faq_html(qa) +
+                '<section class="card"><h2>다른 자격증 기출</h2><p class="gc-nav"><a href="/ipsi/jagyeok/">자격증 기출 전체</a><a href="/ipsi/gongmuwon/">공무원 기출</a><a href="/ipsi/gumjung/">검정고시 기출</a></p></section>')
+        ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
+        made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + main, ld))
+        cards.append((q, slug, lo, hi, len(rs)))
+    path = '/ipsi/jagyeok/'
+    title = '자격증 기출문제 PDF 모음 (공인중개사·주택관리사·사회복지사1급 등 국가전문자격)'
+    desc = '공인중개사, 주택관리사보, 사회복지사1급, 공인노무사 등 국가전문자격 기출문제 PDF를 자격별·연도별로 모았어요. 한국산업인력공단 큐넷 공식 파일로 바로 받을 수 있어요.'
+    cr, crld = crumb(('자격증 기출', ''))
+    li = ''.join(f'<li><a href="/ipsi/jagyeok/{s}.html"><b>{E(n)}</b><span>{lo}~{hi}년 · {c}건</span></a></li>' for n, s, lo, hi, c in cards)
+    qa = [('어떤 자격증이 있나요?', '한국산업인력공단이 시행하는 국가전문자격 중 큐넷에 문제지를 공개한 자격이에요. 기사·산업기사 같은 국가기술자격은 문제를 공개하지 않아 없어요.')]
+    main = (f'<header class="top hub">{cr}<h1>자격증 기출문제 PDF 모음</h1><p class="lead">국가전문자격 시험 문제지를 자격별·연도별로 모았어요.</p>'
+            f'<p class="gc-ans">한국산업인력공단은 국가전문자격 시험문제지를 공공누리 제1유형으로 개방해요. 버튼은 큐넷 공식 파일로 바로 연결돼요 ({GE.fmt_date(Q["checked"])} 확인).</p></header>'
+            f'<section class="card"><h2>자격별 ({len(cards)}개)</h2><ul class="gy gy2">{li}</ul></section>' + faq_html(qa) +
+            '<section class="card"><h2>다른 시험 기출</h2><p class="gc-nav"><a href="/ipsi/gumjung/">검정고시 기출</a><a href="/ipsi/gongmuwon/">공무원 기출</a><a href="/ipsi/imyong/">임용 기출</a><a href="/ipsi/gichul/">수능 기출</a></p></section>')
+    ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
+    made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + main, ld))
+    return made
+
+# ───────────── 검정고시 (평가원) ─────────────
+GLV = [('gojol', '고졸', '고졸 검정고시'), ('jungjol', '중졸', '중졸 검정고시'), ('chojol', '초졸', '초졸 검정고시')]
+def gum_parse(x):
+    c = x.get('cells') or []
+    lv = next((v for v in c if '학력' in v or v in ('고졸', '중졸', '초졸')), '')
+    rd = next((v for v in c if re.search(r'\d\s*차', v) or re.search(r'\d\s*회', v)), '')
+    sub = next((v for v in c if v not in (lv, rd, x['y'], x['date']) and not re.fullmatch(r'\d+', v)), x['title'])
+    m = re.search(r'(\d)', rd)
+    return lv, (m.group(1) if m else ''), sub
+def gum_pages(I):
+    items = [x for x in I['boards'].get('gum', []) if x['files'] and x['y']]
+    made, cards = [], []
+    for slug, key, name in GLV:
+        its = []
+        for x in items:
+            lv, rd, sub = gum_parse(x)
+            if lv.startswith(key): its.append((x, rd, sub))
+        if not its: continue
+        path = f'/ipsi/gumjung/{slug}.html'
+        ys = sorted({x['y'] for x, _, _ in its}, reverse=True); lo, hi = ys[-1], ys[0]
+        title = f'{name} 기출문제 PDF·정답 ({lo}~{hi}년, 회차별)'
+        desc = f'{name} 기출문제 PDF와 정답을 {lo}년부터 {hi}년까지 연도·회차별로 모았어요. 국어·수학·영어 등 과목별 문제지를 한국교육과정평가원 공식 파일로 바로 받을 수 있어요.'
+        cr, crld = crumb(('검정고시 기출', '/ipsi/gumjung/'), (name, ''))
+        secs = ''
+        for k, y in enumerate(ys):
+            for rd in sorted({r for x, r, _ in its if x['y'] == y}, reverse=True):
+                grp = [(x, sub) for x, r, sub in its if x['y'] == y and r == rd]
+                ans = [(x, sub) for x, sub in grp if '정답' in sub]
+                qs = [(x, sub) for x, sub in grp if '정답' not in sub]
+                ansl = ''.join(f'<a class="a" href="{KDL}{f[1]}" target="_blank" rel="noopener nofollow" title="{E(f[0])}">{E(sub)} PDF</a>' for x, sub in ans for f in x['files'])
+                lis = ''.join(f'<li><div><b>{E(sub)}</b></div><span class="ql">' + ''.join(f'<a href="{KDL}{f[1]}" target="_blank" rel="noopener nofollow" title="{E(f[0])} (한국교육과정평가원 공식 파일)">문제 PDF</a>' for f in x['files']) + '</span></li>' for x, sub in qs)
+                secs += (f'<details class="qg"{" open" if k == 0 else ""}><summary>{y}년 제{rd}회 {E(name)} <em>{len(qs)}과목</em></summary>'
+                         + (f'<p class="ql" style="margin:4px 12px 6px;justify-content:flex-start">{ansl}</p>' if ansl else '') + f'<ul class="qa">{lis}</ul></details>')
+        qa = [(f'{name} 기출문제는 어디서 받나요?', '검정고시 문제는 한국교육과정평가원이 출제하고, 평가원 기출문제 게시판에 문제지와 정답을 공개해요. 이 페이지의 버튼은 그 공식 PDF로 바로 연결돼요.'),
+              ('검정고시는 1년에 몇 번 있나요?', '보통 1년에 두 번, 4월쯤 제1회와 8월쯤 제2회가 치러져요. 정확한 일정은 시험 보는 지역 교육청 공고를 확인하세요.')]
+        main = (f'<header class="top hub">{cr}<h1>{E(name)} 기출문제 PDF·정답</h1><p class="lead">{lo}년부터 {hi}년까지 {E(name)} 문제지와 정답을 연도·회차별로 모았어요. 버튼을 누르면 평가원 공식 PDF가 바로 열려요.</p>'
+                f'<p class="gc-ans">회차마다 맨 위 주황색 버튼이 정답 PDF예요 ({GE.fmt_date(I["checked"])} 확인).</p></header>'
+                f'<section class="card"><h2>연도·회차별 기출</h2>{secs}<p class="gc-src">출처: 한국교육과정평가원 검정고시 기출문제 게시판</p></section>' + faq_html(qa) +
+                '<section class="card"><h2>다른 검정고시</h2><p class="gc-nav"><a href="/ipsi/gumjung/">검정고시 기출 전체</a>' + ''.join(f'<a href="/ipsi/gumjung/{s2}.html">{n2}</a>' for s2, _, n2 in GLV if s2 != slug) + '</p></section>')
+        ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
+        made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + main, ld))
+        cards.append((name, slug, lo, hi))
+    if not cards: return made
+    path = '/ipsi/gumjung/'
+    title = '검정고시 기출문제 PDF·정답 모음 (고졸·중졸·초졸, 연도·회차별)'
+    desc = '고졸·중졸·초졸 검정고시 기출문제 PDF와 정답을 연도·회차·과목별로 모았어요. 한국교육과정평가원 공식 파일로 바로 받을 수 있어요.'
+    cr, crld = crumb(('검정고시 기출', ''))
+    li = ''.join(f'<li><a href="/ipsi/gumjung/{s}.html"><b>{E(n)}</b><span>{lo}~{hi}년</span></a></li>' for n, s, lo, hi in cards)
+    main = (f'<header class="top hub">{cr}<h1>검정고시 기출문제 PDF·정답</h1><p class="lead">고졸·중졸·초졸 검정고시 기출을 연도·회차별로 모았어요.</p>'
+            f'<p class="gc-ans">문제와 정답 모두 한국교육과정평가원 공식 PDF로 바로 연결돼요 ({GE.fmt_date(I["checked"])} 확인).</p></header>'
+            f'<section class="card"><h2>학력별</h2><ul class="gy">{li}</ul></section>'
+            '<section class="card"><h2>다른 시험 기출</h2><p class="gc-nav"><a href="/ipsi/jagyeok/">자격증 기출</a><a href="/ipsi/gongmuwon/">공무원 기출</a><a href="/ipsi/gichul/">수능 기출</a></p></section>')
+    made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + main, [crld]))
+    return made
+
 def register(paths):
     sm = os.path.join(root, 'sitemap.xml'); s = open(sm, encoding='utf-8').read()
     smadd = ''.join(f'<url><loc>{SITE}{p}</loc><lastmod>{GE.CHECKED}</lastmod></url>\n' for p in paths if f'{SITE}{p}<' not in s)
@@ -318,6 +432,10 @@ def register(paths):
         ent.append({"t": "공무원 기출문제 PDF·정답 (9급·7급·지방직)", "d": "시험별·연도별 공개 과목, 공식 PDF 받는 법", "k": "공무원 기출 9급 기출 7급 기출 지방직 기출 국가직 기출 공무원 기출문제 pdf 공무원 정답 인사혁신처 기출 계리직 기출 국어 영어 한국사 행정법 행정학", "c": "입시·시험", "u": "/ipsi/gongmuwon/"})
     if '/ipsi/imyong/' in paths and '"u":"/ipsi/imyong/"' not in s:
         ent.append({"t": "임용시험 기출문제 PDF (중등·초등)", "d": "학년도별·과목별 평가원 공식 PDF", "k": "임용 기출 임용고시 기출 중등임용 기출 초등임용 기출 교육학 기출 임용 기출문제 pdf 평가원 임용", "c": "입시·시험", "u": "/ipsi/imyong/"})
+    if '/ipsi/jagyeok/' in paths and '"u":"/ipsi/jagyeok/"' not in s:
+        ent.append({"t": "자격증 기출문제 PDF (국가전문자격)", "d": "공인중개사·주택관리사·사회복지사1급 등 연도별 문제지", "k": "자격증 기출 공인중개사 기출 주택관리사 기출 사회복지사1급 기출 공인노무사 기출 세무사 기출 행정사 기출 손해평가사 기출 큐넷 기출 pdf", "c": "입시·시험", "u": "/ipsi/jagyeok/"})
+    if '/ipsi/gumjung/' in paths and '"u":"/ipsi/gumjung/"' not in s:
+        ent.append({"t": "검정고시 기출문제 PDF·정답", "d": "고졸·중졸·초졸 연도·회차별 문제와 정답", "k": "검정고시 기출 고졸 검정고시 중졸 검정고시 초졸 검정고시 기출문제 pdf 정답 평가원", "c": "입시·시험", "u": "/ipsi/gumjung/"})
     if ent and TRIP in s:
         open(idx, 'w', encoding='utf-8').write(s.replace(TRIP, TRIP + ',' + ','.join(json.dumps(x, ensure_ascii=False, separators=(',', ':')) for x in ent), 1))
     # /ipsi/ 허브 시험별 섹션에 링크 추가
@@ -326,14 +444,17 @@ def register(paths):
         add = ''
         if '/ipsi/gongmuwon/' in paths: add += '<li><a href="/ipsi/gongmuwon/"><b>공무원 기출문제 PDF·정답</b><span>9급·7급 국가직·지방직, 직렬별 과목, 공식 PDF 받는 법</span></a></li>'
         if '/ipsi/imyong/' in paths: add += '<li><a href="/ipsi/imyong/"><b>임용시험 기출문제 PDF</b><span>교육학·국어·수학 등 과목별, 학년도별 평가원 공식 PDF</span></a></li>'
+        if '/ipsi/jagyeok/' in paths: add += '<li><a href="/ipsi/jagyeok/"><b>자격증 기출문제 PDF</b><span>공인중개사·주택관리사·사회복지사1급 등 국가전문자격, 큐넷 공식 파일</span></a></li>'
+        if '/ipsi/gumjung/' in paths: add += '<li><a href="/ipsi/gumjung/"><b>검정고시 기출문제 PDF·정답</b><span>고졸·중졸·초졸 연도·회차별, 평가원 공식 PDF</span></a></li>'
         i = s.find('</ul>', s.find('id="exam-list"'))
         s = s[:i] + add + s[i:]; open(p, 'w', encoding='utf-8').write(s)
     print('more exam pages:', len(paths), 'sitemap +', smadd.count('<url>'))
 
 if __name__ == '__main__':
     made = []
-    g = load('gosi'); i = load('imyong')
+    g = load('gosi'); i = load('imyong'); q = load('qnet')
     if g: made += gosi_pages(g)
-    if i: made += imyong_pages(i)
+    if i: made += imyong_pages(i); made += gum_pages(i)
+    if q: made += qnet_pages(q)
     if made: register(made)
     else: print('no 공무원·임용 data yet')
