@@ -134,7 +134,7 @@ def er():
     beds = {}
     for s in SIDO:
         try:
-            it = paged('https://apis.data.go.kr/B552657/ErmctInfoInqireService/getEmrrmRlTmUsefulSckbdInfoInqire', {'STAGE1': FULL[s]}, rows=300, maxpage=3)
+            it = paged('https://apis.data.go.kr/B552657/ErmctInfoInqireService/getEmrrmRltmUsefulSckbdInfoInqire', {'STAGE1': FULL[s]}, rows=300, maxpage=3)
             for x in it: beds[x.get('hpid')] = [x.get('hvec'), x.get('hvidate', '')]
         except Exception as e: log('er beds', s, e)
     rows = []
@@ -226,21 +226,21 @@ def fuel():
     from pyproj import Transformer
     tr = Transformer.from_crs('+proj=tmerc +lat_0=38 +lon_0=128 +k=0.9999 +x_0=400000 +y_0=600000 +ellps=bessel +units=m +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43', 'EPSG:4326', always_xy=True)
     avg = json.loads(get('https://www.opinet.co.kr/api/avgSidoPrice.do', {'out': 'json', 'code': OK}))['RESULT']['OIL']
+    # 오피넷 일반 키는 하루 300건: 시도별 최저가 상위 20곳 × 휘발유·경유 = 34건 + 평균 1건 (6시간마다 → 하루 140건)
     st = {}
     for s, c in OPI_SIDO.items():
-        try: areas = json.loads(get('https://www.opinet.co.kr/api/areaCode.do', {'out': 'json', 'code': OK, 'area': c}))['RESULT']['OIL']
-        except Exception as e: log('fuel area', s, e); continue
-        for a in areas:
-            for prod in ('B027', 'D047'):
-                try: oil = json.loads(get('https://www.opinet.co.kr/api/lowTop10.do', {'out': 'json', 'code': OK, 'prodcd': prod, 'area': a['AREA_CD'], 'cnt': 10}))['RESULT']['OIL']
-                except Exception as e: log('fuel low', a.get('AREA_NM'), e); continue
-                for o in oil:
-                    k = o['UNI_ID']
-                    if k not in st:
-                        lo, la = tr.transform(float(o['GIS_X_COOR']), float(o['GIS_Y_COOR']))
-                        st[k] = [s, [o.get('OS_NM', ''), round(la, 6), round(lo, 6), o.get('NEW_ADR') or o.get('VAN_ADR', ''), o.get('POLL_DIV_CD', ''), None, None, a.get('AREA_NM', '')]]
-                    st[k][1][5 if prod == 'B027' else 6] = o.get('PRICE')
-                time.sleep(0.15)
+        for prod in ('B027', 'D047'):
+            try: oil = json.loads(get('https://www.opinet.co.kr/api/lowTop10.do', {'out': 'json', 'code': OK, 'prodcd': prod, 'area': c, 'cnt': 20}))['RESULT']['OIL']
+            except Exception as e: log('fuel low', s, e); continue
+            for o in oil:
+                k = o['UNI_ID']
+                if k not in st:
+                    lo, la = tr.transform(float(o['GIS_X_COOR']), float(o['GIS_Y_COOR']))
+                    adr = o.get('NEW_ADR') or o.get('VAN_ADR', '')
+                    parts = adr.split()
+                    st[k] = [s, [o.get('OS_NM', ''), round(la, 6), round(lo, 6), adr, o.get('POLL_DIV_CD', ''), None, None, parts[1] if len(parts) > 1 else s]]
+                st[k][1][5 if prod == 'B027' else 6] = o.get('PRICE')
+            time.sleep(0.2)
     write_split('fuel', [tuple(v) for v in st.values()], ['name', 'lat', 'lng', 'addr', 'brand', 'gasoline', 'diesel', 'area'],
                 {'avg': [[x.get('SIDONM'), x.get('PRODCD'), x.get('PRICE')] for x in avg]})
 
