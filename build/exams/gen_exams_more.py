@@ -58,8 +58,10 @@ def is_common(sub): return any(sub.startswith(c) for c in COMMON)
 def chip(sub, items):
     bks = '·'.join(sorted({i['bk'] for i in items if i['bk']}))
     a = next((ANS.get(i['ans']) for i in items if ANS.get(i['ans']) == '최종정답'), '') or next((ANS.get(i['ans']) for i in items if ANS.get(i['ans'])), '')
-    return (f'<li data-s="{E(sub)}">{E(sub)}{"<small>" + E(bks) + "책형</small>" if bks else ""}'
-            f'{"<i" + ("" if a == "최종정답" else " class=p") + ">" + a + "</i>" if a else ""}</li>')
+    i0 = items[0]
+    return (f'<li data-s="{E(sub)}"><button type="button" class="gw-go" data-n="{E(i0.get("nm", ""))}" data-sub="{E(sub)}" data-y="{E(i0.get("y", ""))}" data-bk="{E(bks)}" data-a="{E(a)}">'
+            f'{E(sub)}{"<small>" + E(bks) + "책형</small>" if bks else ""}'
+            f'{"<i" + ("" if a == "최종정답" else " class=p") + ">" + a + "</i>" if a else ""}</button></li>')
 
 def nz(x): return re.sub(r'[ㆍ·\s]', '', x)
 
@@ -92,7 +94,23 @@ GX = ('<style id="gc3">.gw-h{font-size:12.5px;font-weight:800;color:var(--muted,
       '.gw-org>h3{font-size:14.5px;margin:8px 12px 0;color:#1D4ED8}'
       '.gw-pick{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}.gw-pick button{font:inherit;font-size:13.5px;border:1px solid var(--line-s,#E3E7EE);background:#fff;border-radius:999px;padding:7px 11px;cursor:pointer;min-height:36px}'
       '.gw-pick button[aria-pressed=true]{background:#1D4ED8;border-color:#1D4ED8;color:#fff}'
+      '.gw-sub li{padding:0!important}.gw-go{all:unset;box-sizing:border-box;display:block;padding:6px 9px;cursor:pointer;border-radius:8px;max-width:100%;overflow-wrap:anywhere}.gw-go:hover{background:#EEF4FF}.gw-go:focus-visible{outline:2px solid #1D4ED8}'
+      '.gw-tip{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);width:min(560px,calc(100% - 20px));box-sizing:border-box;background:#fff;border:1px solid #C9D8F5;border-radius:16px;box-shadow:0 10px 30px rgba(15,40,90,.22);padding:14px 16px 16px;z-index:9999}'
+      '.gw-tip[hidden]{display:none}.gw-tip h3{margin:0 30px 8px 0;font-size:16px;color:var(--head,#111);line-height:1.4}.gw-tip ol{margin:0;padding:0 0 0 20px;font-size:14.5px;line-height:1.7}.gw-tip ol b{color:#1D4ED8}'
+      '.gw-tip .x{position:absolute;right:10px;top:8px;border:0;background:none;font-size:22px;cursor:pointer;color:#5B6B82;min-width:36px;min-height:36px}'
+      '.gw-tip .r{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px}.gw-tip .r a{display:block;text-align:center;padding:12px;border-radius:12px;background:#1D4ED8;color:#fff!important;font-weight:800;text-decoration:none}'
+      '.gw-tip .r button{border:1px solid var(--line-s,#E3E7EE);background:#fff;border-radius:12px;padding:0 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}'
       '.gw-on .gw-j:not(.hit){display:none}.gw-on .gw-sub li.dim{display:none}.gw-on .gw-x{display:none}.gw-on .gw-org.nohit .gw-jh{display:none}</style>')
+TIPJS = (r"""<div class="gw-tip" id="gw-tip" hidden role="dialog" aria-live="polite"><button type="button" class="x" aria-label="닫기">×</button><h3 id="gw-tt"></h3><ol id="gw-to"></ol>
+<div class="r"><a id="gw-open" href="%URL%" target="_blank" rel="noopener nofollow">인사혁신처 공식 페이지 열기</a><button type="button" id="gw-copy">과목명 복사</button></div></div>
+<script>(function(){var t=document.getElementById('gw-tip');if(!t)return;var cur='';function E(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+document.addEventListener('click',function(e){var b=e.target.closest('.gw-go');if(!b)return;cur=b.dataset.sub;
+document.getElementById('gw-tt').textContent=b.dataset.y+'년 '+b.dataset.sub+' 기출 받는 순서';
+document.getElementById('gw-to').innerHTML='<li>아래 버튼으로 공식 페이지를 열어요.</li><li>시험 종류에서 <b>'+E(b.dataset.n)+'</b>을 체크해요.</li><li>과목에서 <b>'+E(b.dataset.sub)+'</b>을 체크해요.</li><li>표에서 <b>'+E(b.dataset.y)+'년'+(b.dataset.bk?' '+E(b.dataset.bk.split('·')[0])+'책형':'')+'</b> 줄의 <b>PDF 다운로드</b>'+(b.dataset.a?'와 <b>'+E(b.dataset.a)+'</b>':'')+' 버튼을 누르면 돼요.</li>';
+t.hidden=false;document.getElementById('gw-open').focus();try{gtag('event','gosi_tip',{subject:cur})}catch(x){}});
+t.querySelector('.x').addEventListener('click',function(){t.hidden=true});
+document.getElementById('gw-copy').addEventListener('click',function(){var me=this;if(navigator.clipboard)navigator.clipboard.writeText(cur).then(function(){me.textContent='복사됨';setTimeout(function(){me.textContent='과목명 복사'},1500)})});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')t.hidden=true});})();</script>""").replace('%URL%', 'https://gongmuwon.gosi.kr/oprut/EvmArChcPrblmCransSbjctInqSbjctLst.do')
 GJS = r"""<script>(function(){var w=document.getElementById('gw-years'),bs=[].slice.call(document.querySelectorAll('.gw-pick button'));if(!w||!bs.length)return;var K='hl-gw-jik';
 function go(j){bs.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.j===j?'true':'false')});w.classList.toggle('gw-on',!!j);
 [].slice.call(w.querySelectorAll('.gw-j')).forEach(function(e){e.classList.toggle('hit',e.dataset.j===j)});[].slice.call(w.querySelectorAll('.gw-org')).forEach(function(o){o.classList.toggle('nohit',!o.querySelector('.gw-j.hit'))});try{localStorage.setItem(K,j||'')}catch(e){}}
@@ -143,12 +161,12 @@ def gosi_pages(G):
               ('책형(가·나)은 무엇인가요?', '부정행위를 막으려고 문제 순서만 바꾼 시험지예요. 하나만 골라 풀고 같은 책형의 정답으로 채점하면 돼요.')]
         others = ''.join(f'<a href="/ipsi/gongmuwon/{s}.html">{E(n)}</a>' for s, n, o in GRADES if s != slug and any(by.get(tc) for _, tc in o))
         main = (f'<header class="top hub">{cr}<h1>{E(nm)} 기출문제 PDF·정답</h1><p class="lead">{lo}년부터 {hi}년까지 연도별로 {E(on)}을 나누고, 공통 과목과 직렬 과목을 구분해 정리했어요.</p>'
-                f'<p class="gc-ans">{ans}</p></header>{pick}'
+                f'<p class="gc-ans">{ans}</p><p class="gc-src" style="margin:10px 0 0">과목을 누르면 인사혁신처 공식 페이지에서 그 기출을 찾는 순서와 바로가기 버튼이 나와요.</p></header>{pick}'
                 f'<section class="card"><h2>연도별 기출 과목</h2><div id="gw-years">{"".join(secs)}</div><p class="gc-src">출처: 인사혁신처 국가공무원 채용시스템 선택형 문제/정답 목록</p></section>'
                 f'<section class="card"><h2>공식 PDF 받는 법</h2>{how}</section>' + faq_html(qa) +
                 f'<section class="card"><h2>다른 공무원 시험 기출</h2><p class="gc-nav"><a href="/ipsi/gongmuwon/">공무원 기출 전체</a>{others}</p></section>')
         ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
-        made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + GX + main, ld, GJS if jiks else ''))
+        made.append(page(path, title + ' | 홍라이프 도구', desc, XCSS + GX + main, ld, TIPJS + (GJS if jiks else '')))
         cards.append((nm, slug, lo, hi, len(subs), on))
     path = '/ipsi/gongmuwon/'
     title = '공무원 기출문제 PDF·정답 모음 (9급·7급 국가직·지방직, 직렬별)'
