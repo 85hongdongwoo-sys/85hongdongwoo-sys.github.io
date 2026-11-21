@@ -6,11 +6,5 @@ jobs:
     steps:
       - run: |
           UA="Mozilla/5.0 (honglife.co.kr exam-link index)"
-          curl -s -m 40 -A "$UA" "https://www.gumsi.or.kr/ged/usr/data/prevexamLink.do" -o g.html; wc -c g.html
-          python3 - <<'PY'
-          import re;s=open('g.html',encoding='utf-8',errors='replace').read()
-          t=re.sub(r'<script.*?</script>|<style.*?</style>','',s,flags=re.S);t=re.sub(r'<[^>]+>',' | ',t);t=re.sub(r'(\s*\|\s*)+',' | ',t)
-          i=t.find('기출');print(t[i:i+2500])
-          print(sorted(set(re.findall(r'(?:href|onclick)="([^"]{0,200})"',s)))[-60:])
-          PY
-          for g in 08 59 05 22; do curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00309&gSite=L&gId=$g" | grep -o "code=[0-9]*" | head -2 | tr '\n' ' '; echo " <- $g"; done
+          for g in 08 59 05 22 52 31; do curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00309&gSite=L&gId=$g" -o p.html; echo "$g $(grep -o 'code=[0-9]*' p.html | head -1) $(grep -o "getGlobalParams('L','$g', '[^']*')" p.html | head -1)"; done
+          curl -s -m 40 -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00301s01&gSite=L&gId=59&gName=x&page=1&schText=&schType=&boardId=Q004&code=$(curl -s -A "$UA" "https://www.q-net.or.kr/cst003.do?id=cst00309&gSite=L&gId=59" | grep -o 'code=[0-9]*' | head -1 | cut -d= -f2)" | grep -o "goNext('[0-9]*'[^>]*>[^<]*" | head -5
