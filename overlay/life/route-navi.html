@@ -259,6 +259,7 @@ function make0(el,lat,lng,z){
     return {set:function(ps){pl.setPath(ps.map(function(p){return new K.LatLng(p[0],p[1])}))},remove:function(){pl.setMap(null)}}},
    car:function(a,b){var d=document.createElement('div');d.className='nv-car';d.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 2l7 19-7-4-7 4z" fill="#1B64DA" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>';
     var ov=new K.CustomOverlay({map:map,position:new K.LatLng(a,b),content:d,zIndex:10});return {set:function(x,y,h){ov.setPosition(new K.LatLng(x,y));if(h!=null)d.firstChild.style.transform='rotate('+h+'deg)'},remove:function(){ov.setMap(null)}}},
+   icon:function(a,b,html,title,cb){var d=document.createElement('button');d.type='button';d.className='hl-ic';d.title=title||'';d.setAttribute('aria-label',title||'');d.innerHTML=html;d.onclick=function(e){e.stopPropagation();cb&&cb()};['mousedown','touchstart','pointerdown'].forEach(function(ev){d.addEventListener(ev,function(x){x.stopPropagation()},{passive:true})});var ov=new K.CustomOverlay({map:map,position:new K.LatLng(a,b),content:d,yAnchor:.5,xAnchor:.5,zIndex:3,clickable:true});return {remove:function(){ov.setMap(null)}}},
    dot:function(a,b){var d=document.createElement('div');d.style.cssText='width:16px;height:16px;border-radius:50%;background:#3182F6;border:3px solid #fff;box-shadow:0 0 0 6px rgba(49,130,246,.25)';new K.CustomOverlay({map:map,position:new K.LatLng(a,b),content:d})},
    mtype:function(t){var M=K.MapTypeId;map.setMapTypeId(t=='sat'?M.HYBRID:M.ROADMAP);if(t=='terrain'){if(!map.__tr){map.addOverlayMapTypeId(M.TERRAIN);map.__tr=1}}else if(map.__tr){map.removeOverlayMapTypeId(M.TERRAIN);map.__tr=0}},
    traffic:function(on){var M=K.MapTypeId;if(on&&!map.__tf){map.addOverlayMapTypeId(M.TRAFFIC);map.__tf=1}else if(!on&&map.__tf){map.removeOverlayMapTypeId(M.TRAFFIC);map.__tf=0}},
@@ -273,6 +274,7 @@ function make0(el,lat,lng,z){
   line:function(pts,o){var pl=L.polyline(pts,{color:o.color||'#3182F6',weight:o.weight||5,opacity:o.opacity||.8,dashArray:o.dash?'6 8':null}).addTo(m);return {set:function(ps){pl.setLatLngs(ps)},remove:function(){pl.remove()}}},
   car:function(a,b){var mk=L.marker([a,b],{zIndexOffset:1000,icon:L.divIcon({className:'nv-car',html:'<svg viewBox="0 0 24 24"><path d="M12 2l7 19-7-4-7 4z" fill="#1B64DA" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>',iconSize:[34,34],iconAnchor:[17,17]})}).addTo(m);
    return {set:function(x,y,h){mk.setLatLng([x,y]);var e=mk.getElement();if(e&&h!=null)e.querySelector('svg').style.transform='rotate('+h+'deg)'},remove:function(){mk.remove()}}},
+  icon:function(a,b,html,title,cb){var mk=L.marker([a,b],{title:title||'',icon:L.divIcon({className:'',html:'<button type="button" class="hl-ic" aria-label="'+(title||'')+'">'+html+'</button>',iconSize:[30,30],iconAnchor:[15,15]})}).addTo(m);mk.on('click',function(){cb&&cb()});return {remove:function(){mk.remove()}}},
   dot:function(a,b){L.circleMarker([a,b],{radius:8,color:'#fff',weight:3,fillColor:'#3182F6',fillOpacity:1}).addTo(m)},
   mtype:function(t){var d=TL[t]||TL.road;bl.remove();bl=L.tileLayer(d[0],{maxZoom:d[1],attribution:d[2]}).addTo(m)},
   relayout:function(){m.invalidateSize()}}}
@@ -340,7 +342,7 @@ function bkImp(){var m=location.hash.match(/^#rb=([A-Za-z0-9_-]+)$/);if(!m)retur
   if(first)S.cur=first;try{localStorage.setItem(KEY,JSON.stringify(S));localStorage.setItem(BK,JSON.stringify(bkSig()))}catch(e){}
   history.replaceState(null,'',location.pathname);toast(cnt?'백업에서 노선 '+cnt+'개를 불러왔어요':'백업 링크에 노선이 없어요')}catch(e){toast('백업 링크를 읽지 못했어요')}return true}
 function R(){return S.routes[S.cur]||(S.routes[S.cur]=[])}
-function toast(m){var t=document.createElement('div');t.className='rn-toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2400)}
+function toast(m){[].forEach.call(document.querySelectorAll('.rn-toast'),function(x){x.remove()});var t=document.createElement('div');t.className='rn-toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2400)}
 var $=function(i){return document.getElementById(i)};
 var map=HM.make(document.getElementById('map'),37.45,126.7,11),pins=[],line=map.line([],{color:'#3182F6',weight:4,opacity:.75,dash:true}),me=null;
 var mode='edit';
@@ -437,6 +439,37 @@ $('share').onclick=function(){var st=R();if(!st.length){toast('정류장을 먼�
  if(navigator.share){navigator.share({title:S.cur+' 노선',text:S.cur+' 노선 ('+st.length+'곳)',url:url}).catch(function(){})}else{navigator.clipboard.writeText(url).then(function(){toast('공유 링크를 복사했어요')})}};
 function imp(){if(bkImp())return;var m=location.hash.match(/^#r=([^|]+)\|(.+)$/);if(!m)return;try{var n=decodeURIComponent(m[1]).slice(0,20),st=m[2].split(';').map(function(s){var a=s.split(',');return {lat:+a[0],lng:+a[1],n:decodeURIComponent(a.slice(2).join(',')).slice(0,40)}}).filter(function(p){return isFinite(p.lat)&&isFinite(p.lng)});
  if(!st.length)return;if(S.routes[n]&&S.routes[n].length&&!confirm('이미 “'+n+'” 노선이 있어요. 받은 노선으로 바꿀까요?'))n=n+' (받음)';S.routes[n]=st;S.cur=n;S.pos[n]=0;save();history.replaceState(null,'',location.pathname);toast('“'+n+'” 노선을 불러왔어요 ('+st.length+'곳)')}catch(e){}}
+// 국가교통정보센터 CCTV·돌발상황: 데이터 파일이 있을 때만 지도 유형 창에 버튼이 생김. 노선 정류장 둘레(약 6km)만 표시
+(function(){var IK='hl-its',IS={};try{IS=JSON.parse(localStorage.getItem(IK))||{}}catch(e){}
+ var D={c:null,e:null},MK={c:[],e:[]};
+ if(!document.getElementById('hl-its-css')){var c=document.createElement('style');c.id='hl-its-css';c.textContent='.hl-ic{width:30px;height:30px;border-radius:50%;border:2px solid #fff;background:#191F28;color:#fff;font-size:15px;line-height:1;display:grid;place-items:center;padding:0;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.3)}.hl-ic.ev{background:#F04452}.hl-ic.cor{background:#FF9F0A}#itsc{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);transform:translateX(-50%);z-index:10000;width:min(440px,calc(100vw - 20px));box-sizing:border-box;background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:14px 14px 12px;font-family:inherit}#itsc[hidden]{display:none}#itsc h4{margin:0 34px 6px 0;font-size:16px;color:#191F28;word-break:keep-all}#itsc p{margin:4px 0;font-size:14px;line-height:1.45;color:#4E5968;word-break:keep-all}#itsc video{width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;margin-top:6px}#itsc .x{position:absolute;right:8px;top:6px;border:0;background:transparent;font-size:24px;width:40px;height:40px;color:#8B95A1;cursor:pointer}#itsc .src{font-size:12px;color:#8B95A1}';document.head.appendChild(c)}
+ function card(h){var e=$('itsc');if(!e){e=document.createElement('div');e.id='itsc';e.setAttribute('role','dialog');document.body.appendChild(e)}e.innerHTML='<button type="button" class="x" aria-label="닫기">×</button>'+h;e.querySelector('.x').onclick=function(){var v=e.querySelector('video');if(v){try{v.pause();v.removeAttribute('src');v.load()}catch(x){}}if(e._hls){e._hls.destroy();e._hls=null}e.hidden=true};e.hidden=false;return e}
+ function esc(t){return String(t||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+ function dt(x){x=String(x||'');return x.length>=12?(+x.slice(4,6))+'/'+(+x.slice(6,8))+' '+x.slice(8,10)+':'+x.slice(10,12):''}
+ function play(u){var e=card('<h4>CCTV 불러오는 중…</h4>');var name=play._n;e.innerHTML='<button type="button" class="x" aria-label="닫기">×</button><h4>'+esc(name)+'</h4><video controls autoplay muted playsinline></video><p class="src">실시간 영상: 국가교통정보센터(ITS) · 운전 중에는 보지 마세요</p>';
+  e.querySelector('.x').onclick=function(){var v=e.querySelector('video');try{v.pause();v.removeAttribute('src');v.load()}catch(x){}if(e._hls){e._hls.destroy();e._hls=null}e.hidden=true};
+  var v=e.querySelector('video');v.onerror=function(){var p=document.createElement('p');p.textContent='영상을 불러오지 못했어요. 잠시 뒤 다시 눌러 주세요.';e.appendChild(p)};
+  if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=u;return}
+  function go(){if(window.Hls&&Hls.isSupported()){var h=new Hls();e._hls=h;h.loadSource(u);h.attachMedia(v)}else v.src=u}
+  if(window.Hls)go();else{var sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';sc.onload=go;sc.onerror=go;document.head.appendChild(sc)}}
+ function box(){var pts=[];Object.keys(S.routes).forEach(function(k){(S.routes[k]||[]).forEach(function(p){pts.push(p)})});var cur=R();if(cur.length)pts=cur;if(!pts.length)return null;
+  var b={a:90,b:-90,c:180,d:-180};pts.forEach(function(p){b.a=Math.min(b.a,p.lat);b.b=Math.max(b.b,p.lat);b.c=Math.min(b.c,p.lng);b.d=Math.max(b.d,p.lng)});b.a-=.055;b.b+=.055;b.c-=.07;b.d+=.07;return b}
+ function inb(b,la,ln){return la>=b.a&&la<=b.b&&ln>=b.c&&ln<=b.d}
+ function near(la,ln){var st=R();for(var i=0;i<st.length;i++){var a=st[i],q=st[i+1]||a,dx=q.lng-a.lng,dy=q.lat-a.lat,L=dx*dx+dy*dy,t=L?Math.max(0,Math.min(1,((ln-a.lng)*dx+(la-a.lat)*dy)/L)):0,x=a.lng+dx*t-ln,y=a.lat+dy*t-la;if(x*x*0.62+y*y<0.0035*0.0035*4)return true}return false}
+ function clear(k){MK[k].forEach(function(m){m.remove()});MK[k]=[]}
+ function paint(k){clear(k);if(!IS[k]||!D[k]||!map.icon)return;var b=box();if(!b){toast('노선을 먼저 만들면 그 둘레만 보여 줘요');return}var n=0;
+  if(k=='c')D.c.forEach(function(x){if(!inb(b,x[0],x[1])||n>=150)return;n++;MK.c.push(map.icon(x[0],x[1],'📹','CCTV '+x[2],function(){play._n=x[2];play(x[3])}))});
+  else{var nr=0;(D.e.e||[]).forEach(function(x){if(!inb(b,x[0],x[1])||n>=150)return;n++;var ic=/사고/.test(x[2])?'🚨':/공사|작업/.test(x[2]+x[3])?'🚧':/기상|재난/.test(x[2])?'🌧':'⚠️';if(near(x[0],x[1]))nr++;
+    var m=map.icon(x[0],x[1],ic,x[2]+' '+x[4],function(){card('<h4>'+ic+' '+esc(x[2])+(x[3]&&x[3]!=x[2]?' · '+esc(x[3]):'')+'</h4><p><b>'+esc(x[4])+'</b> '+esc(x[5])+'</p><p>'+esc(x[7])+'</p>'+(x[6]?'<p>통제: '+esc(x[6])+'</p>':'')+'<p class="src">'+(dt(x[8])?'시작 '+dt(x[8]):'')+(dt(x[9])?' · 해제 예정 '+dt(x[9]):'')+' · 국가교통정보센터(ITS) '+dt(D.e.t+'00')+' 기준</p>')});MK.e.push(m)});
+   toast(n?'노선 둘레 돌발상황 '+n+'건'+(nr?' · 노선 바로 옆 '+nr+'건':''):'노선 둘레에 돌발상황이 없어요')}
+  if(k=='c')toast(n?'노선 둘레 CCTV '+n+'곳':'노선 둘레에 CCTV가 없어요 (고속도로·국도만 제공)')}
+ function ui(){var pn=document.querySelector('#map .hl-lyr-p');if(!pn){setTimeout(ui,500);return}if(pn.querySelector('[data-its]'))return;
+  var w=document.createElement('div');w.className='hl-lyr-g';w.style.gridTemplateColumns='1fr 1fr';w.style.marginTop='6px';
+  if(D.c)w.insertAdjacentHTML('beforeend','<button type="button" class="b" data-its="c">CCTV</button>');if(D.e)w.insertAdjacentHTML('beforeend','<button type="button" class="b" data-its="e">돌발정보</button>');
+  if(!pn.querySelector('p+button.w, .b.w'))pn.insertAdjacentHTML('beforeend','<p>지도 추가 정보</p>');pn.appendChild(w);
+  function st(){[].forEach.call(w.querySelectorAll('[data-its]'),function(b){b.setAttribute('aria-pressed',!!IS[b.dataset.its])})}
+  w.addEventListener('click',function(e){var b=e.target.closest('[data-its]');if(!b)return;e.stopPropagation();var k=b.dataset.its;IS[k]=!IS[k];try{localStorage.setItem(IK,JSON.stringify(IS))}catch(x){}st();if(IS[k])paint(k);else clear(k)});st()}
+ Promise.all([fetch('/data/its/cctv.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null}),fetch('/data/its/events.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null})]).then(function(a){D.c=a[0]&&a[0].length?a[0]:null;D.e=a[1]&&a[1].e?a[1]:null;if(!D.c&&!D.e)return;ui();if(IS.c)paint('c');if(IS.e)paint('e');window.__rnIts=function(){if(IS.c)paint('c');if(IS.e)paint('e')}})})();
 imp();sel();draw(true);bkCheck();window.addEventListener('hashchange',function(){if(/^#rb?=/.test(location.hash)){imp();sel();draw(true)}});window.__rnRefresh=function(){try{S=JSON.parse(localStorage.getItem(KEY))||S}catch(e){}draw()};
 });</script><script>HM.ready(function(){
 var $=function(i){return document.getElementById(i)};

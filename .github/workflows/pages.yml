@@ -45,6 +45,12 @@ jobs:
         run: |
           if [ -n "$OPINET_KEY" ]; then pip install -q pyproj; fi
           python3 build/pubdata/fetch.py _site
+      - name: 국가교통정보센터 CCTV·돌발상황 (노선 내비, ITS_KEY 있을 때만)
+        continue-on-error: true
+        timeout-minutes: 8
+        env:
+          ITS_KEY: ${{ secrets.ITS_KEY }}
+        run: python3 build/its/fetch_its.py _site
       - name: 공공데이터 지도 10종에 지역별 현황 표·사용법 글 넣기
         continue-on-error: true
         run: python3 build/pubdata/summary.py _site
