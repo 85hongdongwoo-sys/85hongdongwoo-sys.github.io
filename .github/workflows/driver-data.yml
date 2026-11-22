@@ -5,6 +5,7 @@ on:
     - cron: '13 19 * * 0'   # 매주 월요일 04:13 KST — LG 그램·모니터 모델/파일 목록 새로 받기
 permissions:
   contents: write
+  actions: write
 concurrency:
   group: driver-data
 jobs:
@@ -16,6 +17,8 @@ jobs:
       - name: Fetch LG model and file lists
         run: python3 build/newpages/fetch_lg.py /tmp/lg_models.json
       - name: Rebuild LG pages and commit if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898583+github-actions[bot]@users.noreply.github.com"
@@ -26,7 +29,7 @@ jobs:
             git add build/newpages/data/lg_models.json overlay/driver overlay/en/driver
             if git diff --cached --quiet; then echo "no change"; exit 0; fi
             git commit -q -m "LG 드라이버 목록 자동 갱신"
-            if git push -q origin HEAD:main; then echo pushed; exit 0; fi
+            if git push -q origin HEAD:main; then echo pushed; gh workflow run pages.yml --ref main; exit 0; fi   # 봇이 올린 커밋은 배포가 자동으로 안 돌아서 직접 실행
             sleep 10
           done
           exit 1
