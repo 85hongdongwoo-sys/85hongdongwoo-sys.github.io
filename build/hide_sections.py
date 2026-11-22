@@ -81,3 +81,17 @@ for dp, _, fs in os.walk(root):
         if s != o:
             open(p, 'w', encoding='utf-8').write(s); n += 1
 print('hide:', HIDE, 'files changed', n)
+
+# 확인: 숨긴 곳으로 가는 링크가 남았는지 세어 봐요
+left = []
+CHK = re.compile(HREF)
+for dp, _, fs in os.walk(root):
+    for f in fs:
+        if f.endswith('.html'):
+            p = os.path.join(dp, f); rel = os.path.relpath(p, root)
+            if hidden_page(rel):
+                continue
+            s = open(p, encoding='utf-8', errors='ignore').read()
+            if CHK.search(s) or ('midae' in HIDE and ('99,000원' in s or '1:1 컨설팅' in s)):
+                left.append(rel)
+print('hide check: pages still linking =', len(left), left[:10])
