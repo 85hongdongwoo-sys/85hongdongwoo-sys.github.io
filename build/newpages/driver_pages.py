@@ -254,10 +254,10 @@ def hp():
     main = (HP_CSS + f'<header class="top hub">{cr}<h1>HP 프린터 드라이버 바로 다운로드·설치 방법 (삼성 프린터 포함)</h1>'
             f'<p class="lead">많이 쓰는 HP 프린터 {len(names)}개 모델의 드라이버를 이 페이지에서 바로 받을 수 있어요. 파일은 HP 공식 서버에서 내려와요.</p>'
             f'<p class="cu-ans">{ans}</p>'
-            '<ul class="dr-toc"><li><a href="#models">모델별 바로 받기</a></li><li><a href="#install">설치 순서</a></li><li><a href="#notlisted">목록에 없을 때</a></li><li><a href="#samsung">삼성 프린터</a></li><li><a href="#trouble">안 될 때</a></li></ul></header>'
+            '<ul class="dr-toc"><li><a href="#models">모델별 바로 받기</a></li><li><a href="#install">설치 순서</a></li><li><a href="#easy">처음이세요?</a></li><li><a href="#notlisted">목록에 없을 때</a></li><li><a href="#samsung">삼성 프린터</a></li><li><a href="#trouble">안 될 때</a></li></ul></header>'
             f'<section class="card dr-sec" id="models"><h2>모델별 바로 받기 ({len(names)}개)</h2><p>모델 번호를 입력하면 그 모델로 바로 가요.</p>{search}{hp_cards()}'
             f'<p class="cu-src" style="margin-top:10px">파일 정보는 HP 공식 \'소프트웨어 및 드라이버\'(윈도우 11·macOS 15 기준)에서 {E(HP_DATA["checked"])}에 확인했어요. 32비트 윈도우나 다른 버전은 \'HP 공식 페이지에서 보기\'를 눌러 고르세요.</p></section>'
-            + install + f'<section class="card dr-sec" id="pics"><h2>그림으로 한 번 더 보기</h2>{pics}</section>'
+            + install + guide_sec('HP') + f'<section class="card dr-sec" id="pics"><h2>그림으로 한 번 더 보기</h2>{pics}</section>'
             + f'<section class="card dr-sec" id="notlisted"><h2>목록에 없을 때: HP 공식 사이트에서 찾기</h2>{notlisted}' + dl(HP_DRV, 'HP 드라이버 검색하러 가기', 'HP 공식 소프트웨어 및 드라이버 페이지') + '</section>'
             + samsung + trouble + WIN_SEC + fq
             + src_sec('HP 공식 소프트웨어 및 드라이버(support.hp.com/kr-ko) 제품별 다운로드 정보와 설치 안내, HP 고객지원 문서 \'HP홈페이지에서 프린터 소프트웨어를 다운로드하는 방법\', 삼성전자 \'삼성 프린터 지원은 HP가 맡음\' 안내, Microsoft 지원')
@@ -346,13 +346,13 @@ def sindoh():
     main = (HP_CSS + f'<header class="top hub">{cr}<h1>신도리코 프린터·복합기 드라이버 바로 다운로드·설치 방법</h1>'
             '<p class="lead">신도리코 복합기 드라이버를 공식 사이트에서 받아 설치하는 순서를 그림으로 쉽게 정리했어요. 아래 표에서 내 모델을 찾아 바로 받을 수 있어요.</p>'
             f'<p class="cu-ans">{ans}</p>' + dl(SD_HOME, '신도리코 다운로드 받으러 가기', '신도리코 공식 홈페이지 → 고객 지원 → 다운로드')
-            + '<ul class="dr-toc"><li><a href="#models">모델별 다운로드</a></li><li><a href="#steps">설치 순서</a></li><li><a href="#connect">sindoh Connect</a></li><li><a href="#more">USB·LAN·스캔·맥</a></li></ul></header>'
+            + '<ul class="dr-toc"><li><a href="#models">모델별 바로 받기</a></li><li><a href="#easy">처음이세요?</a></li><li><a href="#steps">설치 순서</a></li><li><a href="#connect">sindoh Connect</a></li><li><a href="#more">USB·LAN·스캔·맥</a></li></ul></header>'
             '<section class="card dr-sec" id="models"><h2>모델별 바로 받기 (23개)</h2>'
             '<p>모델명을 입력하면 그 모델로 바로 가요. 파란 버튼을 누르면 신도리코 공식 서버에서 파일이 바로 내려받아져요.</p>'
             + model_search([m for m, _ in SD_MODELS]) + sd_cards()
             + f'<p class="cu-src" style="margin-top:8px">파일은 신도리코 공식 다운로드 페이지에서 {E(SD_DATA["checked"])}에 확인한 것이고, 누르면 신도리코 서버에서 바로 받아져요. 표는 신도리코가 sindoh Connect 지원 기종으로 안내한 모델이에요. 다른 모델도 신도리코 다운로드의 기종 검색에서 찾을 수 있어요.</p></section>'
             f'<section class="card dr-sec" id="steps"><h2>그림으로 보는 설치 순서 (USB 빠른 설치)</h2>{steps}</section>'
-            + connect + more + WIN_SEC + fq
+            + connect + guide_sec('신도리코', True) + more + WIN_SEC + fq
             + src_sec('신도리코 고객지원 FAQ \'프린터 드라이버는 어떻게 다운 받나요?\', \'프린터 드라이버(USB) -빠른설치-\', Microsoft 지원 \'최신 프린터 드라이버 다운로드 및 설치\'')
             + REL)
     ld = [crld, fqld, howto('신도리코 프린터 드라이버 설치 방법 (USB 빠른 설치)', ['신도리코 다운로드에서 기종 검색', '드라이버/유틸리티에서 빠른 설치 드라이버 다운로드', '압축 풀기', 'SETUP.EXE 실행 후 예', '로컬 포트를 USB로 바꾸고 설치', '테스트 페이지 인쇄로 확인'])]
@@ -360,6 +360,45 @@ def sindoh():
           '신도리코 D452·D472·D742·N502·M702 등 복합기 드라이버를 이 페이지에서 바로 받고, sindoh Connect·빠른 설치 드라이버 설치 순서를 그림으로 쉽게 확인하세요. 파일은 신도리코 공식 서버에서 내려와요.',
           main, ld)
     return path
+
+
+
+def guide_sec(brand, zipnote=False):
+    """처음 하는 분을 위한 아주 자세한 안내 (윈도우 11 기준, 사진 없이 글로만)"""
+    z = ('<h3>압축 파일(.zip)을 받았다면</h3><ol class="big-n">'
+         '<li>받은 <b>.zip 파일</b>을 마우스 <b>오른쪽 버튼</b>으로 눌러요.</li>'
+         '<li>윈도우 기본 메뉴의 <b>[모두 압축 풀기]</b>를 누르고 <b>[압축 풀기]</b>를 눌러요. 반디집·알집을 쓰면 <b>[알아서 풀기]</b>나 <b>[여기에 풀기]</b>를 눌러도 돼요.</li>'
+         '<li>새로 생긴 폴더를 열고 <b>SETUP.EXE</b>(또는 Setup, Install로 시작하는 파일)를 두 번 눌러 실행해요.</li></ol>') if zipnote else ''
+    return ('<section class="card dr-sec" id="easy"><h2>처음 하는 분을 위한 아주 자세한 안내</h2>'
+            '<p class="cu-ans"><b>3줄 요약</b><br>① 내 프린터 <b>모델명</b>을 확인해요. ② 이 페이지에서 내 모델의 <b>파란 버튼</b>을 눌러 파일을 받아요. ③ 받은 파일을 열고 화면이 시키는 대로 <b>[다음]</b>만 누르면 끝나요.</p>'
+            '<h3>1. 내 컴퓨터가 윈도우인지 맥인지 모르겠어요</h3><ul class="cu-chk">'
+            '<li>화면 왼쪽 아래(또는 가운데 아래)에 <b>창문 모양 시작 버튼</b>이 있으면 <b>윈도우</b>예요.</li>'
+            '<li>화면 맨 위 왼쪽에 <b>사과 모양</b>이 있으면 <b>맥(Mac)</b>이에요.</li>'
+            '<li>윈도우가 64비트인지 궁금하면 <b>설정 → 시스템 → 정보</b>에서 <b>시스템 종류</b>를 보세요. 요즘 컴퓨터는 거의 64비트예요.</li></ul>'
+            f'<h3>2. 내 {E(brand)} 프린터 모델명 찾기</h3><ul class="cu-chk">'
+            '<li>프린터 <b>앞면이나 윗면</b>(종이 나오는 곳 근처)에 영어와 숫자로 적혀 있어요.</li>'
+            '<li>안 보이면 프린터 <b>뒷면이나 바닥의 흰 스티커</b>를 보세요. \'Model\' 또는 \'모델\' 옆에 있어요.</li>'
+            '<li>예전에 설치한 적이 있다면 <b>설정 → Bluetooth 및 장치 → 프린터 및 스캐너</b> 목록에 이름이 보일 수 있어요.</li>'
+            '<li>검색창에는 <b>숫자 부분만</b> 넣어도 찾을 수 있어요.</li></ul>'
+            '<h3>3. 다운로드는 어디로 받아져요?</h3><ul class="cu-chk">'
+            '<li>파란 버튼을 누르면 크롬·엣지 오른쪽 위에 <b>아래 화살표(↓) 모양</b>이 생기고 받는 중이라고 나와요.</li>'
+            '<li>다 받아지면 그 화살표를 누르거나 키보드 <b>Ctrl + J</b>를 눌러 받은 파일을 열 수 있어요.</li>'
+            '<li>못 찾겠으면 <b>파일 탐색기</b>(노란 폴더 아이콘)를 열고 왼쪽의 <b>다운로드</b>를 누르세요. 가장 위에 방금 받은 파일이 있어요.</li>'
+            '<li>파일이 100MB 넘게 크면 인터넷 속도에 따라 몇 분 걸려요. 끝날 때까지 창을 닫지 마세요.</li></ul>'
+            + z +
+            '<h3>4. 설치 화면에서 자주 나오는 버튼</h3><ul class="cu-chk">'
+            '<li><b>[예]</b>: "이 앱이 디바이스를 변경할 수 있도록 허용하시겠어요?" 창이에요. 공식 파일이니 [예]를 눌러요.</li>'
+            '<li><b>[동의] / [I agree]</b>: 사용 약관에 동의하는 버튼이에요. 동의해야 설치가 진행돼요.</li>'
+            '<li><b>[다음] / [Next]</b>: 다음 단계로 넘어가요. 잘 모르겠으면 처음 골라져 있는 그대로 [다음]을 눌러요.</li>'
+            '<li><b>[설치] / [Install]</b> → 기다리기 → <b>[마침] / [Finish]</b>: 끝났다는 뜻이에요.</li></ul>'
+            '<h3>5. USB로 연결할까, 와이파이로 연결할까?</h3><ul class="cu-chk">'
+            '<li><b>USB:</b> 프린터와 컴퓨터를 선으로 바로 이어요. 가장 쉽고 확실해요. 컴퓨터 한 대만 쓸 때 좋아요.</li>'
+            '<li><b>와이파이(무선)·네트워크:</b> 선 없이 여러 컴퓨터·휴대폰에서 같이 쓸 수 있어요. 프린터와 컴퓨터가 <b>같은 공유기(같은 와이파이)</b>에 연결돼 있어야 해요.</li>'
+            '<li>회사 복합기처럼 랜선이 꽂혀 있는 기계는 보통 <b>네트워크</b>를 골라요.</li></ul>'
+            '<h3>6. 설치가 끝난 뒤</h3><ul class="cu-chk">'
+            '<li><b>테스트 페이지:</b> 설정 → Bluetooth 및 장치 → 프린터 및 스캐너 → 내 프린터 → <b>[테스트 페이지 인쇄]</b>. 종이가 나오면 성공이에요.</li>'
+            '<li><b>기본 프린터로 정하기:</b> 같은 화면에서 <b>[기본값으로 설정]</b>을 누르면 인쇄할 때마다 이 프린터가 먼저 골라져요. 버튼이 안 보이면 위쪽 \'Windows에서 기본 프린터 관리\'를 끄세요.</li>'
+            '<li><b>\'오프라인\'이라고 나와요:</b> 프린터 전원과 선(또는 와이파이)을 확인하고, 프린터를 껐다 켠 뒤 컴퓨터도 다시 시작해 보세요.</li></ul></section>')
 
 
 # ── 공통 조각 ────────────────────────────────────────────
