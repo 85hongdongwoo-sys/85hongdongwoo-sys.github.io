@@ -347,7 +347,15 @@ var mode='edit';
 var locked=false;try{locked=localStorage.getItem('rnLock')=='1'}catch(e){}
 function lockui(){var b=$('lock');if(!b)return;b.hidden=mode!='edit';b.setAttribute('aria-pressed',locked?'true':'false');$('locktx').textContent=locked?'핀 잠김':'핀 잠금';$('lockarc').setAttribute('d',locked?'M8 11V7a4 4 0 0 1 8 0v4':'M8 11V7a4 4 0 0 1 8 0')}
 $('lock').addEventListener('click',function(){locked=!locked;try{localStorage.setItem('rnLock',locked?'1':'0')}catch(e){}draw()});
-$('rbk').onclick=function(){if(!Object.keys(bkSig()).length){toast('백업할 정류장이 없어요. 지도에 정류장을 먼저 찍어 주세요');return}bkSend()};
+// 카톡 백업: 카카오톡 공유(나와의 채팅이 맨 위)로 '노선 복구하기' 버튼 카드 보내기. SDK가 안 되거나 링크가 너무 길면 폰 공유창으로
+var KKV=['2.7.4','2.7.2'],kkI=0;function kkLoad(){if(window.Kakao&&Kakao.Share||kkI>=KKV.length)return;var s=document.createElement('script');s.src='https://t1.kakaocdn.net/kakao_js_sdk/'+KKV[kkI++]+'/kakao.min.js';s.crossOrigin='anonymous';s.onerror=kkLoad;document.head.appendChild(s)}
+setTimeout(kkLoad,1500);
+function bkKakao(){var o=bkSig(),ks=Object.keys(o),c=0;ks.forEach(function(k){c+=o[k].length});var url=bkUrl(o);
+ if(!(window.Kakao&&Kakao.Share)||url.length>1800){bkSend();return}
+ try{if(!Kakao.isInitialized())Kakao.init('c4a8d8392dd6a362db17cc44e5ae398b');var d=new Date(),nm=ks.join(', ');if(nm.length>40)nm=nm.slice(0,39)+'…';
+  Kakao.Share.sendDefault({objectType:'text',text:'노선 백업 ('+(d.getMonth()+1)+'월 '+d.getDate()+'일)\n노선 '+ks.length+'개: '+nm+'\n정류장 '+c+'곳\n아래 버튼을 누르면 노선이 그대로 복구돼요.',link:{webUrl:url,mobileWebUrl:url},buttonTitle:'노선 복구하기'});
+  try{localStorage.setItem(BK,JSON.stringify(o))}catch(e){}toast('카톡에서 맨 위 ‘나와의 채팅’을 눌러 보내 주세요')}catch(e){bkSend()}}
+$('rbk').onclick=function(){if(!Object.keys(bkSig()).length){toast('백업할 정류장이 없어요. 지도에 정류장을 먼저 찍어 주세요');return}bkKakao()};
 function idx(){return Math.min(S.pos[S.cur]||0,Math.max(R().length-1,0))}
 function km(a,b){var r=Math.PI/180,x=(b.lng-a.lng)*r*Math.cos((a.lat+b.lat)/2*r),y=(b.lat-a.lat)*r;return Math.sqrt(x*x+y*y)*6371}
 function draw(fit){lockui();if(mode!='edit'){var bb=document.getElementById('rnbk');if(bb)bb.hidden=true}pins.forEach(function(x){x.remove()});var st=R(),ci=idx();
