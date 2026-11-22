@@ -50,7 +50,7 @@ def models():
 def files(m):
     out, page, total = [], 1, None
     while page < 30:
-        j = post('/support/manuals/searchManualDriverList.lgajax', {'modelCode': m['modelCode'], 'category': m['category'], 'subCategory': m['subCategory'], 'page': page})
+        j = post('/support/manuals/searchManualDriverList.lgajax', {'modelCode': m['modelCode'], 'category': m['category'], 'subCategory': m['subCategory'], 'page': page, 'type': 'driver', 'osOption': ''})
         dr = ((j.get('data') or {}).get('driver')) or {}
         total = int((dr.get('listPage') or {}).get('totalCount') or 0)
         L = dr.get('listData') or []
@@ -69,13 +69,17 @@ def main(dst):
     with ThreadPoolExecutor(6) as ex:
         for code, fl in ex.map(files, ms):
             res[code] = fl
-    fid = {}
+    fid, oss = {}, {}
     for fl in res.values():
         for f in fl:
             if f[4]:
-                fid[f[4]] = f[:4]
+                fid.setdefault(f[4], f[:4])
+                if f[2] and f[2] not in oss.setdefault(f[4], []):
+                    oss[f[4]].append(f[2])  # 같은 파일이 여러 윈도우 버전에 올라와 있으면 버전을 모아 표시
+    for k, v in oss.items():
+        fid[k][2] = ', '.join(sorted(v, reverse=True))
     data = {'checked': time.strftime('%Y-%m-%d'), 'files': fid,
-            'models': sorted([[SUBS[m['subCategory']], m['modelCode'], m.get('salesModelCode') or m['modelCode'], [f[4] for f in res[m['modelCode']] if f[4]]] for m in ms], key=lambda x: (x[0], x[1]))}
+            'models': sorted([[SUBS[m['subCategory']], m['modelCode'], m.get('salesModelCode') or m['modelCode'], list(dict.fromkeys(f[4] for f in res[m['modelCode']] if f[4]))] for m in ms], key=lambda x: (x[0], x[1]))}
     json.dump(data, open(dst, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     print('models', len(ms), 'with files', sum(1 for m in data['models'] if m[3]), 'unique files', len(fid))
 
