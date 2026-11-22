@@ -534,6 +534,10 @@ MOVED = [('driver', '/driver/', '드라이버 다운로드 모음', '프린터·
          ('driver', '/driver/lg.html', 'LG 그램·모니터 드라이버 다운로드', 'LG Update·OnScreen Control 바로 받기, 모델별 파일', 'LG 드라이버 그램 드라이버 LG Update LG 노트북 드라이버 LG 모니터 드라이버 OnScreen Control 17Z90S 16Z90R', '드라이버'),
          ('driver', '/driver/apple.html', '애플 드라이버·아이폰 PC 연결', 'Apple 기기 앱·iCloud·iTunes·Boot Camp', '아이폰 드라이버 아이폰 PC 연결 아이폰 인식 안됨 Apple 기기 앱 아이튠즈 iCloud for Windows 부트캠프 드라이버 Boot Camp', '드라이버'),
          ('driver', '/driver/surface.html', '서피스 드라이버·펌웨어 다운로드', 'Surface Pro·Laptop·Go 모델별 바로 받기', '서피스 드라이버 Surface 드라이버 서피스 펌웨어 Surface Pro 9 드라이버 Surface Laptop 드라이버 Surface Go 드라이버 마이크로소프트 드라이버', '드라이버'),
+         ('driver', '/driver/lenovo.html', '레노버 드라이버 다운로드', 'ThinkPad·IdeaPad·Legion 공식 업데이트 프로그램', '레노버 드라이버 Lenovo 드라이버 씽크패드 드라이버 ThinkPad 드라이버 아이디어패드 드라이버 Lenovo Vantage System Update', '드라이버'),
+         ('driver', '/driver/dell.html', '델 드라이버 다운로드', 'Inspiron·XPS·Latitude 공식 업데이트 프로그램', '델 드라이버 Dell 드라이버 델 노트북 드라이버 Inspiron 드라이버 XPS 드라이버 SupportAssist 서비스 태그', '드라이버'),
+         ('driver', '/driver/asus.html', '에이수스 드라이버 다운로드', 'Vivobook·Zenbook·ROG·메인보드 공식 업데이트 프로그램', '에이수스 드라이버 ASUS 드라이버 아수스 드라이버 MyASUS 젠북 드라이버 비보북 드라이버 ROG 드라이버 메인보드 드라이버', '드라이버'),
+         ('driver', '/driver/acer.html', '에이서 드라이버 다운로드', 'Aspire·Swift·Nitro 공식 업데이트 프로그램', '에이서 드라이버 Acer 드라이버 에이서 노트북 드라이버 Aspire 드라이버 Swift 드라이버 Nitro 드라이버 Predator 드라이버', '드라이버'),
          ('drive', '/drive/update/', '차 내비·블랙박스 업데이트 모음', '현대·기아·제네시스 내비 업데이트를 그림으로 쉽게', '내비 업데이트 내비게이션 업데이트 지도 업데이트 순정 내비 업데이트 블랙박스 업데이트 빌트인캠 업데이트 Navigation Updater', '자동차·지도'),
          ('drive', '/drive/update/hyundai.html', '현대 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '현대 내비 업데이트 현대차 네비 업데이트 현대 내비게이션 업데이트 방법 현대 지도 업데이트 블루링크 업데이트 아반떼 쏘나타 그랜저 싼타페 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
          ('drive', '/drive/update/kia.html', '기아 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '기아 내비 업데이트 기아 네비 업데이트 기아 내비게이션 업데이트 방법 기아 지도 업데이트 쏘렌토 카니발 K5 스포티지 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
@@ -626,7 +630,7 @@ if 'href="/drive/"' not in s:
     open(p, 'w', encoding='utf-8').write(s)
 # ── 드라이버 영어판(/en/driver/) 사이트맵 (overlay, 2026-11-22) ──
 p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
-_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html', '/en/driver/epson.html', '/en/driver/brother.html', '/en/driver/lg.html', '/en/driver/apple.html', '/en/driver/surface.html')
+_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html', '/en/driver/epson.html', '/en/driver/brother.html', '/en/driver/lg.html', '/en/driver/apple.html', '/en/driver/surface.html', '/en/driver/lenovo.html', '/en/driver/dell.html', '/en/driver/asus.html', '/en/driver/acer.html')
        if os.path.exists(os.path.join(root, u.lstrip('/') + ('index.html' if u.endswith('/') else ''))) and f'honglife.co.kr{u}<' not in s]
 if _en:
     open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-22</lastmod></url>\n' for u in _en) + '</urlset>', 1)); print('sitemap + en driver', len(_en))
