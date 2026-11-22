@@ -32,6 +32,18 @@ if extra:
 else:
     urls = live_sitemap() if mode == 'all' else changed()
 urls = list(dict.fromkeys(u for u in urls if u.startswith(f'https://{HOST}/')))
+if mode == 'urls':  # 직접 지정한 주소는 실제로 열리는지(200·검색 제외 없음) 먼저 확인하고 정상인 것만 보낸다
+    ok = []
+    for u in urls:
+        try:
+            r = urllib.request.urlopen(urllib.request.Request(u, headers={'User-Agent': 'Mozilla/5.0 indexnow-check'}), timeout=30)
+            h = r.read().decode('utf-8', 'ignore')
+            ni = bool(re.search(r'<meta name="(robots|googlebot)" content="[^"]*noindex', h))
+            print('live', r.status, 'NOINDEX' if ni else 'indexable', u)
+            if r.status == 200 and not ni: ok.append(u)
+        except Exception as e:
+            print('live FAIL', u, e)
+    urls = ok
 print('mode', mode, 'urls', len(urls))
 for ep in ENDPOINTS:
     for i in range(0, len(urls), 10000):
