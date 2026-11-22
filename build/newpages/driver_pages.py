@@ -297,6 +297,9 @@ WIN_SEC = ('<section class="card dr-sec" id="win"><h2>먼저 해 볼 것: 윈도
 REL = ('<section class="card rel"><h2>다른 회사 드라이버</h2><ul class="dr-co">'
        '<li><a href="/driver/hp.html"><b>HP</b><span>프린터·복합기 (삼성 프린터 포함)</span></a></li>'
        '<li><a href="/driver/sindoh.html"><b>신도리코</b><span>복합기 · 모델별 바로가기</span></a></li>'
+       '<li><a href="/driver/nvidia.html"><b>엔비디아</b><span>지포스·RTX 그래픽</span></a></li>'
+       '<li><a href="/driver/amd.html"><b>AMD</b><span>라데온 그래픽·라이젠 칩셋</span></a></li>'
+       '<li><a href="/driver/intel.html"><b>인텔</b><span>그래픽·칩셋·무선랜 (지원 도우미)</span></a></li>'
        '<li><a href="/driver/"><b>드라이버 모음 전체</b><span>회사별·기기별로 찾기</span></a></li></ul></section>')
 
 
@@ -322,10 +325,13 @@ def hub():
     cr = '<p class="crumb"><a href="/">홈</a> › 드라이버</p>'
     crld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "홈", "item": SITE + '/'}, {"@type": "ListItem", "position": 2, "name": "드라이버", "item": SITE + path}]}
-    allm = [(m, '/driver/sindoh.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _ in SD_MODELS]
+    allm = [(m, '/driver/sindoh.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _ in SD_MODELS] + [(m, '/driver/amd.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _, _ in AMD_MODELS]
     data = json.dumps(allm, ensure_ascii=False)
     co = ('<li><a href="/driver/hp.html"><b>HP</b><span>프린터·복합기, 삼성 프린터 포함</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/sindoh.html"><b>신도리코</b><span>복합기, 모델별 다운로드 바로가기</span><em>그림 설명 ›</em></a></li>'
+          '<li><a href="/driver/nvidia.html"><b>엔비디아</b><span>지포스·RTX 그래픽카드</span><em>그림 설명 ›</em></a></li>'
+          '<li><a href="/driver/amd.html"><b>AMD</b><span>라데온 그래픽·라이젠 칩셋</span><em>그림 설명 ›</em></a></li>'
+          '<li><a href="/driver/intel.html"><b>인텔</b><span>그래픽·칩셋·무선랜</span><em>그림 설명 ›</em></a></li>'
           + ''.join(f'<li><a href="{E(u)}" target="_blank" rel="noopener nofollow"><b>{E(n)}</b><span>{E(d)}</span><em>공식 사이트로 바로 가기 ↗</em></a></li>' for n, u, d in EXT))
     what = cu.step('?', '드라이버가 뭐예요?', '드라이버는 <b>기기와 컴퓨터를 이어 주는 통역 프로그램</b>이에요. 프린터를 USB로 꽂아도 드라이버가 없으면 컴퓨터가 \'이게 무슨 기계인지\' 몰라서 인쇄가 안 돼요.',
                    pc('<rect x="50" y="70" width="70" height="60" rx="8" fill="#334155"/><rect x="60" y="56" width="50" height="18" rx="2" fill="#EAF1FC"/><text x="85" y="148" text-anchor="middle" font-size="10" fill="#333">프린터</text>'
@@ -342,7 +348,7 @@ def hub():
           ('이 사이트에서 파일을 받는 건가요?', '아니요. 홍라이프 도구는 파일을 올리지 않고, 버튼을 누르면 제조사 공식 다운로드 페이지로 바로 연결돼요.')]
     fq, fqld = cu.faq(qa)
     main = (f'<header class="top hub">{cr}<h1>드라이버·프로그램 다운로드 모음</h1>'
-            '<p class="lead">프린터·복합기 드라이버를 회사별로 모아, 공식 사이트에서 받는 방법과 설치 순서를 그림으로 쉽게 정리했어요. 회사와 기기는 계속 늘려요.</p>'
+            '<p class="lead">프린터·복합기와 그래픽카드 드라이버를 회사별로 모아, 공식 사이트에서 받는 방법과 설치 순서를 그림으로 쉽게 정리했어요. 회사와 기기는 계속 늘려요.</p>'
             '<p class="cu-ans">① 기기 <b>모델명</b>을 확인하고 → ② 아래에서 <b>회사</b>를 고른 뒤 → ③ 파란 <b>[다운로드]</b> 버튼으로 공식 사이트에서 받아 → ④ 그림 순서대로 설치하세요. '
             '파일은 모두 제조사 공식 사이트에서 받아요.</p>'
             '<form class="dr-q" onsubmit="return drH()"><input id="dr-in" placeholder="모델명 검색 (예: D452)" autocomplete="off" oninput="drH()" aria-label="모델명 검색"><button type="submit">찾기</button></form><ul id="dr-res"></ul>'
@@ -356,11 +362,137 @@ def hub():
             + '<section class="card"><h2>가짜 드라이버 사이트 조심하기</h2><p class="dr-warn">검색 광고에 나오는 \'드라이버 자동 설치\' 프로그램이나 블로그에 올라온 설치 파일은 받지 마세요. '
               '원치 않는 프로그램이나 광고가 함께 깔릴 수 있어요. <b>제조사 공식 사이트</b>나 <b>Windows 업데이트</b>에서 받는 게 가장 안전해요.</p></section>'
             + fq + src_sec('각 제조사 공식 고객지원 안내, Microsoft 지원 \'최신 프린터 드라이버 다운로드 및 설치\''))
-    write(path, '드라이버 다운로드 모음 — 프린터·복합기 드라이버 설치 방법 (HP·삼성·신도리코·캐논·엡손·브라더) | 홍라이프 도구',
-          '프린터·복합기 드라이버를 회사별로 모아 공식 사이트에서 받는 방법과 설치 순서를 그림으로 쉽게 정리했어요. 모델명 찾는 법, 윈도우 자동 설치, 가짜 드라이버 사이트 주의, HP·삼성·신도리코·캐논·엡손·브라더.',
+    write(path, '드라이버 다운로드 모음 — 프린터·그래픽카드 드라이버 설치 방법 (HP·삼성·신도리코·엔비디아·AMD·인텔) | 홍라이프 도구',
+          '프린터·복합기와 그래픽카드 드라이버를 회사별로 모아 공식 사이트에서 받는 방법과 설치 순서를 그림으로 쉽게 정리했어요. 모델명 찾는 법, 윈도우 자동 설치, 가짜 드라이버 사이트 주의, HP·삼성·신도리코·엔비디아·AMD·인텔·캐논·엡손·브라더.',
           main, [crld, fqld])
     return path
 
 
+# ── 그래픽·칩셋 3사 (공식 페이지 2026-11-22 확인) ─────────────
+def W_select(url, title, rows, button, n=2):
+    t = f'<text x="44" y="58" font-size="12.5" font-weight="800" fill="#111">{E(title)}</text>'
+    y = 66
+    for a in rows:
+        t += f'<rect x="44" y="{y}" width="170" height="20" rx="4" fill="#fff" stroke="#ADB5BD"/><text x="52" y="{y + 14}" font-size="9.5" fill="#333">{E(a)} ▾</text>'
+        y += 24
+    return pc(t + btn(222, y - 26, 66, 24, button) + ring(44, 66, 170, y - 70, n) + ring(222, y - 26, 66, 24, n + 1), url)
+
+
+def W_devmgr(n=1):
+    return pc('<text x="44" y="60" font-size="12.5" font-weight="800" fill="#111">장치 관리자</text>'
+              '<text x="52" y="82" font-size="10.5" fill="#333">› 네트워크 어댑터</text>'
+              '<text x="52" y="102" font-size="10.5" font-weight="800" fill="#1D4ED8">⌄ 디스플레이 어댑터</text>'
+              '<rect x="64" y="110" width="190" height="22" rx="4" fill="#EEF4FF"/><text x="72" y="125" font-size="10" fill="#111">내 그래픽카드 이름이 여기 보여요</text>'
+              + ring(64, 110, 190, 22, n) + '<text x="52" y="152" font-size="10.5" fill="#333">› 마우스 및 기타 포인팅 장치</text>', '시작 버튼 오른쪽 클릭 → 장치 관리자')
+
+
+def gpu_name_step(n):
+    return cu.step(n, '내 그래픽카드 이름 확인', '<b>시작 버튼을 마우스 오른쪽으로 누르고 → 장치 관리자 → 디스플레이 어댑터</b>를 펼치면 그래픽카드 이름이 나와요. 노트북은 두 개(인텔 + 엔비디아 등)가 보일 수 있어요.', W_devmgr())
+
+
+NV_DRV = 'https://www.nvidia.com/ko-kr/geforce/drivers/'
+
+
+def nvidia():
+    path = '/driver/nvidia.html'
+    cr, crld = crumb([('엔비디아 드라이버', '')])
+    ans = ('엔비디아(NVIDIA) 그래픽 드라이버는 <b>NVIDIA 공식 드라이버 페이지</b>에서 받아요. <b>제품 범주 → 제품 시리즈 → 제품 → 운영 체제</b>를 고르고 <b>[Find Drivers]</b>를 누른 뒤 <b>[다운로드]</b>하면 돼요. '
+           '매번 찾기 귀찮다면 <b>NVIDIA App</b>을 깔면 새 드라이버가 나올 때 알림을 받고 바로 업데이트할 수 있어요.')
+    steps = (gpu_name_step(1)
+             + cu.step(2, '드라이버 페이지에서 내 제품 고르기', 'NVIDIA 드라이버 페이지의 수동 검색에서 <b>제품 범주, 제품 시리즈, 제품, 운영 체제, 언어, 다운로드 유형</b>을 차례로 고르고 <b>[Find Drivers]</b>를 눌러요.',
+                       W_select('nvidia.com', '수동 드라이버 검색', ['제품 범주', '제품 시리즈', '제품', '운영 체제', '다운로드 유형'], 'Find Drivers'),
+                       '다운로드 유형: 게임을 주로 하면 <b>Game Ready</b>, 영상 편집·디자인 프로그램을 주로 쓰면 <b>Studio</b>를 고르세요.')
+             + cu.step(4, '다운로드하고 실행', '결과에서 <b>[다운로드]</b>를 누르고, 받은 파일을 Ctrl + J로 열어 실행해요.', W_downloads('NVIDIA_드라이버.exe', 4))
+             + cu.step(5, '\'예\' 누르고 설치', '윈도우 확인 창에서 <b>[예]</b>를 누르고, 설치 프로그램 안내대로 진행해요. 설치 중 화면이 잠깐 깜빡이는 건 정상이에요.', W_uac('NVIDIA 설치 프로그램', 5)))
+    app = ('<section class="card dr-sec" id="app"><h2>자동으로 받기: NVIDIA App</h2>'
+           '<p>NVIDIA 공식 안내에 따르면 NVIDIA App을 설치하면 <b>새 드라이버가 나올 때 자동 알림</b>을 받고, <b>클릭 한 번으로 바로 업데이트</b>할 수 있어요.</p>'
+           + dl(NV_DRV, 'NVIDIA App·드라이버 받기', 'NVIDIA 공식 드라이버 페이지') + '</section>')
+    qa = [('Game Ready와 Studio 드라이버는 뭐가 달라요?', 'NVIDIA 안내에 따르면 Game Ready는 주요 게임에, Studio는 주요 크리에이티브(영상·디자인) 앱에 맞춰진 드라이버예요. 잘 모르겠으면 평소 많이 하는 쪽을 고르세요.'),
+          ('내 그래픽카드가 엔비디아인지 어떻게 알아요?', '시작 버튼 오른쪽 클릭 → 장치 관리자 → 디스플레이 어댑터에서 이름을 보세요. GeForce, RTX, GTX 같은 이름이면 엔비디아예요.'),
+          ('드라이버는 무료인가요?', '네. NVIDIA 공식 사이트의 드라이버는 무료예요.'),
+          ('리눅스는요?', 'NVIDIA 안내에 따르면 리눅스는 배포판이 제공하는 패키지를 쓰는 걸 권장해요.')]
+    fq, fqld = cu.faq(qa)
+    main = (f'<header class="top hub">{cr}<h1>엔비디아(NVIDIA) 그래픽 드라이버 다운로드·설치 방법</h1>'
+            '<p class="lead">지포스(GeForce)·RTX 그래픽카드 드라이버를 공식 사이트에서 받아 설치하는 순서를 그림으로 쉽게 정리했어요.</p>'
+            f'<p class="cu-ans">{ans}</p>' + dl(NV_DRV, '엔비디아 드라이버 받으러 가기', 'NVIDIA 공식 드라이버 페이지')
+            + '<ul class="dr-toc"><li><a href="#steps">설치 순서</a></li><li><a href="#app">자동 업데이트</a></li></ul></header>'
+            f'<section class="card dr-sec" id="steps"><h2>그림으로 보는 설치 순서</h2>{steps}</section>' + app + fq
+            + src_sec('NVIDIA 공식 드라이버 페이지(nvidia.com/ko-kr/geforce/drivers), Microsoft 지원') + REL)
+    write(path, '엔비디아(NVIDIA) 그래픽 드라이버 다운로드·설치 방법 (Game Ready·Studio, 2026) | 홍라이프 도구',
+          '엔비디아 지포스·RTX 그래픽 드라이버를 공식 사이트에서 받아 설치하는 방법을 그림으로 쉽게 설명해요. 내 그래픽카드 확인, 수동 검색, Game Ready와 Studio 차이, NVIDIA App 자동 업데이트까지.',
+          main, [crld, fqld, howto('엔비디아 그래픽 드라이버 설치 방법', ['장치 관리자에서 그래픽카드 확인', '드라이버 페이지에서 제품 선택 후 Find Drivers', '다운로드 후 실행', '예를 누르고 설치'])])
+    return path
+
+
+AMD_RX = 'https://www.amd.com/ko/support/downloads/drivers.html/graphics/radeon-rx/radeon-rx-6000-series/amd-radeon-rx-6600.html'
+AMD_MODELS = [('Radeon RX 9000 Series', '그래픽카드 시리즈', 'https://www.amd.com/ko/support/downloads/drivers.html/graphics/radeon-rx/radeon-rx-9000-series.html'),
+              ('Radeon RX 6750 GRE 12GB', '그래픽카드', 'https://www.amd.com/ko/support/downloads/drivers.html/graphics/radeon-rx/radeon-rx-6000-series/amd-radeon-rx-6750-gre-12gb.html'),
+              ('Radeon RX 6600', '그래픽카드', AMD_RX),
+              ('Radeon RX 6300M', '노트북 그래픽', 'https://www.amd.com/ko/support/downloads/drivers.html/graphics/radeon-rx/radeon-rx-6000-series/amd-radeon-rx-6300m.html'),
+              ('Radeon R9 285', '그래픽카드 (구형)', 'https://www.amd.com/ko/support/downloads/drivers.html/graphics/radeon-r9-r7-r5/radeon-r9-200-series/amd-radeon-r9-285.html'),
+              ('Radeon R9 M375X', '노트북 그래픽 (구형)', 'https://www.amd.com/ko/support/downloads/drivers.html/graphics/radeon-r9-r7-r5/radeon-r9-300-series/amd-radeon-r9-m375x.html'),
+              ('Ryzen·Athlon 모바일 칩셋', '노트북 칩셋', 'https://amd.com/ko/support/downloads/drivers.html/chipsets/laptop-chipsets/amd-ryzen-and-athlon-mobile-chipset.html')]
+
+
+def amd():
+    path = '/driver/amd.html'
+    cr, crld = crumb([('AMD 드라이버', '')])
+    ans = ('AMD 라데온(Radeon) 그래픽 드라이버는 <b>AMD 공식 다운로드 페이지</b>에서 받아요. 가장 쉬운 방법은 <b>Auto-Detect and Install(자동 감지 및 설치)</b> 도구예요. '
+           '실행하면 <b>내 그래픽카드와 윈도우 버전을 알아서 찾아</b> 맞는 최신 공식 드라이버를 받아 설치해 줘요. 직접 고르려면 내 제품 페이지에서 <b>AMD Software: Adrenalin Edition</b>을 받으면 돼요.')
+    steps = (gpu_name_step(1)
+             + cu.step(2, 'Auto-Detect and Install 받기', 'AMD 드라이버 페이지의 Windows 10·11 칸에서 <b>[Download Auto-Detect and Install]</b>을 눌러요. 작은 프로그램(약 46MB)이라 금방 받아져요.',
+                       W_list('amd.com', 'Windows 11 · Windows 10', [('Auto-Detect and Install (자동 감지)', '다운로드'), ('AMD Software: Adrenalin Edition', '다운로드')], 0, 2),
+                       '인터넷이 연결돼 있어야 해요. 그래픽카드와 윈도우 버전을 감지해 맞는 드라이버를 받아 줘요.')
+             + cu.step(3, '실행하고 \'예\'', '받은 파일을 Ctrl + J로 열어 실행하고, 윈도우 확인 창에서 <b>[예]</b>를 눌러요.', W_uac('AMD 설치 프로그램', 3))
+             + cu.step(4, '안내대로 설치', '도구가 맞는 드라이버를 찾아 주면 화면 안내대로 설치해요. 다시 시작하라고 하면 컴퓨터를 다시 시작해요.',
+                       W_installer('AMD Software 설치', ['그래픽카드를 찾았어요', '맞는 드라이버를 설치할게요'], '설치', 4)))
+    qa = [('Auto-Detect와 Adrenalin Edition은 뭐가 달라요?', 'Auto-Detect and Install은 내 그래픽카드와 윈도우 버전을 찾아 맞는 드라이버를 받아 주는 작은 도구예요. AMD Software: Adrenalin Edition은 드라이버와 관리 프로그램이 들어 있는 본 설치 파일이에요. 모르겠으면 Auto-Detect를 쓰세요.'),
+          ('윈도우 7도 되나요?', '일부 그래픽카드는 윈도우 7용 드라이버가 있지만, AMD는 이를 추가 출시 계획이 없는 레거시 지원으로 안내해요. 가능하면 윈도우 10·11을 쓰세요.'),
+          ('라이젠 칩셋 드라이버는 어디서 받아요?', 'AMD 다운로드 페이지의 칩셋(Chipsets) 항목에서 받아요. 위 표의 \'Ryzen·Athlon 모바일 칩셋\'이 노트북용이에요. 데스크톱은 메인보드 회사 사이트에서도 받을 수 있어요.')]
+    fq, fqld = cu.faq(qa)
+    main = (f'<header class="top hub">{cr}<h1>AMD 라데온 그래픽·칩셋 드라이버 다운로드·설치 방법</h1>'
+            '<p class="lead">AMD 라데온 그래픽카드와 라이젠 칩셋 드라이버를 공식 사이트에서 받아 설치하는 순서를 그림으로 쉽게 정리했어요.</p>'
+            f'<p class="cu-ans">{ans}</p>' + dl(AMD_RX, 'AMD 드라이버 받으러 가기', 'AMD 공식 다운로드 페이지 (Auto-Detect 포함)')
+            + '<ul class="dr-toc"><li><a href="#models">제품별 바로가기</a></li><li><a href="#steps">설치 순서</a></li></ul></header>'
+            '<section class="card dr-sec" id="models"><h2>제품별 다운로드 바로가기</h2>' + model_search([m for m, _, _ in AMD_MODELS])
+            + models_table(AMD_MODELS) + '<p class="cu-src" style="margin-top:8px">다른 제품도 AMD 다운로드 페이지에서 그래픽 → 제품군 → 시리즈 → 제품 순으로 찾을 수 있어요. 어느 제품 페이지에서든 Auto-Detect and Install을 받을 수 있어요.</p></section>'
+            f'<section class="card dr-sec" id="steps"><h2>그림으로 보는 설치 순서 (자동 감지)</h2>{steps}</section>' + fq
+            + src_sec('AMD 공식 드라이버 및 다운로드 페이지(amd.com/ko/support/downloads)') + REL)
+    write(path, 'AMD 라데온 그래픽·라이젠 칩셋 드라이버 다운로드·설치 방법 (Auto-Detect, 2026) | 홍라이프 도구',
+          'AMD 라데온 그래픽 드라이버와 라이젠 칩셋 드라이버를 공식 사이트에서 받아 설치하는 방법을 그림으로 쉽게 설명해요. Auto-Detect and Install 자동 감지, Adrenalin Edition, 제품별 바로가기.',
+          main, [crld, fqld, howto('AMD 그래픽 드라이버 설치 방법', ['장치 관리자에서 그래픽카드 확인', 'Auto-Detect and Install 다운로드', '실행 후 예', '안내대로 설치'])])
+    return path
+
+
+INTEL_DSA = 'https://intel.co.kr/content/www/kr/ko/support/detect.html'
+
+
+def intel():
+    path = '/driver/intel.html'
+    cr, crld = crumb([('인텔 드라이버', '')])
+    ans = ('인텔 그래픽·칩셋·무선랜 같은 인텔 부품 드라이버는 <b>인텔 드라이버 및 지원 도우미</b>로 한 번에 챙기는 게 가장 쉬워요. '
+           '인텔 공식 페이지에서 받아 <b>화면 안내대로 설치</b>하고 <b>지원 도우미를 실행</b>하면, 내 컴퓨터의 인텔 하드웨어에 맞는 드라이버·소프트웨어 업데이트를 알려 줘요.')
+    steps = (cu.step(1, '지원 도우미 받기', '아래 <b>[인텔 지원 도우미 받으러 가기]</b>를 눌러 인텔 공식 페이지에서 \'인텔 드라이버 및 지원 도우미\'를 내려받아요.',
+                     W_list('intel.co.kr', '인텔® 드라이버 및 지원 도우미', [('맞춤 지원과 편리한 업데이트', ''), ('드라이버 및 소프트웨어 다운로드', '다운로드')], 1, 1))
+             + cu.step(2, '설치하기', '받은 파일을 실행하고 <b>화면에 나오는 안내에 따라</b> 설치해요. 윈도우 확인 창이 뜨면 [예]를 눌러요.', W_uac('Intel Driver & Support Assistant', 2))
+             + cu.step(3, '지원 도우미 실행 → 업데이트', '지원 도우미를 실행하면 <b>내 인텔 하드웨어에 맞는 드라이버와 소프트웨어 업데이트</b>가 목록으로 나와요. 필요한 것만 받아 설치하세요.',
+                       W_list('intel.co.kr', '내 컴퓨터 · 업데이트 목록', [('그래픽 드라이버', '다운로드'), ('무선(Wi-Fi) 드라이버', '다운로드'), ('블루투스', '다운로드')], 0, 3)))
+    note = ('<section class="card"><h2>노트북이라면 먼저 확인하세요</h2><p>삼성·LG·레노버 같은 노트북은 노트북 회사가 맞춰 둔 드라이버가 따로 있어요. '
+            '인텔 최신 드라이버가 노트북 회사 버전과 다를 수 있으니, 문제가 생기면 노트북 회사 지원 페이지의 드라이버를 쓰세요.</p></section>')
+    qa = [('인텔 드라이버 및 지원 도우미는 뭐예요?', '인텔 안내에 따르면 대부분의 인텔 하드웨어를 위해 맞춤 지원과 편리한 업데이트를 제공하는 프로그램이에요.'),
+          ('무료인가요?', '네. 인텔 공식 사이트에서 무료로 받아요.'),
+          ('업데이트가 하나도 안 나와요.', '이미 최신이거나, 노트북 회사가 드라이버를 따로 관리하는 경우일 수 있어요. 노트북이면 노트북 회사 지원 페이지도 확인하세요.')]
+    fq, fqld = cu.faq(qa)
+    main = (f'<header class="top hub">{cr}<h1>인텔 드라이버 다운로드 — 드라이버 및 지원 도우미 설치 방법</h1>'
+            '<p class="lead">인텔 그래픽·칩셋·무선랜·블루투스 드라이버를 한 번에 확인하고 업데이트하는 방법을 그림으로 쉽게 정리했어요.</p>'
+            f'<p class="cu-ans">{ans}</p>' + dl(INTEL_DSA, '인텔 지원 도우미 받으러 가기', '인텔 공식 페이지 (드라이버 및 지원 도우미)')
+            + f'<ul class="dr-toc"><li><a href="#steps">설치 순서</a></li></ul></header><section class="card dr-sec" id="steps"><h2>그림으로 보는 순서</h2>{steps}</section>'
+            + note + fq + src_sec('인텔 공식 \'인텔® 드라이버 및 지원 도우미\' 페이지(intel.co.kr)') + REL)
+    write(path, '인텔 드라이버 다운로드 — 드라이버 및 지원 도우미 설치·업데이트 방법 (2026) | 홍라이프 도구',
+          '인텔 그래픽·칩셋·무선랜·블루투스 드라이버를 인텔 드라이버 및 지원 도우미로 한 번에 업데이트하는 방법을 그림으로 쉽게 설명해요.',
+          main, [crld, fqld, howto('인텔 드라이버 및 지원 도우미 사용 방법', ['지원 도우미 다운로드', '화면 안내대로 설치', '지원 도우미 실행 후 업데이트'])])
+    return path
+
+
 if __name__ == '__main__':
-    print('\n'.join([hub(), hp(), sindoh()]))
+    print('\n'.join([hub(), hp(), sindoh(), nvidia(), amd(), intel()]))
