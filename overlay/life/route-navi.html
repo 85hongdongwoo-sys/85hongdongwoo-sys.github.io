@@ -238,9 +238,14 @@ function layerUI(el,a){if(!a.mtype)return;var st=lget(),t=st.t||'road',tf=!!st.t
  bt.onclick=function(){pn.hidden=!pn.hidden;bt.setAttribute('aria-expanded',!pn.hidden)};
  pn.onclick=function(e){var b=e.target.closest('button');if(!b)return;if(b.dataset.t){t=b.dataset.t;a.mtype(t)}else if(b.dataset.x){tf=!tf;a.traffic(tf)}st=lget();st.t=t;st.tf=tf;lset(st);paint()};
  el.appendChild(w);if(t!='road')a.mtype(t);if(tf)a.traffic(true);paint()}
+// 확대·축소 버튼: 오른쪽 버튼 줄(내 위치 → 지도 유형 → +/−)에 맞춰 겹치지 않게 직접 그림 (카카오 기본 막대 대신)
+function zoomUI(el,f){if(!document.getElementById('hl-zm-css')){var c=document.createElement('style');c.id='hl-zm-css';c.textContent='.hl-zm{position:absolute;right:10px;top:106px;z-index:600;display:flex;flex-direction:column;width:40px;border-radius:12px;border:1px solid #E5E8EB;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12);overflow:hidden}.hl-zm button{width:40px;height:40px;border:0;background:#fff;color:#191F28;font-size:22px;font-weight:700;line-height:1;cursor:pointer;padding:0;display:grid;place-items:center}.hl-zm button+button{border-top:1px solid #E5E8EB}.hl-zm button:active{background:#F2F4F6}';document.head.appendChild(c)}
+ var w=document.createElement('div');w.className='hl-zm';w.innerHTML='<button type="button" aria-label="지도 확대">+</button><button type="button" aria-label="지도 축소">−</button>';
+ ['mousedown','touchstart','click','dblclick','wheel','pointerdown'].forEach(function(e){w.addEventListener(e,function(ev){ev.stopPropagation()},{passive:true})});
+ w.firstChild.onclick=function(){f(-1)};w.lastChild.onclick=function(){f(1)};el.appendChild(w)}
 function make(el,lat,lng,z){var a=make0(el,lat,lng,z);try{layerUI(el,a)}catch(e){}return a}
 function make0(el,lat,lng,z){
- if(kind=='kakao'){var K=kakao.maps,map=new K.Map(el,{center:new K.LatLng(lat,lng),level:lv(z)});map.addControl(new K.ZoomControl(),K.ControlPosition.RIGHT);
+ if(kind=='kakao'){var K=kakao.maps,map=new K.Map(el,{center:new K.LatLng(lat,lng),level:lv(z)});zoomUI(el,function(d){map.setLevel(map.getLevel()+d,{animate:true})});
   return {kind:'kakao',
    onClick:function(f){K.event.addListener(map,'click',function(e){f(e.latLng.getLat(),e.latLng.getLng())})},
    view:function(a,b,zz){map.setCenter(new K.LatLng(a,b));if(zz)map.setLevel(lv(zz))},
