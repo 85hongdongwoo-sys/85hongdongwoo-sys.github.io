@@ -34,7 +34,7 @@ def build_json():
     ix = {k: i for i, k in enumerate(ids)}
     sets, sx, m = [], {}, {}
     for kind, code, sales, fl in LG['models']:
-        key = tuple(ix[f] for f in fl if f in ix)
+        key = tuple(dict.fromkeys(ix[f] for f in fl if f in ix))
         if key not in sx:
             sx[key] = len(sets)
             sets.append(list(key))
