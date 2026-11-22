@@ -131,7 +131,7 @@ def W_sindoh_tool(n=5):
 # ── 페이지 틀 ────────────────────────────────────────────
 KO2EN = {'/driver/': '/en/driver/', '/driver/hp.html': '/en/driver/hp.html', '/driver/sindoh.html': '/en/driver/sindoh.html',
          '/driver/nvidia.html': '/en/driver/nvidia.html', '/driver/amd.html': '/en/driver/amd.html', '/driver/intel.html': '/en/driver/intel.html',
-         '/driver/epson.html': '/en/driver/epson.html', '/driver/brother.html': '/en/driver/brother.html', '/driver/lg.html': '/en/driver/lg.html', '/driver/apple.html': '/en/driver/apple.html', '/driver/surface.html': '/en/driver/surface.html', '/driver/lenovo.html': '/en/driver/lenovo.html', '/driver/dell.html': '/en/driver/dell.html', '/driver/asus.html': '/en/driver/asus.html', '/driver/acer.html': '/en/driver/acer.html', '/driver/roborock.html': '/en/driver/roborock.html'}
+         '/driver/epson.html': '/en/driver/epson.html', '/driver/brother.html': '/en/driver/brother.html', '/driver/lg.html': '/en/driver/lg.html', '/driver/apple.html': '/en/driver/apple.html', '/driver/surface.html': '/en/driver/surface.html', '/driver/lenovo.html': '/en/driver/lenovo.html', '/driver/dell.html': '/en/driver/dell.html', '/driver/asus.html': '/en/driver/asus.html', '/driver/acer.html': '/en/driver/acer.html', '/driver/roborock.html': '/en/driver/roborock.html', '/driver/ecovacs.html': '/en/driver/ecovacs.html', '/driver/dreame.html': '/en/driver/dreame.html', '/driver/narwal.html': '/en/driver/narwal.html'}
 EN2KO = {v: k for k, v in KO2EN.items()}
 # 한국어가 아닌 브라우저(검색 로봇 제외)는 영어판으로 바로 보냄. '한국어로 보기'를 누른 사람(hl_lang=ko)은 그대로.
 REDIRECT = ("<script>(function(){try{var L=(navigator.languages&&navigator.languages[0])||navigator.language||'';"
@@ -436,6 +436,9 @@ REL = ('<section class="card rel"><h2>다른 회사 드라이버</h2><ul class="
        '<li><a href="/driver/asus.html"><b>에이수스</b><span>Vivobook·Zenbook·ROG·메인보드</span></a></li>'
        '<li><a href="/driver/acer.html"><b>에이서</b><span>Aspire·Swift·Nitro</span></a></li>'
        '<li><a href="/driver/roborock.html"><b>로보락</b><span>로봇청소기 앱·펌웨어</span></a></li>'
+       '<li><a href="/driver/ecovacs.html"><b>에코백스</b><span>DEEBOT 로봇청소기 앱·펌웨어</span></a></li>'
+       '<li><a href="/driver/dreame.html"><b>드리미</b><span>로봇청소기 앱·펌웨어</span></a></li>'
+       '<li><a href="/driver/narwal.html"><b>나르왈</b><span>Freo 로봇청소기 앱·펌웨어</span></a></li>'
        '<li><a href="/driver/nvidia.html"><b>엔비디아</b><span>지포스·RTX 그래픽</span></a></li>'
        '<li><a href="/driver/amd.html"><b>AMD</b><span>라데온 그래픽·라이젠 칩셋</span></a></li>'
        '<li><a href="/driver/intel.html"><b>인텔</b><span>그래픽·칩셋·무선랜 (지원 도우미)</span></a></li>'
@@ -481,6 +484,9 @@ def hub():
           '<li><a href="/driver/asus.html"><b>에이수스</b><span>Vivobook·Zenbook·ROG·메인보드 노트북·PC 드라이버 공식 프로그램</span><em>바로 받기 ›</em></a></li>'
           '<li><a href="/driver/acer.html"><b>에이서</b><span>Aspire·Swift·Nitro 노트북·PC 드라이버 공식 프로그램</span><em>바로 받기 ›</em></a></li>'
           '<li><a href="/driver/roborock.html"><b>로보락</b><span>로봇청소기 Roborock 앱·펌웨어 업데이트</span><em>그림 설명 ›</em></a></li>'
+          '<li><a href="/driver/ecovacs.html"><b>에코백스</b><span>DEEBOT 로봇청소기 ECOVACS HOME 앱·펌웨어 업데이트</span><em>그림 설명 ›</em></a></li>'
+          '<li><a href="/driver/dreame.html"><b>드리미</b><span>로봇청소기 Dreamehome 앱·펌웨어 업데이트</span><em>그림 설명 ›</em></a></li>'
+          '<li><a href="/driver/narwal.html"><b>나르왈</b><span>Freo 로봇청소기 Narwal 앱·펌웨어 업데이트</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/drive/update/tesla.html"><b>테슬라</b><span>차량 소프트웨어 무선 업데이트 방법</span><em>그림 설명 ›</em></a></li>'
           + ''.join(f'<li><a href="{E(u)}" target="_blank" rel="noopener nofollow"><b>{E(n)}</b><span>{E(d)}</span><em>공식 사이트로 바로 가기 ↗</em></a></li>' for n, u, d in EXT))
     what = cu.step('?', '드라이버가 뭐예요?', '드라이버는 <b>기기와 컴퓨터를 이어 주는 통역 프로그램</b>이에요. 프린터를 USB로 꽂아도 드라이버가 없으면 컴퓨터가 \'이게 무슨 기계인지\' 몰라서 인쇄가 안 돼요.',

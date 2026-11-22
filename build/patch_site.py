@@ -539,6 +539,9 @@ MOVED = [('driver', '/driver/', '드라이버 다운로드 모음', '프린터·
          ('driver', '/driver/asus.html', '에이수스 드라이버 다운로드', 'Vivobook·Zenbook·ROG·메인보드 공식 업데이트 프로그램', '에이수스 드라이버 ASUS 드라이버 아수스 드라이버 MyASUS 젠북 드라이버 비보북 드라이버 ROG 드라이버 메인보드 드라이버', '드라이버'),
          ('driver', '/driver/acer.html', '에이서 드라이버 다운로드', 'Aspire·Swift·Nitro 공식 업데이트 프로그램', '에이서 드라이버 Acer 드라이버 에이서 노트북 드라이버 Aspire 드라이버 Swift 드라이버 Nitro 드라이버 Predator 드라이버', '드라이버'),
          ('driver', '/driver/roborock.html', '로보락 펌웨어 업데이트 방법', 'Roborock 앱·와이파이 연결·로봇청소기', '로보락 업데이트 로보락 펌웨어 업데이트 로보락 앱 로봇청소기 업데이트 로보락 와이파이 연결 안됨 S8 Qrevo Saros', '드라이버'),
+         ('driver', '/driver/ecovacs.html', '에코백스 펌웨어 업데이트 방법', 'ECOVACS HOME 앱·로봇청소기', '에코백스 업데이트 에코백스 펌웨어 업데이트 디봇 업데이트 DEEBOT 업데이트 ECOVACS HOME 앱 에코백스 앱 로봇청소기 업데이트 X8 T30 T50', '드라이버'),
+         ('driver', '/driver/dreame.html', '드리미 펌웨어 업데이트 방법', 'Dreamehome 앱·로봇청소기', '드리미 업데이트 드리미 펌웨어 업데이트 드리미 로봇청소기 업데이트 Dreamehome 앱 드리미 앱 X50 X40 L20 L10s', '드라이버'),
+         ('driver', '/driver/narwal.html', '나르왈 펌웨어 업데이트 방법', 'Narwal Freo 앱·로봇청소기', '나르왈 업데이트 나르왈 펌웨어 업데이트 나르왈 프레오 업데이트 Narwal Freo 앱 나르왈 앱 로봇청소기 업데이트', '드라이버'),
          ('drive', '/drive/update/', '차 내비·블랙박스 업데이트 모음', '현대·기아·제네시스 내비 업데이트를 그림으로 쉽게', '내비 업데이트 내비게이션 업데이트 지도 업데이트 순정 내비 업데이트 블랙박스 업데이트 빌트인캠 업데이트 Navigation Updater', '자동차·지도'),
          ('drive', '/drive/update/hyundai.html', '현대 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '현대 내비 업데이트 현대차 네비 업데이트 현대 내비게이션 업데이트 방법 현대 지도 업데이트 블루링크 업데이트 아반떼 쏘나타 그랜저 싼타페 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
          ('drive', '/drive/update/kia.html', '기아 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '기아 내비 업데이트 기아 네비 업데이트 기아 내비게이션 업데이트 방법 기아 지도 업데이트 쏘렌토 카니발 K5 스포티지 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
@@ -632,7 +635,7 @@ if 'href="/drive/"' not in s:
     open(p, 'w', encoding='utf-8').write(s)
 # ── 드라이버 영어판(/en/driver/) 사이트맵 (overlay, 2026-11-22) ──
 p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
-_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html', '/en/driver/epson.html', '/en/driver/brother.html', '/en/driver/lg.html', '/en/driver/apple.html', '/en/driver/surface.html', '/en/driver/lenovo.html', '/en/driver/dell.html', '/en/driver/asus.html', '/en/driver/acer.html', '/en/driver/roborock.html')
+_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html', '/en/driver/epson.html', '/en/driver/brother.html', '/en/driver/lg.html', '/en/driver/apple.html', '/en/driver/surface.html', '/en/driver/lenovo.html', '/en/driver/dell.html', '/en/driver/asus.html', '/en/driver/acer.html', '/en/driver/roborock.html', '/en/driver/ecovacs.html', '/en/driver/dreame.html', '/en/driver/narwal.html')
        if os.path.exists(os.path.join(root, u.lstrip('/') + ('index.html' if u.endswith('/') else ''))) and f'honglife.co.kr{u}<' not in s]
 if _en:
     open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-22</lastmod></url>\n' for u in _en) + '</urlset>', 1)); print('sitemap + en driver', len(_en))

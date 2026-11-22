@@ -152,6 +152,9 @@ REL = ('<section class="card rel"><h2>Other drivers</h2><ul class="dr-co">'
        '<li><a href="/en/driver/asus.html"><b>ASUS</b><span>Official update tools</span></a></li>'
        '<li><a href="/en/driver/acer.html"><b>Acer</b><span>Official update tools</span></a></li>'
        '<li><a href="/en/driver/roborock.html"><b>Roborock</b><span>Robot vacuum app &amp; firmware</span></a></li>'
+       '<li><a href="/en/driver/ecovacs.html"><b>ECOVACS</b><span>Robot vacuum app &amp; firmware</span></a></li>'
+       '<li><a href="/en/driver/dreame.html"><b>Dreame</b><span>Robot vacuum app &amp; firmware</span></a></li>'
+       '<li><a href="/en/driver/narwal.html"><b>Narwal</b><span>Robot vacuum app &amp; firmware</span></a></li>'
        '<li><a href="/en/driver/nvidia.html"><b>NVIDIA</b><span>GeForce / RTX graphics</span></a></li>'
        '<li><a href="/en/driver/amd.html"><b>AMD</b><span>Radeon graphics, Ryzen chipset</span></a></li>'
        '<li><a href="/en/driver/intel.html"><b>Intel</b><span>Driver &amp; Support Assistant</span></a></li>'
@@ -324,7 +327,7 @@ def hub():
     path = '/en/driver/'
     cr = '<p class="crumb"><a href="/en/">Home</a> › Drivers</p>'
     co = ''.join(f'<li><a href="/en/driver/{k}.html"><b>{n}</b><span>{d}</span></a></li>' for k, n, d in [
-        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'), ('epson', 'Epson', 'EcoTank, WorkForce and more, by model'), ('brother', 'Brother', 'Inkjet, laser, label, by model'), ('lg', 'LG', 'gram laptops (LG Update), monitors (OnScreen Control)'), ('apple', 'Apple', 'Apple Devices, iCloud, iTunes, Boot Camp'), ('surface', 'Microsoft Surface', 'Drivers & firmware by model'), ('lenovo', 'Lenovo', 'Official driver update tools'), ('dell', 'Dell', 'Official driver update tools'), ('asus', 'ASUS', 'Official driver update tools'), ('acer', 'Acer', 'Official driver update tools'), ('roborock', 'Roborock', 'Robot vacuum app & firmware update'),
+        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'), ('epson', 'Epson', 'EcoTank, WorkForce and more, by model'), ('brother', 'Brother', 'Inkjet, laser, label, by model'), ('lg', 'LG', 'gram laptops (LG Update), monitors (OnScreen Control)'), ('apple', 'Apple', 'Apple Devices, iCloud, iTunes, Boot Camp'), ('surface', 'Microsoft Surface', 'Drivers & firmware by model'), ('lenovo', 'Lenovo', 'Official driver update tools'), ('dell', 'Dell', 'Official driver update tools'), ('asus', 'ASUS', 'Official driver update tools'), ('acer', 'Acer', 'Official driver update tools'), ('roborock', 'Roborock', 'Robot vacuum app & firmware update'), ('ecovacs', 'ECOVACS', 'Robot vacuum app & firmware update'), ('dreame', 'Dreame', 'Robot vacuum app & firmware update'), ('narwal', 'Narwal', 'Robot vacuum app & firmware update'),
         ('nvidia', 'NVIDIA', 'GeForce / RTX graphics'), ('amd', 'AMD', 'Radeon graphics, Ryzen chipset'), ('intel', 'Intel', 'Driver & Support Assistant')])
     items = [[HPEN[str(m['o'])]['n'], '/en/driver/hp.html#' + kr.mid(m['n'])] for m in kr.HP_DATA['models']] + [[f'Sindoh {m}', f'/en/driver/sindoh.html#m-{m}'] for m, _ in kr.SD_MODELS]
     import driver_more as dm
