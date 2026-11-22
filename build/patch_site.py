@@ -577,7 +577,7 @@ for cat, u, n, d, kw, cn in MOVED:
     if os.path.exists(p):
         s = open(p, encoding='utf-8').read()
         if f'href="{u}"' not in s:
-            art = {'/life/route-navi.html': 'bus', '/drive/bus-share.html': 'bus', '/life/toilet.html': 'life', '/life/air-quality.html': 'life'}.get(u)
+            art = {'/design/room-3d.html': 'room3d', '/life/route-navi.html': 'bus', '/drive/bus-share.html': 'bus', '/life/toilet.html': 'life', '/life/air-quality.html': 'life'}.get(u)
             if not art:
                 art = next((k for k, rx in KW if re.search(rx, n) and os.path.exists(os.path.join(root, 'assets/art/hl', f'cs-{k}.svg'))), cat)
             li = (f'<li><a href="{u}"><i class="th"><img src="/assets/art/hl/cs-{art}.svg" alt="" width="200" height="140" loading="lazy"></i>'
