@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>3D 내 집 꾸미기 | 홍라이프 도구</title>
+<title>3D 내 집·사무실 꾸미기 | 홍라이프 도구</title>
 <meta name="robots" content="noindex,follow">
 <link rel="canonical" href="https://honglife.co.kr/design/room-3d.html">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
@@ -135,7 +135,7 @@ input[type=range]{width:100%;accent-color:var(--ink);height:28px}
  .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
  .card .n{font-size:12.5px}
 }
-@media(max-width:420px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tabs{gap:4px}.tab{padding:0 9px;font-size:13px;gap:3px;height:34px}.tab svg{width:11px}.tab b{display:none}.top{padding:8px 10px}}
+@media(max-width:420px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tabs{gap:4px;flex-wrap:wrap;overflow:visible}.tab{padding:0 9px;font-size:13px;gap:3px;height:32px}.tab svg{width:11px}.tab b{display:none}.top{padding:8px 10px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
@@ -187,16 +187,17 @@ const SPACES=[
  {k:'kitchen',n:'주방',w:3.2,d:3.2,floor:'tile',wall:'#f2efe9',win:1},
  {k:'living',n:'거실',w:4.6,d:4.0,floor:'ash',wall:'#e6dfd3',win:1},
  {k:'veranda',n:'베란다',w:3.6,d:1.7,floor:'tile',wall:'#f2efe9',win:2},
- {k:'garage',n:'차박',w:7.2,d:4.8,floor:'concrete',wall:'#d9d6d1',win:0}
+ {k:'garage',n:'차박',w:7.2,d:4.8,floor:'concrete',wall:'#d9d6d1',win:0},
+ {k:'office',n:'사무실',w:6.4,d:5,floor:'carpet',wall:'#ebeae6',win:2}
 ];
 const NEED=3;
-const FLOORS=[{k:'oak',n:'오크 원목',c:'#d9b48c',t:'plank'},{k:'walnut',n:'월넛',c:'#8a6142',t:'plank'},{k:'ash',n:'화이트 애쉬',c:'#efe4d3',t:'plank'},{k:'tile',n:'그레이 타일',c:'#d6d4cf',t:'tile'},{k:'concrete',n:'콘크리트',c:'#b9b6b0',t:'concrete'}];
+const FLOORS=[{k:'oak',n:'오크 원목',c:'#d9b48c',t:'plank'},{k:'walnut',n:'월넛',c:'#8a6142',t:'plank'},{k:'ash',n:'화이트 애쉬',c:'#efe4d3',t:'plank'},{k:'tile',n:'그레이 타일',c:'#d6d4cf',t:'tile'},{k:'concrete',n:'콘크리트',c:'#b9b6b0',t:'concrete'},{k:'carpet',n:'카펫 타일',c:'#9a9ea3',t:'carpet'},{k:'carpetb',n:'블루그레이 카펫',c:'#7d8794',t:'carpet'}];
 const WALLS=[{c:'#f2efe9',n:'웜 화이트'},{c:'#e6dfd3',n:'베이지'},{c:'#cfd5cb',n:'세이지'},{c:'#d8d2cc',n:'그레이지'},{c:'#e9d6c8',n:'로즈 베이지'},{c:'#373c40',n:'차콜'}];
 const CARS=[{c:'#2e3338',n:'차콜'},{c:'#e9e9e6',n:'화이트'},{c:'#55606a',n:'스틸 블루'},{c:'#6b6555',n:'카키'}];
 // w,d,h: cm / p: 예시 가격 / q: 쿠팡 검색어
 // 가구 카탈로그: 기본 모양 × 크기 × 색 조합 (가격은 예시)
 const ITEMS=[];const DEF={};
-const H=['room','living'],ALL=['room','kitchen','living','veranda'];
+const H=['room','living'],ALL=['room','kitchen','living','veranda','office'],O=['office'];
 const WOOD=[['내추럴 오크','#d6b58e',0],['월넛','#8a6142',20000],['화이트','#f1eee8',0],['애쉬 그레이','#b9b4ac',10000]];
 const FAB=[['아이보리','#e8e1d4'],['웜 그레이','#b8b2a8'],['세이지','#a3ad9b'],['베이지','#d4c3a8'],['차콜','#4a4b4d'],['테라코타','#b8714f']];
 function G(key,base,cat,t,sizes,colors,sp,q,opt=''){sizes.forEach((S_,i)=>colors.forEach((C,j)=>{const k=`${key}_${i}${j}`;const nm=[base,S_[0]].filter(Boolean).join(' ')+(C[0]?' · '+C[0]:'');
@@ -205,38 +206,38 @@ const duv=['#a8b5a2','#e9e3da','#c9b8a6','#8e9aa5'];
 G('bed','원목 침대','침대','bed',[['싱글',100,205,95,239000],['슈퍼싱글',110,205,95,289000],['퀸',155,212,100,389000],['킹',170,212,100,459000],['라지킹',185,212,100,529000]],WOOD.map((w,i)=>[w[0],w[1],duv[i],w[2]]),['room'],'원목 침대 프레임');
 G('bedf','패브릭 침대','침대','bedf',[['슈퍼싱글',115,212,105,329000],['퀸',160,215,105,459000],['킹',175,215,105,529000]],[['아이보리','#e6dfd3','#f3efe8'],['그레이','#a9a6a1','#e6e2dc'],['베이지','#cdbb9f','#efe7da'],['차콜','#4a4b4d','#d8d4ce',20000],['세이지','#a3ad9b','#efe9df'],['로즈','#d6b3a6','#f3ece6']],['room'],'패브릭 침대 프레임');
 G('bunk','2층 침대','침대','bunk',[['',105,205,165,399000]],[['원목','#d6b58e','#a8b5a2'],['화이트','#f1eee8','#c9d3dc'],['블랙 철제','#2b2b2b','#d9cdbb']],['room'],'2층 침대');
-G('night','협탁','침실','night',[['',45,40,50,49000]],WOOD.map(w=>[w[0],w[1],'#2a2a2a',w[2]/4]),H,'협탁');
-G('dresser','서랍장','침실','dresser',[['3단',80,42,75,99000],['4단',80,42,95,129000],['5단',80,42,115,149000]],[['오크','#d6b58e'],['화이트','#f1eee8'],['월넛','#8a6142',20000]],H,'서랍장');
+G('night','협탁','침실','night',[['',45,40,50,49000]],WOOD.map(w=>[w[0],w[1],'#2a2a2a',w[2]/4]),[...H,'office'],'협탁');
+G('dresser','서랍장','침실','dresser',[['3단',80,42,75,99000],['4단',80,42,95,129000],['5단',80,42,115,149000]],[['오크','#d6b58e'],['화이트','#f1eee8'],['월넛','#8a6142',20000]],[...H,'office'],'서랍장');
 G('vanity','화장대','침실','vanity',[['80',80,40,140,129000],['100',100,42,145,159000]],[['화이트','#f1eee8'],['오크','#d6b58e']],['room'],'거울 화장대');
-G('ward','옷장','수납','wardrobe',[['800',80,58,200,199000],['1000',100,58,200,249000],['1200',120,58,200,299000]],[['화이트','#f1eee8','#9c9a96'],['오크','#d6b58e','#3a3a3a'],['그레이','#b9b6b0','#2a2a2a'],['월넛','#8a6142','#2a2a2a',30000]],['room'],'옷장');
+G('ward','옷장','수납','wardrobe',[['800',80,58,200,199000],['1000',100,58,200,249000],['1200',120,58,200,299000]],[['화이트','#f1eee8','#9c9a96'],['오크','#d6b58e','#3a3a3a'],['그레이','#b9b6b0','#2a2a2a'],['월넛','#8a6142','#2a2a2a',30000]],['room','office'],'옷장');
 G('hanger','스탠드 행거','수납','hanger',[['1000',100,45,170,49000],['1500',150,45,170,69000],['1800',180,45,175,89000]],[['블랙','#2b2b2b'],['화이트','#efefec']],['room','veranda'],'스탠드 행거');
-G('shelf','책장','수납','shelf',[['3단',80,30,110,59000],['4단',80,30,145,69000],['5단',80,30,180,79000],['와이드 5단',120,30,180,109000]],[['오크','#dcc6a6'],['화이트','#f1eee8'],['월넛','#8a6142',15000]],H,'책장');
+G('shelf','책장','수납','shelf',[['3단',80,30,110,59000],['4단',80,30,145,69000],['5단',80,30,180,79000],['와이드 5단',120,30,180,109000]],[['오크','#dcc6a6'],['화이트','#f1eee8'],['월넛','#8a6142',15000]],[...H,'office'],'책장');
 G('shoe','신발장','수납','wardrobe',[['600',60,35,120,89000],['900',90,35,120,119000]],[['화이트','#f1eee8','#9c9a96'],['오크','#d6b58e','#3a3a3a']],['room','living'],'신발장');
-G('desk','책상','책상','desk',[['1000',100,60,73,99000],['1200',120,60,73,129000],['1400',140,70,73,169000],['1600',160,70,73,199000]],[['오크·블랙','#d6b58e','#2a2a2a'],['월넛·블랙','#8a6142','#2a2a2a',20000],['화이트·화이트','#f1eee8','#e8e8e6'],['화이트·실버','#f1eee8','#a9adb0']],H,'컴퓨터 책상');
-G('pcdesk','모니터 책상 세트','책상','desk',[['1400',140,70,73,389000,'mon']],[['오크','#d6b58e','#2a2a2a'],['화이트','#f1eee8','#e8e8e6']],H,'모니터 책상 세트');
-G('chair','패브릭 의자','책상','chair',[['',46,50,82,59000]],[['세이지','#2a2a2a','#7f8c7a'],['그레이','#2a2a2a','#9a9690'],['아이보리','#c9a27a','#e6dfd3'],['테라코타','#2a2a2a','#b8714f'],['네이비','#2a2a2a','#3d4a60'],['머스타드','#c9a27a','#c9a24c']],H,'패브릭 의자');
-G('gchair','게이밍 의자','책상','gchair',[['',68,68,130,199000]],[['블랙','#262626','#b8714f'],['그레이','#7b7d80','#e7e4de'],['화이트','#f0efec','#8e9aa5']],H,'게이밍 의자');
-G('sofa2','2인 소파','소파','sofa',[['',150,82,78,299000]],FAB.map(f=>[f[0],f[1],'#e7dccb']),H,'2인용 패브릭 소파');
+G('desk','책상','책상','desk',[['1000',100,60,73,99000],['1200',120,60,73,129000],['1400',140,70,73,169000],['1600',160,70,73,199000]],[['오크·블랙','#d6b58e','#2a2a2a'],['월넛·블랙','#8a6142','#2a2a2a',20000],['화이트·화이트','#f1eee8','#e8e8e6'],['화이트·실버','#f1eee8','#a9adb0']],[...H,'office'],'컴퓨터 책상');
+G('pcdesk','모니터 책상 세트','책상','desk',[['1400',140,70,73,389000,'mon']],[['오크','#d6b58e','#2a2a2a'],['화이트','#f1eee8','#e8e8e6']],[...H,'office'],'모니터 책상 세트');
+G('chair','패브릭 의자','책상','chair',[['',46,50,82,59000]],[['세이지','#2a2a2a','#7f8c7a'],['그레이','#2a2a2a','#9a9690'],['아이보리','#c9a27a','#e6dfd3'],['테라코타','#2a2a2a','#b8714f'],['네이비','#2a2a2a','#3d4a60'],['머스타드','#c9a27a','#c9a24c']],[...H,'office'],'패브릭 의자');
+G('gchair','게이밍 의자','책상','gchair',[['',68,68,130,199000]],[['블랙','#262626','#b8714f'],['그레이','#7b7d80','#e7e4de'],['화이트','#f0efec','#8e9aa5']],[...H,'office'],'게이밍 의자');
+G('sofa2','2인 소파','소파','sofa',[['',150,82,78,299000]],FAB.map(f=>[f[0],f[1],'#e7dccb']),[...H,'office'],'2인용 패브릭 소파');
 G('sofa3','3인 소파','소파','sofa',[['',210,92,80,529000]],FAB.map(f=>[f[0],f[1],'#b85c38']),['living'],'3인용 패브릭 소파');
 G('sofa4','4인 소파','소파','sofa',[['',260,95,82,790000]],FAB.slice(0,4).map(f=>[f[0],f[1],'#efe8de']),['living'],'4인용 소파');
-G('lounge','라운지 체어','소파','sofa',[['',78,82,76,189000]],[['카멜','#b98d6e','#efe8de'],['아이보리','#e8e1d4','#b8714f'],['세이지','#a3ad9b','#efe8de'],['차콜','#4a4b4d','#d9cdbb'],['테라코타','#b8714f','#efe8de'],['네이비','#3d4a60','#e7dccb']],H,'라운지 체어 1인 소파');
-G('bean','빈백 소파','소파','beanbag',[['',85,85,70,79000]],[['아이보리','#e8e1d4'],['그레이','#a9a6a1'],['머스타드','#c9a24c'],['네이비','#3d4a60'],['세이지','#a3ad9b'],['테라코타','#b8714f']],H,'빈백 소파');
-G('coffee','커피테이블','테이블','table',[['사각 100',100,55,40,69000],['낮은 120',120,60,35,89000],['원형 80',80,80,40,79000,'round']],WOOD.slice(0,3).map(w=>[w[0],w[1],w[1],w[2]/2]),H,'거실 테이블');
-G('side','사이드 테이블','테이블','table',[['',45,45,55,39000,'round']],WOOD.slice(0,3).map(w=>[w[0],w[1],w[1]]),H,'원형 사이드 테이블');
+G('lounge','라운지 체어','소파','sofa',[['',78,82,76,189000]],[['카멜','#b98d6e','#efe8de'],['아이보리','#e8e1d4','#b8714f'],['세이지','#a3ad9b','#efe8de'],['차콜','#4a4b4d','#d9cdbb'],['테라코타','#b8714f','#efe8de'],['네이비','#3d4a60','#e7dccb']],[...H,'office'],'라운지 체어 1인 소파');
+G('bean','빈백 소파','소파','beanbag',[['',85,85,70,79000]],[['아이보리','#e8e1d4'],['그레이','#a9a6a1'],['머스타드','#c9a24c'],['네이비','#3d4a60'],['세이지','#a3ad9b'],['테라코타','#b8714f']],[...H,'office'],'빈백 소파');
+G('coffee','커피테이블','테이블','table',[['사각 100',100,55,40,69000],['낮은 120',120,60,35,89000],['원형 80',80,80,40,79000,'round']],WOOD.slice(0,3).map(w=>[w[0],w[1],w[1],w[2]/2]),[...H,'office'],'거실 테이블');
+G('side','사이드 테이블','테이블','table',[['',45,45,55,39000,'round']],WOOD.slice(0,3).map(w=>[w[0],w[1],w[1]]),[...H,'office'],'원형 사이드 테이블');
 G('tvst','거실장','거실','lowcab',[['1200',120,40,45,99000],['1600',160,40,45,129000],['1800',180,40,45,149000],['2000',200,40,45,169000]],[['오크','#d6c1a3','#222'],['화이트','#f1eee8','#d0d0cc'],['월넛','#8a6142','#222',20000]],H,'거실장');
-G('tv','TV (이동식 스탠드)','거실','tv',[['43인치',97,50,140,390000],['55인치',124,50,150,690000],['65인치',146,55,155,1090000]],[['','#151515']],H,'TV 이동식 스탠드');
+G('tv','TV (이동식 스탠드)','거실','tv',[['43인치',97,50,140,390000],['55인치',124,50,150,690000],['65인치',146,55,155,1090000]],[['','#151515']],[...H,'office'],'TV 이동식 스탠드');
 G('piano','디지털 피아노','거실','piano',[['',136,35,80,590000]],[['블랙','#1c1c1c'],['화이트','#efeeea']],H,'디지털 피아노 88건반');
-G('mirror','전신거울','소품','mirror',[['',50,6,160,45000]],[['오크','#b88b5e'],['화이트','#f1eee8'],['블랙','#2a2a2a'],['실버','#c9ccce']],H,'전신거울');
-G('flamp','플로어 스탠드','조명','floorlamp',[['',40,40,160,69000]],[['리넨','#f4ede0','#2a2a2a'],['블랙','#f4ede0','#1d1d1d'],['골드','#f6efe4','#b8975a']],['room','living','kitchen'],'플로어 스탠드 조명');
+G('mirror','전신거울','소품','mirror',[['',50,6,160,45000]],[['오크','#b88b5e'],['화이트','#f1eee8'],['블랙','#2a2a2a'],['실버','#c9ccce']],[...H,'office'],'전신거울');
+G('flamp','플로어 스탠드','조명','floorlamp',[['',40,40,160,69000]],[['리넨','#f4ede0','#2a2a2a'],['블랙','#f4ede0','#1d1d1d'],['골드','#f6efe4','#b8975a']],['room','living','kitchen','office'],'플로어 스탠드 조명');
 G('mood','무드등','조명','mood',[['',22,22,32,29000]],[['원목','#c9a27a','#fff3df'],['화이트','#efefec','#fff3df'],['월넛','#8a6142','#ffe8c7']],['room','living','veranda','garage'],'무드등');
-G('rug','러그','러그','rug',[['160×230',160,230,1,89000],['200×300',200,300,1,149000]],[['아이보리','#ddd6c9'],['그레이','#b5b1aa'],['베이지','#cdb999'],['세이지','#aab3a1'],['테라코타','#c58b6c'],['네이비','#4a5568'],['차콜','#55575a']],H,'거실 러그');
-G('rugr','원형 러그','러그','rugr',[['120',120,120,1,49000]],[['베이지','#b7a58e'],['아이보리','#e3ddd1'],['그레이','#a9a6a1'],['세이지','#aab3a1']],['room','living','veranda'],'원형 러그');
+G('rug','러그','러그','rug',[['160×230',160,230,1,89000],['200×300',200,300,1,149000]],[['아이보리','#ddd6c9'],['그레이','#b5b1aa'],['베이지','#cdb999'],['세이지','#aab3a1'],['테라코타','#c58b6c'],['네이비','#4a5568'],['차콜','#55575a']],[...H,'office'],'거실 러그');
+G('rugr','원형 러그','러그','rugr',[['120',120,120,1,49000]],[['베이지','#b7a58e'],['아이보리','#e3ddd1'],['그레이','#a9a6a1'],['세이지','#aab3a1']],['room','living','veranda','office'],'원형 러그');
 G('plant','화분','식물','plant',[['대형 몬스테라',50,50,120,39000],['중형',40,40,85,25000],['소형',30,30,60,15000]],[['화이트 화분','#e8e4dc'],['테라코타','#c97f5a'],['블랙 화분','#3a3a3a'],['스톤 화분','#a9a59c']],ALL,'화분 식물');
-G('fridge','냉장고','가전','fridge',[['양문형',91,74,180,1590000],['2도어',70,70,175,690000],['미니',48,50,85,199000,'mini']],[['메탈','#d9dbdc'],['화이트','#f2f2f0'],['베이지','#e6dccd',50000]],['kitchen','room'],'냉장고');
+G('fridge','냉장고','가전','fridge',[['양문형',91,74,180,1590000],['2도어',70,70,175,690000],['미니',48,50,85,199000,'mini']],[['메탈','#d9dbdc'],['화이트','#f2f2f0'],['베이지','#e6dccd',50000]],['kitchen','room','office'],'냉장고');
 G('washer','세탁기·건조기','가전','washer',[['드럼세탁기',60,62,85,690000],['건조기',60,65,85,890000]],[['화이트','#f1f1ef'],['그레이','#9a9c9e']],['kitchen','veranda'],'드럼 세탁기 건조기');
-G('purif','공기청정기','가전','purifier',[['',33,33,65,229000]],[['화이트','#f3f3f1'],['베이지','#e8dfd0']],H,'공기청정기');
-G('humid','가습기','가전','purifier',[['',24,24,38,89000,'small']],[['화이트','#f3f3f1'],['그린','#b8c4b0']],H,'가습기');
-G('aircon','스탠드 에어컨','가전','aircon',[['',37,35,175,1490000]],[['화이트','#f3f3f1'],['베이지','#e8dfd0']],['living','room'],'스탠드 에어컨');
+G('purif','공기청정기','가전','purifier',[['',33,33,65,229000]],[['화이트','#f3f3f1'],['베이지','#e8dfd0']],[...H,'office'],'공기청정기');
+G('humid','가습기','가전','purifier',[['',24,24,38,89000,'small']],[['화이트','#f3f3f1'],['그린','#b8c4b0']],[...H,'office'],'가습기');
+G('aircon','스탠드 에어컨','가전','aircon',[['',37,35,175,1490000]],[['화이트','#f3f3f1'],['베이지','#e8dfd0']],['living','room','office'],'스탠드 에어컨');
 G('fan','선풍기','가전','fan',[['',40,40,105,59000]],[['화이트','#f3f3f1'],['블랙','#2a2a2a']],ALL,'선풍기');
 G('tread','러닝머신','운동','treadmill',[['',160,75,130,590000]],[['블랙','#262626']],H,'가정용 러닝머신');
 G('dog','강아지 방석','반려동물','dogbed',[['',70,55,22,39000]],[['베이지','#d9cbb3'],['그레이','#a9a6a1'],['세이지','#aab3a1'],['브라운','#8a6a50']],ALL,'강아지 방석');
@@ -244,8 +245,8 @@ G('trash','휴지통','생활','trash',[['',28,28,45,29000]],[['화이트','#f3f
 G('basket','빨래바구니','생활','basket',[['',40,40,50,19000]],[['라탄','#c8a679'],['그레이','#a9a6a1']],['room','veranda'],'빨래바구니');
 G('ktable','식탁','식탁','table',[['원형 2인',80,80,74,99000,'round'],['4인',140,80,74,219000],['6인',180,90,74,329000]],[['오크','#d6b58e','#d6b58e'],['월넛','#8a6142','#8a6142',30000],['화이트','#f1eee8','#2a2a2a']],['kitchen','living'],'원목 식탁');
 G('kchair','식탁 의자','식탁','chair',[['',42,48,80,45000,'wood']],[['오크','#d6b58e','#d6b58e'],['월넛','#8a6142','#8a6142'],['화이트','#f1eee8','#f1eee8']],['kitchen','living'],'원목 식탁 의자');
-G('stool','스툴','소품','stool',[['',35,35,45,25000]],[['오크','#c9a27a'],['월넛','#8a6142'],['화이트','#f1eee8']],['kitchen','veranda','room','living'],'원목 스툴');
-G('bench','벤치','소품','bench',[['',110,35,45,79000]],[['오크','#d6b58e'],['월넛','#8a6142']],['kitchen','living','veranda'],'원목 벤치');
+G('stool','스툴','소품','stool',[['',35,35,45,25000]],[['오크','#c9a27a'],['월넛','#8a6142'],['화이트','#f1eee8']],['kitchen','veranda','room','living','office'],'원목 스툴');
+G('bench','벤치','소품','bench',[['',110,35,45,79000]],[['오크','#d6b58e'],['월넛','#8a6142']],['kitchen','living','veranda','office'],'원목 벤치');
 G('wagon','주방 왜건','수납','wagon',[['3단',45,35,80,35000]],[['화이트','#e9e6e0'],['블랙','#2b2b2b'],['민트','#bcd2c6']],['kitchen','room'],'3단 주방 왜건');
 G('rcab','전자레인지 수납장','수납','shelf',[['',60,40,120,79000,'range']],[['화이트','#efece6'],['오크','#d6b58e']],['kitchen'],'전자레인지 수납장');
 G('dryer','빨래건조대','생활','dryer',[['소형',120,55,100,25000],['대형',170,60,110,39000]],[['실버','#d8d8d8']],['veranda'],'접이식 빨래건조대');
@@ -263,19 +264,44 @@ G('island','아일랜드 식탁','식탁','table',[['1200',120,60,90,259000]],[[
 G('bstool','바 스툴','식탁','stool',[['',38,38,75,49000]],[['오크','#c9a27a'],['월넛','#8a6142'],['블랙','#2a2a2a']],['kitchen'],'바 스툴');
 G('water','정수기 (스탠드형)','가전','aircon',[['',30,45,110,690000]],[['화이트','#f3f3f1'],['실버','#c9ccce']],['kitchen'],'스탠드형 정수기');
 G('cart','캠핑 폴딩 카트','캠핑','wagon',[['',90,50,55,89000]],[['카키','#5a6150'],['블랙','#2b2b2b']],['garage','veranda'],'캠핑 폴딩 카트');
+G('odesk','사무용 책상','사무 책상','odesk',[['1200',120,70,72,149000],['1400',140,70,72,169000],['1600',160,80,72,199000]],[['화이트·실버','#f2f1ee','#b9bcbf'],['오크·블랙','#d6b58e','#2a2a2a'],['그레이·블랙','#b9b6b0','#2a2a2a'],['월넛·블랙','#8a6142','#2a2a2a',20000]],O,'사무용 책상 서랍');
+G('ldesk','ㄱ자 책상','사무 책상','ldesk',[['1600',160,140,72,289000],['1800',180,160,72,339000]],[['화이트','#f2f1ee','#b9bcbf'],['오크','#d6b58e','#2a2a2a'],['그레이','#b9b6b0','#2a2a2a']],O,'ㄱ자 책상');
+G('motion','모션데스크','사무 책상','motion',[['1400',140,70,74,349000],['1600',160,80,74,399000]],[['화이트','#f2f1ee','#e8e8e6'],['오크·블랙','#d6b58e','#2a2a2a'],['월넛·블랙','#8a6142','#2a2a2a',30000]],[...O,'room','living'],'모션데스크 전동 높이조절');
+G('ochair','메쉬 사무용 의자','의자','gchair',[['',62,62,112,159000,'mesh']],[['블랙','#262626','#262626'],['그레이','#8b8c8e','#8b8c8e'],['화이트','#e9e8e4','#e9e8e4'],['네이비','#3d4a60','#3d4a60']],[...O,'room','living'],'메쉬 사무용 의자');
+G('exchair','중역 의자','의자','gchair',[['',70,70,125,389000]],[['블랙 가죽','#1f1f1f','#1f1f1f'],['브라운 가죽','#6b4b33','#6b4b33']],O,'중역 의자 가죽');
+G('vchair','회의실 의자','의자','chair',[['',52,55,85,89000]],[['블랙','#2a2a2a','#2b2b2b'],['그레이','#9a9c9e','#9a9690'],['블루','#2a2a2a','#4a5d78']],O,'회의실 의자');
+G('meet','회의 테이블','회의','table',[['4인 1200',120,80,74,189000],['6인 1800',180,90,74,259000],['8인 2400',240,110,74,429000],['원형 1000',100,100,74,159000,'round']],[['화이트','#f2f1ee','#b9bcbf'],['오크','#d6b58e','#2a2a2a'],['월넛','#8a6142','#2a2a2a',40000]],O,'회의 테이블');
+G('part','칸막이 파티션','공간 구분','partition',[['1200',120,5,120,59000],['1600',160,5,140,79000]],[['그레이','#9a9ea3','#d7d9db'],['네이비','#4a5568','#d7d9db'],['그린','#8b9a85','#d7d9db']],O,'사무실 파티션');
+G('glassp','유리 파티션','공간 구분','partition',[['1200',120,5,180,159000,'glass']],[['실버','#d0e0e6','#b9bcbf']],O,'유리 파티션');
+G('steel','철제 서랍 캐비닛','수납','dresser',[['3단',40,60,70,129000,'steel'],['5단 서류',90,45,130,229000,'steel']],[['그레이','#b9bcbf'],['화이트','#efefec'],['블랙','#3a3a3a']],O,'철제 서랍 캐비닛');
+G('ped','이동식 서랍','수납','dresser',[['',40,55,60,89000,'steel']],[['화이트','#efefec'],['그레이','#b9bcbf'],['블랙','#3a3a3a']],O,'이동식 서랍장 사무용');
+G('locker','사물함','수납','locker',[['9칸',90,45,180,259000],['12칸',120,45,180,319000]],[['그레이','#b9bcbf','#7d8794'],['화이트','#efefec','#b8714f']],O,'철제 사물함');
+G('ocab','서류 수납장','수납','wardrobe',[['800',80,40,180,149000],['1200',120,40,180,199000]],[['화이트','#f2f1ee','#9c9a96'],['그레이','#b9b6b0','#2a2a2a'],['오크','#d6b58e','#2a2a2a']],O,'사무용 수납장');
+G('printer','복합기','사무기기','printer',[['A4',50,50,75,690000],['A3 대형',62,68,115,2490000]],[['화이트','#ecebe8','#2a2a2a']],O,'레이저 복합기');
+G('shred','문서 세단기','사무기기','purifier',[['',38,28,60,189000,'shred']],[['블랙','#2a2a2a']],O,'문서 세단기');
+G('wb','이동식 화이트보드','회의','wboard',[['1200',120,55,180,129000],['1500',150,55,185,159000]],[['실버','#c9ccce']],O,'이동식 화이트보드');
+G('coat','코트걸이','소품','coat',[['',45,45,175,39000]],[['블랙','#2a2a2a'],['원목','#c9a27a']],[...O,'room','living'],'스탠드 코트걸이');
+G('cafe','커피 머신 + 탕비장','탕비실','cafe',[['900',90,45,90,489000],['1200',120,45,90,559000]],[['화이트','#f2f1ee','#2a2a2a'],['오크','#d6b58e','#2a2a2a']],[...O,'kitchen'],'커피머신 탕비장');
+G('water2','정수기 (사무용)','탕비실','aircon',[['',35,45,120,790000]],[['화이트','#f3f3f1'],['실버','#c9ccce']],O,'사무실 정수기');
+G('safe','금고','수납','safe',[['',45,45,60,390000]],[['그레이','#6b6e72'],['블랙','#2a2a2a']],O,'사무실 금고');
+G('rack','서버 랙','IT','rack',[['',60,80,180,890000]],[['블랙','#1d1f22']],O,'서버 랙');
+G('osofa','응접 소파','응접실','sofa',[['3인',190,80,76,690000],['1인',80,80,76,290000]],[['블랙 가죽','#2a2a2a','#5a5c58'],['그레이','#8b8c8e','#d9cdbb'],['네이비','#3d4a60','#e7dccb']],O,'사무실 응접 소파');
+G('phone','1인 폰부스','공간 구분','booth',[['',110,110,225,3900000]],[['화이트','#f2f1ee','#b9bcbf'],['그레이','#8b8c8e','#3a3a3a']],O,'사무실 폰부스 방음부스');
 const FLAT=t=>t==='rug'||t==='rugr';
 
 /* ---------- 상태 ---------- */
 const KEY='naejip3d-v1';
 let uid=1;
+function officeSeed(){return [{u:uid++,k:'odesk_00',x:-2.2,z:-1.9,r:0},{u:uid++,k:'odesk_00',x:-0.9,z:-1.9,r:0},{u:uid++,k:'ochair_00',x:-2.2,z:-1.15,r:2},{u:uid++,k:'ochair_02',x:-0.9,z:-1.15,r:2},{u:uid++,k:'meet_10',x:1.3,z:0.9,r:0},{u:uid++,k:'plant_00',x:2.85,z:-2.15,r:0},{u:uid++,k:'wb_00',x:1.5,z:-2.15,r:0}]}
 function fresh(){
  const sp={};SPACES.forEach(s=>sp[s.k]={w:s.w,d:s.d,floor:s.floor,wall:s.wall,items:[]});
- sp.room.items=[{u:uid++,k:'bed_10',x:-1.1,z:-0.9,r:0},{u:uid++,k:'rug_00',x:0.3,z:0.4,r:0}];
- return {cur:'room',unl:['room'],light:'day',view:'full',sp,car:'#55606a',carOpen:false};
+ sp.room.items=[{u:uid++,k:'bed_10',x:-1.1,z:-0.9,r:0},{u:uid++,k:'rug_00',x:0.3,z:0.4,r:0}];sp.office.items=officeSeed();
+ return {cur:'room',unl:['room','office'],light:'day',view:'full',sp,car:'#55606a',carOpen:false};
 }
 let S;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 if(!S||!S.sp||!S.sp.garage)S=fresh();
+if(!S.sp.office){const o=SPACES.find(x=>x.k==='office');S.sp.office={w:o.w,d:o.d,floor:o.floor,wall:o.wall,items:officeSeed()}}if(!S.unl.includes('office'))S.unl.push('office');
 Object.values(S.sp).forEach(s=>s.items=s.items.filter(i=>DEF[i.k]));
 S.sp&&Object.values(S.sp).forEach(s=>s.items.forEach(i=>uid=Math.max(uid,i.u+1)));
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
@@ -306,6 +332,7 @@ const rnd=(a,b)=>a+Math.random()*(b-a);
 function grain(g,x0,w,S_,n,alpha){for(let k=0;k<n;k++){g.strokeStyle=`rgba(60,40,25,${rnd(.03,alpha)})`;g.lineWidth=rnd(.5,1.8);g.beginPath();let x=x0+Math.random()*w;g.moveTo(x,0);for(let y=0;y<=S_;y+=24){x+=rnd(-1.4,1.4);g.lineTo(Math.max(x0,Math.min(x0+w,x)),y)}g.stroke()}}
 const plankTex=ctex(1024,(g,S_)=>{const n=6,pw=S_/n;for(let i=0;i<n;i++){const v=rnd(210,245)|0;g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(i*pw,0,pw,S_);grain(g,i*pw,pw,S_,70,.11);const j=rnd(0,S_);g.fillStyle='rgba(40,30,20,.35)';g.fillRect(i*pw,j,pw,2);g.fillStyle='rgba(40,30,20,.28)';g.fillRect(i*pw,0,2,S_)}});
 const tileTex=ctex(512,(g,S_)=>{const n=4,t=S_/n;for(let i=0;i<n;i++)for(let j=0;j<n;j++){const v=rnd(232,250)|0;g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(i*t,j*t,t,t);for(let k=0;k<160;k++){g.fillStyle=`rgba(0,0,0,${rnd(0,.03)})`;g.fillRect(i*t+rnd(0,t),j*t+rnd(0,t),rnd(1,6),rnd(1,6))}}g.fillStyle='rgba(120,115,108,.55)';for(let i=0;i<=n;i++){g.fillRect(i*t-1.5,0,3,S_);g.fillRect(0,i*t-1.5,S_,3)}});
+const carpetTex=ctex(512,(g,S_)=>{const n=4,t=S_/n;for(let i=0;i<n;i++)for(let j=0;j<n;j++){const v=rnd(224,236)|0;g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(i*t,j*t,t,t);for(let k=0;k<1400;k++){const q=rnd(150,255)|0;g.fillStyle=`rgba(${q},${q},${q},${rnd(.1,.35)})`;g.fillRect(i*t+rnd(0,t),j*t+rnd(0,t),1.5,1.5)}if((i+j)%2){for(let y=0;y<t;y+=4){g.fillStyle='rgba(0,0,0,.04)';g.fillRect(i*t,j*t+y,t,1.5)}}else{for(let x=0;x<t;x+=4){g.fillStyle='rgba(0,0,0,.04)';g.fillRect(i*t+x,j*t,1.5,t)}}}g.fillStyle='rgba(60,60,60,.25)';for(let i=0;i<=n;i++){g.fillRect(i*t-1,0,2,S_);g.fillRect(0,i*t-1,S_,2)}});
 const concTex=ctex(512,(g,S_)=>{g.fillStyle='#e8e8e8';g.fillRect(0,0,S_,S_);for(let k=0;k<9000;k++){const v=rnd(150,255)|0;g.fillStyle=`rgba(${v},${v},${v},${rnd(.05,.25)})`;g.fillRect(rnd(0,S_),rnd(0,S_),rnd(1,4),rnd(1,4))}for(let k=0;k<8;k++){g.fillStyle=`rgba(90,90,90,${rnd(.008,.022)})`;g.beginPath();g.arc(rnd(0,S_),rnd(0,S_),rnd(30,120),0,7);g.fill()}});
 const fabricTex=ctex(256,(g,S_)=>{g.fillStyle='#f2f2f2';g.fillRect(0,0,S_,S_);for(let y=0;y<S_;y+=2){g.fillStyle=`rgba(0,0,0,${rnd(.02,.06)})`;g.fillRect(0,y,S_,1)}for(let x=0;x<S_;x+=2){g.fillStyle=`rgba(255,255,255,${rnd(.02,.07)})`;g.fillRect(x,0,1,S_)}for(let k=0;k<1500;k++){g.fillStyle=`rgba(0,0,0,${rnd(0,.05)})`;g.fillRect(rnd(0,S_),rnd(0,S_),1,1)}},3);
 const woodTex=ctex(512,(g,S_)=>{g.fillStyle='#ececec';g.fillRect(0,0,S_,S_);grain(g,0,S_,S_,170,.12)});
@@ -404,13 +431,13 @@ function build(D){
  case 'mattress':{g.add(at(bx(w,h,d,M.fab(c),.05),0,h/2,0));for(let i=1;i<6;i++)g.add(at(bx(.01,.004,d-.06,M.mat('#'+new THREE.Color(c).multiplyScalar(.75).getHexString(),1)),-w/2+w*i/6,h+.001,0));g.add(at(bx(w*.45,.05,d-.08,M.fab('#e8e1d4'),.025),w*.2,h+.025,0));break}
  case 'pillow':{[-1,1].forEach(s=>g.add(at(bx(w*.46,h,d,M.fab(c),.06),s*w*.25,h/2,0)));break}
  case 'lantern':{g.add(at(cy(.06,.07,.03,M.mat(c,.5),20),0,.015,0));const gl=cy(.05,.05,.15,M.glow(a),24);gl.castShadow=false;g.add(at(gl,0,.105,0));g.add(at(cy(.065,.06,.03,M.mat(c,.5),20),0,.195,0));const hd=new THREE.Mesh(new THREE.TorusGeometry(.04,.005,8,24,Math.PI),M.metal('#777'));g.add(at(hd,0,.21,0));addLight(g,.12,'#ffd9a8','lan');break}
- case 'dresser':{g.add(at(bx(w,h-.08,d,M.wood(c),.012),0,.08+(h-.08)/2,0));legs4(g,w,d,.08,.05,M.wood(c),.016);const n=Math.round((h-.08)/.22);for(let i=0;i<n;i++){const y=.08+(h-.08)*(i+.5)/n;g.add(at(bx(w-.03,.004,.004,M.mat('#5a4a3a')),0,.08+(h-.08)*i/n,d/2+.002));[-1,1].forEach(s=>g.add(at(sp(.014,M.metal('#2a2a2a')),s*w*.25,y,d/2+.01)))}break}
+ case 'dresser':{const dm=D.opt==='steel'?M.mat(c,.4,.35):M.wood(c);g.add(at(bx(w,h-.08,d,dm,.012),0,.08+(h-.08)/2,0));legs4(g,w,d,.08,.05,dm,.016);const n=Math.round((h-.08)/.22);for(let i=0;i<n;i++){const y=.08+(h-.08)*(i+.5)/n;g.add(at(bx(w-.03,.004,.004,M.mat('#5a4a3a')),0,.08+(h-.08)*i/n,d/2+.002));[-1,1].forEach(s=>g.add(at(sp(.014,M.metal('#2a2a2a')),s*w*.25,y,d/2+.01)))}break}
  case 'vanity':{g.add(at(bx(w,.03,d,M.wood(c),.008),0,.74,0));g.add(at(bx(w*.4,.16,d-.04,M.wood(c),.008),w*.28,.65,0));legs4(g,w,d,.72,.04,M.wood(c),.016);const mr=new THREE.Mesh(new THREE.CylinderGeometry(.28,.28,.03,40),M.wood(c));mr.rotation.x=Math.PI/2;mr.scale.set(1,1,1.35);mr.position.set(0,1.1,-d/2+.06);mr.castShadow=true;g.add(mr);const gl=new THREE.Mesh(new THREE.CylinderGeometry(.25,.25,.01,40),new THREE.MeshStandardMaterial({color:'#e9eef0',metalness:1,roughness:.04}));gl.rotation.x=Math.PI/2;gl.scale.set(1,1,1.35);gl.position.set(0,1.1,-d/2+.08);g.add(gl);g.add(at(cy(.03,.03,.1,M.mat('#d9b8a8'),16),-w*.3,.8,0));g.add(at(cy(.025,.025,.07,M.mat('#2a2a2a'),16),-w*.22,.785,.05));break}
  case 'bunk':{const mt=c==='#2b2b2b'?M.metal(c,.5):M.wood(c);[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([s,t])=>g.add(at(bx(.06,h,.06,mt,.01),s*(w/2-.03),h/2,t*(d/2-.03))));[.22,1.05].forEach(y=>{g.add(at(bx(w,.06,d,mt,.01),0,y,0));g.add(at(bx(w-.12,.16,d-.12,M.fab('#f4f2ed'),.05),0,y+.11,0));g.add(at(bx(w-.1,.06,d*.6,M.fab(a),.03),0,y+.21,d*.18));g.add(at(bx(w*.55,.1,.32,M.fab('#fbfaf7'),.05),0,y+.24,-d/2+.3))});[-1,1].forEach(t=>g.add(at(bx(w,.05,.04,mt,.01),0,h-.12,t*(d/2-.03))));g.add(at(bx(.04,.05,d*.55,mt,.01),w/2-.03,h-.12,-d*.2));for(let i=0;i<5;i++)g.add(at(bx(.05,.03,.4,mt,.01),w/2+.02,.3+i*.25,d/2-.35));break}
  case 'hanger':{const mt=M.metal(c,.4);[-1,1].forEach(s=>{g.add(at(bx(.03,h,.03,mt),s*(w/2-.02),h/2,0));g.add(at(bx(.04,.03,d,mt),s*(w/2-.02),.015,0))});g.add(at(cy(.013,.013,w,mt,10),0,h-.03,0)).rotation;const bar=g.children[g.children.length-1];bar.rotation.z=Math.PI/2;g.add(at(bx(w-.04,.02,d-.06,mt,.005),0,.25,0));
   const cl=['#e8e1d4','#3d4a60','#b8714f','#a3ad9b','#2a2a2a','#cdbb9f','#f3f1ec'];const n=Math.floor((w-.2)/.12);for(let i=0;i<n;i++){const ch=rnd(.6,.95);g.add(at(bx(.03,ch,.42,M.fab(cl[i%cl.length]),.012),-w/2+.15+i*(w-.3)/Math.max(1,n-1),h-.05-ch/2,0))}for(let i=0;i<3;i++)g.add(at(bx(.24,.1,.3,M.fab(cl[(i+2)%7]),.03),-w/2+.25+i*.32,.31,0));break}
  case 'aircon':{g.add(at(bx(w,h,d,M.mat(c,.35),.08),0,h/2,0));g.add(at(bx(w-.08,h*.35,.01,M.mat('#9c9ea0',.5),.02),0,h*.72,d/2+.001));for(let i=0;i<8;i++)g.add(at(bx(w-.1,.006,.004,M.mat('#5a5c5e')),0,h*.58+i*h*.035,d/2+.006));g.add(at(bx(.08,.03,.004,M.glow('#7fd3ff')),0,h*.45,d/2+.002));break}
- case 'purifier':{const sm=D.opt==='small';g.add(at(bx(w,h,d,M.mat(c,.4),w*.35),0,h/2,0));g.add(at(cy(w*.36,w*.36,.012,M.mat('#5a5c5e',.6),32),0,h+.002,0));if(sm){const ms=sp(.04,new THREE.MeshStandardMaterial({color:'#fff',transparent:true,opacity:.35}),1,2,1);ms.castShadow=false;g.add(at(ms,0,h+.1,0))}else g.add(at(bx(.05,.02,.004,M.glow('#7fd3ff')),0,h*.85,d/2+.002));break}
+ case 'purifier':{const sm=D.opt==='small';if(D.opt==='shred'){g.add(at(bx(w,h-.12,d,M.mat(c,.5),.02),0,(h-.12)/2,0));g.add(at(bx(w+.01,.12,d+.01,M.mat('#3a3a3a',.4),.02),0,h-.06,0));g.add(at(bx(w*.6,.006,.01,M.mat('#000')),0,h+.001,0));g.add(at(bx(.04,.02,.004,M.glow('#4cd964')),w*.3,h-.06,d/2+.006));break}g.add(at(bx(w,h,d,M.mat(c,.4),w*.35),0,h/2,0));g.add(at(cy(w*.36,w*.36,.012,M.mat('#5a5c5e',.6),32),0,h+.002,0));if(sm){const ms=sp(.04,new THREE.MeshStandardMaterial({color:'#fff',transparent:true,opacity:.35}),1,2,1);ms.castShadow=false;g.add(at(ms,0,h+.1,0))}else g.add(at(bx(.05,.02,.004,M.glow('#7fd3ff')),0,h*.85,d/2+.002));break}
  case 'fan':{const mt=M.mat(c,.4);g.add(at(cy(.17,.19,.04,mt,32),0,.02,0));g.add(at(cy(.016,.016,h-.25,mt,12),0,(h-.25)/2,0));const hd=new THREE.Group();hd.position.set(0,h-.2,0);g.add(hd);hd.add(at(cy(.06,.06,.12,mt,20),0,0,-.04)).children[0].rotation.x=Math.PI/2;const gd=new THREE.Mesh(new THREE.TorusGeometry(.19,.008,8,48),mt);gd.position.z=.05;hd.add(gd);for(let i=0;i<5;i++){const bl=bx(.07,.15,.006,new THREE.MeshStandardMaterial({color:'#cfd6da',transparent:true,opacity:.75}),.003);bl.position.set(Math.sin(i*1.257)*.08,Math.cos(i*1.257)*.08,.04);bl.rotation.z=-i*1.257;hd.add(bl)}break}
  case 'gchair':{const mt=M.mat('#1d1d1d',.5);for(let i=0;i<5;i++){const lg=bx(.3,.03,.05,mt,.01);const an=i*1.257;lg.position.set(Math.cos(an)*.15,.08,Math.sin(an)*.15);lg.rotation.y=-an;g.add(lg);g.add(at(sp(.03,mt),Math.cos(an)*.3,.03,Math.sin(an)*.3))}g.add(at(cy(.025,.025,.3,M.metal('#555'),12),0,.25,0));g.add(at(bx(.52,.09,.5,M.fab(c),.04),0,.46,.04));const bk=bx(.5,.78,.1,M.fab(c),.05);bk.position.set(0,.9,-.22);bk.rotation.x=-.12;g.add(bk);const st=bx(.16,.7,.02,M.fab(a),.008);st.position.set(0,.9,-.16);st.rotation.x=-.12;g.add(st);[-1,1].forEach(s=>g.add(at(bx(.06,.04,.3,mt,.015),s*.3,.66,.02)));break}
  case 'beanbag':{const b=sp(w/2,M.fab(c),1,(h*.7)/w,1);b.position.y=h*.35;g.add(b);const t=sp(w*.32,M.fab(c),1.15,.95,.7);t.position.set(0,h*.62,-w*.2);t.rotation.x=-.3;g.add(t);break}
@@ -421,6 +448,29 @@ function build(D){
  case 'basket':{const bs=cy(w/2,w/2*.85,h,new THREE.MeshStandardMaterial({color:c,map:woodTex,roughness:.9,side:THREE.DoubleSide}),32,true);g.add(at(bs,0,h/2,0));g.add(at(cy(w/2*.85,w/2*.85,.01,M.mat(c,.9),32),0,.005,0));g.add(at(bx(w*.6,.1,w*.5,M.fab('#e8e1d4'),.04),0,h-.06,0));break}
  case 'bench':{for(let i=0;i<4;i++)g.add(at(bx(w,.025,d/4-.008,M.wood(c),.006),0,h-.013,-d/2+(i+.5)*d/4));[-1,1].forEach(s=>{g.add(at(bx(.04,h-.03,d-.04,M.wood(c),.008),s*(w/2-.1),(h-.03)/2,0))});break}
  case 'tent':{const fb=new THREE.MeshStandardMaterial({color:c,map:fabricTex,roughness:.95,side:THREE.DoubleSide});const half=new THREE.Mesh(new THREE.CylinderGeometry(d/2,d/2,w,32,1,true,0,Math.PI),fb);half.rotation.z=Math.PI/2;half.scale.set(1,1,1);half.position.y=0;half.scale.x=h/(d/2);half.castShadow=true;g.add(half);const cap=new THREE.Mesh(new THREE.CircleGeometry(d/2,32,0,Math.PI),fb);cap.rotation.y=Math.PI/2;cap.scale.set(1,h/(d/2),1);cap.position.x=w/2;g.add(cap);g.add(at(bx(w,.01,d,M.fab('#5a5c58')),0,.005,0));const dr=new THREE.Mesh(new THREE.PlaneGeometry(.7,h*.7),M.mat('#2b2b2b',.9));dr.position.set(0,h*.35,d/2+.01);g.add(dr);break}
+ case 'odesk':{g.add(at(bx(w,.028,d,M.wood(c),.006),0,h-.014,0));const mt=M.metal(a,.45);[-1,1].forEach(sd=>{g.add(at(bx(.04,h-.03,d-.08,mt,.006),sd*(w/2-.03),(h-.03)/2,0))});g.add(at(bx(w-.1,.32,.016,M.wood(c),.004),0,h-.2,-d/2+.06));
+  [-1,1].forEach(sd=>{const mo=at(bx(.6,.36,.025,M.mat('#151515',.35),.006),sd*Math.min(.31,w/4),h+.31,-d/2+.16);mo.rotation.y=-sd*.12;g.add(mo);g.add(at(cy(.014,.014,.14,M.metal('#3a3a3a'),10),sd*Math.min(.31,w/4),h+.07,-d/2+.14))});g.add(at(bx(.44,.015,.14,M.mat('#2a2a2a',.6),.004),0,h+.008,.06));g.add(at(bx(.07,.02,.1,M.mat('#2a2a2a',.5),.01),.3,h+.01,.08));g.add(at(cy(.04,.035,.1,M.mat('#efefec'),16),-w/2+.15,h+.05,.12));break}
+ case 'ldesk':{const dd=.7,ww=.6,mt=M.metal(a,.45);g.add(at(bx(w,.028,dd,M.wood(c),.006),0,h-.014,-d/2+dd/2));g.add(at(bx(ww,.028,d-dd,M.wood(c),.006),-w/2+ww/2,h-.014,dd/2));
+  g.add(at(bx(.04,h-.03,dd-.08,mt),w/2-.03,(h-.03)/2,-d/2+dd/2));g.add(at(bx(ww-.08,h-.03,.04,mt),-w/2+ww/2,(h-.03)/2,d/2-.03));g.add(at(bx(.4,.55,.5,M.wood(c),.008),-w/2+.25,.3,-d/2+.3));
+  const mo=at(bx(.7,.4,.025,M.mat('#151515',.35),.006),.15,h+.33,-d/2+.15);g.add(mo);g.add(at(cy(.014,.014,.14,M.metal('#3a3a3a'),10),.15,h+.07,-d/2+.13));g.add(at(bx(.44,.015,.14,M.mat('#2a2a2a',.6),.004),.15,h+.008,-d/2+.42));g.add(at(bx(.34,.012,.24,M.mat('#d9d9d6',.3,.6)),-w/2+.3,h+.006,.2));break}
+ case 'motion':{g.add(at(bx(w,.028,d,M.wood(c),.008),0,h-.014,0));const mt=M.metal(a,.35);[-1,1].forEach(sd=>{g.add(at(bx(.07,h-.08,.07,mt,.01),sd*(w/2-.18),(h-.08)/2+.03,0));g.add(at(bx(.08,.04,d-.08,mt,.01),sd*(w/2-.18),.02,0));g.add(at(bx(.06,.04,d-.16,mt,.01),sd*(w/2-.18),h-.05,0))});g.add(at(bx(w-.4,.04,.06,mt),0,h-.05,0));g.add(at(bx(.1,.02,.04,M.mat('#1d1d1d')),w/2-.12,h-.035,d/2-.03));
+  const mo=at(bx(.62,.37,.025,M.mat('#151515',.35),.006),0,h+.32,-d/2+.15);g.add(mo);g.add(at(cy(.014,.014,.14,M.metal('#3a3a3a'),10),0,h+.07,-d/2+.13));g.add(at(bx(.44,.015,.14,M.mat('#2a2a2a',.6),.004),0,h+.008,.08));break}
+ case 'partition':{const gl=D.opt==='glass';g.add(at(bx(w,.04,d+.03,M.metal(a,.4)),0,.02,0));g.add(at(bx(w,.03,d+.02,M.metal(a,.4)),0,h-.015,0));[-1,1].forEach(sd=>g.add(at(bx(.03,h,d+.02,M.metal(a,.4)),sd*(w/2-.015),h/2,0)));
+  g.add(at(bx(w-.06,h-.07,d*.6,gl?M.glass('#cfe0e6',.25):M.fab(c)),0,h/2,0));break}
+ case 'locker':{const n=Math.round(w/.3),rows=3;g.add(at(bx(w,h,d,M.mat(c,.45,.3),.008),0,h/2,0));for(let i=0;i<n;i++)for(let j=0;j<rows;j++){const x=-w/2+w*(i+.5)/n,y=.05+(h-.1)*(j+.5)/rows;g.add(at(bx(w/n-.012,(h-.1)/rows-.012,.006,M.mat(j===1&&i%2?a:c,.4,.3),.004),x,y,d/2+.003));g.add(at(bx(.05,.01,.004,M.mat('#444')),x,y+.1,d/2+.007));g.add(at(cy(.012,.012,.01,M.metal('#888'),12),x+w/n/2-.05,y,d/2+.008)).rotation}break}
+ case 'printer':{const big=h>1;const bd=M.mat(c,.4);if(big){g.add(at(bx(w,h*.55,d,bd,.02),0,h*.275,0));for(let i=0;i<3;i++)g.add(at(bx(w-.04,.004,.004,M.mat('#9a9a9a')),0,h*.55*(i+1)/4,d/2+.002))}
+  const y0=big?h*.55:h-.4;if(!big){g.add(at(bx(w*.9,y0,d*.9,M.mat('#d9d8d4',.6),.02),0,y0/2,0))}g.add(at(bx(w,.4,d,bd,.03),0,y0+.2,0));g.add(at(bx(w*.6,.03,.2,M.mat(a,.5),.01),-w*.1,y0+.41,d/2-.12));g.add(at(bx(.18,.02,.1,M.mat('#1d2a33',.2)),w*.3,y0+.41,d/2-.08));g.add(at(bx(.08,.012,.06,M.glow('#7fd3ff')),w*.3,y0+.425,d/2-.08));g.add(at(bx(w*.7,.012,.25,M.mat('#f7f7f4',.6)),0,y0+.12,d/2+.1));break}
+ case 'wboard':{const mt=M.metal(c,.35);const bw=w,bh=Math.min(1,h-.7);g.add(at(bx(bw,bh,.03,M.metal('#d9dcde',.3),.008),0,h-bh/2-.05,0));g.add(at(bx(bw-.04,bh-.04,.004,M.mat('#fbfbf9',.12)),0,h-bh/2-.05,.017));[-1,1].forEach(sd=>{g.add(at(bx(.035,h,.035,mt),sd*(bw/2+.02),h/2,0));g.add(at(bx(.04,.04,d,mt),sd*(bw/2+.02),.06,0));[-1,1].forEach(t=>g.add(at(sp(.03,M.mat('#222',.6)),sd*(bw/2+.02),.03,t*(d/2-.04))))});g.add(at(bx(bw*.5,.02,.06,mt),0,h-bh-.06,.04));
+  [['#c0392b',-.2],['#1f4fa3',-.05],['#2a2a2a',.08]].forEach(([cc,x])=>{const mk=cy(.008,.008,.12,M.mat(cc),8);mk.rotation.z=Math.PI/2;g.add(at(mk,x,h-bh-.04,.05))});
+  const sk=['#f6d55c','#a8d5ba','#f4a6a6'];for(let i=0;i<6;i++)g.add(at(bx(.08,.08,.002,M.mat(sk[i%3],.8)),-bw/2+.18+i%3*.11,h-.2-Math.floor(i/3)*.11,.02));break}
+ case 'coat':{const mt=c==='#2a2a2a'?M.metal(c,.4):M.wood(c);g.add(at(cy(.18,.2,.03,mt,28),0,.015,0));g.add(at(cy(.016,.02,h-.05,mt,12),0,h/2,0));for(let i=0;i<6;i++){const k=cy(.008,.008,.16,mt,8);k.position.set(Math.cos(i*1.05)*.07,h-.12-(i%2)*.15,Math.sin(i*1.05)*.07);k.rotation.set(Math.sin(i*1.05)*.7,0,-Math.cos(i*1.05)*.7);g.add(k)}const jk=bx(.36,.7,.12,M.fab('#3d4a60'),.05);jk.position.set(.12,h-.5,0);jk.rotation.z=-.08;g.add(jk);g.add(at(bx(.26,.3,.1,M.fab('#b8714f'),.04),-.12,h-.35,.05));break}
+ case 'cafe':{g.add(at(bx(w,h-.08,d,M.wood(c),.01),0,.08+(h-.08)/2,0));g.add(at(bx(w-.04,.08,d-.04,M.mat('#2a2a2a')),0,.04,0));g.add(at(bx(w+.01,.03,d+.01,M.mat('#e9e7e3',.25),.006),0,h,0));const nd=Math.round(w/.45);for(let i=1;i<nd;i++)g.add(at(bx(.004,h-.14,.004,M.mat('#8e8b86')),-w/2+w*i/nd,.08+(h-.14)/2+.02,d/2+.002));
+  const mc=at(bx(.3,.38,.4,M.mat('#2a2a2a',.35,.4),.03),-w/2+.25,h+.205,-.02);g.add(mc);g.add(at(bx(.2,.012,.12,M.metal('#aaa',.25)),-w/2+.25,h+.1,.12));g.add(at(cy(.035,.03,.09,M.mat('#f6f4ef',.3),16),-w/2+.25,h+.06,.12));g.add(at(bx(.05,.02,.004,M.glow('#7fd3ff')),-w/2+.25,h+.32,.18));
+  for(let i=0;i<4;i++)g.add(at(cy(.03,.025,.08,M.mat(['#f6f4ef','#b8714f','#3d4a60','#a3ad9b'][i],.4),14),w/2-.3+i*.07,h+.055,0));g.add(at(bx(.22,.2,.14,M.mat('#efefec',.4),.02),w/2-.2,h+.115,-.1));break}
+ case 'safe':{g.add(at(bx(w,h,d,M.mat(c,.35,.5),.02),0,h/2,0));g.add(at(bx(w-.08,h-.08,.01,M.mat(c,.3,.6),.01),0,h/2,d/2+.005));const dl=cy(.05,.05,.03,M.metal('#c9ccce',.2),24);dl.rotation.x=Math.PI/2;g.add(at(dl,-.05,h*.55,d/2+.02));g.add(at(bx(.12,.025,.03,M.metal('#c9ccce',.2)),.1,h*.55,d/2+.02));g.add(at(bx(.09,.05,.004,M.mat('#101418',.2)),-.05,h*.78,d/2+.012));break}
+ case 'rack':{g.add(at(bx(w,h,d,M.mat(c,.4,.4),.01),0,h/2,0));g.add(at(bx(w-.06,h-.08,.01,M.glass('#0d1114',.55)),0,h/2,d/2+.004));for(let i=0;i<10;i++){const y=.15+i*(h-.3)/10;g.add(at(bx(w-.12,.08,.004,M.mat('#2a2d31',.5)),0,y,d/2-.02));for(let k=0;k<4;k++)g.add(at(bx(.012,.008,.004,M.glow(k%3?'#4cd964':'#7fd3ff')),-w/2+.1+k*.03,y,d/2-.015))}break}
+ case 'booth':{const fr=M.mat(c,.45);g.add(at(bx(w,.1,d,fr,.02),0,.05,0));g.add(at(bx(w,.12,d,fr,.02),0,h-.06,0));g.add(at(bx(w,h,.06,fr,.02),0,h/2,-d/2+.03));[-1,1].forEach(sd=>g.add(at(bx(.06,h,d,fr,.02),sd*(w/2-.03),h/2,0)));
+  g.add(at(bx(w-.14,h-.25,.02,M.glass('#cfe0e6',.22)),0,h/2,d/2-.02));g.add(at(bx(.03,.4,.03,M.metal('#888',.3)),w/2-.15,h*.5,d/2+.01));g.add(at(bx(w-.2,.03,.4,M.wood('#c9a27a'),.006),0,1.0,-d/2+.26));g.add(at(cy(.18,.18,.06,M.fab(a),24),0,.5,0));g.add(at(cy(.03,.03,.4,M.metal('#555'),10),0,.25,0));g.add(at(bx(w-.2,.012,.012,M.glow('#fff1d6')),0,h-.13,0));break}
  case 'cooler':{g.add(at(bx(w,h*.8,d,M.mat(c,.5),.03),0,h*.4,0));g.add(at(bx(w+.01,h*.22,d+.01,M.mat(a,.5),.03),0,h*.88,0));g.add(at(bx(w*.5,.025,.03,M.mat('#333',.5),.01),0,h+.01,0));break}
  }
  return g;
@@ -443,7 +493,7 @@ scene.add(roomG,itemG);
 const CARGO_H=.8;
 const cur=()=>S.sp[S.cur];
 const spDef=k=>SPACES.find(s=>s.k===k);
-function floorMat(fk,w,d){const F=FLOORS.find(f=>f.k===fk);const t=(F.t==='plank'?plankTex:F.t==='tile'?tileTex:concTex).clone();t.needsUpdate=true;const sz=F.t==='plank'?1.25:F.t==='tile'?1.2:3.2;t.repeat.set(w/sz,d/sz);return new THREE.MeshStandardMaterial({color:F.c,map:t,roughness:F.t==='tile'?.35:F.t==='concrete'?.85:.5})}
+function floorMat(fk,w,d){const F=FLOORS.find(f=>f.k===fk);const t=(F.t==='plank'?plankTex:F.t==='tile'?tileTex:F.t==='carpet'?carpetTex:concTex).clone();t.needsUpdate=true;const sz=F.t==='plank'?1.25:F.t==='tile'?1.2:F.t==='carpet'?2:3.2;t.repeat.set(w/sz,d/sz);return new THREE.MeshStandardMaterial({color:F.c,map:t,roughness:F.t==='carpet'?.98:F.t==='tile'?.35:F.t==='concrete'?.85:.5})}
 function disposeG(G){G.traverse(o=>{if(o.isMesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>m.dispose())}})}
 function buildRoom(){
  disposeG(roomG);scene.remove(roomG);roomG=new THREE.Group();scene.add(roomG);fixed=[];carRect=cargoRect=null;carG=carUpper=null;
@@ -592,6 +642,7 @@ function renderViews(){$('#views').innerHTML=[['full','전체'],['top','위에�
 $('#views').addEventListener('click',e=>{const b=e.target.closest('button');b&&setView(b.dataset.v)});
 $('#lights').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S.light=b.dataset.l;applyLight();renderViews();renderPanel();save()});
 function prog(){const i=SPACES.findIndex(s=>s.k===S.cur),nx=SPACES[i+1],n=cur().items.length;const el=$('#prog');
+ if(S.cur==='office'){el.innerHTML=`<b>사무실</b> · 처음부터 열려 있어요`;return}
  if(!nx){el.innerHTML=`<b>마지막 공간</b> · 우리 집이 완성돼 가요`;return}
  if(S.unl.includes(nx.k)){el.innerHTML=`<b>${nx.n}</b> 공간이 열려 있어요`;return}
  el.innerHTML=`다음 공간 <b>${nx.n}</b>까지 가구 ${Math.max(0,NEED-n)}개<div class="bar"><i style="width:${Math.min(100,n/NEED*100)}%"></i></div>`}
@@ -602,7 +653,7 @@ function renderPanel(){const b=$('#pbody'),s=cur();
  if(ptab==='shop'){const all=ITEMS.filter(D=>D.sp.includes(S.cur));const cats=['전체',...new Set(all.map(D=>D.cat))];
   const q=F.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
   const list=all.filter(D=>(cat==='전체'||D.cat===cat)&&q.every(w=>(D.n+' '+D.cat).toLowerCase().includes(w))&&(F.p==='all'||(F.p==='lo'?D.p<100000:F.p==='mid'?D.p>=100000&&D.p<500000:D.p>=500000))&&(!F.fit||Math.min(D.w,D.d)/100<=Math.min(s.w,s.d)&&Math.max(D.w,D.d)/100<=Math.max(s.w,s.d)));
-  if(F.sort==='lo')list.sort((a,b)=>a.p-b.p);else if(F.sort==='hi')list.sort((a,b)=>b.p-a.p);
+  list.sort((a,b)=>(a.sp[0]!==S.cur)-(b.sp[0]!==S.cur));if(F.sort==='lo')list.sort((a,b)=>a.p-b.p);else if(F.sort==='hi')list.sort((a,b)=>b.p-a.p);
   const shown=list.slice(0,F.n);
   b.innerHTML=`<div class="srch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="가구 검색 (예: 화이트 책상)" value="${F.q.replace(/"/g,'&quot;')}" autocomplete="off"></div>
   <div class="cats">${cats.map(c=>`<button class="${c===cat?'on':''}" data-c="${c}">${c}</button>`).join('')}</div>
