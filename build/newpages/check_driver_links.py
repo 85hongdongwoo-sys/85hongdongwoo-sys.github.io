@@ -20,7 +20,7 @@ for u in urls:
                 code = repr(e2)[:60]
     except Exception as e:
         code = repr(e)[:60]
-    ok = code in (200, 206)
+    ok = code in (200, 206) or (code == 403 and 'intel.co' in u)  # 인텔은 자동 점검(봇)만 막고 사람은 열림
     print('OK ' if ok else 'BAD', code, u)
     if not ok:
         bad.append(u)

@@ -1,0 +1,328 @@
+{
+"checked": "2026-11-22",
+"connect": [
+"원클릭 통합 설치 sindoh Connect",
+"v1.0",
+"2026-09-17",
+"https://sindohconnect.sindoh.com/api/public/app/latest/download?osType=WINDOWS"
+],
+"models": {
+"D320": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.1205.2",
+"2026-07-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D320_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.1205.2_NEW.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"D321": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.1205.2",
+"2026-07-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D320_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.1205.2_NEW.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"D450": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.215.3",
+"2026-06-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D450,%20D730_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.215.3_New.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"D451": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.215.3",
+"2026-06-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D450,%20D730_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.215.3_New.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"D452": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.215.3",
+"2026-06-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D450,%20D730_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.215.3_New.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"D470": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.739.2",
+"2026-06-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D470,%20D740_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.739.2_New%20CI.zip"
+],
+"s": [
+"Twain Scan Driver",
+"v4.0.49000",
+"2025-06-26",
+"https://www.sindoh.com/hubfs/site/driver/Generic_TWAIN_v4.0.49000.zip"
+]
+},
+"D471": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.739.2",
+"2026-06-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D470,%20D740_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.739.2_New%20CI.zip"
+],
+"s": [
+"Twain Scan Driver",
+"v4.0.49000",
+"2025-06-26",
+"https://www.sindoh.com/hubfs/site/driver/Generic_TWAIN_v4.0.49000.zip"
+]
+},
+"D472": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.739.2",
+"2026-06-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D470,%20D740_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.739.2_New%20CI.zip"
+],
+"s": [
+"Twain Scan Driver",
+"v4.0.49000",
+"2025-06-26",
+"https://www.sindoh.com/hubfs/site/driver/Generic_TWAIN_v4.0.49000.zip"
+]
+},
+"D500": {
+"q": [
+"PCL XL Driver(빠른 설치)",
+"V2.9.0.0",
+"2026-01-14",
+"https://www.sindoh.com/hubfs/site/driver/1%20D500_PCL_XL_EPIT_x86x64_3.1.1.0.zip"
+],
+"s": [
+"USB Twain Scan Driver",
+"V2.9.0.0",
+"2026-01-19",
+"https://www.sindoh.com/hubfs/site/driver/D500_CM2079(USBTwainScan).zip"
+]
+},
+"D740": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.739.2",
+"2026-06-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D470,%20D740_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.739.2_New%20CI.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"D741": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.739.2",
+"2026-06-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D470,%20D740_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.739.2_New%20CI.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"D742": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v3.9.739.2",
+"2026-06-24",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_D470,%20D740_PCL6(%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98)_Windows_64bit_v3.9.739.2_New%20CI.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"D750": {
+"q": [
+"PCL XL Driver(빠른 설치)",
+"V2.9.0.0",
+"2026-01-14",
+"https://www.sindoh.com/hubfs/site/driver/1%20D750%20XL_PCL_XL_EPIT_x86x64_3.1.1.0.zip"
+],
+"s": [
+"USB Twain Scan Driver",
+"V2.9.0.0",
+"2026-01-14",
+"https://www.sindoh.com/hubfs/site/driver/D750Ser_CM4095L_CM5105L(USBTwainScan).zip"
+]
+},
+"D751": {
+"q": [
+"PCL XL Driver(빠른 설치)",
+"V2.9.0.0",
+"2026-01-14",
+"https://www.sindoh.com/hubfs/site/driver/2%20D751%20XL_PCL_XL_EPIT_x86x64_3.1.1.0.zip"
+],
+"s": [
+"Network Twain Scan Driver",
+"V2.9.0.0",
+"2026-01-14",
+"https://www.sindoh.com/hubfs/site/driver/D750Ser_CM4095L_CM5105L(NetworkTwainScan).zip"
+]
+},
+"N501": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v11.3.0",
+"2025-06-26",
+"https://www.sindoh.com/hubfs/site/driver/N500_Series_PCL_v11.3.0.OSW1_02.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"N502": {
+"q": [
+"PCL6 Driver (빠른설치)",
+"v11.3.0",
+"2025-06-26",
+"https://www.sindoh.com/hubfs/site/driver/N500_Series_PCL_v11.3.0.OSW1_02.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"N631": {
+"q": [
+"PCL6 Driver(빠른설치)",
+"1.23.1.4",
+"2025-10-14",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_N630ser_MF4000_PCL6_EPIT_x86x64_1.23.1.4.zip"
+],
+"s": [
+"Network Twain Scan Driver",
+"2025.03.26",
+"2025-06-26",
+"https://www.sindoh.com/hubfs/site/driver/Installer_Sindoh_N630Series_Network_Scanner_Driver.zip"
+]
+},
+"N633": {
+"q": [
+"PCL6 Driver(빠른설치)",
+"1.23.1.4",
+"2025-10-14",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_N630ser_MF4000_PCL6_EPIT_x86x64_1.23.1.4.zip"
+],
+"s": [
+"Network Twain Scan Driver",
+"2025.03.26",
+"2025-06-26",
+"https://www.sindoh.com/hubfs/site/driver/Installer_Sindoh_N630Series_Network_Scanner_Driver.zip"
+]
+},
+"N920": {
+"q": [
+"PCL Driver(빠른 설치 드라이버)",
+"v3.9.82x.2",
+"2025-10-14",
+"https://www.sindoh.com/hubfs/site/driver/N920_N923_Series_PCL_v3.9.82x.2.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"N921": {
+"q": [
+"PCL6 Driver(빠른설치)",
+"2025.07.31",
+"2025-10-14",
+"https://www.sindoh.com/hubfs/site/driver/PCL%20%EB%93%9C%EB%9D%BC%EC%9D%B4%EB%B2%84.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"N922": {
+"q": [
+"PCL Driver(빠른 설치 드라이버)",
+"v3.9.82x.2",
+"2025-10-14",
+"https://www.sindoh.com/hubfs/site/driver/N920_N923_Series_PCL_v3.9.82x.2.zip"
+],
+"s": [
+"MyScan for Desktop",
+"v1.3.2",
+"2026-09-17",
+"https://www.sindoh.com/hubfs/site/driver/MyScan%20for%20Desktop_Windows_64bit_v1.3.2.zip"
+]
+},
+"N923": {
+"q": [
+"PCL6 Driver(빠른설치)",
+"2025.07.31",
+"2025-10-14",
+"https://www.sindoh.com/hubfs/site/driver/PCL%20%EB%93%9C%EB%9D%BC%EC%9D%B4%EB%B2%84.zip"
+],
+"s": null
+},
+"M702": {
+"q": [
+"PCL6 Driver(빠른설치)",
+"2025.03.26",
+"2025-06-26",
+"https://www.sindoh.com/hubfs/site/driver/Sindoh_M700_MF5000_PCL6_EPIT_x86x64_1.23.1.4%202.zip"
+],
+"s": [
+"Twain Scan Driver",
+"2025.03.26",
+"2025-06-26",
+"https://www.sindoh.com/hubfs/site/driver/2025-02-18-Sindoh_M700_MF5000_Series_Network_TWAIN_Scanner_Driver.zip"
+]
+}
+}
+}

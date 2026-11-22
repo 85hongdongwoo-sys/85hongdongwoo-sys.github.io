@@ -284,6 +284,29 @@ SD_MODELS = ([(m, 'A3 컬러 복합기') for m in ['D320', 'D321', 'D450', 'D451
              + [(m, 'A3 흑백 복합기') for m in ['N501', 'N502', 'N631', 'N633', 'N920', 'N921', 'N922', 'N923']] + [('M702', 'A4 흑백 복합기')])
 
 
+SD_DATA = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'sindoh_models.json'), encoding='utf-8'))
+
+
+def sd_cards():
+    out = []
+    ct, cv, cd, cu_ = SD_DATA['connect']
+    for m, kind in SD_MODELS:
+        x = SD_DATA['models'].get(m) or {}
+        page = f'https://www.sindoh.com/support/download/{m.lower()}'
+        btns = (f'<a class="dl3d" href="{E(cu_)}" rel="nofollow"><span class="ic">{DLICON}</span><span class="tx"><b>sindoh Connect 바로 받기</b><small>원클릭 통합 설치 · 신도리코 추천</small></span></a>')
+        if x.get('q'):
+            qt, qv, qd, qu = x['q']
+            btns += f'<a class="dl3d s" href="{E(qu)}" rel="nofollow"><span class="ic">{DLICON}</span><span class="tx"><b>빠른 설치 드라이버</b><small>{E(qt)} · {E(qv)}</small></span></a>'
+        extra = ''
+        if x.get('s'):
+            extra += f'<a class="sm" href="{E(x["s"][3])}" rel="nofollow">스캔 프로그램 받기 ({E(x["s"][0])})</a>'
+        extra += f'<a class="sm" href="{E(page)}" target="_blank" rel="noopener nofollow">신도리코 공식 페이지에서 보기 ↗</a>'
+        out.append(f'<li class="hpm" id="m-{m}"><h3>신도리코 {E(m)} <span style="font-size:13px;color:var(--muted,#5B6B82);font-weight:600">{E(kind)}</span></h3>'
+                   f'<p class="fi">윈도우 10·11 (64비트)' + (f'<br><span>빠른 설치 드라이버 출시 {E(x["q"][2])}</span>' if x.get('q') else '') + '</p>'
+                   f'<div class="bt">{btns}</div><p class="ex">{extra}</p></li>')
+    return '<ul class="hpl">' + ''.join(out) + '</ul>'
+
+
 def sindoh():
     path = '/driver/sindoh.html'
     cr, crld = crumb([('신도리코 드라이버', '')])
@@ -291,10 +314,10 @@ def sindoh():
            '<b>드라이버/유틸리티</b>에서 받아요. 아래 표에 있는 복합기는 <b>sindoh Connect</b>로 설치하는 게 공식 권장이고, '
            '표에 없는 기종은 <b>빠른 설치 드라이버</b>를 쓰면 돼요.')
     rows = [(m, k + ' · sindoh Connect 지원', SD_SEARCH + m) for m, k in SD_MODELS]
-    steps = (cu.step(1, '신도리코 다운로드에서 기종 검색', '<b>신도리코 홈페이지 → 고객 지원 → 다운로드</b>로 가서 <b>기종 검색</b>에 모델명(예: D452)을 넣어요. 위 표의 [다운로드] 버튼을 누르면 이 검색 결과로 바로 가요.',
-                     W_search('sindoh.com', '고객 지원 › 다운로드', '기종 검색: 모델명 입력', '검색'))
-             + cu.step(2, '빠른 설치 드라이버 받기', '검색 결과 아래 <b>드라이버/유틸리티</b>에서 <b>빠른 설치 드라이버</b>를 내려받아요.',
-                       W_list('sindoh.com', '드라이버/유틸리티', [('프린터 드라이버', ''), ('빠른 설치 드라이버', '다운로드'), ('매뉴얼', '')], 1))
+    steps = (cu.step(1, '내 모델의 [빠른 설치 드라이버] 누르기', '위 목록에서 내 모델(예: D452)을 찾아 <b>[빠른 설치 드라이버]</b>를 누르면 신도리코 서버에서 압축 파일(zip)이 바로 내려받아져요. 목록에 없는 모델은 <b>신도리코 홈페이지 → 고객 지원 → 다운로드 → 기종 검색</b>에서 찾아 <b>드라이버/유틸리티</b>의 빠른 설치 드라이버를 받으세요.',
+                     W_downloads('Sindoh_PCL6(빠른설치).zip', 1))
+             + cu.step(2, '받은 파일 찾기', '키보드 <b>Ctrl + J</b>를 누르면 다운로드 목록이 열려요. <b>[폴더 열기]</b>로 받은 압축 파일이 있는 곳(보통 다운로드 폴더)을 열어요.',
+                       W_list('다운로드 폴더', '다운로드 폴더', [('Sindoh_…PCL6(빠른설치).zip', '파일'), ('', '')], 0, 2))
              + cu.step(3, '압축 풀기', '받은 압축 파일에서 마우스 <b>오른쪽 버튼</b>을 누르고 <b>[알아서 풀기]</b>를 골라요.', W_unzip(),
                        '압축 프로그램에 따라 메뉴 이름이 \'압축 풀기\', \'여기에 풀기\'처럼 다를 수 있어요.')
              + cu.step(4, 'SETUP.EXE 실행 → \'예\'', '풀린 폴더에서 <b>SETUP.EXE</b>를 실행해요. "이 앱이 디바이스를 변경할 수 있도록 허용하시겠어요?" 창이 뜨면 <b>[예]</b>를 눌러요.',
@@ -304,7 +327,12 @@ def sindoh():
              + cu.step(7, '테스트 페이지로 확인', '<b>설정 → Bluetooth 및 장치 → 프린터 및 스캐너</b>(또는 제어판 → 장치 및 프린터 보기)에서 설치한 프린터를 고르고 <b>[테스트 페이지 인쇄]</b>를 눌러요.',
                        W_testpage(7)))
     connect = ('<section class="card dr-sec" id="connect"><h2>sindoh Connect로 설치하기 (권장 기종)</h2>'
-               '<p>아래 표의 복합기는 신도리코가 <b>sindoh Connect 설치를 권장</b>해요. 민수용·관수용 모두 해당돼요. 표에 없는 기종은 위 \'빠른 설치 드라이버\' 순서를 따르세요.</p>'
+               '<p>위 목록의 복합기는 신도리코가 <b>sindoh Connect(원클릭 통합 설치) 설치를 권장</b>해요. 민수용·관수용 모두 해당돼요.</p><ol class="big-n">'
+               '<li><b>[sindoh Connect 바로 받기]</b>를 누르면 설치 파일이 내려받아져요.</li>'
+               '<li>키보드 <b>Ctrl + J</b>로 다운로드 목록을 열고 받은 파일을 눌러 실행해요.</li>'
+               '<li>"이 앱이 디바이스를 변경할 수 있도록 허용하시겠어요?" 창이 뜨면 <b>[예]</b>를 눌러요.</li>'
+               '<li>프로그램 화면 안내대로 내 복합기를 고르고 설치해요.</li>'
+               '<li>끝나면 <b>테스트 페이지 인쇄</b>로 확인해요. 잘 안 되면 \'빠른 설치 드라이버\'를 받아 아래 그림 순서대로 설치하세요.</li></ol>'
                + dl(SD_CONNECT, 'sindoh Connect 받기', '신도리코 공식 다운로드') + '</section>')
     more = ('<section class="card dr-sec" id="more"><h2>연결 방식별 공식 설치 안내</h2><p>연결 방식에 따라 설치 방법이 조금 달라요. 내 상황에 맞는 공식 안내를 여세요.</p>'
             + dl(SD_USB, 'USB 빠른 설치 안내', 'USB 케이블로 연결할 때 (신도리코 공식)', True)
@@ -318,21 +346,21 @@ def sindoh():
           ('스캔은 어떻게 하나요?', '스캔용 드라이버는 따로 있어요. 위 \'스캐너 드라이버(USB) 설치\' 공식 안내를 따르세요.'),
           ('도움이 더 필요해요.', '신도리코 고객지원센터(1588-5850)나 신도리코 홈페이지로 문의하세요.')]
     fq, fqld = cu.faq(qa)
-    main = (f'<header class="top hub">{cr}<h1>신도리코 프린터·복합기 드라이버 다운로드·설치 방법</h1>'
+    main = (HP_CSS + f'<header class="top hub">{cr}<h1>신도리코 프린터·복합기 드라이버 바로 다운로드·설치 방법</h1>'
             '<p class="lead">신도리코 복합기 드라이버를 공식 사이트에서 받아 설치하는 순서를 그림으로 쉽게 정리했어요. 아래 표에서 내 모델을 찾아 바로 받을 수 있어요.</p>'
             f'<p class="cu-ans">{ans}</p>' + dl(SD_HOME, '신도리코 다운로드 받으러 가기', '신도리코 공식 홈페이지 → 고객 지원 → 다운로드')
             + '<ul class="dr-toc"><li><a href="#models">모델별 다운로드</a></li><li><a href="#steps">설치 순서</a></li><li><a href="#connect">sindoh Connect</a></li><li><a href="#more">USB·LAN·스캔·맥</a></li></ul></header>'
-            '<section class="card dr-sec" id="models"><h2>모델별 다운로드 바로가기</h2>'
-            '<p>모델명을 입력하면 그 줄로 바로 가요. [다운로드]를 누르면 신도리코 공식 다운로드 검색 결과가 열려요.</p>'
-            + model_search([m for m, _ in SD_MODELS]) + models_table(rows)
-            + '<p class="cu-src" style="margin-top:8px">표는 신도리코가 sindoh Connect 지원 기종으로 안내한 모델이에요. 다른 모델도 신도리코 다운로드의 기종 검색에서 똑같이 찾을 수 있어요.</p></section>'
+            '<section class="card dr-sec" id="models"><h2>모델별 바로 받기 (23개)</h2>'
+            '<p>모델명을 입력하면 그 모델로 바로 가요. 파란 버튼을 누르면 신도리코 공식 서버에서 파일이 바로 내려받아져요.</p>'
+            + model_search([m for m, _ in SD_MODELS]) + sd_cards()
+            + f'<p class="cu-src" style="margin-top:8px">파일은 신도리코 공식 다운로드 페이지에서 {E(SD_DATA["checked"])}에 확인한 것이고, 누르면 신도리코 서버에서 바로 받아져요. 표는 신도리코가 sindoh Connect 지원 기종으로 안내한 모델이에요. 다른 모델도 신도리코 다운로드의 기종 검색에서 찾을 수 있어요.</p></section>'
             f'<section class="card dr-sec" id="steps"><h2>그림으로 보는 설치 순서 (USB 빠른 설치)</h2>{steps}</section>'
             + connect + more + WIN_SEC + fq
             + src_sec('신도리코 고객지원 FAQ \'프린터 드라이버는 어떻게 다운 받나요?\', \'프린터 드라이버(USB) -빠른설치-\', Microsoft 지원 \'최신 프린터 드라이버 다운로드 및 설치\'')
             + REL)
     ld = [crld, fqld, howto('신도리코 프린터 드라이버 설치 방법 (USB 빠른 설치)', ['신도리코 다운로드에서 기종 검색', '드라이버/유틸리티에서 빠른 설치 드라이버 다운로드', '압축 풀기', 'SETUP.EXE 실행 후 예', '로컬 포트를 USB로 바꾸고 설치', '테스트 페이지 인쇄로 확인'])]
-    write(path, '신도리코 프린터·복합기 드라이버 다운로드·설치 방법 (모델별 바로가기, 2026) | 홍라이프 도구',
-          '신도리코 복합기 드라이버를 공식 사이트에서 받아 설치하는 방법을 그림으로 쉽게 설명해요. D452·D472·N502 등 모델별 다운로드 바로가기, sindoh Connect, USB·LAN 빠른 설치, 스캐너·맥 드라이버까지.',
+    write(path, '신도리코 복합기 드라이버 바로 다운로드 — 모델별 sindoh Connect·빠른 설치 (D452·D472·N502) | 홍라이프 도구',
+          '신도리코 D452·D472·D742·N502·M702 등 복합기 드라이버를 이 페이지에서 바로 받고, sindoh Connect·빠른 설치 드라이버 설치 순서를 그림으로 쉽게 확인하세요. 파일은 신도리코 공식 서버에서 내려와요.',
           main, ld)
     return path
 
