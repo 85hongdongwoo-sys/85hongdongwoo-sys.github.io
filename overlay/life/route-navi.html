@@ -199,7 +199,7 @@
 </ul></details>
 <details><summary>저장과 개인정보</summary><ul>
 <li>노선은 홍라이프 서버가 아니라 <b>지금 쓰는 휴대폰의 브라우저 안</b>에만 저장돼요. 다른 휴대폰이나 다른 브라우저에서는 보이지 않아요.</li>
-<li>브라우저 기록·데이터를 지우거나 시크릿 모드로 쓰면 노선이 사라져요. 아이폰 사파리는 7일 넘게 열지 않으면 지울 수 있어요. 홈 화면에 추가해 쓰고, 노선을 만들거나 고치면 위에 뜨는 <b>카톡으로 백업 보내기</b>를 눌러 카톡 나와의 채팅에 보내 두세요. 링크 하나에 모든 노선이 들어 있어서, 누르기만 하면 그대로 복구돼요.</li>
+<li>브라우저 기록·데이터를 지우거나 시크릿 모드로 쓰면 노선이 사라져요. 아이폰 사파리는 7일 넘게 열지 않으면 지울 수 있어요. 홈 화면에 추가해 쓰고, 노선을 다 만들고 <b>핀 잠금</b>을 누르면 뜨는 <b>카톡으로 백업 보내기</b>를 눌러 카톡 나와의 채팅에 보내 두세요. 링크 하나에 모든 노선이 들어 있어서, 누르기만 하면 그대로 복구돼요.</li>
 <li>경로를 계산할 때 정류장 좌표와 현재 위치가 홍라이프 중계 서버(Cloudflare)를 거쳐 카카오모빌리티로 전달돼요. 홍라이프는 이 위치를 저장하지 않아요. 지도는 카카오 지도를 써요.</li>
 <li>노선 공유 링크에는 정류장 위치와 이름이 그대로 들어 있어요. 승객의 집 주소처럼 민감한 위치가 담긴 노선은 꼭 필요한 사람에게만 보내세요.</li>
 </ul></details>
@@ -306,8 +306,8 @@ return {ready:ready,make:make,route:route,hv:hv,search:search}})();
 var KEY='hl-route-navi-v1',S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
 if(!S||!S.routes){S={routes:{'A코스':[]},cur:'A코스',pos:{}}}
 if(!S.opt)S.opt={pr:'RECOMMEND',av:['uturn']};if(!S.opt.u1){S.opt.av=S.opt.av||[];if(S.opt.av.indexOf('uturn')<0)S.opt.av.push('uturn');S.opt.u1=1;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}bkCheck()}
-// 노선 백업: 노선을 만들거나 고치면 '카톡으로 백업 보내기' 막대를 띄움. 링크 하나에 모든 노선이 들어 있어 누르면 그대로 복구
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+// 노선 백업: 핀 잠금을 누를 때 바뀐 노선이 있으면 화면 가운데에 '카톡으로 백업 보내기' 창을 띄움. 링크 하나에 모든 노선이 들어 있어 누르면 그대로 복구
 var BK='hl-route-navi-bk',bkT=null,bkHint=false;
 function bkSig(){var o={};Object.keys(S.routes).forEach(function(k){var r=S.routes[k]||[];if(r.length)o[k]=r.map(function(p){return [+(+p.lat).toFixed(5),+(+p.lng).toFixed(5),p.n||'']})});return o}
 function bkLast(){try{return localStorage.getItem(BK)||''}catch(e){return ''}}
@@ -316,17 +316,19 @@ function bkBar(){var b=document.getElementById('rnbk');if(b)return b;
  if(!document.getElementById('rnbk-css')){var c=document.createElement('style');c.id='rnbk-css';c.textContent='#rnbk{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 10px);transform:translateX(-50%);z-index:9998;width:min(440px,calc(100vw - 20px));box-sizing:border-box;background:#fff;border:1px solid #E5E8EB;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:12px 12px 12px 14px;display:flex;align-items:center;gap:10px;font-family:inherit}#rnbk[hidden]{display:none}#rnbk .t{flex:1;min-width:0;font-size:13.5px;line-height:1.4;color:#191F28;word-break:keep-all}#rnbk .t b{display:block;font-size:14.5px}#rnbk .go{flex:none;border:0;border-radius:12px;background:#FEE500;color:#191919;font-weight:800;font-size:14px;padding:10px 12px;min-height:44px;cursor:pointer;font-family:inherit}#rnbk .x{flex:none;border:0;background:transparent;color:#8B95A1;font-size:20px;width:34px;height:44px;cursor:pointer;padding:0}';document.head.appendChild(c)}
  b=document.createElement('div');b.id='rnbk';b.setAttribute('role','status');b.hidden=true;b.innerHTML='<div class="t"></div><button type="button" class="go">카톡으로 백업 보내기</button><button type="button" class="x" aria-label="닫기">×</button>';
  b.querySelector('.go').onclick=bkSend;b.querySelector('.x').onclick=function(){b.hidden=true};document.body.appendChild(b);return b}
-function bkShow(){var o=bkSig(),ks=Object.keys(o),j=JSON.stringify(o);
- if(mode!='edit'){var b0=document.getElementById('rnbk');if(b0)b0.hidden=true;return}
- if(!ks.length){if(bkHint)return;bkHint=true;var e=bkBar();e.querySelector('.t').innerHTML='<b>노선이 비어 있나요?</b>카톡에 보내 둔 백업 링크를 누르면 노선이 그대로 돌아와요.';e.querySelector('.go').hidden=true;e.hidden=false;setTimeout(function(){e.hidden=true;e.querySelector('.go').hidden=false},8000);return}
- if(j===bkLast()){var b1=document.getElementById('rnbk');if(b1&&!b1.querySelector('.go').hidden)b1.hidden=true;return}
- var c=0;ks.forEach(function(k){c+=o[k].length});var b=bkBar();b.querySelector('.go').hidden=false;
- b.querySelector('.t').innerHTML='<b>'+(bkLast()?'노선이 바뀌었어요':'노선을 백업해 두세요')+'</b>노선 '+ks.length+'개 · 정류장 '+c+'곳을 백업해 두면 폰을 바꿔도 그대로 복구돼요.';b.hidden=false}
+function bkShow(){var o=bkSig(),ks=Object.keys(o);if(mode!='edit'||ks.length||bkHint)return;bkHint=true;
+ var e=bkBar();e.querySelector('.t').innerHTML='<b>노선이 비어 있나요?</b>카톡에 보내 둔 백업 링크를 누르면 노선이 그대로 돌아와요.';e.querySelector('.go').hidden=true;e.hidden=false;setTimeout(function(){e.hidden=true},8000)}
+function bkPrompt(){var o=bkSig(),ks=Object.keys(o);if(!ks.length||JSON.stringify(o)===bkLast())return;var c=0;ks.forEach(function(k){c+=o[k].length});
+ if(!document.getElementById('rnbkm-css')){var cs=document.createElement('style');cs.id='rnbkm-css';cs.textContent='#rnbkm{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.42);display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}#rnbkm[hidden]{display:none}#rnbkm .card{width:min(340px,100%);box-sizing:border-box;background:#fff;border-radius:20px;padding:22px 20px 16px;box-shadow:0 12px 32px rgba(0,0,0,.25);text-align:center;font-family:inherit}#rnbkm h3{margin:0 0 8px;font-size:18px;color:#191F28}#rnbkm p{margin:0 0 18px;font-size:14.5px;line-height:1.5;color:#4E5968;word-break:keep-all}#rnbkm button{display:block;width:100%;min-height:50px;border-radius:14px;border:0;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}#rnbkm .go{background:#FEE500;color:#191919}#rnbkm .no{margin-top:8px;background:#F2F4F6;color:#4E5968;font-weight:700}';document.head.appendChild(cs)}
+ var m=document.getElementById('rnbkm');if(!m){m=document.createElement('div');m.id='rnbkm';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-labelledby','rnbkm-h');
+  m.innerHTML='<div class="card"><h3 id="rnbkm-h">노선을 백업해 둘까요?</h3><p></p><button type="button" class="go">카톡으로 백업 보내기</button><button type="button" class="no">나중에</button></div>';
+  m.querySelector('.go').onclick=bkSend;m.querySelector('.no').onclick=function(){m.hidden=true};m.onclick=function(e){if(e.target===m)m.hidden=true};document.body.appendChild(m)}
+ m.querySelector('p').textContent='노선 '+ks.length+'개 · 정류장 '+c+'곳. 카톡 나와의 채팅에 보내 두면 폰이 꺼지거나 바뀌어도 링크 하나로 그대로 복구돼요.';m.hidden=false;m.querySelector('.go').focus()}
 function bkUrl(o){var t=btoa(unescape(encodeURIComponent(JSON.stringify({v:1,r:o})))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');return location.origin+location.pathname+'#rb='+t}
 function bkSend(){var o=bkSig(),ks=Object.keys(o),c=0;ks.forEach(function(k){c+=o[k].length});var url=bkUrl(o),d=new Date();
  var ds=(d.getMonth()+1)+'월 '+d.getDate()+'일 '+d.getHours()+':'+('0'+d.getMinutes()).slice(-2);
  var text='[홍라이프 노선 백업] '+ds+' · 노선 '+ks.length+'개('+ks.join(', ')+') · 정류장 '+c+'곳. 이 링크를 누르면 노선이 그대로 복구돼요.';
- function ok(m){try{localStorage.setItem(BK,JSON.stringify(o))}catch(e){}var b=document.getElementById('rnbk');if(b)b.hidden=true;toast(m||'백업을 보냈어요')}
+ function ok(m){try{localStorage.setItem(BK,JSON.stringify(o))}catch(e){}var b=document.getElementById('rnbk');if(b)b.hidden=true;var mm=document.getElementById('rnbkm');if(mm)mm.hidden=true;toast(m||'백업을 보냈어요')}
  function copy(){var all=text+'\n'+url;(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(all):Promise.reject()).then(function(){ok('복사했어요. 카톡 나와의 채팅에 붙여넣어 주세요')}).catch(function(){window.prompt('이 링크를 복사해 카톡 나와의 채팅에 보내 두세요',url)})}
  if(navigator.share){navigator.share({title:'홍라이프 노선 백업',text:text,url:url}).then(function(){ok()}).catch(function(e){if(!e||e.name!=='AbortError')copy()})}else copy()}
 function bkImp(){var m=location.hash.match(/^#rb=([A-Za-z0-9_-]+)$/);if(!m)return false;
@@ -343,7 +345,7 @@ var map=HM.make(document.getElementById('map'),37.45,126.7,11),pins=[],line=map.
 var mode='edit';
 var locked=false;try{locked=localStorage.getItem('rnLock')=='1'}catch(e){}
 function lockui(){var b=$('lock');if(!b)return;b.hidden=mode!='edit';b.setAttribute('aria-pressed',locked?'true':'false');$('locktx').textContent=locked?'핀 잠김':'핀 잠금';$('lockarc').setAttribute('d',locked?'M8 11V7a4 4 0 0 1 8 0v4':'M8 11V7a4 4 0 0 1 8 0')}
-$('lock').addEventListener('click',function(){locked=!locked;try{localStorage.setItem('rnLock',locked?'1':'0')}catch(e){}draw()});
+$('lock').addEventListener('click',function(){locked=!locked;try{localStorage.setItem('rnLock',locked?'1':'0')}catch(e){}draw();if(locked&&mode=='edit')bkPrompt()});
 function idx(){return Math.min(S.pos[S.cur]||0,Math.max(R().length-1,0))}
 function km(a,b){var r=Math.PI/180,x=(b.lng-a.lng)*r*Math.cos((a.lat+b.lat)/2*r),y=(b.lat-a.lat)*r;return Math.sqrt(x*x+y*y)*6371}
 function draw(fit){lockui();if(mode!='edit'){var bb=document.getElementById('rnbk');if(bb)bb.hidden=true}pins.forEach(function(x){x.remove()});var st=R(),ci=idx();
