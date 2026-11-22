@@ -39,6 +39,7 @@
 .rn-map{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
 #map{height:min(62vh,520px);min-height:340px;background:#E8EEF3}
 .rn-hint{position:absolute;left:10px;right:10px;bottom:28px;text-align:center;margin:0;z-index:500;background:rgba(25,31,40,.86);color:#fff;font-size:13.5px;font-weight:600;padding:8px 12px;border-radius:10px;pointer-events:none;line-height:1.4;word-break:keep-all}
+.rn-bkb{background:#FEE500!important;border-color:#FEE500!important;color:#191919!important}
 .rn-lock{position:absolute;left:10px;top:10px;z-index:500;height:40px;padding:0 12px 0 10px;border-radius:12px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;gap:6px;color:var(--head);font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12)}.rn-lock[aria-pressed=true]{background:#191F28;color:#fff;border-color:#191F28}.rn-lock[hidden]{display:none}.rn-map .leaflet-top.leaflet-left{top:52px}
 .rn-me{position:absolute;right:10px;top:10px;z-index:500;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--head);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12)}
 .rn-pin{display:grid;place-items:center;width:30px;height:30px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);background:#3182F6;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
@@ -120,7 +121,7 @@
 <section class="card rn">
 <div class="rn-top">
  <label class="rn-sel"><span>노선</span><select id="rsel" aria-label="노선 고르기"></select></label>
- <div class="rn-tb"><button type="button" class="btn ghost" id="rnew">새 노선</button><button type="button" class="btn ghost" id="rren">이름 바꾸기</button><button type="button" class="btn ghost" id="rdel">삭제</button></div>
+ <div class="rn-tb"><button type="button" class="btn ghost" id="rnew">새 노선</button><button type="button" class="btn ghost" id="rren">이름 바꾸기</button><button type="button" class="btn ghost" id="rdel">삭제</button><button type="button" class="btn ghost rn-bkb" id="rbk" title="모든 노선을 링크 하나로 카톡에 보내 두기">카톡 백업</button></div>
 </div>
 <div class="rn-mode" role="tablist"><button type="button" role="tab" id="m-edit" aria-selected="true">노선 만들기</button><button type="button" role="tab" id="m-run" aria-selected="false">운행하기</button></div>
 <form class="rn-q" id="qf" role="search"><input id="qi" type="search" placeholder="주소나 장소 이름으로 정류장 추가 (예: 송도컨벤시아)" aria-label="주소나 장소 검색" enterkeyhint="search"><button type="submit" class="btn">찾기</button></form><ul class="rn-qr" id="qr" hidden></ul>
@@ -199,7 +200,7 @@
 </ul></details>
 <details><summary>저장과 개인정보</summary><ul>
 <li>노선은 홍라이프 서버가 아니라 <b>지금 쓰는 휴대폰의 브라우저 안</b>에만 저장돼요. 다른 휴대폰이나 다른 브라우저에서는 보이지 않아요.</li>
-<li>브라우저 기록·데이터를 지우거나 시크릿 모드로 쓰면 노선이 사라져요. 아이폰 사파리는 7일 넘게 열지 않으면 지울 수 있어요. 홈 화면에 추가해 쓰고, 노선을 다 만들고 <b>핀 잠금</b>을 누르면 뜨는 <b>카톡으로 백업 보내기</b>를 눌러 카톡 나와의 채팅에 보내 두세요. 링크 하나에 모든 노선이 들어 있어서, 누르기만 하면 그대로 복구돼요.</li>
+<li>브라우저 기록·데이터를 지우거나 시크릿 모드로 쓰면 노선이 사라져요. 아이폰 사파리는 7일 넘게 열지 않으면 지울 수 있어요. 홈 화면에 추가해 쓰고, 노선을 다 만들면 노선 이름 아래 <b>카톡 백업</b> 버튼을 눌러 카톡 나와의 채팅에 보내 두세요. 링크 하나에 모든 노선이 들어 있어서, 누르기만 하면 그대로 복구돼요.</li>
 <li>경로를 계산할 때 정류장 좌표와 현재 위치가 홍라이프 중계 서버(Cloudflare)를 거쳐 카카오모빌리티로 전달돼요. 홍라이프는 이 위치를 저장하지 않아요. 지도는 카카오 지도를 써요.</li>
 <li>노선 공유 링크에는 정류장 위치와 이름이 그대로 들어 있어요. 승객의 집 주소처럼 민감한 위치가 담긴 노선은 꼭 필요한 사람에게만 보내세요.</li>
 </ul></details>
@@ -307,7 +308,7 @@ var KEY='hl-route-navi-v1',S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e
 if(!S||!S.routes){S={routes:{'A코스':[]},cur:'A코스',pos:{}}}
 if(!S.opt)S.opt={pr:'RECOMMEND',av:['uturn']};if(!S.opt.u1){S.opt.av=S.opt.av||[];if(S.opt.av.indexOf('uturn')<0)S.opt.av.push('uturn');S.opt.u1=1;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-// 노선 백업: 핀 잠금을 누를 때 바뀐 노선이 있으면 화면 가운데에 '카톡으로 백업 보내기' 창을 띄움. 링크 하나에 모든 노선이 들어 있어 누르면 그대로 복구
+// 노선 백업: 노선 이름 아래 '카톡 백업' 버튼으로 모든 노선을 링크 하나로 보내 둠. 링크를 누르면 그대로 복구
 var BK='hl-route-navi-bk',bkT=null,bkHint=false;
 function bkSig(){var o={};Object.keys(S.routes).forEach(function(k){var r=S.routes[k]||[];if(r.length)o[k]=r.map(function(p){return [+(+p.lat).toFixed(5),+(+p.lng).toFixed(5),p.n||'']})});return o}
 function bkLast(){try{return localStorage.getItem(BK)||''}catch(e){return ''}}
@@ -345,7 +346,8 @@ var map=HM.make(document.getElementById('map'),37.45,126.7,11),pins=[],line=map.
 var mode='edit';
 var locked=false;try{locked=localStorage.getItem('rnLock')=='1'}catch(e){}
 function lockui(){var b=$('lock');if(!b)return;b.hidden=mode!='edit';b.setAttribute('aria-pressed',locked?'true':'false');$('locktx').textContent=locked?'핀 잠김':'핀 잠금';$('lockarc').setAttribute('d',locked?'M8 11V7a4 4 0 0 1 8 0v4':'M8 11V7a4 4 0 0 1 8 0')}
-$('lock').addEventListener('click',function(){locked=!locked;try{localStorage.setItem('rnLock',locked?'1':'0')}catch(e){}draw();if(locked&&mode=='edit')bkPrompt()});
+$('lock').addEventListener('click',function(){locked=!locked;try{localStorage.setItem('rnLock',locked?'1':'0')}catch(e){}draw()});
+$('rbk').onclick=function(){if(!Object.keys(bkSig()).length){toast('백업할 정류장이 없어요. 지도에 정류장을 먼저 찍어 주세요');return}bkSend()};
 function idx(){return Math.min(S.pos[S.cur]||0,Math.max(R().length-1,0))}
 function km(a,b){var r=Math.PI/180,x=(b.lng-a.lng)*r*Math.cos((a.lat+b.lat)/2*r),y=(b.lat-a.lat)*r;return Math.sqrt(x*x+y*y)*6371}
 function draw(fit){lockui();if(mode!='edit'){var bb=document.getElementById('rnbk');if(bb)bb.hidden=true}pins.forEach(function(x){x.remove()});var st=R(),ci=idx();
