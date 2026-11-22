@@ -21,12 +21,21 @@ def check(u):
                 code = repr(e2)[:60]
     except Exception as e:
         code = repr(e)[:60]
-    ok = code in (200, 206) or (code == 403 and ('intel.co' in u or 'epson.co.kr' in u))  # 인텔·엡손 사이트는 자동 점검(봇)만 막고 사람은 열림
+    ok = code in (200, 206) or (code == 403 and any(h in u for h in ('intel.co', 'epson.co.kr', 'ebz.epson.net', 'support.epson.net')))  # 인텔·엡손 사이트는 자동 점검(봇)만 막고 사람은 열림
     return ok, code, u
-with ThreadPoolExecutor(12) as ex:
+retry = []
+with ThreadPoolExecutor(6) as ex:
     for ok, code, u in ex.map(check, urls):
-        print('OK ' if ok else 'BAD', code, u)
-        if not ok:
-            bad.append(u)
+        if ok:
+            print('OK ', code, u)
+        else:
+            retry.append(u)
+import time
+for u in retry:  # 너무 많이 동시에 물어 시간 초과된 것은 천천히 한 번 더
+    time.sleep(1)
+    ok, code, u = check(u)
+    print('OK ' if ok else 'BAD', code, u)
+    if not ok:
+        bad.append(u)
 print(f'checked {len(urls)}, broken {len(bad)}')
 sys.exit(1 if bad else 0)
