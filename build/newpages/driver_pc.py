@@ -102,8 +102,8 @@ def page(k):
             + f'<section class="card dr-sec" id="model"><h2>내 제품 모델·시리얼 번호 찾기</h2><ul class="cu-chk"><li>{c["serial"]}</li>'
               '<li>윈도우에서는 <b>설정 → 시스템 → 정보</b>에서 장치 이름을 볼 수 있어요.</li>'
               '<li>공식 사이트에 <b>시리얼 번호</b>를 넣으면 내 제품에 맞는 드라이버만 나와서 가장 정확해요.</li></ul></section>'
-            + kr.guide_sec(c['name'], True) + kr.WIN_SEC + fq
-            + kr.src_sec(c['src'] + ', Microsoft 지원 \'최신 프린터 드라이버 다운로드 및 설치\'') + kr.REL)
+            + kr.guide_pc(c['name']) + kr.WIN_PC + fq
+            + kr.src_sec(c['src'] + '') + kr.REL)
     ld = [crld, fqld]
     kr.write(path, f'{c["name"]} 드라이버 다운로드 — {c["lines"]} 드라이버 설치 방법 (공식 프로그램) | 홍라이프 도구',
              f'{c["name"]}({c["en"]}) 노트북·PC 드라이버를 공식 프로그램으로 한 번에 업데이트하거나 공식 사이트에서 시리얼 번호로 받는 방법. {c["lines"]} 드라이버 설치 순서를 쉽게 정리했어요.',
@@ -124,7 +124,7 @@ def page_en(k):
             f'<p class="lead">Update {E(c["en"])} laptop and PC drivers with the official tool, or find drivers by serial number on the official support site.</p></header>'
             + (f'<section class="card dr-sec"><h2>Official tools</h2><ul class="hpl">{tools}</ul></section>' if tools else '')
             + f'<section class="card dr-sec"><h2>Drivers by model</h2>{en.dl(su.replace("/kr-ko", "/en-us").replace("/ko-kr", "/en-us").replace("/kr/ko/", "/us/en/").replace("/kr/support", "/us/support"), c["en"] + " support", "Search by serial number or model")}</section>'
-            + en.easy(c['en'], True) + en.WIN + fq + en.src(c['src']) + en.REL)
+            + en.easy_pc(c['en']) + en.WIN_PC + fq + en.src(c['src']) + en.REL)
     en.write(path, f'{c["en"]} Driver Download — Official Update Tools | HongLife Tools',
              f'Update {c["en"]} drivers with the official tool or download by serial number from the official support site, with easy steps.', main, [crld, fqld])
     return path

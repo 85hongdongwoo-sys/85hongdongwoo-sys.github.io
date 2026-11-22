@@ -135,6 +135,20 @@ def easy(brand, zipnote=False):
             '<li><b>"Offline"?</b> Check power and cable/Wi-Fi, turn the printer off and on, then restart the PC.</li></ul></section>')
 
 
+
+def easy_pc(brand):
+    return ('<section class="card dr-sec" id="easy"><h2>Very detailed guide for first-timers</h2>'
+            '<p class="cu-ans"><b>In 3 lines</b><br>① Find your <b>model name</b>. ② Use the <b>blue button</b> to get the official app or file. ③ In the app, <b>check for updates → install</b>, then restart if asked.</p>'
+            '<h3>1. Your Windows version</h3><ul class="cu-chk"><li><b>Settings → System → About</b> shows the Windows edition, version and system type.</li><li>Or type <b>winver</b> in the taskbar search.</li></ul>'
+            f'<h3>2. Find your {E(brand)} model name</h3><ul class="cu-chk"><li>Laptops: the label on the <b>bottom</b>. Monitors: the label on the <b>back</b>.</li><li>Also in <b>Settings → System → About</b>.</li></ul>'
+            '<h3>3. Installing from the Microsoft Store</h3><ul class="cu-chk"><li>The button opens the Microsoft Store page. Press <b>Get</b>.</li></ul>'
+            '<h3>4. Safety while updating</h3><ul class="cu-chk"><li>Keep laptops <b>plugged in</b>.</li><li>Never turn off the PC or close the lid during a <b>BIOS / firmware</b> update.</li><li>Restart when asked.</li></ul></section>')
+
+
+WIN_PC = ('<section class="card dr-sec" id="win"><h2>Try first: Windows Update</h2><ul class="cu-chk">'
+          '<li><b>Settings → Windows Update → Check for updates</b>.</li><li>Driver updates may be under <b>Advanced options → Optional updates</b>.</li>'
+          '<li>If that does not work, use the maker\'s official app or site (this page).</li></ul></section>')
+
 WIN = ('<section class="card dr-sec" id="win"><h2>Try first: Windows automatic install</h2><p>Windows often installs a printer driver by itself.</p><ul class="cu-chk">'
        '<li>Go to <b>Settings → Bluetooth &amp; devices → Printers &amp; scanners</b> and press <b>Add device</b>.</li>'
        '<li>Microsoft recommends getting drivers through <b>Windows Update</b>.</li>'
@@ -144,6 +158,7 @@ REL = ('<section class="card rel"><h2>Other drivers</h2><ul class="dr-co">'
        '<li><a href="/en/driver/sindoh.html"><b>Sindoh</b><span>Multifunction printers</span></a></li>'
        '<li><a href="/en/driver/epson.html"><b>Epson</b><span>EcoTank, WorkForce</span></a></li>'
        '<li><a href="/en/driver/brother.html"><b>Brother</b><span>Inkjet, laser, label</span></a></li>'
+       '<li><a href="/en/driver/samsung.html"><b>Samsung</b><span>Galaxy Book, USB, SSD</span></a></li>'
        '<li><a href="/en/driver/lg.html"><b>LG</b><span>gram laptops, monitors</span></a></li>'
        '<li><a href="/en/driver/apple.html"><b>Apple</b><span>iPhone on Windows, iCloud, Boot Camp</span></a></li>'
        '<li><a href="/en/driver/surface.html"><b>Microsoft Surface</b><span>Drivers &amp; firmware</span></a></li>'
@@ -327,7 +342,7 @@ def hub():
     path = '/en/driver/'
     cr = '<p class="crumb"><a href="/en/">Home</a> › Drivers</p>'
     co = ''.join(f'<li><a href="/en/driver/{k}.html"><b>{n}</b><span>{d}</span></a></li>' for k, n, d in [
-        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'), ('epson', 'Epson', 'EcoTank, WorkForce and more, by model'), ('brother', 'Brother', 'Inkjet, laser, label, by model'), ('lg', 'LG', 'gram laptops (LG Update), monitors (OnScreen Control)'), ('apple', 'Apple', 'Apple Devices, iCloud, iTunes, Boot Camp'), ('surface', 'Microsoft Surface', 'Drivers & firmware by model'), ('lenovo', 'Lenovo', 'Official driver update tools'), ('dell', 'Dell', 'Official driver update tools'), ('asus', 'ASUS', 'Official driver update tools'), ('acer', 'Acer', 'Official driver update tools'), ('roborock', 'Roborock', 'Robot vacuum app & firmware update'), ('ecovacs', 'ECOVACS', 'Robot vacuum app & firmware update'), ('dreame', 'Dreame', 'Robot vacuum app & firmware update'), ('narwal', 'Narwal', 'Robot vacuum app & firmware update'),
+        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'), ('epson', 'Epson', 'EcoTank, WorkForce and more, by model'), ('brother', 'Brother', 'Inkjet, laser, label, by model'), ('samsung', 'Samsung', 'Galaxy Book, USB driver, SSD Magician, printers'), ('lg', 'LG', 'gram laptops (LG Update), monitors (OnScreen Control)'), ('apple', 'Apple', 'Apple Devices, iCloud, iTunes, Boot Camp'), ('surface', 'Microsoft Surface', 'Drivers & firmware by model'), ('lenovo', 'Lenovo', 'Official driver update tools'), ('dell', 'Dell', 'Official driver update tools'), ('asus', 'ASUS', 'Official driver update tools'), ('acer', 'Acer', 'Official driver update tools'), ('roborock', 'Roborock', 'Robot vacuum app & firmware update'), ('ecovacs', 'ECOVACS', 'Robot vacuum app & firmware update'), ('dreame', 'Dreame', 'Robot vacuum app & firmware update'), ('narwal', 'Narwal', 'Robot vacuum app & firmware update'),
         ('nvidia', 'NVIDIA', 'GeForce / RTX graphics'), ('amd', 'AMD', 'Radeon graphics, Ryzen chipset'), ('intel', 'Intel', 'Driver & Support Assistant')])
     items = [[HPEN[str(m['o'])]['n'], '/en/driver/hp.html#' + kr.mid(m['n'])] for m in kr.HP_DATA['models']] + [[f'Sindoh {m}', f'/en/driver/sindoh.html#m-{m}'] for m, _ in kr.SD_MODELS]
     import driver_more as dm

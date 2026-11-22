@@ -178,7 +178,7 @@ def lg():
             + f'<details class="mg"><summary>LG PC 모니터 <span>{nm:,}개 모델</span></summary><div style="padding:0 12px 10px">{chips("monitor", lambda k: (k + "인치 모니터") if k != "기타" else "기타 모델")}</div></details>'
             + f'<p class="cu-src" style="margin-top:10px">모델과 파일 목록은 LG전자 공식 고객지원 \'매뉴얼/소프트웨어 다운로드\'에서 {E(LG["checked"])}에 받아 왔고, 매주 새로 확인해요.</p>'
             + kr.dl(LG_DL, 'LG전자 매뉴얼/소프트웨어 다운로드', '목록에 없을 때: LG 공식 사이트에서 모델 검색', True) + '</section>'
-            + kr.guide_sec('LG', True) + kr.WIN_SEC + fq
+            + kr.guide_pc('LG') + kr.WIN_PC + fq
             + kr.src_sec('LG전자 고객지원(lge.co.kr) \'LG Update 프로그램 설치 가이드\', \'OnScreen Control 사용 방법\', \'매뉴얼/소프트웨어 다운로드\' 모델별 파일')
             + kr.REL + panel_js('ko'))
     ld = [crld, fqld, kr.howto('LG 그램 노트북 드라이버 설치 방법 (LG Update)', ['LG Update 프로그램 다운로드', '압축 풀기', 'LG Update Installer 실행', '확인 눌러 설치', 'LG Update 실행 후 전체 설치'])]
@@ -211,7 +211,7 @@ def lg_en():
             + f'<details class="mg" open><summary>LG gram / laptops <span>{ng:,}</span></summary><div style="padding:0 12px 10px">{chips("gram", lambda k: k + " series")}</div></details>'
             + f'<details class="mg"><summary>LG PC monitors <span>{nm:,}</span></summary><div style="padding:0 12px 10px">{chips("monitor", lambda k: k + "-inch")}</div></details>'
             + f'<p class="cu-src">Lists fetched from LG Korea support on {E(LG["checked"])} and refreshed weekly. File names are shown as LG posts them (Korean).</p></section>'
-            + en.easy('LG', True) + en.WIN + fq + en.src('LG Electronics Korea support (lge.co.kr): LG Update install guide, OnScreen Control guide, manuals & software downloads') + en.REL + panel_js('en'))
+            + en.easy_pc('LG') + en.WIN_PC + fq + en.src('LG Electronics Korea support (lge.co.kr): LG Update install guide, OnScreen Control guide, manuals & software downloads') + en.REL + panel_js('en'))
     en.write(path, 'LG gram & Monitor Driver Download — LG Update, OnScreen Control, Files by Model | HongLife Tools',
              f'Download LG Update for LG gram laptops and OnScreen Control for LG monitors, plus per-model LAN/WLAN and monitor drivers for {ng:,} gram and {nm:,} monitor models from LG\'s official server.',
              main, [crld, fqld])

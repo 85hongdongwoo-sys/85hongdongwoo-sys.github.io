@@ -97,7 +97,7 @@ def surface():
             f'<section class="card dr-sec" id="prep"><h2>업데이트 전 준비</h2>{prep}</section>'
             f'<section class="card dr-sec" id="auto"><h2>가장 쉬운 방법: Windows 업데이트 (Microsoft 권장)</h2>{auto}</section>'
             f'<section class="card dr-sec" id="manual"><h2>직접 설치하기 (.msi 파일)</h2>{manual}</section>'
-            + kr.guide_sec('서피스') + fq
+            + kr.guide_pc('서피스') + fq
             + kr.src_sec('Microsoft 지원 \'Surface용 드라이버 및 펌웨어 다운로드\'(support.microsoft.com/ko-kr), Microsoft 다운로드 센터 모델별 페이지')
             + kr.REL)
     ld = [crld, fqld, kr.howto('서피스 드라이버·펌웨어 설치 방법', ['액세서리 연결·전원 연결·배터리 40% 이상', '설정 → Windows 업데이트 → 업데이트 확인', '선택적 업데이트에서 Surface 드라이버 설치', '직접 설치 시 winver로 빌드 확인 후 맞는 .msi 실행'])]

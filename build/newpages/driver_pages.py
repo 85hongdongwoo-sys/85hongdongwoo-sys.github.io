@@ -131,7 +131,7 @@ def W_sindoh_tool(n=5):
 # ── 페이지 틀 ────────────────────────────────────────────
 KO2EN = {'/driver/': '/en/driver/', '/driver/hp.html': '/en/driver/hp.html', '/driver/sindoh.html': '/en/driver/sindoh.html',
          '/driver/nvidia.html': '/en/driver/nvidia.html', '/driver/amd.html': '/en/driver/amd.html', '/driver/intel.html': '/en/driver/intel.html',
-         '/driver/epson.html': '/en/driver/epson.html', '/driver/brother.html': '/en/driver/brother.html', '/driver/lg.html': '/en/driver/lg.html', '/driver/apple.html': '/en/driver/apple.html', '/driver/surface.html': '/en/driver/surface.html', '/driver/lenovo.html': '/en/driver/lenovo.html', '/driver/dell.html': '/en/driver/dell.html', '/driver/asus.html': '/en/driver/asus.html', '/driver/acer.html': '/en/driver/acer.html', '/driver/roborock.html': '/en/driver/roborock.html', '/driver/ecovacs.html': '/en/driver/ecovacs.html', '/driver/dreame.html': '/en/driver/dreame.html', '/driver/narwal.html': '/en/driver/narwal.html'}
+         '/driver/epson.html': '/en/driver/epson.html', '/driver/brother.html': '/en/driver/brother.html', '/driver/lg.html': '/en/driver/lg.html', '/driver/apple.html': '/en/driver/apple.html', '/driver/surface.html': '/en/driver/surface.html', '/driver/lenovo.html': '/en/driver/lenovo.html', '/driver/dell.html': '/en/driver/dell.html', '/driver/asus.html': '/en/driver/asus.html', '/driver/acer.html': '/en/driver/acer.html', '/driver/roborock.html': '/en/driver/roborock.html', '/driver/samsung.html': '/en/driver/samsung.html', '/driver/ecovacs.html': '/en/driver/ecovacs.html', '/driver/dreame.html': '/en/driver/dreame.html', '/driver/narwal.html': '/en/driver/narwal.html'}
 EN2KO = {v: k for k, v in KO2EN.items()}
 # 한국어가 아닌 브라우저(검색 로봇 제외)는 영어판으로 바로 보냄. '한국어로 보기'를 누른 사람(hl_lang=ko)은 그대로.
 REDIRECT = ("<script>(function(){try{var L=(navigator.languages&&navigator.languages[0])||navigator.language||'';"
@@ -418,6 +418,35 @@ def guide_sec(brand, zipnote=False):
 
 
 # ── 공통 조각 ────────────────────────────────────────────
+
+def guide_pc(brand):
+    """노트북·PC용 처음 안내 (프린터 내용 없이)"""
+    return ('<section class="card dr-sec" id="easy"><h2>처음 하는 분을 위한 아주 자세한 안내</h2>'
+            '<p class="cu-ans"><b>3줄 요약</b><br>① 내 제품 <b>모델명</b>을 확인해요. ② 이 페이지의 <b>파란 버튼</b>으로 공식 앱이나 파일을 받아요. ③ 앱에서 <b>업데이트 확인 → 설치</b>를 누르고, 다시 시작하라고 하면 다시 시작해요.</p>'
+            '<h3>1. 내 윈도우 버전 확인하기</h3><ul class="cu-chk">'
+            '<li><b>설정 → 시스템 → 정보</b>에서 <b>윈도우 사양</b>(예: Windows 11, 버전 24H2)과 <b>시스템 종류</b>(64비트)를 볼 수 있어요.</li>'
+            '<li>작업표시줄 검색에 <b>winver</b>를 쳐도 버전이 나와요.</li></ul>'
+            f'<h3>2. 내 {E(brand)} 제품 모델명 찾기</h3><ul class="cu-chk">'
+            '<li>노트북은 <b>바닥면</b> 스티커나 새겨진 글자, 모니터는 <b>뒷면 스티커</b>를 보세요.</li>'
+            '<li>윈도우 <b>설정 → 시스템 → 정보</b>에도 장치 이름이 나와요.</li></ul>'
+            '<h3>3. Microsoft Store 앱 설치하기</h3><ul class="cu-chk">'
+            '<li>파란 버튼을 누르면 Microsoft Store 페이지가 열려요. <b>[받기]</b> 또는 <b>[스토어 앱에서 보기]</b> → <b>[받기]</b>를 눌러요.</li>'
+            '<li>설치가 끝나면 작업표시줄 검색에서 앱 이름을 쳐서 열어요.</li></ul>'
+            '<h3>4. 파일(.exe)을 받았다면</h3><ul class="cu-chk">'
+            '<li>키보드 <b>Ctrl + J</b>로 받은 파일을 열어요. "이 앱이 디바이스를 변경할 수 있도록 허용하시겠어요?"에는 <b>[예]</b>를 눌러요.</li>'
+            '<li>설치 화면은 <b>[다음] → [설치] → [마침]</b> 순서예요.</li></ul>'
+            '<h3>5. 업데이트할 때 꼭 지킬 것</h3><ul class="cu-chk">'
+            '<li>노트북은 <b>충전기를 꽂고</b> 하세요.</li>'
+            '<li>BIOS(바이오스)·펌웨어 업데이트 중에는 <b>절대 전원을 끄거나 덮개를 닫지 마세요</b>.</li>'
+            '<li>여러 개를 설치한 뒤에는 <b>다시 시작</b>해야 적용되는 경우가 많아요.</li></ul></section>')
+
+
+WIN_PC = ('<section class="card dr-sec" id="win"><h2>먼저 해 볼 것: Windows 업데이트</h2>'
+          '<p>윈도우는 많은 드라이버를 Windows 업데이트로 자동으로 받아요.</p><ul class="cu-chk">'
+          '<li><b>설정 → Windows 업데이트 → [업데이트 확인]</b>을 눌러요.</li>'
+          '<li><b>고급 옵션 → 선택적 업데이트</b>에 드라이버 업데이트가 따로 있을 수 있어요.</li>'
+          '<li>그래도 안 되면 제조사 공식 앱·사이트에서 받아요(이 페이지의 방법).</li></ul></section>')
+
 WIN_SEC = ('<section class="card dr-sec" id="win"><h2>먼저 해 볼 것: 윈도우 자동 설치</h2>'
            '<p>요즘 윈도우는 프린터를 연결하면 드라이버를 스스로 찾아 설치하는 경우가 많아요. 제조사 사이트에 가기 전에 한 번 해 보세요.</p><ul class="cu-chk">'
            '<li><b>설정 → Bluetooth 및 장치 → 프린터 및 스캐너</b>에서 <b>[장치 추가]</b>를 눌러 프린터를 추가해요.</li>'
@@ -428,6 +457,7 @@ REL = ('<section class="card rel"><h2>다른 회사 드라이버</h2><ul class="
        '<li><a href="/driver/sindoh.html"><b>신도리코</b><span>복합기 · 모델별 바로가기</span></a></li>'
        '<li><a href="/driver/epson.html"><b>엡손</b><span>정품무한 L시리즈·WorkForce</span></a></li>'
        '<li><a href="/driver/brother.html"><b>브라더</b><span>잉크젯·레이저·라벨</span></a></li>'
+       '<li><a href="/driver/samsung.html"><b>삼성</b><span>갤럭시 북·모니터·USB·SSD</span></a></li>'
        '<li><a href="/driver/lg.html"><b>LG전자</b><span>그램 노트북·모니터</span></a></li>'
        '<li><a href="/driver/apple.html"><b>애플</b><span>아이폰 PC 연결·iCloud·Boot Camp</span></a></li>'
        '<li><a href="/driver/surface.html"><b>마이크로소프트 서피스</b><span>Surface 드라이버·펌웨어</span></a></li>'
@@ -476,6 +506,7 @@ def hub():
           '<li><a href="/driver/intel.html"><b>인텔</b><span>그래픽·칩셋·무선랜</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/epson.html"><b>엡손</b><span>정품무한 L시리즈·WorkForce 등 모델별 바로 받기</span><em>모델별 바로 받기 ›</em></a></li>'
           '<li><a href="/driver/brother.html"><b>브라더</b><span>잉크젯·레이저·라벨 모델별 바로 받기</span><em>모델별 바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/samsung.html"><b>삼성</b><span>갤럭시 북 노트북·모니터·갤럭시 USB·SSD·프린터</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/lg.html"><b>LG전자</b><span>그램 노트북 LG Update·모니터 OnScreen Control, 모델별 파일</span><em>바로 받기 ›</em></a></li>'
           '<li><a href="/driver/apple.html"><b>애플</b><span>윈도우에서 아이폰 연결(Apple 기기 앱)·iCloud·Boot Camp</span><em>바로 받기 ›</em></a></li>'
           '<li><a href="/driver/surface.html"><b>마이크로소프트 서피스</b><span>Surface Pro·Laptop·Go 모델별 드라이버·펌웨어</span><em>바로 받기 ›</em></a></li>'
