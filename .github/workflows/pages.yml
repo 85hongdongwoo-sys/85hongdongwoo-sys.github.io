@@ -59,6 +59,8 @@ jobs:
           mkdir -p _site/data/meal
           if git fetch -q --depth 1 origin data-meal; then git archive FETCH_HEAD | tar -x -C _site/data/meal; fi
           python3 build/meal/render_meal.py _site
+      - name: 잠시 숨기기 (여행 카테고리·유료 미대 컨설팅) — build/hide_sections.py 의 HIDE 로 켜고 꺼요
+        run: python3 build/hide_sections.py _site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
