@@ -532,6 +532,7 @@ MOVED = [('driver', '/driver/', '드라이버 다운로드 모음', '프린터·
          ('driver', '/driver/epson.html', '엡손 프린터 드라이버 다운로드 (모델별 바로 받기)', 'L3250·L3210·L6290 등 394개 모델 공식 다운로드', '엡손 드라이버 엡손 프린터 드라이버 Epson 드라이버 L3250 드라이버 L3210 드라이버 L3110 드라이버 정품무한 드라이버 Epson Scan 2', '드라이버'),
          ('driver', '/driver/brother.html', '브라더 프린터 드라이버 다운로드 (모델별 바로 받기)', 'DCP-T720DW·MFC-L2700D 등 모델별 공식 다운로드', '브라더 드라이버 브라더 프린터 드라이버 Brother 드라이버 DCP-T720DW 드라이버 MFC-L2700D 드라이버 HL-L2321D iPrint&Scan', '드라이버'),
          ('driver', '/driver/lg.html', 'LG 그램·모니터 드라이버 다운로드', 'LG Update·OnScreen Control 바로 받기, 모델별 파일', 'LG 드라이버 그램 드라이버 LG Update LG 노트북 드라이버 LG 모니터 드라이버 OnScreen Control 17Z90S 16Z90R', '드라이버'),
+         ('driver', '/driver/apple.html', '애플 드라이버·아이폰 PC 연결', 'Apple 기기 앱·iCloud·iTunes·Boot Camp', '아이폰 드라이버 아이폰 PC 연결 아이폰 인식 안됨 Apple 기기 앱 아이튠즈 iCloud for Windows 부트캠프 드라이버 Boot Camp', '드라이버'),
          ('drive', '/drive/update/', '차 내비·블랙박스 업데이트 모음', '현대·기아·제네시스 내비 업데이트를 그림으로 쉽게', '내비 업데이트 내비게이션 업데이트 지도 업데이트 순정 내비 업데이트 블랙박스 업데이트 빌트인캠 업데이트 Navigation Updater', '자동차·지도'),
          ('drive', '/drive/update/hyundai.html', '현대 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '현대 내비 업데이트 현대차 네비 업데이트 현대 내비게이션 업데이트 방법 현대 지도 업데이트 블루링크 업데이트 아반떼 쏘나타 그랜저 싼타페 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
          ('drive', '/drive/update/kia.html', '기아 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '기아 내비 업데이트 기아 네비 업데이트 기아 내비게이션 업데이트 방법 기아 지도 업데이트 쏘렌토 카니발 K5 스포티지 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
@@ -540,6 +541,7 @@ MOVED = [('driver', '/driver/', '드라이버 다운로드 모음', '프린터·
          ('drive', '/drive/update/kgm.html', 'KGM(쌍용) 내비게이션 업데이트', '차종별 공식 업데이트 사이트 정리', 'KGM 내비 업데이트 쌍용 내비 업데이트 토레스 내비 업데이트 액티언 무쏘 코란도 렉스턴 티볼리 내비 업데이트 인포콘', '자동차·지도'),
          ('drive', '/drive/update/inavi.html', '아이나비 내비 지도 업그레이드', '아이나비 매니저 원클릭 업그레이드', '아이나비 업데이트 아이나비 지도 업데이트 아이나비 업그레이드 아이나비 매니저 내비 지도 업그레이드', '자동차·지도'),
          ('drive', '/drive/update/genesis.html', '제네시스 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '제네시스 내비 업데이트 제네시스 네비 업데이트 G80 GV80 GV70 G90 내비 업데이트 제네시스 지도 업데이트 빌트인캠 업데이트', '자동차·지도'),
+         ('drive', '/drive/update/tesla.html', '테슬라 소프트웨어 업데이트 방법', '와이파이 무선 업데이트·예약·자동 설치', '테슬라 업데이트 테슬라 소프트웨어 업데이트 모델Y 업데이트 모델3 업데이트 테슬라 OTA 우선 업데이트 테슬라 드라이버', '자동차·지도'),
          ('calendar', '/calendar/exam-schedule.html', '자격증 시험일정 달력 (국가기술·국가전문·한국사·토익·JLPT)', '원서접수·시험일·합격발표를 한 달력에, 매달 업데이트', '자격증 시험일정 달력 큐넷 기사 산업기사 기능사 한국사 토익 JLPT 원서접수', '날짜·달력'),
          ('life', '/life/subsidy.html', '조건으로 찾는 정부 지원금 (보조금24 1만여 건)', '지역·대상·나이·분야로 받을 수 있는 지원금만 걸러 보기', '정부 지원금 조회 보조금24 지원금 찾기 청년 지원금 소상공인 지원금 노인 지원금', '생활·행정'),
          ('drive', '/life/route-navi.html', '경유지 많은 노선 내비', '정류장 30곳 넘어도 순서대로 길안내', '경유지 많은 내비 다중 경유지 길찾기 경유지 30개 셔틀버스 노선 통학버스 택배 동선 순서 길안내', '자동차·지도'),
@@ -623,7 +625,7 @@ if 'href="/drive/"' not in s:
     open(p, 'w', encoding='utf-8').write(s)
 # ── 드라이버 영어판(/en/driver/) 사이트맵 (overlay, 2026-11-22) ──
 p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
-_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html', '/en/driver/epson.html', '/en/driver/brother.html', '/en/driver/lg.html')
+_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html', '/en/driver/epson.html', '/en/driver/brother.html', '/en/driver/lg.html', '/en/driver/apple.html')
        if os.path.exists(os.path.join(root, u.lstrip('/') + ('index.html' if u.endswith('/') else ''))) and f'honglife.co.kr{u}<' not in s]
 if _en:
     open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-22</lastmod></url>\n' for u in _en) + '</urlset>', 1)); print('sitemap + en driver', len(_en))
