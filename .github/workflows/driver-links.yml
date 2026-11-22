@@ -1,0 +1,14 @@
+name: Driver links (official downloads)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '41 20 * * 0'   # 매주 월요일 05:41 KST — 드라이버 공식 다운로드 주소 점검
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check official download links
+        run: python3 build/newpages/check_driver_links.py

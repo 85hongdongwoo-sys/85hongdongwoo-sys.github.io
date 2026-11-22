@@ -169,56 +169,105 @@ HP_SETUP = 'https://support.hp.com/kr-ko/printer-setup'
 HP_UPD = 'https://support.hp.com/kr-ko/drivers/hp-universal-print-driver-series-for-windows/4157320'
 
 
+HP_DATA = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'hp_models.json'), encoding='utf-8'))
+
+
+def mid(n):
+    return 'm-' + re.sub(r'[^A-Za-z0-9]', '', n.replace('HP', '', 1))
+
+
+def hp_cards():
+    out = []
+    for m in HP_DATA['models']:
+        t, u, sz, ver, d = m['w']
+        nav = f'https://support.hp.com/kr-ko/hp-pps-services/hub/navigation?h_product={m["o"]}&h_lang=ko&h_cc=kr&h_pagetype=s-002'
+        btns = f'<a class="dl3d" href="{E(u)}" rel="nofollow"><span class="ic">{DLICON}</span><span class="tx"><b>윈도우용 바로 받기</b><small>{E(sz)} · 누르면 바로 다운로드 시작</small></span></a>'
+        mt, mu, msz, app = m['m']
+        btns += (f'<a class="dl3d s" href="{E(mu)}" rel="nofollow"{" target=_blank" if app else ""}><span class="ic">{DLICON}</span><span class="tx"><b>맥(Mac)용</b>'
+                 f'<small>{E(mt)}{(" · " + E(msz)) if msz else ""}</small></span></a>')
+        extra = ''
+        if m.get('b'):
+            extra += f'<a class="sm" href="{E(m["b"][0])}" rel="nofollow">기본 드라이버만 받기 ({E(m["b"][1])}, 64비트)</a>'
+        extra += f'<a class="sm" href="{E(nav)}" target="_blank" rel="noopener nofollow">HP 공식 페이지에서 보기 ↗</a>'
+        out.append(f'<li class="hpm" id="{mid(m["n"])}"><h3>{E(m["n"])}</h3><p class="fi">📦 {E(t)}<br><span>버전 {E(ver)} · 출시 {E(d)}</span></p>'
+                   f'<div class="bt">{btns}</div><p class="ex">{extra}</p></li>')
+    return '<ul class="hpl">' + ''.join(out) + '</ul>'
+
+
+HP_CSS = ('<style>.hpl{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:12px}'
+          '.hpm{border:1px solid var(--line-s,#E3E7EE);border-radius:16px;padding:14px;background:#fff;scroll-margin-top:80px}'
+          '.hpm:target{border-color:#1D4ED8;box-shadow:0 0 0 3px #DCE8FF}.hpm h3{margin:0 0 6px;font-size:17px;line-height:1.4;word-break:keep-all}'
+          '.hpm .fi{margin:0 0 4px;font-size:14px;line-height:1.55;color:#333;word-break:keep-all}.hpm .fi span{font-size:12.5px;color:var(--muted,#5B6B82)}'
+          '.hpm .bt{display:flex;flex-wrap:wrap;gap:0 8px}.hpm .ex{margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 14px}'
+          '.hpm .ex a.sm{font-size:13.5px;font-weight:700;color:#1D4ED8}'
+          '.big-n{counter-reset:s;list-style:none;padding:0;margin:0}.big-n>li{position:relative;padding:12px 0 12px 44px;border-bottom:1px dashed var(--line-s,#E3E7EE);line-height:1.75;font-size:15.5px;word-break:keep-all}'
+          '.big-n>li:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:12px;width:32px;height:32px;border-radius:50%;background:#1D4ED8;color:#fff;font-weight:900;display:grid;place-items:center;box-shadow:0 3px 0 #1E3A8A}'
+          '.tipbox{background:#FFF6E5;border:1px solid #FFE0A3;border-radius:12px;padding:10px 12px;margin:8px 0 0;font-size:14.5px;line-height:1.7}</style>')
+
+
 def hp():
     path = '/driver/hp.html'
     cr, crld = crumb([('HP 드라이버', '')])
-    ans = ('HP 프린터 드라이버는 <b>HP 공식 \'소프트웨어 및 드라이버\'</b> 페이지에서 받아요. 제품 종류에서 <b>프린터</b>를 고르고 모델명을 입력한 뒤, '
-           '<b>소프트웨어-유틸리티</b>에 있는 <b>제품 전용 통합 소프트웨어(인쇄 및 스캔 드라이버)</b>를 받아 실행하면 돼요. 회원가입이나 로그인은 필요 없어요. '
-           '<b>삼성 프린터</b>도 지금은 HP가 지원해서 같은 곳에서 받아요.')
-    steps = (cu.step(1, 'HP 공식 다운로드 페이지 열기', '아래 파란 <b>[HP 드라이버 받으러 가기]</b> 버튼을 누르면 HP 공식 \'소프트웨어 및 드라이버\' 페이지가 열려요.',
-                     W_search('support.hp.com', '프린터', '모델명 입력 (예: 프린터 이름)', '제출'),
-                     '제품 종류가 여러 개 보이면 <b>프린터</b>를 고르세요.')
-             + cu.step(2, '모델명 넣고 [제출]', '프린터 이름(모델명)을 입력하고 <b>[제출]</b>을 눌러요. 결과에서 내 제품을 고르면 내 컴퓨터 운영체제(윈도우·맥)에 맞는 목록이 자동으로 나와요.',
-                       W_list('support.hp.com', '내 제품 · 운영체제 자동 선택', [('운영체제: 자동 선택됨', '다른 OS'), ('소프트웨어-유틸리티', ''), ('제품 전용 통합 소프트웨어', '다운로드')], 2),
-                       '다른 운영체제용이 필요하면 <b>[다른 OS 선택하기]</b>를 누르세요. 결과가 하나뿐이면 목록이 바로 나와요.')
-             + cu.step(3, '받은 파일 열기', '다운로드가 끝나면 키보드 <b>Ctrl + J</b>를 눌러 다운로드 목록을 열고, 받은 파일을 눌러 실행해요.',
-                       W_downloads('HP_설치파일.exe'), '파일은 보통 <b>다운로드</b> 폴더에 저장돼요.')
-             + cu.step(4, '\'예\' 누르기', '윈도우가 "이 앱이 디바이스를 변경할 수 있도록 허용하시겠어요?"라고 물으면 <b>[예]</b>를 눌러요.',
-                       W_uac('HP 프린터 소프트웨어'))
-             + cu.step(5, '화면 안내대로 설치하기', '설치 프로그램이 묻는 대로 연결 방식(USB 선 또는 와이파이)을 고르고 <b>[다음]</b>을 눌러 가며 설치해요. 다시 시작하라고 하면 컴퓨터를 다시 시작해요.',
-                       W_installer('HP 프린터 설치', ['연결 방식을 고르세요', '○ USB 케이블', '○ 무선(와이파이)'], '다음'),
-                       'USB 선은 설치 프로그램이 "연결하세요"라고 할 때 꽂는 게 안전해요. 실제 화면은 모델마다 조금 달라요.')
-             + cu.step(6, '테스트 페이지로 확인', '<b>설정 → Bluetooth 및 장치 → 프린터 및 스캐너</b>에서 내 프린터를 누르고 <b>[테스트 페이지 인쇄]</b>를 눌러요. 종이가 나오면 끝이에요.',
-                       W_testpage()))
-    trouble = ('<section class="card dr-sec" id="trouble"><h2>안 될 때</h2><ul class="cu-chk">'
-               '<li><b>검색해도 내 프린터가 안 나와요:</b> 오래전에 단종된 프린터는 검색에 안 나올 수 있어요. 이때는 윈도우에 들어 있는 기본 드라이버로 설치해 보세요(아래 \'윈도우 자동 설치\').</li>'
-               '<li><b>HP Smart를 먼저 추천해요:</b> HP Smart 앱이 먼저 보일 수 있어요. 프린터의 모든 기능(스캔 포함)을 쓰려면 <b>제품 전용 통합 소프트웨어</b>를 받아 설치하세요.</li>'
-               '<li><b>회사에서 여러 대를 쓰는 레이저 프린터:</b> 사무실 공용 프린터는 \'HP 범용 프린트 드라이버(Universal Print Driver)\'를 쓰기도 해요.</li>'
-               '<li><b>와이파이 연결이 어려워요:</b> HP 공식 \'프린터 설정\' 안내(와이파이·유선·USB)를 따라 해 보세요.</li></ul>'
-               + dl(HP_SETUP, 'HP 프린터 설정 안내', '와이파이·유선·USB 연결 방법 (HP 공식)', True)
-               + dl(HP_UPD, 'HP 범용 프린트 드라이버', '사무실 공용 프린터용 (HP 공식)', True) + '</section>')
-    samsung = ('<section class="card dr-sec" id="samsung"><h2>삼성 프린터 드라이버도 여기서</h2>'
+    ans = ('아래 목록에서 <b>내 프린터 모델</b>을 찾아 파란 <b>[윈도우용 바로 받기]</b>를 누르면 <b>HP 공식 서버에서 설치 파일이 바로 내려받아져요.</b> '
+           '받은 파일을 열고 화면 안내대로 누르기만 하면 설치가 끝나요. 회원가입이나 로그인은 필요 없어요. <b>삼성 프린터</b>도 지금은 HP가 지원해요.')
+    names = [m['n'] for m in HP_DATA['models']]
+    data = json.dumps([[n, '#' + mid(n)] for n in names], ensure_ascii=False)
+    search = ('<form class="dr-q" onsubmit="return hpQ()"><input id="dr-in" placeholder="모델 번호 입력 (예: 8210, M15, 2130)" autocomplete="off" oninput="hpQ()" aria-label="HP 모델 검색"><button type="submit">찾기</button></form><ul id="dr-res"></ul>'
+              f'<script>var HPM={data};function hpQ(){{var q=document.getElementById("dr-in").value.replace(/\\s/g,"").toUpperCase(),r=document.getElementById("dr-res");if(!q){{r.innerHTML="";return false}}'
+              'var h=HPM.filter(function(x){return x[0].replace(/\\s/g,"").toUpperCase().indexOf(q)>=0}).slice(0,8);'
+              'r.innerHTML=h.length?h.map(function(x){return\'<li><a href="\'+x[1]+\'">\'+x[0]+\' 바로 받기 ›</a></li>\'}).join(""):"<li>이 목록에 없는 모델이에요. 아래 \\u0027목록에 없을 때\\u0027 방법으로 HP 공식 사이트에서 찾아 주세요.</li>";return false}</script>')
+    install = ('<section class="card dr-sec" id="install"><h2>받은 다음 설치하는 순서 (아주 쉽게)</h2>'
+               '<p>파일을 받았다면 아래 순서대로 따라 하세요. 처음 해 보는 분도 10분이면 끝나요.</p><ol class="big-n">'
+               '<li><b>먼저 준비:</b> 켜져 있는 프로그램(한글·엑셀·인터넷 창 등)을 모두 닫고, <b>프린터 전원을 켜 두세요.</b></li>'
+               '<li><b>USB 선은 아직 꽂지 마세요.</b> HP 공식 안내에 따르면 설치 프로그램이 "연결하세요"라고 말할 때 꽂아야 해요. 미리 꽂으면 설치가 꼬일 수 있어요.</li>'
+               '<li><b>받은 파일 열기:</b> 키보드 <b>Ctrl + J</b>를 누르면 다운로드 목록이 열려요. 방금 받은 파일(이름이 Full_Webpack…처럼 시작해요)을 눌러요. 파일은 <b>다운로드</b> 폴더에도 있어요.</li>'
+               '<li><b>\'예\' 누르기:</b> "이 앱이 디바이스를 변경할 수 있도록 허용하시겠어요?"라는 창이 뜨면 <b>[예]</b>를 눌러요. 그러면 파일 압축이 저절로 풀리고 설치가 시작돼요.</li>'
+               '<li><b>안내대로 [다음] 누르기:</b> 설치 프로그램이 묻는 대로 진행해요. 연결 방식을 물으면 <b>USB</b>(선으로 연결) 또는 <b>무선/네트워크</b>(와이파이) 중 내 상황을 골라요.</li>'
+               '<li><b>USB라면 이때 꽂기:</b> 화면에 "USB 케이블을 연결하세요"가 나오면 그때 프린터와 컴퓨터를 선으로 이어요.</li>'
+               '<li><b>끝까지 기다리기:</b> 설치에는 몇 분 걸려요. 다시 시작하라고 하면 컴퓨터를 다시 시작해요.</li>'
+               '<li><b>확인하기:</b> <b>설정 → Bluetooth 및 장치 → 프린터 및 스캐너</b>에서 내 프린터를 누르고 <b>[테스트 페이지 인쇄]</b>를 눌러요. 종이가 나오면 성공이에요!</li></ol>'
+               '<p class="tipbox">💡 <b>통합 소프트웨어와 기본 드라이버, 뭘 받아요?</b><br>잘 모르겠으면 파란 <b>[윈도우용 바로 받기]</b>(통합 소프트웨어)를 받으세요. HP 설명에 따르면 통합 소프트웨어는 <b>프린터 CD에 든 드라이버·설치 프로그램·관리 도구를 모두 담은 세트</b>예요. '
+               '\'기본 드라이버만 받기\'는 인쇄용 기본 드라이버만 설치하는 작은 파일로, 회사 전산 담당자용이에요(64비트 윈도우 전용).</p></section>')
+    pics = (cu.step(1, '파란 버튼 누르면 바로 다운로드', '내 모델 줄의 <b>[윈도우용 바로 받기]</b>를 누르면 HP 서버에서 파일이 내려받아져요. 브라우저 오른쪽 위에 다운로드 표시가 생겨요.',
+                    W_downloads('Full_Webpack…exe', 1))
+            + cu.step(2, '\'예\' 누르기', '받은 파일을 열면 윈도우가 허락을 물어요. <b>[예]</b>를 눌러요.', W_uac('HP 설치 프로그램', 2))
+            + cu.step(3, '연결 방식 고르고 [다음]', 'USB 선으로 쓸지, 와이파이로 쓸지 골라요. USB는 화면이 "연결하세요"라고 할 때 꽂아요.',
+                      W_installer('HP 프린터 설치', ['연결 방식을 고르세요', '○ USB 케이블', '○ 무선(와이파이)'], '다음', 3))
+            + cu.step(4, '테스트 페이지로 확인', '<b>설정 → Bluetooth 및 장치 → 프린터 및 스캐너</b> → 내 프린터 → <b>[테스트 페이지 인쇄]</b>.', W_testpage(4)))
+    notlisted = (cu.step(1, 'HP 공식 다운로드 페이지 열기', '아래 버튼을 누르면 HP \'소프트웨어 및 드라이버\' 페이지가 열려요. 제품 종류에서 <b>프린터</b>를 골라요.',
+                         W_search('support.hp.com', '프린터', '모델명 입력 (예: 프린터 이름)', '제출'))
+                 + cu.step(2, '모델명 넣고 [제출] → 통합 소프트웨어 받기', '내 제품을 고르면 내 컴퓨터 운영체제에 맞는 목록이 자동으로 나와요. <b>제품 전용 통합 소프트웨어(인쇄 및 스캔 드라이버)</b>를 받아 위 \'설치 순서\'대로 설치해요.',
+                           W_list('support.hp.com', '내 제품 · 운영체제 자동 선택', [('운영체제: 자동 선택됨', '다른 OS'), ('소프트웨어-유틸리티', ''), ('제품 전용 통합 소프트웨어', '다운로드')], 2)))
+    samsung = ('<section class="card dr-sec" id="samsung"><h2>삼성 프린터 드라이버도 HP에서</h2>'
                '<p>삼성전자는 이제 프린터를 만들거나 지원하지 않고, <b>삼성 프린터의 드라이버와 지원은 HP가 맡고 있어요</b>(삼성전자 공식 안내). '
-               '그래서 삼성 프린터도 위와 같은 순서로 <b>HP 소프트웨어 및 드라이버</b> 페이지에서 모델명(예: SL-로 시작하는 이름)을 검색해 받으면 돼요.</p>'
-               + dl(HP_DRV, '삼성 프린터 드라이버 받기', 'HP 공식 페이지에서 모델명 검색') + '</section>')
-    qa = [('HP 드라이버는 무료인가요?', '네. HP 공식 사이트의 드라이버와 소프트웨어는 무료이고, 받을 때 회원가입이나 로그인도 필요 없어요.'),
-          ('CD가 없어도 설치할 수 있나요?', '네. CD에 든 것과 같은(더 새로운) 드라이버를 HP 공식 사이트에서 받을 수 있어요.'),
-          ('모델명은 어디에 적혀 있나요?', '프린터 앞면이나 윗면에 적혀 있고, 뒷면·바닥의 제품 스티커에도 있어요. 숫자와 영어를 그대로 입력하세요.'),
-          ('삼성 프린터는 어디서 받나요?', '삼성 프린터 지원은 HP로 넘어갔어요. HP 소프트웨어 및 드라이버 페이지에서 삼성 프린터 모델명으로 검색하세요.'),
-          ('맥(Mac)에서도 되나요?', '네. HP 페이지가 내 컴퓨터 운영체제를 자동으로 골라 줘요. 다른 운영체제용은 [다른 OS 선택하기]로 바꿀 수 있어요.')]
+               '삼성 프린터는 아래 \'목록에 없을 때\' 방법으로 HP 페이지에서 모델명(예: SL-로 시작하는 이름)을 검색해 받으세요.</p></section>')
+    trouble = ('<section class="card dr-sec" id="trouble"><h2>안 될 때</h2><ul class="cu-chk">'
+               '<li><b>버튼을 눌렀는데 아무 일도 없어요:</b> 브라우저 오른쪽 위 다운로드 아이콘을 눌러 보세요. 큰 파일(100MB 이상)은 몇 분 걸릴 수 있어요.</li>'
+               '<li><b>USB를 꽂았는데 인식이 안 돼요:</b> 선을 뺀 뒤 설치 프로그램을 다시 실행하고, "연결하세요"가 나올 때 꽂으세요.</li>'
+               '<li><b>맥(Mac)에서 설치:</b> HP Easy Start를 받아 실행하면 내 프린터에 맞는 드라이버를 찾아 설치해 줘요. 일부 모델은 App Store의 HP Smart 앱으로 설치해요.</li>'
+               '<li><b>단종된 오래된 프린터:</b> HP 검색에 안 나오면 윈도우 기본 드라이버로 설치해 보세요(아래 \'윈도우 자동 설치\').</li></ul>'
+               + dl(HP_SETUP, 'HP 프린터 설정 안내', '와이파이·유선·USB 연결 방법 (HP 공식)', True) + '</section>')
+    qa = [('정말 이 페이지에서 바로 받아지나요?', '네. [윈도우용 바로 받기]를 누르면 HP 공식 서버(ftp.hp.com)의 설치 파일이 바로 내려받아져요. 홍라이프 도구는 파일을 직접 올리지 않고, HP가 공개한 파일로 연결만 해요.'),
+          ('HP 드라이버는 무료인가요?', '네. HP 공식 드라이버와 소프트웨어는 무료이고, 받을 때 회원가입이나 로그인도 필요 없어요.'),
+          ('CD가 없어도 설치할 수 있나요?', '네. 통합 소프트웨어에 CD에 든 드라이버와 설치 프로그램이 모두 들어 있어요.'),
+          ('모델명은 어디에 적혀 있나요?', '프린터 앞면이나 윗면에 적혀 있고, 뒷면·바닥의 제품 스티커에도 있어요. 숫자만(예: 8210) 검색창에 넣어도 찾을 수 있어요.'),
+          ('파일이 예전 날짜인데 괜찮나요?', '네. 표시된 날짜는 HP가 그 파일을 마지막으로 낸 날이에요. HP 공식 페이지에서 지금도 윈도우 11용으로 제공하는 최신 파일이에요(확인일 기준).'),
+          ('삼성 프린터는 어디서 받나요?', '삼성 프린터 지원은 HP로 넘어갔어요. HP 소프트웨어 및 드라이버 페이지에서 삼성 프린터 모델명으로 검색하세요.')]
     fq, fqld = cu.faq(qa)
-    main = (f'<header class="top hub">{cr}<h1>HP 프린터 드라이버 다운로드·설치 방법 (삼성 프린터 포함)</h1>'
-            '<p class="lead">HP 프린터·복합기 드라이버를 공식 사이트에서 받아 설치하는 순서를 그림으로 쉽게 정리했어요. 삼성 프린터도 같은 방법이에요.</p>'
+    main = (HP_CSS + f'<header class="top hub">{cr}<h1>HP 프린터 드라이버 바로 다운로드·설치 방법 (삼성 프린터 포함)</h1>'
+            f'<p class="lead">많이 쓰는 HP 프린터 {len(names)}개 모델의 드라이버를 이 페이지에서 바로 받을 수 있어요. 파일은 HP 공식 서버에서 내려와요.</p>'
             f'<p class="cu-ans">{ans}</p>'
-            + dl(HP_DRV, 'HP 드라이버 받으러 가기', 'HP 공식 소프트웨어 및 드라이버 페이지')
-            + '<ul class="dr-toc"><li><a href="#steps">설치 순서</a></li><li><a href="#samsung">삼성 프린터</a></li><li><a href="#trouble">안 될 때</a></li><li><a href="#win">윈도우 자동 설치</a></li></ul></header>'
-            f'<section class="card dr-sec" id="steps"><h2>그림으로 보는 설치 순서 (6단계)</h2>{steps}'
-            + dl(HP_DRV, 'HP 드라이버 받으러 가기', '1단계부터 시작해요') + '</section>'
-            + samsung + trouble + WIN_SEC + fq + src_sec('HP 고객지원 문서 \'HP홈페이지에서 프린터 소프트웨어를 다운로드하는 방법\', 삼성전자 \'삼성 프린터 지원은 HP가 맡음\' 안내, Microsoft 지원 \'최신 프린터 드라이버 다운로드 및 설치\'')
+            '<ul class="dr-toc"><li><a href="#models">모델별 바로 받기</a></li><li><a href="#install">설치 순서</a></li><li><a href="#notlisted">목록에 없을 때</a></li><li><a href="#samsung">삼성 프린터</a></li><li><a href="#trouble">안 될 때</a></li></ul></header>'
+            f'<section class="card dr-sec" id="models"><h2>모델별 바로 받기 ({len(names)}개)</h2><p>모델 번호를 입력하면 그 모델로 바로 가요.</p>{search}{hp_cards()}'
+            f'<p class="cu-src" style="margin-top:10px">파일 정보는 HP 공식 \'소프트웨어 및 드라이버\'(윈도우 11·macOS 15 기준)에서 {E(HP_DATA["checked"])}에 확인했어요. 32비트 윈도우나 다른 버전은 \'HP 공식 페이지에서 보기\'를 눌러 고르세요.</p></section>'
+            + install + f'<section class="card dr-sec" id="pics"><h2>그림으로 한 번 더 보기</h2>{pics}</section>'
+            + f'<section class="card dr-sec" id="notlisted"><h2>목록에 없을 때: HP 공식 사이트에서 찾기</h2>{notlisted}' + dl(HP_DRV, 'HP 드라이버 검색하러 가기', 'HP 공식 소프트웨어 및 드라이버 페이지') + '</section>'
+            + samsung + trouble + WIN_SEC + fq
+            + src_sec('HP 공식 소프트웨어 및 드라이버(support.hp.com/kr-ko) 제품별 다운로드 정보와 설치 안내, HP 고객지원 문서 \'HP홈페이지에서 프린터 소프트웨어를 다운로드하는 방법\', 삼성전자 \'삼성 프린터 지원은 HP가 맡음\' 안내, Microsoft 지원')
             + REL)
-    ld = [crld, fqld, howto('HP 프린터 드라이버 설치 방법', ['HP 소프트웨어 및 드라이버 페이지 열기', '프린터 모델명 입력 후 제출', '제품 전용 통합 소프트웨어 다운로드', '받은 파일 실행', '화면 안내대로 설치', '테스트 페이지 인쇄로 확인'])]
-    write(path, 'HP 프린터 드라이버 다운로드·설치 방법 (삼성 프린터 포함, 2026) | 홍라이프 도구',
-          'HP 프린터·복합기 드라이버를 HP 공식 사이트에서 받아 설치하는 6단계를 그림으로 쉽게 설명해요. 모델명 검색, 제품 전용 통합 소프트웨어, 삼성 프린터 드라이버 받는 곳, 안 될 때 해결법까지.',
+    ld = [crld, fqld, howto('HP 프린터 드라이버 설치 방법', ['모델 찾아 윈도우용 바로 받기', '프로그램 닫고 프린터 켜기', '받은 파일 열기', '예 누르기', '연결 방식 고르고 다음', 'USB는 안내가 나올 때 연결', '테스트 페이지 인쇄'])]
+    write(path, 'HP 프린터 드라이버 바로 다운로드 — 모델별 설치 파일 (OfficeJet·LaserJet·DeskJet, 삼성 포함) | 홍라이프 도구',
+          'HP OfficeJet Pro 8210·8710·9010, LaserJet Pro M15·P1102, DeskJet 2130 등 많이 쓰는 HP 프린터 드라이버를 이 페이지에서 바로 받고, 쉬운 설치 순서를 그림으로 확인하세요. 파일은 HP 공식 서버에서 내려와요.',
           main, ld)
     return path
 
@@ -325,7 +374,7 @@ def hub():
     cr = '<p class="crumb"><a href="/">홈</a> › 드라이버</p>'
     crld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "홈", "item": SITE + '/'}, {"@type": "ListItem", "position": 2, "name": "드라이버", "item": SITE + path}]}
-    allm = [(m, '/driver/sindoh.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _ in SD_MODELS] + [(m, '/driver/amd.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _, _ in AMD_MODELS]
+    allm = [(m['n'], '/driver/hp.html#' + mid(m['n'])) for m in HP_DATA['models']] + [(m, '/driver/sindoh.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _ in SD_MODELS] + [(m, '/driver/amd.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _, _ in AMD_MODELS]
     data = json.dumps(allm, ensure_ascii=False)
     co = ('<li><a href="/driver/hp.html"><b>HP</b><span>프린터·복합기, 삼성 프린터 포함</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/sindoh.html"><b>신도리코</b><span>복합기, 모델별 다운로드 바로가기</span><em>그림 설명 ›</em></a></li>'
@@ -351,7 +400,7 @@ def hub():
             '<p class="lead">프린터·복합기와 그래픽카드 드라이버를 회사별로 모아, 공식 사이트에서 받는 방법과 설치 순서를 그림으로 쉽게 정리했어요. 회사와 기기는 계속 늘려요.</p>'
             '<p class="cu-ans">① 기기 <b>모델명</b>을 확인하고 → ② 아래에서 <b>회사</b>를 고른 뒤 → ③ 파란 <b>[다운로드]</b> 버튼으로 공식 사이트에서 받아 → ④ 그림 순서대로 설치하세요. '
             '파일은 모두 제조사 공식 사이트에서 받아요.</p>'
-            '<form class="dr-q" onsubmit="return drH()"><input id="dr-in" placeholder="모델명 검색 (예: D452)" autocomplete="off" oninput="drH()" aria-label="모델명 검색"><button type="submit">찾기</button></form><ul id="dr-res"></ul>'
+            '<form class="dr-q" onsubmit="return drH()"><input id="dr-in" placeholder="모델명 검색 (예: 8210, D452)" autocomplete="off" oninput="drH()" aria-label="모델명 검색"><button type="submit">찾기</button></form><ul id="dr-res"></ul>'
             f'<script>var DRA={data};function drH(){{var q=document.getElementById("dr-in").value.replace(/\\s/g,"").toUpperCase(),r=document.getElementById("dr-res");if(!q){{r.innerHTML="";return false}}'
             'var h=DRA.filter(function(x){return x[0].toUpperCase().indexOf(q)>=0}).slice(0,8);r.innerHTML=h.length?h.map(function(x){return\'<li><a href="\'+x[1]+\'">\'+x[0]+\' 드라이버 받기 ›</a></li>\'}).join(""):'
             '"<li>아직 모델 표에 없는 모델이에요. 아래에서 회사를 고르면 공식 사이트에서 모델명으로 찾을 수 있어요.</li>";return false}</script></header>'
