@@ -144,6 +144,7 @@ REL = ('<section class="card rel"><h2>Other drivers</h2><ul class="dr-co">'
        '<li><a href="/en/driver/sindoh.html"><b>Sindoh</b><span>Multifunction printers</span></a></li>'
        '<li><a href="/en/driver/epson.html"><b>Epson</b><span>EcoTank, WorkForce</span></a></li>'
        '<li><a href="/en/driver/brother.html"><b>Brother</b><span>Inkjet, laser, label</span></a></li>'
+       '<li><a href="/en/driver/lg.html"><b>LG</b><span>gram laptops, monitors</span></a></li>'
        '<li><a href="/en/driver/nvidia.html"><b>NVIDIA</b><span>GeForce / RTX graphics</span></a></li>'
        '<li><a href="/en/driver/amd.html"><b>AMD</b><span>Radeon graphics, Ryzen chipset</span></a></li>'
        '<li><a href="/en/driver/intel.html"><b>Intel</b><span>Driver &amp; Support Assistant</span></a></li>'
@@ -316,7 +317,7 @@ def hub():
     path = '/en/driver/'
     cr = '<p class="crumb"><a href="/en/">Home</a> › Drivers</p>'
     co = ''.join(f'<li><a href="/en/driver/{k}.html"><b>{n}</b><span>{d}</span></a></li>' for k, n, d in [
-        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'), ('epson', 'Epson', 'EcoTank, WorkForce and more, by model'), ('brother', 'Brother', 'Inkjet, laser, label, by model'),
+        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'), ('epson', 'Epson', 'EcoTank, WorkForce and more, by model'), ('brother', 'Brother', 'Inkjet, laser, label, by model'), ('lg', 'LG', 'gram laptops (LG Update), monitors (OnScreen Control)'),
         ('nvidia', 'NVIDIA', 'GeForce / RTX graphics'), ('amd', 'AMD', 'Radeon graphics, Ryzen chipset'), ('intel', 'Intel', 'Driver & Support Assistant')])
     items = [[HPEN[str(m['o'])]['n'], '/en/driver/hp.html#' + kr.mid(m['n'])] for m in kr.HP_DATA['models']] + [[f'Sindoh {m}', f'/en/driver/sindoh.html#m-{m}'] for m, _ in kr.SD_MODELS]
     import driver_more as dm
