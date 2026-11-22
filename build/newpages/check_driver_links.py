@@ -5,7 +5,8 @@ for f in glob.glob('overlay/driver/*.html') + glob.glob('overlay/en/driver/*.htm
     urls |= set(re.findall(r'href="(https?://[^"]+)"', open(f, encoding='utf-8').read()))
 urls = sorted(u.replace('&amp;', '&') for u in urls if 'honglife' not in u)
 bad = []
-for u in urls:
+from concurrent.futures import ThreadPoolExecutor
+def check(u):
     try:
         req = urllib.request.Request(u, method='HEAD', headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36'})
         code = urllib.request.urlopen(req, timeout=40).status
@@ -20,9 +21,12 @@ for u in urls:
                 code = repr(e2)[:60]
     except Exception as e:
         code = repr(e)[:60]
-    ok = code in (200, 206) or (code == 403 and 'intel.co' in u)  # 인텔은 자동 점검(봇)만 막고 사람은 열림
-    print('OK ' if ok else 'BAD', code, u)
-    if not ok:
-        bad.append(u)
+    ok = code in (200, 206) or (code == 403 and ('intel.co' in u or 'epson.co.kr' in u))  # 인텔·엡손 사이트는 자동 점검(봇)만 막고 사람은 열림
+    return ok, code, u
+with ThreadPoolExecutor(12) as ex:
+    for ok, code, u in ex.map(check, urls):
+        print('OK ' if ok else 'BAD', code, u)
+        if not ok:
+            bad.append(u)
 print(f'checked {len(urls)}, broken {len(bad)}')
 sys.exit(1 if bad else 0)

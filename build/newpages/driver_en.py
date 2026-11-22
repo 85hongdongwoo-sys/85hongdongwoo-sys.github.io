@@ -142,6 +142,8 @@ WIN = ('<section class="card dr-sec" id="win"><h2>Try first: Windows automatic i
 REL = ('<section class="card rel"><h2>Other drivers</h2><ul class="dr-co">'
        '<li><a href="/en/driver/hp.html"><b>HP</b><span>Printers (incl. Samsung printers)</span></a></li>'
        '<li><a href="/en/driver/sindoh.html"><b>Sindoh</b><span>Multifunction printers</span></a></li>'
+       '<li><a href="/en/driver/epson.html"><b>Epson</b><span>EcoTank, WorkForce</span></a></li>'
+       '<li><a href="/en/driver/brother.html"><b>Brother</b><span>Inkjet, laser, label</span></a></li>'
        '<li><a href="/en/driver/nvidia.html"><b>NVIDIA</b><span>GeForce / RTX graphics</span></a></li>'
        '<li><a href="/en/driver/amd.html"><b>AMD</b><span>Radeon graphics, Ryzen chipset</span></a></li>'
        '<li><a href="/en/driver/intel.html"><b>Intel</b><span>Driver &amp; Support Assistant</span></a></li>'
@@ -314,16 +316,18 @@ def hub():
     path = '/en/driver/'
     cr = '<p class="crumb"><a href="/en/">Home</a> › Drivers</p>'
     co = ''.join(f'<li><a href="/en/driver/{k}.html"><b>{n}</b><span>{d}</span></a></li>' for k, n, d in [
-        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'),
+        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'), ('epson', 'Epson', 'EcoTank, WorkForce and more, by model'), ('brother', 'Brother', 'Inkjet, laser, label, by model'),
         ('nvidia', 'NVIDIA', 'GeForce / RTX graphics'), ('amd', 'AMD', 'Radeon graphics, Ryzen chipset'), ('intel', 'Intel', 'Driver & Support Assistant')])
     items = [[HPEN[str(m['o'])]['n'], '/en/driver/hp.html#' + kr.mid(m['n'])] for m in kr.HP_DATA['models']] + [[f'Sindoh {m}', f'/en/driver/sindoh.html#m-{m}'] for m, _ in kr.SD_MODELS]
+    import driver_more as dm
+    items += dm.ep_hub_items('/en') + dm.br_hub_items('/en')
     main = (f'<header class="top hub">{cr}<h1>Driver Downloads — Printers &amp; Graphics</h1>'
             '<p class="lead">Drivers collected by brand, with direct downloads from official servers and very easy install steps.</p>'
             + search_box(items, 'Model (e.g. 8210, D452)', 'hubE') + '</header>'
             f'<section class="card"><h2>Choose a brand</h2><ul class="dr-co">{co}</ul></section>' + WIN
             + '<section class="card"><h2>Avoid fake driver sites</h2><p class="dr-warn">Do not install "driver updater" programs from ads or files posted on blogs — they may add unwanted software. Use the maker\'s official site or Windows Update.</p></section>'
             + src('Manufacturers\' official support sites, Microsoft Support'))
-    write(path, 'Driver Downloads — Printer & Graphics Drivers by Brand (HP, Samsung, Sindoh, NVIDIA, AMD, Intel) | HongLife Tools',
+    write(path, 'Driver Downloads — Printer & Graphics Drivers by Brand (HP, Samsung, Epson, Brother, Sindoh, NVIDIA, AMD, Intel) | HongLife Tools',
           'Printer and graphics drivers by brand with direct downloads from official servers and easy install steps: HP, Samsung, Sindoh, NVIDIA, AMD, Intel.', main, [])
     return path
 

@@ -529,6 +529,8 @@ MOVED = [('driver', '/driver/', '드라이버 다운로드 모음', '프린터·
          ('driver', '/driver/amd.html', 'AMD 라데온·라이젠 칩셋 드라이버 다운로드', 'Auto-Detect 자동 감지 설치, 제품별 바로가기', 'AMD 드라이버 라데온 드라이버 Radeon 드라이버 라이젠 칩셋 드라이버 Adrenalin', '드라이버'),
          ('driver', '/driver/intel.html', '인텔 드라이버 다운로드 (지원 도우미)', '그래픽·칩셋·무선랜 한 번에 업데이트', '인텔 드라이버 인텔 그래픽 드라이버 인텔 드라이버 및 지원 도우미 인텔 무선랜 드라이버', '드라이버'),
          ('driver', '/driver/sindoh.html', '신도리코 드라이버 다운로드 (모델별 바로가기)', 'D452·D472·N502 등 모델별 공식 다운로드', '신도리코 드라이버 신도리코 복합기 드라이버 sindoh Connect D452 D472 D450 N502 빠른 설치 드라이버', '드라이버'),
+         ('driver', '/driver/epson.html', '엡손 프린터 드라이버 다운로드 (모델별 바로 받기)', 'L3250·L3210·L6290 등 394개 모델 공식 다운로드', '엡손 드라이버 엡손 프린터 드라이버 Epson 드라이버 L3250 드라이버 L3210 드라이버 L3110 드라이버 정품무한 드라이버 Epson Scan 2', '드라이버'),
+         ('driver', '/driver/brother.html', '브라더 프린터 드라이버 다운로드 (모델별 바로 받기)', 'DCP-T720DW·MFC-L2700D 등 모델별 공식 다운로드', '브라더 드라이버 브라더 프린터 드라이버 Brother 드라이버 DCP-T720DW 드라이버 MFC-L2700D 드라이버 HL-L2321D iPrint&Scan', '드라이버'),
          ('drive', '/drive/update/', '차 내비·블랙박스 업데이트 모음', '현대·기아·제네시스 내비 업데이트를 그림으로 쉽게', '내비 업데이트 내비게이션 업데이트 지도 업데이트 순정 내비 업데이트 블랙박스 업데이트 빌트인캠 업데이트 Navigation Updater', '자동차·지도'),
          ('drive', '/drive/update/hyundai.html', '현대 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '현대 내비 업데이트 현대차 네비 업데이트 현대 내비게이션 업데이트 방법 현대 지도 업데이트 블루링크 업데이트 아반떼 쏘나타 그랜저 싼타페 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
          ('drive', '/drive/update/kia.html', '기아 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '기아 내비 업데이트 기아 네비 업데이트 기아 내비게이션 업데이트 방법 기아 지도 업데이트 쏘렌토 카니발 K5 스포티지 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
@@ -620,7 +622,7 @@ if 'href="/drive/"' not in s:
     open(p, 'w', encoding='utf-8').write(s)
 # ── 드라이버 영어판(/en/driver/) 사이트맵 (overlay, 2026-11-22) ──
 p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
-_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html')
+_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html', '/en/driver/epson.html', '/en/driver/brother.html')
        if os.path.exists(os.path.join(root, u.lstrip('/') + ('index.html' if u.endswith('/') else ''))) and f'honglife.co.kr{u}<' not in s]
 if _en:
     open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-22</lastmod></url>\n' for u in _en) + '</urlset>', 1)); print('sitemap + en driver', len(_en))

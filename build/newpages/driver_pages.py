@@ -35,7 +35,7 @@ CSS = ('<style id="dr-css">'
        '.dr-warn{background:#FFF6E5;border:1px solid #FFE0A3;border-radius:12px;padding:12px 14px;line-height:1.7;font-size:15px}'
        '.dr-co{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;list-style:none;margin:0;padding:0}'
        '.dr-co a{display:block;padding:14px;border:1px solid var(--line-s,#E3E7EE);border-radius:14px;text-decoration:none;color:inherit;background:#fff}'
-       '.dr-co a b{display:block;font-size:17px;color:var(--head,#111)}.dr-co a span{font-size:13px;color:var(--muted,#5B6B82);word-break:keep-all}.dr-co a em{font-style:normal;font-size:12px;color:#1D4ED8;font-weight:700}'
+       '.dr-co a b{display:block;font-size:17px;color:var(--head,#111)}.dr-co a span{font-size:13px;color:var(--muted,#5B6B82);word-break:keep-all}.dr-co a em{display:block;margin-top:6px;font-style:normal;font-size:12.5px;color:#1D4ED8;font-weight:700}'
        '@media(max-width:640px){.dl3d{width:100%}.dr-m{font-size:13.5px}}'
        '</style>')
 
@@ -130,7 +130,8 @@ def W_sindoh_tool(n=5):
 
 # ── 페이지 틀 ────────────────────────────────────────────
 KO2EN = {'/driver/': '/en/driver/', '/driver/hp.html': '/en/driver/hp.html', '/driver/sindoh.html': '/en/driver/sindoh.html',
-         '/driver/nvidia.html': '/en/driver/nvidia.html', '/driver/amd.html': '/en/driver/amd.html', '/driver/intel.html': '/en/driver/intel.html'}
+         '/driver/nvidia.html': '/en/driver/nvidia.html', '/driver/amd.html': '/en/driver/amd.html', '/driver/intel.html': '/en/driver/intel.html',
+         '/driver/epson.html': '/en/driver/epson.html', '/driver/brother.html': '/en/driver/brother.html'}
 EN2KO = {v: k for k, v in KO2EN.items()}
 # 한국어가 아닌 브라우저(검색 로봇 제외)는 영어판으로 바로 보냄. '한국어로 보기'를 누른 사람(hl_lang=ko)은 그대로.
 REDIRECT = ("<script>(function(){try{var L=(navigator.languages&&navigator.languages[0])||navigator.language||'';"
@@ -425,6 +426,8 @@ WIN_SEC = ('<section class="card dr-sec" id="win"><h2>먼저 해 볼 것: 윈도
 REL = ('<section class="card rel"><h2>다른 회사 드라이버</h2><ul class="dr-co">'
        '<li><a href="/driver/hp.html"><b>HP</b><span>프린터·복합기 (삼성 프린터 포함)</span></a></li>'
        '<li><a href="/driver/sindoh.html"><b>신도리코</b><span>복합기 · 모델별 바로가기</span></a></li>'
+       '<li><a href="/driver/epson.html"><b>엡손</b><span>정품무한 L시리즈·WorkForce</span></a></li>'
+       '<li><a href="/driver/brother.html"><b>브라더</b><span>잉크젯·레이저·라벨</span></a></li>'
        '<li><a href="/driver/nvidia.html"><b>엔비디아</b><span>지포스·RTX 그래픽</span></a></li>'
        '<li><a href="/driver/amd.html"><b>AMD</b><span>라데온 그래픽·라이젠 칩셋</span></a></li>'
        '<li><a href="/driver/intel.html"><b>인텔</b><span>그래픽·칩셋·무선랜 (지원 도우미)</span></a></li>'
@@ -444,8 +447,7 @@ def howto(name, names):
 
 # ── 허브 ────────────────────────────────────────────────
 EXT = [('캐논', 'https://svc.kr.canon/', '캐논코리아 고객지원 다운로드'),
-       ('엡손', 'https://www.epson.co.kr/%EA%B3%A0%EA%B0%9D%EC%A7%80%EC%9B%90/sl/s', '엡손 고객지원'),
-       ('브라더', 'https://support.brother.com/g/b/productsearch.aspx?c=kr&lang=ko', '브라더 지원 및 다운로드')]
+]
 
 
 def hub():
@@ -453,13 +455,16 @@ def hub():
     cr = '<p class="crumb"><a href="/">홈</a> › 드라이버</p>'
     crld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "홈", "item": SITE + '/'}, {"@type": "ListItem", "position": 2, "name": "드라이버", "item": SITE + path}]}
-    allm = [(m['n'], '/driver/hp.html#' + mid(m['n'])) for m in HP_DATA['models']] + [(m, '/driver/sindoh.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _ in SD_MODELS] + [(m, '/driver/amd.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _, _ in AMD_MODELS]
+    import driver_more as dm
+    allm = [(n, u) for n, u in dm.ep_hub_items()] + [(n, u) for n, u in dm.br_hub_items()] + [(m['n'], '/driver/hp.html#' + mid(m['n'])) for m in HP_DATA['models']] + [(m, '/driver/sindoh.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _ in SD_MODELS] + [(m, '/driver/amd.html#m-' + re.sub(r'[^A-Za-z0-9]', '', m)) for m, _, _ in AMD_MODELS]
     data = json.dumps(allm, ensure_ascii=False)
     co = ('<li><a href="/driver/hp.html"><b>HP</b><span>프린터·복합기, 삼성 프린터 포함</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/sindoh.html"><b>신도리코</b><span>복합기, 모델별 다운로드 바로가기</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/nvidia.html"><b>엔비디아</b><span>지포스·RTX 그래픽카드</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/amd.html"><b>AMD</b><span>라데온 그래픽·라이젠 칩셋</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/intel.html"><b>인텔</b><span>그래픽·칩셋·무선랜</span><em>그림 설명 ›</em></a></li>'
+          '<li><a href="/driver/epson.html"><b>엡손</b><span>정품무한 L시리즈·WorkForce 등 모델별 바로 받기</span><em>모델별 바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/brother.html"><b>브라더</b><span>잉크젯·레이저·라벨 모델별 바로 받기</span><em>모델별 바로 받기 ›</em></a></li>'
           + ''.join(f'<li><a href="{E(u)}" target="_blank" rel="noopener nofollow"><b>{E(n)}</b><span>{E(d)}</span><em>공식 사이트로 바로 가기 ↗</em></a></li>' for n, u, d in EXT))
     what = cu.step('?', '드라이버가 뭐예요?', '드라이버는 <b>기기와 컴퓨터를 이어 주는 통역 프로그램</b>이에요. 프린터를 USB로 꽂아도 드라이버가 없으면 컴퓨터가 \'이게 무슨 기계인지\' 몰라서 인쇄가 안 돼요.',
                    pc('<rect x="50" y="70" width="70" height="60" rx="8" fill="#334155"/><rect x="60" y="56" width="50" height="18" rx="2" fill="#EAF1FC"/><text x="85" y="148" text-anchor="middle" font-size="10" fill="#333">프린터</text>'
@@ -484,7 +489,7 @@ def hub():
             'var h=DRA.filter(function(x){return x[0].toUpperCase().indexOf(q)>=0}).slice(0,8);r.innerHTML=h.length?h.map(function(x){return\'<li><a href="\'+x[1]+\'">\'+x[0]+\' 드라이버 받기 ›</a></li>\'}).join(""):'
             '"<li>아직 모델 표에 없는 모델이에요. 아래에서 회사를 고르면 공식 사이트에서 모델명으로 찾을 수 있어요.</li>";return false}</script></header>'
             f'<section class="card"><h2>회사 고르기</h2><ul class="dr-co">{co}</ul>'
-            '<p class="cu-src" style="margin-top:10px">캐논·엡손·브라더는 그림 설명을 준비하는 동안 공식 다운로드 사이트로 바로 연결해요.</p></section>'
+            '<p class="cu-src" style="margin-top:10px">캐논은 모델별 목록을 준비하는 동안 캐논 공식 다운로드 사이트로 연결해요.</p></section>'
             f'<section class="card"><h2>시작 전에 알아 두기</h2>{what}{name}</section>'
             + WIN_SEC
             + '<section class="card"><h2>가짜 드라이버 사이트 조심하기</h2><p class="dr-warn">검색 광고에 나오는 \'드라이버 자동 설치\' 프로그램이나 블로그에 올라온 설치 파일은 받지 마세요. '
