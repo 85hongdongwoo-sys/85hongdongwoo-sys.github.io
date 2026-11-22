@@ -353,7 +353,7 @@ HDK = ['#1E2A4A', '#2B1F3D', '#12352B', '#3A1E24', '#1F3340']
 HFC = {'test': '#B14FC5', 'game': '#7FA21B', 'excel': '#1F9D55', 'sheet': '#0CA678', 'doc': '#3B5BDB', 'pdf': '#E03131', 'image': '#7048E8', 'convert': '#1098AD',
        'text': '#F08C00', 'ai': '#6741D9', 'calendar': '#F76707', 'qr': '#495057', 'life': '#2F9E44', 'medical': '#E64980',
        'legal': '#5C6BC0', 'study': '#1C7ED6', 'ipsi': '#364FC7', 'dev': '#343A40', 'net': '#1971C2', 'design': '#D6336C', 'shop': '#E8590C', 'trip': '#1C7ED6', 'gov': '#0B7285', 'drive': '#E8590C'}
-KW = [('bus', r'노선 내비|경유지|셔틀'), ('navup2', r'(기아|쉐보레|KGM).*(업데이트|업그레이드)'), ('navup3', r'(제네시스|르노|아이나비).*(업데이트|업그레이드)'), ('navup', r'내비게이션 업데이트|내비게이션 지도 업데이트|내비 업데이트|지도 업그레이드|업데이트 모음|openR'), ('rest', r'휴게소'), ('park', r'주차장'), ('ev', r'충전소'), ('fuel', r'주유소'), ('mid', r'중간지점'), ('taxi', r'택시비|통행료'), ('pdf', r'PDF'), ('image', r'이미지|사진|PNG|JPG|증명'), ('qr', r'QR|바코드'), ('ai', r'AI|챗GPT|클로드|프롬프트'),
+KW = [('printer', r'드라이버'), ('bus', r'노선 내비|경유지|셔틀'), ('navup2', r'(기아|쉐보레|KGM).*(업데이트|업그레이드)'), ('navup3', r'(제네시스|르노|아이나비).*(업데이트|업그레이드)'), ('navup', r'내비게이션 업데이트|내비게이션 지도 업데이트|내비 업데이트|지도 업그레이드|업데이트 모음|openR'), ('rest', r'휴게소'), ('park', r'주차장'), ('ev', r'충전소'), ('fuel', r'주유소'), ('mid', r'중간지점'), ('taxi', r'택시비|통행료'), ('pdf', r'PDF'), ('image', r'이미지|사진|PNG|JPG|증명'), ('qr', r'QR|바코드'), ('ai', r'AI|챗GPT|클로드|프롬프트'),
       ('calendar', r'달력|D-day|날짜|공휴일|요일'), ('sheet', r'차트|그래프|가계부|근무표'), ('excel', r'엑셀|수식|CSV'),
       ('dev', r'JSON|코드|정규식|Base64|HTML'), ('doc', r'계약서|견적서|이력서|서식|영수증'), ('text', r'글자|텍스트|맞춤법')]
 HUBCSS = """<style id="hl-hub-css">
@@ -523,7 +523,10 @@ if os.path.exists(_nc_p):
         open(p, 'w', encoding='utf-8').write(s); print('sitemap +', len(urls))
 
 # ── 아티팩트에서 옮긴 페이지: 자격증 시험달력(/calendar/exam-schedule.html), 청약·줍줍+투자계산기(/life/invest.html) ──
-MOVED = [('drive', '/drive/update/', '차 내비·블랙박스 업데이트 모음', '현대·기아·제네시스 내비 업데이트를 그림으로 쉽게', '내비 업데이트 내비게이션 업데이트 지도 업데이트 순정 내비 업데이트 블랙박스 업데이트 빌트인캠 업데이트 Navigation Updater', '자동차·지도'),
+MOVED = [('driver', '/driver/', '드라이버 다운로드 모음', '프린터·복합기 드라이버를 회사별로, 설치 순서 그림', '드라이버 다운로드 프린터 드라이버 복합기 드라이버 드라이버 설치 방법 CD 없이 프린터 설치', '드라이버'),
+         ('driver', '/driver/hp.html', 'HP 프린터 드라이버 다운로드 (삼성 프린터 포함)', '공식 사이트에서 받기 + 설치 6단계 그림', 'HP 프린터 드라이버 HP 드라이버 다운로드 삼성 프린터 드라이버 HP 복합기 드라이버 HP Smart', '드라이버'),
+         ('driver', '/driver/sindoh.html', '신도리코 드라이버 다운로드 (모델별 바로가기)', 'D452·D472·N502 등 모델별 공식 다운로드', '신도리코 드라이버 신도리코 복합기 드라이버 sindoh Connect D452 D472 D450 N502 빠른 설치 드라이버', '드라이버'),
+         ('drive', '/drive/update/', '차 내비·블랙박스 업데이트 모음', '현대·기아·제네시스 내비 업데이트를 그림으로 쉽게', '내비 업데이트 내비게이션 업데이트 지도 업데이트 순정 내비 업데이트 블랙박스 업데이트 빌트인캠 업데이트 Navigation Updater', '자동차·지도'),
          ('drive', '/drive/update/hyundai.html', '현대 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '현대 내비 업데이트 현대차 네비 업데이트 현대 내비게이션 업데이트 방법 현대 지도 업데이트 블루링크 업데이트 아반떼 쏘나타 그랜저 싼타페 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
          ('drive', '/drive/update/kia.html', '기아 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '기아 내비 업데이트 기아 네비 업데이트 기아 내비게이션 업데이트 방법 기아 지도 업데이트 쏘렌토 카니발 K5 스포티지 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
          ('drive', '/drive/update/renault.html', '르노코리아 내비·openR link 업데이트', '무선 업데이트 + 9.3인치 지도 USB 설치', '르노코리아 내비 업데이트 르노 내비 업데이트 openR link 업데이트 오픈알링크 지도 업데이트 그랑콜레오스 아르카나 QM6 SM6 내비 업데이트', '자동차·지도'),
@@ -612,13 +615,22 @@ if 'href="/drive/"' not in s:
     if TRIP in s and '"u":"/drive/"' not in s:
         s = s.replace(TRIP, TRIP + ',' + _json.dumps({"t": "자동차·지도 도구 모음", "d": "택시비·통행료 계산, 중간지점 찾기, 경유지 많은 노선 내비", "k": "자동차 지도 길찾기 택시비 중간지점 내비", "c": "자동차·지도", "u": "/drive/"}, ensure_ascii=False, separators=(',', ':')), 1)
     open(p, 'w', encoding='utf-8').write(s)
+# ── 새 분류: 드라이버(/driver/) (overlay, 2026-11-22) — 홈 카드 ──
+p = os.path.join(root, 'index.html'); s = open(p, encoding='utf-8').read()
+if 'href="/driver/"' not in s and os.path.exists(os.path.join(root, 'driver', 'index.html')):
+    m = re.search(r'<li><a class="ct" href="/drive/".*?</a></li>', s, flags=re.S)
+    if m:
+        nd = sum(1 for e in MOVED if e[0] == 'driver')
+        card = (f'<li><a class="ct" href="/driver/" style="--bg:linear-gradient(#DCE8FF 0 40%,transparent 40%),linear-gradient(90deg,#3B6FE0 0 58%,#8FB1F5 58%)">'
+                f'<span class="ch"><em>{nd}개</em><b>드라이버</b></span><i class="ci" style="background-image:url(/assets/art/hl/cs-printer.svg)"></i><span class="go" aria-hidden="true">›</span></a></li>')
+        s = s[:m.end()] + card + s[m.end():]; open(p, 'w', encoding='utf-8').write(s); print('home: driver card')
 p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
 if 'honglife.co.kr/drive/<' not in s:
     open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', '<url><loc>https://honglife.co.kr/drive/</loc><lastmod>2026-11-20</lastmod></url>\n</urlset>', 1)); print('sitemap + drive')
 
 # ── 상단 분류 줄 고정: 모든 한국어 페이지에 같은 분류 전체 목록(가로 스크롤 한 줄) ──
 CATBAR = [('excel', '엑셀 수식'), ('sheet', '엑셀 양식'), ('doc', '문서'), ('pdf', 'PDF'), ('image', '이미지'), ('convert', '파일 변환'),
-          ('text', '텍스트'), ('ai', 'AI'), ('calendar', '날짜·달력'), ('qr', 'QR'), ('life', '생활·행정'), ('gov', '공문서·민원'), ('drive', '자동차·지도'), ('medical', '병원·건강'),
+          ('text', '텍스트'), ('ai', 'AI'), ('calendar', '날짜·달력'), ('qr', 'QR'), ('life', '생활·행정'), ('gov', '공문서·민원'), ('drive', '자동차·지도'), ('driver', '드라이버'), ('medical', '병원·건강'),
           ('legal', '법률'), ('study', '학생·공부'), ('ipsi', '입시'), ('trip', '여행'), ('test', '심리 테스트'), ('game', '게임 계산기'),
           ('design', '디자인'), ('shop', '소상공인'), ('dev', '개발'), ('net', '인터넷')]
 CATCSS = ('<style id="hl-catbar-css">.brandbar .in nav a:not(.srch):not(.lang){display:none!important}'
