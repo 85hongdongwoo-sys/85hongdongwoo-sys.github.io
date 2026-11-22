@@ -1,7 +1,7 @@
 """드라이버 페이지의 공식 다운로드 주소가 살아 있는지 점검 (매주). 깨진 주소는 목록으로 출력하고 실패 코드로 끝낸다."""
 import glob, re, sys, urllib.request
 urls = set()
-for f in glob.glob('overlay/driver/*.html'):
+for f in glob.glob('overlay/driver/*.html') + glob.glob('overlay/en/driver/*.html'):
     urls |= set(re.findall(r'href="(https?://[^"]+)"', open(f, encoding='utf-8').read()))
 urls = sorted(u.replace('&amp;', '&') for u in urls if 'honglife' not in u)
 bad = []

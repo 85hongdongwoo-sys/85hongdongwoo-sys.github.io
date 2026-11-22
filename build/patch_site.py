@@ -618,6 +618,13 @@ if 'href="/drive/"' not in s:
     if TRIP in s and '"u":"/drive/"' not in s:
         s = s.replace(TRIP, TRIP + ',' + _json.dumps({"t": "자동차·지도 도구 모음", "d": "택시비·통행료 계산, 중간지점 찾기, 경유지 많은 노선 내비", "k": "자동차 지도 길찾기 택시비 중간지점 내비", "c": "자동차·지도", "u": "/drive/"}, ensure_ascii=False, separators=(',', ':')), 1)
     open(p, 'w', encoding='utf-8').write(s)
+# ── 드라이버 영어판(/en/driver/) 사이트맵 (overlay, 2026-11-22) ──
+p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
+_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html')
+       if os.path.exists(os.path.join(root, u.lstrip('/') + ('index.html' if u.endswith('/') else ''))) and f'honglife.co.kr{u}<' not in s]
+if _en:
+    open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-22</lastmod></url>\n' for u in _en) + '</urlset>', 1)); print('sitemap + en driver', len(_en))
+
 # ── 새 분류: 드라이버(/driver/) (overlay, 2026-11-22) — 홈 카드 ──
 p = os.path.join(root, 'index.html'); s = open(p, encoding='utf-8').read()
 if 'href="/driver/"' not in s and os.path.exists(os.path.join(root, 'driver', 'index.html')):

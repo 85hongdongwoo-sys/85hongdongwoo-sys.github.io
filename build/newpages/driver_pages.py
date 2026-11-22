@@ -129,10 +129,25 @@ def W_sindoh_tool(n=5):
 
 
 # ── 페이지 틀 ────────────────────────────────────────────
+KO2EN = {'/driver/': '/en/driver/', '/driver/hp.html': '/en/driver/hp.html', '/driver/sindoh.html': '/en/driver/sindoh.html',
+         '/driver/nvidia.html': '/en/driver/nvidia.html', '/driver/amd.html': '/en/driver/amd.html', '/driver/intel.html': '/en/driver/intel.html'}
+EN2KO = {v: k for k, v in KO2EN.items()}
+# 한국어가 아닌 브라우저(검색 로봇 제외)는 영어판으로 바로 보냄. '한국어로 보기'를 누른 사람(hl_lang=ko)은 그대로.
+REDIRECT = ("<script>(function(){try{var L=(navigator.languages&&navigator.languages[0])||navigator.language||'';"
+            "if(/^ko/i.test(L)||/bot|crawl|spider|lighthouse|slurp|bing|yeti|daum/i.test(navigator.userAgent))return;"
+            "if(localStorage.getItem('hl_lang')==='ko')return;var a=document.querySelector('link[rel=alternate][hreflang=en]');"
+            "if(a)location.replace(a.getAttribute('href')+location.hash)}catch(e){}})();</script>")
+
+
 def write(path, title, desc, main, ld):
     out = os.path.join(ROOT, 'overlay', path.lstrip('/') + ('index.html' if path.endswith('/') else ''))
     os.makedirs(os.path.dirname(out), exist_ok=True)
     h = cu.head(title, desc, SITE + path, ld).replace(cu.CSS, cu.CSS + CSS)
+    if path in KO2EN:
+        alt = (f'<link rel="alternate" hreflang="ko" href="{SITE + path}"><link rel="alternate" hreflang="en" href="{SITE + KO2EN[path]}">'
+               f'<link rel="alternate" hreflang="x-default" href="{SITE + path}">')
+        h = re.sub(r'<link rel="alternate" hreflang="[^"]*" href="[^"]*">', '', h)
+        h = h.replace(f'<link rel="canonical" href="{SITE + path}">', f'<link rel="canonical" href="{SITE + path}">' + alt + REDIRECT, 1)
     open(out, 'w', encoding='utf-8').write(h + cu.BODY_TOP + '<main class="wrap wide">' + main + '</main>' + cu.FOOT)
 
 
