@@ -159,9 +159,9 @@ def build():
          r'''({key:'ev',filters:[['전체',null],['지금 빈 충전기',function(o){return o.avail>0}],['급속 빈 충전기',function(o){return o.fastAvail>0}],['주차 무료',function(o){return o.parkFree==='Y'}],['누구나 이용',function(o){return o.limit!=='Y'}]],
           color:function(o){return o.avail>0?'#12B886':'#F04452'},
           card:function(o){return '<p class="a">'+PUB.esc(o.addr)+'</p><div class="m"><span class="tg '+(o.avail>0?'g':'r')+'">빈 충전기 '+o.avail+'/'+o.total+'</span>'+(o.fast?'<span class="tg b">급속 '+o.fastAvail+'/'+o.fast+'</span>':'<span class="tg">완속만</span>')+(o.parkFree==='Y'?'<span class="tg y">주차 무료</span>':'')+(o.limit==='Y'?'<span class="tg">이용 제한</span>':'')+'</div><p class="a">'+PUB.esc(o.op||'')+(o.time?' · '+PUB.esc(o.time):'')+'</p>'}})''',
-         '환경부 전기자동차 충전소 정보 (3시간마다 갱신)',
+         '환경부 전기자동차 충전소 정보 (오전 8시~오후 6시 30분마다, 그 밖에는 3시간마다 갱신)',
          '<li>빈 충전기 수는 충전기가 보낸 마지막 상태라 실제와 조금 다를 수 있어요.</li><li>‘이용 제한’은 아파트·회사 등 거주자나 직원만 쓸 수 있는 곳이에요.</li><li>급속은 50kW 이상이거나 DC 콤보·차데모 충전기예요.</li>',
-         [('빈 충전기 숫자는 실시간인가요?', '환경부 충전기 상태 정보를 3시간마다 받아와요. 바로 가기 전에는 충전 앱에서 한 번 더 확인하세요.'), ('누구나 이용할 수 있나요?', '‘누구나 이용’ 필터를 켜면 거주자·직원 전용(이용 제한) 충전소를 뺀 곳만 보여줘요.')], R_DRV)
+         [('빈 충전기 숫자는 실시간인가요?', '환경부 충전기 상태 정보를 오전 8시~오후 6시에는 30분마다, 그 밖의 시간에는 3시간마다 받아와요. 실시간은 아니에요. 바로 가기 전에는 충전 앱에서 한 번 더 확인하세요.'), ('누구나 이용할 수 있나요?', '‘누구나 이용’ 필터를 켜면 거주자·직원 전용(이용 제한) 충전소를 뺀 곳만 보여줘요.')], R_DRV)
     # 4) 주차장
     page('parking', 'drive', DRV, '공영·무료 주차장 지도 · 요금·운영시간 한눈에 | 홍라이프 도구',
          '근처 공영주차장과 무료 주차장을 지도로 찾고 기본요금, 추가요금, 1일 주차권, 운영시간, 주차면 수를 확인해요. 전국주차장정보 표준데이터 기준.',
