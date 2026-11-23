@@ -419,7 +419,7 @@ def page(k):
     howto = {"@context": "https://schema.org", "@type": "HowTo", "name": f'{nm} 드라이버 설치 방법',
              "step": [{"@type": "HowToStep", "position": i + 1, "text": re.sub('<[^>]+>', '', s).replace('&amp;', '&')} for i, s in enumerate(c['steps'])]}
     ld = [crld, fqld, howto]
-    kr.write(path, f'{nm} 드라이버 다운로드 — {c["lines"]} 드라이버 설치 방법 (공식) | 홍라이프 도구',
+    kr.write(path, (f'{c["h1"]} | 홍라이프 도구' if c.get('h1') else f'{nm} 드라이버 다운로드 — {c["lines"]} 드라이버 설치 방법 (공식) | 홍라이프 도구'),
              f'{c["name"]}({c["en"]}) {c["lines"]} 드라이버를 공식 사이트에서 받는 곳과 설치 순서를 쉽게 정리했어요. 모델명 찾는 법, 윈도우 자동 설치, 자주 묻는 질문까지.',
              main, ld)
     return path
