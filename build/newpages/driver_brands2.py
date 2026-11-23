@@ -30,12 +30,12 @@ CHK_EN = 'November 23, 2026'
 C = {
     'msi': dict(
         name='MSI', en='MSI', kind='pc', lines='노트북·메인보드·그래픽카드·모니터',
-        ans='MSI 노트북·데스크톱·메인보드는 <b>MSI Center</b>(무료)의 <b>Support → Live Update → Scan</b>으로 필요한 드라이버를 한 번에 찾아 받아요. 프로그램 없이 받으려면 <b>MSI 다운로드</b> 페이지에서 제품 모델을 골라 드라이버·BIOS·매뉴얼을 받아요.',
+        ans='MSI 노트북·데스크톱·메인보드는 <b>MSI Center</b>(무료)의 <b>Support → Live Update → Scan</b>으로 필요한 드라이버를 한 번에 찾아 받아요. 프로그램 없이 받으려면 아래 <b>[MSI Center 바로 받기]</b>로 설치 파일을 바로 받거나, <b>MSI 다운로드</b> 페이지에서 제품 모델을 골라 드라이버·BIOS·매뉴얼을 받아요.',
         tools=[('MSI Center', 'MSI 노트북·데스크톱용 MSI 공식 앱이에요. 앱을 열고 <b>Support(지원) → Live Update → Scan</b>을 누르면 업데이트할 드라이버 목록이 나와요. 고른 뒤 <b>Download</b>를 누르면 받아서 설치해요.',
                 'https://www.msi.com/Landing/MSI-Center', 'MSI Center 받기', 'MSI 공식 페이지 · 무료')],
         site=('https://kr.msi.com/support/download', 'MSI 다운로드 (제품별 드라이버·BIOS)', '제품 종류 → 모델 선택'),
         site_en='https://www.msi.com/support/download',
-        steps=['위 <b>[MSI Center 받기]</b>로 MSI Center를 설치해요. (노트북에는 이미 깔려 있는 경우가 많아요.)',
+        steps=['위 <b>[MSI Center 바로 받기]</b>로 파일을 받아 압축을 풀고 설치해요. (노트북에는 이미 깔려 있는 경우가 많아요.)',
                'MSI Center를 열고 <b>Support</b>(지원) → <b>Live Update</b>를 눌러요.',
                '<b>Scan</b>을 누르면 내 PC에 필요한 드라이버·BIOS 업데이트가 목록으로 나와요.',
                '받을 항목에 체크하고 <b>Download</b>를 누르면 받아서 설치해요. 끝나면 다시 시작해요.'],
@@ -100,7 +100,7 @@ C = {
                 'https://www.razer.com/synapse-4', 'Synapse 4 받기', '레이저 공식 · 무료')],
         site=('https://mysupport.razer.com/', '레이저 지원 (Blade 노트북·제품별)', '제품 선택 → 소프트웨어·드라이버'),
         site_en='https://mysupport.razer.com/',
-        steps=['위 <b>[Synapse 4 받기]</b>로 설치 파일을 받아 실행해요.',
+        steps=['위 <b>[Synapse 4 바로 받기]</b>로 설치 파일을 받아 실행해요.',
                '레이저 기기를 <b>USB로 직접</b> 꽂으면 Synapse 4가 자동으로 알아봐요.',
                '업데이트가 있으면 알림이 떠요. 펌웨어 업데이트 중에는 <b>기기를 뽑지 마세요</b>.',
                'Blade 노트북은 레이저 지원에서 모델을 골라 드라이버를 받아요.'],
@@ -224,7 +224,7 @@ C = {
         sub='랜·오디오 칩'),
     'iptime': dict(
         name='ipTIME', en='ipTIME', kind='net', lines='공유기·USB 무선랜카드(A3000UA 등)',
-        ans='ipTIME USB 무선랜카드 드라이버와 공유기 펌웨어는 <b>ipTIME 홈페이지 → 다운로드 자료실</b>에서 <b>구분(드라이버/펌웨어)</b>을 고르고 <b>모델명</b>을 검색해 받아요. 공유기 펌웨어는 관리 화면(보통 <b>192.168.0.1</b>) → <b>고급 설정 → 시스템 관리 → 펌웨어 업그레이드</b>에서 바로 할 수도 있어요.',
+        ans='아래 <b>모델별 표</b>에서 내 모델의 <b>[바로 받기]</b>를 누르면 ipTIME 서버에서 드라이버 파일이 바로 받아져요(A3000UA·AX900UA·BE6500UA 등). 표에 없으면 ipTIME USB 무선랜카드 드라이버와 공유기 펌웨어는 <b>ipTIME 홈페이지 → 다운로드 자료실</b>에서 <b>구분(드라이버/펌웨어)</b>을 고르고 <b>모델명</b>을 검색해 받아요. 공유기 펌웨어는 관리 화면(보통 <b>192.168.0.1</b>) → <b>고급 설정 → 시스템 관리 → 펌웨어 업그레이드</b>에서 바로 할 수도 있어요.',
         tools=[],
         site=('https://iptime.com/', 'ipTIME 홈페이지 (다운로드 자료실)', '구분 선택 → 모델명 검색'),
         site_en='https://iptime.com/',
@@ -240,7 +240,7 @@ C = {
         sub='랜카드 드라이버·공유기 펌웨어'),
     'tplink': dict(
         name='TP-Link', en='TP-Link', kind='net', lines='USB 무선랜카드(Archer T·TX)·공유기',
-        ans='TP-Link 무선랜카드·공유기는 <b>TP-Link 다운로드 센터</b>에서 모델명을 검색하고, 제품 스티커의 <b>하드웨어 버전</b>(예: V2)을 골라 드라이버·펌웨어를 받아요. 하드웨어 버전이 다르면 파일이 맞지 않으니 꼭 맞춰 고르세요.',
+        ans='아래 <b>모델별 표</b>에서 <b>[바로 받기]</b>를 누르면 TP-Link 서버에서 드라이버가 바로 받아져요(Archer T3U·TX20U·UB500 등). 표에 없는 모델은 <b>TP-Link 다운로드 센터</b>에서 모델명을 검색하고, 제품 스티커의 <b>하드웨어 버전</b>(예: V2)을 골라 드라이버·펌웨어를 받아요. 하드웨어 버전이 다르면 파일이 맞지 않으니 꼭 맞춰 고르세요.',
         tools=[],
         site=('https://www.tp-link.com/kr/support/download/', 'TP-Link 다운로드 센터', '모델 검색 → 하드웨어 버전 선택'),
         site_en='https://www.tp-link.com/us/support/download/',
@@ -254,6 +254,105 @@ C = {
         kw='TP-Link 드라이버 티피링크 드라이버 TP-Link 무선랜카드 드라이버 Archer T3U 드라이버 Archer TX20U 드라이버 TP-Link 펌웨어 하드웨어 버전',
         sub='무선랜카드·공유기'),
 }
+
+
+# ── 바로 받기 파일 (2026-11-23 공식 서버 주소 확인) ──────────────────
+# (제목, 설명, 파일 주소, 버튼 글자, 작은 글자)
+IP = 'https://iptime.com'
+DL = {
+    'msi': [('MSI Center 설치 파일', 'MSI 노트북·데스크톱·메인보드용 공식 프로그램이에요. 압축을 풀고 설치 파일을 실행하세요. 설치 후 Support → Live Update → Scan으로 드라이버를 한 번에 받아요.',
+             'https://download-2.msi.com/uti_exe/desktop/MSI-Center.zip', 'MSI Center 바로 받기', 'MSI 서버에서 바로 다운로드 · .zip · 최신판 · 약 595MB')],
+    'gigabyte': [('GIGABYTE Control Center (GCC) 전체 설치 파일', '기가바이트 메인보드·그래픽카드·노트북 통합 프로그램이에요. 파일이 약 861MB로 커서 받는 데 시간이 걸려요. 압축을 풀고 설치 후 업데이트 센터에서 드라이버를 설치해요.',
+                  'https://download.gigabyte.com/FileList/Utility/GCC_26.11.05.01.zip', 'GCC 바로 받기', '기가바이트 서버 · .zip · 26.11.05.01 · Windows 10/11 64비트')],
+    'asrock': [('Realtek 랜(LAN) 드라이버 — 윈도우 설치 후 인터넷이 안 될 때', '애즈락 메인보드 공용 Realtek 유선 랜 드라이버예요. 압축을 풀고 setup.exe를 실행하세요.',
+                'https://download.asrock.com/Drivers/All/LAN/Realtek_LAN(v10.080.0525.2026).zip', '랜 드라이버 바로 받기', '애즈락 서버 · .zip · v10.080.0525.2026'),
+               ('Realtek 오디오 드라이버', '애즈락 메인보드 공용 Realtek 오디오 드라이버예요.',
+                'https://download.asrock.com/Drivers/All/Audio/Realtek_Audio(v10007.1_UAD_WHQL).zip', '오디오 드라이버 바로 받기', '애즈락 서버 · .zip · v10007.1')],
+    'razer': [('Razer Synapse 4 설치 파일', '레이저 마우스·키보드·헤드셋 공식 프로그램이에요. Windows 10/11 64비트.',
+               'https://dl.razerzone.com/drivers/Synapse4/RazerSynapseInstaller.exe', 'Synapse 4 바로 받기', '레이저 서버에서 바로 다운로드 · .exe')],
+    'canon': [('캐논 레이저 복합기·프린터 공용 드라이버 (Generic Plus PCL6)', 'imageCLASS·imageRUNNER 등 캐논 레이저 기기 여러 모델에 쓰는 캐논 공용 드라이버예요. 잉크젯(PIXMA·G시리즈)은 아래 다운로드 센터에서 모델명으로 받아요.',
+               'https://gdlp01.c-wss.com/gds/0/0100011580/03/GPlus_PCL6_Driver_V272_32_64_00.exe', '레이저 공용 드라이버 받기', '캐논 서버 · .exe · V2.72 · 32/64비트')],
+    'fujifilm': [('Easy Setup Installer (기기 자동 감지 설치)', 'USB나 네트워크로 연결된 후지필름 복합기·프린터를 자동으로 찾아 맞는 드라이버를 한 번에 설치해 주는 공식 도구예요. 버전 1.0.19.1.',
+                  'https://support-fb.fujifilm.com/tiles/common/hc_drivers_download.jsp?system=%27Windows%2011%2064bit%27&shortdesc=null&xcrealpath=OJ7/3Y0JABCUugXbobj67DOoOaxSrKOz42E2aFJeD2RngMd0NLEQBBTqI6BdeB1jktOAm2qKraFEnGYF9RbrkS3b4UoiDGMtkArucTqazp0=',
+                  'Easy Setup 바로 받기', '후지필름 BI 서버 · Windows 11/10'),
+                 ('Easy Setup 안내 페이지', '바로 받기가 안 되면 이 공식 페이지에서 [이지 셋업 인스톨러]를 눌러요.',
+                  'https://support-fb.fujifilm.com/setupDriverForm.do?pid=EasySI&ctry_code=KR&lang_code=ko&d_lang=ko', 'Easy Setup 공식 페이지', '후지필름 BI 코리아')],
+    'kyocera': [('KX Print Driver 8.7.0917 (여러 모델 공용)', 'TASKalfa·ECOSYS 대부분 모델에 쓰는 교세라 공식 드라이버예요. 약 241MB. 실행하면 설치 화면이 나와요.',
+                 'https://www.kyoceradocumentsolutions.us/content/dam/download-center-americas-cf/us/drivers/drivers/KX_Print_Driver_exe.download.exe', 'KX Driver 바로 받기', '교세라 서버 · .exe · 8.7.0917 · Windows 10/11')],
+    'ricoh': [('PCL6 Driver for Universal Print 4.46 (64비트)', '리코 복합기·프린터 여러 모델에 쓰는 공용 드라이버예요. 실행하면 압축이 풀리고 설치가 시작돼요. 2026-10-06 배포 · 약 34MB.',
+               'https://support.ricoh.com/bb/pub_e/dr_ut_e/0001346/0001346104/V44600/z07510L24.exe', 'PCL6 공용 드라이버 받기', '리코 서버 · .exe · Ver.4.46.0.0')],
+    'logitech': [('Logi Options+ (일반 마우스·키보드)', 'MX·Pebble·Signature 등 로지텍 마우스·키보드 설정·펌웨어 업데이트 프로그램이에요. Windows 10/11.',
+                  'https://download01.logi.com/web/ftp/pub/techsupport/optionsplus/logioptionsplus_installer.exe', 'Options+ 바로 받기', '로지텍 서버 · .exe · 최신판'),
+                 ('Logitech G HUB (게이밍)', 'G 시리즈 마우스·키보드·헤드셋 설정 프로그램이에요.',
+                  'https://download01.logi.com/web/ftp/pub/techsupport/gaming/lghub_installer.exe', 'G HUB 바로 받기', '로지텍 서버 · .exe · 최신판'),
+                 ('Logi Tune (웹캠·헤드셋)', 'Brio·C920 같은 웹캠 화질, Zone 헤드셋 설정 프로그램이에요.',
+                  'https://software.vc.logitech.com/downloads/tune/LogiTuneInstall.exe', 'Logi Tune 바로 받기', '로지텍 서버 · .exe')],
+    'wacom': [('와콤 드라이버 6.4.15-1 (Windows)', 'Intuos·Cintiq·Wacom One 등 와콤 타블렛 공식 드라이버예요. Wacom Center가 함께 설치돼요. Windows 10/11 64비트.',
+               'https://cdn.wacom.com/u/productsupport/drivers/win/professional/WacomTablet_6.4.15-1.exe', '와콤 드라이버 바로 받기', '와콤 서버 · .exe · 6.4.15-1 · 약 320MB')],
+    'realtek': [('Realtek 유선 랜 드라이버 Win10/Win11 (NDIS) 10.80.50', 'Realtek PCIe GbE·2.5GbE Family Controller용 자동 설치 프로그램이에요. 2026-10-05 · 약 5MB. 리얼텍 화면이 열리면 [Download file]을 한 번 더 누르세요. 압축을 풀고 setup.exe를 실행해요.',
+                 'https://www.realtek.com/Download/ToDownload?mode=first&type=direct&downloadid=3613', '랜 드라이버 바로 받기', '리얼텍 공식 · .zip · Windows 10/11'),
+                ('Realtek 유선 랜 드라이버 Win11 (NetAdapterCx) 11.031.50', '윈도우 11 전용 새 방식 드라이버예요. 위 파일로 문제가 있을 때 써 보세요. 2026-10-05 · 약 3MB.',
+                 'https://www.realtek.com/Download/ToDownload?mode=first&type=direct&downloadid=4103', 'Win11 전용 받기', '리얼텍 서버 · .zip · Windows 11')],
+}
+
+# 모델별 바로 받기 표: (모델들, 운영체제, 파일 주소)
+MODELS = {
+    'iptime': [
+        ('A3000UA, A3000UA-2, A3000U, A3000mini, A3000UA5, A2000UA, A2000U, N400UA, A5000UA', 'Windows 10·11', IP + '/legacy/cdn/link/wlan/RTLWlanU_WindowsDriver_1030.44.0809.2021_Drv_3.00.0037_Win10_Win11.L_54539_.zip'),
+        ('NCUBIC, N3U, N300U, N100mini, N500U', 'Windows 11', IP + '/legacy/cdn/link/wlan/RTLWlanU_WindowsDriver_1030.44.0809.2021_Drv_3.00.0037_Win10_Win11.L(54539).zip'),
+        ('AX2000U, AX2000UA', 'Windows 10·11', IP + '/legacy/cdn/link/wlan/iptime_AX2000U_AX2000UA_5001.19.128.2.exe'),
+        ('AX2000T-UA', 'Windows 10·11', IP + '/legacy/cdn/link/wlan/iptime_AX2000T-UA_5001.19.128.2.exe'),
+        ('AX900UA, AX900mini', 'Windows 10·11', IP + '/legacy/cdn/link/wlan/ax900mini/RTWlanUSB_WindowsDriver_5001.19.113.3_Drv_3.00.0045.L.zip'),
+        ('AX5400UA-6E', 'Windows 10·11', IP + '/legacy/cdn/link/wlan/ax5400ua6e/RTWlanUSB_WindowsDriver_5001.19.113.3_Drv_3.00.0045.L(184071).zip'),
+        ('AX5400PX, AX5400PX-E, AX5400PX-6E, BE9300IPX (인텔 칩)', 'Windows 10·11', 'https://downloadmirror.intel.com/929786/WiFi-24.80.0-Driver64-Win10-Win11.exe'),
+        ('BE6500UA', 'Windows 11', IP + '/legacy/cdn/link/wlan/BE6500UA/RTWlanUSB_WindowsDriver_5102.24.126.0_Drv_3.00.0045.L(184002).zip'),
+        ('BE6500UA', 'Windows 10', IP + '/legacy/cdn/link/wlan/BE6500UA/RTWlanUSB_WindowsDriver_5002.24.117.1_Drv_3.00.0045_TS.L-1(168678).zip'),
+        ('BE6500PX, BE6500PX-E', 'Windows 11', IP + '/legacy/cdn/link/wlan/be6500px/iptime_be6500px_5.4.0.2913_installer.zip'),
+        ('A2000PX, A2000PX-MU', 'Windows 11', IP + '/legacy/cdn/link/wlan/RTLWlanE_WindowsDriver_2024.0.10.135_Drv_3.00.0039_Win11.L(55894).zip'),
+        ('유선 U2500, U2500C, U1000, U1G, U1G-C, U1003, U1003C, U25G, U25G-C', 'Windows 11', IP + '/upload/admin/downloads/2026/11/mwegck7m3003243df285.zip'),
+        ('유선 U2500, U2500C, U1000, U1G, U1G-C, U1003, U1003C, U25G, U25G-C', 'Windows 10', IP + '/upload/admin/downloads/2026/11/mwegckjkb0708a9e3873.zip'),
+        ('유선 U2LAN, UC2LAN', 'Windows 11', IP + '/legacy/cdn/link/lan/Install_USB_Win11_11021_20_11102025_01302026.zip'),
+        ('유선 U2LAN, UC2LAN', 'Windows 10', IP + '/legacy/cdn/link/lan/Install_USB_Win10_10066_20_11102025_01302026.zip'),
+        ('유선 UC306HDMI-1G, UC306HDMI2-1G, U1003CA', 'Windows 11', IP + '/legacy/cdn/link/lan/uc306hdmi/Install_USB_Win11_11019_20_06032025_07212025.zip'),
+        ('유선 PX10G, PX10G2', 'Windows 10·11', IP + '/legacy/cdn/link/lan/20221109_Marvell_AQtion_Win10-11_3.1.7.zip'),
+    ],
+    'tplink': [
+        ('Archer T3U (V1)', 'Windows 10·11', 'https://static.tp-link.com/upload/driver/2024/202411/20241128/Archer_T3U_V1_1030.44.0408.2024_Win10Win11.zip'),
+        ('Archer T3U Plus (V1)', 'Windows 10·11', 'https://static.tp-link.com/2019/201912/20191223/Archer%20T3U%20Plus(EUUS)_V1_win10_191204.zip'),
+        ('Archer T2U Plus (V1)', 'Windows (10은 자동 인식)', 'https://static.tp-link.com/2019/201905/20190508/Archer%20T2U_Plus_UN_V1_190422_Win.zip'),
+        ('Archer TX20U (V1)', 'Windows 10·11', 'https://static.tp-link.com/upload/driver/2026/202608/20260824/Archer_TX20U_V1.0_V1.6_5001.19.128.2forWin10x86_5001.19.128.3forWin10x64Win11.zip'),
+        ('Archer TX20U Plus (V1)', 'Windows 10·11', 'https://static.tp-link.com/upload/driver/2026/202608/20260807/Archer%20TX20U%20Plus_128.4%20Operating%20System%20win10x86x64_win11x64.zip'),
+        ('Archer TX10UB Nano (V1, 와이파이+블루투스)', 'Windows 10·11', 'https://static.tp-link.com/upload/driver/2025/202510/20251021/Archer_TX10UB_Nano(US)_V1_5001.19.113.1_Win10_Win11.zip'),
+        ('Archer T2UB Nano (V1.40)', 'Windows 7~11', 'https://static.tp-link.com/upload/driver/2025/202507/20250704/Archer_T2UB%20Nano(EU)_V1_20250702_Win7_8_8.1_10_11.zip'),
+        ('TL-WN725N (V3)', 'Windows 10·11', 'https://static.tp-link.com/upload/software/2021/202108/20210810/TL-WN725N_US_V3_200821_Win10.zip'),
+        ('UB500 블루투스 동글 (V3)', 'Windows 10·11', 'https://static.tp-link.com/upload/driver/2025/202507/20250704/UB500(UN)_V3_20250702_Win10_Win11.zip'),
+        ('UB400 블루투스 동글 (V2)', 'Windows 7~11', 'https://static.tp-link.com/upload/driver/2024/202403/20240326/V2_1.9.1051.3012.zip'),
+        ('Archer TX3000E (V4, PCIe)', 'Windows 10·11', 'https://static.tp-link.com/upload/driver/2025/202507/20250704/Archer_TX3000E(UN)_V4_20250702_Win10_11.zip'),
+        ('Archer TX50E (V3, PCIe)', 'Windows 10·11', 'https://static.tp-link.com/upload/driver/2025/202507/20250704/Archer_TX50E(UN)_V3_20250702_Win10_11.zip'),
+        ('Archer TX55E (V4, PCIe)', 'Windows 10·11', 'https://static.tp-link.com/upload/driver/2025/202507/20250704/Archer_TX55E(UN)_V4_20250702_Win10_11.zip'),
+        ('Archer TX20E (V1, PCIe)', 'Windows 10·11', 'https://static.tp-link.com/upload/driver/2025/202507/20250704/Archer_TX20E(UN)_V1_20250702_Win10_11.zip'),
+        ('Archer TBE550E (V1, PCIe Wi-Fi 7)', 'Windows 11', 'https://static.tp-link.com/upload/driver/2025/202507/20250724/Archer_TBE550E_V1_Aoturun_20250703.zip'),
+    ],
+}
+for _k, _v in DL.items():
+    C[_k]['tools'] = _v
+
+
+def model_table(k):
+    rows = MODELS.get(k)
+    if not rows:
+        return ''
+    tr = ''.join(f'<tr><td><b>{E(m)}</b></td><td>{E(o)}</td><td><a class="mdl" href="{E(u)}" rel="noopener nofollow">바로 받기 ↓</a></td></tr>' for m, o, u in rows)
+    return ('<section class="card dr-sec" id="models"><h2>모델별 드라이버 바로 받기</h2>'
+            '<p class="cu-src">버튼을 누르면 제조사 서버에서 설치 파일이 바로 받아져요. 모델명을 찾을 땐 아래 칸에 입력하세요.</p>'
+            f'<input class="mq" placeholder="모델명 입력 (예: {E(rows[0][0].split(",")[0].replace("유선 ", ""))})" oninput="var q=this.value.toUpperCase().replace(/\\s/g,\'\');this.nextElementSibling.querySelectorAll(\'tr\').forEach(function(r){{r.style.display=!q||r.cells[0].textContent.toUpperCase().replace(/\\s/g,\'\').indexOf(q)>=0?\'\':\'none\'}})" aria-label="모델명 검색">'
+            f'<div class="mt"><table><thead><tr><th>모델</th><th>윈도우</th><th>받기</th></tr></thead><tbody>{tr}</tbody></table></div></section>')
+
+
+MT_CSS = ('<style>.mq{width:100%;box-sizing:border-box;padding:12px 14px;border:1.5px solid #CBD5E1;border-radius:12px;font-size:15px;margin:8px 0 10px}'
+          '.mt{overflow-x:auto}.mt table{width:100%;border-collapse:collapse;font-size:14px}.mt th,.mt td{padding:10px 8px;border-bottom:1px solid #E9EDF3;text-align:left;vertical-align:middle;word-break:keep-all}'
+          '.mt th{font-size:12.5px;color:#5B6B82}.mt td:nth-child(2){white-space:nowrap;color:#333}.mdl{display:inline-block;white-space:nowrap;background:#1D4ED8;color:#fff!important;font-weight:800;padding:8px 12px;border-radius:10px;text-decoration:none}'
+          '@media(max-width:480px){.mt td,.mt th{padding:9px 5px;font-size:13px}.mdl{padding:7px 9px}}</style>')
 
 ORDER = list(C)
 
@@ -292,12 +391,13 @@ def page(k):
         ('파일은 어디서 받아지나요?', '모든 버튼은 제조사 공식 사이트로 연결돼요. 홍라이프 도구는 파일을 올리지 않아요.')]
     fq, fqld = cu.faq(qa)
     title_lines = c['lines'].replace('·', ', ')
-    main = (kr.HP_CSS + f'<header class="top hub">{cr}<h1>{E(c["name"])} 드라이버 다운로드·설치 방법 — {E(title_lines)}</h1>'
+    main = (kr.HP_CSS + MT_CSS + f'<header class="top hub">{cr}<h1>{E(c["name"])} 드라이버 다운로드·설치 방법 — {E(title_lines)}</h1>'
             f'<p class="lead">{E(nm)} {E(KIND_KO[c["kind"]])} 드라이버를 공식 사이트에서 받는 곳과 설치 순서를 처음 하는 분도 따라 할 수 있게 정리했어요.</p>'
             f'<p class="cu-ans">{c["ans"]}</p>'
-            + (kr.dl(first[2], first[3], first[4]) if first else kr.dl(su, st, ss))
-            + '<ul class="dr-toc">' + ('<li><a href="#tools">공식 프로그램</a></li>' if tools else '') + '<li><a href="#steps">설치 순서</a></li><li><a href="#model">모델 찾기</a></li><li><a href="#win">윈도우 자동 설치</a></li></ul></header>'
-            + (f'<section class="card dr-sec" id="tools"><h2>공식 프로그램 바로 받기</h2><ul class="hpl">{tools}</ul></section>' if tools else '')
+            + (kr.dl(first[2], first[3], first[4]) if first else ('<a class="dl3d" href="#models"><span class="tx"><b>내 모델 드라이버 바로 받기 ↓</b><small>모델별 설치 파일 표로 이동</small></span></a>' if k in MODELS else kr.dl(su, st, ss)))
+            + '<ul class="dr-toc">' + ('<li><a href="#tools">바로 받기</a></li>' if tools else '') + ('<li><a href="#models">모델별 바로 받기</a></li>' if k in MODELS else '') + '<li><a href="#steps">설치 순서</a></li><li><a href="#model">모델 찾기</a></li><li><a href="#win">윈도우 자동 설치</a></li></ul></header>'
+            + (f'<section class="card dr-sec" id="tools"><h2>설치 파일 바로 받기</h2><ul class="hpl">{tools}</ul></section>' if tools else '')
+            + model_table(k)
             + f'<section class="card dr-sec" id="steps"><h2>{E(nm)} 드라이버 설치 순서 (아주 쉽게)</h2>{steps}' + kr.dl(su, st, ss, bool(first)) + '</section>'
             + f'<section class="card dr-sec" id="model"><h2>내 제품 모델명 찾기</h2><ul class="cu-chk"><li>{c["serial"]}</li>'
               '<li>모델명은 영어·숫자를 <b>한 글자도 빼지 말고</b> 그대로 검색하세요. 비슷한 이름의 다른 모델 드라이버는 안 맞을 수 있어요.</li></ul></section>'
@@ -321,7 +421,7 @@ def page_en(k):
     path = f'/en/driver/{k}.html'
     cr, crld = en.crumb([(c['en'], '')])
     tools = ''.join(f'<li class="hpm"><h3>{E(t.split(" (")[0])}</h3><div class="bt">{en.dl(u.replace("/ko-kr/", "/en-us/").replace("/kr/", "/"), "Download", "Official", i > 0)}</div></li>'
-                    for i, (t, d, u, bt, bs) in enumerate(c['tools']) if 'gigabyte' not in u)
+                    for i, (t, d, u, bt, bs) in enumerate(c['tools']))
     qa = [('Where do files come from?', f'From {c["en"]}\'s official website. HongLife Tools does not host files.')]
     fq, fqld = en.faq(qa)
     main = (kr.HP_CSS + f'<header class="top hub">{cr}<h1>{E(c["en"])} Driver Download — Official Sources</h1>'
