@@ -9,6 +9,7 @@ LIVE = 'https://honglife.co.kr/data/pub/'
 KST = timezone(timedelta(hours=9)); NOW = datetime.now(KST)
 DK = os.environ.get('DATA_GO_KR_KEY', '').strip(); OK = os.environ.get('OPINET_KEY', '').strip(); EK = os.environ.get('EX_KEY', '').strip()
 FORCE = os.environ.get('PUB_FORCE', '')
+EV_ONLY = os.environ.get('EV_ONLY', '')  # 낮 시간 30분 예약 실행: 전기차 충전소만 새로 받고 나머지는 배포된 파일 유지
 SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주']
 FULL = {'서울': '서울특별시', '부산': '부산광역시', '대구': '대구광역시', '인천': '인천광역시', '광주': '광주광역시', '대전': '대전광역시', '울산': '울산광역시',
         '세종': '세종특별자치시', '경기': '경기도', '강원': '강원특별자치도', '충북': '충청북도', '충남': '충청남도', '전북': '전북특별자치도', '전남': '전라남도',
@@ -105,6 +106,17 @@ def keep_live(tool, split=True):
         except Exception: write(f'{tool}/{s}.json', [])
     log(tool, 'kept', meta.get('updated')); return True
 
+def ev_due():
+    """전기차 충전소: 오전 8시~오후 6시는 30분마다, 그 밖에는 3시간마다.
+    GitHub 예약 실행이 늦거나 빠져도 다음 실행에서 따라잡도록 '마지막 갱신 후 지난 시간'으로 정한다."""
+    if FORCE: return True
+    try:
+        up = json.loads(get(LIVE + 'ev/meta.json', tries=2)).get('updated', '')
+        age = (NOW - datetime.strptime(up, '%Y-%m-%d %H:%M').replace(tzinfo=KST)).total_seconds() / 60
+    except Exception:
+        return True
+    return age >= (20 if 8 <= NOW.hour < 18 else 170)
+
 def due(every_h, at=4):
     if FORCE: return True
     if every_h == 1: return True
@@ -165,6 +177,7 @@ def ev():
                 a[6] += 1; a[7] += ok
                 if fast: a[8] += 1; a[9] += ok
             if st: break
+        if not st: raise RuntimeError(f'ev {s} 자료 없음 — 지금 배포된 파일 유지')  # 한도 초과 등으로 비면 덮어쓰지 않음
         rows += [(s, v) for v in st.values()]
     write_split('ev', rows, ['name', 'lat', 'lng', 'addr', 'op', 'time', 'total', 'avail', 'fast', 'fastAvail', 'parkFree', 'limit'])
 
@@ -281,7 +294,9 @@ JOBS = [  # (이름, 함수, 필요한 키, 몇 시간마다, 나눠 저장?)
 if __name__ == '__main__':
     os.makedirs(OUT, exist_ok=True)
     for name, fn, key, every, split in JOBS:
-        run = bool(key) and (due(every) if every < 24 * 7 else (FORCE or (NOW.weekday() == 0 and NOW.hour == 4)))
+        if EV_ONLY and name != 'ev': run = False
+        elif name == 'ev': run = bool(key) and ev_due()
+        else: run = bool(key) and (due(every) if every < 24 * 7 else (FORCE or (NOW.weekday() == 0 and NOW.hour == 4)))
         if run:
             try: fn(); continue
             except Exception as e: log(name, 'FAILED', repr(e)[:300])
