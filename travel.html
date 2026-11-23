@@ -138,14 +138,14 @@ footer.site a{color:var(--primary)}
 <script src="/assets/app.js" defer></script>
 <!--/hl:head--><!--hl:theme--><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&amp;display=swap"><link rel="stylesheet" href="/assets/hl-theme.css"><script src="/assets/hl-pets.js" defer></script><!--/hl:theme--></head>
 <body>
-<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"> 환율 2026.10.30 기준 · 무료</span></div></div>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><i>₩</i>홍라이프 계산기</a><span class="meta"> 환율 2026.11.20 기준 · 무료</span></div></div>
 <div class="hero"><div class="in">
   <h1>여행경비 <b>계산기</b></h1>
   <p class="deck">여행지를 고르면 항공·숙박·식비·교통·관광·수수료·예비비까지 항목별로 채워 드려요. 숫자는 전부 직접 고칠 수 있어요.</p>
-  <p class="asof">기준일 2026년 11월 1일 · 환율 10월 30일 기준</p>
+  <p class="asof">기준일 2026년 11월 23일 · 환율 11월 20일 기준</p>
 </div></div>
 <div class="wrap">
-<div class="notice"><strong>먼저 알아 두세요</strong> 환율은 10월 30일 기준이고, 정책·세금(일본 출국세·숙박세, 미국 ESTA 등)은 2026년 9~11월에 확인한 내용이에요. 호텔·식비·교통 같은 <u>기본 금액은 확인된 가격이 아니라 조사 자료와 일반 시세로 잡은 추정 기준값</u>이라, 예약 화면과 최근 후기에서 본 실제 가격으로 바꿔서 쓰세요.
+<div class="notice"><strong>먼저 알아 두세요</strong> 환율은 11월 20일 기준이고, 정책·세금(일본 출국세·숙박세, 미국 ESTA 등)은 2026년 9~11월에 확인한 내용이에요. 호텔·식비·교통 같은 <u>기본 금액은 확인된 가격이 아니라 조사 자료와 일반 시세로 잡은 추정 기준값</u>이라, 예약 화면과 최근 후기에서 본 실제 가격으로 바꿔서 쓰세요.
   <br><span class="chip fact">확인</span>확인한 사실 <span class="chip rec">주의</span>확정 전이거나 확인이 더 필요한 내용 <span class="chip est">추정</span>제가 잡은 기준값</div>
 
 <section class="card" id="basic">
@@ -245,13 +245,13 @@ footer.site a{color:var(--primary)}
 
 <!--hl:related--><section class="hl-rel" aria-labelledby="hl-rel-t"><h2 class="hl-rel-t" id="hl-rel-t">이것도 많이 봐요</h2><ul class="hl-rel-l"><li><a class="hl-rel-a" href="date.html"><b>날짜 계산기 (D-day·만 나이·전역일)</b><span>D-day와 두 날짜 사이 일수, 만 나이·연 나이, 며칠 뒤 날짜, 공휴일·대체공휴일을 뺀 영업일(근무일수), 군 전역일까지 한 페이지에서 계산해요.…</span></a></li><li><a class="hl-rel-a" href="car-commute.html"><b>출퇴근 비용</b><span>편도 거리와 출근일수로 자차 출퇴근 기름값·통행료·주차비와 대중교통 요금(K-패스 환급)을 비교해요.</span></a></li><li><a class="hl-rel-a" href="elec.html"><b>전기요금 계산기</b><span>에어컨·전기장판·온풍기·건조기 등 가전제품 소비전력(W)과 사용시간으로 한 달 전기세를 계산해요. 한전 2026년 주택용 누진제, 일반용(갑) 사업자 요금,…</span></a></li><li><a class="hl-rel-a" href="percent.html"><b>백분율 계산기</b><span>A의 B%는 얼마인지, A는 B의 몇 %인지, 증감률·할인가·할인율·중복 할인, 퍼센트와 퍼센트포인트(%p) 차이, 부가세 10% 포함·제외, 비율 나누기까지 입력하는…</span></a></li></ul></section><!--/hl:related--><footer class="site">
   <div><a href="/">홍라이프 계산기</a> · <a href="/exam.html">자격증 시험달력</a> · <a href="/clock.html">초시계·서버시간</a> · <a href="/budget/">가계부</a> · <a href="/privacy.html">개인정보처리방침</a></div>
-  <div>환율 출처: 하나은행 매매기준율(2026.10.30, 서울외환시장 마감). 숙박·식비·교통 기본값은 추정치예요.</div>
+  <div>환율 출처: 하나은행 매매기준율(2026.11.20, 서울외환시장 마감). 숙박·식비·교통 기본값은 추정치예요.</div>
 </footer>
 </div>
 
 <script>
 /* ===== 여행경비 계산기 – 핵심 로직 =====
-   환율: 2026.10.30 하나은행 고시(달러·엔·유로), 바트·동·대만달러·싱가포르달러는 10월 30일 달러 환율로 환산한 대략값
+   환율: 2026.11.20 하나은행 고시(달러·엔·유로), 바트·동·대만달러·싱가포르달러는 11월 20일 달러 환율로 환산한 대략값
    정책·세금: 일본 출국세·숙박세·면세 개편, 미국 ESTA 등은 2026.9월 확인한 내용
    항목별 기본 금액(호텔·식비·교통 등)은 확인된 가격이 아니라 조사 자료와 일반 시세로 잡은 추정 기준값 */
 
@@ -259,13 +259,13 @@ const STYLES = { a: '알뜰', m: '보통', h: '여유' };
 
 const CUR = {
   KRW: { code: 'KRW', name: '원', unit: '1원', rate: 1 },
-  JPY: { code: 'JPY', name: '엔', unit: '1엔', rate: 8.4696 },
-  THB: { code: 'THB', name: '바트', unit: '1바트', rate: 39.5 },
+  JPY: { code: 'JPY', name: '엔', unit: '1엔', rate: 8.3943 },
+  THB: { code: 'THB', name: '바트', unit: '1바트', rate: 39.6 },
   VND: { code: 'VND', name: '동', unit: '1,000동', rate: 51 },       // 1,000동 = 약 51원
-  TWD: { code: 'TWD', name: '대만달러', unit: '1대만달러', rate: 43.5 },
-  SGD: { code: 'SGD', name: '싱가포르달러', unit: '1싱가포르달러', rate: 1035 },
-  EUR: { code: 'EUR', name: '유로', unit: '1유로', rate: 1493.08 },
-  USD: { code: 'USD', name: '달러', unit: '1달러', rate: 1334.3 }
+  TWD: { code: 'TWD', name: '대만달러', unit: '1대만달러', rate: 43.6 },
+  SGD: { code: 'SGD', name: '싱가포르달러', unit: '1싱가포르달러', rate: 1036 },
+  EUR: { code: 'EUR', name: '유로', unit: '1유로', rate: 1467.82 },
+  USD: { code: 'USD', name: '달러', unit: '1달러', rate: 1336.2 }
 };
 /* VND는 1,000동 단위 환율이라 환산 시 1000으로 나눠 씀 */
 function toLocal(krw, cur, rate) {
@@ -390,7 +390,7 @@ function calcTrip(o) {
 
   var NOTES = {
     common: [
-      ['fact','환율은 10월 30일 하나은행 고시 기준으로 달러 1,334.30원, 100엔 846.96원, 1유로 1,493.08원이에요. 바트·동·대만달러·싱가포르달러는 같은 날 달러 환율로 환산한 대략값이라 출발 전에 확인해 주세요.'],
+      ['fact','환율은 11월 20일 하나은행 고시 기준으로 달러 1,336.20원, 100엔 839.43원, 1유로 1,467.82원이에요. 바트·동·대만달러·싱가포르달러는 같은 날 달러 환율로 환산한 대략값이라 출발 전에 확인해 주세요.'],
       ['rec','유류할증료는 국제유가에 따라 매달 바뀌어요. 항공권은 세금·할증료까지 붙은 총액으로 비교하세요.']
     ],
     japan: [
@@ -439,7 +439,7 @@ function calcTrip(o) {
     var d = DEST[$('dest').value], c = CUR[d.cur];
     $('rateLabel').textContent = d.cur === 'KRW' ? '환율 (국내 여행이라 1원 = 1원)' : '환율 (' + c.unit + ' = 몇 원)';
     $('rate').disabled = d.cur === 'KRW';
-    $('rateHint').textContent = d.cur === 'KRW' ? '' : (d.cur === 'JPY' || d.cur === 'USD' || d.cur === 'EUR' ? '10월 30일 하나은행 고시 기준이에요.' : '10월 30일 달러 환율로 환산한 대략값이에요. 출발 전에 다시 확인하세요.');
+    $('rateHint').textContent = d.cur === 'KRW' ? '' : (d.cur === 'JPY' || d.cur === 'USD' || d.cur === 'EUR' ? '11월 20일 하나은행 고시 기준이에요.' : '11월 20일 달러 환율로 환산한 대략값이에요. 출발 전에 다시 확인하세요.');
   }
   function renderNotes(){
     var d = DEST[$('dest').value], key = $('dest').value, list = NOTES.common.slice();
