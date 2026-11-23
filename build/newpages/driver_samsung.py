@@ -128,3 +128,5 @@ def page_en():
 
 if __name__ == '__main__':
     print(page(), page_en())
+    import runpy
+    runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'driver_samsung_plus.py'), run_name='__main__')  # 모델명 찾기·시리즈표 등 보강
