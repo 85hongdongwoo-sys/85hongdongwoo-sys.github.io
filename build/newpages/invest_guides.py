@@ -28,6 +28,11 @@ CSS = ('<style>.g-cta{display:block;text-align:center;background:#1D4ED8;color:#
        '@media(max-width:480px){.g-calc{grid-template-columns:1fr}.g-tb{font-size:14px}.g-tb th,.g-tb td{padding:9px 5px}}</style>')
 
 
+def man(n):
+    v = round(n) / 10000
+    return (f'{v:,.1f}'.rstrip('0').rstrip('.')) + '만 원'
+
+
 def won(n):
     return f'{n:,}원'
 
@@ -101,8 +106,80 @@ def us_tax():
     return path
 
 
+def pension():
+    path = '/life/invest/pension-tax-credit.html'
+    title = '연금저축·IRP 세액공제 한도와 환급액 (2026) — 900만 원·16.5%·12월 31일 납입 마감'
+    cr, crld = crumb('연금저축·IRP 세액공제')
+    rows = [(3_000_000, '연금저축'), (6_000_000, '연금저축'), (9_000_000, '연금저축 600 + IRP 300')]
+    tb = ''.join(f'<tr><td class="n" style="text-align:left">{a // 10000:,}만 원<br><small style="color:#64748B">{E(k)}</small></td><td class="n"><b>{man(a * .165)}</b></td><td class="n">{man(a * .132)}</td></tr>' for a, k in rows)
+    calc = ('<section class="card" id="calc"><h2>내 연금저축·IRP 환급액 바로 계산</h2>'
+            '<p class="cu-src">올해(1월 1일~12월 31일) 넣은 금액과 앞으로 넣을 금액을 합쳐서 넣으세요. 입력한 숫자는 이 기기에서만 계산돼요.</p>'
+            '<div class="g-calc"><label>올해 총급여 (원)<input id="ps" inputmode="numeric" value="50,000,000"></label>'
+            '<label>연금저축 납입 (원)<input id="pa" inputmode="numeric" value="4,000,000"></label>'
+            '<label>IRP 납입 (원)<input id="pi" inputmode="numeric" value="0"></label>'
+            '<label>올해 ISA 만기 자금 연금계좌로 옮긴 금액 (원)<input id="pz" inputmode="numeric" value="0"></label></div>'
+            '<div class="g-out" id="po"></div>'
+            '<script>(function(){var ids=["ps","pa","pi","pz"],el={};ids.forEach(function(i){el[i]=document.getElementById(i)});var o=document.getElementById("po");'
+            'function n(x){return +String(x.value).replace(/[^0-9]/g,"")||0}function f(x){return Math.round(x).toLocaleString("ko-KR")+"원"}'
+            'function r(){var sal=n(el.ps),a=n(el.pa),i=n(el.pi),z=n(el.pz),rate=sal<=55000000?.165:.132;'
+            'var ps=Math.min(a,6000000),base=Math.min(ps+i,9000000),extra=Math.min(z*.1,3000000),tot=base+extra,ref=tot*rate,room=Math.max(0,9000000-(ps+i));'
+            'var xa=Math.max(0,6000000-a),xi=Math.max(0,room-xa);var tip=room<=0?"기본 한도 900만 원을 다 채웠어요.":(xa?"연금저축에 "+f(Math.min(xa,room))+(xi?", IRP에 "+f(xi):""):"IRP에 "+f(xi))+" 더 넣으면 900만 원 한도를 다 채워요.";'
+            'o.innerHTML="공제율 "+(rate*100).toFixed(1)+"% (총급여 5,500만 원 "+(rate>.15?"이하":"초과")+") · 공제 대상 "+f(tot)+(extra?" (ISA 전환 추가 "+f(extra)+" 포함)":"")+"<br>예상 환급 <b>"+f(ref)+"</b><br>"+tip+(room>0?" 그러면 환급이 "+f(room*rate)+" 늘어요.":"")+(a>6000000?"<br><small>연금저축에서 600만 원을 넘긴 "+f(a-6000000)+"은 공제 대상이 아니에요. 그만큼은 IRP에 넣어야 해요.</small>":"")}'
+            'ids.forEach(function(k){el[k].addEventListener("input",function(){var v=n(el[k]);el[k].value=v?v.toLocaleString("ko-KR"):"";r()})});r()})();</script>'
+            '<a class="g-cta" href="/life/invest.html#pen">투자계산기에서 연금 세액공제 자세히 계산하기 →</a></section>')
+    main = (CSS + f'<header class="top hub">{cr}<h1>연금저축·IRP 세액공제 한도와 환급액 (2026년 기준)</h1>'
+            '<p class="lead">연말정산에서 가장 확실하게 돌려받는 방법인 연금저축·IRP를 한도, 내 연봉별 환급액, 12월 납입 마감까지 숫자로 정리했어요.</p>'
+            '<p class="cu-ans">연금저축은 <b>연 600만 원</b>, IRP를 합치면 <b>연 900만 원</b>까지 세액공제를 받아요. 공제율은 <b>총급여 5,500만 원 이하 16.5%, 초과 13.2%</b>(지방소득세 포함)예요. '
+            '900만 원을 채우면 <b>최대 148만 5천 원</b>(13.2%면 118만 8천 원)을 돌려받고, 올해 공제를 받으려면 <b>12월 31일 금융사 마감 시간 전까지</b> 입금이 끝나야 해요.</p>'
+            '<ul class="dr-toc"><li><a href="#calc">바로 계산</a></li><li><a href="#table">환급액 표</a></li><li><a href="#how">채우는 순서</a></li><li><a href="#deadline">12월 마감</a></li><li><a href="#warn">주의할 점</a></li></ul></header>'
+            + calc
+            + '<section class="card" id="table"><h2>납입액별 환급액 한눈에 보기</h2><div style="overflow-x:auto"><table class="g-tb"><thead><tr><th>1년 납입액</th><th>총급여 5,500만 이하<br>16.5%</th><th>5,500만 초과<br>13.2%</th></tr></thead><tbody>'
+            + tb + '</tbody></table></div><p class="cu-src">종합소득만 있는 사람은 종합소득금액 4,500만 원이 기준이에요. 환급액은 내가 낸 세금(결정세액)보다 클 수 없어서, 낸 세금이 적으면 표보다 적게 돌려받아요.</p></section>'
+            + '<section class="card" id="how"><h2>900만 원 채우는 순서</h2><ol class="g-st">'
+              '<li><b>연금저축에 600만 원</b> — 연금저축만으로는 600만 원까지만 공제돼요. 그 이상 넣어도 공제는 600만 원에서 멈춰요.</li>'
+              '<li><b>IRP에 300만 원</b> — 나머지 300만 원은 IRP(개인형 퇴직연금)에 넣어야 900만 원 한도가 열려요. IRP만으로 900만 원을 채워도 돼요.</li>'
+              '<li><b>ISA 만기 자금이 있다면 +300만 원</b> — ISA 만기 후 60일 안에 연금계좌로 옮기면 옮긴 금액의 10%(최대 300만 원)가 그해 공제 한도에 더해져요. 이러면 최대 1,200만 원까지 공제돼요.</li>'
+              '<li><b>남은 돈은 그냥 넣어도 돼요</b> — 연금계좌에는 공제와 상관없이 연 1,800만 원까지 넣을 수 있어요. 공제는 없지만 운용 수익에 대한 세금이 연금 받을 때로 미뤄져요.</li></ol></section>'
+            + '<section class="card" id="deadline"><h2>12월 31일 밤 이체는 늦을 수 있어요</h2><ul class="cu-chk">'
+              '<li>올해 공제를 받으려면 <b>12월 31일 금융사 영업 마감 전에 입금</b>이 끝나야 해요. 마감 시각은 금융사마다 달라요.</li>'
+              '<li>예를 들어 지난해 한 증권사는 <b>연금저축 12월 31일 밤 11시, IRP 오후 4시</b>까지였어요. IRP는 영업일·영업시간 기준이라 연금저축보다 일찍 마감돼요.</li>'
+              '<li>마지막 날 밤에 IRP 이체를 했다가 다음 해 납입으로 넘어간 사례도 있어요. <b>12월 중순에 가입한 금융사 앱의 "연말 납입 마감 안내"를 확인하고, 며칠 여유를 두고</b> 넣으세요.</li>'
+              '<li>증권사 연금저축은 현금으로 입금만 해도 납입으로 인정돼요. 펀드·ETF는 나중에 사도 돼요.</li></ul></section>'
+            + '<section class="card" id="warn"><h2>넣기 전에 꼭 알아둘 점</h2><ul class="cu-chk">'
+              '<li><b>55세 전에 빼면 16.5%를 다시 내요.</b> 공제받은 원금과 수익을 중도에 찾으면 기타소득세 16.5%가 붙어요. 13.2%로 공제받은 사람은 받은 것보다 더 내게 돼요.</li>'
+              '<li><b>IRP는 중도 인출이 거의 안 돼요.</b> 주택 구입·장기 요양 같은 법에서 정한 사유가 아니면 일부만 빼기 어렵고 해지해야 해요. 연금저축은 일부 인출이 가능해요.</li>'
+              '<li><b>연금으로 받을 땐 3.3~5.5%</b>를 내요(나이에 따라 다름). 55세 이후, 가입 5년 이상이면 연금으로 받을 수 있어요.</li>'
+              '<li>생활비가 빠듯하면 무리해서 채우지 마세요. 여유 자금으로만 넣는 게 안전해요.</li></ul></section>')
+    qa = [('연금저축 세액공제 한도는 얼마예요?', '연금저축만 넣으면 연 600만 원, IRP와 합치면 연 900만 원이에요. ISA 만기 자금을 옮기면 최대 300만 원이 더해져요.'),
+          ('연봉 6천만 원이면 얼마 돌려받아요?', '총급여가 5,500만 원을 넘으면 13.2%라서 900만 원을 채우면 118만 8천 원이에요. 600만 원만 넣으면 79만 2천 원이에요.'),
+          ('연금저축에 900만 원을 다 넣으면요?', '연금저축 단독 한도가 600만 원이라 300만 원은 공제를 못 받아요. 300만 원은 IRP에 넣어야 해요.'),
+          ('12월 31일에 넣어도 올해 공제되나요?', '금융사 마감 시간 전에 입금이 끝나면 돼요. 연금저축은 밤까지 받는 곳이 많지만 IRP는 오후에 마감되는 곳이 많아요. 미리 넣는 게 안전해요.'),
+          ('세금을 거의 안 냈는데도 148만 원을 받나요?', '아니요. 세액공제는 내가 낸 세금에서 빼 주는 거라, 결정세액보다 많이 돌려받을 수 없어요.'),
+          ('연말정산 때 따로 서류를 내야 하나요?', '보통 홈택스 연말정산 간소화 서비스에 납입 내역이 자동으로 올라와요. 안 보이면 금융사에서 연금납입확인서를 받아 회사에 내요.')]
+    fq, fqld = cu.faq(qa)
+    main += fq
+    main += ('<section class="card"><h2>출처와 안내</h2><p class="cu-src">출처: 소득세법 제59조의3(연금계좌세액공제), 국세청 연말정산 안내, 금융감독원 통합연금포털, 증권사 연말 납입 마감 안내(2025년), 2026년 세제개편안 · 확인 2026년 11월 23일.<br>'
+             '이 글은 일반적인 계산 방법을 정리한 참고 자료예요. 실제 환급액은 결정세액과 개인 상황에 따라 달라요. 국세청(126)이나 가입 금융사에 확인하세요.</p></section>'
+             '<section class="card"><h2>함께 쓰면 좋은 계산기</h2><ul class="cu-chk">'
+             '<li><a href="/life/invest.html#pen">연금저축·IRP로 얼마 돌려받을까</a></li><li><a href="/life/invest.html#yet">연말정산 환급, 얼마나 받을까</a></li>'
+             '<li><a href="/life/invest.html#fire">은퇴하려면 얼마 있어야 할까</a></li><li><a href="/life/invest/us-stock-tax.html">해외주식 양도세 연말 절세</a></li></ul></section>')
+    howto = {"@context": "https://schema.org", "@type": "HowTo", "name": "연금저축·IRP 세액공제 900만 원 채우는 방법",
+             "step": [{"@type": "HowToStep", "position": 1, "text": "연금저축에 연 600만 원까지 넣는다."},
+                      {"@type": "HowToStep", "position": 2, "text": "IRP에 300만 원을 더 넣어 합계 900만 원을 채운다."},
+                      {"@type": "HowToStep", "position": 3, "text": "12월 31일 금융사 마감 시간 전에 입금을 끝낸다."}]}
+    art = {"@context": "https://schema.org", "@type": "Article", "headline": title, "datePublished": "2026-11-23", "dateModified": "2026-11-23",
+           "author": {"@type": "Organization", "name": "홍라이프"}, "publisher": {"@type": "Organization", "name": "홍라이프"}, "mainEntityOfPage": SITE + path}
+    kr.write(path, title + ' | 홍라이프 도구',
+             '연금저축 600만 원, IRP 합산 900만 원 세액공제. 총급여 5,500만 원 이하 16.5%(최대 148만 5천 원), 초과 13.2%. 내 환급액 바로 계산, 12월 31일 납입 마감, ISA 전환 300만 원 추가, 중도인출 주의점까지.',
+             main, [crld, fqld, howto, art])
+    return path
+
+
 GUIDES = [('/life/invest/us-stock-tax.html', '해외주식 양도세 계산·연말 절세 (2026)', '1년 순이익 −250만 원 × 22%, 결제일 기준, 연말 절세 3가지, RIA 계좌',
-           '해외주식 양도세 미국주식 양도소득세 계산 250만원 공제 22% 연말 절세 해외주식 결제일 RIA 계좌 국내시장 복귀계좌 해외주식 세금 신고')]
+           '해외주식 양도세 미국주식 양도소득세 계산 250만원 공제 22% 연말 절세 해외주식 결제일 RIA 계좌 국내시장 복귀계좌 해외주식 세금 신고'),
+          ('/life/invest/pension-tax-credit.html', '연금저축·IRP 세액공제 한도와 환급액 (2026)', '900만 원 채우면 최대 148만 5천 원, 12월 31일 납입 마감, 내 환급액 바로 계산',
+           '연금저축 세액공제 IRP 세액공제 연금저축 한도 900만원 16.5% 13.2% 연말정산 환급 연금저축 연말 납입 마감 ISA 만기 연금 전환 300만원')]
 
 if __name__ == '__main__':
     print(us_tax())
+    print(pension())
