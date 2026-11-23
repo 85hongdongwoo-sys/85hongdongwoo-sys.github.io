@@ -391,8 +391,8 @@ def page(k):
         ('파일은 어디서 받아지나요?', '모든 버튼은 제조사 공식 사이트로 연결돼요. 홍라이프 도구는 파일을 올리지 않아요.')]
     fq, fqld = cu.faq(qa)
     title_lines = c['lines'].replace('·', ', ')
-    main = (kr.HP_CSS + MT_CSS + f'<header class="top hub">{cr}<h1>{E(c["name"])} 드라이버 다운로드·설치 방법 — {E(title_lines)}</h1>'
-            f'<p class="lead">{E(nm)} {E(KIND_KO[c["kind"]])} 드라이버를 공식 사이트에서 받는 곳과 설치 순서를 처음 하는 분도 따라 할 수 있게 정리했어요.</p>'
+    main = (kr.HP_CSS + MT_CSS + f'<header class="top hub">{cr}<h1>' + (E(c['h1']) if c.get('h1') else f'{E(c["name"])} 드라이버 다운로드·설치 방법 — {E(title_lines)}') + '</h1>'
+            '<p class="lead">' + (E(c['lead']) if c.get('lead') else f'{E(nm)} {E(KIND_KO[c["kind"]])} 드라이버를 공식 사이트에서 받는 곳과 설치 순서를 처음 하는 분도 따라 할 수 있게 정리했어요.') + '</p>'
             f'<p class="cu-ans">{c["ans"]}</p>'
             + (kr.dl(first[2], first[3], first[4]) if first else ('<a class="dl3d" href="#models"><span class="tx"><b>내 모델 드라이버 바로 받기 ↓</b><small>모델별 설치 파일 표로 이동</small></span></a>' if k in MODELS else kr.dl(su, st, ss)))
             + '<ul class="dr-toc">' + ('<li><a href="#tools">바로 받기</a></li>' if tools else '') + ('<li><a href="#models">모델별 바로 받기</a></li>' if k in MODELS else '') + '<li><a href="#steps">설치 순서</a></li><li><a href="#model">모델 찾기</a></li><li><a href="#win">윈도우 자동 설치</a></li></ul></header>'

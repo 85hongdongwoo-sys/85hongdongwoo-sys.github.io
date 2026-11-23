@@ -131,7 +131,7 @@ def W_sindoh_tool(n=5):
 # ── 페이지 틀 ────────────────────────────────────────────
 KO2EN = {'/driver/': '/en/driver/', '/driver/hp.html': '/en/driver/hp.html', '/driver/sindoh.html': '/en/driver/sindoh.html',
          '/driver/nvidia.html': '/en/driver/nvidia.html', '/driver/amd.html': '/en/driver/amd.html', '/driver/intel.html': '/en/driver/intel.html',
-         '/driver/epson.html': '/en/driver/epson.html', '/driver/brother.html': '/en/driver/brother.html', '/driver/lg.html': '/en/driver/lg.html', '/driver/apple.html': '/en/driver/apple.html', '/driver/surface.html': '/en/driver/surface.html', '/driver/lenovo.html': '/en/driver/lenovo.html', '/driver/dell.html': '/en/driver/dell.html', '/driver/asus.html': '/en/driver/asus.html', '/driver/acer.html': '/en/driver/acer.html', '/driver/roborock.html': '/en/driver/roborock.html', '/driver/samsung.html': '/en/driver/samsung.html', '/driver/ecovacs.html': '/en/driver/ecovacs.html', '/driver/dreame.html': '/en/driver/dreame.html', '/driver/narwal.html': '/en/driver/narwal.html', '/driver/msi.html': '/en/driver/msi.html', '/driver/gigabyte.html': '/en/driver/gigabyte.html', '/driver/asrock.html': '/en/driver/asrock.html', '/driver/hansung.html': '/en/driver/hansung.html', '/driver/razer.html': '/en/driver/razer.html', '/driver/canon.html': '/en/driver/canon.html', '/driver/fujifilm.html': '/en/driver/fujifilm.html', '/driver/kyocera.html': '/en/driver/kyocera.html', '/driver/ricoh.html': '/en/driver/ricoh.html', '/driver/logitech.html': '/en/driver/logitech.html', '/driver/wacom.html': '/en/driver/wacom.html', '/driver/realtek.html': '/en/driver/realtek.html', '/driver/iptime.html': '/en/driver/iptime.html', '/driver/tplink.html': '/en/driver/tplink.html'}
+         '/driver/epson.html': '/en/driver/epson.html', '/driver/brother.html': '/en/driver/brother.html', '/driver/lg.html': '/en/driver/lg.html', '/driver/apple.html': '/en/driver/apple.html', '/driver/surface.html': '/en/driver/surface.html', '/driver/lenovo.html': '/en/driver/lenovo.html', '/driver/dell.html': '/en/driver/dell.html', '/driver/asus.html': '/en/driver/asus.html', '/driver/acer.html': '/en/driver/acer.html', '/driver/roborock.html': '/en/driver/roborock.html', '/driver/samsung.html': '/en/driver/samsung.html', '/driver/ecovacs.html': '/en/driver/ecovacs.html', '/driver/dreame.html': '/en/driver/dreame.html', '/driver/narwal.html': '/en/driver/narwal.html', '/driver/msi.html': '/en/driver/msi.html', '/driver/gigabyte.html': '/en/driver/gigabyte.html', '/driver/asrock.html': '/en/driver/asrock.html', '/driver/hansung.html': '/en/driver/hansung.html', '/driver/razer.html': '/en/driver/razer.html', '/driver/canon.html': '/en/driver/canon.html', '/driver/fujifilm.html': '/en/driver/fujifilm.html', '/driver/kyocera.html': '/en/driver/kyocera.html', '/driver/ricoh.html': '/en/driver/ricoh.html', '/driver/logitech.html': '/en/driver/logitech.html', '/driver/wacom.html': '/en/driver/wacom.html', '/driver/realtek.html': '/en/driver/realtek.html', '/driver/iptime.html': '/en/driver/iptime.html', '/driver/tplink.html': '/en/driver/tplink.html', '/driver/steelseries.html': '/en/driver/steelseries.html', '/driver/corsair.html': '/en/driver/corsair.html', '/driver/hyperx.html': '/en/driver/hyperx.html', '/driver/creative.html': '/en/driver/creative.html', '/driver/jabra.html': '/en/driver/jabra.html', '/driver/epos.html': '/en/driver/epos.html', '/driver/mskb.html': '/en/driver/mskb.html', '/driver/android.html': '/en/driver/android.html', '/driver/elgato.html': '/en/driver/elgato.html', '/driver/ssd.html': '/en/driver/ssd.html'}
 EN2KO = {v: k for k, v in KO2EN.items()}
 # 한국어가 아닌 브라우저(검색 로봇 제외)는 영어판으로 바로 보냄. '한국어로 보기'를 누른 사람(hl_lang=ko)은 그대로.
 REDIRECT = ("<script>(function(){try{var L=(navigator.languages&&navigator.languages[0])||navigator.language||'';"
@@ -486,6 +486,16 @@ REL = ('<section class="card rel"><h2>다른 회사 드라이버</h2><ul class="
        '<li><a href="/driver/realtek.html"><b>리얼텍</b><span>랜·오디오 칩</span></a></li>'
        '<li><a href="/driver/iptime.html"><b>ipTIME</b><span>랜카드 드라이버·공유기 펌웨어</span></a></li>'
        '<li><a href="/driver/tplink.html"><b>TP-Link</b><span>무선랜카드·공유기</span></a></li>'
+       '<li><a href="/driver/steelseries.html"><b>스틸시리즈</b><span>GG 마우스·헤드셋</span></a></li>'
+       '<li><a href="/driver/corsair.html"><b>커세어</b><span>iCUE RGB·키보드</span></a></li>'
+       '<li><a href="/driver/hyperx.html"><b>하이퍼X</b><span>NGENUITY 헤드셋</span></a></li>'
+       '<li><a href="/driver/creative.html"><b>크리에이티브</b><span>사운드 블라스터</span></a></li>'
+       '<li><a href="/driver/jabra.html"><b>자브라</b><span>Jabra Direct 헤드셋</span></a></li>'
+       '<li><a href="/driver/epos.html"><b>에포스</b><span>EPOS Connect 헤드셋</span></a></li>'
+       '<li><a href="/driver/mskb.html"><b>MS 마우스·키보드</b><span>마우스 및 키보드 센터</span></a></li>'
+       '<li><a href="/driver/android.html"><b>안드로이드 USB</b><span>구글 USB·ADB</span></a></li>'
+       '<li><a href="/driver/elgato.html"><b>엘가토</b><span>스트림덱·웹캠</span></a></li>'
+       '<li><a href="/driver/ssd.html"><b>SSD 관리 프로그램</b><span>크루셜·킹스톤·WD</span></a></li>'
        '<li><a href="/driver/"><b>드라이버 모음 전체</b><span>회사별·기기별로 찾기</span></a></li></ul></section>')
 
 
@@ -545,6 +555,16 @@ def hub():
           '<li><a href="/driver/realtek.html"><b>리얼텍</b><span>랜카드(이더넷)·오디오·카드리더 칩</span><em>공식 다운로드 ›</em></a></li>'
           '<li><a href="/driver/iptime.html"><b>ipTIME</b><span>공유기·USB 무선랜카드(A3000UA 등)</span><em>공식 다운로드 ›</em></a></li>'
           '<li><a href="/driver/tplink.html"><b>TP-Link</b><span>USB 무선랜카드(Archer T·TX)·공유기</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/steelseries.html"><b>스틸시리즈</b><span>게이밍 마우스·키보드·헤드셋(Arctis)</span><em>바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/corsair.html"><b>커세어</b><span>게이밍 키보드·마우스·헤드셋·RGB 팬·쿨러</span><em>바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/hyperx.html"><b>하이퍼X</b><span>게이밍 헤드셋·마우스·키보드</span><em>바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/creative.html"><b>크리에이티브</b><span>사운드 블라스터·스피커·헤드셋</span><em>바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/jabra.html"><b>자브라</b><span>업무용 헤드셋·스피커폰·이어버드</span><em>바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/epos.html"><b>에포스</b><span>업무용·게이밍 헤드셋(옛 젠하이저 커뮤니케이션)</span><em>바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/mskb.html"><b>MS 마우스·키보드</b><span>마이크로소프트 마우스·키보드(Ergonomic·Sculpt 등)</span><em>바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/android.html"><b>안드로이드 USB</b><span>구글 픽셀·안드로이드 폰 PC 연결·ADB</span><em>바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/elgato.html"><b>엘가토</b><span>스트림덱·웹캠·캡처보드</span><em>바로 받기 ›</em></a></li>'
+          '<li><a href="/driver/ssd.html"><b>SSD 관리 프로그램</b><span>크루셜·킹스톤·WD·씨게이트 SSD·HDD 펌웨어·상태 검사</span><em>바로 받기 ›</em></a></li>'
           '<li><a href="/drive/update/tesla.html"><b>테슬라</b><span>차량 소프트웨어 무선 업데이트 방법</span><em>그림 설명 ›</em></a></li>'
           + ''.join(f'<li><a href="{E(u)}" target="_blank" rel="noopener nofollow"><b>{E(n)}</b><span>{E(d)}</span><em>공식 사이트로 바로 가기 ↗</em></a></li>' for n, u, d in EXT))
     what = cu.step('?', '드라이버가 뭐예요?', '드라이버는 <b>기기와 컴퓨터를 이어 주는 통역 프로그램</b>이에요. 프린터를 USB로 꽂아도 드라이버가 없으면 컴퓨터가 \'이게 무슨 기계인지\' 몰라서 인쇄가 안 돼요.',
