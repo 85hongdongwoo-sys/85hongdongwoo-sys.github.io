@@ -338,15 +338,19 @@ for _k, _v in DL.items():
     C[_k]['tools'] = _v
 
 
+MH = {}
+
+
 def model_table(k):
     rows = MODELS.get(k)
     if not rows:
         return ''
     tr = ''.join(f'<tr><td><b>{E(m)}</b></td><td>{E(o)}</td><td><a class="mdl" href="{E(u)}" rel="noopener nofollow">바로 받기 ↓</a></td></tr>' for m, o, u in rows)
-    return ('<section class="card dr-sec" id="models"><h2>모델별 드라이버 바로 받기</h2>'
-            '<p class="cu-src">버튼을 누르면 제조사 서버에서 설치 파일이 바로 받아져요. 모델명을 찾을 땐 아래 칸에 입력하세요.</p>'
-            f'<input class="mq" placeholder="모델명 입력 (예: {E(rows[0][0].split(",")[0].replace("유선 ", ""))})" oninput="var q=this.value.toUpperCase().replace(/\\s/g,\'\');this.nextElementSibling.querySelectorAll(\'tr\').forEach(function(r){{r.style.display=!q||r.cells[0].textContent.toUpperCase().replace(/\\s/g,\'\').indexOf(q)>=0?\'\':\'none\'}})" aria-label="모델명 검색">'
-            f'<div class="mt"><table><thead><tr><th>모델</th><th>윈도우</th><th>받기</th></tr></thead><tbody>{tr}</tbody></table></div></section>')
+    h = MH.get(k, ('모델별 드라이버 바로 받기', '모델', '윈도우', '모델명'))
+    return (f'<section class="card dr-sec" id="models"><h2>{h[0]}</h2>'
+            f'<p class="cu-src">{h[5] if len(h) > 5 else "버튼을 누르면 제조사 서버에서 설치 파일이 바로 받아져요. 모델명을 찾을 땐 아래 칸에 입력하세요."}</p>'
+            f'<input class="mq" placeholder="{h[3]} 입력 (예: {E(h[4] if len(h) > 4 else rows[0][0].split(",")[0].replace("유선 ", ""))})" oninput="var q=this.value.toUpperCase().replace(/\\s/g,\'\');this.nextElementSibling.querySelectorAll(\'tr\').forEach(function(r){{r.style.display=!q||r.cells[0].textContent.toUpperCase().replace(/\\s/g,\'\').indexOf(q)>=0?\'\':\'none\'}})" aria-label="{h[3]} 검색">'
+            f'<div class="mt"><table><thead><tr><th>{h[1]}</th><th>{h[2]}</th><th>받기</th></tr></thead><tbody>{tr}</tbody></table></div></section>')
 
 
 MT_CSS = ('<style>.mq{width:100%;box-sizing:border-box;padding:12px 14px;border:1.5px solid #CBD5E1;border-radius:12px;font-size:15px;margin:8px 0 10px}'
@@ -366,6 +370,10 @@ def short(c):
 def win_sec(kind):
     if kind == 'printer':
         return kr.WIN_SEC
+    if kind == 'runtime':
+        return ('<section class="card dr-sec" id="win"><h2>먼저 해 볼 것: Windows 업데이트</h2><ul class="cu-chk">'
+                '<li><b>설정 → Windows 업데이트</b>에서 모든 업데이트를 설치하고 다시 시작해요. 런타임 보안 업데이트가 함께 들어와요.</li>'
+                '<li>그래도 같은 오류가 나면 이 페이지의 파일을 받아 설치(또는 [복구])해요.</li></ul></section>')
     if kind in ('pc', 'board'):
         return kr.WIN_PC
     return ('<section class="card dr-sec" id="win"><h2>먼저 해 볼 것: 연결과 Windows 업데이트</h2><ul class="cu-chk">'
@@ -386,8 +394,9 @@ def page(k):
     first = c['tools'][0] if c['tools'] else None
     steps = '<ol class="big-n">' + ''.join(f'<li>{s}</li>' for s in c['steps']) + '</ol>'
     qa = list(c['qa']) + [
-        (f'{nm} 드라이버는 어디서 받아야 안전해요?', f'{nm} 공식 사이트·공식 프로그램이나 Windows 업데이트에서 받으세요. 광고에 나오는 \'드라이버 자동 설치\' 프로그램이나 블로그에 올라온 파일은 쓰지 마세요.'),
-        ('내 제품 모델을 모르겠어요.', c['serial'].replace('<b>', '').replace('</b>', '')),
+        (f'{nm} ' + ('설치 파일은' if c['kind'] == 'runtime' else '드라이버는') + ' 어디서 받아야 안전해요?', f'{nm} 공식 사이트·공식 프로그램이나 Windows 업데이트에서 받으세요. 광고에 나오는 \'드라이버 자동 설치\' 프로그램이나 블로그에 올라온 파일은 쓰지 마세요.'),
+    ] + ([] if c['kind'] == 'runtime' else [('내 제품 모델을 모르겠어요.', c['serial'].replace('<b>', '').replace('</b>', ''))]) + [
+
         ('파일은 어디서 받아지나요?', '모든 버튼은 제조사 공식 사이트로 연결돼요. 홍라이프 도구는 파일을 올리지 않아요.')]
     fq, fqld = cu.faq(qa)
     title_lines = c['lines'].replace('·', ', ')
@@ -395,12 +404,12 @@ def page(k):
             '<p class="lead">' + (E(c['lead']) if c.get('lead') else f'{E(nm)} {E(KIND_KO[c["kind"]])} 드라이버를 공식 사이트에서 받는 곳과 설치 순서를 처음 하는 분도 따라 할 수 있게 정리했어요.') + '</p>'
             f'<p class="cu-ans">{c["ans"]}</p>'
             + (kr.dl(first[2], first[3], first[4]) if first else ('<a class="dl3d" href="#models"><span class="tx"><b>내 모델 드라이버 바로 받기 ↓</b><small>모델별 설치 파일 표로 이동</small></span></a>' if k in MODELS else kr.dl(su, st, ss)))
-            + '<ul class="dr-toc">' + ('<li><a href="#tools">바로 받기</a></li>' if tools else '') + ('<li><a href="#models">모델별 바로 받기</a></li>' if k in MODELS else '') + '<li><a href="#steps">설치 순서</a></li><li><a href="#model">모델 찾기</a></li><li><a href="#win">윈도우 자동 설치</a></li></ul></header>'
+            + '<ul class="dr-toc">' + ('<li><a href="#tools">바로 받기</a></li>' if tools else '') + (f'<li><a href="#models">{MH.get(k, ("모델별 바로 받기",))[0]}</a></li>' if k in MODELS else '') + '<li><a href="#steps">설치 순서</a></li>' + (f'<li><a href="#model">{E(c.get("model_toc", "모델 찾기"))}</a></li>') + '<li><a href="#win">' + ('Windows 업데이트' if c['kind'] == 'runtime' else '윈도우 자동 설치') + '</a></li></ul></header>'
             + (f'<section class="card dr-sec" id="tools"><h2>설치 파일 바로 받기</h2><ul class="hpl">{tools}</ul></section>' if tools else '')
             + model_table(k)
-            + f'<section class="card dr-sec" id="steps"><h2>{E(nm)} 드라이버 설치 순서 (아주 쉽게)</h2>{steps}' + kr.dl(su, st, ss, bool(first)) + '</section>'
-            + f'<section class="card dr-sec" id="model"><h2>내 제품 모델명 찾기</h2><ul class="cu-chk"><li>{c["serial"]}</li>'
-              '<li>모델명은 영어·숫자를 <b>한 글자도 빼지 말고</b> 그대로 검색하세요. 비슷한 이름의 다른 모델 드라이버는 안 맞을 수 있어요.</li></ul></section>'
+            + f'<section class="card dr-sec" id="steps"><h2>{E(nm)} ' + ('' if c['kind'] == 'runtime' else '드라이버 ') + f'설치 순서 (아주 쉽게)</h2>{steps}' + kr.dl(su, st, ss, bool(first)) + '</section>'
+            + f'<section class="card dr-sec" id="model"><h2>' + E(c.get('model_h2', '내 제품 모델명 찾기')) + f'</h2><ul class="cu-chk"><li>{c["serial"]}</li>'
+              + ('' if c['kind'] == 'runtime' else '<li>모델명은 영어·숫자를 <b>한 글자도 빼지 말고</b> 그대로 검색하세요. 비슷한 이름의 다른 모델 드라이버는 안 맞을 수 있어요.</li>') + '</ul></section>'
             + win_sec(c['kind'])
             + '<section class="card"><h2>가짜 드라이버 사이트 조심하기</h2><p class="dr-warn">검색 광고의 \'드라이버 자동 설치\' 프로그램이나 블로그에 올라온 설치 파일은 받지 마세요. 원치 않는 프로그램이 함께 깔릴 수 있어요. <b>제조사 공식 사이트</b>나 <b>Windows 업데이트</b>가 가장 안전해요.</p></section>'
             + fq
