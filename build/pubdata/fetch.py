@@ -176,8 +176,12 @@ def ev():
                 ok = str(x.get('stat')) == '2'
                 a[6] += 1; a[7] += ok
                 if fast: a[8] += 1; a[9] += ok
+            if not st: log('ev', s, z, '받은 항목', len(it), '→ 충전소 0곳')
             if st: break
-        if not st: raise RuntimeError(f'ev {s} 자료 없음 — 지금 배포된 파일 유지')  # 한도 초과 등으로 비면 덮어쓰지 않음
+        if not st:  # 한도 초과·오류로 비면 그 지역은 지금 배포된 파일을 그대로 쓴다
+            try: rows += [(s, v) for v in json.loads(get(LIVE + 'ev/' + urllib.parse.quote(s) + '.json', tries=2))]; log('ev', s, '이전 자료 유지')
+            except Exception as e: log('ev', s, '이전 자료도 없음', e)
+            continue
         rows += [(s, v) for v in st.values()]
     write_split('ev', rows, ['name', 'lat', 'lng', 'addr', 'op', 'time', 'total', 'avail', 'fast', 'fastAvail', 'parkFree', 'limit'])
 
