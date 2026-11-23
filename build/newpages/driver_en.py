@@ -173,6 +173,20 @@ REL = ('<section class="card rel"><h2>Other drivers</h2><ul class="dr-co">'
        '<li><a href="/en/driver/nvidia.html"><b>NVIDIA</b><span>GeForce / RTX graphics</span></a></li>'
        '<li><a href="/en/driver/amd.html"><b>AMD</b><span>Radeon graphics, Ryzen chipset</span></a></li>'
        '<li><a href="/en/driver/intel.html"><b>Intel</b><span>Driver &amp; Support Assistant</span></a></li>'
+       '<li><a href="/en/driver/msi.html"><b>MSI</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/gigabyte.html"><b>GIGABYTE</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/asrock.html"><b>ASRock</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/hansung.html"><b>Hansung Computer</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/razer.html"><b>Razer</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/canon.html"><b>Canon</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/fujifilm.html"><b>FUJIFILM Business Innovation</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/kyocera.html"><b>Kyocera</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/ricoh.html"><b>Ricoh</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/logitech.html"><b>Logitech</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/wacom.html"><b>Wacom</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/realtek.html"><b>Realtek</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/iptime.html"><b>ipTIME</b><span>Official drivers &amp; software</span></a></li>'
+       '<li><a href="/en/driver/tplink.html"><b>TP-Link</b><span>Official drivers &amp; software</span></a></li>'
        '<li><a href="/en/driver/"><b>All drivers</b><span>Find by brand</span></a></li></ul></section>')
 
 
@@ -342,7 +356,7 @@ def hub():
     path = '/en/driver/'
     cr = '<p class="crumb"><a href="/en/">Home</a> › Drivers</p>'
     co = ''.join(f'<li><a href="/en/driver/{k}.html"><b>{n}</b><span>{d}</span></a></li>' for k, n, d in [
-        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'), ('epson', 'Epson', 'EcoTank, WorkForce and more, by model'), ('brother', 'Brother', 'Inkjet, laser, label, by model'), ('samsung', 'Samsung', 'Galaxy Book, USB driver, SSD Magician, printers'), ('lg', 'LG', 'gram laptops (LG Update), monitors (OnScreen Control)'), ('apple', 'Apple', 'Apple Devices, iCloud, iTunes, Boot Camp'), ('surface', 'Microsoft Surface', 'Drivers & firmware by model'), ('lenovo', 'Lenovo', 'Official driver update tools'), ('dell', 'Dell', 'Official driver update tools'), ('asus', 'ASUS', 'Official driver update tools'), ('acer', 'Acer', 'Official driver update tools'), ('roborock', 'Roborock', 'Robot vacuum app & firmware update'), ('ecovacs', 'ECOVACS', 'Robot vacuum app & firmware update'), ('dreame', 'Dreame', 'Robot vacuum app & firmware update'), ('narwal', 'Narwal', 'Robot vacuum app & firmware update'),
+        ('hp', 'HP', 'Printers, direct download for 22 models (incl. Samsung)'), ('sindoh', 'Sindoh', 'MFPs, direct download for 23 models'), ('epson', 'Epson', 'EcoTank, WorkForce and more, by model'), ('brother', 'Brother', 'Inkjet, laser, label, by model'), ('samsung', 'Samsung', 'Galaxy Book, USB driver, SSD Magician, printers'), ('lg', 'LG', 'gram laptops (LG Update), monitors (OnScreen Control)'), ('apple', 'Apple', 'Apple Devices, iCloud, iTunes, Boot Camp'), ('surface', 'Microsoft Surface', 'Drivers & firmware by model'), ('lenovo', 'Lenovo', 'Official driver update tools'), ('dell', 'Dell', 'Official driver update tools'), ('asus', 'ASUS', 'Official driver update tools'), ('acer', 'Acer', 'Official driver update tools'), ('roborock', 'Roborock', 'Robot vacuum app & firmware update'), ('ecovacs', 'ECOVACS', 'Robot vacuum app & firmware update'), ('dreame', 'Dreame', 'Robot vacuum app & firmware update'), ('narwal', 'Narwal', 'Robot vacuum app & firmware update'), ('msi', 'MSI', 'Official drivers & software'), ('gigabyte', 'GIGABYTE', 'Official drivers & software'), ('asrock', 'ASRock', 'Official drivers & software'), ('hansung', 'Hansung Computer', 'Official drivers & software'), ('razer', 'Razer', 'Official drivers & software'), ('canon', 'Canon', 'Official drivers & software'), ('fujifilm', 'FUJIFILM Business Innovation', 'Official drivers & software'), ('kyocera', 'Kyocera', 'Official drivers & software'), ('ricoh', 'Ricoh', 'Official drivers & software'), ('logitech', 'Logitech', 'Official drivers & software'), ('wacom', 'Wacom', 'Official drivers & software'), ('realtek', 'Realtek', 'Official drivers & software'), ('iptime', 'ipTIME', 'Official drivers & software'), ('tplink', 'TP-Link', 'Official drivers & software'), 
         ('nvidia', 'NVIDIA', 'GeForce / RTX graphics'), ('amd', 'AMD', 'Radeon graphics, Ryzen chipset'), ('intel', 'Intel', 'Driver & Support Assistant')])
     items = [[HPEN[str(m['o'])]['n'], '/en/driver/hp.html#' + kr.mid(m['n'])] for m in kr.HP_DATA['models']] + [[f'Sindoh {m}', f'/en/driver/sindoh.html#m-{m}'] for m, _ in kr.SD_MODELS]
     import driver_more as dm

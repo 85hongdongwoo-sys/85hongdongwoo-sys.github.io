@@ -131,7 +131,7 @@ def W_sindoh_tool(n=5):
 # ── 페이지 틀 ────────────────────────────────────────────
 KO2EN = {'/driver/': '/en/driver/', '/driver/hp.html': '/en/driver/hp.html', '/driver/sindoh.html': '/en/driver/sindoh.html',
          '/driver/nvidia.html': '/en/driver/nvidia.html', '/driver/amd.html': '/en/driver/amd.html', '/driver/intel.html': '/en/driver/intel.html',
-         '/driver/epson.html': '/en/driver/epson.html', '/driver/brother.html': '/en/driver/brother.html', '/driver/lg.html': '/en/driver/lg.html', '/driver/apple.html': '/en/driver/apple.html', '/driver/surface.html': '/en/driver/surface.html', '/driver/lenovo.html': '/en/driver/lenovo.html', '/driver/dell.html': '/en/driver/dell.html', '/driver/asus.html': '/en/driver/asus.html', '/driver/acer.html': '/en/driver/acer.html', '/driver/roborock.html': '/en/driver/roborock.html', '/driver/samsung.html': '/en/driver/samsung.html', '/driver/ecovacs.html': '/en/driver/ecovacs.html', '/driver/dreame.html': '/en/driver/dreame.html', '/driver/narwal.html': '/en/driver/narwal.html'}
+         '/driver/epson.html': '/en/driver/epson.html', '/driver/brother.html': '/en/driver/brother.html', '/driver/lg.html': '/en/driver/lg.html', '/driver/apple.html': '/en/driver/apple.html', '/driver/surface.html': '/en/driver/surface.html', '/driver/lenovo.html': '/en/driver/lenovo.html', '/driver/dell.html': '/en/driver/dell.html', '/driver/asus.html': '/en/driver/asus.html', '/driver/acer.html': '/en/driver/acer.html', '/driver/roborock.html': '/en/driver/roborock.html', '/driver/samsung.html': '/en/driver/samsung.html', '/driver/ecovacs.html': '/en/driver/ecovacs.html', '/driver/dreame.html': '/en/driver/dreame.html', '/driver/narwal.html': '/en/driver/narwal.html', '/driver/msi.html': '/en/driver/msi.html', '/driver/gigabyte.html': '/en/driver/gigabyte.html', '/driver/asrock.html': '/en/driver/asrock.html', '/driver/hansung.html': '/en/driver/hansung.html', '/driver/razer.html': '/en/driver/razer.html', '/driver/canon.html': '/en/driver/canon.html', '/driver/fujifilm.html': '/en/driver/fujifilm.html', '/driver/kyocera.html': '/en/driver/kyocera.html', '/driver/ricoh.html': '/en/driver/ricoh.html', '/driver/logitech.html': '/en/driver/logitech.html', '/driver/wacom.html': '/en/driver/wacom.html', '/driver/realtek.html': '/en/driver/realtek.html', '/driver/iptime.html': '/en/driver/iptime.html', '/driver/tplink.html': '/en/driver/tplink.html'}
 EN2KO = {v: k for k, v in KO2EN.items()}
 # 한국어가 아닌 브라우저(검색 로봇 제외)는 영어판으로 바로 보냄. '한국어로 보기'를 누른 사람(hl_lang=ko)은 그대로.
 REDIRECT = ("<script>(function(){try{var L=(navigator.languages&&navigator.languages[0])||navigator.language||'';"
@@ -472,6 +472,20 @@ REL = ('<section class="card rel"><h2>다른 회사 드라이버</h2><ul class="
        '<li><a href="/driver/nvidia.html"><b>엔비디아</b><span>지포스·RTX 그래픽</span></a></li>'
        '<li><a href="/driver/amd.html"><b>AMD</b><span>라데온 그래픽·라이젠 칩셋</span></a></li>'
        '<li><a href="/driver/intel.html"><b>인텔</b><span>그래픽·칩셋·무선랜 (지원 도우미)</span></a></li>'
+       '<li><a href="/driver/msi.html"><b>MSI</b><span>노트북·메인보드 MSI Center</span></a></li>'
+       '<li><a href="/driver/gigabyte.html"><b>기가바이트</b><span>메인보드·그래픽카드 GCC</span></a></li>'
+       '<li><a href="/driver/asrock.html"><b>애즈락</b><span>메인보드 자동 설치(ADI)</span></a></li>'
+       '<li><a href="/driver/hansung.html"><b>한성컴퓨터</b><span>노트북 고객센터 다운로드</span></a></li>'
+       '<li><a href="/driver/razer.html"><b>레이저</b><span>Synapse 4 마우스·키보드</span></a></li>'
+       '<li><a href="/driver/canon.html"><b>캐논</b><span>PIXMA·imageCLASS·LBP</span></a></li>'
+       '<li><a href="/driver/fujifilm.html"><b>후지필름</b><span>옛 후지제록스 복합기</span></a></li>'
+       '<li><a href="/driver/kyocera.html"><b>교세라</b><span>TASKalfa·ECOSYS KX</span></a></li>'
+       '<li><a href="/driver/ricoh.html"><b>리코</b><span>IM·MP 복합기 PCL6</span></a></li>'
+       '<li><a href="/driver/logitech.html"><b>로지텍</b><span>Options+·G HUB</span></a></li>'
+       '<li><a href="/driver/wacom.html"><b>와콤</b><span>펜 타블렛 드라이버</span></a></li>'
+       '<li><a href="/driver/realtek.html"><b>리얼텍</b><span>랜·오디오 칩</span></a></li>'
+       '<li><a href="/driver/iptime.html"><b>ipTIME</b><span>랜카드 드라이버·공유기 펌웨어</span></a></li>'
+       '<li><a href="/driver/tplink.html"><b>TP-Link</b><span>무선랜카드·공유기</span></a></li>'
        '<li><a href="/driver/"><b>드라이버 모음 전체</b><span>회사별·기기별로 찾기</span></a></li></ul></section>')
 
 
@@ -487,8 +501,7 @@ def howto(name, names):
 
 
 # ── 허브 ────────────────────────────────────────────────
-EXT = [('캐논', 'https://svc.kr.canon/', '캐논코리아 고객지원 다운로드'),
-]
+EXT = []
 
 
 def hub():
@@ -518,6 +531,20 @@ def hub():
           '<li><a href="/driver/ecovacs.html"><b>에코백스</b><span>DEEBOT 로봇청소기 ECOVACS HOME 앱·펌웨어 업데이트</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/dreame.html"><b>드리미</b><span>로봇청소기 Dreamehome 앱·펌웨어 업데이트</span><em>그림 설명 ›</em></a></li>'
           '<li><a href="/driver/narwal.html"><b>나르왈</b><span>Freo 로봇청소기 Narwal 앱·펌웨어 업데이트</span><em>그림 설명 ›</em></a></li>'
+          '<li><a href="/driver/msi.html"><b>MSI</b><span>노트북·메인보드·그래픽카드·모니터</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/gigabyte.html"><b>기가바이트</b><span>메인보드·그래픽카드·AORUS 노트북</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/asrock.html"><b>애즈락</b><span>메인보드·그래픽카드</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/hansung.html"><b>한성컴퓨터</b><span>노트북·데스크톱·모니터</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/razer.html"><b>레이저</b><span>마우스·키보드·헤드셋·Blade 노트북</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/canon.html"><b>캐논</b><span>PIXMA 잉크젯·imageCLASS·LBP 레이저</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/fujifilm.html"><b>후지필름</b><span>Apeos·ApeosPort·DocuPrint 복합기·프린터</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/kyocera.html"><b>교세라</b><span>TASKalfa 복합기·ECOSYS 프린터</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/ricoh.html"><b>리코</b><span>IM·MP 복합기·SP 프린터</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/logitech.html"><b>로지텍</b><span>마우스·키보드·웹캠·Logitech G</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/wacom.html"><b>와콤</b><span>Intuos·Cintiq·Wacom One 펜 타블렛</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/realtek.html"><b>리얼텍</b><span>랜카드(이더넷)·오디오·카드리더 칩</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/iptime.html"><b>ipTIME</b><span>공유기·USB 무선랜카드(A3000UA 등)</span><em>공식 다운로드 ›</em></a></li>'
+          '<li><a href="/driver/tplink.html"><b>TP-Link</b><span>USB 무선랜카드(Archer T·TX)·공유기</span><em>공식 다운로드 ›</em></a></li>'
           '<li><a href="/drive/update/tesla.html"><b>테슬라</b><span>차량 소프트웨어 무선 업데이트 방법</span><em>그림 설명 ›</em></a></li>'
           + ''.join(f'<li><a href="{E(u)}" target="_blank" rel="noopener nofollow"><b>{E(n)}</b><span>{E(d)}</span><em>공식 사이트로 바로 가기 ↗</em></a></li>' for n, u, d in EXT))
     what = cu.step('?', '드라이버가 뭐예요?', '드라이버는 <b>기기와 컴퓨터를 이어 주는 통역 프로그램</b>이에요. 프린터를 USB로 꽂아도 드라이버가 없으면 컴퓨터가 \'이게 무슨 기계인지\' 몰라서 인쇄가 안 돼요.',
@@ -543,7 +570,7 @@ def hub():
             'var h=DRA.filter(function(x){return x[0].toUpperCase().indexOf(q)>=0}).slice(0,8);r.innerHTML=h.length?h.map(function(x){return\'<li><a href="\'+x[1]+\'">\'+x[0]+\' 드라이버 받기 ›</a></li>\'}).join(""):'
             '"<li>아직 모델 표에 없는 모델이에요. 아래에서 회사를 고르면 공식 사이트에서 모델명으로 찾을 수 있어요.</li>";return false}</script></header>'
             f'<section class="card"><h2>회사 고르기</h2><ul class="dr-co">{co}</ul>'
-            '<p class="cu-src" style="margin-top:10px">캐논은 모델별 목록을 준비하는 동안 캐논 공식 다운로드 사이트로 연결해요.</p></section>'
+            '</section>'
             f'<section class="card"><h2>시작 전에 알아 두기</h2>{what}{name}</section>'
             + WIN_SEC
             + '<section class="card"><h2>가짜 드라이버 사이트 조심하기</h2><p class="dr-warn">검색 광고에 나오는 \'드라이버 자동 설치\' 프로그램이나 블로그에 올라온 설치 파일은 받지 마세요. '

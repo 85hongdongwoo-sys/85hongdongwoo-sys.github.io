@@ -543,6 +543,20 @@ MOVED = [('driver', '/driver/', '드라이버 다운로드 모음', '프린터·
          ('driver', '/driver/ecovacs.html', '에코백스 펌웨어 업데이트 방법', 'ECOVACS HOME 앱·로봇청소기', '에코백스 업데이트 에코백스 펌웨어 업데이트 디봇 업데이트 DEEBOT 업데이트 ECOVACS HOME 앱 에코백스 앱 로봇청소기 업데이트 X8 T30 T50', '드라이버'),
          ('driver', '/driver/dreame.html', '드리미 펌웨어 업데이트 방법', 'Dreamehome 앱·로봇청소기', '드리미 업데이트 드리미 펌웨어 업데이트 드리미 로봇청소기 업데이트 Dreamehome 앱 드리미 앱 X50 X40 L20 L10s', '드라이버'),
          ('driver', '/driver/narwal.html', '나르왈 펌웨어 업데이트 방법', 'Narwal Freo 앱·로봇청소기', '나르왈 업데이트 나르왈 펌웨어 업데이트 나르왈 프레오 업데이트 Narwal Freo 앱 나르왈 앱 로봇청소기 업데이트', '드라이버'),
+         ('driver', '/driver/msi.html', 'MSI 드라이버 다운로드', '노트북·메인보드·그래픽카드·모니터 공식 다운로드·설치 방법', 'MSI 드라이버 엠에스아이 드라이버 MSI 노트북 드라이버 MSI 메인보드 드라이버 MSI Center Live Update 드래곤센터', '드라이버'),
+         ('driver', '/driver/gigabyte.html', '기가바이트 드라이버 다운로드', '메인보드·그래픽카드·AORUS 노트북 공식 다운로드·설치 방법', '기가바이트 드라이버 GIGABYTE 드라이버 기가바이트 메인보드 드라이버 GCC GIGABYTE Control Center 어로스 드라이버 AORUS 드라이버', '드라이버'),
+         ('driver', '/driver/asrock.html', '애즈락 드라이버 다운로드', '메인보드·그래픽카드 공식 다운로드·설치 방법', '애즈락 드라이버 ASRock 드라이버 애즈락 메인보드 드라이버 Auto Driver Installer ADI 애즈락 랜 드라이버', '드라이버'),
+         ('driver', '/driver/hansung.html', '한성컴퓨터 드라이버 다운로드', '노트북·데스크톱·모니터 공식 다운로드·설치 방법', '한성 드라이버 한성컴퓨터 드라이버 한성 노트북 드라이버 TFG 드라이버 보스몬스터 드라이버 한성 고객센터 다운로드', '드라이버'),
+         ('driver', '/driver/razer.html', '레이저 드라이버 다운로드', '마우스·키보드·헤드셋·Blade 노트북 공식 다운로드·설치 방법', '레이저 드라이버 Razer 드라이버 레이저 마우스 드라이버 시냅스 Razer Synapse 4 시냅스 3 종료 레이저 키보드 드라이버', '드라이버'),
+         ('driver', '/driver/canon.html', '캐논 드라이버 다운로드', 'PIXMA 잉크젯·imageCLASS·LBP 레이저 공식 다운로드·설치 방법', '캐논 드라이버 캐논 프린터 드라이버 Canon 드라이버 G3910 드라이버 G2910 드라이버 MF643Cdw 드라이버 PIXMA 드라이버 LBP 드라이버', '드라이버'),
+         ('driver', '/driver/fujifilm.html', '후지필름 드라이버 다운로드', 'Apeos·ApeosPort·DocuPrint 복합기·프린터 공식 다운로드·설치 방법', '후지제록스 드라이버 후지필름 드라이버 후지필름 BI 드라이버 Apeos 드라이버 ApeosPort 드라이버 DocuPrint 드라이버 후지제록스 복합기 드라이버', '드라이버'),
+         ('driver', '/driver/kyocera.html', '교세라 드라이버 다운로드', 'TASKalfa 복합기·ECOSYS 프린터 공식 다운로드·설치 방법', '교세라 드라이버 교세라 복합기 드라이버 Kyocera 드라이버 KX Driver TASKalfa 드라이버 ECOSYS 드라이버 M2640idw 드라이버', '드라이버'),
+         ('driver', '/driver/ricoh.html', '리코 드라이버 다운로드', 'IM·MP 복합기·SP 프린터 공식 다운로드·설치 방법', '리코 드라이버 리코 복합기 드라이버 Ricoh 드라이버 리코 프린터 드라이버 PCL6 Universal Print IM C3000 드라이버', '드라이버'),
+         ('driver', '/driver/logitech.html', '로지텍 드라이버 다운로드', '마우스·키보드·웹캠·Logitech G 공식 다운로드·설치 방법', '로지텍 드라이버 Logitech 드라이버 로지텍 마우스 드라이버 Logi Options+ 옵션플러스 G HUB 지허브 로지텍 키보드 드라이버 Unifying', '드라이버'),
+         ('driver', '/driver/wacom.html', '와콤 드라이버 다운로드', 'Intuos·Cintiq·Wacom One 펜 타블렛 공식 다운로드·설치 방법', '와콤 드라이버 Wacom 드라이버 와콤 타블렛 드라이버 인튜어스 드라이버 Intuos 드라이버 신티크 드라이버 Wacom Center CTL-4100 드라이버', '드라이버'),
+         ('driver', '/driver/realtek.html', '리얼텍 드라이버 다운로드', '랜카드(이더넷)·오디오·카드리더 칩 공식 다운로드·설치 방법', '리얼텍 드라이버 Realtek 드라이버 리얼텍 랜 드라이버 Realtek PCIe GbE Family Controller 드라이버 리얼텍 오디오 드라이버 랜카드 드라이버', '드라이버'),
+         ('driver', '/driver/iptime.html', 'ipTIME 드라이버 다운로드', '공유기·USB 무선랜카드(A3000UA 등) 공식 다운로드·설치 방법', 'ipTIME 드라이버 아이피타임 드라이버 아이피타임 랜카드 드라이버 A3000UA 드라이버 A3000MINI 드라이버 ipTIME 펌웨어 업그레이드 무선랜카드 드라이버', '드라이버'),
+         ('driver', '/driver/tplink.html', 'TP-Link 드라이버 다운로드', 'USB 무선랜카드(Archer T·TX)·공유기 공식 다운로드·설치 방법', 'TP-Link 드라이버 티피링크 드라이버 TP-Link 무선랜카드 드라이버 Archer T3U 드라이버 Archer TX20U 드라이버 TP-Link 펌웨어 하드웨어 버전', '드라이버'),
          ('drive', '/drive/update/', '차 내비·블랙박스 업데이트 모음', '현대·기아·제네시스 내비 업데이트를 그림으로 쉽게', '내비 업데이트 내비게이션 업데이트 지도 업데이트 순정 내비 업데이트 블랙박스 업데이트 빌트인캠 업데이트 Navigation Updater', '자동차·지도'),
          ('drive', '/drive/update/hyundai.html', '현대 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '현대 내비 업데이트 현대차 네비 업데이트 현대 내비게이션 업데이트 방법 현대 지도 업데이트 블루링크 업데이트 아반떼 쏘나타 그랜저 싼타페 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
          ('drive', '/drive/update/kia.html', '기아 내비게이션 업데이트 방법', 'USB·SD 준비부터 차에서 업데이트까지 그림으로', '기아 내비 업데이트 기아 네비 업데이트 기아 내비게이션 업데이트 방법 기아 지도 업데이트 쏘렌토 카니발 K5 스포티지 내비 업데이트 빌트인캠 업데이트', '자동차·지도'),
@@ -636,7 +650,7 @@ if 'href="/drive/"' not in s:
     open(p, 'w', encoding='utf-8').write(s)
 # ── 드라이버 영어판(/en/driver/) 사이트맵 (overlay, 2026-11-22) ──
 p = os.path.join(root, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
-_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html', '/en/driver/epson.html', '/en/driver/brother.html', '/en/driver/lg.html', '/en/driver/apple.html', '/en/driver/surface.html', '/en/driver/lenovo.html', '/en/driver/dell.html', '/en/driver/asus.html', '/en/driver/acer.html', '/en/driver/roborock.html', '/en/driver/samsung.html', '/en/driver/ecovacs.html', '/en/driver/dreame.html', '/en/driver/narwal.html')
+_en = [u for u in ('/en/driver/', '/en/driver/hp.html', '/en/driver/sindoh.html', '/en/driver/nvidia.html', '/en/driver/amd.html', '/en/driver/intel.html', '/en/driver/epson.html', '/en/driver/brother.html', '/en/driver/lg.html', '/en/driver/apple.html', '/en/driver/surface.html', '/en/driver/lenovo.html', '/en/driver/dell.html', '/en/driver/asus.html', '/en/driver/acer.html', '/en/driver/roborock.html', '/en/driver/samsung.html', '/en/driver/ecovacs.html', '/en/driver/dreame.html', '/en/driver/narwal.html', '/en/driver/msi.html', '/en/driver/gigabyte.html', '/en/driver/asrock.html', '/en/driver/hansung.html', '/en/driver/razer.html', '/en/driver/canon.html', '/en/driver/fujifilm.html', '/en/driver/kyocera.html', '/en/driver/ricoh.html', '/en/driver/logitech.html', '/en/driver/wacom.html', '/en/driver/realtek.html', '/en/driver/iptime.html', '/en/driver/tplink.html')
        if os.path.exists(os.path.join(root, u.lstrip('/') + ('index.html' if u.endswith('/') else ''))) and f'honglife.co.kr{u}<' not in s]
 if _en:
     open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-22</lastmod></url>\n' for u in _en) + '</urlset>', 1)); print('sitemap + en driver', len(_en))
