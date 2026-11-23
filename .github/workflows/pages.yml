@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '17 * * * *'   # 매시간: 공공데이터(응급실·대기질 등) 새로고침
+    - cron: '47 23,0-8 * * *'   # 한국 오전 8시~오후 6시 사이 매시 47분: 전기차 충전소만 추가 갱신(30분 간격)
 permissions:
   contents: read
   pages: write
@@ -42,6 +43,7 @@ jobs:
           OPINET_KEY: ${{ secrets.OPINET_KEY }}
           EX_KEY: ${{ secrets.EX_KEY }}
           PUB_FORCE: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
+          EV_ONLY: ${{ github.event.schedule == '47 23,0-8 * * *' && '1' || '' }}
         run: |
           if [ -n "$OPINET_KEY" ]; then pip install -q pyproj; fi
           python3 build/pubdata/fetch.py _site
