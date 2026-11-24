@@ -1004,7 +1004,12 @@ if os.path.exists(_ih):
 _hwp_new = [('/pdf/hwp-to-hwpx.html', 'HWP를 HWPX로 변환', '옛 한글 파일을 새 형식으로, 여러 개 ZIP'),
             ('/pdf/hwpx-to-hwp.html', 'HWPX를 HWP로 변환', '옛 버전 한글에서도 열리게'),
             ('/pdf/hwp-to-txt.html', 'HWP 텍스트 추출', '글자만 TXT로, 글자 수·원고지 매수'),
-            ('/pdf/text-to-hwp.html', '텍스트·워드를 한글 파일로', 'TXT·DOCX → HWP·HWPX 만들기')]
+            ('/pdf/text-to-hwp.html', '텍스트·워드를 한글 파일로', 'TXT·DOCX → HWP·HWPX 만들기'),
+            ('/pdf/hwp-to-image.html', 'HWP를 그림(PNG·JPG)으로', '쪽마다 한 장, 카톡·블로그용'),
+            ('/pdf/hwp-to-docx.html', 'HWP를 워드(DOCX)로', '워드·구글 문서에서 열리게'),
+            ('/pdf/excel-to-hwp.html', '엑셀·CSV를 한글 표로', '복사한 표도 HWP 표로'),
+            ('/pdf/hwp-table-to-excel.html', 'HWP 표를 엑셀로', '문서 안 표를 XLSX·CSV로'),
+            ('/pdf/hwp-image-extract.html', 'HWP 그림 꺼내기', '넣은 사진을 원본 그대로')]
 _hwp_all = [('/pdf/hwp-viewer.html', 'HWP 뷰어 (한글 파일 열기)', '한컴오피스 없이 HWP·HWPX 보기'),
             ('/pdf/hwp-to-pdf.html', 'HWP를 PDF로 변환', '여러 개 한 번에, 검색되는 PDF')] + _hwp_new
 _p = os.path.join(root, 'pdf/index.html')
@@ -1020,7 +1025,7 @@ for _f in ('pdf/hwp-viewer.html', 'pdf/hwp-to-pdf.html', 'convert/ext/hwp.html',
     if not os.path.exists(_p):
         continue
     s = open(_p, encoding='utf-8').read()
-    if 'hwp-to-hwpx.html' in s or '</main>' not in s:
+    if 'hwp-image-extract.html' in s or '</main>' not in s:
         continue
     box = ('<section class="card rel"><h2>한글(HWP) 파일 바꾸기·만들기</h2><ul>'
            + ''.join(f'<li><a href="{u}"><b>{t}</b><span>{d}</span></a></li>' for u, t, d in _hwp_new) + '</ul></section>\n')
