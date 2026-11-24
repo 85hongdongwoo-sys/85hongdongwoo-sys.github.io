@@ -67,6 +67,8 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+      - name: 업로드 파일이 GitHub에 등록될 때까지 잠깐 기다리기
+        run: sleep 45
       - id: deployment
         uses: actions/deploy-pages@v4
         with:
