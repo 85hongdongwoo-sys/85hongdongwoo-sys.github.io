@@ -1,54 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 210" role="img" aria-label="문서, PDF, 사진, 표를 한 화면에서 다루는 홍라이프 도구 그림">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9EEFF"/><stop offset="1" stop-color="#F1E9FF"/></linearGradient>
-    <linearGradient id="scr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F6F8FF"/></linearGradient>
-    <filter id="sh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#3B4BA8" flood-opacity=".16"/></filter>
-  </defs>
-  <ellipse cx="180" cy="196" rx="132" ry="9" fill="#C9D2F5" opacity=".55"/>
-  <circle cx="64" cy="54" r="30" fill="url(#bg)"/>
-  <circle cx="306" cy="150" r="24" fill="url(#bg)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 200" width="360" height="200" role="img" aria-label="문서, PDF, 사진, 한글 문서를 다루는 홍라이프 도구 선 그림" fill="none" stroke="#1E2A44" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
   <!-- 노트북 -->
-  <g filter="url(#sh)">
-    <rect x="96" y="30" width="168" height="112" rx="12" fill="#2B3352"/>
-    <rect x="103" y="37" width="154" height="98" rx="7" fill="url(#scr)"/>
-    <path d="M78 146h204l-12 14H90z" fill="#3A4366"/>
-    <rect x="160" y="146" width="40" height="5" rx="2.5" fill="#5B6590"/>
-  </g>
-  <!-- 화면 속 표 -->
-  <rect x="113" y="47" width="64" height="8" rx="4" fill="#4C6EF5"/>
-  <g fill="#E4E9FB"><rect x="113" y="62" width="134" height="10" rx="3"/><rect x="113" y="77" width="134" height="10" rx="3"/><rect x="113" y="92" width="134" height="10" rx="3"/></g>
-  <g fill="#C3CEF7"><rect x="113" y="62" width="40" height="10" rx="3"/><rect x="113" y="77" width="40" height="10" rx="3"/><rect x="113" y="92" width="40" height="10" rx="3"/></g>
-  <g><rect x="196" y="110" width="9" height="16" rx="2" fill="#7C5CFC"/><rect x="210" y="104" width="9" height="22" rx="2" fill="#4C6EF5"/><rect x="224" y="98" width="9" height="28" rx="2" fill="#FFB020"/><rect x="238" y="106" width="9" height="20" rx="2" fill="#FF6B6B"/></g>
-  <rect x="113" y="110" width="70" height="6" rx="3" fill="#E4E9FB"/><rect x="113" y="120" width="50" height="6" rx="3" fill="#E4E9FB"/>
+  <rect x="110" y="30" width="140" height="94" rx="8"/>
+  <path d="M90 140h180l-10 14H100z"/>
+  <path d="M124 46h40M124 62h112M124 76h112M124 90h70"/>
+  <path d="M206 112V100M218 112V92M230 112V96"/>
   <!-- PDF 문서 -->
-  <g filter="url(#sh)" transform="rotate(-9 46 120)">
-    <rect x="22" y="78" width="58" height="76" rx="8" fill="#fff"/>
-    <rect x="22" y="78" width="58" height="20" rx="8" fill="#FF6B6B"/><rect x="22" y="90" width="58" height="8" fill="#FF6B6B"/>
-    <text x="51" y="93" text-anchor="middle" font-family="Pretendard,Apple SD Gothic Neo,sans-serif" font-size="12" font-weight="800" fill="#fff">PDF</text>
-    <g fill="#E4E9FB"><rect x="31" y="106" width="40" height="5" rx="2.5"/><rect x="31" y="116" width="32" height="5" rx="2.5"/><rect x="31" y="126" width="38" height="5" rx="2.5"/><rect x="31" y="136" width="26" height="5" rx="2.5"/></g>
+  <g transform="rotate(-8 52 112)">
+    <path d="M34 74h26l12 12v52a3 3 0 0 1-3 3H34a3 3 0 0 1-3-3V77a3 3 0 0 1 3-3z"/>
+    <path d="M60 74v12h12"/>
+    <rect x="38" y="96" width="24" height="12" rx="2"/>
+    <path d="M38 118h26M38 127h18"/>
   </g>
   <!-- 사진 -->
-  <g filter="url(#sh)" transform="rotate(8 312 70)">
-    <rect x="282" y="40" width="62" height="56" rx="8" fill="#fff"/>
-    <rect x="288" y="46" width="50" height="36" rx="5" fill="#EDE7FF"/>
-    <circle cx="326" cy="55" r="5" fill="#FFB020"/>
-    <path d="M288 82l14-16 10 10 8-7 18 13z" fill="#7C5CFC"/>
-    <rect x="288" y="87" width="30" height="4" rx="2" fill="#E4E9FB"/>
+  <g transform="rotate(7 312 64)">
+    <rect x="284" y="40" width="58" height="46" rx="6"/>
+    <circle cx="328" cy="54" r="5"/>
+    <path d="M284 80l16-16 12 12 8-6 22 14"/>
   </g>
-  <!-- 한글(HWP) 문서 -->
-  <g filter="url(#sh)" transform="rotate(5 296 160)">
-    <rect x="272" y="128" width="48" height="58" rx="7" fill="#fff"/>
-    <rect x="280" y="136" width="22" height="16" rx="4" fill="#4C6EF5"/>
-    <text x="291" y="148" text-anchor="middle" font-family="Pretendard,Apple SD Gothic Neo,sans-serif" font-size="11" font-weight="800" fill="#fff">한</text>
-    <g fill="#E4E9FB"><rect x="280" y="158" width="32" height="4" rx="2"/><rect x="280" y="166" width="26" height="4" rx="2"/><rect x="280" y="174" width="30" height="4" rx="2"/></g>
+  <!-- 한글 문서 -->
+  <g transform="rotate(5 300 150)">
+    <path d="M284 120h24l10 10v44a3 3 0 0 1-3 3h-31a3 3 0 0 1-3-3v-51a3 3 0 0 1 3-3z"/>
+    <path d="M308 120v10h10"/>
+    <path d="M296 136h8M291 142h18"/><circle cx="300" cy="153" r="5"/><path d="M289 166h22"/>
   </g>
-  <!-- 받기 버튼 -->
-  <g filter="url(#sh)">
-    <rect x="150" y="166" width="86" height="28" rx="14" fill="#4C6EF5"/>
-    <path d="M168 174v9m-4-4l4 4 4-4m-8 7h8" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <text x="199" y="185" text-anchor="middle" font-family="Pretendard,Apple SD Gothic Neo,sans-serif" font-size="12" font-weight="700" fill="#fff">바로 받기</text>
-  </g>
+  <!-- 받기 -->
+  <path d="M180 162v20M172 175l8 8 8-8M166 190h28"/>
   <!-- 반짝 -->
-  <g fill="#FFB020"><path d="M84 22l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z"/></g>
-  <g fill="#7C5CFC"><path d="M276 18l2 4.5 4.5 2-4.5 2-2 4.5-2-4.5-4.5-2 4.5-2z"/></g>
+  <path d="M84 30l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z" stroke-width="2.6"/>
+  <path d="M272 16l2 4.5 4.5 2-4.5 2-2 4.5-2-4.5-4.5-2 4.5-2z" stroke-width="2.4"/>
 </svg>

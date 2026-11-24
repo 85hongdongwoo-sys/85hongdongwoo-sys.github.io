@@ -1070,22 +1070,19 @@ _p = os.path.join(root, 'index.html')
 if os.path.exists(_p):
     s = open(_p, encoding='utf-8').read()
     if 'hl-hero-art' not in s and '<section class="hero" id="search">' in s:
-        s = s.replace('<section class="hero" id="search"><h1>', '<section class="hero" id="search"><img class="hl-hero-art" src="/assets/art/hl/hero-tools.svg" alt="" width="360" height="210" fetchpriority="high"><h1>', 1)
+        s = s.replace('<section class="hero" id="search"><h1>', '<section class="hero" id="search"><img class="hl-hero-art" src="/assets/art/hl/hero-tools.svg?v=2" alt="" width="360" height="200" fetchpriority="high"><h1>', 1)
         i = s.find('<section class="hero" id="search">'); j = s.find('</section>', i)
         s = s[:i] + _SAFE_RE.sub('', s[i:j], count=1) + s[j:]
-        css = ('<style>.hero .hl-hero-art{display:block;width:min(340px,86%);height:auto;margin:0 auto 4px}'
+        css = ('<style>.hero .hl-hero-art{display:block;width:min(280px,76%);height:auto;margin:4px auto 10px}'
                '.hero h1{font-size:clamp(26px,5.4vw,36px)!important;line-height:1.2;margin-top:0}'
-               '.hero>p{font-size:15px!important;line-height:1.6}@media(min-width:900px){.hero .hl-hero-art{width:360px}}</style>')
+               '.hero>p{font-size:15px!important;line-height:1.6}@media(min-width:900px){.hero .hl-hero-art{width:300px}}</style>')
         s = s.replace('</head>', css + '</head>', 1)
         open(_p, 'w', encoding='utf-8').write(s); print('home: hero art, smaller title, no safe badge')
-_ART = {'ai': 'ft-ai', 'calendar': 'ft-calendar', 'convert': 'ft-convert', 'design': 'ft-design', 'dev': 'ft-dev', 'doc': 'ft-doc',
-        'excel': 'ft-excel', 'image': 'ft-image', 'ipsi': 'ft-ipsi', 'legal': 'ft-legal', 'life': 'ft-life', 'medical': 'ft-medical',
-        'net': 'ft-net', 'pdf': 'ft-pdf', 'qr': 'ft-qr', 'sheet': 'ft-sheet', 'shop': 'ft-shop', 'study': 'ft-study', 'text': 'ft-text', 'drive': 'cs-drive'}
-_HUBCSS = ('<style>.top.hub .hub-art{display:block;width:min(240px,62%);height:auto;margin:2px auto 6px}'
+_ART = {k: 'ln-' + k for k in ('ai', 'calendar', 'convert', 'design', 'dev', 'doc', 'excel', 'image', 'ipsi', 'legal', 'life', 'medical', 'net', 'pdf', 'qr', 'sheet', 'shop', 'study', 'text', 'drive')}  # 선 그림
+_HUBCSS = ('<style>.top.hub .hub-art{display:block;width:84px;height:63px;padding:16px 20px;box-sizing:content-box;background:#fff;'
+           'border:1px solid rgba(20,30,60,.08);border-radius:24px;box-shadow:0 10px 24px -14px rgba(16,24,48,.28);margin:6px auto 12px}'
            '.top.hub h1{font-size:clamp(24px,5vw,32px)!important;line-height:1.25}'
-           '.top.hub .lead{font-size:15px!important;line-height:1.65}'
-           '@media(min-width:900px){.top.hub{display:grid;grid-template-columns:1fr 260px;column-gap:28px;align-items:center}'
-           '.top.hub>*{grid-column:1}.top.hub .hub-art{grid-column:2;grid-row:1/span 4;width:260px;margin:0}}</style>')
+           '.top.hub .lead{font-size:15px!important;line-height:1.65}</style>')
 _n = 0
 for _d, _a in _ART.items():
     _p = os.path.join(root, _d, 'index.html')
@@ -1097,7 +1094,7 @@ for _d, _a in _ART.items():
         continue
     j = s.find('</header>', i)
     head = _SAFE_RE.sub('', s[i:j], count=1)
-    head = head.replace('<header class="top hub">', f'<header class="top hub"><img class="hub-art" src="/assets/art/hl/{_a}.svg" alt="" width="300" height="200">', 1)
+    head = head.replace('<header class="top hub">', f'<header class="top hub"><img class="hub-art" src="/assets/art/hl/{_a}.svg" alt="" width="120" height="90">', 1)
     s = s[:i] + head + s[j:]
     s = s.replace('</head>', _HUBCSS + '</head>', 1)
     open(_p, 'w', encoding='utf-8').write(s); _n += 1
