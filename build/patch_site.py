@@ -1040,3 +1040,22 @@ _add = [u for u, _, _ in _hwp_new if f'https://honglife.co.kr{u}<' not in s]
 if _add:
     s = s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-24</lastmod></url>\n' for u in _add) + '</urlset>', 1)
     open(_p, 'w', encoding='utf-8').write(s); print('sitemap + hwp tools', len(_add))
+
+# 한국사능력검정 기출·급수 (/ipsi/hanneung.html, overlay, build/newpages/gen_hanneung.py) — 입시 허브, 사이트맵
+_p = os.path.join(root, 'ipsi', 'index.html')
+if os.path.exists(_p):
+    s = open(_p, encoding='utf-8').read()
+    _m = re.search(r'<ul class="tlist[^"]*">', s)
+    if '/ipsi/hanneung.html' not in s and _m:
+        s = s[:_m.end()] + '<li><a href="/ipsi/hanneung.html"><i class="th"><img src="/assets/art/hl/cs-ipsi.svg" alt="" width="200" height="140" loading="lazy"></i><img class="pg" src="/assets/art/hl/pg-ipsi.svg" alt="" width="26" height="26" loading="lazy"><b>한국사능력검정시험 기출·급수 기준</b><span>57~80회 기출 받는 곳, 점수별 1~6급, 2027 시험 일정</span></a></li>' + s[_m.end():]
+        s = re.sub(r'입시 도구 (\d+)가지', lambda m: f'입시 도구 {int(m.group(1)) + 1}가지', s, count=1)
+        s = s.replace('"hasPart":[', '"hasPart":[{"@type":"WebApplication","name":"한국사능력검정시험 기출·급수 기준","url":"https://honglife.co.kr/ipsi/hanneung.html"},', 1)
+        open(_p, 'w', encoding='utf-8').write(s); print('ipsi hub: hanneung added')
+_p = os.path.join(root, 'calendar', 'exam-schedule.html')
+if os.path.exists(_p):
+    s = open(_p, encoding='utf-8').read()
+    if '/ipsi/hanneung.html' not in s and '</main>' in s:
+        open(_p, 'w', encoding='utf-8').write(s.replace('</main>', '<section class="card rel"><h2>한국사능력검정 자세히</h2><ul><li><a href="/ipsi/hanneung.html"><b>한국사능력검정시험 기출·급수 기준</b><span>회차별 기출 받는 곳, 점수별 급수, 2027 일정</span></a></li></ul></section>\n</main>', 1)); print('exam-schedule -> hanneung link')
+_p = os.path.join(root, 'sitemap.xml'); s = open(_p, encoding='utf-8').read()
+if '/ipsi/hanneung.html<' not in s:
+    open(_p, 'w', encoding='utf-8').write(s.replace('</urlset>', '<url><loc>https://honglife.co.kr/ipsi/hanneung.html</loc><lastmod>2026-11-24</lastmod></url>\n</urlset>', 1)); print('sitemap + hanneung')

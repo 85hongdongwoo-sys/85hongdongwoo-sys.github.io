@@ -559,7 +559,8 @@ def jesc(s):
 
 
 def page(p):
-    url = f"/pdf/{p['slug']}.html"
+    url = p.get('url') or f"/pdf/{p['slug']}.html"
+    secname, securl = p.get('sec', ('PDF 도구', '/pdf/'))
     full = SITE + url
     name, desc = p['name'], p['desc']
     s = TPL
@@ -579,7 +580,7 @@ def page(p):
            "isAccessibleForFree": True, "dateModified": DATE}
     bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "홍라이프 도구", "item": SITE + "/"},
-        {"@type": "ListItem", "position": 2, "name": "PDF 도구", "item": SITE + "/pdf/"},
+        {"@type": "ListItem", "position": 2, "name": secname, "item": SITE + securl},
         {"@type": "ListItem", "position": 3, "name": name, "item": full}]}
     fq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": jesc(a)}} for q, a in p['faq']]}
@@ -598,10 +599,10 @@ def page(p):
     sec.append('<h3>참고한 자료</h3><ul class="src">' + (p.get('src') or '<li><a href="https://www.hancom.com/support/downloadCenter/hwpOwpml" rel="noopener" target="_blank">한글과컴퓨터 — 한글 문서 파일 형식 공개</a> — HWP 5.0·HWPX(OWPML) 형식 문서</li>'
                '<li><a href="https://github.com/edwardkim/rhwp" rel="noopener" target="_blank">rhwp (MIT)</a> — 브라우저용 한글 문서 엔진, 0.8.7 사용</li>') + '</ul></section>')
     faq = '<section class="card faq"><h2>자주 묻는 질문</h2>' + ''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in p['faq']) + '</section>'
-    rel = '<section class="card rel"><h2>다른 한글(HWP) 도구</h2><ul>' + ''.join(
-        f'<li><a href="{u}"><b>{t}</b><span>{d}</span></a></li>' for u, t, d in HWP_TOOLS if u != url) + '</ul></section>'
+    rel = p.get('rel') or ('<section class="card rel"><h2>다른 한글(HWP) 도구</h2><ul>' + ''.join(
+        f'<li><a href="{u}"><b>{t}</b><span>{d}</span></a></li>' for u, t, d in HWP_TOOLS if u != url) + '</ul></section>')
     warn = f'<div class="warn">{p["warn"]}</div>' if p['warn'] else ''
-    main = (f'<main class="wrap wide">\n<header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/pdf/">PDF 도구</a> › 한글(HWP)</p>'
+    main = (f'<main class="wrap wide">\n<header class="top"><p class="crumb"><a href="/">홈</a> › <a href="{securl}">{secname}</a>{p.get("crumb3", " › 한글(HWP)")}</p>'
             f'<h1>{p["h1"]}</h1><p class="lead">{p["lead"]}</p>{"" if p.get("nosafe") else SAFE}</header>\n{warn}{tool_html}\n' + ''.join(sec) + faq + rel + '\n</main>')
     # scripts: drop the template's tool script (last inline script) and add kit + ours
     after = re.sub(r'<script>\s*\(function\(\)\{var \$=HL\.\$;var items=\[\],stop=false.*?</script>', '', after, flags=re.S)
@@ -609,7 +610,9 @@ def page(p):
     after = re.sub(r'(<script src="/assets/js/hlhwp\.js[^"]*"></script>)', r'\1\n' + KIT + '\n' + tool_js.replace('\\', '\\\\'), after, count=1)
     out = head + '</head>' + pre + main + after
     assert 'hwp-to-pdf.html' not in out.split('</head>')[0], p['slug']
-    open(os.path.join(OUT, p['slug'] + '.html'), 'w', encoding='utf-8').write(out)
+    dst = os.path.join(ROOT, 'overlay', url.lstrip('/'))
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    open(dst, 'w', encoding='utf-8').write(out)
     return url
 
 
