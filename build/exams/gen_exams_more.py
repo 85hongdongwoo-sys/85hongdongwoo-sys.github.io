@@ -406,7 +406,19 @@ CCSS = ('<style id="gc-car">.car-figs{display:grid;grid-template-columns:repeat(
         '.car h3{font-size:15.5px;margin:16px 0 6px}.car ul{margin:0;padding-left:20px;line-height:1.7}.car li{margin:2px 0}'
         '.car-pay{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;background:#F3F7FF;border:1px solid #DCE7FB;border-radius:12px;padding:10px 12px;margin:6px 0}'
         '.car-pay b{font-size:19px;color:#12305C}.car-pay span{font-size:13px;color:var(--muted,#5B6B82);line-height:1.55}'
+        '.car-ch{display:flex;align-items:flex-end;gap:14px;height:170px;margin:10px 0 4px;padding:0 6px;border-bottom:1px solid #c7c7cc;background:repeating-linear-gradient(to top,transparent 0 41px,#ececf0 41px 42px)}'
+        '.car-ch div{flex:1;max-width:90px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}'
+        '.car-ch em{font-style:normal;font-size:12.5px;font-weight:700;color:#12305C;margin-bottom:4px;white-space:nowrap}'
+        '.car-ch i{display:block;width:100%;border-radius:6px 6px 0 0}.car-chx{display:flex;gap:14px;padding:0 6px;margin-bottom:8px}'
+        '.car-chx span{flex:1;max-width:90px;text-align:center;font-size:12px;color:var(--muted,#5B6B82)}'
         '.car-note{font-size:12.5px;color:var(--muted,#5B6B82);margin-top:10px}@media(max-width:560px){.car-figs{grid-template-columns:1fr}}</style>')
+def pay_chart(p):
+    if not p.get('mid'): return ''
+    top = max(p['hi'], p['mid'], p['lo']) * 1.15
+    cols = [('하위 25%', p['lo'], '#BFD5FB'), ('평균(중위)', p['mid'], '#3B82F6'), ('상위 25%', p['hi'], '#F59E0B')]
+    bars = ''.join(f'<div title="{l}: {v:,}만 원"><em>{v:,}만</em><i style="height:{v / top * 100:.1f}%;background:{c}"></i></div>' for l, v, c in cols)
+    return (f'<div class="car-ch" role="img" aria-label="{E(p["job"])} 연봉 분포: 하위 25% {p["lo"]:,}만 원, 평균 {p["mid"]:,}만 원, 상위 25% {p["hi"]:,}만 원">{bars}</div>'
+            '<div class="car-chx">' + ''.join(f'<span>{l}</span>' for l, _, _ in cols) + '</div>')
 def career_section(g, q):
     C = (load('jagyeok_career') or {}).get(g)
     if not C: return '', []
@@ -419,7 +431,7 @@ def career_section(g, q):
          + '<h3>하는 일</h3>' + li(C['work'])
          + '<h3>어디서 일하나요?</h3>' + li(C['place'])
          + '<h3>근무 환경</h3>' + li(C['env'])
-         + (f'<h3>얼마나 버나요?</h3><div class="car-pay"><b>{E(pay["value"])}</b><span>{E(pay["note"])} 출처: {E(pay["src"])}.</span></div>' if pay else '')
+         + (f'<h3>얼마나 버나요?</h3><div class="car-pay"><b>{E(pay["value"])}</b><span>{E(pay["note"])} 출처: {E(pay["src"])}.</span></div>' + pay_chart(pay) if pay else '')
          + '<h3>이런 사람에게 맞아요</h3>' + li(C['fit'])
          + ('<h3>알아 둘 점</h3>' + li(C['notes']) if C.get('notes') else '')
          + '<p class="car-note">참고: ' + ' · '.join(f'<a href="{E(u)}" target="_blank" rel="noopener nofollow">{E(n)}</a>' for n, u in C.get('sources', [])) + '</p></section>')
