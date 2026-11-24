@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-      - run: python3 scripts/fetch_aic.py
+      - run: python3 scripts/fetch_niche.py
       - run: |
           git config user.name "muse-bot"; git config user.email "actions@users.noreply.github.com"
-          git add art && git commit -m "muse: fetch CC0 artworks from Art Institute of Chicago" && git push || echo nothing
+          git add hires && git commit -m "muse: niche hi-res CC0 artworks" && git push || echo nothing
