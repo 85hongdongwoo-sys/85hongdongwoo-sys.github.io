@@ -7,7 +7,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 TPL = open(os.path.join(ROOT, 'build/hwp/template.html'), encoding='utf-8').read()
 OUT = os.path.join(ROOT, 'overlay/pdf')
 SITE = 'https://honglife.co.kr'
-KIT = '<script src="/assets/js/hlhwpkit.js?v=6"></script>'
+KIT = '<script src="/assets/js/hlhwpkit.js?v=7"></script>'
 DATE = '2026-11-24'
 
 SAFE = ('<div class="safe"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
@@ -26,10 +26,14 @@ HWP_TOOLS = [
     ('/pdf/excel-to-hwp.html', '엑셀·CSV를 한글 표로', '복사한 표도 HWP 표로'),
     ('/pdf/hwp-table-to-excel.html', 'HWP 표를 엑셀로', '문서 안 표를 XLSX·CSV로'),
     ('/pdf/hwp-image-extract.html', 'HWP 그림 꺼내기', '넣은 사진을 원본 그대로'),
+    ('/pdf/hwp-password.html', 'HWP 암호 걸기·풀기', '보내기 전 열기 암호, 아는 암호 풀기'),
+    ('/pdf/hwp-compare.html', '한글 문서 비교', '두 파일의 달라진 줄 찾기'),
+    ('/pdf/hwp-privacy-check.html', 'HWP 개인정보 찾기', '주민번호·전화번호 확인'),
+    ('/pdf/hwp-info.html', '한글 문서 정보·글꼴 확인', '버전·쪽 수·쓴 글꼴'),
     ('/doc/gongmun-checker.html', '공문서 오류 검사기', 'HWP 공문 맞춤법·서식 점검'),
 ]
 
-FILE_TOOL_CSS = '<style>.hk-out{white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;max-height:420px;overflow:auto;background:#F7F8FA;border:1px solid #E3E6EB;border-radius:12px;padding:12px 14px;font-size:15px;line-height:1.7;margin-top:10px}.hk-tiles{margin-top:10px}#tool textarea{width:100%;box-sizing:border-box}.hk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:8px}.hk-grid figure{margin:0;border:1px solid #E3E6EB;border-radius:10px;padding:6px;background:#fff;text-align:center;min-width:0}.hk-grid canvas,.hk-grid img{max-width:100%;height:auto;display:block;margin:0 auto}.hk-grid figcaption{font-size:13px;color:#5B6B82;margin-top:4px;overflow-wrap:anywhere}.hk-tbl{overflow-x:auto;margin-top:8px}.hk-tbl td,.hk-tbl th{white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis}</style>'
+FILE_TOOL_CSS = '<style>.hk-out{white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;max-height:420px;overflow:auto;background:#F7F8FA;border:1px solid #E3E6EB;border-radius:12px;padding:12px 14px;font-size:15px;line-height:1.7;margin-top:10px}.hk-tiles{margin-top:10px}#tool textarea{width:100%;box-sizing:border-box}.hk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:8px}.hk-grid figure{margin:0;border:1px solid #E3E6EB;border-radius:10px;padding:6px;background:#fff;text-align:center;min-width:0}.hk-grid canvas,.hk-grid img{max-width:100%;height:auto;display:block;margin:0 auto}.hk-grid figcaption{font-size:13px;color:#5B6B82;margin-top:4px;overflow-wrap:anywhere}.hk-tbl{overflow-x:auto;margin-top:8px}.hk-diff div{padding:1px 6px;border-radius:4px}.hk-add{background:#E7F0FF;color:#0B3D91}.hk-del{background:#FDECEC;color:#8A1C1C;text-decoration:line-through}.hk-skip{color:#8A94A6;font-size:13px;text-align:center}.hk-fonts{columns:2;column-gap:20px;padding-left:18px}@media(max-width:520px){.hk-fonts{columns:1}}.hk-tbl td,.hk-tbl th{white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis}</style>'
 
 
 def conv_tool(src, dst):
@@ -231,6 +235,115 @@ $('#go').onclick=HL.run($('#go'),async function(){await HL.need('jszip');var z=n
 })();
 </script>""")
 
+PW_TOOL = ("""<section class="card tool" id="tool">
+<div class="seg" role="tablist" style="display:flex;gap:8px;margin-bottom:12px"><button class="btn" id="mL" type="button" aria-pressed="true">암호 걸기</button><button class="btn ghost" id="mU" type="button" aria-pressed="false">암호 풀기</button></div>
+<div class="drop" id="drop"><b>HWP·HWPX 파일을 놓거나 눌러서 고르세요</b><span id="dsub">.hwp · .hwpx · 암호를 걸 문서</span></div>
+<p class="note" id="info"></p>
+<div id="opt" hidden>
+<div class="grid g2" style="margin-top:8px"><div class="f"><label for="pw">암호</label><input id="pw" type="password" autocomplete="new-password" maxlength="64" placeholder="5자 이상"></div>
+<div class="f" id="pw2w"><label for="pw2">암호 한 번 더</label><input id="pw2" type="password" autocomplete="new-password" maxlength="64"></div>
+<div class="f" id="fmw"><label for="fmt">저장 형식</label><select id="fmt"><option value="same" selected>원래 형식 그대로</option><option value="hwp">HWP</option><option value="hwpx">HWPX</option></select></div></div>
+<label class="chk" style="margin:6px 0"><input type="checkbox" id="sh"> 암호 보이기</label>
+<div class="btns"><button class="btn dl" id="go" type="button">암호 건 파일 받기</button></div>
+</div>
+<div class="prog" id="pb" hidden><i></i></div><p class="note" id="st" aria-live="polite"></p>
+</section>""", """<script>
+(function(){var $=HL.$;var mode='lock',file=null,buf=null,kind='';
+function setMode(m){mode=m;$('#mL').className='btn'+(m==='lock'?'':' ghost');$('#mU').className='btn'+(m==='unlock'?'':' ghost');$('#mL').setAttribute('aria-pressed',m==='lock');$('#mU').setAttribute('aria-pressed',m==='unlock');$('#pw2w').hidden=m!=='lock';$('#fmw').hidden=m!=='lock';$('#go').textContent=m==='lock'?'암호 건 파일 받기':'암호 푼 파일 받기';$('#dsub').textContent=m==='lock'?'.hwp · .hwpx · 암호를 걸 문서':'.hwp · .hwpx · 암호가 걸린 문서 (암호를 알고 있어야 해요)';$('#st').textContent='';$('#pw').value=$('#pw2').value=''}
+$('#mL').onclick=function(){setMode('lock')};$('#mU').onclick=function(){setMode('unlock')};
+$('#sh').onchange=function(){$('#pw').type=$('#pw2').type=this.checked?'text':'password'};
+async function add(fs){file=fs[0];if(!file)return;buf=new Uint8Array(await HL.read(file));kind=buf[0]===0x50&&buf[1]===0x4B?'hwpx':buf[0]===0xD0&&buf[1]===0xCF?'hwp':'';if(!kind){$('#st').textContent='한글(HWP·HWPX) 파일이 아니에요.';$('#opt').hidden=true;return}
+ $('#info').textContent='‘'+file.name+'’ · '+HL.bytes(file.size)+' · '+kind.toUpperCase();$('#opt').hidden=false;$('#st').textContent='';$('#pw').focus()}
+HL.dropzone($('#drop'),{multiple:false,accept:'.hwp,.hwpx',onFiles:add});
+$('#go').onclick=HL.run($('#go'),async function(){var pw=$('#pw').value;if(!pw)throw new Error('암호를 적어 주세요.');
+ var m=await HLHWP.load(function(a,b){$('#pb').hidden=false;$('#pb i').style.width=(b?Math.round(a/b*100):30)+'%';$('#st').textContent='문서 엔진 받는 중… (처음 한 번만)'});$('#pb').hidden=true;var d,out,ext;
+ if(mode==='lock'){if([...pw].length<5)throw new Error('암호는 5자 이상으로 해 주세요. 한글 프로그램도 5자 이상만 받아요.');if(pw!==$('#pw2').value)throw new Error('두 번 적은 암호가 달라요.');
+  try{d=new m.HwpDocument(buf)}catch(e){throw new Error(/비밀번호|암호/.test(String(e))?'이미 암호가 걸린 문서예요. ‘암호 풀기’에서 먼저 풀어 주세요.':'문서를 읽지 못했어요: '+String(e).slice(0,100))}
+  ext=$('#fmt').value==='same'?kind:$('#fmt').value;out=ext==='hwpx'?d.exportHwpxWithPassword(pw):d.exportHwpWithPassword(pw)}
+ else{try{d=m.HwpDocument.openWithPassword(buf,pw)}catch(e){throw new Error(/일치/.test(String(e))?'암호가 맞지 않아요. 대소문자·띄어쓰기를 확인해 주세요.':'문서를 열지 못했어요: '+String(e).slice(0,100))}ext=kind;out=ext==='hwpx'?d.exportHwpx():d.exportHwp()}
+ try{d.free()}catch(e){}var nm=HL.baseName(file.name)+(mode==='lock'?'_암호':'_암호해제')+'.'+ext;HL.download(new Blob([out],{type:HLK.mime[ext]}),nm);$('#pw').value=$('#pw2').value='';
+ $('#st').textContent=(mode==='lock'?'암호를 건 ':'암호를 푼 ')+'‘'+nm+'’을(를) 받았어요. 원본 파일은 그대로 두세요.'},'처리 중…');
+setMode('lock');
+})();
+</script>""")
+
+CMP_TOOL = ("""<section class="card tool" id="tool">
+<div class="grid g2"><div><div class="drop" id="dA"><b>원래 문서 (A)</b><span>.hwp · .hwpx</span></div><p class="note" id="nA"></p></div>
+<div><div class="drop" id="dB"><b>고친 문서 (B)</b><span>.hwp · .hwpx</span></div><p class="note" id="nB"></p></div></div>
+<div id="opt" hidden>
+<label class="chk" style="margin:6px 0"><input type="checkbox" id="ws" checked> 띄어쓰기·빈 줄 차이는 무시</label>
+<div class="tiles hk-tiles"><div class="tile light"><div class="k">바뀐 줄</div><div class="v" id="cC">0</div></div><div class="tile light"><div class="k">더한 줄 (B에만)</div><div class="v" id="cA">0</div></div><div class="tile light"><div class="k">뺀 줄 (A에만)</div><div class="v" id="cD">0</div></div></div>
+<div class="hk-out hk-diff" id="out"></div>
+<div class="btns"><button class="btn" id="dl" type="button">비교 결과 TXT로 받기</button></div>
+</div>
+<div class="prog" id="pb" hidden><i></i></div><p class="note" id="st" aria-live="polite"></p>
+</section>""", """<script>
+(function(){var $=HL.$;var A=null,B=null,res=[];
+async function load(fs,w){try{var h=await HLHWP.open(fs[0],function(a,b){$('#pb').hidden=false;$('#pb i').style.width=(b?Math.round(a/b*100):30)+'%'});$('#pb').hidden=true;var t=HLK.all(h);var r={name:h.name,n:h.n,t:t};if(h.free)h.free();if(w==='A')A=r;else B=r;$('#n'+w).textContent='‘'+r.name+'’ · '+r.n+'쪽 · '+HLK.fmtN(HLK.stats(t).all)+'자'}catch(e){$('#pb').hidden=true;$('#n'+w).textContent=e.message}run()}
+HL.dropzone($('#dA'),{multiple:false,accept:'.hwp,.hwpx',onFiles:function(f){load(f,'A')}});HL.dropzone($('#dB'),{multiple:false,accept:'.hwp,.hwpx',onFiles:function(f){load(f,'B')}});$('#ws').onchange=run;
+function lines(t){var ws=$('#ws').checked;var l=HLK.splitText(t);if(ws)l=l.map(function(x){return x.replace(/\\s+/g,' ').trim()}).filter(function(x){return x});return l}
+function diff(a,b){var n=a.length,m=b.length;if(n*m>4e6)throw new Error('문서가 너무 길어 비교하지 못했어요 (줄 수 '+n+' × '+m+'). 나눠서 비교해 주세요.');var dp=[];for(var i=0;i<=n;i++){dp.push(new Uint16Array(m+1))}for(i=n-1;i>=0;i--)for(var j=m-1;j>=0;j--)dp[i][j]=a[i]===b[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+ var out=[];i=0;j=0;while(i<n&&j<m){if(a[i]===b[j]){out.push([0,a[i]]);i++;j++}else if(dp[i+1][j]>=dp[i][j+1]){out.push([-1,a[i]]);i++}else{out.push([1,b[j]]);j++}}while(i<n)out.push([-1,a[i++]]);while(j<m)out.push([1,b[j++]]);return out}
+function run(){if(!A||!B){$('#opt').hidden=true;return}try{res=diff(lines(A.t),lines(B.t))}catch(e){$('#st').textContent=e.message;return}$('#opt').hidden=false;
+ var add=0,del=0,chg=0;for(var k=0;k<res.length;k++){if(res[k][0]===-1&&res[k+1]&&res[k+1][0]===1){chg++;k++}else if(res[k][0]===1)add++;else if(res[k][0]===-1)del++}
+ $('#cC').textContent=HLK.fmtN(chg);$('#cA').textContent=HLK.fmtN(add);$('#cD').textContent=HLK.fmtN(del);
+ var html=[],skip=0;res.forEach(function(r,idx){var near=res.slice(Math.max(0,idx-2),idx+3).some(function(x){return x[0]});if(!r[0]&&!near){skip++;return}if(skip){html.push('<div class="hk-skip">… 같은 줄 '+skip+'개 …</div>');skip=0}html.push('<div class="'+(r[0]>0?'hk-add':r[0]<0?'hk-del':'hk-same')+'">'+(r[0]>0?'+ ':r[0]<0?'− ':'  ')+HL.esc(r[1])+'</div>')});if(skip)html.push('<div class="hk-skip">… 같은 줄 '+skip+'개 …</div>');
+ $('#out').innerHTML=(add+del+chg)?html.join(''):'<div class="hk-same">두 문서의 글이 같아요.</div>';$('#st').textContent=''}
+$('#dl').onclick=function(){var t='A: '+A.name+'\\r\\nB: '+B.name+'\\r\\n\\r\\n'+res.map(function(r){return (r[0]>0?'+ ':r[0]<0?'- ':'  ')+r[1]}).join('\\r\\n');HL.download(new Blob(['\\ufeff'+t],{type:HLK.mime.txt}),'한글문서_비교_'+HL.stamp()+'.txt')};
+})();
+</script>""")
+
+PRIV_TOOL = ("""<section class="card tool" id="tool">
+<div class="drop" id="drop"><b>HWP·HWPX 파일을 놓거나 눌러서 고르세요</b><span>.hwp · .hwpx · 여러 개도 돼요</span></div>
+<div id="opt" hidden>
+<div class="tiles hk-tiles" id="tl"></div>
+<div id="out"></div>
+<div class="btns"><button class="btn" id="dl" type="button">가린 글 TXT로 받기</button></div>
+</div>
+<div class="prog" id="pb" hidden><i></i></div><p class="note" id="st" aria-live="polite"></p>
+</section>""", """<script>
+(function(){var $=HL.$;var docs=[];
+var R=[['jumin','주민등록번호',/(?<!\\d)(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\\d|3[01]))\\s?[-–]\\s?([1-8]\\d{6})(?!\\d)/g],
+ ['phone','휴대전화',/(?<!\\d)(01[016789])[-.\\s]?(\\d{3,4})[-.\\s]?(\\d{4})(?!\\d)/g],
+ ['tel','일반 전화',/(?<!\\d)(0(?:2|[3-6][1-5]|70))[-.)\\s]\\s?(\\d{3,4})[-.\\s](\\d{4})(?!\\d)/g],
+ ['mail','이메일',/[\\w.+-]+@[\\w-]+(?:\\.[\\w-]+)+/g],
+ ['card','카드번호로 보이는 숫자',/(?<!\\d)\\d{4}[-\\s]\\d{4}[-\\s]\\d{4}[-\\s]\\d{4}(?!\\d)/g],
+ ['acct','계좌번호로 보이는 숫자',/(?<![\\d-])\\d{2,6}-\\d{2,6}-\\d{2,7}(?:-\\d{1,3})?(?![\\d-])/g]];
+function mask(k,v){if(k==='jumin')return v.replace(/(\\d{6}\\s?[-–]\\s?\\d)\\d{6}/,'$1******');if(k==='mail')return v.replace(/^(.{2})[^@]*/,'$1***');return v.replace(/\\d(?=[\\d\\s.-]{4})/g,function(c,i){return i<3?c:'*'})}
+function scan(t){var hits=[],taken=[];R.forEach(function(r){var re=new RegExp(r[2].source,'g'),m;while((m=re.exec(t))){var s=m.index,e=s+m[0].length;if(taken.some(function(x){return s<x[1]&&e>x[0]}))continue;if(r[0]==='acct'&&/^(19|20)\\d\\d-\\d\\d?-\\d\\d?$/.test(m[0]))continue;taken.push([s,e]);var a=t.lastIndexOf('\\n',s)+1,b=t.indexOf('\\n',e);if(b<0)b=t.length;hits.push({k:r[0],nm:r[1],v:m[0],s:s,e:e,line:t.slice(Math.max(a,s-30),Math.min(b,e+30))})}});return hits.sort(function(x,y){return x.s-y.s})}
+function show(){$('#opt').hidden=!docs.length;var tot={};docs.forEach(function(d){d.hits.forEach(function(h){tot[h.nm]=(tot[h.nm]||0)+1})});var all=docs.reduce(function(a,d){return a+d.hits.length},0);
+ $('#tl').innerHTML='<div class="tile'+(all?'':' light')+'"><div class="k">찾은 개인정보</div><div class="v">'+all+'건</div></div>'+R.filter(function(r){return tot[r[1]]}).map(function(r){return '<div class="tile light"><div class="k">'+r[1]+'</div><div class="v">'+tot[r[1]]+'</div></div>'}).join('');
+ $('#out').innerHTML=docs.map(function(d){return '<h3>'+HL.esc(d.name)+' — '+(d.hits.length?d.hits.length+'건':'찾은 것 없음')+'</h3>'+(d.hits.length?'<div class="hk-tbl"><table class="tbl"><thead><tr><th>종류</th><th>가린 값</th><th>앞뒤 글</th></tr></thead><tbody>'+d.hits.slice(0,200).map(function(h){return '<tr><td>'+h.nm+'</td><td>'+HL.esc(mask(h.k,h.v))+'</td><td>'+HL.esc(h.line.split(h.v).join(mask(h.k,h.v)))+'</td></tr>'}).join('')+'</tbody></table></div>':'')}).join('')}
+async function add(fs){for(var f of fs){try{var h=await HLHWP.open(f,function(a,b){$('#pb').hidden=false;$('#pb i').style.width=(b?Math.round(a/b*100):30)+'%'});$('#pb').hidden=true;var t=HLK.all(h);if(h.free)h.free();docs.push({name:f.name,t:t,hits:scan(t)})}catch(e){$('#pb').hidden=true;$('#st').textContent=e.message}}show()}
+HL.dropzone($('#drop'),{multiple:true,accept:'.hwp,.hwpx',onFiles:add});
+$('#dl').onclick=function(){var out=docs.map(function(d){var t=d.t;d.hits.slice().reverse().forEach(function(h){t=t.slice(0,h.s)+mask(h.k,h.v)+t.slice(h.e)});return (docs.length>1?'['+d.name+']\\r\\n':'')+t}).join('\\r\\n\\r\\n');HL.download(new Blob(['\\ufeff'+out.replace(/\\n/g,'\\r\\n')],{type:HLK.mime.txt}),'개인정보_가린글_'+HL.stamp()+'.txt')};
+})();
+</script>""")
+
+INFO_TOOL = ("""<section class="card tool" id="tool">
+<div class="drop" id="drop"><b>HWP·HWPX 파일을 놓거나 눌러서 고르세요</b><span>.hwp · .hwpx · 버전·쪽 수·글꼴·표·그림 수</span></div>
+<div id="opt" hidden>
+<div class="tiles hk-tiles" id="tl"></div>
+<h3>문서 정보</h3><div class="hk-tbl"><table class="tbl" id="tb"><tbody></tbody></table></div>
+<h3>쓴 글꼴</h3><ul class="hk-fonts" id="fl"></ul>
+<p class="note">글꼴 이름 옆 ‘대체’는 이 기기에 그 글꼴이 없어 비슷한 글꼴로 그렸다는 뜻이에요. 받는 사람 컴퓨터에도 없으면 모양이 달라질 수 있어요.</p>
+</div>
+<div class="prog" id="pb" hidden><i></i></div><p class="note" id="st" aria-live="polite"></p>
+</section>""", """<script>
+(function(){var $=HL.$;var h=null;
+var FREE=['함초롬바탕','함초롬돋움','맑은 고딕','굴림','굴림체','돋움','돋움체','바탕','바탕체','궁서','궁서체','나눔고딕','나눔명조','나눔바른고딕','나눔스퀘어','본고딕','본명조','Noto Sans KR','Noto Serif KR','Arial','Times New Roman','Calibri','Cambria','Courier New','Tahoma','Verdana','Segoe UI','Symbol','Wingdings'];
+async function add(fs){try{if(h&&h.free)h.free();var f=fs[0];h=await HLHWP.open(f,function(a,b){$('#pb').hidden=false;$('#pb i').style.width=(b?Math.round(a/b*100):30)+'%'});$('#pb').hidden=true;if(!h.doc)throw new Error('문서 엔진으로 읽지 못한 파일이에요.');
+ var mi=h.meta||{};var t=HLK.all(h),s=HLK.stats(t),tb=HLK.tables(h),im=HLK.images(h);var p0=h.info(0);var mm=function(px){return Math.round(px*25.4/96)};
+ $('#tl').innerHTML=[['쪽',h.n],['글자 (공백 포함)',HLK.fmtN(s.all)],['표',tb.length],['그림',im.length]].map(function(x,i){return '<div class="tile'+(i?' light':'')+'"><div class="k">'+x[0]+'</div><div class="v">'+x[1]+'</div></div>'}).join('');
+ var ver=String(mi.version||'');var rows=[['파일',f.name+' ('+HL.bytes(f.size)+')'],['형식',h.kind==='hwpx'?'HWPX (한글 2014 이후 표준 문서)':h.kind==='hwp3'?'HWP 3.0 (아주 옛 형식)':'HWP 5.x (한글 2002 이후 문서)'],['문서 버전',ver||'—'],['구역 수',mi.sectionCount||'—'],['첫 쪽 용지',mm(p0.width)+' × '+mm(p0.height)+'mm'+(Math.abs(mm(p0.width)-210)<=2&&Math.abs(mm(p0.height)-297)<=2?' (A4 세로)':Math.abs(mm(p0.width)-297)<=2&&Math.abs(mm(p0.height)-210)<=2?' (A4 가로)':'')],['공백 제외 글자',HLK.fmtN(s.no)],['200자 원고지',HLK.fmtN(s.ms200)+'장'],['암호',mi.encrypted?'걸려 있음':'없음']];
+ $('#tb tbody').innerHTML=rows.map(function(r){return '<tr><th>'+r[0]+'</th><td>'+HL.esc(String(r[1]))+'</td></tr>'}).join('');
+ var sub={};(mi.fontSubstitutions||[]).forEach(function(x){if(x&&x.from)sub[x.from]=x.to||true;else if(typeof x==='string')sub[x]=true});
+ $('#fl').innerHTML=(mi.fontsUsed||[]).map(function(n){var free=FREE.indexOf(n)>=0;return '<li><b>'+HL.esc(n)+'</b>'+(free?' <span class="note">· 윈도우·한글 기본 글꼴</span>':'')+(sub[n]?' <span class="note">· 대체</span>':'')+'</li>'}).join('')||'<li>글꼴 정보를 찾지 못했어요</li>';
+ $('#opt').hidden=false;$('#st').textContent=''}catch(e){$('#pb').hidden=true;$('#st').textContent=e.message}}
+HL.dropzone($('#drop'),{multiple:false,accept:'.hwp,.hwpx',onFiles:add});
+})();
+</script>""")
+
 
 PAGES = [
   dict(slug='hwp-to-hwpx', name='HWP HWPX 변환 (한글 HWP를 HWPX로 바꾸기, 여러 개 한 번에)',
@@ -355,6 +468,59 @@ PAGES = [
     ],
     faq=[('WMF·EMF 그림은 어떻게 여나요?', '옛 클립아트에 많은 형식이에요. 윈도우 그림판이나 워드에 넣으면 열리고, 미리보기는 나오지 않아도 받기는 돼요.'),
          ('그림 크기가 문서에서 본 것과 달라요.', '문서에는 줄여서 넣었더라도 원본은 더 클 수 있어요. 꺼낸 파일이 원래 크기예요.')]),
+  dict(slug='hwp-password', name='HWP 암호 설정·해제 (한글 문서 비밀번호 걸기·풀기, 설치 없이)',
+    h1='HWP <b>암호 걸기·풀기</b>', lead='한글 문서에 열기 암호를 걸거나, 암호를 아는 문서의 암호를 풀어 저장해요. 한컴오피스가 없어도 돼요.',
+    desc='한글(.hwp·.hwpx) 문서에 열기 암호(비밀번호)를 걸거나, 암호를 알고 있는 문서의 암호를 풀어 다시 저장해요. 파일과 암호는 서버로 보내지 않고 이 기기 안에서만 처리해요. 잊어버린 암호를 찾아 주는 도구는 아니에요.',
+    tool=PW_TOOL, warn='<b>원본 파일은 꼭 따로 두세요.</b> 오픈소스 엔진(rhwp)이 문서를 다시 저장하면서 암호를 걸어요. 중요한 문서는 받은 파일을 한글에서 한 번 열어 암호가 잘 걸렸는지 확인하세요. 암호를 잊으면 아무도 열 수 없어요.',
+    body=[
+      ('한글 문서에 암호를 거는 경우', '<ul><li>개인정보(주민번호·연락처)가 든 <b>명단·신청서</b>를 메일이나 메신저로 보낼 때</li><li>인사·급여·평가 자료처럼 받는 사람만 봐야 하는 문서</li><li>기관 지침에 ‘개인정보 파일은 암호를 걸어 보내라’고 되어 있을 때</li></ul><p>암호는 메일 본문이 아니라 <b>문자나 전화처럼 다른 길로</b> 알려 주는 게 안전해요.</p>'),
+      ('암호 걸기와 풀기', '<table class="tbl"><thead><tr><th></th><th>암호 걸기</th><th>암호 풀기</th></tr></thead><tbody><tr><td>넣는 파일</td><td>암호 없는 HWP·HWPX</td><td>암호가 걸린 HWP·HWPX</td></tr><tr><td>필요한 것</td><td>새 암호 (5자 이상)</td><td>지금 걸린 암호</td></tr><tr><td>받는 파일</td><td>파일이름_암호.hwp</td><td>파일이름_암호해제.hwp</td></tr></tbody></table>'),
+      ('사용 방법', '<ol><li>위에서 ‘암호 걸기’ 또는 ‘암호 풀기’를 골라요.</li><li>파일을 놓고 암호를 적어요. 걸 때는 같은 암호를 두 번 적어요.</li><li>버튼을 누르면 새 파일이 받아져요. 원본은 바뀌지 않아요.</li></ol>'),
+      ('한글 프로그램에서 직접 걸려면', '<p>한글에서 [보안] → [문서 암호 설정](또는 [파일] → [문서 암호])에서 걸고, 같은 메뉴의 [문서 암호 변경/해제]에서 풀어요. 한글이 없는 컴퓨터나 휴대전화에서는 이 페이지를 쓰면 돼요.</p>'),
+    ],
+    faq=[('한글 파일 암호를 잊어버렸어요. 풀 수 있나요?', '아니요. 이 페이지는 암호를 아는 문서만 풀 수 있어요. 암호를 찾아 주거나 뚫는 기능은 없고, 그런 방법도 안내하지 않아요. 원본을 만든 사람에게 암호 없는 파일을 다시 받으세요.'),
+         ('암호를 걸면 휴대전화에서도 열리나요?', '한컴오피스 뷰어 앱처럼 암호 문서를 지원하는 앱에서 암호를 넣으면 열려요.'),
+         ('적은 암호가 어딘가에 저장되나요?', '아니요. 암호와 파일은 이 브라우저 안에서만 쓰이고 서버로 가지 않아요. 파일을 받은 뒤 입력칸도 바로 비워요.'),
+         ('배포용 문서(복사·인쇄 막기)도 되나요?', '배포용 문서 설정은 한글 프로그램의 [보안] → [배포용 문서로 저장]에서 해요. 이 페이지는 열기 암호만 다뤄요.')]),
+  dict(slug='hwp-compare', name='HWP 문서 비교 (한글 파일 두 개 달라진 곳 찾기)',
+    h1='한글 문서 <b>비교</b>', lead='한글 파일 두 개를 놓으면 더한 줄·뺀 줄·바뀐 줄을 색으로 보여 줘요. 수정본에서 무엇이 바뀌었는지 빨리 찾을 때 써요.',
+    desc='한글(.hwp·.hwpx) 파일 두 개의 글을 줄 단위로 비교해 더한 줄, 뺀 줄, 바뀐 줄을 색으로 표시해요. 띄어쓰기 차이를 무시할 수 있고 결과를 TXT로 받아요. 한컴오피스 없이 이 기기 안에서만 처리해요.',
+    tool=CMP_TOOL, warn='',
+    body=[
+      ('두 한글 문서를 비교하는 경우', '<ul><li>결재 올린 문서가 <b>수정돼서 돌아왔을 때</b> 어디가 바뀌었는지 볼 때</li><li>계약서·약관의 새 버전에서 달라진 조항을 찾을 때</li><li>공고문·지침의 올해 판과 작년 판을 견줄 때</li></ul>'),
+      ('결과 보는 법', '<table class="tbl"><thead><tr><th>표시</th><th>뜻</th></tr></thead><tbody><tr><td><span class="hk-add">+ 파란 줄</span></td><td>고친 문서(B)에만 있는 줄 — 새로 넣었거나 고친 뒤의 줄</td></tr><tr><td><span class="hk-del">− 빨간 줄</span></td><td>원래 문서(A)에만 있는 줄 — 지웠거나 고치기 전의 줄</td></tr><tr><td>… 같은 줄 N개 …</td><td>두 문서가 같은 부분 (접어 둠)</td></tr></tbody></table><p>빨간 줄 바로 다음에 파란 줄이 오면 그 줄을 고친 거예요. 위 숫자의 ‘바뀐 줄’로 세요.</p>'),
+      ('사용 방법', '<ol><li>왼쪽(A)에 원래 문서, 오른쪽(B)에 고친 문서를 놓아요.</li><li>두 파일이 다 들어오면 바로 비교 결과가 나와요.</li><li>띄어쓰기만 다른 줄까지 보려면 ‘띄어쓰기·빈 줄 차이는 무시’를 꺼요. 결과는 TXT로 받을 수 있어요.</li></ol>'),
+      ('한글 프로그램의 문서 비교와 다른 점', '<p>한글에는 [검토] → [문서 비교] 기능이 있어서 글자 모양까지 비교해요. 이 페이지는 <b>글 내용만</b> 줄 단위로 비교하고, 한글이 없는 컴퓨터·휴대전화에서도 돼요. 표 칸 글자도 칸마다 한 줄로 비교해요.</p>'),
+    ],
+    faq=[('HWP와 HWPX를 서로 비교할 수 있나요?', '네. 형식이 달라도 글 내용으로 비교해요.'),
+         ('글꼴이나 색이 바뀐 것도 찾나요?', '아니요. 글 내용만 비교해요. 모양 변경까지 보려면 한글의 [검토] → [문서 비교]를 쓰세요.'),
+         ('아주 긴 문서도 되나요?', '줄 수가 수천 줄씩이면 기기에 따라 느릴 수 있고, 너무 길면 나눠서 비교하라고 알려 줘요.')]),
+  dict(slug='hwp-privacy-check', name='HWP 개인정보 검사 (한글 문서 주민번호·전화번호 찾기)',
+    h1='HWP <b>개인정보 찾기</b>', lead='한글 문서에 주민등록번호, 전화번호, 이메일, 계좌·카드번호처럼 보이는 글이 있는지 찾아 가려서 보여 줘요. 보내기 전에 한 번 확인하세요.',
+    desc='한글(.hwp·.hwpx) 문서에서 주민등록번호, 휴대전화·일반 전화번호, 이메일, 카드·계좌번호처럼 보이는 글을 찾아 가린 값과 앞뒤 글로 보여 줘요. 여러 파일을 한 번에 검사하고 가린 글을 TXT로 받아요. 문서는 서버로 보내지 않아요.',
+    tool=PRIV_TOOL, warn='<b>찾는 것은 ‘모양’이에요.</b> 숫자 모양으로 찾기 때문에 개인정보가 아닌 숫자(문서 번호 등)가 잡히거나, 띄어 쓰는 방식이 특이한 번호는 놓칠 수 있어요. 결과를 보고 한글에서 직접 지우거나 가리세요.',
+    body=[
+      ('보내기 전에 개인정보를 확인하는 이유', '<p>공문·명단·신청서를 다른 기관이나 외부에 보낼 때 <b>주민등록번호 뒷자리나 개인 연락처</b>가 그대로 남아 있으면 개인정보 유출이 돼요. 표 안 깊숙이 들어간 번호는 눈으로 찾기 어려워서, 보내기 전에 한 번 훑어보는 용도로 써요.</p>'),
+      ('찾는 개인정보', '<table class="tbl"><thead><tr><th>종류</th><th>찾는 모양 (예)</th><th>가린 모양</th></tr></thead><tbody><tr><td>주민등록번호</td><td>900101-1234567</td><td>900101-1******</td></tr><tr><td>휴대전화</td><td>010-1234-5678</td><td>010-****-5678</td></tr><tr><td>일반 전화</td><td>02-123-4567, 032-123-4567</td><td>02-***-4567</td></tr><tr><td>이메일</td><td>hong@example.com</td><td>ho***@example.com</td></tr><tr><td>카드번호로 보이는 숫자</td><td>1234-5678-1234-5678</td><td>123*-****-****-5678</td></tr><tr><td>계좌번호로 보이는 숫자</td><td>123-456789-01</td><td>가운데 숫자를 *로 가림</td></tr></tbody></table>'),
+      ('사용 방법', '<ol><li>.hwp나 .hwpx 파일을 놓아요. 여러 개를 한꺼번에 놓아도 돼요.</li><li>파일마다 찾은 개인정보가 종류·가린 값·앞뒤 글로 나와요. 화면에도 가린 값만 보여요.</li><li>한글에서 그 앞뒤 글로 찾아(Ctrl+F) 지우거나 가려요. 글만 필요하면 ‘가린 글 TXT로 받기’를 눌러요.</li></ol>'),
+      ('찾은 뒤 한글에서 가리는 법', '<p>한글의 [편집] → [찾아 바꾸기]에서 번호를 찾아 ‘*’로 바꾸거나, 한글 2018 이후라면 [보안] → [개인 정보 보호하기]로 가릴 수 있어요. 글만 가리면 되는 경우에는 <a href="/text/privacy-mask.html">개인정보 가리기</a> 도구도 쓸 수 있어요.</p>'),
+    ],
+    faq=[('이 페이지에서 한글 파일 속 번호를 바로 지워 주나요?', '아니요. 원본 한글 파일은 바꾸지 않아요. 어디에 있는지 찾아 주고, 가린 글을 TXT로 받을 수 있어요. 한글 파일 자체는 한글 프로그램에서 고쳐 주세요.'),
+         ('그림으로 들어간 주민등록증 사본도 찾나요?', '아니요. 글자로 된 번호만 찾아요. 그림 속 글자는 찾지 못해요.'),
+         ('문서 내용이 어디로 전송되나요?', '아니요. 검사는 이 브라우저 안에서만 하고, 문서와 결과는 서버로 가지 않아요.')]),
+  dict(slug='hwp-info', name='HWP 문서 정보 확인 (한글 파일 버전·쪽 수·사용 글꼴 보기)',
+    h1='한글 문서 <b>정보·글꼴 확인</b>', lead='한글 파일의 형식과 버전, 쪽 수, 용지 크기, 글자 수, 표·그림 개수, 쓴 글꼴을 한눈에 보여 줘요.',
+    desc='한글(.hwp·.hwpx) 파일을 놓으면 형식·문서 버전, 쪽 수, 용지 크기, 글자 수, 표와 그림 개수, 문서에 쓴 글꼴 목록을 보여 줘요. 받는 사람 컴퓨터에서 글꼴이 바뀔지 미리 확인할 때 좋아요. 한컴오피스 없이 기기 안에서만 처리해요.',
+    tool=INFO_TOOL, warn='',
+    body=[
+      ('문서 정보를 확인하는 경우', '<ul><li>다른 컴퓨터에서 열었더니 <b>글꼴이 바뀌어 줄이 밀릴 때</b>, 어떤 글꼴을 썼는지 확인</li><li>제출 조건(쪽 수, A4 용지, 글자 수)을 맞췄는지 볼 때</li><li>이 파일이 HWP인지 HWPX인지, 옛 형식인지 알고 싶을 때</li></ul>'),
+      ('HWP 형식 구분', '<table class="tbl"><thead><tr><th>표시</th><th>뜻</th></tr></thead><tbody><tr><td>HWP 5.x</td><td>한글 2002 이후의 일반 .hwp 문서</td></tr><tr><td>HWPX</td><td>한글 2014 이후 표준 문서 (2020부터 기본 저장)</td></tr><tr><td>HWP 3.0</td><td>1990년대 옛 문서 — 요즘 한글에서도 열리지만 바꿔 두는 게 좋아요</td></tr></tbody></table>'),
+      ('글꼴 목록 보는 법', '<p>‘윈도우·한글 기본 글꼴’이라고 붙은 것(함초롬바탕, 맑은 고딕, 굴림 등)은 대부분 컴퓨터에 있어요. 그 밖의 글꼴은 받는 사람 컴퓨터에 없으면 다른 글꼴로 바뀌어 줄 바꿈과 쪽 나눔이 달라질 수 있어요. 모양을 고정하려면 <a href="/pdf/hwp-to-pdf.html">PDF로 바꿔서</a> 보내세요.</p>'),
+      ('사용 방법', '<ol><li>.hwp나 .hwpx 파일을 놓아요.</li><li>위쪽 칸에 쪽·글자·표·그림 수, 아래 표에 형식·버전·용지 크기·암호 여부가 나와요.</li><li>맨 아래에 문서에 쓴 글꼴이 나와요.</li></ol>'),
+    ],
+    faq=[('한글 프로그램에서 문서 정보는 어디서 보나요?', '[파일] → [문서 정보]에서 일반 정보·문서 요약·문서 통계·글꼴 정보를 볼 수 있어요.'),
+         ('작성자 이름 같은 문서 요약도 나오나요?', '지금은 형식·쪽·글자·표·그림·글꼴을 보여 줘요. 작성자·제목 같은 문서 요약은 한글의 [파일] → [문서 정보] → [문서 요약]에서 확인하세요.'),
+         ('암호가 걸린 문서도 되나요?', '암호 문서는 내용을 읽을 수 없어요. 먼저 <a href="/pdf/hwp-password.html">HWP 암호 풀기</a>로 푼 뒤 넣으세요.')]),
 ]
 
 
