@@ -1,6 +1,6 @@
 """Overlay patch for honglife.co.kr: adds 입시·여행 to the top menu and the home page.
 Runs in the deploy workflow after the tools bundle is unpacked into _site/."""
-import os, sys, re
+import os, sys, re, html
 root = sys.argv[1] if len(sys.argv) > 1 else '_site'
 OLD = '<a href="/design/">디자인</a>'
 NEW = OLD + '<a href="/ipsi/">입시</a><a href="/trip/">여행</a>'
@@ -1025,8 +1025,8 @@ _p = os.path.join(root, 'pdf/index.html')
 if os.path.exists(_p):
     s = open(_p, encoding='utf-8').read()
     if 'id="hwp-tools"' not in s:
-        card = ('<section class="card" id="hwp-tools"><h2>한글(HWP) 문서 도구</h2><p class="note">한컴오피스 없이 한글 파일을 열고, 바꾸고, 만들어요.</p><ul>'
-                + ''.join(f'<li><a href="{u}"><b>{t}</b> — {d}</a></li>' for u, t, d in _hwp_all) + '</ul></section>\n')
+        card = ('<section class="card" id="hwp-tools"><h2>한글(HWP) 문서 도구 ' + str(len(_hwp_all)) + '가지</h2><ul class="tlist hl-grid">'
+                + ''.join(f'<li><a href="{u}"><i class="th"><img src="/assets/art/hl/cs-doc.svg" alt="" width="200" height="140" loading="lazy"></i><img class="pg" src="/assets/art/hl/pg-doc.svg" alt="" width="26" height="26" loading="lazy"><b>{t}</b><span>{d}</span></a></li>' for u, t, d in _hwp_all) + '</ul></section>\n')
         s = s.replace('<section class="card"><h2>PDF 도구', card + '<section class="card"><h2>PDF 도구', 1)
         open(_p, 'w', encoding='utf-8').write(s); print('pdf hub: hwp card')
 for _f in ('pdf/hwp-viewer.html', 'pdf/hwp-to-pdf.html', 'convert/ext/hwp.html', 'convert/ext/hwpx.html', 'doc/gongmun-checker.html'):
@@ -1102,3 +1102,82 @@ for _d, _a in _ART.items():
     s = s.replace('</head>', _HUBCSS + '</head>', 1)
     open(_p, 'w', encoding='utf-8').write(s); _n += 1
 print('hub heads: art + smaller title', _n)
+
+# 분류 첫 화면 소개는 2줄로 짧게(긴 원래 소개는 아래 '이 분류 안내'로 옮김), 휴대폰 도구 목록 3칸, English → EN (2026-11-25 사용자 요청)
+_LEAD = {
+    'ai': 'ChatGPT·Claude를 엑셀 수식, 요약, 보고서, 이미지 만들기에 바로 쓰는 법과 질문 예시예요.',
+    'calendar': 'D-day, 나이, 음력 변환, 공휴일, 영업일, 타이머, 달력 인쇄까지 날짜·시간 도구예요.',
+    'convert': 'CSV·엑셀·JSON, 깨진 한글, PDF, 동영상·자막·음성까지 파일 형식을 바로 바꿔요.',
+    'design': '썸네일, 카드뉴스, 현수막, 초대장, 라벨을 템플릿으로 만들고 PNG·인쇄용 PDF로 받아요.',
+    'dev': 'JSON 정리, 정규식, Base64·URL, 색상 코드, 파비콘, 메타 태그 등 웹 만들 때 쓰는 도구예요.',
+    'doc': '견적서, 계약서, 차용증, 이력서 같은 문서를 빈칸만 채워 PDF로 바로 만들어요.',
+    'excel': '하고 싶은 일을 적으면 엑셀 수식을 만들고, SUMIF·VLOOKUP 뜻도 쉽게 풀어 줘요.',
+    'image': '사진 용량·크기·형식 바꾸기, 증명사진, 화질 개선, 모자이크, 글자 넣기를 바로 해요.',
+    'ipsi': '수능·내신 합격 가능성, 대학별 반영비율, 수능·공무원·검정고시·한능검 기출을 모았어요.',
+    'legal': '상속분, 법정이율·지연손해금, 최우선변제를 법령 기준으로 계산하고 무료 상담 창구를 안내해요.',
+    'life': '사업자번호 확인, 단위 변환, 분리배출, 체크리스트, 경조사·안내문까지 생활 도구예요.',
+    'medical': '영유아 검진·예방접종, 국가건강검진 대상, 반복 진료 일정을 날짜로 정리해요.',
+    'net': '인터넷 속도와 자주 쓰는 사이트·앱 접속 상태를 브라우저에서 바로 확인해요.',
+    'pdf': 'PDF 합치기·나누기·편집·변환·OCR과 한글(HWP) 파일 열기·바꾸기를 설치 없이 해요.',
+    'qr': '주소·와이파이·명함 QR 코드와 상품 바코드를 만들고, 사진 속 QR을 읽어요.',
+    'sheet': '가계부, 근무표, 장부, 급여 대장 엑셀 양식을 수식이 든 채로 바로 내려받아요.',
+    'shop': '마감 정산, 배달 수수료, 출퇴근, 발주·예약 관리, 안내문·라벨까지 가게 운영 도구예요.',
+    'study': '학점·내신, 시간표, 학습지, 오답 노트, 참고문헌, 면접·자소서까지 공부·취업 도구예요.',
+    'text': '글자 수, 맞춤법, 로마자, 줄 정리, 특수문자, 추첨까지 글과 글자 다루는 도구예요.',
+    'drive': '택시비·기름값, 중간지점, 노선 내비, 정기검사, 타이어, 도로 CCTV까지 자동차 도구예요.',
+}
+_n = 0
+for _d, _l in _LEAD.items():
+    _p = os.path.join(root, _d, 'index.html')
+    if not os.path.exists(_p):
+        continue
+    s = open(_p, encoding='utf-8').read()
+    m = re.search(r'(<header class="top hub">.*?<p class="lead">)(.*?)(</p>)', s, re.S)
+    if not m or 'id="hub-about"' in s:
+        continue
+    old = m.group(2)
+    s = s[:m.start(2)] + html.escape(_l, quote=False) + s[m.end(2):]
+    k = s.rfind('</main>')
+    if k > 0:
+        s = s[:k] + f'<section class="card" id="hub-about"><h2>이 분류 안내</h2><p>{old}</p></section>\n' + s[k:]
+    open(_p, 'w', encoding='utf-8').write(s); _n += 1
+print('hub leads shortened', _n)
+
+_GRIDCSS = ('<style>@media(max-width:600px){ul.hl-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}'
+            'ul.hl-grid>li>a{border-radius:14px!important}ul.hl-grid .th{height:74px!important;padding:8px 8px 0!important}'
+            'ul.hl-grid .pg{display:none!important}ul.hl-grid b{font-size:12.5px!important;line-height:1.35!important;margin:7px 8px 9px!important}'
+            'ul.hl-grid>li>a>span{display:none!important}ul.hl-grid li.ft{grid-column:1/-1}ul.hl-grid li.ft>a>span,ul.hl-grid li.ft b{display:-webkit-box!important}}</style>')
+_LANGRE = re.compile(r'(<a class="lang"[^>]*?)>English</a>')
+_g = _e = 0
+for _dp, _dn, _fs in os.walk(root):
+    if '/assets' in _dp.replace(root, '', 1):
+        continue
+    for _f in _fs:
+        if not _f.endswith('.html'):
+            continue
+        _p = os.path.join(_dp, _f)
+        s = open(_p, encoding='utf-8').read(); o = s
+        if 'class="tlist hl-grid"' in s and 'ul.hl-grid{grid-template-columns:repeat(3' not in s:
+            s = s.replace('</head>', _GRIDCSS + '</head>', 1); _g += 1
+        if '>English</a>' in s:
+            s2 = _LANGRE.sub(lambda m: m.group(1) + ' aria-label="English" title="English">EN</a>', s)
+            if s2 != s:
+                s = s2; _e += 1
+        if s != o:
+            open(_p, 'w', encoding='utf-8').write(s)
+print('mobile 3-col grid pages', _g, '· English→EN pages', _e)
+
+# 홈: 소개 2줄, 휴대폰에서 '분류별로 찾기' 3칸 격자 (2026-11-25)
+_p = os.path.join(root, 'index.html')
+if os.path.exists(_p):
+    s = open(_p, encoding='utf-8').read()
+    if 'hl-catrow3' not in s:
+        s = re.sub(r'(<section class="hero" id="search">.*?</h1>)<p>.*?</p>',
+                   lambda m: m.group(1) + '<p>엑셀·PDF·한글·이미지·문서 도구 1050가지를 가입·설치 없이 무료로 바로 써요.</p>', s, count=1, flags=re.S)
+        s = s.replace('</head>', '<style id="hl-catrow3">@media(max-width:600px){ul.hl-catrow{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;overflow:visible!important;padding:4px 0 8px!important}'
+                      'ul.hl-catrow>li{flex:none!important;min-width:0}ul.hl-catrow a.ct{height:148px!important;border-radius:14px!important}'
+                      'ul.hl-catrow a.ct .ch{padding:10px 10px 0!important}ul.hl-catrow a.ct em{font-size:10.5px!important}'
+                      'ul.hl-catrow a.ct b{font-size:13px!important;line-height:1.3!important;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden!important}'
+                      'ul.hl-catrow a.ct .ci{top:50%!important;bottom:8px!important;left:8px!important;right:8px!important}ul.hl-catrow a.ct .go{display:none!important}'
+                      '.hl-catrow~.rail-btn,.hl-catrow+button{display:none!important}}</style></head>', 1)
+        open(_p, 'w', encoding='utf-8').write(s); print('home: 2-line intro, 3-col categories on phone')
