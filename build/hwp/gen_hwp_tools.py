@@ -30,10 +30,11 @@ HWP_TOOLS = [
     ('/pdf/hwp-compare.html', '한글 문서 비교', '두 파일의 달라진 줄 찾기'),
     ('/pdf/hwp-privacy-check.html', 'HWP 개인정보 찾기', '주민번호·전화번호 확인'),
     ('/pdf/hwp-info.html', '한글 문서 정보·글꼴 확인', '버전·쪽 수·쓴 글꼴'),
+    ('/pdf/hwp-shortcuts.html', '한글 단축키 모음', '표·쪽 번호·저장 단축키, 인쇄용'),
     ('/doc/gongmun-checker.html', '공문서 오류 검사기', 'HWP 공문 맞춤법·서식 점검'),
 ]
 
-FILE_TOOL_CSS = '<style>.hk-out{white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;max-height:420px;overflow:auto;background:#F7F8FA;border:1px solid #E3E6EB;border-radius:12px;padding:12px 14px;font-size:15px;line-height:1.7;margin-top:10px}.hk-tiles{margin-top:10px}#tool textarea{width:100%;box-sizing:border-box}.hk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:8px}.hk-grid figure{margin:0;border:1px solid #E3E6EB;border-radius:10px;padding:6px;background:#fff;text-align:center;min-width:0}.hk-grid canvas,.hk-grid img{max-width:100%;height:auto;display:block;margin:0 auto}.hk-grid figcaption{font-size:13px;color:#5B6B82;margin-top:4px;overflow-wrap:anywhere}.hk-tbl{overflow-x:auto;margin-top:8px}.hk-diff div{padding:1px 6px;border-radius:4px}.hk-add{background:#E7F0FF;color:#0B3D91}.hk-del{background:#FDECEC;color:#8A1C1C;text-decoration:line-through}.hk-skip{color:#8A94A6;font-size:13px;text-align:center}.hk-fonts{columns:2;column-gap:20px;padding-left:18px}@media(max-width:520px){.hk-fonts{columns:1}}.hk-tbl td,.hk-tbl th{white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis}</style>'
+FILE_TOOL_CSS = '<style>.hk-out{white-space:pre-wrap;word-break:break-all;overflow-wrap:anywhere;max-height:420px;overflow:auto;background:#F7F8FA;border:1px solid #E3E6EB;border-radius:12px;padding:12px 14px;font-size:15px;line-height:1.7;margin-top:10px}.hk-tiles{margin-top:10px}#tool textarea{width:100%;box-sizing:border-box}.hk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:8px}.hk-grid figure{margin:0;border:1px solid #E3E6EB;border-radius:10px;padding:6px;background:#fff;text-align:center;min-width:0}.hk-grid canvas,.hk-grid img{max-width:100%;height:auto;display:block;margin:0 auto}.hk-grid figcaption{font-size:13px;color:#5B6B82;margin-top:4px;overflow-wrap:anywhere}.hk-tbl{overflow-x:auto;margin-top:8px}.hk-diff div{padding:1px 6px;border-radius:4px}.hk-add{background:#E7F0FF;color:#0B3D91}.hk-del{background:#FDECEC;color:#8A1C1C;text-decoration:line-through}.hk-skip{color:#8A94A6;font-size:13px;text-align:center}.hk-tbl kbd{font-family:inherit;background:#F1F3F6;border:1px solid #D9DDE3;border-radius:5px;padding:1px 6px;font-size:14px;white-space:nowrap}@media print{.brandbar,footer,.rel,.faq,.guide,#tool .btns,#tool .f,#cats,.warn,.safe{display:none!important}}.hk-chip{border:1px solid #D9DDE3;background:#fff;color:#1F2937;border-radius:999px;padding:6px 14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}.hk-chip[aria-pressed=true]{background:#1D4ED8;border-color:#1D4ED8;color:#fff}.hk-big{padding:10px 18px;font-size:15px}.hk-fonts{columns:2;column-gap:20px;padding-left:18px}@media(max-width:520px){.hk-fonts{columns:1}}.hk-tbl td,.hk-tbl th{white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis}</style>'
 
 
 def conv_tool(src, dst):
@@ -236,20 +237,20 @@ $('#go').onclick=HL.run($('#go'),async function(){await HL.need('jszip');var z=n
 </script>""")
 
 PW_TOOL = ("""<section class="card tool" id="tool">
-<div class="seg" role="tablist" style="display:flex;gap:8px;margin-bottom:12px"><button class="btn" id="mL" type="button" aria-pressed="true">암호 걸기</button><button class="btn ghost" id="mU" type="button" aria-pressed="false">암호 풀기</button></div>
+<div style="display:flex;gap:8px;margin-bottom:12px"><button class="hk-chip hk-big" id="mL" type="button" aria-pressed="true">암호 걸기</button><button class="hk-chip hk-big" id="mU" type="button" aria-pressed="false">암호 풀기</button></div>
 <div class="drop" id="drop"><b>HWP·HWPX 파일을 놓거나 눌러서 고르세요</b><span id="dsub">.hwp · .hwpx · 암호를 걸 문서</span></div>
 <p class="note" id="info"></p>
 <div id="opt" hidden>
 <div class="grid g2" style="margin-top:8px"><div class="f"><label for="pw">암호</label><input id="pw" type="password" autocomplete="new-password" maxlength="64" placeholder="5자 이상"></div>
 <div class="f" id="pw2w"><label for="pw2">암호 한 번 더</label><input id="pw2" type="password" autocomplete="new-password" maxlength="64"></div>
-<div class="f" id="fmw"><label for="fmt">저장 형식</label><select id="fmt"><option value="same" selected>원래 형식 그대로</option><option value="hwp">HWP</option><option value="hwpx">HWPX</option></select></div></div>
+<div class="f" id="fmw"><label for="fmt">저장 형식</label><select id="fmt"><option value="same" selected>원래대로</option><option value="hwp">HWP</option><option value="hwpx">HWPX</option></select></div></div>
 <label class="chk" style="margin:6px 0"><input type="checkbox" id="sh"> 암호 보이기</label>
 <div class="btns"><button class="btn dl" id="go" type="button">암호 건 파일 받기</button></div>
 </div>
 <div class="prog" id="pb" hidden><i></i></div><p class="note" id="st" aria-live="polite"></p>
 </section>""", """<script>
 (function(){var $=HL.$;var mode='lock',file=null,buf=null,kind='';
-function setMode(m){mode=m;$('#mL').className='btn'+(m==='lock'?'':' ghost');$('#mU').className='btn'+(m==='unlock'?'':' ghost');$('#mL').setAttribute('aria-pressed',m==='lock');$('#mU').setAttribute('aria-pressed',m==='unlock');$('#pw2w').hidden=m!=='lock';$('#fmw').hidden=m!=='lock';$('#go').textContent=m==='lock'?'암호 건 파일 받기':'암호 푼 파일 받기';$('#dsub').textContent=m==='lock'?'.hwp · .hwpx · 암호를 걸 문서':'.hwp · .hwpx · 암호가 걸린 문서 (암호를 알고 있어야 해요)';$('#st').textContent='';$('#pw').value=$('#pw2').value=''}
+function setMode(m){mode=m;$('#mL').setAttribute('aria-pressed',m==='lock');$('#mU').setAttribute('aria-pressed',m==='unlock');$('#pw2w').hidden=m!=='lock';$('#fmw').hidden=m!=='lock';$('#go').textContent=m==='lock'?'암호 건 파일 받기':'암호 푼 파일 받기';$('#dsub').textContent=m==='lock'?'.hwp · .hwpx · 암호를 걸 문서':'.hwp · .hwpx · 암호가 걸린 문서 (암호를 알고 있어야 해요)';$('#st').textContent='';$('#pw').value=$('#pw2').value=''}
 $('#mL').onclick=function(){setMode('lock')};$('#mU').onclick=function(){setMode('unlock')};
 $('#sh').onchange=function(){$('#pw').type=$('#pw2').type=this.checked?'text':'password'};
 async function add(fs){file=fs[0];if(!file)return;buf=new Uint8Array(await HL.read(file));kind=buf[0]===0x50&&buf[1]===0x4B?'hwpx':buf[0]===0xD0&&buf[1]===0xCF?'hwp':'';if(!kind){$('#st').textContent='한글(HWP·HWPX) 파일이 아니에요.';$('#opt').hidden=true;return}
@@ -341,6 +342,20 @@ async function add(fs){try{if(h&&h.free)h.free();var f=fs[0];h=await HLHWP.open(
  $('#fl').innerHTML=(mi.fontsUsed||[]).map(function(n){var free=FREE.indexOf(n)>=0;return '<li><b>'+HL.esc(n)+'</b>'+(free?' <span class="note">· 윈도우·한글 기본 글꼴</span>':'')+(sub[n]?' <span class="note">· 대체</span>':'')+'</li>'}).join('')||'<li>글꼴 정보를 찾지 못했어요</li>';
  $('#opt').hidden=false;$('#st').textContent=''}catch(e){$('#pb').hidden=true;$('#st').textContent=e.message}}
 HL.dropzone($('#drop'),{multiple:false,accept:'.hwp,.hwpx',onFiles:add});
+})();
+</script>""")
+
+SC_TOOL = ("""<section class="card tool" id="tool">
+<div class="f"><label for="q">기능 이름이나 키로 찾기</label><input id="q" type="search" placeholder="예: 표, 쪽 번호, 저장, Ctrl+N" autocomplete="off"></div>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0" id="cats"></div>
+<div class="hk-tbl"><table class="tbl" id="sc"><thead><tr><th>분류</th><th>기능</th><th>단축키</th></tr></thead><tbody><tr data-k="파일 새 문서 Alt+N"><td>파일</td><td>새 문서</td><td><kbd>Alt+N</kbd></td></tr><tr data-k="파일 불러오기(열기) Alt+O"><td>파일</td><td>불러오기(열기)</td><td><kbd>Alt+O</kbd></td></tr><tr data-k="파일 저장하기 Alt+S / Ctrl+S"><td>파일</td><td>저장하기</td><td><kbd>Alt+S / Ctrl+S</kbd></td></tr><tr data-k="파일 다른 이름으로 저장하기 Alt+V"><td>파일</td><td>다른 이름으로 저장하기</td><td><kbd>Alt+V</kbd></td></tr><tr data-k="파일 인쇄 Alt+P / Ctrl+P"><td>파일</td><td>인쇄</td><td><kbd>Alt+P / Ctrl+P</kbd></td></tr><tr data-k="파일 문서 닫기 Ctrl+F4"><td>파일</td><td>문서 닫기</td><td><kbd>Ctrl+F4</kbd></td></tr><tr data-k="파일 한글 끝내기 Alt+X"><td>파일</td><td>한글 끝내기</td><td><kbd>Alt+X</kbd></td></tr><tr data-k="파일 문서마당(서식 고르기) Ctrl+Alt+N"><td>파일</td><td>문서마당(서식 고르기)</td><td><kbd>Ctrl+Alt+N</kbd></td></tr><tr data-k="파일 최근 작업 문서 Alt+F3"><td>파일</td><td>최근 작업 문서</td><td><kbd>Alt+F3</kbd></td></tr><tr data-k="파일 문서 정보 Ctrl+Q, I"><td>파일</td><td>문서 정보</td><td><kbd>Ctrl+Q, I</kbd></td></tr><tr data-k="쪽 쪽 번호 매기기 Ctrl+N, P"><td>쪽</td><td>쪽 번호 매기기</td><td><kbd>Ctrl+N, P</kbd></td></tr><tr data-k="쪽 쪽 번호 등 감추기 Ctrl+N, S"><td>쪽</td><td>쪽 번호 등 감추기</td><td><kbd>Ctrl+N, S</kbd></td></tr><tr data-k="쪽 쪽 나누기 Ctrl+Enter"><td>쪽</td><td>쪽 나누기</td><td><kbd>Ctrl+Enter</kbd></td></tr><tr data-k="쪽 단 나누기 Ctrl+Shift+Enter"><td>쪽</td><td>단 나누기</td><td><kbd>Ctrl+Shift+Enter</kbd></td></tr><tr data-k="쪽 구역 나누기 Alt+Shift+Enter"><td>쪽</td><td>구역 나누기</td><td><kbd>Alt+Shift+Enter</kbd></td></tr><tr data-k="표 표 만들기 Ctrl+N, T"><td>표</td><td>표 만들기</td><td><kbd>Ctrl+N, T</kbd></td></tr><tr data-k="표 셀 블록(현재 칸 고르기) F5"><td>표</td><td>셀 블록(현재 칸 고르기)</td><td><kbd>F5</kbd></td></tr><tr data-k="표 표 나누기 Ctrl+N, A"><td>표</td><td>표 나누기</td><td><kbd>Ctrl+N, A</kbd></td></tr><tr data-k="표 표 붙이기 Ctrl+N, Z"><td>표</td><td>표 붙이기</td><td><kbd>Ctrl+N, Z</kbd></td></tr><tr data-k="표 계산식 Ctrl+N, F"><td>표</td><td>계산식</td><td><kbd>Ctrl+N, F</kbd></td></tr><tr data-k="표 가로 합계 Ctrl+Shift+H"><td>표</td><td>가로 합계</td><td><kbd>Ctrl+Shift+H</kbd></td></tr><tr data-k="표 세로 합계 Ctrl+Shift+V"><td>표</td><td>세로 합계</td><td><kbd>Ctrl+Shift+V</kbd></td></tr><tr data-k="글자 진하게 Ctrl+B / Alt+Shift+B"><td>글자</td><td>진하게</td><td><kbd>Ctrl+B / Alt+Shift+B</kbd></td></tr><tr data-k="글자 기울임 Ctrl+I / Alt+Shift+I"><td>글자</td><td>기울임</td><td><kbd>Ctrl+I / Alt+Shift+I</kbd></td></tr><tr data-k="글자 밑줄 Ctrl+U / Alt+Shift+U"><td>글자</td><td>밑줄</td><td><kbd>Ctrl+U / Alt+Shift+U</kbd></td></tr><tr data-k="글자 위 첨자 Alt+Shift+P"><td>글자</td><td>위 첨자</td><td><kbd>Alt+Shift+P</kbd></td></tr><tr data-k="글자 아래 첨자 Alt+Shift+S"><td>글자</td><td>아래 첨자</td><td><kbd>Alt+Shift+S</kbd></td></tr><tr data-k="글자 보통 모양(꾸밈 지우기) Alt+Shift+C"><td>글자</td><td>보통 모양(꾸밈 지우기)</td><td><kbd>Alt+Shift+C</kbd></td></tr><tr data-k="글자 글자 크게 Alt+Shift+E"><td>글자</td><td>글자 크게</td><td><kbd>Alt+Shift+E</kbd></td></tr><tr data-k="글자 자간 넓히기 Alt+Shift+W"><td>글자</td><td>자간 넓히기</td><td><kbd>Alt+Shift+W</kbd></td></tr><tr data-k="글자 자간 좁히기 Alt+Shift+N"><td>글자</td><td>자간 좁히기</td><td><kbd>Alt+Shift+N</kbd></td></tr><tr data-k="문단 양쪽 정렬 Ctrl+Shift+M"><td>문단</td><td>양쪽 정렬</td><td><kbd>Ctrl+Shift+M</kbd></td></tr><tr data-k="문단 왼쪽 정렬 Ctrl+Shift+L"><td>문단</td><td>왼쪽 정렬</td><td><kbd>Ctrl+Shift+L</kbd></td></tr><tr data-k="문단 가운데 정렬 Ctrl+Shift+C"><td>문단</td><td>가운데 정렬</td><td><kbd>Ctrl+Shift+C</kbd></td></tr><tr data-k="문단 오른쪽 정렬 Ctrl+Shift+R"><td>문단</td><td>오른쪽 정렬</td><td><kbd>Ctrl+Shift+R</kbd></td></tr><tr data-k="문단 배분 정렬 Ctrl+Shift+T"><td>문단</td><td>배분 정렬</td><td><kbd>Ctrl+Shift+T</kbd></td></tr><tr data-k="문단 문단 번호 모양 Ctrl+K, N"><td>문단</td><td>문단 번호 모양</td><td><kbd>Ctrl+K, N</kbd></td></tr><tr data-k="편집 한 줄 지우기 Ctrl+Y"><td>편집</td><td>한 줄 지우기</td><td><kbd>Ctrl+Y</kbd></td></tr><tr data-k="편집 커서 뒤 줄 끝까지 지우기 Alt+Y"><td>편집</td><td>커서 뒤 줄 끝까지 지우기</td><td><kbd>Alt+Y</kbd></td></tr><tr data-k="편집 한 단어 지우기 Ctrl+T"><td>편집</td><td>한 단어 지우기</td><td><kbd>Ctrl+T</kbd></td></tr><tr data-k="편집 문서 처음으로 Ctrl+Page Up"><td>편집</td><td>문서 처음으로</td><td><kbd>Ctrl+Page Up</kbd></td></tr><tr data-k="편집 문서 끝으로 Ctrl+Page Down"><td>편집</td><td>문서 끝으로</td><td><kbd>Ctrl+Page Down</kbd></td></tr><tr data-k="편집 문자표(특수문자) Ctrl+F10"><td>편집</td><td>문자표(특수문자)</td><td><kbd>Ctrl+F10</kbd></td></tr><tr data-k="편집 맞춤법 검사 F8"><td>편집</td><td>맞춤법 검사</td><td><kbd>F8</kbd></td></tr><tr data-k="편집 수식 넣기 Ctrl+N, M"><td>편집</td><td>수식 넣기</td><td><kbd>Ctrl+N, M</kbd></td></tr><tr data-k="편집 차례 새로 고침 Ctrl+K, U"><td>편집</td><td>차례 새로 고침</td><td><kbd>Ctrl+K, U</kbd></td></tr></tbody></table></div>
+<p class="note" id="cnt"></p>
+<div class="btns"><button class="btn" id="pr" type="button">이 표 인쇄하기</button></div>
+</section>""", """<script>
+(function(){var $=HL.$;var cat='전체';var trs=[].slice.call(document.querySelectorAll('#sc tbody tr'));var cats=['전체'];trs.forEach(function(t){var c=t.cells[0].textContent;if(cats.indexOf(c)<0)cats.push(c)});
+cats.forEach(function(c){var b=HL.el('button',{type:'button','class':'hk-chip','aria-pressed':String(c===cat),text:c});b.onclick=function(){cat=c;[].forEach.call($('#cats').children,function(x){x.setAttribute('aria-pressed',String(x.textContent===c))});f()};$('#cats').appendChild(b)});
+function f(){var q=$('#q').value.replace(/\\s+/g,'').toLowerCase(),n=0;trs.forEach(function(t){var ok=(cat==='전체'||t.cells[0].textContent===cat)&&(!q||t.getAttribute('data-k').replace(/\\s+/g,'').toLowerCase().indexOf(q)>=0);t.hidden=!ok;if(ok)n++});$('#cnt').textContent=n+'개 단축키'}
+$('#q').addEventListener('input',f);$('#pr').onclick=function(){window.print()};f();
 })();
 </script>""")
 
@@ -521,6 +536,21 @@ PAGES = [
     faq=[('한글 프로그램에서 문서 정보는 어디서 보나요?', '[파일] → [문서 정보]에서 일반 정보·문서 요약·문서 통계·글꼴 정보를 볼 수 있어요.'),
          ('작성자 이름 같은 문서 요약도 나오나요?', '지금은 형식·쪽·글자·표·그림·글꼴을 보여 줘요. 작성자·제목 같은 문서 요약은 한글의 [파일] → [문서 정보] → [문서 요약]에서 확인하세요.'),
          ('암호가 걸린 문서도 되나요?', '암호 문서는 내용을 읽을 수 없어요. 먼저 <a href="/pdf/hwp-password.html">HWP 암호 풀기</a>로 푼 뒤 넣으세요.')]),
+  dict(slug='hwp-shortcuts', name='한글 단축키 모음 (한컴오피스 표·쪽 번호·저장 단축키 찾기, 인쇄용)',
+    h1='한글 <b>단축키 모음</b>', lead='한컴오피스 한글에서 자주 쓰는 단축키를 분류별로 모았어요. 기능 이름으로 찾고, 표로 인쇄할 수 있어요.',
+    desc='한컴오피스 한글의 자주 쓰는 단축키를 파일·쪽·표·글자·문단·편집으로 나눠 정리했어요. 표 만들기 Ctrl+N,T, 쪽 번호 Ctrl+N,P, 다른 이름으로 저장 Alt+V처럼 기능 이름으로 찾고 인쇄할 수 있어요. 단축키가 안 먹을 때 확인할 점도 함께 적었어요.',
+    tool=SC_TOOL, warn='', nosafe=True,
+    body=[
+      ('‘Ctrl+N, T’ 같은 겹치는 단축키 누르는 법', '<p>쉼표가 있는 단축키는 <b>두 번에 나눠</b> 눌러요. Ctrl+N, T라면 Ctrl을 누른 채 N을 누르고 손을 뗀 다음, T를 한 번 더 눌러요. 한글에서는 이런 ‘겹글쇠’ 단축키가 많아요.</p>'),
+      ('가장 많이 쓰는 한글 단축키 10개', '<table class="tbl"><thead><tr><th>하고 싶은 것</th><th>단축키</th></tr></thead><tbody><tr><td>저장</td><td>Alt+S</td></tr><tr><td>다른 이름으로 저장 (HWPX·PDF로 저장할 때)</td><td>Alt+V</td></tr><tr><td>표 만들기</td><td>Ctrl+N, T</td></tr><tr><td>쪽 번호 넣기</td><td>Ctrl+N, P</td></tr><tr><td>다음 쪽으로 넘기기</td><td>Ctrl+Enter</td></tr><tr><td>표에서 칸 고르기</td><td>F5 (여러 번 누르면 넓어져요)</td></tr><tr><td>가운데 정렬</td><td>Ctrl+Shift+C</td></tr><tr><td>꾸밈 지우고 보통 글자로</td><td>Alt+Shift+C</td></tr><tr><td>특수문자(※ ○ ㉮)</td><td>Ctrl+F10</td></tr><tr><td>맞춤법 검사</td><td>F8</td></tr></tbody></table>'),
+      ('단축키가 안 먹을 때', '<ul><li><b>Alt+N이 안 되고 Ctrl+N이 새 문서로 열릴 때</b>: 한글의 단축키 설정이 ‘Office 호환’으로 되어 있는 경우예요. 환경 설정의 단축키 모음을 ‘한컴오피스’로 바꾸면 이 표의 단축키대로 돼요.</li><li><b>Ctrl+Shift 단축키가 안 될 때</b>: 윈도우의 입력 언어 바꾸기 단축키(Ctrl+Shift)와 겹칠 수 있어요. 윈도우 입력 설정에서 바꾸기 키를 다른 것으로 바꿔 보세요.</li><li>한글 버전에 따라 일부 단축키가 다를 수 있어요. 메뉴 오른쪽에 적힌 단축키가 가장 정확해요.</li></ul>'),
+      ('한컴오피스 없이 한글 파일을 다룰 때', '<p>한글이 설치되지 않은 컴퓨터나 휴대전화에서는 <a href="/pdf/hwp-viewer.html">HWP 뷰어</a>로 열어 보고, <a href="/pdf/hwp-to-pdf.html">PDF로 바꾸거나</a> <a href="/pdf/hwp-to-txt.html">글만 뽑아</a> 쓸 수 있어요.</p>'),
+    ],
+    faq=[('한글에서 다른 이름으로 저장 단축키는?', 'Alt+V예요. 파일 형식에서 HWPX·PDF·DOCX 등을 고를 수 있어요.'),
+         ('한글 표 만들기 단축키는?', 'Ctrl+N을 누르고 뗀 다음 T를 눌러요(Ctrl+N, T). 줄·칸 수를 정하는 창이 떠요.'),
+         ('한글 쪽 번호 넣는 단축키는?', 'Ctrl+N, P예요. 번호 위치와 모양을 고를 수 있어요.'),
+         ('이 단축키는 어느 버전 기준인가요?', '한글 2014~2024 등 요즘 버전에서 기본(한컴오피스) 단축키 설정 기준이에요. 설정을 바꿨다면 다를 수 있어요.')],
+    src='<li><a href="https://www.goe.go.kr/resource/old/BBSMSTR_000000030111/BBS_202405091213318590.pdf" rel="noopener" target="_blank">경기도교육청 — 한컴오피스 단축키 안내(PDF)</a></li><li><a href="https://www.hancom.com/" rel="noopener" target="_blank">한글과컴퓨터</a> — 프로그램 메뉴에 표시된 단축키</li>'),
 ]
 
 
@@ -565,14 +595,14 @@ def page(p):
                f'<p class="note">홍라이프 도구 · {DATE} 업데이트</p><nav class="xp-toc" aria-label="차례">{toc}</nav>')
     for i, (t, b) in enumerate(p['body']):
         sec.append(f'<h3 id="g-{i+1}">{t}</h3>{b}')
-    sec.append('<h3>참고한 자료</h3><ul class="src"><li><a href="https://www.hancom.com/support/downloadCenter/hwpOwpml" rel="noopener" target="_blank">한글과컴퓨터 — 한글 문서 파일 형식 공개</a> — HWP 5.0·HWPX(OWPML) 형식 문서</li>'
-               '<li><a href="https://github.com/edwardkim/rhwp" rel="noopener" target="_blank">rhwp (MIT)</a> — 브라우저용 한글 문서 엔진, 0.8.7 사용</li></ul></section>')
+    sec.append('<h3>참고한 자료</h3><ul class="src">' + (p.get('src') or '<li><a href="https://www.hancom.com/support/downloadCenter/hwpOwpml" rel="noopener" target="_blank">한글과컴퓨터 — 한글 문서 파일 형식 공개</a> — HWP 5.0·HWPX(OWPML) 형식 문서</li>'
+               '<li><a href="https://github.com/edwardkim/rhwp" rel="noopener" target="_blank">rhwp (MIT)</a> — 브라우저용 한글 문서 엔진, 0.8.7 사용</li>') + '</ul></section>')
     faq = '<section class="card faq"><h2>자주 묻는 질문</h2>' + ''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in p['faq']) + '</section>'
     rel = '<section class="card rel"><h2>다른 한글(HWP) 도구</h2><ul>' + ''.join(
         f'<li><a href="{u}"><b>{t}</b><span>{d}</span></a></li>' for u, t, d in HWP_TOOLS if u != url) + '</ul></section>'
     warn = f'<div class="warn">{p["warn"]}</div>' if p['warn'] else ''
     main = (f'<main class="wrap wide">\n<header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/pdf/">PDF 도구</a> › 한글(HWP)</p>'
-            f'<h1>{p["h1"]}</h1><p class="lead">{p["lead"]}</p>{SAFE}</header>\n{warn}{tool_html}\n' + ''.join(sec) + faq + rel + '\n</main>')
+            f'<h1>{p["h1"]}</h1><p class="lead">{p["lead"]}</p>{"" if p.get("nosafe") else SAFE}</header>\n{warn}{tool_html}\n' + ''.join(sec) + faq + rel + '\n</main>')
     # scripts: drop the template's tool script (last inline script) and add kit + ours
     after = re.sub(r'<script>\s*\(function\(\)\{var \$=HL\.\$;var items=\[\],stop=false.*?</script>', '', after, flags=re.S)
     after = after.replace('<script src="/assets/js/hlhwp.js', KIT.replace('<script', '<script') + '\n<script src="/assets/js/hlhwp.js', 1) if False else after

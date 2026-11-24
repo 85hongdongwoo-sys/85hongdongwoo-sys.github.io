@@ -1013,7 +1013,8 @@ _hwp_new = [('/pdf/hwp-to-hwpx.html', 'HWP를 HWPX로 변환', '옛 한글 파�
             ('/pdf/hwp-password.html', 'HWP 암호 걸기·풀기', '보내기 전 열기 암호, 아는 암호 풀기'),
             ('/pdf/hwp-compare.html', '한글 문서 비교', '두 파일의 달라진 줄 찾기'),
             ('/pdf/hwp-privacy-check.html', 'HWP 개인정보 찾기', '주민번호·전화번호 확인'),
-            ('/pdf/hwp-info.html', '한글 문서 정보·글꼴 확인', '버전·쪽 수·쓴 글꼴')]
+            ('/pdf/hwp-info.html', '한글 문서 정보·글꼴 확인', '버전·쪽 수·쓴 글꼴'),
+            ('/pdf/hwp-shortcuts.html', '한글 단축키 모음', '표·쪽 번호·저장 단축키, 인쇄용')]
 _hwp_all = [('/pdf/hwp-viewer.html', 'HWP 뷰어 (한글 파일 열기)', '한컴오피스 없이 HWP·HWPX 보기'),
             ('/pdf/hwp-to-pdf.html', 'HWP를 PDF로 변환', '여러 개 한 번에, 검색되는 PDF')] + _hwp_new
 _p = os.path.join(root, 'pdf/index.html')
@@ -1029,7 +1030,7 @@ for _f in ('pdf/hwp-viewer.html', 'pdf/hwp-to-pdf.html', 'convert/ext/hwp.html',
     if not os.path.exists(_p):
         continue
     s = open(_p, encoding='utf-8').read()
-    if 'hwp-info.html' in s or '</main>' not in s:
+    if 'hwp-shortcuts.html' in s or '</main>' not in s:
         continue
     box = ('<section class="card rel"><h2>한글(HWP) 파일 바꾸기·만들기</h2><ul>'
            + ''.join(f'<li><a href="{u}"><b>{t}</b><span>{d}</span></a></li>' for u, t, d in _hwp_new) + '</ul></section>\n')
