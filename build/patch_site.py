@@ -999,3 +999,34 @@ if os.path.exists(_ih):
     if 'application/rss+xml' not in s:
         open(_ih, 'w', encoding='utf-8').write(s.replace('</head>', '<link rel="alternate" type="application/rss+xml" title="홍라이프 도구 새 도구" href="https://honglife.co.kr/rss.xml">\n</head>', 1))
         print('home rss link added')
+
+# 한글(HWP) 도구 4종 (overlay/pdf, build/hwp/gen_hwp_tools.py) — PDF 허브 카드, 기존 HWP 페이지 연결, 사이트맵
+_hwp_new = [('/pdf/hwp-to-hwpx.html', 'HWP를 HWPX로 변환', '옛 한글 파일을 새 형식으로, 여러 개 ZIP'),
+            ('/pdf/hwpx-to-hwp.html', 'HWPX를 HWP로 변환', '옛 버전 한글에서도 열리게'),
+            ('/pdf/hwp-to-txt.html', 'HWP 텍스트 추출', '글자만 TXT로, 글자 수·원고지 매수'),
+            ('/pdf/text-to-hwp.html', '텍스트·워드를 한글 파일로', 'TXT·DOCX → HWP·HWPX 만들기')]
+_hwp_all = [('/pdf/hwp-viewer.html', 'HWP 뷰어 (한글 파일 열기)', '한컴오피스 없이 HWP·HWPX 보기'),
+            ('/pdf/hwp-to-pdf.html', 'HWP를 PDF로 변환', '여러 개 한 번에, 검색되는 PDF')] + _hwp_new
+_p = os.path.join(root, 'pdf/index.html')
+if os.path.exists(_p):
+    s = open(_p, encoding='utf-8').read()
+    if 'id="hwp-tools"' not in s:
+        card = ('<section class="card" id="hwp-tools"><h2>한글(HWP) 문서 도구</h2><p class="note">한컴오피스 없이 한글 파일을 열고, 바꾸고, 만들어요.</p><ul>'
+                + ''.join(f'<li><a href="{u}"><b>{t}</b> — {d}</a></li>' for u, t, d in _hwp_all) + '</ul></section>\n')
+        s = s.replace('<section class="card"><h2>PDF 도구', card + '<section class="card"><h2>PDF 도구', 1)
+        open(_p, 'w', encoding='utf-8').write(s); print('pdf hub: hwp card')
+for _f in ('pdf/hwp-viewer.html', 'pdf/hwp-to-pdf.html', 'convert/ext/hwp.html', 'convert/ext/hwpx.html', 'doc/gongmun-checker.html'):
+    _p = os.path.join(root, _f)
+    if not os.path.exists(_p):
+        continue
+    s = open(_p, encoding='utf-8').read()
+    if 'hwp-to-hwpx.html' in s or '</main>' not in s:
+        continue
+    box = ('<section class="card rel"><h2>한글(HWP) 파일 바꾸기·만들기</h2><ul>'
+           + ''.join(f'<li><a href="{u}"><b>{t}</b><span>{d}</span></a></li>' for u, t, d in _hwp_new) + '</ul></section>\n')
+    open(_p, 'w', encoding='utf-8').write(s.replace('</main>', box + '</main>', 1)); print('hwp links ->', _f)
+_p = os.path.join(root, 'sitemap.xml'); s = open(_p, encoding='utf-8').read()
+_add = [u for u, _, _ in _hwp_new if f'https://honglife.co.kr{u}<' not in s]
+if _add:
+    s = s.replace('</urlset>', ''.join(f'<url><loc>https://honglife.co.kr{u}</loc><lastmod>2026-11-24</lastmod></url>\n' for u in _add) + '</urlset>', 1)
+    open(_p, 'w', encoding='utf-8').write(s); print('sitemap + hwp tools', len(_add))
