@@ -412,6 +412,7 @@ CCSS = ('<style id="gc-car">.car-figs{display:grid;grid-template-columns:repeat(
         '.car-ch i{display:block;width:100%;border-radius:6px 6px 0 0}.car-chx{display:flex;gap:14px;padding:0 6px;margin-bottom:8px}'
         '.car-chx span{flex:1;max-width:90px;text-align:center;font-size:12px;color:var(--muted,#5B6B82)}'
         '.car-tr{display:flex;flex-direction:column;gap:3px;font-size:13px;line-height:1.6;background:#F8FAFC;border-radius:10px;padding:8px 12px;margin:8px 0 0}.car-tr b{font-size:12.5px;color:#12305C}'
+        '.ql a{max-width:100%;overflow-wrap:anywhere;word-break:break-all;white-space:normal}'
         '.car-note{font-size:12.5px;color:var(--muted,#5B6B82);margin-top:10px}@media(max-width:560px){.car-figs{grid-template-columns:1fr}}</style>')
 def pay_chart(p):
     if not p.get('mid'): return ''
