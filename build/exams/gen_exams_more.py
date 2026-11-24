@@ -411,6 +411,7 @@ CCSS = ('<style id="gc-car">.car-figs{display:grid;grid-template-columns:repeat(
         '.car-ch em{font-style:normal;font-size:12.5px;font-weight:700;color:#12305C;margin-bottom:4px;white-space:nowrap}'
         '.car-ch i{display:block;width:100%;border-radius:6px 6px 0 0}.car-chx{display:flex;gap:14px;padding:0 6px;margin-bottom:8px}'
         '.car-chx span{flex:1;max-width:90px;text-align:center;font-size:12px;color:var(--muted,#5B6B82)}'
+        '.car-tr{display:flex;flex-direction:column;gap:3px;font-size:13px;line-height:1.6;background:#F8FAFC;border-radius:10px;padding:8px 12px;margin:8px 0 0}.car-tr b{font-size:12.5px;color:#12305C}'
         '.car-note{font-size:12.5px;color:var(--muted,#5B6B82);margin-top:10px}@media(max-width:560px){.car-figs{grid-template-columns:1fr}}</style>')
 def pay_chart(p):
     if not p.get('mid'): return ''
@@ -426,15 +427,35 @@ def career_section(g, q):
     figs = ''.join(f'<figure><img src="/assets/jagyeok/{E(p["file"])}" width="{p["w"]}" height="{p["h"]}" alt="{E(p["alt"])}" loading="{"eager" if i == 0 else "lazy"}" decoding="async">'
                    f'<figcaption>{E(p["cap"])} (예시 이미지 · 실제 현장과 다를 수 있어요)</figcaption></figure>' for i, p in enumerate(C.get('photos', [])))
     pay = C.get('pay')
+    A = (load('adiga_pay') or {}).get(g); J = (load('adiga_job') or {}).get(g)
+    if A and not C.get('no_pay'):
+        sub, code = A['c'].split('|')
+        url = f'https://www.adiga.kr/jbp/jnf/jobInfoDetail.do?menuId=PCJBPJNF2000&searchCrSeClsfCd={sub}&searchCrCd={code}'
+        f = lambda v: f'{round(float(v)):,}'
+        same = A['n'].replace(' ', '') in q.replace(' ', '')
+        pay = {"value": f"평균 {f(A['mid'])}만 원 (연)", "lo": round(float(A['lo'])), "mid": round(float(A['mid'])), "hi": round(float(A['hi'])), "job": A['n'], "year": A['y'],
+               "note": (f"한국고용정보원이 ‘{A['n']}’ 재직자에게 물은 연봉이에요(재직자 자기보고, 직업당 평균 30명 조사, {A['y']}년). 직업만족도는 {A['sat']}%예요. {A['pro'].replace('전망된다.', '전망돼요.').replace('전망이다.', '전망이에요.').replace('것이다.', '거예요.')}"
+                        + ('' if same else f" ‘{A['n']}’은 이 자격과 가장 가까운 직업이라 참고용이에요.") + ' 자격증 보유자만 따로 조사한 값은 아니에요.'),
+               "src": f"한국고용정보원 재직자조사({A['y']}년), 대입정보포털 직업정보", "url": url}
+    traits = ''
+    if J and len(J.get('scores', [])) >= 25:
+        clean = lambda x: re.sub(r'\(\d+\)$', '', x).strip()
+        BAD = ('재택근무', '움직이는 기계', '이메일', '전화 대화', '공문')
+        envs = [clean(x) for x in J['scores'][10:15] if not any(b in x for b in BAD)][:4]
+        pers = [clean(x) for x in J['scores'][15:20]][:4]
+        ints = [re.sub(r'\(.*', '', clean(x)) for x in J['scores'][20:25]][:2]
+        traits = ('<p class="car-tr"><b>조사로 본 특징</b>'
+                  + (f'<span>근무 환경: {E(" · ".join(envs))}</span>' if envs else '')
+                  + f'<span>중요한 성격: {E(" · ".join(pers))}</span><span>잘 맞는 흥미 유형: {E(" · ".join(ints))}</span></p>')
     h = (f'<section class="card car" id="job"><h2>{E(q)}는 어떤 일을 하나요?</h2><p>{E(C["lead"])}</p>'
          + (f'<div class="car-figs">{figs}</div>' if figs else '')
          + '<h3>하는 일</h3>' + li(C['work'])
          + '<h3>어디서 일하나요?</h3>' + li(C['place'])
          + '<h3>근무 환경</h3>' + li(C['env'])
          + (f'<h3>얼마나 버나요?</h3><div class="car-pay"><b>{E(pay["value"])}</b><span>{E(pay["note"])} 출처: {E(pay["src"])}.</span></div>' + pay_chart(pay) if pay else '')
-         + '<h3>이런 사람에게 맞아요</h3>' + li(C['fit'])
+         + '<h3>이런 사람에게 맞아요</h3>' + li(C['fit']) + traits
          + ('<h3>알아 둘 점</h3>' + li(C['notes']) if C.get('notes') else '')
-         + '<p class="car-note">참고: ' + ' · '.join(f'<a href="{E(u)}" target="_blank" rel="noopener nofollow">{E(n)}</a>' for n, u in C.get('sources', [])) + '</p></section>')
+         + '<p class="car-note">참고: ' + ' · '.join(f'<a href="{E(u)}" target="_blank" rel="noopener nofollow">{E(n)}</a>' for n, u in ([(f"대입정보포털 직업정보 – {pay['job']}", pay['url'])] if pay and pay.get('url') else []) + C.get('sources', [])) + '</p></section>')
     qa = []
     if pay: qa.append((f'{q} 연봉은 얼마인가요?', f'{pay["value"]}. {pay["note"]} (출처: {pay["src"]})'))
     qa.append((f'{q}는 어디서 일하나요?', ' '.join(C['place'])))
@@ -507,8 +528,9 @@ def qnet_pages(Q):
             desc = f'{q} 기출문제 문제지를 {lo}년부터 {hi}년까지 연도·회차별로 모으고, 시험과목·합격기준·시험일정을 큐넷 공식 자료로 정리했어요(공공누리 제1유형).'
         car_html, car_qa = career_section(g, q)
         if car_html:
-            title = f'{q} 기출문제 PDF ({lo}~{hi}년) · 하는 일·연봉·근무환경'
-            desc = f'{q}는 어떤 일을 하고 얼마나 벌까요? 하는 일·근무 환경·연봉·어울리는 사람과 함께 {lo}~{hi}년 기출문제 PDF를 연도·회차별로 모았어요.'
+            has_pay = 'class="car-pay"' in car_html
+            title = f'{q} 기출문제 PDF ({lo}~{hi}년) · 하는 일·' + ('연봉·' if has_pay else '') + '근무환경'
+            desc = f'{q}는 어떤 일을 하고 ' + ('얼마나 벌까요? 하는 일·근무 환경·연봉·' if has_pay else '어디서 일할까요? 하는 일·근무 환경·') + f'어울리는 사람과 함께 {lo}~{hi}년 기출문제 PDF를 연도·회차별로 모았어요.'
         qa = [*car_qa, (f'{q} 기출문제는 무료인가요?', '네. 한국산업인력공단이 큐넷에 문제지를 무료로 공개해요. 출처만 밝히면 자유롭게 쓸 수 있는 공공누리 제1유형이에요.'),
               *([(f'{q} 합격기준은 어떻게 되나요?', qi_plain(qi_html, '합격기준'))] if '합격기준' in qi_names and qi_plain(qi_html, '합격기준') else []),
               (f'{q} 정답은 어디서 보나요?', '정답(가답안·최종정답)은 시험이 끝난 뒤 큐넷 ‘가답안/최종정답 공개’ 메뉴에 일정 기간 올라와요.')]
