@@ -1063,3 +1063,42 @@ if os.path.exists(_p):
 _p = os.path.join(root, 'sitemap.xml'); s = open(_p, encoding='utf-8').read()
 if '/ipsi/hanneung.html<' not in s:
     open(_p, 'w', encoding='utf-8').write(s.replace('</urlset>', '<url><loc>https://honglife.co.kr/ipsi/hanneung.html</loc><lastmod>2026-11-24</lastmod></url>\n</urlset>', 1)); print('sitemap + hanneung')
+
+# 홈·분류 첫 화면: 제목·소개 글 작게, 그림 하나, '파일은 서버로…' 문구 빼기 (2026-11-25 사용자 요청)
+_SAFE_RE = re.compile(r'\s*<div class="safe">.*?파일은 서버로 전송되지 않고 내 기기에서만 처리돼요</div>', re.S)
+_p = os.path.join(root, 'index.html')
+if os.path.exists(_p):
+    s = open(_p, encoding='utf-8').read()
+    if 'hl-hero-art' not in s and '<section class="hero" id="search">' in s:
+        s = s.replace('<section class="hero" id="search"><h1>', '<section class="hero" id="search"><img class="hl-hero-art" src="/assets/art/hl/hero-tools.svg" alt="" width="360" height="210" fetchpriority="high"><h1>', 1)
+        i = s.find('<section class="hero" id="search">'); j = s.find('</section>', i)
+        s = s[:i] + _SAFE_RE.sub('', s[i:j], count=1) + s[j:]
+        css = ('<style>.hero .hl-hero-art{display:block;width:min(340px,86%);height:auto;margin:0 auto 4px}'
+               '.hero h1{font-size:clamp(26px,5.4vw,36px)!important;line-height:1.2;margin-top:0}'
+               '.hero>p{font-size:15px!important;line-height:1.6}@media(min-width:900px){.hero .hl-hero-art{width:360px}}</style>')
+        s = s.replace('</head>', css + '</head>', 1)
+        open(_p, 'w', encoding='utf-8').write(s); print('home: hero art, smaller title, no safe badge')
+_ART = {'ai': 'ft-ai', 'calendar': 'ft-calendar', 'convert': 'ft-convert', 'design': 'ft-design', 'dev': 'ft-dev', 'doc': 'ft-doc',
+        'excel': 'ft-excel', 'image': 'ft-image', 'ipsi': 'ft-ipsi', 'legal': 'ft-legal', 'life': 'ft-life', 'medical': 'ft-medical',
+        'net': 'ft-net', 'pdf': 'ft-pdf', 'qr': 'ft-qr', 'sheet': 'ft-sheet', 'shop': 'ft-shop', 'study': 'ft-study', 'text': 'ft-text', 'drive': 'cs-drive'}
+_HUBCSS = ('<style>.top.hub .hub-art{display:block;width:min(240px,62%);height:auto;margin:2px auto 6px}'
+           '.top.hub h1{font-size:clamp(24px,5vw,32px)!important;line-height:1.25}'
+           '.top.hub .lead{font-size:15px!important;line-height:1.65}'
+           '@media(min-width:900px){.top.hub{display:grid;grid-template-columns:1fr 260px;column-gap:28px;align-items:center}'
+           '.top.hub>*{grid-column:1}.top.hub .hub-art{grid-column:2;grid-row:1/span 4;width:260px;margin:0}}</style>')
+_n = 0
+for _d, _a in _ART.items():
+    _p = os.path.join(root, _d, 'index.html')
+    if not os.path.exists(_p) or not os.path.exists(os.path.join(root, 'assets/art/hl', _a + '.svg')):
+        continue
+    s = open(_p, encoding='utf-8').read()
+    i = s.find('<header class="top hub">')
+    if i < 0 or 'class="hub-art"' in s:
+        continue
+    j = s.find('</header>', i)
+    head = _SAFE_RE.sub('', s[i:j], count=1)
+    head = head.replace('<header class="top hub">', f'<header class="top hub"><img class="hub-art" src="/assets/art/hl/{_a}.svg" alt="" width="300" height="200">', 1)
+    s = s[:i] + head + s[j:]
+    s = s.replace('</head>', _HUBCSS + '</head>', 1)
+    open(_p, 'w', encoding='utf-8').write(s); _n += 1
+print('hub heads: art + smaller title', _n)
