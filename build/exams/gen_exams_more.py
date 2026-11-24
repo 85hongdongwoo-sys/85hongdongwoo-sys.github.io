@@ -400,6 +400,34 @@ def qi_plain(h, name):
         t = t[:260].rsplit(' ', 1)[0] + '… (자세한 기준은 이 페이지 시험정보 참고)'
     return t
 
+CCSS = ('<style id="gc-car">.car-figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:4px 0 12px}'
+        '.car-figs figure{margin:0;border-radius:12px;overflow:hidden;background:#F1F3F5}.car-figs img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}'
+        '.car-figs figcaption{font-size:12.5px;line-height:1.5;color:var(--muted,#5B6B82);padding:6px 10px 8px}'
+        '.car h3{font-size:15.5px;margin:16px 0 6px}.car ul{margin:0;padding-left:20px;line-height:1.7}.car li{margin:2px 0}'
+        '.car-pay{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;background:#F3F7FF;border:1px solid #DCE7FB;border-radius:12px;padding:10px 12px;margin:6px 0}'
+        '.car-pay b{font-size:19px;color:#12305C}.car-pay span{font-size:13px;color:var(--muted,#5B6B82);line-height:1.55}'
+        '.car-note{font-size:12.5px;color:var(--muted,#5B6B82);margin-top:10px}@media(max-width:560px){.car-figs{grid-template-columns:1fr}}</style>')
+def career_section(g, q):
+    C = (load('jagyeok_career') or {}).get(g)
+    if not C: return '', []
+    li = lambda xs: '<ul>' + ''.join(f'<li>{E(x)}</li>' for x in xs) + '</ul>'
+    figs = ''.join(f'<figure><img src="/assets/jagyeok/{E(p["file"])}" width="{p["w"]}" height="{p["h"]}" alt="{E(p["alt"])}" loading="{"eager" if i == 0 else "lazy"}" decoding="async">'
+                   f'<figcaption>{E(p["cap"])} (예시 이미지 · 실제 현장과 다를 수 있어요)</figcaption></figure>' for i, p in enumerate(C.get('photos', [])))
+    pay = C.get('pay')
+    h = (f'<section class="card car" id="job"><h2>{E(q)}는 어떤 일을 하나요?</h2><p>{E(C["lead"])}</p>'
+         + (f'<div class="car-figs">{figs}</div>' if figs else '')
+         + '<h3>하는 일</h3>' + li(C['work'])
+         + '<h3>어디서 일하나요?</h3>' + li(C['place'])
+         + '<h3>근무 환경</h3>' + li(C['env'])
+         + (f'<h3>얼마나 버나요?</h3><div class="car-pay"><b>{E(pay["value"])}</b><span>{E(pay["note"])} 출처: {E(pay["src"])}.</span></div>' if pay else '')
+         + '<h3>이런 사람에게 맞아요</h3>' + li(C['fit'])
+         + ('<h3>알아 둘 점</h3>' + li(C['notes']) if C.get('notes') else '')
+         + '<p class="car-note">참고: ' + ' · '.join(f'<a href="{E(u)}" target="_blank" rel="noopener nofollow">{E(n)}</a>' for n, u in C.get('sources', [])) + '</p></section>')
+    qa = []
+    if pay: qa.append((f'{q} 연봉은 얼마인가요?', f'{pay["value"]}. {pay["note"]} (출처: {pay["src"]})'))
+    qa.append((f'{q}는 어디서 일하나요?', ' '.join(C['place'])))
+    return CCSS + h, qa
+
 def qnet_pages(Q):
     PM = load('qnet_pdf') or {}
     rows = [r for r in Q['rows'] if r.get('files')]
@@ -465,11 +493,16 @@ def qnet_pages(Q):
         if qi_html:
             title = f'{q} 기출문제 PDF ({lo}~{hi}년) + 시험과목·합격기준'
             desc = f'{q} 기출문제 문제지를 {lo}년부터 {hi}년까지 연도·회차별로 모으고, 시험과목·합격기준·시험일정을 큐넷 공식 자료로 정리했어요(공공누리 제1유형).'
-        qa = [(f'{q} 기출문제는 무료인가요?', '네. 한국산업인력공단이 큐넷에 문제지를 무료로 공개해요. 출처만 밝히면 자유롭게 쓸 수 있는 공공누리 제1유형이에요.'),
+        car_html, car_qa = career_section(g, q)
+        if car_html:
+            title = f'{q} 기출문제 PDF ({lo}~{hi}년) · 하는 일·연봉·근무환경'
+            desc = f'{q}는 어떤 일을 하고 얼마나 벌까요? 하는 일·근무 환경·연봉·어울리는 사람과 함께 {lo}~{hi}년 기출문제 PDF를 연도·회차별로 모았어요.'
+        qa = [*car_qa, (f'{q} 기출문제는 무료인가요?', '네. 한국산업인력공단이 큐넷에 문제지를 무료로 공개해요. 출처만 밝히면 자유롭게 쓸 수 있는 공공누리 제1유형이에요.'),
               *([(f'{q} 합격기준은 어떻게 되나요?', qi_plain(qi_html, '합격기준'))] if '합격기준' in qi_names and qi_plain(qi_html, '합격기준') else []),
               (f'{q} 정답은 어디서 보나요?', '정답(가답안·최종정답)은 시험이 끝난 뒤 큐넷 ‘가답안/최종정답 공개’ 메뉴에 일정 기간 올라와요.')]
         main = (f'<header class="top hub">{cr}<h1>{E(q)} 기출문제 PDF</h1><p class="lead">{lo}년부터 {hi}년까지 {E(q)} 시험 문제지 {len(groups)}회분({sum(len(r["files"]) for r in rs)}개 파일)을 연도·회차별로 모았어요.' + (f' 제{min(rounds)}회부터 제{max(rounds)}회까지 들어 있어요.' if rounds else '') + ' 버튼을 누르면 큐넷 공식 파일이 바로 내려받아져요.</p>'
-                f'<p class="gc-ans">{zipnote}' + ('<a href="#info"><b>시험과목·합격기준·시험일정 보기</b></a>. ' if qi_html else '') + f'출처: 한국산업인력공단 큐넷(Q-Net), 공공누리 제1유형 ({GE.fmt_date(Q["checked"])} 확인).</p></header>'
+                f'<p class="gc-ans">{zipnote}' + ('<a href="#job"><b>하는 일·연봉 보기</b></a>. ' if car_html else '') + ('<a href="#info"><b>시험과목·합격기준·시험일정 보기</b></a>. ' if qi_html else '') + f'출처: 한국산업인력공단 큐넷(Q-Net), 공공누리 제1유형 ({GE.fmt_date(Q["checked"])} 확인).</p></header>'
+                + car_html +
                 f'<section class="card"><h2>{E(q)} 연도별 기출문제</h2><p class="qyi">{"".join(yidx)}</p>{lis}</section>' + qi_html + faq_html(qa) +
                 '<section class="card"><h2>다른 자격증 기출</h2><p class="gc-nav"><a href="/ipsi/jagyeok/">자격증 기출 전체</a><a href="/ipsi/gongmuwon/">공무원 기출</a><a href="/ipsi/gumjung/">검정고시 기출</a></p></section>')
         ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path, "description": desc, "inLanguage": "ko"}]
