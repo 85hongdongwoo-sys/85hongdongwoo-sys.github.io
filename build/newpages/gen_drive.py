@@ -10,6 +10,7 @@ H2CSS = '<style>#tool h2{margin:26px 0 10px}#tool h2:first-of-type{margin-top:0}
 REL = ('<section class="card rel"><h2>다른 자동차 도구</h2><ul>'
        '<li><a href="/drive/car-inspection.html"><b>자동차 정기검사 기간 계산기</b><span>다음 검사 날짜·검사 가능 기간·지연 과태료</span></a></li>'
        '<li><a href="/drive/tire.html"><b>타이어 규격·제조일자 읽기</b><span>225/55R17 뜻, 바깥지름, DOT 제조 주차, 교체 시기</span></a></li>'
+       '<li><a href="/drive/cctv.html"><b>고속도로·국도 CCTV 바로가기</b><span>로드플러스·ITS·UTIC·지역 교통정보센터</span></a></li>'
        '<li><a href="/drive/gas-station.html"><b>싼 주유소 지도</b><span>동네별 최저가 휘발유·경유</span></a></li>'
        '<li><a href="/drive/parking.html"><b>공영·무료 주차장</b><span>요금·운영시간 지도</span></a></li>'
        '<li><a href="/drive/rest-area.html"><b>고속도로 휴게소</b><span>대표 메뉴·기름값 지도</span></a></li></ul></section>')
@@ -128,6 +129,54 @@ TIRE = dict(slug='tire', url='/drive/tire.html', sec=SEC, crumb3='',
   rel=REL,
   src='<li><a href="https://ownersmanual.kia.com/full_webhelp/TAMEV/2026/ko_KR/topics/chapter8_12_5.html" rel="noopener" target="_blank">기아 차량 취급설명서 — 타이어 제조일자·6년 교체</a></li><li><a href="https://www.continental-tires.com/kr/ko/tire-knowledge/tread-depth/" rel="noopener" target="_blank">콘티넨탈 타이어 — 트레드 깊이 (새 타이어 8~9mm, 1.6mm)</a></li><li>자동차 및 자동차부품의 성능과 기준에 관한 규칙 — 타이어 요철형 무늬 깊이 1.6mm · 2026-11-25 확인</li>')
 
+# ── 3. 고속도로·국도·도시 CCTV 바로가기 ──
+CC = [('고속도로', '로드플러스 (한국도로공사)', 'https://www.roadplus.co.kr/main', '전국 고속도로 소통·교통속보·CCTV·예상 소요시간', '고속도로 경부 영동 서해안 중부 서울양양 전국'),
+      ('국도', '국가교통정보센터 CCTV 지도 (국토교통부)', 'https://www.its.go.kr/map/cctv', '국도·고속도로 CCTV를 지도에서 바로', '국도 고속도로 전국 지도'),
+      ('도시', '도시교통정보센터 UTIC (경찰청)', 'https://www.utic.go.kr/map/map.do?menu=cctv', '전국 도시 도로 CCTV·돌발정보 — 인천·광주·대전·울산 등도 여기서', '도시 인천 광주 대전 울산 세종 전국 시내'),
+      ('서울', '서울 TOPIS CCTV', 'https://topis.seoul.go.kr/map/openCctvMap.do', '서울 시내·도시고속도로 CCTV', '서울 강변북로 올림픽대로 내부순환 시내'),
+      ('경기', '경기도교통정보센터 CCTV', 'https://gits.gg.go.kr/web/trafficInfo/webMapInfo.do?opt=3', '경기도 도로 CCTV 지도', '경기 수원 성남 고양 용인 부천'),
+      ('부산', '부산광역시 교통정보서비스센터 CCTV', 'https://its.busan.go.kr/traffic/cctv', '부산 시내 도로·터널 CCTV', '부산'),
+      ('대구', '대구교통종합정보 CCTV', 'https://car.daegu.go.kr/living/carInfo', '대구 시내 도로 CCTV', '대구'),
+      ('제주', '제주특별자치도 교통정보센터 CCTV', 'https://www.jejuits.go.kr/jido/mainView.do?DEVICE_KIND=CCTV', '제주 도로 CCTV 지도 (한라산 도로 결빙 확인)', '제주 한라산 1100도로 516도로')]
+cards = ''.join(f'<li data-k="{a} {b} {e}"><a href="{c}" target="_blank" rel="noopener"><b>{b}</b><span>{a} · {d}</span></a></li>' for a, b, c, d, e in CC)
+CCTV_TOOL = ("""<section class="card tool" id="tool">""" + H2CSS + """<style>#cl{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}#cl a{display:block;border:1px solid #E3E6EB;border-radius:12px;padding:12px 14px;text-decoration:none;background:#fff}#cl a b{display:block;color:#1D4ED8;font-size:16px}#cl a span{display:block;color:#5B6B82;font-size:14px;margin-top:2px;overflow-wrap:anywhere}#cl li[hidden]{display:none}</style>
+<h2>어느 도로 CCTV를 볼까요?</h2>
+<div id="cats" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+<div class="f" style="margin-top:10px"><label for="q">지역·도로 이름으로 찾기</label><input id="q" type="search" placeholder="예: 인천, 영동, 제주, 올림픽대로" autocomplete="off"></div>
+<ul id="cl">"""+cards+"""</ul>
+<p class="note">링크는 모두 공식 기관 사이트로 열려요. 영상은 그 사이트에서 재생돼요 (2026년 11월 25일 확인).</p>
+</section>""", """<script>
+(function(){var $=HL.$;var cat='전체';var lis=[].slice.call(document.querySelectorAll('#cl li'));var cs=['전체','고속도로','국도','도시','서울','경기','부산','대구','제주'];
+cs.forEach(function(c){var b=HL.el('button',{type:'button','class':'hk-chip','aria-pressed':String(c===cat),text:c});b.onclick=function(){cat=c;[].forEach.call($('#cats').children,function(x){x.setAttribute('aria-pressed',String(x.textContent===c))});f()};$('#cats').appendChild(b)});
+function f(){var q=$('#q').value.replace(/\\s+/g,'');lis.forEach(function(l){var k=l.getAttribute('data-k');l.hidden=!((cat==='전체'||k.indexOf(cat)>=0)&&(!q||k.replace(/\\s+/g,'').indexOf(q)>=0))})}
+$('#q').addEventListener('input',f);f();
+})();
+</script>""")
+
+CCTV = dict(slug='cctv', url='/drive/cctv.html', sec=SEC, crumb3='',
+  name='고속도로·국도 CCTV 실시간 보기 바로가기 (로드플러스·ITS·UTIC·지역 교통정보센터)',
+  h1='고속도로·국도 <b>CCTV 바로가기</b>', lead='출발 전에 길이 막히는지, 눈·비로 미끄러운지 실제 영상으로 확인하세요. 고속도로·국도·도시 도로 CCTV를 보여 주는 공식 사이트를 한 곳에 모았어요.',
+  desc='고속도로 CCTV는 로드플러스, 국도는 국가교통정보센터, 인천·광주·대전 등 도시 도로는 경찰청 UTIC, 서울은 TOPIS에서 실시간으로 볼 수 있어요. 경기·부산·대구·제주 교통정보센터 CCTV까지 공식 링크로 모으고, 상황별로 어디서 보면 좋은지 정리했어요.',
+  tool=CCTV_TOOL, warn='', nosafe=True,
+  body=[
+    ('어떤 도로는 어디서 보나요', '<table class="tbl"><thead><tr><th>가는 길</th><th>보는 곳</th></tr></thead><tbody>'
+      '<tr><td>고속도로 (경부·영동·서해안·서울양양 등)</td><td>로드플러스 (한국도로공사)</td></tr>'
+      '<tr><td>국도 (국도 1·3·7호선 등)</td><td>국가교통정보센터 CCTV 지도</td></tr>'
+      '<tr><td>시내 도로 (인천·광주·대전·울산 등)</td><td>경찰청 도시교통정보센터(UTIC)</td></tr>'
+      '<tr><td>서울 시내·올림픽대로·강변북로</td><td>서울 TOPIS</td></tr>'
+      '<tr><td>경기·부산·대구·제주</td><td>각 시·도 교통정보센터</td></tr></tbody></table>'
+      '<p>여러 기관 CCTV를 한 지도에 모아 보는 곳은 국가교통정보센터와 UTIC예요. 어디서 봐야 할지 모르겠으면 이 둘부터 여세요.</p>'),
+    ('CCTV 이렇게 보면 좋아요', '<ul><li><b>출발 전</b>에 가는 길의 분기점(JCT), 나들목(IC), 터널 입구, 늘 막히는 구간만 골라 봐요.</li><li>겨울에는 산길·고갯길·다리 위 CCTV로 눈이 쌓였는지, 길이 젖었는지 봐요. 제주 1100도로처럼 산 도로는 통제가 잦아요.</li><li>명절·휴가철에는 사람이 몰려 영상이 늦게 열리거나 잠깐 끊길 수 있어요. 잠시 뒤 다시 열어 보세요.</li><li>운전 중에는 보지 말고, 휴게소나 안전한 곳에 멈춘 뒤 확인하세요.</li></ul>'),
+    ('휴대폰 앱으로 보기', '<p>한국도로공사 <b>로드플러스</b>(고속도로 교통정보) 앱과 국토교통부 <b>국가교통정보센터</b> 앱에서도 CCTV를 볼 수 있어요. 네이버 지도·카카오맵의 교통 정보 화면에서 CCTV 아이콘을 눌러 보는 방법도 있어요.</p>'),
+    ('홍라이프에서 바로 재생은 안 되나요', '<p>CCTV 영상은 기관이 정한 조건에 따라 그 사이트 안에서만 재생되는 경우가 많아요. 그래서 이 페이지는 영상을 퍼오지 않고 <b>공식 사이트로 바로 여는 링크</b>만 모았어요. 가장 정확하고 빠른 영상은 공식 사이트에 있어요.</p>'),
+  ],
+  faq=[('고속도로 CCTV는 어디서 실시간으로 보나요?', '한국도로공사 로드플러스 누리집이나 앱에서 노선을 고르면 구간별 CCTV를 볼 수 있어요. 국가교통정보센터 CCTV 지도에서도 볼 수 있어요.'),
+       ('인천 도로 CCTV는 어디서 보나요?', '경찰청 도시교통정보센터(UTIC) CCTV 지도에서 인천 시내 도로 CCTV를 볼 수 있어요. 경인고속도로·제2경인 같은 고속도로는 로드플러스에서 봐요.'),
+       ('국도 CCTV는 어디서 보나요?', '국토교통부 국가교통정보센터의 CCTV 지도에서 국도 CCTV를 볼 수 있어요.'),
+       ('CCTV 영상이 안 나와요.', '사람이 몰리거나 기관 장비 점검 중이면 잠깐 안 나올 수 있어요. 다른 기관 사이트(국가교통정보센터·UTIC)에서 같은 구간을 찾아보거나 잠시 뒤 다시 열어 보세요.')],
+  rel=REL,
+  src='<li>로드플러스(한국도로공사), 국가교통정보센터(국토교통부), 도시교통정보센터 UTIC(경찰청), 서울 TOPIS, 경기도교통정보센터, 부산광역시 교통정보서비스센터, 대구교통종합정보, 제주특별자치도 교통정보센터 — 각 누리집 CCTV 메뉴 주소를 2026-11-25에 직접 열어 확인</li>')
+
 if __name__ == '__main__':
-    for p in (INSP, TIRE):
+    for p in (INSP, TIRE, CCTV):
         print('wrote', G.page(p))
