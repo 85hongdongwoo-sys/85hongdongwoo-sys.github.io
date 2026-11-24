@@ -73,7 +73,7 @@ TREE=('<svg viewBox="0 0 150 190" role="img" aria-label="날마다 전구가 하
       '<polygon points="75,26 30,100 120,100" fill="#1E3A8A"/><polygon points="75,56 22,140 128,140" fill="#1E40AF"/><polygon points="75,92 16,168 134,168" fill="#1D4ED8"/>'
       '<rect x="66" y="168" width="18" height="16" rx="3" fill="#92400E"/>'+''.join(B)+'</svg>')
 main=f'''<main class="wrap wide xm"><header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/life/">생활·행정</a></p><h1>크리스마스 D-day · 선물 예산 계산기</h1><p class="lead">2026년 크리스마스는 <b>12월 25일 금요일</b>이에요. 남은 날을 세고, 누구에게 얼마짜리 선물을 살지 예산을 나눠 보세요.</p></header>
-<section class="card tool" style="padding:0;overflow:hidden"><div class="xm-hero" id="hero"><canvas id="snow"></canvas><div class="xm-in"><div style="min-width:0"><span class="xm-k">🎄 2026 크리스마스 · 12월 25일 (금)</span><div class="xm-d" id="dd">D-30</div><div class="xm-sub" id="dsub">크리스마스까지</div>
+<section class="card tool" style="padding:0;overflow:hidden"><div class="xm-hero" id="hero"><canvas id="snow"></canvas><div class="xm-in"><div style="min-width:0"><span class="xm-k">🎄 2026. 12. 25. (금)</span><div class="xm-d" id="dd">D-30</div><div class="xm-sub" id="dsub">크리스마스까지</div>
 <div class="xm-clock"><div><b id="c-d">0</b><span>일</span></div><div><b id="c-h">0</b><span>시간</span></div><div><b id="c-m">0</b><span>분</span></div><div><b id="c-s">0</b><span>초</span></div></div>
 <div class="xm-bar"><i id="bar" style="width:0"></i></div><div class="xm-note" id="bnote">12월 1일부터 하루에 전구가 하나씩 켜져요.</div></div>
 <div class="xm-tree" aria-hidden="false">{TREE}</div></div></div></section>
