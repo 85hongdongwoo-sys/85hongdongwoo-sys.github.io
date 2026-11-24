@@ -1026,7 +1026,7 @@ if os.path.exists(_p):
     s = open(_p, encoding='utf-8').read()
     if 'id="hwp-tools"' not in s:
         card = ('<section class="card" id="hwp-tools"><h2>한글(HWP) 문서 도구 ' + str(len(_hwp_all)) + '가지</h2><ul class="tlist hl-grid">'
-                + ''.join(f'<li><a href="{u}"><i class="th"><img src="/assets/art/hl/cs-doc.svg" alt="" width="200" height="140" loading="lazy"></i><img class="pg" src="/assets/art/hl/pg-doc.svg" alt="" width="26" height="26" loading="lazy"><b>{t}</b><span>{d}</span></a></li>' for u, t, d in _hwp_all) + '</ul></section>\n')
+                + ''.join(f'<li><a href="{u}"><i class="th"><img src="/assets/art/hl/cs-hwp-{u.rsplit("/", 1)[1][:-5]}.svg" alt="" width="200" height="140" loading="lazy"></i><img class="pg" src="/assets/art/hl/pg-doc.svg" alt="" width="26" height="26" loading="lazy"><b>{t}</b><span>{d}</span></a></li>' for u, t, d in _hwp_all) + '</ul></section>\n')
         s = s.replace('<section class="card"><h2>PDF 도구', card + '<section class="card"><h2>PDF 도구', 1)
         open(_p, 'w', encoding='utf-8').write(s); print('pdf hub: hwp card')
 for _f in ('pdf/hwp-viewer.html', 'pdf/hwp-to-pdf.html', 'convert/ext/hwp.html', 'convert/ext/hwpx.html', 'doc/gongmun-checker.html'):
@@ -1178,3 +1178,38 @@ if os.path.exists(_p):
                       'ul.hl-catrow a.ct .ci{top:50%!important;bottom:8px!important;left:8px!important;right:8px!important}ul.hl-catrow a.ct .go{display:none!important}'
                       '.hl-catrow~.rail-btn,.hl-catrow+button{display:none!important}}</style></head>', 1)
         open(_p, 'w', encoding='utf-8').write(s); print('home: 2-line intro, 3-col categories on phone')
+
+
+# 분류 이름: PDF 도구 → 한글·PDF (한글 도구를 PDF 분류에 함께 둠, 2026-11-25)
+_p = os.path.join(root, 'pdf', 'index.html')
+if os.path.exists(_p):
+    s = open(_p, encoding='utf-8').read(); o = s
+    s = s.replace('<h1>PDF 도구</h1>', '<h1>한글·PDF 도구</h1>', 1).replace('› PDF 도구</p>', '› 한글·PDF</p>', 1)
+    s = re.sub(r'<title>PDF 도구', '<title>한글(HWP)·PDF 도구', s, count=1)
+    if s != o:
+        open(_p, 'w', encoding='utf-8').write(s); print('pdf hub renamed 한글·PDF')
+_c = 0
+for _dp, _dn, _fs in os.walk(root):
+    if '/assets' in _dp.replace(root, '', 1):
+        continue
+    for _f in _fs:
+        if not _f.endswith('.html'):
+            continue
+        _p = os.path.join(_dp, _f); s = open(_p, encoding='utf-8').read(); o = s
+        s = s.replace('<a href="/pdf/">PDF</a>', '<a href="/pdf/">한글·PDF</a>').replace('<a href="/pdf/" aria-current="page">PDF</a>', '<a href="/pdf/" aria-current="page">한글·PDF</a>')
+        s = s.replace('<em>' , '<em>', 0)
+        s = re.sub(r'(<a class="ct" href="/pdf/"[^>]*><span class="ch"><em>[^<]*</em><b>)PDF 도구(</b>)', r'\1한글·PDF\2', s)
+        s = s.replace('<a href="/pdf/">PDF 도구</a>', '<a href="/pdf/">한글·PDF</a>')
+        if s != o:
+            open(_p, 'w', encoding='utf-8').write(s); _c += 1
+print('nav/labels PDF → 한글·PDF', _c)
+_p = os.path.join(root, 'pdf', 'index.html')
+if os.path.exists(_p):
+    _hub = open(_p, encoding='utf-8').read()
+    _k = _hub.find('id="hwp-tools"'); _main = _hub[:_k] + _hub[_hub.find('</section>', _k):] if _k >= 0 else _hub
+    _extra = sum(1 for u, _, _ in _hwp_new if f'href="{u}"' not in _main)
+    _h = os.path.join(root, 'index.html'); s = open(_h, encoding='utf-8').read()
+    s2 = re.sub(r'(<a class="ct" href="/pdf/"[^>]*><span class="ch"><em>)(\d+)개(</em>)', lambda m: f'{m.group(1)}{int(m.group(2)) + _extra}개{m.group(3)}', s, count=1)
+    _cnt = _extra
+    if s2 != s:
+        open(_h, 'w', encoding='utf-8').write(s2); print('home 한글·PDF count', _cnt)

@@ -38,3 +38,33 @@ if __name__ == '__main__':
     for k, v in I.items():
         open(os.path.join(OUT, f'ln-{k}.svg'), 'w', encoding='utf-8').write(HEAD + v + '</svg>\n')
     print('line icons', len(I))
+
+
+# ── 한글(HWP) 도구 썸네일 (cs-hwp-*.svg) — 기존 cs-pdf 그림과 같은 모양: 겹친 종이 + 파란 '한' 표 + 도구별 작은 표 ──
+HW = {  # slug: (chip text, chip color)
+    'hwp-viewer': ('보기', '#475467'), 'hwp-to-pdf': ('PDF', '#E5484D'), 'hwp-to-hwpx': ('HWPX', '#1F6FEB'),
+    'hwpx-to-hwp': ('HWP', '#1F6FEB'), 'hwp-to-txt': ('TXT', '#6B7280'), 'text-to-hwp': ('만들기', '#6B7280'),
+    'hwp-to-image': ('PNG', '#8B5CF6'), 'hwp-to-docx': ('DOCX', '#2B579A'), 'excel-to-hwp': ('표', '#D97706'),
+    'hwp-table-to-excel': ('XLSX', '#D97706'), 'hwp-image-extract': ('IMG', '#8B5CF6'), 'hwp-password': ('잠금', '#111827'),
+    'hwp-compare': ('비교', '#0E7490'), 'hwp-privacy-check': ('***', '#BE123C'), 'hwp-info': ('정보', '#475467'),
+    'hwp-shortcuts': ('Ctrl', '#334155'), 'gongmun-checker': ('검사', '#0E7490'),
+}
+
+
+def hwp_thumb(chip, col):
+    w = 9 + sum(6.0 if ord(ch) < 128 else (9.5 if ch in '→↔' else 10.5) for ch in chip)
+    lines = ''.join(f'<rect x="80" y="{y}" width="{62 if i % 3 != 2 else 40}" height="3.5" rx="1.75" fill="#D5DAE3"/>' for i, y in enumerate((46, 55, 64, 73, 82)))
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="48 10 106 112" width="106" height="112">'
+            '<rect x="48" y="22" width="80" height="100" rx="5" fill="#EEF1F6"/>'
+            '<g fill="#D5DAE3"><rect x="58" y="34" width="60" height="3.5" rx="1.75"/><rect x="58" y="43" width="60" height="3.5" rx="1.75"/><rect x="58" y="52" width="39" height="3.5" rx="1.75"/></g>'
+            '<rect x="70" y="14" width="84" height="104" rx="5" fill="#fff"/>' + lines +
+            '<rect x="80" y="24" width="18" height="16" rx="3.5" fill="#3D5AFE"/>'
+            '<text x="89" y="36.5" text-anchor="middle" font-family="Pretendard,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="11.5" font-weight="800" fill="#fff">한</text>'
+            f'<rect x="{146 - w:.1f}" y="94" width="{w:.1f}" height="16" rx="8" fill="{col}"/>'
+            f'<text x="{146 - w / 2:.1f}" y="105.6" text-anchor="middle" font-family="Pretendard,Apple SD Gothic Neo,Malgun Gothic,Arial,sans-serif" font-size="9.5" font-weight="800" fill="#fff">{chip.replace("&", "&amp;")}</text></svg>\n')
+
+
+if __name__ == '__main__':
+    for k, (c, col) in HW.items():
+        open(os.path.join(OUT, f'cs-hwp-{k}.svg'), 'w', encoding='utf-8').write(hwp_thumb(c, col))
+    print('hwp thumbs', len(HW))
