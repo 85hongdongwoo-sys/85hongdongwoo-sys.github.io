@@ -1,0 +1,115 @@
+// UI strings, themes and products in English and Korean.
+export const LANGS = ['en', 'ko'];
+
+export const T = {
+  en: {
+    site: 'Arttrip Studio', tagline: 'Masterpieces, ready to use.',
+    nav: { art: 'Art', illus: 'Illustrations', shop: 'Shop', studio: 'Studio', pricing: 'Pricing' },
+    heroTitle: 'Live with the masters.', heroSub: 'Public-domain masterpieces turned into planners, calendars, prints and patterns you can use today.',
+    browse: 'Browse the collection', shopNow: 'See the planners', themes: 'Themes', newIn: 'From the collection', allArt: 'All artworks',
+    by: 'by', artworks: 'artworks', page: 'Page', prev: 'Previous', next: 'Next', related: 'More like this', sameArtist: 'More by',
+    palette: 'Colour palette', paletteHint: 'Tap a colour to copy its code.', details: 'Details', artist: 'Artist', date: 'Date', medium: 'Medium', source: 'Source',
+    sourceText: 'Art Institute of Chicago, public domain (CC0)', useIt: 'Make something with it', useItSub: 'Turn this artwork into a printable product in the Studio.',
+    make: { calendar: 'Calendar', card: 'Greeting card', poster: 'Poster', wallpaper: 'Phone wallpaper' },
+    download: 'High-resolution download', downloadSub: 'Print-ready files are included with a subscription.', subscribe: 'Subscribe',
+    buy: 'Buy now', soon: 'Opening soon', instant: 'Instant download', price: 'Price', whatYouGet: 'What you get', products: 'Planners & printables',
+    pricingTitle: 'One subscription. Every masterpiece.', pricingSub: 'Download print-ready files of every artwork and every printable. Cancel any time.',
+    monthly: 'Monthly', yearly: 'Yearly', perMonth: '/month', perYear: '/year', bestValue: 'Best value',
+    planPerks: ['Every artwork in high resolution', 'All planners, calendars and printables', 'Personal and small-shop commercial use', 'New artworks every week'],
+    footer: 'Artworks are public-domain works from museum open-access collections. Designs and layouts © Arttrip Studio.',
+    langName: 'English', switchTo: '한국어', notFound: 'Page not found', back: 'Back to home', copied: 'Copied',
+    kindLabel: (k) => k, about: 'About', license: 'License', privacy: 'Privacy', terms: 'Terms',
+  },
+  ko: {
+    site: '아트트립 스튜디오', tagline: '바로 쓰는 명화',
+    nav: { art: '명화', illus: '일러스트', shop: '상품', studio: '스튜디오', pricing: '구독' },
+    heroTitle: '거장의 그림과 함께 사는 하루', heroSub: '저작권이 끝난 명화로 만든 플래너, 달력, 인쇄용 그림과 패턴을 지금 바로 쓰세요.',
+    browse: '명화 둘러보기', shopNow: '플래너 보기', themes: '주제별 보기', newIn: '컬렉션에서', allArt: '전체 작품',
+    by: '', artworks: '점', page: '페이지', prev: '이전', next: '다음', related: '비슷한 작품', sameArtist: '같은 화가의 작품',
+    palette: '색상 팔레트', paletteHint: '색을 누르면 코드가 복사돼요.', details: '작품 정보', artist: '화가', date: '연도', medium: '재료', source: '출처',
+    sourceText: '시카고 미술관, 퍼블릭 도메인(CC0)', useIt: '이 그림으로 만들기', useItSub: '스튜디오에서 이 그림으로 인쇄용 상품을 만들 수 있어요.',
+    make: { calendar: '달력', card: '카드', poster: '포스터', wallpaper: '폰 배경화면' },
+    download: '고해상도 다운로드', downloadSub: '인쇄용 원본 파일은 구독에 포함돼 있어요.', subscribe: '구독하기',
+    buy: '구매하기', soon: '곧 오픈', instant: '즉시 다운로드', price: '가격', whatYouGet: '구성', products: '플래너·인쇄물',
+    pricingTitle: '구독 하나로 모든 명화를', pricingSub: '모든 작품과 인쇄물을 인쇄용 파일로 내려받으세요. 언제든 해지할 수 있어요.',
+    monthly: '월간', yearly: '연간', perMonth: '/월', perYear: '/년', bestValue: '가장 알뜰',
+    planPerks: ['모든 작품 고해상도 원본', '모든 플래너·달력·인쇄물', '개인 및 소규모 상업적 이용', '매주 새 작품 추가'],
+    footer: '작품은 미술관 오픈 액세스 컬렉션의 퍼블릭 도메인 작품입니다. 디자인과 레이아웃 © 아트트립 스튜디오.',
+    langName: '한국어', switchTo: 'English', notFound: '페이지를 찾을 수 없어요', back: '홈으로', copied: '복사됨',
+    kindLabel: (k) => ({ Painting: '회화', Print: '판화', Drawing: '드로잉', Textile: '직물', Book: '책' }[k] || k), about: '소개', license: '이용 범위', privacy: '개인정보', terms: '약관',
+    payNote: '결제는 해외결제가 가능한 카드(비자·마스터)나 애플페이로 할 수 있어요. 가격은 달러로 청구돼요.',
+  },
+};
+
+export const THEMES = {
+  flowers: { en: 'Flowers', ko: '꽃' }, sea: { en: 'By the Sea', ko: '바다' }, landscapes: { en: 'Landscapes', ko: '풍경' },
+  'japanese-prints': { en: 'Japanese Prints', ko: '일본 목판화' }, winter: { en: 'Winter', ko: '겨울' }, cats: { en: 'Cats', ko: '고양이' },
+  birds: { en: 'Birds', ko: '새' }, horses: { en: 'Horses', ko: '말' }, 'still-life': { en: 'Still Life', ko: '정물' },
+  portraits: { en: 'Portraits', ko: '초상화' }, textiles: { en: 'Patterns & Textiles', ko: '문양·직물' }, masterpieces: { en: 'Masterpieces', ko: '명작' },
+};
+
+// Original hand-drawn character illustrations (made with AI tools, finished by hand). Categories and their topics.
+export const IL_CATS = {
+  everyday: { en: 'Everyday Life', ko: '일상·라이프스타일', topics: [['Cafe girl', '카페 소녀'], ['Reading girl', '책 읽는 소녀'], ['Planner girl', '플래너 쓰는 여성'], ['Working from home', '재택근무'], ['Baking', '요리·베이킹'], ['Shopping day', '쇼핑·외출']] },
+  family: { en: 'Family & Baby', ko: '가족·육아', topics: [['Mom and baby', '엄마와 아기'], ['Dad and child', '아빠와 아이'], ['Pregnancy', '임신부'], ['Family picnic', '가족 나들이'], ['Siblings', '형제자매']] },
+  wedding: { en: 'Wedding & Love', ko: '결혼·연애', topics: [['Bride and groom', '신랑신부'], ['Proposal', '프러포즈'], ['Date day', '커플 데이트'], ['Bridesmaids', '신부 들러리']] },
+  work: { en: 'Jobs & Careers', ko: '직업', topics: [['Teacher', '선생님'], ['Nurse', '간호사'], ['Doctor', '의사'], ['Chef', '셰프'], ['Hairstylist', '미용사'], ['Office worker', '사무직']] },
+  wellness: { en: 'Health & Fitness', ko: '건강·운동', topics: [['Yoga', '요가'], ['Running', '러닝'], ['Gym', '헬스'], ['Meditation', '명상']] },
+  seasons: { en: 'Seasons & Holidays', ko: '계절·명절', topics: [['Winter girl', '겨울 소녀'], ['Christmas', '크리스마스'], ['Halloween', '할로윈'], ['Spring girl', '봄 소녀'], ['Summer beach', '여름 해변'], ['Autumn girl', '가을 소녀']] },
+  fashion: { en: 'Fashion & Beauty', ko: '패션·뷰티', topics: [['Boho woman', '보헤미안 여성'], ['Street style', '패션 소녀'], ['Skincare', '스킨케어']] },
+  school: { en: 'Kids & School', ko: '아이·학교', topics: [['Back to school', '학교 가는 아이'], ['Study time', '공부하는 학생'], ['Graduation', '졸업생'], ['Birthday party', '생일 파티 아이']] },
+  hobbies: { en: 'Hobbies & Pets', ko: '취미·반려동물', topics: [['Gardening', '정원 가꾸기'], ['Painting', '그림 그리기'], ['Traveler', '여행자'], ['Dog walk', '강아지 산책'], ['Girl with cat', '고양이와 소녀']] },
+  diverse: { en: 'Diverse Women', ko: '다양성 세트', topics: [['All skin tones', '다양한 피부색 여성'], ['Curvy women', '다양한 체형'], ['Senior couple', '노년 커플']] },
+};
+export const IL_STYLES = { en: 'Marker · Coloured pencil · Digital hand-drawn', ko: '마카 · 색연필 · 디지털 손그림' };
+
+// Products. checkout: name of the env var holding the Polar checkout link.
+export const PRODUCTS = [
+  { slug: '2027-masterpiece-digital-planner', img: '/p/planner-2027.jpg', price: 24, checkout: 'POLAR_PLANNER_2027', cat: 'planners',
+    en: { name: '2027 Digital Planner with 12 Masterpieces', short: 'Hyperlinked iPad planner for GoodNotes and Notability.',
+      body: ['A full-year planner with a different masterpiece every month — Hokusai, Monet, Renoir and more.', 'Tap the side tabs to jump to any month; tap a day to open its week.'],
+      get: ['101-page hyperlinked PDF (iPad portrait)', 'Year at a glance and 12 monthly calendars', '53 weekly spreads with to-do lists', 'Monthly habit tracker and budget page', 'Notes and dot-grid pages'] },
+    ko: { name: '명화 12점이 담긴 2027 디지털 플래너', short: '굿노트·노타빌리티용 하이퍼링크 아이패드 플래너',
+      body: ['달마다 다른 명화가 들어간 1년 플래너예요. 호쿠사이, 모네, 르누아르 등.', '옆 탭을 누르면 원하는 달로, 날짜를 누르면 그 주로 바로 이동해요.'],
+      get: ['하이퍼링크 PDF 101페이지 (아이패드 세로)', '연간 달력과 월간 달력 12장', '할 일 목록이 있는 주간 페이지 53장', '달마다 습관 트래커와 가계부', '노트·모눈 페이지'] } },
+  { slug: '2027-printable-calendar-flowers', img: '/p/calendar-flowers.jpg', price: 6.5, checkout: 'POLAR_CAL_FLOWERS', cat: 'calendars',
+    en: { name: '2027 Printable Wall Calendar — Flowers in Art', short: 'A4 PDF, 12 floral masterpieces plus a cover.',
+      body: ['Print at home or at a copy shop. Weekends are marked and weeks start on Sunday.'], get: ['13-page PDF, A4, 300 dpi', 'Cover + January–December', 'Artwork credits on every page'] },
+    ko: { name: '2027 인쇄용 벽걸이 달력 — 꽃 명화', short: 'A4 PDF, 꽃 명화 12점과 표지',
+      body: ['집이나 인쇄소에서 바로 인쇄하세요. 주말 표시, 일요일 시작이에요.'], get: ['13페이지 PDF, A4, 300dpi', '표지 + 1월~12월', '모든 페이지에 작품 정보'] } },
+  { slug: '2027-printable-calendar-sea', img: '/p/calendar-sea.jpg', price: 6.5, checkout: 'POLAR_CAL_SEA', cat: 'calendars',
+    en: { name: '2027 Printable Wall Calendar — By the Sea', short: 'A4 PDF, 12 seascapes plus a cover.', body: ['Monet, Homer, Manet and more, one coast for every month.'], get: ['13-page PDF, A4, 300 dpi', 'Cover + January–December'] },
+    ko: { name: '2027 인쇄용 벽걸이 달력 — 바다 명화', short: 'A4 PDF, 바다 명화 12점과 표지', body: ['모네, 호머, 마네 등 달마다 다른 바다 풍경이에요.'], get: ['13페이지 PDF, A4, 300dpi', '표지 + 1월~12월'] } },
+  { slug: 'seamless-patterns-flowers', img: '/p/patterns-flowers.jpg', price: 7, checkout: 'POLAR_PATTERNS_FLOWERS', cat: 'patterns',
+    en: { name: 'Seamless Patterns from Flower Masterpieces', short: '3000 px repeat tiles for paper, fabric and print-on-demand.', body: ['Made from public-domain flower paintings and woodblock prints.'], get: ['3000 × 3000 px JPG tiles, 300 dpi', 'Personal and small-shop commercial use'] },
+    ko: { name: '꽃 명화 반복 패턴 모음', short: '포장지·원단·굿즈용 3000px 반복 패턴', body: ['저작권이 끝난 꽃 그림과 목판화로 만들었어요.'], get: ['3000×3000px JPG, 300dpi', '개인 및 소규모 상업적 이용'] } },
+  { slug: 'cozy-cafe-girl-clipart', img: '/p/cafe-girl-clipart.jpg', price: 6.5, checkout: 'POLAR_CLIPART_CAFE_GIRL', cat: 'illustrations', il: 'everyday', topic: 0,
+    en: { name: 'Cozy Cafe Girl Clipart — 22 Hand-Drawn PNGs', short: 'One sweet character, 22 coffee-day poses. Transparent PNG.',
+      body: ['Sipping lattes, reading at a cafe table, working on her laptop, writing in her planner, cuddling a cat and more.', 'Marker-style illustrations created with the help of AI tools, then cleaned and prepared by hand.'],
+      get: ['22 transparent PNG files, 300 dpi', 'Personal and small-shop commercial use (up to 500 physical items)', 'Instant download (ZIP)'] },
+    ko: { name: '카페 소녀 클립아트 — 손그림 PNG 22종', short: '한 인물의 커피 타임 22가지 동작, 배경 투명 PNG',
+      body: ['라테 마시기, 카페에서 책 읽기, 노트북 작업, 플래너 쓰기, 고양이 안기 등 22가지 동작이에요.', 'AI 도구의 도움을 받아 그린 뒤 손으로 다듬은 마카 스타일 일러스트예요.'],
+      get: ['배경 투명 PNG 22장, 300dpi', '개인 및 소규모 상업적 이용 (실물 500개까지)', '즉시 다운로드 (ZIP)'] } },
+  { slug: 'cozy-cafe-girl-printable-stickers', img: '/p/cafe-girl-stickers.jpg', price: 4.5, checkout: 'POLAR_STICKERS_CAFE_GIRL', cat: 'illustrations', il: 'everyday', topic: 0,
+    en: { name: 'Cozy Cafe Girl Printable Stickers', short: '22 die-cut stickers to print at home, plus GoodNotes stickers.',
+      body: ['Print on sticker paper or use Cricut Print Then Cut. Digital PNG stickers for planner apps are included.', 'Illustrations created with the help of AI tools.'],
+      get: ['2 US Letter sticker sheets (PDF + PNG, 300 dpi)', '22 digital stickers for GoodNotes', 'Instant download'] },
+    ko: { name: '카페 소녀 인쇄용 스티커', short: '집에서 인쇄하는 스티커 22개 + 굿노트 스티커',
+      body: ['스티커 용지에 인쇄하거나 크리컷으로 잘라 쓰세요. 플래너 앱용 디지털 스티커도 들어 있어요.', 'AI 도구의 도움을 받아 그린 일러스트예요.'],
+      get: ['레터 용지 스티커 시트 2장 (PDF + PNG, 300dpi)', '굿노트용 디지털 스티커 22개', '즉시 다운로드'] } },
+];
+
+const COLOR_NAMES = [
+  ['#000000', 'black', '검정'], ['#ffffff', 'white', '흰색'], ['#808080', 'grey', '회색'], ['#c0c0c0', 'silver', '은회색'], ['#f5f0e6', 'ivory', '아이보리'],
+  ['#e8d8b8', 'sand', '모래색'], ['#c8a165', 'ochre', '황토색'], ['#8b5a2b', 'brown', '갈색'], ['#5c4033', 'umber', '암갈색'], ['#d2b48c', 'tan', '연갈색'],
+  ['#b22222', 'red', '빨강'], ['#8b1a1a', 'crimson', '진홍'], ['#e9967a', 'salmon', '연어색'], ['#ff8c00', 'orange', '주황'], ['#ffd700', 'gold', '금색'],
+  ['#f0e68c', 'pale yellow', '연노랑'], ['#556b2f', 'olive', '올리브'], ['#2e8b57', 'green', '초록'], ['#8fbc8f', 'sage', '세이지'], ['#20b2aa', 'teal', '청록'],
+  ['#87ceeb', 'sky blue', '하늘색'], ['#4682b4', 'steel blue', '강철 파랑'], ['#1e3a8a', 'navy', '남색'], ['#191970', 'midnight blue', '짙은 남색'], ['#6a5acd', 'violet', '보라'],
+  ['#d8bfd8', 'lilac', '라일락'], ['#ffc0cb', 'pink', '분홍'], ['#2f4f4f', 'slate', '짙은 회청색'],
+];
+export function colorName(hex, lang) {
+  const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const c = p(hex); let best = null, bd = 1e9;
+  for (const [h, en, ko] of COLOR_NAMES) { const q = p(h); const d = (c[0] - q[0]) ** 2 * 0.3 + (c[1] - q[1]) ** 2 * 0.59 + (c[2] - q[2]) ** 2 * 0.11; if (d < bd) { bd = d; best = lang === 'ko' ? ko : en; } }
+  return best;
+}

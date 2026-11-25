@@ -1,0 +1,23 @@
+name = "arttrip-studio"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# D1 comes later when the catalogue grows; until then the Worker uses bundled data (src/data.js).
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "arttrip"
+# database_id = "..."
+
+[vars]
+CACHE_HTML = "on"
+SITE_ORIGIN = "https://arttripstudio.com"
+# Polar checkout links go here once products exist:
+# POLAR_PLANNER_2027 = "https://buy.polar.sh/..."
+# POLAR_SUB_MONTHLY = "https://buy.polar.sh/..."
+# POLAR_SUB_YEARLY = "https://buy.polar.sh/..."
+# POLAR_CLIPART_CAFE_GIRL = "https://buy.polar.sh/..."
+# POLAR_STICKERS_CAFE_GIRL = "https://buy.polar.sh/..."
