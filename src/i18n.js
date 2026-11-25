@@ -122,3 +122,533 @@ export function colorName(hex, lang) {
   for (const [h, en, ko] of COLOR_NAMES) { const q = p(h); const d = (c[0] - q[0]) ** 2 * 0.3 + (c[1] - q[1]) ** 2 * 0.59 + (c[2] - q[2]) ** 2 * 0.11; if (d < bd) { bd = d; best = lang === 'ko' ? ko : en; } }
   return best;
 }
+
+// Artist wall calendars (generated from /home/claude/artcal). Spread into PRODUCTS below.
+export const ARTIST_CALS = [
+ {
+  "slug": "2027-claude-monet-wall-calendar",
+  "img": "/p/cal-claude-monet.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_CLAUDE_MONET",
+  "payapp": "PAYAPP_CAL_CLAUDE_MONET",
+  "cat": "artist-calendars",
+  "artist_slug": "claude-monet",
+  "en": {
+   "name": "Claude Monet 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Claude Monet, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Claude Monet: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "클로드 모네 2027 벽걸이 달력",
+   "short": "클로드 모네의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "클로드 모네의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-edouard-manet-wall-calendar",
+  "img": "/p/cal-edouard-manet.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_EDOUARD_MANET",
+  "payapp": "PAYAPP_CAL_EDOUARD_MANET",
+  "cat": "artist-calendars",
+  "artist_slug": "edouard-manet",
+  "en": {
+   "name": "Édouard Manet 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Édouard Manet, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Édouard Manet: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "에두아르 마네 2027 벽걸이 달력",
+   "short": "에두아르 마네의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "에두아르 마네의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-pierre-auguste-renoir-wall-calendar",
+  "img": "/p/cal-pierre-auguste-renoir.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_PIERRE_AUGUSTE_RENOIR",
+  "payapp": "PAYAPP_CAL_PIERRE_AUGUSTE_RENOIR",
+  "cat": "artist-calendars",
+  "artist_slug": "pierre-auguste-renoir",
+  "en": {
+   "name": "Pierre-Auguste Renoir 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Pierre-Auguste Renoir, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Pierre-Auguste Renoir: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "피에르 오귀스트 르누아르 2027 벽걸이 달력",
+   "short": "피에르 오귀스트 르누아르의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "피에르 오귀스트 르누아르의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-paul-cezanne-wall-calendar",
+  "img": "/p/cal-paul-cezanne.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_PAUL_CEZANNE",
+  "payapp": "PAYAPP_CAL_PAUL_CEZANNE",
+  "cat": "artist-calendars",
+  "artist_slug": "paul-cezanne",
+  "en": {
+   "name": "Paul Cézanne 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Paul Cézanne, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Paul Cézanne: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "폴 세잔 2027 벽걸이 달력",
+   "short": "폴 세잔의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "폴 세잔의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-vincent-van-gogh-wall-calendar",
+  "img": "/p/cal-vincent-van-gogh.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_VINCENT_VAN_GOGH",
+  "payapp": "PAYAPP_CAL_VINCENT_VAN_GOGH",
+  "cat": "artist-calendars",
+  "artist_slug": "vincent-van-gogh",
+  "en": {
+   "name": "Vincent van Gogh 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Vincent van Gogh, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Vincent van Gogh: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "빈센트 반 고흐 2027 벽걸이 달력",
+   "short": "빈센트 반 고흐의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "빈센트 반 고흐의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-camille-pissarro-wall-calendar",
+  "img": "/p/cal-camille-pissarro.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_CAMILLE_PISSARRO",
+  "payapp": "PAYAPP_CAL_CAMILLE_PISSARRO",
+  "cat": "artist-calendars",
+  "artist_slug": "camille-pissarro",
+  "en": {
+   "name": "Camille Pissarro 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Camille Pissarro, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Camille Pissarro: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "카미유 피사로 2027 벽걸이 달력",
+   "short": "카미유 피사로의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "카미유 피사로의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-mary-cassatt-wall-calendar",
+  "img": "/p/cal-mary-cassatt.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_MARY_CASSATT",
+  "payapp": "PAYAPP_CAL_MARY_CASSATT",
+  "cat": "artist-calendars",
+  "artist_slug": "mary-cassatt",
+  "en": {
+   "name": "Mary Cassatt 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Mary Cassatt, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Mary Cassatt: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "메리 카사트 2027 벽걸이 달력",
+   "short": "메리 카사트의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "메리 카사트의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-paul-gauguin-wall-calendar",
+  "img": "/p/cal-paul-gauguin.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_PAUL_GAUGUIN",
+  "payapp": "PAYAPP_CAL_PAUL_GAUGUIN",
+  "cat": "artist-calendars",
+  "artist_slug": "paul-gauguin",
+  "en": {
+   "name": "Paul Gauguin 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Paul Gauguin, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Paul Gauguin: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "폴 고갱 2027 벽걸이 달력",
+   "short": "폴 고갱의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "폴 고갱의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-henri-de-toulouse-lautrec-wall-calendar",
+  "img": "/p/cal-henri-de-toulouse-lautrec.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_HENRI_DE_TOULOUSE_LAUTREC",
+  "payapp": "PAYAPP_CAL_HENRI_DE_TOULOUSE_LAUTREC",
+  "cat": "artist-calendars",
+  "artist_slug": "henri-de-toulouse-lautrec",
+  "en": {
+   "name": "Toulouse-Lautrec 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Toulouse-Lautrec, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Toulouse-Lautrec: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "툴루즈 로트레크 2027 벽걸이 달력",
+   "short": "툴루즈 로트레크의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "툴루즈 로트레크의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-odilon-redon-wall-calendar",
+  "img": "/p/cal-odilon-redon.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_ODILON_REDON",
+  "payapp": "PAYAPP_CAL_ODILON_REDON",
+  "cat": "artist-calendars",
+  "artist_slug": "odilon-redon",
+  "en": {
+   "name": "Odilon Redon 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Odilon Redon, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Odilon Redon: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "오딜롱 르동 2027 벽걸이 달력",
+   "short": "오딜롱 르동의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "오딜롱 르동의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-katsushika-hokusai-wall-calendar",
+  "img": "/p/cal-katsushika-hokusai.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_KATSUSHIKA_HOKUSAI",
+  "payapp": "PAYAPP_CAL_KATSUSHIKA_HOKUSAI",
+  "cat": "artist-calendars",
+  "artist_slug": "katsushika-hokusai",
+  "en": {
+   "name": "Katsushika Hokusai 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Katsushika Hokusai, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Katsushika Hokusai: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "가쓰시카 호쿠사이 2027 벽걸이 달력",
+   "short": "가쓰시카 호쿠사이의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "가쓰시카 호쿠사이의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-utagawa-hiroshige-wall-calendar",
+  "img": "/p/cal-utagawa-hiroshige.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_UTAGAWA_HIROSHIGE",
+  "payapp": "PAYAPP_CAL_UTAGAWA_HIROSHIGE",
+  "cat": "artist-calendars",
+  "artist_slug": "utagawa-hiroshige",
+  "en": {
+   "name": "Utagawa Hiroshige 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Utagawa Hiroshige, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Utagawa Hiroshige: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "우타가와 히로시게 2027 벽걸이 달력",
+   "short": "우타가와 히로시게의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "우타가와 히로시게의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-kitagawa-utamaro-wall-calendar",
+  "img": "/p/cal-kitagawa-utamaro.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_KITAGAWA_UTAMARO",
+  "payapp": "PAYAPP_CAL_KITAGAWA_UTAMARO",
+  "cat": "artist-calendars",
+  "artist_slug": "kitagawa-utamaro",
+  "en": {
+   "name": "Kitagawa Utamaro 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Kitagawa Utamaro, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Kitagawa Utamaro: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "기타가와 우타마로 2027 벽걸이 달력",
+   "short": "기타가와 우타마로의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "기타가와 우타마로의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-winslow-homer-wall-calendar",
+  "img": "/p/cal-winslow-homer.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_WINSLOW_HOMER",
+  "payapp": "PAYAPP_CAL_WINSLOW_HOMER",
+  "cat": "artist-calendars",
+  "artist_slug": "winslow-homer",
+  "en": {
+   "name": "Winslow Homer 2027 Wall Calendar",
+   "short": "Twelve masterpieces by Winslow Homer, one for every month. A4 PDF.",
+   "body": [
+    "A full year with Winslow Homer: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "윈슬로 호머 2027 벽걸이 달력",
+   "short": "윈슬로 호머의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "윈슬로 호머의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ },
+ {
+  "slug": "2027-john-singer-sargent-wall-calendar",
+  "img": "/p/cal-john-singer-sargent.jpg",
+  "price": 6.5,
+  "checkout": "POLAR_CAL_JOHN_SINGER_SARGENT",
+  "payapp": "PAYAPP_CAL_JOHN_SINGER_SARGENT",
+  "cat": "artist-calendars",
+  "artist_slug": "john-singer-sargent",
+  "en": {
+   "name": "John Singer Sargent 2027 Wall Calendar",
+   "short": "Twelve masterpieces by John Singer Sargent, one for every month. A4 PDF.",
+   "body": [
+    "A full year with John Singer Sargent: twelve public-domain works from the Art Institute of Chicago, each with its title and date.",
+    "Print at home or at a copy shop. Weeks start on Sunday."
+   ],
+   "get": [
+    "14-page PDF (cover, 12 months, artwork list), A4, 300 dpi",
+    "Instant download",
+    "Personal use and gifts"
+   ]
+  },
+  "ko": {
+   "name": "존 싱어 사전트 2027 벽걸이 달력",
+   "short": "존 싱어 사전트의 명화 12점, 달마다 한 작품. A4 PDF.",
+   "body": [
+    "존 싱어 사전트의 작품 12점으로 채운 1년 달력이에요. 시카고 미술관이 공개한 퍼블릭 도메인 작품이고, 작품명과 연도가 함께 실려 있어요.",
+    "집이나 인쇄소에서 바로 인쇄하세요. 일요일 시작이에요."
+   ],
+   "get": [
+    "14페이지 PDF (표지, 12개월, 작품 목록), A4, 300dpi",
+    "즉시 다운로드",
+    "개인 사용·선물용"
+   ]
+  }
+ }
+];
+PRODUCTS.push(...ARTIST_CALS);

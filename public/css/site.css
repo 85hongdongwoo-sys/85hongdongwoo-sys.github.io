@@ -81,3 +81,4 @@ body.ko .h3{letter-spacing:0;text-transform:none;font-size:15px;color:var(--ink)
 .paybtn.off{background:var(--soft);color:var(--mute);border-color:var(--line);cursor:default}
 .iltopics li a{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:760px){.bar{flex-wrap:wrap;height:auto;padding-top:10px;gap:10px}.logo{margin-right:auto}.bar nav{order:3;flex:0 0 100%;margin:0 0 0 0;gap:18px;font-size:14px;overflow-x:auto;scrollbar-width:none;padding:2px 0 10px;white-space:nowrap}.bar nav a{flex:none}.lang{padding:5px 9px;font-size:12px}}
+.promo{display:flex;gap:16px;align-items:center;border:1px solid var(--line);border-radius:var(--r);padding:12px;margin:4px 0 22px;background:#fff;max-width:620px}.promo img{width:120px;height:90px;object-fit:cover;border-radius:10px;flex:none}.promo b{display:block;font-weight:600;line-height:1.35}.promo em{font-style:normal;font-size:14px;color:var(--mute)}

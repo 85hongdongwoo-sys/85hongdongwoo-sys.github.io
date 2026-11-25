@@ -120,11 +120,12 @@ async function home(lang, env) {
   const cover = await all(env, "SELECT theme, id FROM artworks WHERE id IN (SELECT MIN(id) FROM artworks GROUP BY theme)");
   const covers = Object.fromEntries(cover.map((c) => [c.theme, c.id]));
   const total = counts.reduce((s, c) => s + c.n, 0);
-  const prods = PRODUCTS.filter((p) => p.cat !== 'illustrations').slice(0, 4).map((p) => productCard(p, lang)).join('');
+  const prods = PRODUCTS.filter((p) => !['illustrations', 'artist-calendars'].includes(p.cat)).slice(0, 4).map((p) => productCard(p, lang)).join('');
   const body = `<section class="hero"><div class="wrap hgrid"><div class="htxt"><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
 <div class="row"><a class="pill" href="${L(lang, '/shop')}">${t.shopNow}</a><a class="pill ghost" href="${L(lang, '/art')}">${t.browse}</a></div></div>
 <a class="hart" href="${L(lang, '/art/' + hero.slug)}"><img src="/img/${hero.id}.jpg" alt="${esc(tl(hero, lang))}" width="${hero.w}" height="${hero.h}"><span>${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></a></div></section>
 <section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div><div class="pgrid">${prods}</div></section>
+<section class="wrap sec"><div class="sh"><h2>${lang === 'ko' ? '화가별 명화 달력 2027' : 'Artist calendars 2027'}</h2><a href="${L(lang, '/shop')}#calendars">${lang === 'ko' ? '15명 모두 보기' : 'All 15 artists'} →</a></div><div class="pgrid">${PRODUCTS.filter((p) => p.cat === 'artist-calendars').slice(0, 8).map((p) => productCard(p, lang)).join('')}</div></section>
 <section class="wrap sec"><div class="sh"><h2>${lang === 'ko' ? '손그림 일러스트' : 'Hand-drawn illustrations'}</h2><a href="${L(lang, '/illustrations')}">${t.nav.illus} →</a></div><div class="pgrid">${PRODUCTS.filter((p) => p.cat === 'illustrations').map((p) => productCard(p, lang)).join('')}</div></section>
 <section class="wrap sec"><div class="sh"><h2>${t.themes}</h2><a href="${L(lang, '/art')}">${t.allArt} (${total}) →</a></div>
 <div class="themes">${counts.map((c) => `<a class="theme" href="${L(lang, '/art/theme/' + c.theme)}"><img src="/img/${covers[c.theme]}.jpg" alt="" loading="lazy"><b>${esc(THEMES[c.theme]?.[lang] || c.theme)}</b><span>${c.n} ${lang === 'ko' ? '점' : 'artworks'}</span></a>`).join('')}</div></section>
@@ -149,7 +150,7 @@ async function gallery(lang, env, url, f) {
   const pager = pages > 1 ? `<nav class="pager">${page > 1 ? `<a href="${L(lang, path)}${q(page - 1)}">‹ ${t.prev}</a>` : ''}<span>${t.page} ${page} / ${pages}</span>${page < pages ? `<a href="${L(lang, path)}${q(page + 1)}">${t.next} ›</a>` : ''}</nav>` : '';
   const chips = Object.keys(THEMES).map((k) => `<a href="${L(lang, '/art/theme/' + k)}" aria-current="${f?.theme === k}">${esc(THEMES[k][lang])}</a>`).join('');
   const body = `<section class="wrap sec"><span class="lbl">${lang === 'ko' ? '컬렉션' : 'Collection'}</span><h1>${esc(h1)}</h1>${intro ? `<p class="sub">${esc(intro)}</p>` : ''}
-<div class="chips">${chips}</div><p class="small">${total} ${lang === 'ko' ? '점' : 'artworks'}</p><div class="masonry">${rows.map((a) => tile(a, lang)).join('')}</div>${pager}</section>`;
+<div class="chips">${chips}</div>${(() => { const cal = f?.artist && PRODUCTS.find((p) => p.artist_slug === f.artist); return cal ? `<a class="promo" href="${L(lang, '/shop/' + cal.slug)}"><img src="${cal.img}" alt="" loading="lazy"><span><b>${esc(cal[lang].name)}</b><em>${esc(cal[lang].short)} · $${cal.price}</em></span></a>` : ''; })()}<p class="small">${total} ${lang === 'ko' ? '점' : 'artworks'}</p><div class="masonry">${rows.map((a) => tile(a, lang)).join('')}</div>${pager}</section>`;
   return html(layout(lang, { title: page > 1 ? `${title} — ${t.page} ${page}` : title, desc: intro || title, path: path + q(page), body, img: `/img/${rows[0].id}.jpg` }));
 }
 
@@ -281,10 +282,16 @@ function illus(lang, cat) {
 }
 
 function shop(lang) {
-  const t = T[lang];
-  const body = `<section class="wrap sec"><span class="lbl">${t.nav.shop}</span><h1>${t.products}</h1><p class="sub">${lang === 'ko' ? '명화로 만든 플래너, 달력, 패턴을 바로 내려받으세요.' : 'Planners, calendars and patterns made from masterpieces. Instant download.'}</p>
-<div class="pgrid">${PRODUCTS.map((p) => productCard(p, lang)).join('')}</div></section>`;
-  return html(layout(lang, { title: `${t.products} — ${t.site}`, desc: t.heroSub, path: '/shop', body }));
+  const t = T[lang], ko = lang === 'ko';
+  const groups = [
+    ['planners', ko ? '플래너·인쇄물' : 'Planners & printables', PRODUCTS.filter((p) => !['illustrations', 'artist-calendars'].includes(p.cat))],
+    ['calendars', ko ? '화가별 명화 달력 2027' : 'Artist wall calendars 2027', PRODUCTS.filter((p) => p.cat === 'artist-calendars')],
+    ['illustrations', ko ? '손그림 일러스트' : 'Hand-drawn illustrations', PRODUCTS.filter((p) => p.cat === 'illustrations')],
+  ];
+  const body = `<section class="wrap sec"><span class="lbl">${t.nav.shop}</span><h1>${ko ? '바로 쓰는 디지털 상품' : 'Ready-to-use digital products'}</h1><p class="sub">${ko ? '명화와 손그림 일러스트로 만든 플래너, 달력, 클립아트를 바로 내려받으세요. 회원가입 없이 구매할 수 있어요.' : 'Planners, calendars and clipart made from masterpieces and hand-drawn illustrations. Instant download, no account needed.'}</p>
+<div class="chips wrapc">${groups.map(([id, h]) => `<a href="#${id}">${esc(h)}</a>`).join('')}</div>
+${groups.map(([id, h, list]) => `<div class="sh" id="${id}" style="margin-top:34px"><h2>${esc(h)}</h2><span class="small">${list.length}</span></div><div class="pgrid">${list.map((p) => productCard(p, lang)).join('')}</div>`).join('')}</section>`;
+  return html(layout(lang, { title: `${ko ? '상품' : 'Shop'} — ${t.site}`, desc: t.heroSub, path: '/shop', body }));
 }
 function product(lang, env, slug) {
   const t = T[lang]; const p = PRODUCTS.find((x) => x.slug === slug); if (!p) return null; const c = p[lang];
