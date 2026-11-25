@@ -13,6 +13,7 @@ CSS = ('<style id="uq-css">.uq p{line-height:1.8;margin:0 0 10px;word-break:keep
        '.uq table{width:100%;border-collapse:collapse;font-size:14.5px}.uq th,.uq td{border-bottom:1px solid var(--line-s,#E3E7EE);'
        'padding:8px 6px;text-align:left;vertical-align:top;word-break:keep-all}.uq thead th{font-size:13px;color:var(--muted,#5B6B82)}'
        '.uq dl{margin:0}.uq dt{font-weight:700;margin:12px 0 4px;word-break:keep-all}.uq dd{margin:0;line-height:1.75;word-break:keep-all}'
+       '.uq ol.uq-steps{margin:0 0 6px;padding-left:22px;line-height:1.75}.uq ol.uq-steps li{margin:4px 0;word-break:keep-all}'
        '.uq .uq-src{font-size:13px;color:var(--muted,#5B6B82);margin-top:12px}</style>')
 
 
@@ -35,7 +36,7 @@ def load():
 
 def render(d, lang):
     ko = lang == 'ko'
-    h = '<section class="card dr-sec uq" id="uq"><h2>%s</h2>' % E(d['h2'])
+    h = '<section class="%s" id="uq"><h2>%s</h2>' % (d.get('sec_cls', 'card dr-sec uq'), E(d['h2']))
     h += ''.join('<p>%s</p>' % x for x in d['about'])
     if d.get('rows'):
         hd = d.get('head') or (['제품', '필요한 것', '알아 둘 점'] if ko else ['Product', 'What you need', 'Note'])
@@ -43,6 +44,8 @@ def render(d, lang):
             E(d.get('rows_h') or ('제품별로 받을 것' if ko else 'What to get for each product')), ''.join('<th>%s</th>' % E(x) for x in hd))
         h += ''.join('<tr><th scope="row">%s</th>%s</tr>' % (r[0], ''.join('<td>%s</td>' % c for c in r[1:])) for r in d['rows'])
         h += '</tbody></table></div>'
+    if d.get('steps'):
+        h += '<h3>%s</h3><ol class="uq-steps">%s</ol>' % (E(d.get('steps_h') or '변환할 때 파일 안에서 일어나는 일'), ''.join('<li>%s</li>' % x for x in d['steps']))
     if d.get('extra'):
         h += '<h3>%s</h3>' % E(d['extra'][0]) + ''.join('<p>%s</p>' % x for x in d['extra'][1:])
     if d.get('tips'):
