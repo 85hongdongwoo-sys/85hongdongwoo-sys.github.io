@@ -514,4 +514,4 @@ for k, (name, why, prep, comp, alt, fq) in R.items():
         rows_h='비슷해 보이지만 버리는 곳이 다른 물건', head=['물건', '버리는 곳', '이유'], rows=comp,
         extra=('버리기 전에 생각해 볼 것', alt),
         faq=[fq], sec_cls='card uq',
-        strip=[r'<h3>같은 ‘[^’]*’ 사례와 비교</h3>.*?</ul>(<p>다른 분류에서 [^<]*(?:<a [^>]*>[^<]*</a>[^<]*)*</p>)?'])
+        strip=[r'<section class="card rel"><h2>함께 쓰면 좋은 도구</h2>.*?</section>', r'<h3>같은 ‘[^’]*’ 사례와 비교</h3>.*?</ul>(<p>다른 분류에서 [^<]*(?:<a [^>]*>[^<]*</a>[^<]*)*</p>)?'])
