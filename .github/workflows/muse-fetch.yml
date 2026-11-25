@@ -2,7 +2,7 @@ name: muse-fetch
 on:
   push:
     branches: [muse-data]
-    paths: ['scripts/**', '.github/workflows/muse-fetch.yml']
+    paths: ['scripts/fetch_niche.py', '.github/workflows/muse-fetch.yml']
 permissions:
   contents: write
 jobs:

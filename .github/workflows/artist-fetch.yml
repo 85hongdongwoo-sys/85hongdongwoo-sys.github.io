@@ -1,0 +1,19 @@
+name: artist-fetch
+on:
+  push:
+    branches: [muse-data]
+    paths: ['scripts/fetch_artists.py', '.github/workflows/artist-fetch.yml']
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: 'scripts' }
+      - run: python3 scripts/fetch_artists.py
+      - run: |
+          git config user.name "arttrip-bot"; git config user.email "actions@users.noreply.github.com"
+          git sparse-checkout disable || true
+          git add artists && git commit -m "artists: per-artist hi-res CC0 sets" && git push || echo nothing
