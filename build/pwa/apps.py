@@ -14,6 +14,8 @@ APPS = [
     ('/life/taxi-fare.html', '택시비', '🚕', '#FFF9DB'),
     ('/life/midpoint.html', '중간지점', '📍', '#FFF1F3'),
     ('/life/split-bill.html', 'N빵', '🧾', '#F3F0FF'),
+    ('/life/sms-budget.html', '가계부', '💳', '#EEF4FF'),
+    ('/life/fridge-recipe.html', '냉장고 요리', '🍳', '#FFF1F3'),
     ('/life/subsidy.html', '지원금', '💰', '#FFF9DB'),
     ('/ipsi/gichul/', '수능 기출', '📚', '#EEF4FF'),
     ('/calendar/exam-schedule.html', '시험일정', '🗓️', '#F3F0FF'),
