@@ -71,6 +71,8 @@ def main():
             print('uq: missing', url); continue
         s = open(p, encoding='utf-8').read()
         if 'id="uq"' in s: continue
+        for rx in d.get('strip', []):   # 형제 페이지끼리 똑같이 반복되는 블록 빼기(새 본문이 같은 역할을 함)
+            s = re.sub(rx, '', s, count=1, flags=re.S)
         lang = d.get('lang', 'ko')
         sec = render(d, lang)
         anchors = ['<section class="card dr-sec" id="easy">', '<section class="card dr-sec" id="win">', '<section class="card faq', '<section class="card"><h2>자주 묻는 질문', '<section class="card"><h2>FAQ', '<section class="card"><h2>Frequently']
