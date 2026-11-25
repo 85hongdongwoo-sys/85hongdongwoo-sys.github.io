@@ -6,6 +6,11 @@ window.Studio = (function () {
   var COLORS = ['#111111', '#ffffff', '#f3ece0', '#1e3550', '#a7573f', '#4f6b3a', '#b8902f'];
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var IN = 25.4;
+  var KO = {"Print at home": "집에서 인쇄", "Products": "굿즈", "Screens": "화면용", "Poster": "포스터", "Gallery-style print with a mat and caption.": "여백과 캡션이 있는 갤러리 스타일 인쇄물.", "Wall calendar": "벽걸이 달력", "Cover plus 12 months, one artwork or a mix.": "표지와 12개월. 한 작품 또는 여러 작품 섞기.", "Desk calendar": "탁상 달력", "Small landscape pages for a desk stand.": "책상 거치대용 작은 가로 페이지.", "Folded card": "접는 카드", "Print both sides, fold in half. Front, back and inside.": "양면 인쇄 후 반으로 접어요. 앞·뒤·안쪽.", "Postcard": "엽서", "Art on the front, message and address on the back.": "앞면은 그림, 뒷면은 메시지와 주소.", "Invitation": "초대장", "Weddings, birthdays, dinners. Art on top, your words below.": "결혼식·생일·모임. 위에는 그림, 아래는 내 문구.", "Sticker sheet": "스티커 시트", "Round stickers with cut lines for scissors or a cutting machine.": "가위나 커팅기로 자르는 원형 스티커.", "Gift tags": "선물 태그", "Nine tags per sheet with a punch-hole mark.": "한 장에 9개, 구멍 위치 표시.", "Bookmarks": "책갈피", "Four tall bookmarks per sheet.": "한 장에 세로 책갈피 4개.", "Wrapping paper": "포장지", "A repeating pattern sheet for gifts and paper crafts.": "선물 포장과 종이공예용 반복 패턴.", "Mug wrap": "머그 랩", "Full-wrap print file for sublimation or print-on-demand mugs.": "승화전사·주문제작 머그용 전체 감싸기 파일.", "Phone case": "폰 케이스", "Case-back artwork with a camera guide.": "카메라 위치 안내가 있는 케이스 뒷면 그림.", "Phone wallpaper": "폰 배경화면", "Lock and home screen, with an optional quote.": "잠금·홈 화면용, 문구 넣기 가능.", "Social post": "SNS 이미지", "Instagram post or story, YouTube thumbnail.": "인스타그램 게시물·스토리, 유튜브 썸네일.", "Studio": "스튜디오", "Make something real.": "명화로 직접 만들어 보세요.", "Pick a product, pick an artwork, add your words. Download a print-ready file.": "만들 것과 그림을 고르고 문구를 넣으면, 바로 인쇄할 수 있는 파일이 나와요.", "Download PNG": "PNG 내려받기", "Print or save as PDF": "인쇄 또는 PDF로 저장", "Artwork": "그림", "Size": "크기", "Headline": "제목", "Small line": "작은 문구", "Message": "메시지", "Year": "연도", "Week starts": "한 주 시작", "Sunday": "일요일", "Monday": "월요일", "Stickers per row": "한 줄 스티커 수", "Typeface": "글꼴", "Text color": "글자 색", "Background": "배경", "Mix artworks": "여러 작품 섞기", "White mat and caption": "흰 여백과 캡션", "Show cut and fold lines": "자르는 선·접는 선 표시", "Optional": "선택", "Your words": "내 문구", "Classic serif": "클래식 세리프", "Display serif": "디스플레이 세리프", "Modern sans": "모던 고딕", "Handwritten": "손글씨", "Outside": "바깥면", "Inside": "안쪽", "Front": "앞면", "Back": "뒷면", "Cover": "표지", "Each case maker has its own template. Use this as the artwork, then place it on their template.": "케이스 업체마다 템플릿이 달라요. 이 파일을 그림으로 쓰고 업체 템플릿에 올리세요."};
+  var MONTHS_KO = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+  function ko() { return MA && MA.lang === 'ko'; }
+  function tr(x) { return ko() && KO[x] ? KO[x] : x; }
+  function trH(h) { if (!ko()) return h; Object.keys(KO).sort(function (a, b) { return b.length - a.length; }).forEach(function (k) { h = h.split('>' + k + '<').join('>' + KO[k] + '<').split('"' + k + '"').join('"' + KO[k] + '"'); }); return h; }
 
   // ---------- tools ----------
   var T = {};
@@ -237,22 +242,22 @@ window.Studio = (function () {
     if (id && T[id] && id !== o.tool) { o.tool = id; o.size = 0; o.page = 0; }
     var groups = {}; Object.keys(T).forEach(function (k) { (groups[T[k].g] = groups[T[k].g] || []).push(T[k]); });
     var t = cur();
-    return '<div class="wrap"><div class="sthead"><span class="lbl">Studio</span><h2>Make something real.</h2><p class="sub">Pick a product, pick an artwork, add your words. Download a print-ready file.</p></div><div class="studio">' +
+    return trH('<div class="wrap"><div class="sthead"><span class="lbl">Studio</span><h2>Make something real.</h2><p class="sub">Pick a product, pick an artwork, add your words. Download a print-ready file.</p></div><div class="studio">' +
       '<aside class="stools">' + Object.keys(groups).map(function (g) { return '<div class="stg"><span class="lbl">' + g + '</span>' + groups[g].map(function (x) { return '<a href="#/studio/' + x.id + '" class="stool" aria-current="' + (x.id === o.tool) + '">' + x.name + '</a>'; }).join('') + '</div>'; }).join('') + '</aside>' +
       '<section class="stage"><div class="sname"><h3>' + t.name + '</h3><p class="small">' + t.desc + '</p></div><div class="cwrap" id="cwrap"><canvas id="sc" aria-label="Preview of ' + t.name + '"></canvas></div>' +
       '<div class="pager" id="pager"></div><div class="row" style="margin-top:16px"><button class="pill" id="sPng">Download PNG</button><button class="pill ghost" id="sPdf">Print or save as PDF</button></div><p class="small" id="sInfo" style="margin-top:10px"></p>' + (t.note ? '<p class="small">' + t.note + '</p>' : '') + '</section>' +
-      '<aside class="sopts" id="sopts">' + opts() + '</aside></div></div><div id="printArea" aria-hidden="true"></div>';
+      '<aside class="sopts" id="sopts">' + opts() + '</aside></div></div><div id="printArea" aria-hidden="true"></div>');
   }
   function opts() {
     var t = cur(), f = t.fields, h = '';
-    h += '<span class="lbl">Artwork</span><div class="sarts">' + picks().map(function (id) { return '<button class="sart" data-art="' + id + '" aria-pressed="' + (o.art === id) + '" aria-label="' + esc(MA.A[id].t) + '">' + MA.svg(id) + '</button>'; }).join('') + '</div><p class="small">' + esc(MA.A[o.art].t) + ' · ' + esc(MA.A[o.art].a) + '</p><a class="small" href="/art" style="text-decoration:underline">Browse all ' + MA.ORDER.length + ' artworks</a>';
+    h += '<span class="lbl">Artwork</span><div class="sarts">' + picks().map(function (id) { return '<button class="sart" data-art="' + id + '" aria-pressed="' + (o.art === id) + '" aria-label="' + esc(MA.A[id].t) + '">' + MA.svg(id) + '</button>'; }).join('') + '</div><p class="small">' + esc(MA.A[o.art].t) + ' · ' + esc(MA.A[o.art].a) + '</p><a class="small" href="' + (ko() ? '/ko' : '') + '/art" style="text-decoration:underline">' + (ko() ? '명화 ' + MA.ORDER.length + '점 모두 보기' : 'Browse all ' + MA.ORDER.length + ' artworks') + '</a>';
     h += '<label class="lbl" for="sSize">Size</label><select id="sSize" data-k="size">' + t.sizes.map(function (s, i) { return '<option value="' + i + '"' + (i == o.size ? ' selected' : '') + '>' + s[0] + '</option>'; }).join('') + '</select>';
     if (f.indexOf('title') > -1) h += '<label class="lbl" for="sTitle">Headline</label><input type="text" id="sTitle" data-k="title" maxlength="60" value="' + esc(o.title) + '" placeholder="Optional">';
     if (f.indexOf('sub') > -1) h += '<label class="lbl" for="sSub">Small line</label><input type="text" id="sSub" data-k="sub" maxlength="60" value="' + esc(o.sub) + '" placeholder="Optional">';
     if (f.indexOf('msg') > -1) h += '<label class="lbl" for="sMsg">Message</label><textarea id="sMsg" data-k="msg" rows="3" maxlength="240" placeholder="Your words">' + esc(o.msg) + '</textarea>';
     if (f.indexOf('year') > -1) h += '<div class="two"><div><label class="lbl" for="sYear">Year</label><select id="sYear" data-k="year">' + [2026, 2027, 2028].map(function (y) { return '<option' + (y == o.year ? ' selected' : '') + '>' + y + '</option>'; }).join('') + '</select></div><div><label class="lbl" for="sStart">Week starts</label><select id="sStart" data-k="start"><option value="sun"' + (o.start === 'sun' ? ' selected' : '') + '>Sunday</option><option value="mon"' + (o.start === 'mon' ? ' selected' : '') + '>Monday</option></select></div></div>';
     if (f.indexOf('count') > -1) h += '<label class="lbl" for="sCount">Stickers per row</label><select id="sCount" data-k="count">' + [3, 4, 5, 6].map(function (n) { return '<option' + (n == o.count ? ' selected' : '') + '>' + n + '</option>'; }).join('') + '</select>';
-    if (f.indexOf('scale') > -1) h += '<label class="lbl" for="sScale">Pattern size · ' + o.scale + ' mm</label><input type="range" id="sScale" data-k="scale" min="25" max="100" step="5" value="' + o.scale + '">';
+    if (f.indexOf('scale') > -1) h += '<label class="lbl" for="sScale">' + (ko() ? '패턴 크기 · ' : 'Pattern size · ') + o.scale + ' mm</label><input type="range" id="sScale" data-k="scale" min="25" max="100" step="5" value="' + o.scale + '">';
     if (f.indexOf('font') > -1) h += '<label class="lbl" for="sFont">Typeface</label><select id="sFont" data-k="font">' + Object.keys(FONTS).map(function (k) { return '<option value="' + k + '"' + (o.font === k ? ' selected' : '') + '>' + FONT_NAMES[k] + '</option>'; }).join('') + '</select>';
     if (f.indexOf('color') > -1) h += '<span class="lbl">Text color</span><div class="sw">' + COLORS.map(function (col) { return '<button data-color="' + col + '" aria-pressed="' + (o.color === col) + '" style="background:' + col + '" aria-label="Color ' + col + '"></button>'; }).join('') + '</div>';
     if (f.indexOf('bg') > -1) h += '<span class="lbl">Background</span><div class="sw">' + ['#faf8f3', '#ffffff', '#111111', '#1e3550', '#e9dfcf'].map(function (col) { return '<button data-bg="' + col + '" aria-pressed="' + (o.bg === col) + '" style="background:' + col + '" aria-label="Background ' + col + '"></button>'; }).join('') + '</div>';
@@ -260,8 +265,8 @@ window.Studio = (function () {
     if (f.indexOf('mix') > -1) ch.push(['mix', 'Mix artworks']);
     if (f.indexOf('mat') > -1) ch.push(['mat', 'White mat and caption']);
     if (f.indexOf('cut') > -1) ch.push(['cut', 'Show cut and fold lines']);
-    h += ch.map(function (x) { return '<label class="chk"><input type="checkbox" data-k="' + x[0] + '"' + (o[x[0]] ? ' checked' : '') + '> ' + x[1] + '</label>'; }).join('');
-    return h;
+    h += ch.map(function (x) { return '<label class="chk"><input type="checkbox" data-k="' + x[0] + '"' + (o[x[0]] ? ' checked' : '') + '> ' + tr(x[1]) + '</label>'; }).join('');
+    return trH(h);
   }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
@@ -278,16 +283,16 @@ window.Studio = (function () {
     var maxW = Math.min(box.clientWidth - 32, 640), maxH = Math.min(window.innerHeight * 0.62, 680), r = Math.min(maxW / d.w, maxH / d.h), dpr = window.devicePixelRatio || 1;
     draw(cv, r * dpr, o.page, !MA.st.unlocked); cv.style.width = Math.round(d.w * r) + 'px'; cv.style.height = Math.round(d.h * r) + 'px';
     var n = t.pages(o), names = t.pageNames;
-    document.getElementById('pager').innerHTML = n > 1 ? '<button class="pill sm ghost" data-pg="-1" aria-label="Previous page"' + (o.page ? '' : ' disabled') + '>‹</button><span class="small">' + (names ? names[o.page] : (o.tool === 'wallcal' ? (o.page ? MONTHS[o.page - 1] : 'Cover') : MONTHS[o.page])) + ' · ' + (o.page + 1) + ' of ' + n + '</span><button class="pill sm ghost" data-pg="1" aria-label="Next page"' + (o.page < n - 1 ? '' : ' disabled') + '>›</button>' : '';
+    document.getElementById('pager').innerHTML = n > 1 ? '<button class="pill sm ghost" data-pg="-1" aria-label="Previous page"' + (o.page ? '' : ' disabled') + '>‹</button><span class="small">' + (names ? tr(names[o.page]) : (o.tool === 'wallcal' ? (o.page ? (ko() ? MONTHS_KO : MONTHS)[o.page - 1] : tr('Cover')) : (ko() ? MONTHS_KO : MONTHS)[o.page])) + ' · ' + (o.page + 1) + (ko() ? ' / ' : ' of ') + n + '</span><button class="pill sm ghost" data-pg="1" aria-label="Next page"' + (o.page < n - 1 ? '' : ' disabled') + '>›</button>' : '';
     var ex = exportScale(d);
-    document.getElementById('sInfo').textContent = d.label + ' · ' + (d.px ? d.w + ' × ' + d.h + ' px' : Math.round(ex * IN) + ' dpi print file') + (n > 1 ? ' · ' + n + ' pages' : '') + (MA.st.unlocked ? '' : ' · Subscribe to remove the watermark');
+    document.getElementById('sInfo').textContent = d.label + ' · ' + (d.px ? d.w + ' × ' + d.h + ' px' : Math.round(ex * IN) + (ko() ? 'dpi 인쇄용 파일' : ' dpi print file')) + (n > 1 ? ' · ' + n + (ko() ? '페이지' : ' pages') : '') + (MA.st.unlocked ? '' : (ko() ? ' · 구독하면 워터마크가 사라져요' : ' · Subscribe to remove the watermark'));
   }
   function exportScale(d) { if (d.px) return 1; var s = 300 / IN, area = d.w * d.h * s * s; if (area > 16e6) s = Math.sqrt(16e6 / (d.w * d.h)); return s; }
   function png() {
     var t = cur(), d = dims(t), cv = document.createElement('canvas'), s = exportScale(d);
     draw(cv, s, o.page, !MA.st.unlocked);
-    cv.toBlob(function (b) { var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'muse-' + o.tool + '-' + o.art + (t.pages(o) > 1 ? '-p' + (o.page + 1) : '') + '.png'; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500); }, 'image/png');
-    MA.toast(MA.st.unlocked ? 'Downloading print file' : 'Downloading preview with watermark');
+    cv.toBlob(function (b) { var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'arttrip-' + o.tool + '-' + o.art + (t.pages(o) > 1 ? '-p' + (o.page + 1) : '') + '.png'; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1500); }, 'image/png');
+    MA.toast(MA.st.unlocked ? (ko() ? '인쇄용 파일을 내려받아요' : 'Downloading print file') : (ko() ? '워터마크가 있는 미리보기를 내려받아요' : 'Downloading preview with watermark'));
   }
   function pdf() {
     var t = cur(), d = dims(t), n = t.pages(o), area = document.getElementById('printArea'), s = Math.min(exportScale(d), d.px ? 1 : 200 / IN), unit = d.px ? 'px' : 'mm';
@@ -314,11 +319,11 @@ window.Studio = (function () {
       var el = e.target, k = el.dataset.k; if (!k) return;
       o[k] = el.type === 'checkbox' ? el.checked : (['size', 'year', 'count', 'scale'].indexOf(k) > -1 ? +el.value : el.value);
       if (k === 'size') o.page = Math.min(o.page, cur().pages(o) - 1);
-      if (k === 'scale') { var l = root.querySelector('label[for=sScale]'); if (l) l.textContent = 'Pattern size · ' + o.scale + ' mm'; }
+      if (k === 'scale') { var l = root.querySelector('label[for=sScale]'); if (l) l.textContent = (ko() ? '패턴 크기 · ' : 'Pattern size · ') + o.scale + ' mm'; }
       preview();
     });
     document.getElementById('sPng').onclick = png; document.getElementById('sPdf').onclick = pdf;
     window.addEventListener('resize', preview);
   }
-  return { html: html, mount: mount, tools: T };
+  return { html: html, mount: mount, tools: T, state: function () { return JSON.parse(JSON.stringify(o)); }, load: function (x) { if (x && T[x.tool]) Object.keys(o).forEach(function (k) { if (k in x) o[k] = x[k]; }); } };
 })();

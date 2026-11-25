@@ -6,6 +6,13 @@ compatibility_date = "2026-11-01"
 directory = "./public"
 binding = "ASSETS"
 
+# Members (Google sign-in, saved designs): create D1 'arttrip-users', run schema-users.sql, then uncomment:
+# [[d1_databases]]
+# binding = "UDB"
+# database_name = "arttrip-users"
+# database_id = "..."
+# and set GOOGLE_CLIENT_ID below. Secret (dashboard → Settings → Variables): POLAR_WEBHOOK_SECRET
+
 # D1 comes later when the catalogue grows; until then the Worker uses bundled data (src/data.js).
 # [[d1_databases]]
 # binding = "DB"
@@ -21,3 +28,8 @@ SITE_ORIGIN = "https://arttripstudio.com"
 # POLAR_SUB_YEARLY = "https://buy.polar.sh/..."
 # POLAR_CLIPART_CAFE_GIRL = "https://buy.polar.sh/..."
 # POLAR_STICKERS_CAFE_GIRL = "https://buy.polar.sh/..."
+# GOOGLE_CLIENT_ID = "....apps.googleusercontent.com"
+# PayApp Lite (Korean cards, no business registration) payment links:
+# PAYAPP_PLANNER_2027 = "https://..."
+# PAYAPP_CAL_COZY_DAYS = "https://..."
+# POLAR_CAL_COZY_DAYS = "https://buy.polar.sh/..."

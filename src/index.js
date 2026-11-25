@@ -1,6 +1,7 @@
 // Arttrip Studio — pages are generated on request from D1 data, in English and Korean.
 import { T, THEMES, PRODUCTS, IL_CATS, IL_STYLES, colorName } from './i18n.js';
 import { memdb } from './memdb.js';
+import { api, currentUser, membersReady } from './auth.js';
 
 const PER_PAGE = 48;
 let ORIGIN = '';
@@ -31,7 +32,7 @@ export default {
     const rest = isKo ? (path.slice(3) || '/') : path;
 
     // first visit from a Korean browser → Korean page (people only, never crawlers)
-    if (!isKo && req.method === 'GET' && !/^\/(sitemap|robots|img|il|p|css|js|studio)/.test(rest)) {
+    if (!isKo && req.method === 'GET' && !/^\/(sitemap|robots|img|il|p|css|js|api|studio\/)/.test(rest)) {
       const cookie = req.headers.get('cookie') || '';
       const ua = req.headers.get('user-agent') || '';
       if (!/(?:^|;\s*)lang=/.test(cookie) && !BOT.test(ua) && /^ko\b/i.test(req.headers.get('accept-language') || '')) {
@@ -42,12 +43,13 @@ export default {
     // cached HTML
     const cache = caches.default;
     const cacheKey = new Request(url.origin + path + url.search, { method: 'GET' });
-    if (req.method === 'GET' && env.CACHE_HTML !== 'off') { const hit = await cache.match(cacheKey); if (hit) return hit; }
+    const noCache = /^\/(api|account)/.test(rest);
+    if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
     let res;
-    try { res = await route(rest, url, lang, env); } catch (e) { res = html(`<pre>${esc(e.stack || e)}</pre>`, 500); }
+    try { res = await route(rest, url, lang, env, req); } catch (e) { res = html(`<pre>${esc(e.stack || e)}</pre>`, 500); }
     if (!res) res = await notFound(lang, rest);
-    if (res.status === 200 && req.method === 'GET' && (res.headers.get('content-type') || '').startsWith('text/html')) {
+    if (!noCache && res.status === 200 && req.method === 'GET' && (res.headers.get('content-type') || '').startsWith('text/html')) {
       res = new Response(res.body, res); res.headers.set('cache-control', 'public, max-age=600'); res.headers.set('vary', 'Accept-Language, Cookie');
       if (env.CACHE_HTML !== 'off') ctx.waitUntil(cache.put(cacheKey, res.clone()));
     }
@@ -55,12 +57,16 @@ export default {
   },
 };
 
-async function route(p, url, lang, env) {
+async function route(p, url, lang, env, REQ) {
   let m;
   if (p === '/robots.txt') return new Response(`User-agent: *\nAllow: /\nSitemap: ${url.origin}/sitemap.xml\n`, { headers: { 'content-type': 'text/plain' } });
   if (p === '/sitemap.xml') return sitemapIndex(url, env);
   if ((m = p.match(/^\/sitemaps\/(art|pages)-(en|ko)-(\d+)\.xml$/))) return sitemapPart(url, env, m[1], m[2], +m[3]);
   if (p === '/api/art.json') return studioData(url, env);
+  if (p.startsWith('/api/')) return api(p, REQ, env);
+  if (p === '/studio') return studio(lang, env);
+  if (p === '/account') return account(lang, env, REQ);
+  if (p === '/thanks') return thanks(lang, url);
   if (p === '/') return home(lang, env);
   if (p === '/art') return gallery(lang, env, url, null);
   if ((m = p.match(/^\/art\/theme\/([a-z-]+)$/)) && THEMES[m[1]]) return gallery(lang, env, url, { theme: m[1] });
@@ -77,19 +83,19 @@ async function route(p, url, lang, env) {
 
 // ---------- layout ----------
 const L = (lang, p) => (lang === 'ko' ? '/ko' : '') + (p === '/' && lang === 'ko' ? '' : p);
-function layout(lang, { title, desc, path, body, img, jsonld }) {
+function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex = false }) {
   const t = T[lang]; const other = lang === 'ko' ? 'en' : 'ko';
   const enUrl = ORIGIN + path, koUrl = ORIGIN + '/ko' + (path === '/' ? '' : path);
-  const nav = [['art', '/art'], ['illus', '/illustrations'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
+  const nav = [['art', '/art'], ['illus', '/illustrations'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
   return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${lang === 'ko' ? koUrl : enUrl}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="ko" href="${koUrl}"><link rel="alternate" hreflang="x-default" href="${enUrl}">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}">${img ? `<meta property="og:image" content="${esc(ORIGIN + img)}">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/site.css">${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}</head>
+<link rel="stylesheet" href="/css/site.css">${head}${noindex ? '<meta name="robots" content="noindex">' : ''}${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}</head>
 <body class="${lang}"><header class="top"><div class="wrap bar"><a class="logo" href="${L(lang, '/')}">Arttrip<span>Studio</span></a><nav>${nav}</nav>
-<a class="lang" href="?setlang=${other}" hreflang="${other}">${t.switchTo}</a></div></header>
+<a class="acct" href="${L(lang, '/account')}" aria-label="${t.nav.myAccount}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a><a class="lang" href="?setlang=${other}" hreflang="${other}">${t.switchTo}</a></div></header>
 <main>${body}</main>
 <footer class="foot"><div class="wrap"><div class="fl"><a class="logo" href="${L(lang, '/')}">Arttrip<span>Studio</span></a><p>${esc(t.footer)}</p></div>
 <div class="fr">${['about', 'license', 'privacy', 'terms'].map((k) => `<a href="${L(lang, '/' + k)}">${t[k]}</a>`).join('')}</div></div></footer>
@@ -114,11 +120,12 @@ async function home(lang, env) {
   const cover = await all(env, "SELECT theme, id FROM artworks WHERE id IN (SELECT MIN(id) FROM artworks GROUP BY theme)");
   const covers = Object.fromEntries(cover.map((c) => [c.theme, c.id]));
   const total = counts.reduce((s, c) => s + c.n, 0);
-  const prods = PRODUCTS.slice(0, 4).map((p) => productCard(p, lang)).join('');
+  const prods = PRODUCTS.filter((p) => p.cat !== 'illustrations').slice(0, 4).map((p) => productCard(p, lang)).join('');
   const body = `<section class="hero"><div class="wrap hgrid"><div class="htxt"><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
 <div class="row"><a class="pill" href="${L(lang, '/shop')}">${t.shopNow}</a><a class="pill ghost" href="${L(lang, '/art')}">${t.browse}</a></div></div>
 <a class="hart" href="${L(lang, '/art/' + hero.slug)}"><img src="/img/${hero.id}.jpg" alt="${esc(tl(hero, lang))}" width="${hero.w}" height="${hero.h}"><span>${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></a></div></section>
 <section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div><div class="pgrid">${prods}</div></section>
+<section class="wrap sec"><div class="sh"><h2>${lang === 'ko' ? '손그림 일러스트' : 'Hand-drawn illustrations'}</h2><a href="${L(lang, '/illustrations')}">${t.nav.illus} →</a></div><div class="pgrid">${PRODUCTS.filter((p) => p.cat === 'illustrations').map((p) => productCard(p, lang)).join('')}</div></section>
 <section class="wrap sec"><div class="sh"><h2>${t.themes}</h2><a href="${L(lang, '/art')}">${t.allArt} (${total}) →</a></div>
 <div class="themes">${counts.map((c) => `<a class="theme" href="${L(lang, '/art/theme/' + c.theme)}"><img src="/img/${covers[c.theme]}.jpg" alt="" loading="lazy"><b>${esc(THEMES[c.theme]?.[lang] || c.theme)}</b><span>${c.n} ${lang === 'ko' ? '점' : 'artworks'}</span></a>`).join('')}</div></section>
 <section class="wrap sec"><div class="sh"><h2>${t.newIn}</h2></div><div class="masonry">${feat.map((a) => tile(a, lang)).join('')}</div></section>`;
@@ -174,7 +181,7 @@ async function artwork(lang, env, slug) {
   const rel = await all(env, 'SELECT * FROM artworks WHERE theme = ? AND id <> ? AND artist_slug <> ? ORDER BY ((CAST(id AS INTEGER) * 2654435761) % 1000) LIMIT 8', a.theme, a.id, a.artist_slug);
   const title = tl(a, lang), artist = al(a, lang);
   const d = describe(a, lang, pal);
-  const mk = ['calendar', 'card', 'poster', 'wallpaper'].map((k) => `<a class="mk" href="/studio/?tool=${{ calendar: 'wallcal', card: 'card', poster: 'poster', wallpaper: 'wallpaper' }[k]}&art=${a.id}&lang=${lang}">${t.make[k]}</a>`).join('');
+  const mk = ['calendar', 'card', 'poster', 'wallpaper'].map((k) => `<a class="mk" href="${L(lang, "/studio")}?tool=${{ calendar: 'wallcal', card: 'card', poster: 'poster', wallpaper: 'wallpaper' }[k]}&art=${a.id}">${t.make[k]}</a>`).join('');
   const body = `<section class="wrap sec art">
 <nav class="crumb"><a href="${L(lang, '/art')}">${t.nav.art}</a> › <a href="${L(lang, '/art/theme/' + a.theme)}">${esc(THEMES[a.theme]?.[lang] || a.theme)}</a></nav>
 <div class="agrid"><figure class="big" style="aspect-ratio:${a.w}/${a.h}"><img src="/img/${a.id}.jpg" alt="${esc(title)} — ${esc(artist)}" width="${a.w}" height="${a.h}"></figure>
@@ -196,8 +203,55 @@ function productCard(p, lang) {
   const c = p[lang];
   return `<a class="pcard" href="${L(lang, '/shop/' + p.slug)}"><div class="pimg"><img src="${p.img}" alt="${esc(c.name)}" loading="lazy"></div><b>${esc(c.name)}</b><span>${esc(c.short)}</span><em>$${p.price}</em></a>`;
 }
+// ---------- studio, members, thanks ----------
+function studio(lang, env) {
+  const ko = lang === 'ko';
+  const head = `<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/studio/studio.css">`;
+  const body = `<div id="app" data-lang="${lang}"><div class="wrap sec"><p class="small">${ko ? '불러오는 중…' : 'Loading…'}</p></div></div>
+<script src="/studio/studio.js"></script><script src="/studio/boot.js"></script>`;
+  return html(layout(lang, { title: ko ? '스튜디오 — 명화로 달력·카드·포스터 만들기 | 아트트립 스튜디오' : 'Studio — Make Calendars, Cards and Posters from Masterpieces | Arttrip Studio',
+    desc: ko ? '명화를 골라 달력, 카드, 포스터, 스티커, 배경화면을 만들고 인쇄용 파일로 내려받으세요. 회원은 작업을 저장할 수 있어요.' : 'Pick a masterpiece and make a calendar, card, poster, sticker sheet or wallpaper. Download a print-ready file. Members can save their work.',
+    path: '/studio', body, head }));
+}
+async function account(lang, env, req) {
+  const ko = lang === 'ko', t = T[lang];
+  if (!membersReady(env)) return html(layout(lang, { title: `${t.nav.myAccount} — ${t.site}`, desc: '', path: '/account', noindex: true,
+    body: `<section class="wrap sec narrow center"><span class="lbl">${t.nav.account}</span><h1>${ko ? '회원 기능을 준비하고 있어요' : 'Member accounts are on the way'}</h1><p class="sub">${ko ? '지금은 로그인 없이 모든 상품을 구매할 수 있어요. 곧 구글 계정으로 가입해 스튜디오 작업을 저장할 수 있게 돼요.' : 'You can buy everything without an account today. Soon you will be able to sign in with Google and save your Studio work.'}</p><div class="row" style="justify-content:center"><a class="pill" href="${L(lang, '/shop')}">${t.nav.shop}</a><a class="pill ghost" href="${L(lang, '/studio')}">${t.nav.studio}</a></div></section>` }));
+  const u = await currentUser(req, env);
+  const gsi = `<script src="https://accounts.google.com/gsi/client" async></script>`;
+  let body;
+  if (!u) {
+    body = `<section class="wrap sec narrow center"><span class="lbl">${t.nav.account}</span><h1>${ko ? '구글 계정으로 시작하기' : 'Sign in with Google'}</h1>
+<p class="sub">${ko ? '가입하면 스튜디오 작업을 저장하고 이어서 편집할 수 있어요. 구독 회원은 워터마크 없는 고해상도 파일과 고급 편집 기능을 써요.' : 'Save your Studio work and come back to it. Subscribers get watermark-free print files and the advanced editor.'}</p>
+<div id="g_id_onload" data-client_id="${esc(env.GOOGLE_CLIENT_ID)}" data-callback="atGoogle" data-auto_prompt="false"></div>
+<div class="g_id_signin" data-type="standard" data-size="large" data-shape="pill" data-text="continue_with" data-locale="${lang}" style="display:flex;justify-content:center"></div>
+<p class="small" style="margin-top:22px">${ko ? '구매는 회원가입 없이도 할 수 있어요.' : 'You can also buy without an account.'}</p></section>
+<script>function atGoogle(r){fetch('/api/auth/google',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({credential:r.credential})}).then(function(x){if(x.ok)location.reload();else alert('${ko ? '로그인에 실패했어요. 다시 시도해 주세요.' : 'Sign-in failed. Please try again.'}')})}</script>`;
+  } else {
+    const ds = (await env.UDB.prepare('SELECT id, tool, title, updated FROM designs WHERE user_id = (SELECT id FROM users WHERE email = ?) ORDER BY updated DESC LIMIT 100').bind(u.email).all()).results;
+    const member = u.plan === 'member';
+    body = `<section class="wrap sec"><span class="lbl">${t.nav.myAccount}</span><h1>${esc(u.name || u.email)}</h1><p class="small">${esc(u.email)} · ${member ? (ko ? '구독 회원' : 'Subscriber') : (ko ? '무료 회원' : 'Free member')}</p>
+${member ? '' : `<div class="dl"><b>${ko ? '구독하면 더 많이 쓸 수 있어요' : 'Get more with a subscription'}</b><p>${ko ? '워터마크 없는 고해상도 파일, 저장 500개, 고급 편집 기능.' : 'Watermark-free print files, 500 saved designs and the advanced editor.'}</p><a class="pill" href="${L(lang, '/pricing')}">${t.nav.pricing}</a></div>`}
+<div class="sh"><h2>${ko ? '내 작업' : 'My designs'}</h2><a href="${L(lang, '/studio')}">${ko ? '새로 만들기' : 'New design'} →</a></div>
+${ds.length ? `<ul class="iltopics">${ds.map((d) => `<li><a href="${L(lang, '/studio')}#/studio/${esc(d.tool)}?d=${d.id}">${esc(d.title || d.tool)}</a><em>${new Date(d.updated).toISOString().slice(0, 10)}</em></li>`).join('')}</ul>` : `<p class="sub">${ko ? '아직 저장한 작업이 없어요. 스튜디오에서 만들고 [저장]을 누르세요.' : 'No saved designs yet. Make something in the Studio and press Save.'}</p>`}
+<p style="margin-top:30px"><button class="pill ghost" onclick="fetch('/api/logout',{method:'POST'}).then(function(){location.reload()})">${ko ? '로그아웃' : 'Sign out'}</button></p></section>`;
+  }
+  return html(layout(lang, { title: `${t.nav.myAccount} — ${t.site}`, desc: '', path: '/account', body, head: gsi, noindex: true }));
+}
+function thanks(lang, url) {
+  const ko = lang === 'ko', t = T[lang], via = url.searchParams.get('via');
+  const p = PRODUCTS.find((x) => x.slug === url.searchParams.get('p'));
+  const name = p ? p[lang].name : '';
+  const msg = via === 'kr'
+    ? (ko ? '결제가 확인되면 결제할 때 남긴 연락처(문자 또는 이메일)로 24시간 안에 다운로드 링크를 보내 드려요.' : 'Once your payment is confirmed we will send the download link to the contact you gave within 24 hours.')
+    : (ko ? '결제 확인 메일에 다운로드 링크가 들어 있어요. 메일이 안 보이면 스팸함도 확인해 주세요.' : 'Your download link is in the receipt email from our payment partner. Please check your spam folder if you cannot see it.');
+  const body = `<section class="wrap sec narrow center"><span class="lbl">${ko ? '결제 완료' : 'Thank you'}</span><h1>${ko ? '구매해 주셔서 고마워요' : 'Thank you for your order'}</h1>${name ? `<p class="by">${esc(name)}</p>` : ''}<p class="sub">${msg}</p>
+<p class="small">${ko ? '문제가 있으면 hello@arttripstudio.com 으로 연락 주세요.' : 'Any problem? Write to hello@arttripstudio.com.'}</p><div class="row" style="justify-content:center;margin-top:20px"><a class="pill" href="${L(lang, '/studio')}">${t.nav.studio}</a><a class="pill ghost" href="${L(lang, '/shop')}">${t.nav.shop}</a></div></section>`;
+  return html(layout(lang, { title: `${ko ? '결제 완료' : 'Thank you'} — ${t.site}`, desc: '', path: '/thanks', body, noindex: true }));
+}
+
 // ---------- original illustrations ----------
-const IL_COVER = { everyday: '/il/everyday.png' };
+const IL_COVER = { everyday: '/il/everyday.png', seasons: '/il/seasons.jpg' };
 function illus(lang, cat) {
   const ko = lang === 'ko'; const t = T[lang];
   const sets = (k) => PRODUCTS.filter((p) => p.il === k);
@@ -234,12 +288,15 @@ function shop(lang) {
 }
 function product(lang, env, slug) {
   const t = T[lang]; const p = PRODUCTS.find((x) => x.slug === slug); if (!p) return null; const c = p[lang];
-  const link = env[p.checkout];
-  const buy = link ? `<a class="pill big" href="${esc(link)}" data-polar-checkout>${t.buy} · $${p.price}</a>` : `<span class="pill big off" aria-disabled="true">${t.soon} · $${p.price}</span>`;
+  const link = env[p.checkout], kr = p.payapp && env[p.payapp];
+  const btn = (href, label, note, cls) => href ? `<a class="paybtn ${cls}" href="${esc(href)}" rel="noopener"><b>${label}</b><span>${note}</span></a>` : `<span class="paybtn off" aria-disabled="true"><b>${label}</b><span>${t.soon}</span></span>`;
+  const buy = lang === 'ko'
+    ? `<div class="price">$${p.price}</div><div class="paybtns">${btn(kr, t.payKr, t.payKrNote, 'kr')}${btn(link, t.payGlobal, t.payGlobalNote, 'gl')}</div><p class="small">✓ ${t.guest}</p>`
+    : `<div class="price">$${p.price}</div><div class="paybtns">${btn(link, t.buy, 'Card · Apple Pay · Google Pay', 'gl')}</div><p class="small">✓ ${t.guest}</p>`;
   const body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a></nav><div class="agrid">
 <figure class="big"><img src="${p.img}" alt="${esc(c.name)}"></figure><div class="meta"><span class="lbl">${t.instant}</span><h1>${esc(c.name)}</h1>
 ${c.body.map((x) => `<p>${esc(x)}</p>`).join('')}<h2 class="h3">${t.whatYouGet}</h2><ul class="ul">${c.get.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-<div class="buy">${buy}${lang === 'ko' ? `<p class="small">${esc(T.ko.payNote)}</p>` : ''}</div></div></div></section>`;
+<div class="buy">${buy}</div></div></div></section>`;
   const jsonld = { '@context': 'https://schema.org', '@type': 'Product', name: p.en.name, image: p.img, description: p.en.short, offers: { '@type': 'Offer', price: p.price, priceCurrency: 'USD', availability: link ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder' } };
   return html(layout(lang, { title: `${c.name} — ${t.site}`, desc: c.short, path: '/shop/' + p.slug, body, img: p.img, jsonld }));
 }
@@ -278,7 +335,7 @@ async function sitemapPart(url, env, kind, lg, n) {
   const alt = (p) => `<xhtml:link rel="alternate" hreflang="en" href="${url.origin}${p}"/><xhtml:link rel="alternate" hreflang="ko" href="${url.origin}/ko${p === '/' ? '' : p}"/>`;
   let paths = [];
   if (kind === 'pages') {
-    paths = ['/', '/art', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
+    paths = ['/', '/art', '/studio', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
     const artists = await all(env, 'SELECT artist_slug s, COUNT(*) c FROM artworks GROUP BY artist_slug HAVING c >= 2');
     paths.push(...artists.map((a) => '/artist/' + a.s));
   } else {
