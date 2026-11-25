@@ -1,0 +1,2892 @@
+{
+ "claude-monet": {
+  "artist": "Claude Monet",
+  "works": [
+   {
+    "id": 16571,
+    "title": "Arrival of the Normandy Train, Gare Saint-Lazare",
+    "date_display": "1877",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 14598,
+    "title": "The Beach at Sainte-Adresse",
+    "date_display": "1867",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 14620,
+    "title": "Cliff Walk at Pourville",
+    "date_display": "1882",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 87088,
+    "title": "Water Lily Pond",
+    "date_display": "1900",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 81537,
+    "title": "Bordighera",
+    "date_display": "1884",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 16564,
+    "title": "Branch of the Seine near Giverny (Mist)",
+    "date_display": "1897",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "05.jpg"
+   },
+   {
+    "id": 81539,
+    "title": "On the Bank of the Seine, Bennecourt",
+    "date_display": "1868",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "06.jpg"
+   },
+   {
+    "id": 16549,
+    "title": "Apples and Grapes",
+    "date_display": "1880",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "07.jpg"
+   },
+   {
+    "id": 16584,
+    "title": "Houses of Parliament, London",
+    "date_display": "1900–1",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 20545,
+    "title": "Rocks at Port-Goulphar, Belle-Île",
+    "date_display": "1886",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mr. and Mrs. Chauncey B. Borland",
+    "file": "09.jpg"
+   },
+   {
+    "id": 16544,
+    "title": "Charing Cross Bridge, London",
+    "date_display": "1901",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 103139,
+    "title": "Waterloo Bridge, Gray Weather",
+    "date_display": "1900",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mrs. Mortimer B. Harris",
+    "file": "11.jpg"
+   },
+   {
+    "id": 97933,
+    "title": "Water Lily Pond",
+    "date_display": "1917–19",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mrs. Harvey Kaplan",
+    "file": "12.jpg"
+   },
+   {
+    "id": 20701,
+    "title": "Waterloo Bridge, Sunlight Effect",
+    "date_display": "1903",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 81546,
+    "title": "The Petite Creuse River",
+    "date_display": "1889",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "14.jpg"
+   },
+   {
+    "id": 14634,
+    "title": "Vétheuil",
+    "date_display": "1901",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "edouard-manet": {
+  "artist": "Édouard Manet",
+  "works": [
+   {
+    "id": 16499,
+    "title": "Jesus Mocked by the Soldiers",
+    "date_display": "1865",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of James Deering",
+    "file": "00.jpg"
+   },
+   {
+    "id": 81535,
+    "title": "Sea View, Calm Weather (Vue de mer, temps calme)",
+    "date_display": "1864",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 95183,
+    "title": "Beggar with a Duffle Coat (Philosopher)",
+    "date_display": "1865–67",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "A. A. Munger Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 14594,
+    "title": "Portrait of a Woman with a Black Fichu",
+    "date_display": "c. 1878",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 191513,
+    "title": "Dragonfly, plate 1 from Le Fleuve",
+    "date_display": "1874",
+    "classification_title": "prints and drawing",
+    "medium_display": "Etching, drypoint and aquatint in black on ivory laid paper",
+    "credit_line": "Gift of Robert M. Light in memory of Harold Joachim",
+    "file": "04.jpg"
+   },
+   {
+    "id": 186110,
+    "title": "Sketches from “The Gypsies,” “The Spanish Ballet,” and “Lola de Valence” for “L’Autographe au Salon de 1865”",
+    "date_display": "1865",
+    "classification_title": "prints and drawing",
+    "medium_display": "Brush and black ink and wash, over graphite, on ivory laid paper, pieced in the lower left",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "05.jpg"
+   },
+   {
+    "id": 18667,
+    "title": "Portrait of Berthe Morisot with a Fan",
+    "date_display": "1874",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor over traces of graphite on cream wove paper",
+    "credit_line": "Helen Regenstein Collection",
+    "file": "06.jpg"
+   },
+   {
+    "id": 90258,
+    "title": "Portrait of Alphonse Maureau",
+    "date_display": "1878/79",
+    "classification_title": "pastel",
+    "medium_display": "Pastel on canvas, prepared with an off-white ground",
+    "credit_line": "Bequest of Kate L. Brewster",
+    "file": "07.jpg"
+   },
+   {
+    "id": 191566,
+    "title": "The Man with the Dog",
+    "date_display": "c. 1882",
+    "classification_title": "prints and drawing",
+    "medium_display": "Pastel on canvas, prepared with an off-white gouache ground",
+    "credit_line": "Bequest of Brooks McCormick",
+    "file": "08.jpg"
+   },
+   {
+    "id": 9485,
+    "title": "Sketches of Snails, Flowering Plant",
+    "date_display": "1864/68",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor over graphite pencil on cream laid paper",
+    "credit_line": "Gift of Robert Allerton",
+    "file": "09.jpg"
+   },
+   {
+    "id": 44892,
+    "title": "Fish (Still Life)",
+    "date_display": "1864",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 14591,
+    "title": "Woman Reading",
+    "date_display": "1880–82",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "11.jpg"
+   },
+   {
+    "id": 81533,
+    "title": "The Races at Longchamp",
+    "date_display": "1866",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "12.jpg"
+   },
+   {
+    "id": 25812,
+    "title": "Bullfight",
+    "date_display": "1865–66",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 55507,
+    "title": "Civil War",
+    "date_display": "1871/73",
+    "classification_title": "lithograph",
+    "medium_display": "Lithograph in black, with scraping, on ivory chine  with red and blue fibers laid down on ivory wove paper (chine collé)",
+    "credit_line": "John H. Wrenn Fund",
+    "file": "14.jpg"
+   },
+   {
+    "id": 117526,
+    "title": "The Races",
+    "date_display": "1865/72",
+    "classification_title": "lithograph",
+    "medium_display": "Lithograph in black on ivory chine, laid down on ivory wove paper (chine collé)",
+    "credit_line": "Through prior bequest of Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "edgar-degas": {
+  "artist": "Edgar Degas",
+  "works": []
+ },
+ "pierre-auguste-renoir": {
+  "artist": "Pierre-Auguste Renoir",
+  "works": [
+   {
+    "id": 14655,
+    "title": "Two Sisters (On the Terrace)",
+    "date_display": "1881",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 81558,
+    "title": "Acrobats at the Cirque Fernando (Francisca and Angelina Wartenberg)",
+    "date_display": "1879",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 81555,
+    "title": "Lunch at the Restaurant Fournaise (The Rowers' Lunch)",
+    "date_display": "1875",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 16617,
+    "title": "Chrysanthemums",
+    "date_display": "1881–82",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 81557,
+    "title": "Seascape",
+    "date_display": "1879",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 95654,
+    "title": "Near the Lake",
+    "date_display": "1879–80",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "05.jpg"
+   },
+   {
+    "id": 16629,
+    "title": "Fruits of the Midi",
+    "date_display": "1881",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "06.jpg"
+   },
+   {
+    "id": 14650,
+    "title": "Alfred Sisley",
+    "date_display": "1876",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "07.jpg"
+   },
+   {
+    "id": 14647,
+    "title": "Young Woman Sewing",
+    "date_display": "1879",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 16600,
+    "title": "Lucie Berard (Child in White)",
+    "date_display": "1883",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "09.jpg"
+   },
+   {
+    "id": 16622,
+    "title": "Madame Léon Clapisson",
+    "date_display": "1883",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 59944,
+    "title": "The Laundress",
+    "date_display": "1877–79",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Charles H. and Mary F. S. Worcester Collection",
+    "file": "11.jpg"
+   },
+   {
+    "id": 100026,
+    "title": "Studies of Pierre Renoir; His Mother, Aline Charigot; Nudes; and Landscape",
+    "date_display": "1885–86",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Purchased with funds provided by the Phillips Family Collection",
+    "file": "12.jpg"
+   },
+   {
+    "id": 186430,
+    "title": "The Auvers Valley on the Oise River",
+    "date_display": "after 1884",
+    "classification_title": "prints and drawing",
+    "medium_display": "Gouache and watercolor, with touches of scraping, on ivory wove paper",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 186400,
+    "title": "Bathers in a Forest",
+    "date_display": "1895/97",
+    "classification_title": "prints and drawing",
+    "medium_display": "Graphite on tan wove paper, laid down on ivory Japanese paper",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "14.jpg"
+   },
+   {
+    "id": 99749,
+    "title": "Grove of Trees",
+    "date_display": "1888/90",
+    "classification_title": "watercolor",
+    "medium_display": "Opaque and transparent watercolor on cream wove paper",
+    "credit_line": "Bequest of William McCormick Blair",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "paul-cezanne": {
+  "artist": "Paul Cezanne",
+  "works": [
+   {
+    "id": 14556,
+    "title": "Auvers, Panoramic View",
+    "date_display": "1873–75",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 191564,
+    "title": "Standing Bather, Seen from the Back",
+    "date_display": "1879-82",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Bequest of Brooks McCormick",
+    "file": "01.jpg"
+   },
+   {
+    "id": 80336,
+    "title": "The Three Skulls",
+    "date_display": "1902/06",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor, with graphite, on ivory wove paper",
+    "credit_line": "Olivia Shaler Swan Memorial Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 20529,
+    "title": "Montagne Sainte-Victoire (The Arc Valley)",
+    "date_display": "c. 1885",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor with graphite, heightened with opaque white watercolor, on cream wove paper",
+    "credit_line": "Gift of Marshall Field, IV",
+    "file": "03.jpg"
+   },
+   {
+    "id": 16733,
+    "title": "Road in Provence",
+    "date_display": "c. 1885",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor and graphite on tan wove paper",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 133136,
+    "title": "A Study for the Card Players",
+    "date_display": "1890–92",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor with graphite on beige wove paper",
+    "credit_line": "Anonymous loan",
+    "file": "05.jpg"
+   },
+   {
+    "id": 185832,
+    "title": "Male Nude",
+    "date_display": "1863/66",
+    "classification_title": "prints and drawing",
+    "medium_display": "Black chalk, with touches of stumping and erasing, on mottled blue-gray laid paper, altered to a light gray tone",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "06.jpg"
+   },
+   {
+    "id": 101509,
+    "title": "Man Wearing a Straw Hat",
+    "date_display": "1905/06",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor with graphite on white wove paper",
+    "credit_line": "Gift of Janis H. Palmer in memory of Pauline K. Palmer",
+    "file": "07.jpg"
+   },
+   {
+    "id": 25838,
+    "title": "Pistachio Tree at Château Noir",
+    "date_display": "c. 1900",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor with graphite on cream wove paper, laid down on tan wove paper",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 185833,
+    "title": "Academic Nude, Seen from the Back",
+    "date_display": "1862",
+    "classification_title": "prints and drawing",
+    "medium_display": "Charcoal and black chalk, with stumping and erasing, and graphite sketches and notations, on tan laid paper, laid down on heavy tan wove paper",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "09.jpg"
+   },
+   {
+    "id": 111436,
+    "title": "The Basket of Apples",
+    "date_display": "c. 1893",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Helen Birch Bartlett Memorial Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 16487,
+    "title": "The Bay of Marseille, Seen from L'Estaque",
+    "date_display": "c. 1885",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "11.jpg"
+   },
+   {
+    "id": 62371,
+    "title": "Madame Cezanne in a Yellow Chair",
+    "date_display": "1888–90",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Wilson L. Mead Fund",
+    "file": "12.jpg"
+   },
+   {
+    "id": 45240,
+    "title": "The Bathers",
+    "date_display": "1899-1904",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Amy McCormick Memorial Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 65811,
+    "title": "The Plate of Apples",
+    "date_display": "c. 1877",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Kate L. Brewster",
+    "file": "14.jpg"
+   },
+   {
+    "id": 109418,
+    "title": "Bathers",
+    "date_display": "1890–94",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mrs. T. Clifford Rodman",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "vincent-van-gogh": {
+  "artist": "Vincent van Gogh",
+  "works": [
+   {
+    "id": 133605,
+    "title": "Landscape at Arles",
+    "date_display": "July 1888",
+    "classification_title": "watercolor",
+    "medium_display": "Pen and brown ink over graphite on cream wove paper",
+    "credit_line": "Anonymous loan",
+    "file": "00.jpg"
+   },
+   {
+    "id": 28560,
+    "title": "The Bedroom",
+    "date_display": "1889",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Helen Birch Bartlett Memorial Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 80607,
+    "title": "Self-Portrait",
+    "date_display": "1887",
+    "classification_title": "oil on board",
+    "medium_display": "Oil on artist's board, mounted on cradled panel",
+    "credit_line": "Joseph Winterbotham Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 14586,
+    "title": "The Poet's Garden",
+    "date_display": "1888",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 28862,
+    "title": "A Peasant Woman Digging in Front of Her Cottage",
+    "date_display": "c. 1885",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Bequest of Dr. John J. Ireland",
+    "file": "04.jpg"
+   },
+   {
+    "id": 79349,
+    "title": "The Drinkers",
+    "date_display": "1890",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Joseph Winterbotham Collection",
+    "file": "05.jpg"
+   },
+   {
+    "id": 109314,
+    "title": "Fishing in Spring, the Pont de Clichy (Asnières)",
+    "date_display": "1887",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Charles Deering McCormick, Brooks McCormick, and Roger McCormick",
+    "file": "06.jpg"
+   },
+   {
+    "id": 64957,
+    "title": "Grapes, Lemons, Pears, and Apples",
+    "date_display": "1887",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Kate L. Brewster",
+    "file": "07.jpg"
+   },
+   {
+    "id": 52733,
+    "title": "Weeping Tree",
+    "date_display": "1889",
+    "classification_title": "pen and ink drawings",
+    "medium_display": "Reed pen and black-brown ink, with black chalk on off-white wove paper",
+    "credit_line": "Gift of Tiffany and Margaret Blake",
+    "file": "08.jpg"
+   },
+   {
+    "id": 31640,
+    "title": "Tetards (Pollards)",
+    "date_display": "1884",
+    "classification_title": "pen and ink drawings",
+    "medium_display": "Pen and brown ink, with touches of pen and black ink, graphite and graphite frottage, and traces of black chalk, on grayish-white paper laid down on cardboard",
+    "credit_line": "Robert Allerton Fund",
+    "file": "09.jpg"
+   },
+   {
+    "id": 65479,
+    "title": "Cottages with a Woman Working in the Middle Ground",
+    "date_display": "1890",
+    "classification_title": "charcoal",
+    "medium_display": "Charcoal, reed pen and black ink, blue pastel, and white chalk on blue-gray laid paper",
+    "credit_line": "Bequest of Kate L. Brewster",
+    "file": "10.jpg"
+   },
+   {
+    "id": 202382,
+    "title": "Avenue of Pollard Birches and Poplars",
+    "date_display": "March 1884",
+    "classification_title": "drawings (visual works)",
+    "medium_display": "Reed pen and iron-gall ink on tan laid paper",
+    "credit_line": "Gift of Richard and Mary L. Gray",
+    "file": "11.jpg"
+   },
+   {
+    "id": 27949,
+    "title": "Madame Roulin Rocking the Cradle (La berceuse)",
+    "date_display": "1889",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Helen Birch Bartlett Memorial Collection",
+    "file": "12.jpg"
+   },
+   {
+    "id": 27954,
+    "title": "Terrace and Observation Deck at the Moulin de Blute-Fin, Montmartre",
+    "date_display": "Early 1887",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas, mounted on pressboard",
+    "credit_line": "Helen Birch Bartlett Memorial Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 59774,
+    "title": "Weeping Woman",
+    "date_display": "1883",
+    "classification_title": "chalk",
+    "medium_display": "Black and white chalk, with brush and stumping, brush and black and gray wash, and traces of graphite, over a brush and brown ink underdrawing on ivory wove paper",
+    "credit_line": "Gift of Mrs. G. T. Langhorne and the Mary Kirk Waller Fund in memory of Tiffany Blake and Anonymous Fund",
+    "file": "14.jpg"
+   },
+   {
+    "id": 87327,
+    "title": "Cypresses",
+    "date_display": "1889",
+    "classification_title": "pen and ink drawings",
+    "medium_display": "Pen and reed pen and brown inks and graphite on cream wove paper",
+    "credit_line": "Gift of Robert Allerton",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "georges-seurat": {
+  "artist": "Georges Seurat",
+  "works": [
+   {
+    "id": 61616,
+    "title": "Oil Sketch for \"A Sunday on La Grande Jatte — 1884\"",
+    "date_display": "1884",
+    "classification_title": "painting",
+    "medium_display": "Oil on panel",
+    "credit_line": "Gift of Mary and Leigh Block",
+    "file": "00.jpg"
+   },
+   {
+    "id": 27992,
+    "title": "A Sunday on La Grande Jatte — 1884",
+    "date_display": "1884–86, border added 1888–89",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Helen Birch Bartlett Memorial Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 20199,
+    "title": "Final Study for \"Bathers at Asnières\"",
+    "date_display": "1883",
+    "classification_title": "oil on panel",
+    "medium_display": "Oil on panel",
+    "credit_line": "Gift of the Adele R. Levy Fund, Inc.",
+    "file": "02.jpg"
+   },
+   {
+    "id": 69697,
+    "title": "Tree Trunks (study for La Grande Jatte)",
+    "date_display": "1884",
+    "classification_title": "conté crayon",
+    "medium_display": "Black Conté crayon on ivory laid paper",
+    "credit_line": "Helen Regenstein Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 243810,
+    "title": "The Zone (Outside the City Walls)",
+    "date_display": "1882–83",
+    "classification_title": "drawings (visual works)",
+    "medium_display": "Black conte crayon on cream laid paper",
+    "credit_line": "The Harry B. and Bessie K. Braude Memorial Endowment Fund",
+    "file": "04.jpg"
+   },
+   {
+    "id": 202357,
+    "title": "Landscape",
+    "date_display": "c. 1881",
+    "classification_title": "drawings (visual works)",
+    "medium_display": "Black Conté crayon on off-white laid paper",
+    "credit_line": "Gift of Richard and Mary L. Gray",
+    "file": "05.jpg"
+   },
+   {
+    "id": 150773,
+    "title": "Seated Woman with a Parasol (study for La Grande Jatte)",
+    "date_display": "1884/85",
+    "classification_title": "conté crayon",
+    "medium_display": "Black Conté crayon on ivory laid paper",
+    "credit_line": "Bequest of Abby Aldrich Rockefeller",
+    "file": "06.jpg"
+   },
+   {
+    "id": 154022,
+    "title": "Trees (study for La Grande Jatte)",
+    "date_display": "1884",
+    "classification_title": "conté crayon",
+    "medium_display": "Black Conté crayon, on white laid paper, laid down on cream board",
+    "credit_line": "Helen Regenstein Collection",
+    "file": "07.jpg"
+   },
+   {
+    "id": 150774,
+    "title": "Woman Walking with a Parasol (study for La Grande Jatte)",
+    "date_display": "1884",
+    "classification_title": "conté crayon",
+    "medium_display": "Conté crayon on cream laid paper",
+    "credit_line": "Bequest of Abby Aldrich Rockefeller",
+    "file": "08.jpg"
+   },
+   {
+    "id": 87159,
+    "title": "Woman with a Muff",
+    "date_display": "c. 1884",
+    "classification_title": "conté crayon",
+    "medium_display": "Black Conté crayon, with erasing, on ivory laid paper, laid down on cream laminate board",
+    "credit_line": "Gift of Robert Allerton",
+    "file": "09.jpg"
+   },
+   {
+    "id": 150828,
+    "title": "Roses in a Vase",
+    "date_display": "1881/83",
+    "classification_title": "conté crayon",
+    "medium_display": "Black Conté crayon on ivory laid paper, discolored to tan, edge mounted on tan wove paper",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 202356,
+    "title": "Academic Male Nude",
+    "date_display": "1877",
+    "classification_title": "drawings (visual works)",
+    "medium_display": "Black Conté crayon, black chalk, and charcoal, with stumping and erasing, on cream laid paper",
+    "credit_line": "Gift of Richard and Mary L. Gray",
+    "file": "11.jpg"
+   }
+  ]
+ },
+ "camille-pissarro": {
+  "artist": "Camille Pissarro",
+  "works": [
+   {
+    "id": 81551,
+    "title": "The Place du Havre, Paris",
+    "date_display": "1893",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 81552,
+    "title": "Woman and Child at the Well",
+    "date_display": "1882",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 81548,
+    "title": "Young Peasant Having Her Coffee",
+    "date_display": "1881",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 76049,
+    "title": "The Vagabonds",
+    "date_display": "1896",
+    "classification_title": "print",
+    "medium_display": "Lithograph in black on cream laid paper",
+    "credit_line": "Gift of Percy B. Eckhart",
+    "file": "03.jpg"
+   },
+   {
+    "id": 186398,
+    "title": "At the Window, rue des Trois Frères",
+    "date_display": "1878–79",
+    "classification_title": "prints and drawing",
+    "medium_display": "Pastel on cream wove pastel paper, perimeter mounted on light gray wove paper",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 153799,
+    "title": "Woman Bathing Her Feet in a Brook",
+    "date_display": "1895",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "A Millennium Gift of Sara Lee Corporation",
+    "file": "05.jpg"
+   },
+   {
+    "id": 110541,
+    "title": "The Crystal Palace",
+    "date_display": "1871",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mr. and Mrs. B. E. Bensinger",
+    "file": "06.jpg"
+   },
+   {
+    "id": 20530,
+    "title": "Rabbit Warren at Pontoise, Snow",
+    "date_display": "1879",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Marshall Field",
+    "file": "07.jpg"
+   },
+   {
+    "id": 6005,
+    "title": "The Banks of the Marne in Winter",
+    "date_display": "1866",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 87000,
+    "title": "Haymaking at Éragny",
+    "date_display": "1892",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Bruce Borland",
+    "file": "09.jpg"
+   },
+   {
+    "id": 45838,
+    "title": "Snow at Louveciennes",
+    "date_display": "c. 1870",
+    "classification_title": "oil on panel",
+    "medium_display": "Oil on panel",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Endowment",
+    "file": "10.jpg"
+   },
+   {
+    "id": 5187,
+    "title": "Setting Sun",
+    "date_display": "1879",
+    "classification_title": "aquatint",
+    "medium_display": "Aquatint and drypoint in black on buff laid paper",
+    "credit_line": "Gift of Frank B. Hubachek",
+    "file": "11.jpg"
+   },
+   {
+    "id": 18695,
+    "title": "Bridge in Rouen: Pont Corneille",
+    "date_display": "1896",
+    "classification_title": "lithograph",
+    "medium_display": "Lithograph in black on cream laid paper, laid down on off-white laid paper",
+    "credit_line": "Stanley Field Fund",
+    "file": "12.jpg"
+   },
+   {
+    "id": 192877,
+    "title": "Dead Child",
+    "date_display": "1874",
+    "classification_title": "lithograph",
+    "medium_display": "Lithograph in black on grayish-ivory wove China paper",
+    "credit_line": "Gift of Celia and David Hilliard",
+    "file": "13.jpg"
+   },
+   {
+    "id": 6054,
+    "title": "Landscape Panorama",
+    "date_display": "1879",
+    "classification_title": "aquatint",
+    "medium_display": "Etching and aquatint in black on white wove paper",
+    "credit_line": "John H. Wrenn Memorial Collection",
+    "file": "14.jpg"
+   },
+   {
+    "id": 35766,
+    "title": "Church and Farm at Éragny",
+    "date_display": "1895, printed 1930",
+    "classification_title": "etching",
+    "medium_display": "Color etching and aquatint on ivory laid paper",
+    "credit_line": "Everett D. Graff Fund",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "gustave-caillebotte": {
+  "artist": "Gustave Caillebotte",
+  "works": [
+   {
+    "id": 20684,
+    "title": "Paris Street; Rainy Day",
+    "date_display": "1877",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Charles H. and Mary F. S. Worcester Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 210484,
+    "title": "Study for Paris Street; Rainy Day",
+    "date_display": "1877",
+    "classification_title": "graphite",
+    "medium_display": "Graphite, with touches of erasing and touches of charcoal, on tan, moderately thick, moderately textured handmade laid paper",
+    "credit_line": "Purchased with funds provided by the Jentes Family Foundation",
+    "file": "01.jpg"
+   },
+   {
+    "id": 208200,
+    "title": "Sketchbook",
+    "date_display": "June 1883–September 1887",
+    "classification_title": "sketchbook",
+    "medium_display": "Sketchbook containing 40 drawings: 30 in graphite, 7 in watercolor over graphite, and 3 in graphite and brush and gray wash, on 40 sheets of cream wove paper bound in brown cloth",
+    "credit_line": "Margaret Day Blake Fund",
+    "file": "02.jpg"
+   },
+   {
+    "id": 154121,
+    "title": "Calf's Head and Ox Tongue",
+    "date_display": "c. 1882",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Major Acquisitions Centennial Endowment",
+    "file": "03.jpg"
+   },
+   {
+    "id": 140080,
+    "title": "Self-Portrait with a Hat",
+    "date_display": "c. 1879",
+    "classification_title": "graphite",
+    "medium_display": "Graphite on off-white, medium-weight, moderately textured laid paper",
+    "credit_line": "Purchased with funds provided by Janet and William Jentes",
+    "file": "04.jpg"
+   }
+  ]
+ },
+ "mary-cassatt": {
+  "artist": "Mary Cassatt",
+  "works": [
+   {
+    "id": 111442,
+    "title": "The Child's Bath",
+    "date_display": "1893",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Robert A. Waller Fund",
+    "file": "00.jpg"
+   },
+   {
+    "id": 26650,
+    "title": "On a Balcony",
+    "date_display": "1878–79",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mrs. Albert J. Beveridge in memory of her aunt, Delia Spencer Field",
+    "file": "01.jpg"
+   },
+   {
+    "id": 31816,
+    "title": "After the Bullfight",
+    "date_display": "1873",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Bequest of Mrs. Sterling Morton",
+    "file": "02.jpg"
+   },
+   {
+    "id": 28826,
+    "title": "Sleepy Nicolle",
+    "date_display": "c. 1900",
+    "classification_title": "pastel",
+    "medium_display": "Pastel on blue-gray wove paper (faded to tan), mounted on board",
+    "credit_line": "Bequest of Dr. John J. Ireland",
+    "file": "03.jpg"
+   },
+   {
+    "id": 81527,
+    "title": "Mother's Goodnight Kiss",
+    "date_display": "1888",
+    "classification_title": "pastel",
+    "medium_display": "Pastel on blue-gray wove paper (faded to tan), mounted on canvas, on a strainer",
+    "credit_line": "Gift of Honoré and Potter Palmer",
+    "file": "04.jpg"
+   },
+   {
+    "id": 68384,
+    "title": "Susan in a Straw Bonnet",
+    "date_display": "c. 1883",
+    "classification_title": "pastel",
+    "medium_display": "Pastel on paper",
+    "credit_line": "Gift of Kate L. Brewster",
+    "file": "05.jpg"
+   },
+   {
+    "id": 27404,
+    "title": "Waiting",
+    "date_display": "1879–80",
+    "classification_title": "print",
+    "medium_display": "Soft ground etching and aquatint in black on buff wove paper",
+    "credit_line": "Potter Palmer Collection Fund",
+    "file": "06.jpg"
+   },
+   {
+    "id": 272034,
+    "title": "Lydia Reading",
+    "date_display": "1880-81",
+    "classification_title": "prints and drawing",
+    "medium_display": "Aquatint, with soft ground etching and drypoint, on cream wove paper",
+    "credit_line": "William McCallin McKee Memorial Endowment Fund",
+    "file": "07.jpg"
+   },
+   {
+    "id": 14859,
+    "title": "The Map",
+    "date_display": "1890",
+    "classification_title": "drypoint",
+    "medium_display": "Drypoint in brown ink on ivory laid paper",
+    "credit_line": "The Joseph Brooks Fair Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 61081,
+    "title": "The Barefooted Child",
+    "date_display": "1896–98",
+    "classification_title": "aquatint",
+    "medium_display": "Drypoint and aquatint, in color, on off-white laid paper",
+    "credit_line": "Joseph Brooks Fair Fund",
+    "file": "09.jpg"
+   },
+   {
+    "id": 24387,
+    "title": "Reading the Newspaper, No.2",
+    "date_display": "c. 1883",
+    "classification_title": "etching",
+    "medium_display": "Soft ground and aquatint on cream laid paper",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 26693,
+    "title": "Under the Lamp",
+    "date_display": "c. 1882",
+    "classification_title": "aquatint",
+    "medium_display": "Soft ground etching and aquatint with scraping in black on cream laid paper",
+    "credit_line": "Albert H. Wolf Memorial Collection",
+    "file": "11.jpg"
+   },
+   {
+    "id": 26752,
+    "title": "Lady in Black, in a Loge, Facing Right",
+    "date_display": "c. 1881",
+    "classification_title": "etching",
+    "medium_display": "Soft ground etching in brown ink on cream laid paper",
+    "credit_line": "Mrs. Cyrus Adams Memorial Fund and Mary S. Adams Fund",
+    "file": "12.jpg"
+   },
+   {
+    "id": 155386,
+    "title": "Reading the Newspaper, No. 2",
+    "date_display": "c. 1883",
+    "classification_title": "soft-ground etching",
+    "medium_display": "Soft ground etching and aquatint on cream laid paper",
+    "credit_line": "Through prior gifts of Stanley Field, Katharine Kuh, Potter Palmer II, and Marjorie H. Watkins",
+    "file": "13.jpg"
+   },
+   {
+    "id": 223862,
+    "title": "Mr. and Mrs. Cassatt Reading",
+    "date_display": "c. 1882",
+    "classification_title": "etching",
+    "medium_display": "Soft ground etching in black on cream laid paper",
+    "credit_line": "Gift of Henri M. Petiet",
+    "file": "14.jpg"
+   },
+   {
+    "id": 223861,
+    "title": "Mr. and Mrs. Cassatt Reading",
+    "date_display": "c. 1882",
+    "classification_title": "etching",
+    "medium_display": "Soft ground etching in black on ivory laid paper",
+    "credit_line": "Gift of Henri M. Petiet",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "berthe-morisot": {
+  "artist": "Berthe Morisot",
+  "works": [
+   {
+    "id": 11723,
+    "title": "Woman at Her Toilette",
+    "date_display": "1875–80",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Stickney Fund",
+    "file": "00.jpg"
+   },
+   {
+    "id": 20556,
+    "title": "Young Girl with Hat",
+    "date_display": "1892",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mrs. Frederic C. Bartlett",
+    "file": "01.jpg"
+   },
+   {
+    "id": 13916,
+    "title": "On the Balcony",
+    "date_display": "1871/72",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor, with touches of gouache, over graphite, on off-white wove paper",
+    "credit_line": "Gift of Mrs. Charles Netcher in memory of Charles Netcher II",
+    "file": "02.jpg"
+   },
+   {
+    "id": 17564,
+    "title": "Jeanne Pontillon",
+    "date_display": "c. 1893",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor, over graphite, on ivory wove paper",
+    "credit_line": "Gift of the Estate of Grant J. Pick",
+    "file": "03.jpg"
+   },
+   {
+    "id": 68404,
+    "title": "Girl Plaiting her Hair (La Natte)",
+    "date_display": "1894",
+    "classification_title": "pastel",
+    "medium_display": "Pastel, on cream laid paper",
+    "credit_line": "Bequest of Kate L. Brewster",
+    "file": "04.jpg"
+   },
+   {
+    "id": 113714,
+    "title": "Self-Portrait",
+    "date_display": "c. 1885",
+    "classification_title": "pastel",
+    "medium_display": "Pastel, with stumping, on gray laid paper with blue fibers",
+    "credit_line": "Helen Regenstein Collection",
+    "file": "05.jpg"
+   },
+   {
+    "id": 186319,
+    "title": "Young Girl Holding a Basket",
+    "date_display": "1891",
+    "classification_title": "prints and drawing",
+    "medium_display": "Pastel on pink laid paper with red fibrous inclusions (pieced at bottom), stretched and edge mounted on a honeycomb paper panel",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "06.jpg"
+   },
+   {
+    "id": 186320,
+    "title": "Portrait of Julie Manet",
+    "date_display": "1890",
+    "classification_title": "prints and drawing",
+    "medium_display": "Transfer drawing in charcoal and red chalk, on light tan tracing paper, laid down on white wove paper, wrapped around millboard",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "07.jpg"
+   },
+   {
+    "id": 53058,
+    "title": "Forêt de Compiègne",
+    "date_display": "1885",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Bequest of Estelle McCormick",
+    "file": "08.jpg"
+   },
+   {
+    "id": 80612,
+    "title": "Young Woman at Rest",
+    "date_display": "1889",
+    "classification_title": "drypoint",
+    "medium_display": "Drypoint in black on ivory laid paper",
+    "credit_line": "Berthold Loewenthal Fund",
+    "file": "09.jpg"
+   },
+   {
+    "id": 18945,
+    "title": "Young Girl Seated at a Table",
+    "date_display": "n.d.",
+    "classification_title": "graphite",
+    "medium_display": "Graphite, on cream laid paper",
+    "credit_line": "Gift of Mr. and Mrs. Raymond J. Horowitz",
+    "file": "10.jpg"
+   },
+   {
+    "id": 104336,
+    "title": "Young Woman at Rest",
+    "date_display": "1889",
+    "classification_title": "drypoint",
+    "medium_display": "Drypoint in black on cream laid paper",
+    "credit_line": "Bequest of Janis H. Palmer",
+    "file": "11.jpg"
+   },
+   {
+    "id": 153798,
+    "title": "Woman in a Garden",
+    "date_display": "1882–83",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "A Millennium Gift of Sara Lee Corporation",
+    "file": "12.jpg"
+   },
+   {
+    "id": 4828,
+    "title": "Nude Seen from Behind",
+    "date_display": "1889",
+    "classification_title": "drypoint",
+    "medium_display": "Drypoint on cream laid paper",
+    "credit_line": "Albert Roullier Memorial Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 4825,
+    "title": "Young Girl with a Cat",
+    "date_display": "1889",
+    "classification_title": "drypoint",
+    "medium_display": "Drypoint in black on cream laid paper",
+    "credit_line": "Albert Roullier Memorial Collection",
+    "file": "14.jpg"
+   },
+   {
+    "id": 9483,
+    "title": "Seated Girl (Julie Manet)",
+    "date_display": "c. 1890",
+    "classification_title": "colored pencil",
+    "medium_display": "Colored pencils, over touches of graphite, on cream wove paper, laid down on cream wove paper",
+    "credit_line": "Gift of Robert Allerton",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "paul-gauguin": {
+  "artist": "Paul Gauguin",
+  "works": [
+   {
+    "id": 19339,
+    "title": "Arlésiennes (Mistral)",
+    "date_display": "1888",
+    "classification_title": "painting",
+    "medium_display": "Oil on jute canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 16496,
+    "title": "No te aha oe riri (Why Are You Angry?)",
+    "date_display": "1896",
+    "classification_title": "painting",
+    "medium_display": "Oil on jute canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 16648,
+    "title": "Woman in Front of a Still Life by Cezanne",
+    "date_display": "1890",
+    "classification_title": "painting",
+    "medium_display": "Oil on linen canvas",
+    "credit_line": "Joseph Winterbotham Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 159081,
+    "title": "Aha oe feii? (What! Are You Jealous?)",
+    "date_display": "1894",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor monotype from a glass matrix, with brush and white gouache, reddish-brown and black water color, on cream wove paper (an imitation Japanese vellum)",
+    "credit_line": "Gift of Edward McCormick Blair",
+    "file": "03.jpg"
+   },
+   {
+    "id": 159083,
+    "title": "Tahitian Landscape",
+    "date_display": "1894",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor monotype from a glass matrix, with touches of gouache on cream wove paper laid down on ivory Japanese paper",
+    "credit_line": "Gift of Edward McCormick Blair",
+    "file": "04.jpg"
+   },
+   {
+    "id": 159071,
+    "title": "Tahitian Hut",
+    "date_display": "1891/93",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor, with touches of gouache, over graphite, on tan wove paper",
+    "credit_line": "Gift of Edward McCormick Blair",
+    "file": "05.jpg"
+   },
+   {
+    "id": 198917,
+    "title": "Mahna no varua ino (The Devil Speaks), from the Noa Noa Suite",
+    "date_display": "1894",
+    "classification_title": "prints and drawing",
+    "medium_display": "Wood-block print in black ink, with brush and pale orange wash, over stenciled yellow ink and a red ink tone block, on cream wove paper (an imitation Japanese vellum)",
+    "credit_line": "Gift of Marjorie Kreilick McNab",
+    "file": "06.jpg"
+   },
+   {
+    "id": 192263,
+    "title": "Two Figures (related to the painting Tahitian Landscape)",
+    "date_display": "1891/93",
+    "classification_title": "prints and drawing",
+    "medium_display": "Black chalk, with touches of watercolor and watercolor offset on cream wove paper",
+    "credit_line": "Gift of Emily Crane Chadbourne",
+    "file": "07.jpg"
+   },
+   {
+    "id": 36838,
+    "title": "Maruru (Offerings of Gratitude), from the Noa Noa Suite",
+    "date_display": "1893/1894",
+    "classification_title": "woodblock",
+    "medium_display": "End-grain boxwood block, with a commercially prepared gray ground, selectively inked in black printing ink",
+    "credit_line": "Gift of the Print and Drawing Club",
+    "file": "08.jpg"
+   },
+   {
+    "id": 223856,
+    "title": "Manao tupapau (She Thinks of the Ghost or The Ghost Thinks of Her), from the Noa Noa Suite",
+    "date_display": "1893/94",
+    "classification_title": "print",
+    "medium_display": "End-grain boxwood block, with a commercially prepared gray ground, sealed with an opaque pink oil medium, and inked in black ink",
+    "credit_line": "Mr. and Mrs. David C. Hilliard Fund; Meg and Mark Hausberg Fund; Mr. and Mrs. T. Stanton Amour Fund; Art and Peggy Wood Fund; Marjorie and Frank Brookes Hubachek Memorial Fund; Print and Drawing Fund; Julius Lewis Fund; Mary S. Adams Fund",
+    "file": "09.jpg"
+   },
+   {
+    "id": 5513,
+    "title": "Two Tahitian Women in a Landscape",
+    "date_display": "c. 1892",
+    "classification_title": "watercolor",
+    "medium_display": "Monotype matrix in watercolor and gouache, with brush and green ink, over traces of graphite, on cream Japanese paper, laid down on tan wove paper (partially removed)",
+    "credit_line": "Gift of Emily Crane Chadbourne",
+    "file": "10.jpg"
+   },
+   {
+    "id": 55341,
+    "title": "Breton Bather",
+    "date_display": "1886/87",
+    "classification_title": "pastel",
+    "medium_display": "Charcoal and pastel, with touches of brush and brown ink, on ivory laid paper (discolored to tan), partially outlined in graphite and squared in black fabricated chalk, with yellow paint residue on verso",
+    "credit_line": "Gift of Mrs. Charles B. Goodspeed",
+    "file": "11.jpg"
+   },
+   {
+    "id": 62735,
+    "title": "Still Life with Cat",
+    "date_display": "c. 1899",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor on cream laid paper, laid down on cream Japanese paper",
+    "credit_line": "Gift of Helen Tieken Geraghty in memory of Dr. and Mrs. Theodore Tieken",
+    "file": "12.jpg"
+   },
+   {
+    "id": 5515,
+    "title": "Seated Tahitian Youth",
+    "date_display": "1894/1903",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor and graphite on irregularly shaped cream wove Japanese paper, laid down on ivory laid paper with brown and blue fibers, laid down on cream wove paper",
+    "credit_line": "Gift of Emily Crane Chadbourne",
+    "file": "13.jpg"
+   },
+   {
+    "id": 113913,
+    "title": "The Yellow Christ (recto), Female Bather Wading through a Brook",
+    "date_display": "c. 1889",
+    "classification_title": "watercolor",
+    "medium_display": "Salted paper print (extremely faded) toned with watercolor, on cream wove silver printing-out paper, laid down on cream card (recto); albumen print laid down on cream card (verso)",
+    "credit_line": "Bequest of Elizabeth F. Chapman",
+    "file": "14.jpg"
+   },
+   {
+    "id": 159086,
+    "title": "Two Standing Tahitian Women",
+    "date_display": "1894",
+    "classification_title": "watercolor",
+    "medium_display": "Black ink monotype from a glass matrix, over watercolor monotype from a paper matrix, with touches of metallic oil-based media, on thin cream Japanese paper laid down on cream wove paper (an imitation Japanese vellum)",
+    "credit_line": "Gift of Edward McCormick Blair",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "henri-de-toulouse-lautrec": {
+  "artist": "Henri de Toulouse-Lautrec",
+  "works": [
+   {
+    "id": 9148,
+    "title": "Ballet Dancers",
+    "date_display": "1885–86",
+    "classification_title": "painting",
+    "medium_display": "Oil on plaster, transferred to canvas",
+    "credit_line": "Helen Birch Bartlett Memorial Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 42949,
+    "title": "Portrait of Jeanne Wenz",
+    "date_display": "1886",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 113101,
+    "title": "Mme Lili Grenier (recto); Landscape with Church (verso)",
+    "date_display": "1885/88",
+    "classification_title": "oil paintings (visual works)",
+    "medium_display": "Oil paint, with graphite (recto), and oil paint with touches of black crayon varnished overall (verso), on gray cardboard",
+    "credit_line": "Mr. and Mrs. Carter H. Harrison Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 80091,
+    "title": "La Macarona in the Costume of a Jockey",
+    "date_display": "1893",
+    "classification_title": "oil paintings (visual works)",
+    "medium_display": "Oil paint and watercolor, over charcoal, on tan wove tracing paper, laid down on cream woodpulp card",
+    "credit_line": "Gift of Mrs. Leigh B. Block",
+    "file": "03.jpg"
+   },
+   {
+    "id": 41315,
+    "title": "At the Circus: Equestrienne Performing atop a “Panneau”",
+    "date_display": "1899",
+    "classification_title": "pastel",
+    "medium_display": "Charcoal, pastel, and black chalk, with stumping, touches of colored pencil, and incising, on off-white wove paper",
+    "credit_line": "Gift of Mr. and Mrs. B. E. Bensinger",
+    "file": "04.jpg"
+   },
+   {
+    "id": 61716,
+    "title": "The Promenade des Anglais in Nice",
+    "date_display": "1879/1881",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor, with touches of gouache, and graphite, on ivory wove paper",
+    "credit_line": "Given in memory of Charles Barnett Goodspeed by Mrs. Charles B. Goodspeed",
+    "file": "05.jpg"
+   },
+   {
+    "id": 180664,
+    "title": "The Simpson Chain",
+    "date_display": "1896",
+    "classification_title": "print",
+    "medium_display": "Color brush and spatter lithograph (poster) on tan wove paper with lettering by another hand",
+    "credit_line": "Gift of the Gecht Family",
+    "file": "06.jpg"
+   },
+   {
+    "id": 65089,
+    "title": "May Milton",
+    "date_display": "1895",
+    "classification_title": "pastel",
+    "medium_display": "Oil and pastel on cardboard",
+    "credit_line": "Bequest of Kate L. Brewster",
+    "file": "07.jpg"
+   },
+   {
+    "id": 186416,
+    "title": "Mademoiselle Cocyte",
+    "date_display": "1900",
+    "classification_title": "prints and drawing",
+    "medium_display": "Red and black chalk, with stumping, on ivory wove paper",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 61128,
+    "title": "At the Moulin Rouge",
+    "date_display": "1892–95",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Helen Birch Bartlett Memorial Collection",
+    "file": "09.jpg"
+   },
+   {
+    "id": 16146,
+    "title": "Equestrienne (At the Cirque Fernando)",
+    "date_display": "1887–88",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Joseph Winterbotham Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 14664,
+    "title": "Moulin de la Galette",
+    "date_display": "1889",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Lewis Larned Coburn Memorial Collection",
+    "file": "11.jpg"
+   },
+   {
+    "id": 11136,
+    "title": "The Photographer Sescau",
+    "date_display": "1896",
+    "classification_title": "lithograph",
+    "medium_display": "Color lithograph on ivory laid paper, laid down on linen",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "12.jpg"
+   },
+   {
+    "id": 9155,
+    "title": "Debauchery (second plate)",
+    "date_display": "1896",
+    "classification_title": "lithograph",
+    "medium_display": "Color lithograph on cream wove paper",
+    "credit_line": "Anonymous Gift",
+    "file": "13.jpg"
+   },
+   {
+    "id": 15988,
+    "title": "Cover of L'Estampe originale, with notes",
+    "date_display": "1893",
+    "classification_title": "lithograph",
+    "medium_display": "Lithograph in black on grayish-ivory wove China paper",
+    "credit_line": "Mr. and Mrs. Carter H. Harrison Collection",
+    "file": "14.jpg"
+   },
+   {
+    "id": 7635,
+    "title": "Cover for Yvette Guilbert",
+    "date_display": "1894",
+    "classification_title": "lithograph",
+    "medium_display": "Lithograph on gray-brown wove paper laid down on board",
+    "credit_line": "Mr. and Mrs. Carter H. Harrison Collection",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "alfred-sisley": {
+  "artist": "Alfred Sisley",
+  "works": [
+   {
+    "id": 94399,
+    "title": "A Corner of Moret-sur-Loing",
+    "date_display": "1895",
+    "classification_title": "pastel",
+    "medium_display": "Pastel, with stumping, on gray wove paper with blue fibers (discolored to tan)",
+    "credit_line": "Bequest of Mrs. Clive Runnells",
+    "file": "00.jpg"
+   },
+   {
+    "id": 150830,
+    "title": "Landscape with Trees",
+    "date_display": "1880/85",
+    "classification_title": "pastel",
+    "medium_display": "Pastel and colored pencils on tan laminated card",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 96559,
+    "title": "A Turn in the Road",
+    "date_display": "1873",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Charles H. and Mary F. S. Worcester Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 16633,
+    "title": "The Seine at Port-Marly, Piles of Sand",
+    "date_display": "1875",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 81561,
+    "title": "Street in Moret",
+    "date_display": "c. 1890",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Potter Palmer Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 73054,
+    "title": "The Loire",
+    "date_display": "1896",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Lucille E. and Joseph L. Block",
+    "file": "05.jpg"
+   },
+   {
+    "id": 37741,
+    "title": "Watering Place at Marly",
+    "date_display": "1875",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mrs. Clive Runnells",
+    "file": "06.jpg"
+   },
+   {
+    "id": 58984,
+    "title": "Landscape along the Seine with the Institut de France and the Pont des Arts",
+    "date_display": "c. 1875",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mr. and Mrs. William Wood Prince",
+    "file": "07.jpg"
+   }
+  ]
+ },
+ "odilon-redon": {
+  "artist": "Odilon Redon",
+  "works": [
+   {
+    "id": 110982,
+    "title": "Still Life with Flowers",
+    "date_display": "1905",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mary and Leigh Block",
+    "file": "00.jpg"
+   },
+   {
+    "id": 76395,
+    "title": "Flower Clouds",
+    "date_display": "c. 1903",
+    "classification_title": "pastel",
+    "medium_display": "Pastel, with touches of stumping, incising, and brushwork, on blue-gray wove paper with multi-colored fibers altered to tan, perimeter mounted to cardboard",
+    "credit_line": "Through prior bequest of Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 80594,
+    "title": "Sita",
+    "date_display": "c. 1893",
+    "classification_title": "pastel",
+    "medium_display": "Pastel, with touches of black Conté crayon, over various charcoals, on cream wove paper altered to a golden tone",
+    "credit_line": "Joseph Winterbotham Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 96841,
+    "title": "Melancholy",
+    "date_display": "1876",
+    "classification_title": "pastel",
+    "medium_display": "Various charcoals and gouache, with pastel and black chalk, and touches of stumping and erasing, on pale-pink wove paper with red and blue fibers altered to a golden tone, laid down on gray wove paper",
+    "credit_line": "Margaret Day Blake, Mr. and Mrs. Henry C.Woods, and William McCallin McKee Memorial Endowments",
+    "file": "03.jpg"
+   },
+   {
+    "id": 68418,
+    "title": "Portrait of Ari Redon",
+    "date_display": "c. 1898",
+    "classification_title": "pastel",
+    "medium_display": "Pastel on pale blue wove paper faded to gray",
+    "credit_line": "Bequest of Kate L. Brewster",
+    "file": "04.jpg"
+   },
+   {
+    "id": 45406,
+    "title": "Ophelia",
+    "date_display": "1906",
+    "classification_title": "pastel",
+    "medium_display": "Pastel on blue-gray wove paper",
+    "credit_line": "Gift of Mrs. Theodora W. Brown and Mrs. Rue W. Shaw in memory of Anne R. Winterbotham",
+    "file": "05.jpg"
+   },
+   {
+    "id": 45408,
+    "title": "The Beacon",
+    "date_display": "1883, reworked c. 1893",
+    "classification_title": "pastel",
+    "medium_display": "Pastel, with various charcoals and touches of black chalk, stumping and erasing, on pale-pink wove paper with red fibers altered to a golden tone, laid down on cardboard",
+    "credit_line": "Gift of Mrs. Theodora W. Brown and Mrs. Rue W. Shaw in memory of Anne R. Winterbotham",
+    "file": "06.jpg"
+   },
+   {
+    "id": 94240,
+    "title": "Flowers: Poppies and Daisies",
+    "date_display": "c. 1867",
+    "classification_title": "oil on cardboard",
+    "medium_display": "Oil on cardboard",
+    "credit_line": "Bequest of Mrs. Clive Runnells",
+    "file": "07.jpg"
+   },
+   {
+    "id": 25731,
+    "title": "Landscape",
+    "date_display": "1868",
+    "classification_title": "charcoal",
+    "medium_display": "Various charcoals, with black chalk and black Conté crayon, wiping, stumping and erasing on cream wove paper altered to a golden tone",
+    "credit_line": "Ada Turnbull Hertle Endowment",
+    "file": "08.jpg"
+   },
+   {
+    "id": 79259,
+    "title": "Dream Vision",
+    "date_display": "c. 1880",
+    "classification_title": "etching",
+    "medium_display": "Etching amd drypoint on ivory wove paper, cut within platemark and mounted on ivory wove paper",
+    "credit_line": "The Stickney Collection",
+    "file": "09.jpg"
+   },
+   {
+    "id": 106580,
+    "title": "Fear",
+    "date_display": "1866",
+    "classification_title": "etching",
+    "medium_display": "Etching on ivory wove paper",
+    "credit_line": "The Stickney Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 111549,
+    "title": "Sketchbook",
+    "date_display": "c. 1879–85",
+    "classification_title": "sketchbook",
+    "medium_display": "55-page sketch book of drawings in pencil on cream wove (with a few buff and blue) paper, with (simulated) laid paper interleaves, bound in black cardboard with black fabric taping on spine",
+    "credit_line": "William McCallin McKee Memorial Endowment",
+    "file": "11.jpg"
+   },
+   {
+    "id": 79219,
+    "title": "Chapel and Pilgrim's Hospice at Harambeltz (Basses-Pyrenees)",
+    "date_display": "1866",
+    "classification_title": "etching",
+    "medium_display": "Etching on cream China paper laid down on white wove paper",
+    "credit_line": "The Stickney Collection",
+    "file": "12.jpg"
+   },
+   {
+    "id": 79231,
+    "title": "Battle",
+    "date_display": "1865",
+    "classification_title": "etching",
+    "medium_display": "Etching and drypoint on ivory laid paper",
+    "credit_line": "The Stickney Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 105506,
+    "title": "Two Grotesque Figures",
+    "date_display": "1865/68",
+    "classification_title": "graphite",
+    "medium_display": "Graphite on ivory wove paper, discolored to cream",
+    "credit_line": "Gift of David Becker",
+    "file": "14.jpg"
+   },
+   {
+    "id": 111582,
+    "title": "Hermit in Landscape",
+    "date_display": "c. 1866",
+    "classification_title": "pen and ink drawings",
+    "medium_display": "Pen and black ink on tan card",
+    "credit_line": "Margaret Day Blake Endowment",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "katsushika-hokusai": {
+  "artist": "Katsushika Hokusai",
+  "works": [
+   {
+    "id": 89503,
+    "title": "Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series \"Thirty-Six Views of Mount Fuji (Fugaku sanjurokkei)\"",
+    "date_display": "1830/33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 24645,
+    "title": "Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series \"Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)\"",
+    "date_display": "1830/33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 87008,
+    "title": "Shower Below the Summit (Sanka hakuu), from the series \"Thirty-Six Views of Mount Fuji (Fugaku sanjurokkei)\"",
+    "date_display": "c. 1830/33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 77333,
+    "title": "Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series \"Thirty-Six Views of Mount Fuji (Fugaku sanjurokkei)\"",
+    "date_display": "1830/33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 25110,
+    "title": "Chrysanthemum and Horsefly, from an untitled series of Large Flowers",
+    "date_display": "c. 1831–33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 3652,
+    "title": "Togetsu Bridge at Arashiyama in Yamashiro Province (Yamashiro Arashiyama no Togetsukyo), from the series \"Unusual Views of Famous Bridges in Various Provinces (Shokoku meikyo kiran)\"",
+    "date_display": "c. 1833/34",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "05.jpg"
+   },
+   {
+    "id": 100626,
+    "title": "Whaling off the Coast of the Goto Islands (Goto kujira tsuki), from the series \"One Thousand Pictures of the Ocean (Chie no umi)\"",
+    "date_display": "c. 1831–33",
+    "classification_title": "print",
+    "medium_display": "Color woodblock print; chuban",
+    "credit_line": "Kate S. Buckingham Endowment",
+    "file": "06.jpg"
+   },
+   {
+    "id": 100627,
+    "title": "Fishing Boats at Choshi in Shimosa (Soshu Choshi) from the series \"One Thousand Pictures of the Ocean (Chie no umi)\"",
+    "date_display": "c. 1833/34",
+    "classification_title": "print",
+    "medium_display": "Color woodblock print, chuban\nChuban size",
+    "credit_line": "Kate S. Buckingham Endowment",
+    "file": "07.jpg"
+   },
+   {
+    "id": 23650,
+    "title": "Fujieda station on the Tokaido",
+    "date_display": "c. 1796",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; surimono",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 81248,
+    "title": "Mount Fuji with Cherry Trees in Bloom",
+    "date_display": "c. 1801/05",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; surimono",
+    "credit_line": "Gift of Helen C. Gunsaulus",
+    "file": "09.jpg"
+   },
+   {
+    "id": 89524,
+    "title": "Ariwara no Narihirafrom the series One Hundred Poems Explained by the Nurse (Hyakunin isshu uba ga etoki)",
+    "date_display": "1835–36",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; ōban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 24800,
+    "title": "Ejiri in Suruga Province (Sunshu Ejiri), from the series \"Thirty-six Views of Mount Fuji (Fugaku sanjurokkei)\"",
+    "date_display": "c. 1830/33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "11.jpg"
+   },
+   {
+    "id": 18969,
+    "title": "Kajikazawa in Kai Province (Koshu Kajikazawa), from the series \"Thirty-six Views of Mount Fuji (Fugaku sanjurokkei)\"",
+    "date_display": "c. 1830/33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "12.jpg"
+   },
+   {
+    "id": 13272,
+    "title": "Ejiri in Suruga Province (Sunshu Ejiri), from the series \"Thirty-six Views of Mount Fuji (Fugaku sanjurokkei)\"",
+    "date_display": "c. 1830/33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Gift of Chester W. Wright",
+    "file": "13.jpg"
+   },
+   {
+    "id": 87005,
+    "title": "A Mild Breeze on a Fine Day (Gaifu kaisei), from the series \"Thirty-six Views of Mount Fuji (Fugaku sanjurokkei)\"",
+    "date_display": "c. 1830/33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "14.jpg"
+   },
+   {
+    "id": 77328,
+    "title": "A Mild Breeze on a Fine Day (Gaifu kaisei), from the series \"Thirty-six Views of Mount Fuji (Fugaku sanjurokkei)\"",
+    "date_display": "c. 1830-33",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; ōban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "utagawa-hiroshige": {
+  "artist": "Utagawa Hiroshige",
+  "works": [
+   {
+    "id": 4371,
+    "title": "Hamamatsu, from the series \"Fifty-three Stations of the Tokaido (Tokaido gojusan tsugi),\" also known as the Tokaido with Poem (Kyoka iri Tokaido)",
+    "date_display": "c. 1837/42",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; chuban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 4368,
+    "title": "Mitsuke: Ferries Crossing the Tenryu River (Mitsuke, Tenryugawa funawatashi), from the series \"Fifty-three Stations of the Tokaido (Tokaido gojusan tsugi),\" also known as the Tokaido with Poem (Kyoka iri Tokaido)",
+    "date_display": "c. 1837/42",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; chuban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 10926,
+    "title": "Mishima: Morning Mist (Mishima, asagiri), from the series \"Fifty-three Stations of the Tokaido Road (Tokaido gojusan tsugi no uchi),\" also known as the Hoeido Tokaido",
+    "date_display": "c. 1833/34",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Gift of H. R. Warner",
+    "file": "02.jpg"
+   },
+   {
+    "id": 4378,
+    "title": "Arai, from the series \"Fifty-three Stations of the Tokaido (Tokaido gojusan tsugi),\" also known as the Tokaido with Poem (Kyoka iri Tokaido)",
+    "date_display": "c. 1837/42",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; chuban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 4374,
+    "title": "Maisaka: The Ferry at Imagiri (Maisaka, Imagiri funawatashi), from the series \"Fifty-three Stations of the Tokaido (Tokaido gojusan tsugi),\" also known as the Tokaido with Poem (Kyoka iri Tokaido)",
+    "date_display": "c. 1837/42",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; chuban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 11050,
+    "title": "No. 37: Miyanokoshi, from the series \"Sixty-nine Stations of the Kisokaido (Kisokaido rokujukyu tsugi no uchi)\"",
+    "date_display": "c. 1835/38",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Gift of H. R. Warner",
+    "file": "05.jpg"
+   },
+   {
+    "id": 11054,
+    "title": "No. 32: Seba, from the series \"Sixty-nine Stations of the Kisokaido (Kisokaido rokujukyu tsugi no uchi)\"",
+    "date_display": "c. 1835/38",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Gift of H. R. Warner",
+    "file": "06.jpg"
+   },
+   {
+    "id": 19040,
+    "title": "Snow at Benzaiten Shrine in Inokashira Pond (Inokashira no ike Benzaiten no yashiro yuki no kei), from the series \"Snow, Moon, and Flowers at Famous Places (Meisho setsugekka)\"",
+    "date_display": "c. 1844/45",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "07.jpg"
+   },
+   {
+    "id": 25613,
+    "title": "Kanbara: Evening Snow (Kanbara, yoru no yuki), from the series \"Fifty-three Stations of the Tokaido (Tokaido gojusan tsugi no uchi),\" also known as the Hoeido Tokaido",
+    "date_display": "c. 1833/34",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 18307,
+    "title": "Shirasuka: Shiomi Slope,no. 33 from the series Fifty-Three Stations of the Tokaido (Tōkaidō gojūsan tsugi)",
+    "date_display": "1847-52",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; ōban",
+    "credit_line": "Gift of Mr. and Mrs. Harold G. Henderson",
+    "file": "09.jpg"
+   },
+   {
+    "id": 10932,
+    "title": "Snow at Akabane Bridge in Shiba (Shiba Akabane no yuki), from the series \"Famous Places in the Eastern Capital (Toto meisho)\"",
+    "date_display": "c. 1843/47",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Gift of H. R. Warner",
+    "file": "10.jpg"
+   },
+   {
+    "id": 18278,
+    "title": "Hodogaya: Katabira River and Katabira Brige (Hodogaya, Katabiragawa Katabirabashi)—No. 5, from the series \"Fifty-three Stations of the Tokaido (Tokaido gojusan tsugi),\" also known as the Reisho Tokaido",
+    "date_display": "c. 1847/52",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Gift of Mr. and Mrs. Harold G. Henderson",
+    "file": "11.jpg"
+   },
+   {
+    "id": 18416,
+    "title": "No. 56: Mieji, from the series \"Sixty-nine Stations of the Kisokaido (Kisokaido rokujukyu tsugi no uchi)\"",
+    "date_display": "c. 1835/38",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban",
+    "credit_line": "Gift of Mr. and Mrs. Harold G. Henderson",
+    "file": "12.jpg"
+   },
+   {
+    "id": 4400,
+    "title": "Chiryu, from the series \"Fifty-three Stations of the Tokaido (Tokaido gojusan tsugi),\" also known as the Tokaido with Poem (Kyoka iri Tokaido)",
+    "date_display": "c. 1837/42",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; chuban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 18329,
+    "title": "Kuwana: Ferryboat at Shichiri Crossing (Kuwana, Shichiri no watashibune)—No. 43, from the series \"Fifty-three Stations of the Tokaido (Tokaido gojusan tsugi),\" also known as the Reisho Tokaido",
+    "date_display": "c. 1847/52",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblcok print; oban",
+    "credit_line": "Gift of Mr. and Mrs. Harold G. Henderson",
+    "file": "14.jpg"
+   },
+   {
+    "id": 4321,
+    "title": "Kanbara, from the series \"Fifty-three Stations of the Tokaido (Tokaido gojusan tsugi),\" also known as the Tokaido with Poem (Kyoka iri Tokaido)",
+    "date_display": "c. 1837/42",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; chuban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "kitagawa-utamaro": {
+  "artist": "Kitagawa Utamaro",
+  "works": [
+   {
+    "id": 22938,
+    "title": "Drawing Lots for Prizes (Ho biki)",
+    "date_display": "c. 1798",
+    "classification_title": "print",
+    "medium_display": "Color woodblock prints; ōban triptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 36175,
+    "title": "Artist, Block Carver, Applying Sizing (Eshi, hangashi, dosa-biki), from the series The Cultivation of Brocade Prints, a Famous Product of Edo (Edo meibutsu nishiki-e kosaku)",
+    "date_display": "About 1803",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock prints; oban triptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 44659,
+    "title": "Abalone Divers",
+    "date_display": "c. 1797/98",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock prints; oban triptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 21670,
+    "title": "Chinese Beauties at a Banquet",
+    "date_display": "1788/90",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock prints; oban triptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 22092,
+    "title": "Act Eleven from the series \"The Chushingura Drama Parodied by Famous Beauties (Komei bijin mitate Chushingura Junimai Kuzuki)\"",
+    "date_display": "c. 1794/95",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock prints; oban diptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 21533,
+    "title": "At the Ferry Boat Landing",
+    "date_display": "c. 1804",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban triptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "05.jpg"
+   },
+   {
+    "id": 21766,
+    "title": "Enjoying the Cool in a Garden",
+    "date_display": "c. 1788/90",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban triptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "06.jpg"
+   },
+   {
+    "id": 8182,
+    "title": "On top and beneath Ryogoku Bridge (Ryogokubashi no ue, shita)",
+    "date_display": "c. 1795/96",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban hexaptych (one of a pair of triptychs)",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "07.jpg"
+   },
+   {
+    "id": 21574,
+    "title": "Kitchen Scene",
+    "date_display": "c. 1794/95",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban diptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 21687,
+    "title": "House cleaning in preparation for the New Year",
+    "date_display": "c. 1797-1799",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; three left sheets of oban pentaptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "09.jpg"
+   },
+   {
+    "id": 21677,
+    "title": "On top and beneath Ryogoku Bridge (Ryogokubashi no ue, shita)",
+    "date_display": "c. 1795/96",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban hexaptych (one of a pair of triptychs)",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 21680,
+    "title": "The Scoop-Net",
+    "date_display": "c. 1800/01",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; oban triptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "11.jpg"
+   },
+   {
+    "id": 21571,
+    "title": "Yoshiwara Impromptu",
+    "date_display": "c. 1797/98",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock prints; oban septaptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "12.jpg"
+   },
+   {
+    "id": 110739,
+    "title": "Cherry Blossom Banquet (Oka no utage)",
+    "date_display": "n.d.",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock prints; ōban triptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 23845,
+    "title": "Towing a Barge in the Snow, from the album The Silver World",
+    "date_display": "1790",
+    "classification_title": "print",
+    "medium_display": "Woodblock print; oban",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "14.jpg"
+   },
+   {
+    "id": 34893,
+    "title": "Pleasure-Boating on the Sumida River",
+    "date_display": "1788/90",
+    "classification_title": "woodblock print",
+    "medium_display": "Color woodblock print; ôban triptych",
+    "credit_line": "Clarence Buckingham Collection",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "winslow-homer": {
+  "artist": "Winslow Homer",
+  "works": [
+   {
+    "id": 25865,
+    "title": "The Herring Net",
+    "date_display": "1885",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 44018,
+    "title": "Croquet Scene",
+    "date_display": "1866",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Friends of American Art Collection; Goodman Fund",
+    "file": "01.jpg"
+   },
+   {
+    "id": 75957,
+    "title": "Mount Washington",
+    "date_display": "1869",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mrs. Richard E. Danielson and Mrs. Chauncey McCormick",
+    "file": "02.jpg"
+   },
+   {
+    "id": 55494,
+    "title": "Peach Blossoms",
+    "date_display": "1878",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of George B. Harrington",
+    "file": "03.jpg"
+   },
+   {
+    "id": 8971,
+    "title": "Coast of Maine",
+    "date_display": "1893",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Arthur Jerome Eddy Memorial Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 16776,
+    "title": "After the Hurricane, Bahamas",
+    "date_display": "1899",
+    "classification_title": "watercolor",
+    "medium_display": "Transparent watercolor, with touches of opaque watercolor, rewetting, blotting and scraping, over graphite, on moderately thick, moderately textured (twill texture on verso), ivory wove paper",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "05.jpg"
+   },
+   {
+    "id": 38666,
+    "title": "The Water Fan",
+    "date_display": "1898/99",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor, with blotting and touches of scraping, over graphite, on thick, rough twill-textured, ivory wove paper",
+    "credit_line": "Gift of Dorothy A., John A., Jr., and Christopher Holabird in memory of William and Mary Holabird",
+    "file": "06.jpg"
+   },
+   {
+    "id": 16794,
+    "title": "The Gulf Stream",
+    "date_display": "probably 1899, dated by the artist \"1889\"",
+    "classification_title": "watercolor",
+    "medium_display": "Transparent watercolor, with touches of opaque watercolor and traces of blotting, over graphite, on moderately thick, moderately textured, ivory wove paper (lower edge trimmed)",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "07.jpg"
+   },
+   {
+    "id": 189152,
+    "title": "Life-Size Black Bass",
+    "date_display": "1904",
+    "classification_title": "prints and drawing",
+    "medium_display": "Transparent watercolor, with touches of opaque watercolor, rewetting, blotting and scraping, over graphite, on thick, moderately textured (twill texture on verso), ivory wove paper (left, right and lower edges trimmed)",
+    "credit_line": "Bequest of Brooks McCormick",
+    "file": "08.jpg"
+   },
+   {
+    "id": 16831,
+    "title": "Stowing Sail",
+    "date_display": "1903",
+    "classification_title": "watercolor",
+    "medium_display": "Transparent watercolor, with touches of opaque watercolor, rewetting, blotting, scraping and graphite, on thick, moderately textured (twill texture on verso), ivory wove paper",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "09.jpg"
+   },
+   {
+    "id": 16779,
+    "title": "Breaking Storm, Coast of Maine",
+    "date_display": "1894",
+    "classification_title": "watercolor",
+    "medium_display": "Transparent watercolor, with touches of opaque watercolor, rewetting, blotting and traces of scraping, on thick, rough-textured, ivory wove paper",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 93433,
+    "title": "For to Be a Farmer's Boy",
+    "date_display": "1887",
+    "classification_title": "watercolor",
+    "medium_display": "Transparent and opaque watercolor, with rewetting, blotting, and scraping, heightened with gum glaze, over graphite, on thick, rough-textured ivory wove paper (lower edge trimmed)",
+    "credit_line": "Gift of Mrs. George T. Langhorne in memory of Edward Carson Waller",
+    "file": "11.jpg"
+   },
+   {
+    "id": 16823,
+    "title": "The Rapids, Hudson River, Adirondacks",
+    "date_display": "1894",
+    "classification_title": "watercolor",
+    "medium_display": "Transparent watercolor, with traces of opaque watercolor, blotting, and scraping, over graphite, on thick, rough-textured, ivory wove paper",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "12.jpg"
+   },
+   {
+    "id": 16772,
+    "title": "Adirondacks Guide",
+    "date_display": "1892",
+    "classification_title": "watercolor",
+    "medium_display": "Transparent watercolor with touches of opaque watercolor, rewetting, blotting and scraping, over traces of graphite, on thick, moderately textured, ivory wove paper (top edge trimmed)",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "13.jpg"
+   },
+   {
+    "id": 16840,
+    "title": "The Watcher, Tynemouth",
+    "date_display": "1882",
+    "classification_title": "watercolor",
+    "medium_display": "Transparent and opaque watercolor, with rewetting, blotting, and scraping, heightened with gum glaze, over graphite, on moderately thick, slightly textured, cream wove paper (all edges trimmed)",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "14.jpg"
+   },
+   {
+    "id": 16800,
+    "title": "Boy in Boat, Gloucester",
+    "date_display": "1880/81",
+    "classification_title": "watercolor",
+    "medium_display": "Transparent watercolor, with touches of opaque watercolor and scraping, over graphite, on moderately thick, rough-textured, ivory wove paper",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "james-mcneill-whistler": {
+  "artist": "James McNeill Whistler",
+  "works": [
+   {
+    "id": 56905,
+    "title": "Nocturne: Blue and Gold—Southampton Water",
+    "date_display": "1872",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Stickney Fund",
+    "file": "00.jpg"
+   },
+   {
+    "id": 8958,
+    "title": "Arrangement in Flesh Color and Brown: Portrait of Arthur Jerome Eddy",
+    "date_display": "1894",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Arthur Jerome Eddy Memorial Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 14309,
+    "title": "Coast Scene, Bathers",
+    "date_display": "1884–85",
+    "classification_title": "painting",
+    "medium_display": "Oil on panel",
+    "credit_line": "Walter S. Brewster Collection",
+    "file": "02.jpg"
+   },
+   {
+    "id": 81574,
+    "title": "Grey and Silver: Old Battersea Reach",
+    "date_display": "1863",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Honoré and Potter Palmer",
+    "file": "03.jpg"
+   },
+   {
+    "id": 84088,
+    "title": "Violet and Silver—The Deep Sea",
+    "date_display": "1893",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Clara Margaret Lynch in memory of John A. Lynch",
+    "file": "04.jpg"
+   },
+   {
+    "id": 81572,
+    "title": "Trouville (Grey and Green, the Silver Sea)",
+    "date_display": "1865",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Honoré and Potter Palmer",
+    "file": "05.jpg"
+   },
+   {
+    "id": 65709,
+    "title": "The Artist in His Studio",
+    "date_display": "1865–66",
+    "classification_title": "painting",
+    "medium_display": "Oil on paper mounted on panel",
+    "credit_line": "Friends of American Art Collection",
+    "file": "06.jpg"
+   },
+   {
+    "id": 14317,
+    "title": "Study of a Girl's Head and Shoulders",
+    "date_display": "1896–97",
+    "classification_title": "painting",
+    "medium_display": "Oil on panel",
+    "credit_line": "Walter S. Brewster Collection",
+    "file": "07.jpg"
+   },
+   {
+    "id": 111478,
+    "title": "Portrait of Dr. William McNeill Whistler",
+    "date_display": "1871–73",
+    "classification_title": "painting",
+    "medium_display": "Oil on panel",
+    "credit_line": "Gift of Mary T. Wentworth in memory of her husband, John",
+    "file": "08.jpg"
+   },
+   {
+    "id": 3551,
+    "title": "Study for \"Arrangement in Grey and Black, No. 2: Portrait of Thomas Carlyle\"",
+    "date_display": "1872–73",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Emily Crane Chadbourne",
+    "file": "09.jpg"
+   },
+   {
+    "id": 111164,
+    "title": "Green and Blue: The Dancer",
+    "date_display": "c. 1893",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor and opaque watercolor over traces of black chalk on brown wove paper laid down on card",
+    "credit_line": "Purchased with funds provided by Dr. William D. Shorey; through prior acquisitions of the Charles Deering Collection and through prior bequest of Mrs. Gordon Palmer",
+    "file": "10.jpg"
+   },
+   {
+    "id": 14313,
+    "title": "Chelsea Shop",
+    "date_display": "1897/1900",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor with touches of opaque watercolor on cream wove paper",
+    "credit_line": "Gift of Kate L. Brewster",
+    "file": "11.jpg"
+   },
+   {
+    "id": 22495,
+    "title": "Southampton Water",
+    "date_display": "1887",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor and opaque watercolor on cream wove paper",
+    "credit_line": "Gift of Edgar Kaufmann, Jr.",
+    "file": "12.jpg"
+   },
+   {
+    "id": 158382,
+    "title": "Corte del Paradiso",
+    "date_display": "1880",
+    "classification_title": "pastel",
+    "medium_display": "Pastel and black chalk on brown wove paper with fibrous inclusions",
+    "credit_line": "Walter Aitken, Margaret Day Blake, Harold Joachim Memorial, Celia and David Hilliard, Julius Lewis, and Sara R. Shorey endowments; Sandra L. Grung Fund; purchased with funds provided by William Vance and Pamela Kelley Armour; through prior acquisitions of Katherine Kuh",
+    "file": "13.jpg"
+   },
+   {
+    "id": 113070,
+    "title": "Study for \"Arrangement in Black, No. 2: Portrait of Mrs. Louis Huth\" (recto); Study for \"Symphony in Flesh Color and Pink: Portrait of Mrs. Frances Leyland\" (verso)",
+    "date_display": "c. 1872",
+    "classification_title": "pastel",
+    "medium_display": "Pastel (recto), and black chalk with touches of pink and white pastel (verso), on brown wove paper",
+    "credit_line": "Gift of Walter S. Brewster",
+    "file": "14.jpg"
+   },
+   {
+    "id": 149537,
+    "title": "The Little Blue Cap",
+    "date_display": "1893/95",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor and opaque watercolor over charcoal on brown wove paper",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "john-singer-sargent": {
+  "artist": "John Singer Sargent",
+  "works": [
+   {
+    "id": 110761,
+    "title": "Venetian Glass Workers",
+    "date_display": "1880–82",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "00.jpg"
+   },
+   {
+    "id": 145807,
+    "title": "Thistles",
+    "date_display": "1883–89",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Brooks McCormick",
+    "file": "01.jpg"
+   },
+   {
+    "id": 145808,
+    "title": "Study of Two Bedouins",
+    "date_display": "1905–6",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Brooks McCormick",
+    "file": "02.jpg"
+   },
+   {
+    "id": 22153,
+    "title": "Water Carriers on the Nile",
+    "date_display": "1891",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Charles H. and Mary F. S. Worcester Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 4749,
+    "title": "Mrs. George Swinton (Elizabeth Ebsworth)",
+    "date_display": "1897",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Wirt D. Walker Collection",
+    "file": "04.jpg"
+   },
+   {
+    "id": 121629,
+    "title": "Life Study (Study of an Egyptian Girl)",
+    "date_display": "1891",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Anonymous loan",
+    "file": "05.jpg"
+   },
+   {
+    "id": 110879,
+    "title": "Mrs. Charles Gifford Dyer (Mary Anthony)",
+    "date_display": "1880",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Friends of American Art Collection",
+    "file": "06.jpg"
+   },
+   {
+    "id": 121628,
+    "title": "Rehearsal of the Pasdeloup Orchestra at the Cirque d'Hiver",
+    "date_display": "c. 1879",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Anonymous loan",
+    "file": "07.jpg"
+   },
+   {
+    "id": 159722,
+    "title": "Mrs. Charles Deering (Marion Denison Whipple)",
+    "date_display": "1888",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Anonymous loan",
+    "file": "08.jpg"
+   },
+   {
+    "id": 15728,
+    "title": "An Artist at His Easel",
+    "date_display": "1914",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor over traces of graphite on ivory wove paper",
+    "credit_line": "Gift of Charles Deering McCormick, Brooks McCormick, and the Estate of Roger McCormick",
+    "file": "09.jpg"
+   },
+   {
+    "id": 14792,
+    "title": "Olive Trees, Corfu",
+    "date_display": "1909",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor and opaque watercolor with scraping and wax resist over graphite on ivory wove paper",
+    "credit_line": "Olivia Shaler Swan Memorial Collection",
+    "file": "10.jpg"
+   },
+   {
+    "id": 14796,
+    "title": "Workmen at Carrara",
+    "date_display": "1911",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor with touches of opaque watercolor and scraping over graphite on ivory wove paper",
+    "credit_line": "Olivia Shaler Swan Memorial Collection",
+    "file": "11.jpg"
+   },
+   {
+    "id": 14794,
+    "title": "Woodsheds, Tyrol",
+    "date_display": "1914",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor with scraping and wax resist over graphite on ivory wove paper",
+    "credit_line": "Olivia Shaler Swan Memorial Collection",
+    "file": "12.jpg"
+   },
+   {
+    "id": 133456,
+    "title": "Tarragona Terrace and Garden",
+    "date_display": "c. 1908",
+    "classification_title": "watercolor",
+    "medium_display": "Watercolor and opaque watercolor with printed paper fragments over traces of graphite on ivory wove paper",
+    "credit_line": "Anonymous loan",
+    "file": "13.jpg"
+   },
+   {
+    "id": 69780,
+    "title": "The Fountain, Villa Torlonia, Frascati, Italy",
+    "date_display": "1907",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Friends of American Art Collection",
+    "file": "14.jpg"
+   },
+   {
+    "id": 112752,
+    "title": "Bound Man (recto); Sketch of Bound Man (verso)",
+    "date_display": "1917/21",
+    "classification_title": "chalk",
+    "medium_display": "Charcoal with stumping and graphite (recto and verso) on cream laid paper",
+    "credit_line": "Friends of American Art Collection",
+    "file": "15.jpg"
+   }
+  ]
+ },
+ "gustave-courbet": {
+  "artist": "Gustave Courbet",
+  "works": [
+   {
+    "id": 4428,
+    "title": "Mère Grégoire",
+    "date_display": "1855, reworked 1857–59",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Wilson L. Mead Fund",
+    "file": "00.jpg"
+   },
+   {
+    "id": 39554,
+    "title": "An Alpine Scene",
+    "date_display": "1874",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "A. A. Munger Collection",
+    "file": "01.jpg"
+   },
+   {
+    "id": 29401,
+    "title": "Wooded Landscape",
+    "date_display": "1860–65",
+    "classification_title": "painting",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mrs. Siegfried Schmidt",
+    "file": "02.jpg"
+   },
+   {
+    "id": 185839,
+    "title": "The Woodcutters",
+    "date_display": "1860",
+    "classification_title": "prints and drawing",
+    "medium_display": "Charcoal and black chalk, with stumping, scraping, and erasing, on buff wove paper, altered to tan",
+    "credit_line": "Gift of Dorothy Braude Edinburg to the Harry B. and Bessie K. Braude Memorial Collection",
+    "file": "03.jpg"
+   },
+   {
+    "id": 27027,
+    "title": "The Rock of Hautepierre",
+    "date_display": "c. 1869",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Emily Crane Chadbourne Fund and Major Acquisitions Centennial Fund",
+    "file": "04.jpg"
+   },
+   {
+    "id": 3546,
+    "title": "The Valley of Les Puits-Noir",
+    "date_display": "1868",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Mr. and Mrs. Morris I. Kaplan",
+    "file": "05.jpg"
+   },
+   {
+    "id": 93342,
+    "title": "Rêverie (Portrait of Gabrielle Borreau)",
+    "date_display": "1862",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on paper, mounted on canvas",
+    "credit_line": "Gift of Joseph Winterbotham Collection",
+    "file": "06.jpg"
+   },
+   {
+    "id": 153993,
+    "title": "Cliffs on the Sea Coast: Small Beach, Sunrise (Falaise au bord de la mer, vu Petite Plage, soleil levant)",
+    "date_display": "1865",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Gift of Lily Ireland",
+    "file": "07.jpg"
+   },
+   {
+    "id": 16490,
+    "title": "The Brook of Les Puits-Noir",
+    "date_display": "c. 1855",
+    "classification_title": "oil on canvas",
+    "medium_display": "Oil on canvas",
+    "credit_line": "Mr. and Mrs. Martin A. Ryerson Collection",
+    "file": "08.jpg"
+   },
+   {
+    "id": 29022,
+    "title": "Model Reading in the Studio",
+    "date_display": "c. 1849",
+    "classification_title": "chalk",
+    "medium_display": "Black crayon and charcoal, with stumping and scraping, on cream wove card",
+    "credit_line": "Simeon B. Williams Fund",
+    "file": "09.jpg"
+   },
+   {
+    "id": 20260,
+    "title": "The Apostle Jean Journet",
+    "date_display": "n.d.",
+    "classification_title": "lithograph",
+    "medium_display": "Lithograph in black on tan wove paper",
+    "credit_line": "Gift of Mrs. Albert and Miss Alice Roullier",
+    "file": "10.jpg"
+   },
+   {
+    "id": 36828,
+    "title": "The Apostle Jean Journet",
+    "date_display": "1850",
+    "classification_title": "lithograph",
+    "medium_display": "Lithograph in black on wove paper",
+    "credit_line": "John H. Wrenn Memorial Collection",
+    "file": "11.jpg"
+   }
+  ]
+ }
+}
