@@ -3,6 +3,7 @@ on:
   push:
     branches: [muse-data]
     paths: ['scripts/fetch_artists.py', '.github/workflows/artist-fetch.yml']
+concurrency: { group: artist-fetch, cancel-in-progress: true }
 permissions:
   contents: write
 jobs:
@@ -15,5 +16,4 @@ jobs:
       - run: python3 scripts/fetch_artists.py
       - run: |
           git config user.name "arttrip-bot"; git config user.email "actions@users.noreply.github.com"
-          git sparse-checkout disable || true
-          git add artists && git commit -m "artists: per-artist hi-res CC0 sets" && git push || echo nothing
+          git add --sparse artists && git commit -m "artists: per-artist hi-res CC0 sets" && git push || echo nothing
