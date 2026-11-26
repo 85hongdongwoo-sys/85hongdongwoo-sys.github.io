@@ -37,8 +37,8 @@ export const T = {
     footer: '작품은 미술관 오픈 액세스 컬렉션의 퍼블릭 도메인 작품입니다. 디자인과 레이아웃 © 아트트립 스튜디오.',
     langName: '한국어', switchTo: 'English', notFound: '페이지를 찾을 수 없어요', back: '홈으로', copied: '복사됨',
     kindLabel: (k) => ({ Painting: '회화', Print: '판화', Drawing: '드로잉', Textile: '직물', Book: '책' }[k] || k), about: '소개', license: '이용 범위', privacy: '개인정보', terms: '약관',
-    payNote: '로그인 없이 바로 구매할 수 있어요. 국내 카드는 [국내 카드 결제], 해외 카드·애플페이는 [해외 결제]를 누르세요.',
-    payKr: '국내 카드 결제', payKrNote: '국내 신용·체크카드 (원화)', payGlobal: '해외 카드 · 애플페이', payGlobalNote: '비자·마스터·애플페이 (달러)',
+    payNote: '로그인 없이 바로 구매할 수 있어요. 해외 결제가 되는 국내 카드(비자·마스터)나 애플페이·구글페이로 결제하세요.',
+    payKr: '국내 카드 결제', payKrNote: '국내 신용·체크카드 (원화)', payGlobal: '카드로 바로 구매', payGlobalNote: '비자·마스터 카드 · 애플페이 · 구글페이 (달러 결제)',
     guest: '회원가입 없이 구매 가능',
   },
 };

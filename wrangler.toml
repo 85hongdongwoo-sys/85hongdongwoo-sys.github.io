@@ -48,6 +48,3 @@ POLAR_CAL_JOHN_SINGER_SARGENT = "https://buy.polar.sh/polar_cl_lZuvFhmIDf2DQWSxr
 POLAR_SUB_MONTHLY = "https://buy.polar.sh/polar_cl_qXUDfHQ7NZWANADAAiXLdoByaiGjHGVc153L60MRKUW"
 POLAR_SUB_YEARLY = "https://buy.polar.sh/polar_cl_0qLWTxBWY7VkYO92rt3Svt9iK5pIVwktpHjDk3LAAc2"
 # GOOGLE_CLIENT_ID = "....apps.googleusercontent.com"
-# PayApp Lite (Korean cards, no business registration) payment links:
-# PAYAPP_PLANNER_2027 = "https://..."
-# PAYAPP_CAL_COZY_DAYS = "https://..."

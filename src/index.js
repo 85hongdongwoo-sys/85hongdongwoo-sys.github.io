@@ -298,7 +298,7 @@ function product(lang, env, slug) {
   const link = env[p.checkout], kr = p.payapp && env[p.payapp];
   const btn = (href, label, note, cls) => href ? `<a class="paybtn ${cls}" href="${esc(href)}" rel="noopener"><b>${label}</b><span>${note}</span></a>` : `<span class="paybtn off" aria-disabled="true"><b>${label}</b><span>${t.soon}</span></span>`;
   const buy = lang === 'ko'
-    ? `<div class="price">$${p.price}</div><div class="paybtns">${btn(kr, t.payKr, t.payKrNote, 'kr')}${btn(link, t.payGlobal, t.payGlobalNote, 'gl')}</div><p class="small">✓ ${t.guest}</p>`
+    ? `<div class="price">$${p.price}</div><div class="paybtns">${kr ? btn(kr, t.payKr, t.payKrNote, 'kr') : ''}${btn(link, t.payGlobal, t.payGlobalNote, 'gl')}</div><p class="small">✓ ${t.guest}</p>`
     : `<div class="price">$${p.price}</div><div class="paybtns">${btn(link, t.buy, 'Card · Apple Pay · Google Pay', 'gl')}</div><p class="small">✓ ${t.guest}</p>`;
   const body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a></nav><div class="agrid">
 <figure class="big"><img src="${p.img}" alt="${esc(c.name)}"></figure><div class="meta"><span class="lbl">${t.instant}</span><h1>${esc(c.name)}</h1>
