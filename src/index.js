@@ -123,16 +123,27 @@ async function home(lang, env) {
   const cover = await all(env, "SELECT theme, id FROM artworks WHERE id IN (SELECT MIN(id) FROM artworks GROUP BY theme)");
   const covers = { ...Object.fromEntries(cover.map((c) => [c.theme, c.id])), birds: '222003', horses: '97890' };
   const total = counts.reduce((s, c) => s + c.n, 0);
-  const prods = PRODUCTS.filter((p) => !isOrig(p) && p.cat !== 'artist-calendars').slice(0, 4).map((p) => productCard(p, lang)).join('');
-  const body = `<section class="hero"><div class="wrap hgrid"><div class="htxt"><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
-<div class="row"><a class="pill" href="${L(lang, '/shop')}">${t.shopNow}</a><a class="pill ghost" href="${L(lang, '/art')}">${t.browse}</a></div></div>
-<a class="hart" href="${L(lang, '/art/' + hero.slug)}"><img src="/img/${hero.id}.jpg" alt="${esc(tl(hero, lang))}" width="${hero.w}" height="${hero.h}"><span>${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></a></div></section>
-<section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div><div class="pgrid">${prods}</div></section>
-<section class="wrap sec"><div class="sh"><h2>${lang === 'ko' ? '화가별 명화 달력 2027' : 'Artist calendars 2027'}</h2><a href="${L(lang, '/shop')}#calendars">${lang === 'ko' ? '15명 모두 보기' : 'All 15 artists'} →</a></div><div class="pgrid">${PRODUCTS.filter((p) => p.cat === 'artist-calendars').slice(0, 8).map((p) => productCard(p, lang)).join('')}</div></section>
-<section class="wrap sec"><div class="sh"><h2>${lang === 'ko' ? '아트트립 오리지널' : 'Arttrip Originals'}</h2><a href="${L(lang, '/originals')}">${lang === 'ko' ? '모두 보기' : 'See all'} →</a></div><div class="pgrid">${PRODUCTS.filter(isOrig).map((p) => productCard(p, lang)).join('')}</div></section>
+  const ko = lang === 'ko';
+  const rail = (list) => `<div class="rail">${list.map((p) => productCard(p, lang)).join('')}</div>`;
+  const pick = (id) => feat.find((a) => a.id === id) || feat[0];
+  const side = [pick('87088'), pick('14598')];
+  const bento = [
+    ['b1', L(lang, '/shop') + '#calendars', '/p/calendar-flowers.jpg', ko ? '명화 달력 2027' : '2027 art calendars', ko ? '화가 15명 · A4와 레터' : '15 artists · A4 and Letter'],
+    ['b2', L(lang, '/shop/masterpiece-junk-journal-art-paper-kit'), '/p/art-paper-kit.jpg', ko ? '아트페이퍼 키트' : 'Art paper kit', ko ? '정크저널 14종 + 편집기' : '14 junk journal papers + editor'],
+    ['b3', L(lang, '/editor') + '?tpl=exhibit&new=1', `/img/${side[1].id}.jpg`, ko ? '명화 포스터' : 'Masterpiece posters', ko ? 'A3부터 24×36인치까지' : 'A3 up to 24×36 in'],
+    ['b4', L(lang, '/originals'), '/p/cafe-girl-clipart.jpg', ko ? '아트트립 오리지널' : 'Arttrip Originals', ko ? '일러스트 · 패턴 · 글씨' : 'Illustration · pattern · lettering'],
+  ].map(([c, href, img, h, d]) => `<a class="bx ${c}" href="${href}"><img src="${img}" alt="" loading="lazy"><span><b>${esc(h)}</b><i>${esc(d)}</i></span></a>`).join('');
+  const body = `<section class="hx"><div class="wrap hxg"><div class="hxt"><span class="eyebrow">${ko ? '퍼블릭 도메인 명화 · 저작권 걱정 없이' : 'Public-domain masterpieces · free to use'}</span><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
+<div class="row"><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '편집기로 만들기' : 'Start designing'}</a><a class="pill gh" href="${L(lang, '/shop')}">${ko ? '상품 보기' : 'Shop products'}</a></div>
+<ul class="stats"><li><b>300<small>dpi</small></b><span>${ko ? '인쇄용 고화질' : 'print quality'}</span></li><li><b>A4<small>+Letter</small></b><span>${ko ? '두 가지 크기' : 'both sizes'}</span></li><li><b>0<small>${ko ? '초' : 's'}</small></b><span>${ko ? '결제 후 바로 다운로드' : 'wait to download'}</span></li></ul></div>
+<div class="hxa"><a class="ha1" href="${L(lang, '/art/' + hero.slug)}"><img src="/img/${hero.id}.jpg" alt="${esc(tl(hero, lang))}" width="${hero.w}" height="${hero.h}"></a>${side.map((a, i) => `<a class="ha${i + 2}" href="${L(lang, '/art/' + a.slug)}"><img src="/img/${a.id}.jpg" alt="${esc(tl(a, lang))}" loading="lazy"></a>`).join('')}<span class="hcap">${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></div></div></section>
+<section class="wrap sec"><div class="sh"><div><span class="eyebrow dk">${ko ? '무엇을 만들까요' : 'Make something'}</span><h2>${ko ? '명화로 만드는 네 가지' : 'Four ways to live with art'}</h2></div></div><div class="bento">${bento}</div></section>
+<section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div>${rail(PRODUCTS.filter((p) => !isOrig(p) && p.cat !== 'artist-calendars'))}</section>
+<section class="wrap sec"><div class="sh"><h2>${ko ? '화가별 명화 달력 2027' : 'Artist calendars 2027'}</h2><a href="${L(lang, '/shop')}#calendars">${ko ? '15명 모두 보기' : 'All 15 artists'} →</a></div>${rail(PRODUCTS.filter((p) => p.cat === 'artist-calendars'))}</section>
+<section class="wrap sec"><div class="edcta"><div><span class="eyebrow">${ko ? '아트트립 편집기' : 'Arttrip Editor'}</span><h2>${ko ? '사고 나서도 내 마음대로' : 'Make it yours after you buy'}</h2><p>${ko ? '내 사진, 글꼴 19종, 빈티지 종이, 12개월 달력 자동 만들기. 브라우저에서 바로 꾸미고 인쇄용 PDF로 받아요.' : 'Your photos, 19 fonts, vintage paper and one-click 12-month calendars. Design in the browser, download a print-ready PDF.'}</p><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '무료로 열어 보기' : 'Try it free'}</a></div><img src="/p/art-paper-kit.jpg" alt="" loading="lazy"></div></section>
+<section class="wrap sec"><div class="sh"><h2>${ko ? '아트트립 오리지널' : 'Arttrip Originals'}</h2><a href="${L(lang, '/originals')}">${ko ? '모두 보기' : 'See all'} →</a></div>${rail(PRODUCTS.filter(isOrig))}</section>
 <section class="wrap sec"><div class="sh"><h2>${t.themes}</h2><a href="${L(lang, '/art')}">${t.allArt} (${total}) →</a></div>
-<div class="themes">${counts.map((c) => `<a class="theme" href="${L(lang, '/art/theme/' + c.theme)}"><img src="/img/${covers[c.theme]}.jpg" alt="" loading="lazy"><b>${esc(THEMES[c.theme]?.[lang] || c.theme)}</b><span>${c.n} ${lang === 'ko' ? '점' : 'artworks'}</span></a>`).join('')}</div></section>
-<section class="wrap sec"><div class="sh"><h2>${t.newIn}</h2></div><div class="masonry">${feat.map((a) => tile(a, lang)).join('')}</div></section>`;
+<div class="themes">${counts.map((c) => `<a class="theme" href="${L(lang, '/art/theme/' + c.theme)}"><img src="/img/${covers[c.theme]}.jpg" alt="" loading="lazy"><b>${esc(THEMES[c.theme]?.[lang] || c.theme)}</b><span>${c.n} ${ko ? '점' : 'artworks'}</span></a>`).join('')}</div></section>`;
   return html(layout(lang, { title: `${t.site} — ${t.tagline}`, desc: t.heroSub, path: '/', body, img: `/img/${hero.id}.jpg` }));
 }
 
