@@ -1,0 +1,19 @@
+name: hi-fetch
+on:
+  push:
+    branches: [muse-data]
+    paths: ['scripts/fetch_hi.py', 'scripts/hi_ids.txt', '.github/workflows/hi-fetch.yml']
+concurrency: { group: hi-fetch, cancel-in-progress: true }
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: 'scripts' }
+      - run: python3 scripts/fetch_hi.py
+      - run: |
+          git config user.name "arttrip-bot"; git config user.email "actions@users.noreply.github.com"
+          git add --sparse hi && git commit -m "hi: 2400px print copies" && git pull --rebase && git push || echo nothing
