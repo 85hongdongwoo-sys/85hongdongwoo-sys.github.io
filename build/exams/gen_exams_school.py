@@ -31,6 +31,8 @@ def rel(*skip):
     items = [('/ipsi/gichul/nonsul.html', '대학 논술 기출문제 (45개 대학)', '선행학습 영향평가·논술 고사자료 5개 학년도'),
              ('/ipsi/gichul/sagwan.html', '사관학교·경찰대 1차 시험 기출', '국어·영어·수학 문제와 정답 공식 게시판'),
              ('/ipsi/gichul/police-fire.html', '경찰·소방·해경·군무원 기출', '채용 필기시험 문제·정답 공식 공개처'),
+             ('/ipsi/gichul/lawyer.html', '변호사시험 기출 (제1~15회)', '법무부 공식, 법조윤리 포함'),
+             ('/ipsi/gichul/topik.html', 'TOPIK 기출 풀어보기', '2014~2025년 공개 회차, 듣기 음성'),
              ('/ipsi/gichul/', '수능·모의평가 기출 전체', '평가원 공식 PDF, 학년도별'),
              ('/ipsi/gongmuwon/', '공무원 기출문제 PDF', '9급·7급 국가직·지방직'),
              ('/ipsi/hanneung.html', '한국사능력검정시험', '시험 일정·급수·기출 공식 연결')]
@@ -145,6 +147,68 @@ def police_fire():
     return page('/ipsi/gichul/police-fire.html', title + ' | 홍라이프 도구', desc, main, ld)
 
 
+def lawyer():
+    title = '변호사시험 기출문제 (제1~15회) · 법조윤리시험 기출 · 법무부 공식 다운로드'
+    desc = ('변호사시험 제1~15회 기출문제(선택형·사례형·기록형·선택과목)와 선택형 정답, 법조윤리시험 기출을 법무부 공식 게시글로 바로 연결해요. 법무부는 이 자료에 공공누리 제1유형(출처표시)을 붙여 두었어요.')
+    cr, crld = crumb(('변호사시험 기출', ''))
+    B = 'https://www.moj.go.kr/bbs/moj/'
+    exam = [('제15회 (2026년) — 선택형', '공법·민사법·형사법 선택형 한글 파일', B + '150/602397/artclView.do'),
+            ('제15회 (2026년) — 사례형', '공법·민사법·형사법·선택과목 사례형', B + '150/602398/artclView.do'),
+            ('제15회 (2026년) — 기록형', '공법·민사법·형사법 기록형', B + '150/602399/artclView.do'),
+            ('제15회 — 선택형 정답가안', '공법·민사법·형사법 정답가안', B + '151/602396/artclView.do'),
+            ('제14회 (2025년) — 선택형', '공법·민사법·형사법 선택형 한글 파일', B + '150/591294/artclView.do'),
+            ('제14회 (2025년) — 사례형', '공법·민사법·형사법·선택과목 사례형', B + '150/591295/artclView.do'),
+            ('제14회 (2025년) — 기록형', '공법·민사법·형사법 기록형', B + '150/591296/artclView.do'),
+            ('제13회 (2024년) — 기출문제 전체', '선택형·사례형·기록형 ZIP 한 파일', B + '150/579016/artclView.do'),
+            ('제13회 — 선택형 정답가안', '공법·민사법·형사법 정답가안', B + '151/579015/artclView.do'),
+            ('제1회~제12회 기출문제·선택형 최종정답', '선택형·사례형·기록형·선택과목 ZIP 묶음', B + '150/568844/artclView.do')]
+    ethics = [('제17회 법조윤리시험 (2026년)', '법무부 게시글', B + '150/608953/artclView.do'),
+              ('제16회 법조윤리시험 (2025년)', '법무부 게시글', B + '150/597589/artclView.do'),
+              ('제15회 법조윤리시험 (2024년)', '법무부 게시글', B + '150/585941/artclView.do'),
+              ('제14회 법조윤리시험 (2023년)', '법무부 게시글', B + '150/573976/artclView.do'),
+              ('제1회~제13회 법조윤리시험 기출·최종정답', '한 게시글에 묶음', B + '150/568861/artclView.do'),
+              ('법무부 시험자료실 전체 목록', '제7회 이후 회차별 게시글 모음', B + '150/artclList.do')]
+    qa = [('변호사시험 기출문제는 어디서 받나요?', '법무부 누리집 시험자료실에 회차별로 올라와요. 이 페이지의 버튼은 각 게시글로 바로 연결돼요. 회원가입 없이 한글(HWP)·ZIP 파일로 받을 수 있어요.'),
+          ('기출문제를 공부 자료로 써도 되나요?', '법무부는 기출 게시글에 공공누리 제1유형(출처표시)을 붙여 두었어요. 출처를 밝히면 이용할 수 있어요.'),
+          ('기록형 문제에 별표(*)나 ‘골뱅이’가 있어요.', '법무부는 기록형 문제의 주민등록번호·이메일 같은 개인정보 형식을 별표로 바꾸거나 @를 ‘골뱅이’로 적어 올렸다고 안내하고 있어요.'),
+          ('정답가안과 최종정답은 뭐가 달라요?', '시험 직후 정답가안이 올라오고, 이의 신청을 거쳐 선택형 확정(최종) 정답이 따로 공개돼요. 채점은 최종정답으로 하세요.')]
+    main = (XCSS + f'<header class="top hub">{cr}<h1>변호사시험 기출문제</h1>'
+            '<p class="lead">변호사시험 제1~15회 기출과 정답, 법조윤리시험 기출을 법무부 공식 게시글로 바로 연결해요.</p>'
+            '<p class="gc-ans">법무부는 변호사시험 <b>제1~15회</b> 기출문제와 선택형 정답, 법조윤리시험 <b>제1~17회</b> 기출을 공개하고 있어요. 자료에는 <b>공공누리 제1유형</b>이 붙어 있어요 (2026-11-26 확인).</p></header>'
+            '<section class="card"><h2>변호사시험 회차별 기출</h2>' + linklist(exam) + '</section>'
+            '<section class="card"><h2>법조윤리시험 기출</h2>' + linklist(ethics) + '</section>'
+            '<section class="card"><h2>변호사시험 문제 유형</h2><div style="overflow-x:auto"><table class="gc-t"><thead><tr><th>유형</th><th>과목 (기출 파일 기준)</th></tr></thead><tbody>'
+            '<tr><td>선택형</td><td>공법·민사법·형사법</td></tr><tr><td>사례형</td><td>공법·민사법·형사법·선택과목</td></tr><tr><td>기록형</td><td>공법·민사법·형사법</td></tr></tbody></table></div>'
+            '<p class="note" style="margin-top:8px">시험 일정과 응시 자격은 법무부 공고를 확인하세요.</p></section>'
+            + faq_html(qa) + rel('/ipsi/gichul/lawyer.html'))
+    ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + '/ipsi/gichul/lawyer.html', "description": desc, "inLanguage": "ko"}]
+    return page('/ipsi/gichul/lawyer.html', title + ' | 홍라이프 도구', desc, main, ld)
+
+
+def topik():
+    title = 'TOPIK 한국어능력시험 기출문제 풀어보기 (2014~2025년) · 공식 듣기 음성 포함'
+    desc = ('TOPIK(한국어능력시험) 기출문제를 공식 누리집에서 무료로 풀어 보는 방법이에요. 2014~2025년 공개 회차(제37·41·47·52·60·64·83·91·96·102회)의 TOPIKⅠ·Ⅱ 듣기·읽기를 음성과 함께 풀 수 있어요.')
+    cr, crld = crumb(('TOPIK 기출', ''))
+    rounds = [('2025', '102'), ('2024', '96'), ('2023', '91'), ('2022', '83'), ('2019', '64'), ('2018', '60'), ('2017', '52'), ('2016', '47'), ('2015', '41'), ('2014', '37')]
+    rows = ''.join(f'<tr><td>{y}년</td><td>제{r}회</td><td>TOPIKⅠ·Ⅱ 듣기·읽기</td></tr>' for y, r in rounds)
+    items = [('TOPIK 기출문제 풀어보기 (공식)', '회차를 고르면 화면에서 바로 풀고, 듣기는 음성이 나와요', 'https://www.topik.go.kr/TWSTDY/TWSTDY0080.do'),
+             ('TOPIK 학습 자료실 (공식)', '국립국제교육원 학습 자료', 'https://www.topik.go.kr/TWSTDY/TWSTDY0100.do'),
+             ('TOPIK 자료실 — 답안지 양식·안내문', '시험 답안지 양식, 연간 안내문', 'https://www.topik.go.kr/TWINFO/TWINFO0020.do')]
+    qa = [('TOPIK 기출문제 PDF를 받을 수 있나요?', 'TOPIK 공식 누리집은 공개 회차 기출을 ‘토픽 기출문제 풀어보기’ 화면에서 풀게 해 줘요. 국립국제교육원은 시험 문제를 비공개 원칙으로 관리한다고 안내하고 있어서, 문제를 판다는 SNS 광고는 조심해야 해요.'),
+          ('어느 회차가 공개돼 있나요?', '2026년 11월 확인 기준 2014년 제37회부터 2025년 제102회까지 10개 회차예요. 회차마다 TOPIKⅠ·TOPIKⅡ의 듣기와 읽기가 따로 있어요.'),
+          ('쓰기 문제는 없나요?', '풀어보기 화면은 듣기·읽기만 있어요. 쓰기는 학습 자료실과 시험 안내를 참고하세요.'),
+          ('외국인 친구에게 알려 줘도 되나요?', '네. 공식 누리집은 누구나 무료로 쓸 수 있어요.')]
+    main = (XCSS + f'<header class="top hub">{cr}<h1>TOPIK 기출문제 풀어보기</h1>'
+            '<p class="lead">한국어능력시험(TOPIK) 공개 기출을 공식 누리집에서 듣기 음성과 함께 무료로 풀어 봐요.</p>'
+            '<p class="gc-ans">공식 누리집에 <b>2014~2025년 10개 회차</b>(제37회~제102회)의 TOPIKⅠ·Ⅱ 듣기·읽기 기출이 있어요 (2026-11-26 확인).</p></header>'
+            '<section class="card"><h2>공식 바로가기</h2>' + linklist(items) + '</section>'
+            '<section class="card"><h2>공개된 회차</h2><div style="overflow-x:auto"><table class="gc-t"><thead><tr><th>연도</th><th>회차</th><th>영역</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>'
+            '<section class="card"><h2>TOPIK 구성</h2><ul><li><b>TOPIKⅠ</b>(1~2급): 듣기·읽기</li><li><b>TOPIKⅡ</b>(3~6급): 듣기·쓰기·읽기</li></ul></section>'
+            + faq_html(qa) + rel('/ipsi/gichul/topik.html'))
+    ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + '/ipsi/gichul/topik.html', "description": desc, "inLanguage": "ko"}]
+    return page('/ipsi/gichul/topik.html', title + ' | 홍라이프 도구', desc, main, ld)
+
+
 def register(paths):
     sm = os.path.join(root, 'sitemap.xml'); s = open(sm, encoding='utf-8').read()
     add = ''.join(f'<url><loc>{SITE}{p}</loc><lastmod>{CHECKED}</lastmod></url>\n' for p in paths if f'{SITE}{p}<' not in s)
@@ -154,6 +218,8 @@ def register(paths):
     ent = [{"t": "대학 논술 기출문제 모음 (45개 대학)", "d": "선행학습 영향평가·논술 고사자료 2023~2027학년도", "k": "논술 기출 논술 기출문제 대학 논술 수리논술 인문논술 약술형 논술 선행학습 영향평가 논술 예시답안 중앙대 논술 경희대 논술 성균관대 논술 한양대 논술 연세대 논술", "c": "입시·시험", "u": "/ipsi/gichul/nonsul.html"},
            {"t": "사관학교·경찰대 1차 시험 기출", "d": "육사·해사·공사·국간사·경찰대 기출문제·정답", "k": "사관학교 기출 육사 기출 해사 기출 공사 기출 국군간호사관학교 기출 경찰대 기출 사관학교 1차 시험 경찰대 1차 시험 정답", "c": "입시·시험", "u": "/ipsi/gichul/sagwan.html"},
            {"t": "경찰·소방·해경·군무원 기출", "d": "채용 필기시험 문제·정답 공식 공개처", "k": "경찰 기출 순경 기출 경찰공무원 기출문제 소방 기출 소방공무원 기출문제 해양경찰 기출 해경 기출 군무원 기출 가답안 확정답안", "c": "입시·시험", "u": "/ipsi/gichul/police-fire.html"}]
+    ent += [{"t": "변호사시험 기출문제 (제1~15회)", "d": "선택형·사례형·기록형, 법조윤리 기출 법무부 공식", "k": "변호사시험 기출 변시 기출 변호사시험 기출문제 선택형 사례형 기록형 법조윤리 기출 로스쿨", "c": "입시·시험", "u": "/ipsi/gichul/lawyer.html"},
+            {"t": "TOPIK 기출문제 풀어보기", "d": "한국어능력시험 2014~2025년 공개 회차", "k": "토픽 기출 TOPIK 기출문제 한국어능력시험 기출 토픽1 토픽2 듣기 읽기", "c": "입시·시험", "u": "/ipsi/gichul/topik.html"}]
     ent = [e for e in ent if e['u'] in paths and f'"u":"{e["u"]}"' not in s]
     if ent and TRIP in s:
         open(idx, 'w', encoding='utf-8').write(s.replace(TRIP, TRIP + ',' + ','.join(json.dumps(x, ensure_ascii=False, separators=(',', ':')) for x in ent), 1))
@@ -162,6 +228,8 @@ def register(paths):
         li = ('<li><a href="/ipsi/gichul/nonsul.html"><b>대학 논술 기출문제 (45개 대학)</b><span>선행학습 영향평가·논술 고사자료 5개 학년도</span></a></li>'
               '<li><a href="/ipsi/gichul/sagwan.html"><b>사관학교·경찰대 1차 시험 기출</b><span>육사·해사·공사·국간사 공동 시험, 경찰대 2020~2027</span></a></li>'
               '<li><a href="/ipsi/gichul/police-fire.html"><b>경찰·소방·해경·군무원 기출</b><span>채용 필기 문제·정답 공식 공개처</span></a></li>')
+        li += ('<li><a href="/ipsi/gichul/lawyer.html"><b>변호사시험 기출 (제1~15회)</b><span>선택형·사례형·기록형, 법조윤리 — 법무부 공식</span></a></li>'
+               '<li><a href="/ipsi/gichul/topik.html"><b>TOPIK 기출 풀어보기</b><span>2014~2025년 공개 회차, 듣기 음성 포함</span></a></li>')
         i = s.find('</ul>', s.find('id="exam-list"'))
         s = s[:i] + li + s[i:]; open(p, 'w', encoding='utf-8').write(s)
     # 수능 기출 허브에도 연결
@@ -178,5 +246,5 @@ def register(paths):
 
 
 if __name__ == '__main__':
-    made = [nonsul(), sagwan(), police_fire()]
+    made = [nonsul(), sagwan(), police_fire(), lawyer(), topik()]
     register(made)
