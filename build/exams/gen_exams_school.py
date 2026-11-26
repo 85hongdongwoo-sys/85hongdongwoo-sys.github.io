@@ -119,7 +119,7 @@ def sagwan():
 def police_fire():
     title = '경찰·소방·해양경찰·군무원 채용 필기 기출문제 · 공식 공개처 모음 (문제지·정답)'
     desc = ('경찰공무원(순경), 소방공무원, 해양경찰공무원, 군무원 채용 필기시험 기출문제와 정답을 공식 기관 공개처로 바로 연결해요. 해양경찰은 2019~2025년, 소방은 2025년 문제지·가답안 등 기관이 올린 자료를 모았어요.')
-    cr, crld = crumb(('경찰·소방·해경·군무원 기출', ''))
+    cr, crld = crumb(('공무원 기출', '/ipsi/gongmuwon/'), ('경찰·소방·해경·군무원 기출', ''))
     police = [('경찰청 인터넷 원서접수 (경찰공무원 채용)', '순경 공채·경채, 경찰간부후보생 시험 공고와 문제·정답 공개처', 'https://gosi.police.go.kr')]
     fire = [('소방청 — 2025년 소방공무원 채용시험 문제지 및 가 답안 공개', '공채·경채 문제지 ZIP과 가답안 ZIP (소방청 채용 게시판)', 'https://www.nfa.go.kr/nfa/news/job/nfajob/?boardId=bbs_0000000000000012&mode=view&cntId=426'),
             ('119고시 시험공고 게시판', '중앙소방학교 원서접수 누리집 — 지난 회차 문제·정답가안 공개 글', 'http://119gosi.kr/bbs/board.php?bo_table=040301')]
@@ -164,6 +164,14 @@ def register(paths):
               '<li><a href="/ipsi/gichul/police-fire.html"><b>경찰·소방·해경·군무원 기출</b><span>채용 필기 문제·정답 공식 공개처</span></a></li>')
         i = s.find('</ul>', s.find('id="exam-list"'))
         s = s[:i] + li + s[i:]; open(p, 'w', encoding='utf-8').write(s)
+    # 공무원 기출 허브 '시험별 기출'에 경찰·소방 카드
+    p = os.path.join(root, 'ipsi', 'gongmuwon', 'index.html')
+    if os.path.exists(p) and '/ipsi/gichul/police-fire.html' in paths:
+        s = open(p, encoding='utf-8').read()
+        if 'police-fire.html' not in s and '<ul class="gy">' in s:
+            i = s.find('</ul>', s.find('<ul class="gy">'))
+            s = s[:i] + '<li><a href="/ipsi/gichul/police-fire.html"><b>경찰·소방·해경·군무원</b><span>채용 필기 문제·정답 공식 공개처</span></a></li>' + s[i:]
+            open(p, 'w', encoding='utf-8').write(s)
     # 수능 기출 허브에도 연결
     p = os.path.join(root, 'ipsi', 'gichul', 'index.html')
     if os.path.exists(p):
