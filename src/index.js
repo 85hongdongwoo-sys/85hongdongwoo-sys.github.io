@@ -275,6 +275,8 @@ function thanks(lang, url) {
 
 
 // ---------- Scripture search: keyword match first, then AI picks topics. The AI never writes verse text. ----------
+const AI_MODELS = ['@cf/meta/llama-3.3-70b-instruct-fp8-fast', '@cf/meta/llama-4-scout-17b-16e-instruct', '@cf/google/gemma-3-12b-it', '@cf/qwen/qwen3-30b-a3b-fp8', '@cf/deepseek-ai/deepseek-v4-flash-0731', '@cf/moonshotai/kimi-k2.5'];
+let AI_MODEL = null;
 async function verses(url, env) {
   const J = (o) => new Response(JSON.stringify(o), { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300' } });
   const pub = (t) => ({ id: t.id, ko: t.ko, en: t.en });
@@ -290,15 +292,21 @@ async function verses(url, env) {
   if (!ids.length && env.AI) {
     try {
       const list = VERSE_TOPICS.map((t) => `${t.id}: ${t.en} / ${t.ko}`).join('\n');
-      const r = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', { max_tokens: 60, messages: [
+      const msgs = [
         { role: 'system', content: 'You map a request for a Bible verse to topic ids. Think about what the person needs (for example, someone whose friend lost a parent needs grief and comfort). Reply with only a JSON array of 1 to 3 topic ids from this list, most relevant first. No other text.\n' + list },
-        { role: 'user', content: q } ] });
-      const m = String(r.response || '').match(/\[[^\]]*\]/);
+        { role: 'user', content: q } ];
+      let r = null, lastErr = '';
+      for (const model of (AI_MODEL ? [AI_MODEL] : AI_MODELS)) {
+        try { r = await env.AI.run(model, { max_tokens: 80, messages: msgs }); AI_MODEL = model; break; } catch (e) { lastErr = String(e && e.message || e); if (AI_MODEL) { AI_MODEL = null; } }
+      }
+      if (!r) throw new Error(lastErr || 'no model');
+      const txt = typeof r === 'string' ? r : (r.response ?? r.choices?.[0]?.message?.content ?? r.result?.response ?? '');
+      const m = String(typeof txt === 'string' ? txt : JSON.stringify(txt)).match(/\[[^\]]*\]/);
       if (m) ids = JSON.parse(m[0]).filter((id) => VERSE_TOPICS.some((t) => t.id === id)).slice(0, 3);
-      via = 'ai';
+      via = 'ai:' + AI_MODEL;
     } catch (e) { ids = []; via = 'ai-error: ' + String(e && e.message || e).slice(0, 160); }
   } else if (!ids.length) via = env.AI ? via : 'no-ai-binding';
-  if (!ids.length) { ids = score.slice(0, 3).map((x) => x[0]); if (via === 'ai') via = 'ai-empty'; }
+  if (!ids.length) { ids = score.slice(0, 3).map((x) => x[0]); if (String(via).startsWith('ai:')) via = 'ai-empty ' + via; }
   if (!ids.length) {
     const hits = []; for (const t of VERSE_TOPICS) for (const v of t.v) if ((v.tk + ' ' + v.te).toLowerCase().includes(ql) && !hits.some((h) => h.k === v.k)) hits.push(v);
     return J({ topics: [], verses: hits.slice(0, 14), via: 'text' });
