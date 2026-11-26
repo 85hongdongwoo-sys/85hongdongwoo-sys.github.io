@@ -296,9 +296,9 @@ async function verses(url, env) {
       const m = String(r.response || '').match(/\[[^\]]*\]/);
       if (m) ids = JSON.parse(m[0]).filter((id) => VERSE_TOPICS.some((t) => t.id === id)).slice(0, 3);
       via = 'ai';
-    } catch (e) { ids = []; }
-  }
-  if (!ids.length) { ids = score.slice(0, 3).map((x) => x[0]); via = 'keywords'; }
+    } catch (e) { ids = []; via = 'ai-error: ' + String(e && e.message || e).slice(0, 160); }
+  } else if (!ids.length) via = env.AI ? via : 'no-ai-binding';
+  if (!ids.length) { ids = score.slice(0, 3).map((x) => x[0]); if (via === 'ai') via = 'ai-empty'; }
   if (!ids.length) {
     const hits = []; for (const t of VERSE_TOPICS) for (const v of t.v) if ((v.tk + ' ' + v.te).toLowerCase().includes(ql) && !hits.some((h) => h.k === v.k)) hits.push(v);
     return J({ topics: [], verses: hits.slice(0, 14), via: 'text' });
