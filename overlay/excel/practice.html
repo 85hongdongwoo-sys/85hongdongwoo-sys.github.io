@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2PPV7NV8CP"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2PPV7NV8CP');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3029906673973335" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+<title>엑셀 함수 연습장 (설명 보고 직접 입력, 바로 채점) | 홍라이프 도구</title>
+<meta name="description" content="SUM·AVERAGE·MAX·IF·ROUND 같은 엑셀 함수를 설명을 보며 표에 직접 키보드로 입력하고, 바로 맞았는지 채점해 주는 무료 연습장이에요. 진짜 엑셀처럼 셀을 누르고 수식을 입력하며 연습해요. 설치·가입 없음.">
+<link rel="canonical" href="https://honglife.co.kr/excel/practice.html">
+<meta property="og:type" content="website"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="홍라이프 도구">
+<meta property="og:title" content="엑셀 함수 연습장 (설명 보고 직접 입력, 바로 채점) | 홍라이프 도구">
+<meta property="og:description" content="엑셀 함수를 설명 보며 직접 입력하고 바로 채점받는 무료 연습장. SUM·AVERAGE·IF·ROUND 등.">
+<meta property="og:url" content="https://honglife.co.kr/excel/practice.html">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon-180.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/explain.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"엑셀 함수 연습장","url":"https://honglife.co.kr/excel/practice.html","description":"엑셀 함수를 설명 보며 직접 입력하고 바로 채점받는 무료 연습장.","applicationCategory":"EducationalApplication","operatingSystem":"Any","inLanguage":"ko","offers":{"@type":"Offer","price":"0","priceCurrency":"KRW"},"isAccessibleForFree":true}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홍라이프 도구","item":"https://honglife.co.kr/"},{"@type":"ListItem","position":2,"name":"엑셀 수식","item":"https://honglife.co.kr/excel/"},{"@type":"ListItem","position":3,"name":"엑셀 함수 연습장","item":"https://honglife.co.kr/excel/practice.html"}]}</script>
+<style>
+#tool .xl-fx{display:flex;align-items:center;gap:8px;margin-top:12px}
+#tool .xl-fx .fxb{font-weight:800;color:#1D4ED8;width:34px;text-align:center;border:1px solid #D9DDE3;border-radius:7px;padding:8px 0;background:#F7F8FA}
+#tool .xl-fx .fxeq{color:#8A94A6;font-weight:800}
+#tool #fx{flex:1;box-sizing:border-box;padding:10px 11px;border:1px solid #1D4ED8;border-radius:8px;font:inherit;font-size:16px;font-family:ui-monospace,Menlo,Consolas,monospace}
+#tool .xl-wrap{margin-top:12px;overflow:auto;border:1px solid #C3CAD3;border-radius:8px}
+#tool table.xl{border-collapse:collapse;font-size:15px;min-width:320px;width:100%;background:#fff}
+#tool table.xl th{background:#EEF1F5;color:#5B6B82;font-weight:700;border:1px solid #C3CAD3;padding:6px 0;text-align:center;min-width:72px}
+#tool table.xl th.rh{min-width:34px;width:34px}
+#tool table.xl td{border:1px solid #DCE0E6;padding:8px 10px;height:22px;cursor:cell;text-align:right;white-space:nowrap;color:#1F2937}
+#tool table.xl td.txt{text-align:left;color:#3A4A5E}
+#tool table.xl td.sel{outline:2px solid #1D4ED8;outline-offset:-2px;background:#EAF0FD}
+#tool table.xl td.tgt{background:#FFF7E6}
+#tool table.xl td.tgt.sel{background:#FDEFC9}
+#tool .xl-task{margin-top:14px;background:#EAF0FD;border:1px solid #Bcd3f5;border:1px solid #BBD2F5;border-radius:12px;padding:14px 16px}
+#tool .xl-task .t{font-weight:800;color:#0B3D91;margin-bottom:4px}
+#tool .xl-task .i{line-height:1.7}
+#tool .xl-msg{margin-top:12px;font-weight:700;min-height:22px}
+#tool .xl-msg.ok{color:#15803D}
+#tool .xl-msg.no{color:#B91C1C}
+#tool .btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+#tool .btn{flex:1;min-width:110px;padding:12px 16px;border-radius:10px;font-size:15px;font-weight:800;border:0;cursor:pointer;font-family:inherit}
+#tool .btn-c{background:#1D4ED8;color:#fff}
+#tool .btn-h{background:#F3F4F6;color:#1F2937;border:1px solid #D9DDE3}
+#tool .btn-n{background:#0B3D91;color:#fff}
+#tool .xl-prog{font-size:13px;color:#5B6B82;margin-top:10px}
+#tool .xl-hint{margin-top:8px;font-size:14px;color:#5B6B82;background:#F7F8FA;border-radius:8px;padding:10px 12px}
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="in"><a class="logo" href="/"><img class="mark" src="/assets/brand/symbol-small.svg" width="28" height="28" alt=""><span>홍라이프 도구</span></a><nav aria-label="주요 분류"><a href="/excel/">엑셀 수식</a><a href="/sheet/">엑셀 양식</a><a href="/doc/">문서</a><a href="/pdf/">PDF</a><a href="/image/">이미지</a><a href="/design/">디자인</a><a href="/ipsi/">입시</a><a href="/trip/">여행</a><a class="srch" href="/#search">도구 찾기</a></nav></div></div>
+<main class="wrap wide">
+<header class="top"><p class="crumb"><a href="/">홈</a> › <a href="/excel/">엑셀 수식</a></p><h1><b>엑셀 함수</b> 연습장</h1><p class="lead">설명을 보고 <b>직접 셀을 눌러 키보드로 수식을 입력</b>하면 바로 채점해 줘요. 진짜 엑셀처럼 셀을 선택하고 수식을 쳐 보며 SUM·AVERAGE·IF 같은 함수를 익혀요.</p></header>
+
+<section class="card tool" id="tool" data-tool="excel-practice">
+  <div class="xl-task"><div class="t" id="tk-title"></div><div class="i" id="tk-inst"></div></div>
+  <div class="xl-fx"><span class="fxb" id="fx-ref">A1</span><span class="fxeq">▾</span><input type="text" id="fx" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="셀을 누르고 여기(또는 바로 키보드)로 입력 → Enter"></div>
+  <div class="xl-wrap"><div id="grid" tabindex="0"></div></div>
+  <div class="xl-msg" id="msg" aria-live="polite"></div>
+  <div class="btns">
+    <button class="btn btn-c" id="check">정답 확인</button>
+    <button class="btn btn-h" id="hint">힌트</button>
+    <button class="btn btn-n" id="next" disabled>다음 문제 →</button>
+  </div>
+  <div class="xl-hint" id="hintbox" hidden></div>
+  <div class="xl-prog" id="prog"></div>
+</section>
+
+<section class="explain">
+  <h2>어떻게 연습하나요</h2>
+  <p>위에 나오는 <b>설명을 읽고</b>, 노란색으로 표시된 칸을 누른 다음 키보드로 수식을 입력하고 <b>Enter</b>를 누르세요. 셀을 누르면 위 수식 줄에 내용이 보이고, 방향키로 칸을 옮길 수 있어요. 다 입력했으면 <b>‘정답 확인’</b>을 눌러요. 맞으면 다음 문제로 넘어가요.</p>
+  <h2>진짜 엑셀처럼 쓰기</h2>
+  <p>셀 선택, 방향키 이동, <b>=</b>로 시작하는 수식, 범위(<b>A1:A5</b>) 입력 방식이 실제 엑셀과 같아요. 여기서 익힌 수식은 엑셀·구글시트·한셀에서 그대로 통해요. (색은 사이트 통일을 위해 파란색을 써요. 엑셀 느낌의 초록색으로 바꿀 수도 있어요.)</p>
+  <h2>어떤 함수를 연습하나요</h2>
+  <p>합계(SUM), 평균(AVERAGE), 최댓값(MAX), 곱하기, 조건(IF), 반올림(ROUND)을 차례로 연습해요. 더 많은 함수(VLOOKUP·COUNTIF 등)도 이어서 넣을 수 있어요.</p>
+  <p class="warn">입력한 내용은 서버로 전송되지 않고 이 기기의 브라우저 안에서만 처리돼요.</p>
+</section>
+
+<section class="rel"><h2>비슷한 도구</h2><ul class="lk">
+  <li><a href="/excel/">엑셀 수식 도구</a></li>
+  <li><a href="/sheet/">엑셀 양식(수식 포함)</a></li>
+  <li><a href="/image/character-maker.html">동물 캐릭터 만들기</a></li>
+</ul></section>
+
+</main>
+<footer class="site"><div class="in"><div class="fl"><a href="/">홈</a><a href="/about.html">사이트 소개</a><a href="/privacy.html">개인정보처리방침</a><a href="https://honglifecalc.com/ko/">홍라이프 계산기</a></div>
+<div>홍라이프 도구는 회원가입 없이 쓰는 무료 도구 모음이에요. 입력한 내용은 서버로 전송되지 않고 이 기기의 브라우저 안에서만 처리돼요.</div>
+<div>© 홍라이프 · honglife.co.kr</div></div></footer>
+<script src="/assets/js/hlmotion.js" defer></script>
+<script src="/assets/js/hl.js" defer></script>
+<script src="/assets/js/xlpractice.js"></script>
+<script>
+(function(){
+  var X=window.XLP; if(!X) return;
+  var COLS=["A","B","C","D","E"];
+  var li=0, cells={}, active="A1", L=null;
+  var grid=document.getElementById('grid'), fx=document.getElementById('fx'), fxref=document.getElementById('fx-ref');
+  var msg=document.getElementById('msg'), prog=document.getElementById('prog'), hintbox=document.getElementById('hintbox');
+  function raw(ref){ return cells[ref]; }
+  function disp(ref){
+    var v=cells[ref]; if(v==null||v==="") return "";
+    if(typeof v==="string" && v.trim()[0]==="="){ try{ var r=X.evaluate(v, raw); return (typeof r==="number")? (Math.round(r*1e6)/1e6) : r; }catch(e){ return "#오류"; } }
+    return v;
+  }
+  function isNum(ref){ var v=cells[ref]; if(v==null||v==="")return false; if(typeof v==="string"&&v.trim()[0]==="="){var d=disp(ref);return typeof d==="number";} return typeof v==="number"||/^-?[0-9.,]+$/.test(String(v)); }
+  function load(i){
+    li=i; L=X.LESSONS[i]; cells={}; for(var k in L.grid) cells[k]=L.grid[k];
+    active=L.target; msg.textContent=""; msg.className="xl-msg"; hintbox.hidden=true;
+    document.getElementById('next').disabled=true;
+    document.getElementById('tk-title').textContent="문제 "+(i+1)+". "+L.title;
+    document.getElementById('tk-inst').innerHTML=L.instruct;
+    prog.textContent="진행 "+(i+1)+" / "+X.LESSONS.length;
+    render();
+  }
+  function render(){
+    var rows=L.rows||6, h='<table class="xl"><tr><th class="rh"></th>';
+    for(var c=0;c<COLS.length;c++) h+='<th>'+COLS[c]+'</th>';
+    h+='</tr>';
+    for(var r=1;r<=rows;r++){ h+='<tr><th class="rh">'+r+'</th>';
+      for(var c2=0;c2<COLS.length;c2++){ var ref=COLS[c2]+r; var d=disp(ref);
+        var cls=[]; if(ref===active)cls.push('sel'); if(ref===L.target)cls.push('tgt');
+        if(!isNum(ref)&&d!=="")cls.push('txt');
+        h+='<td data-ref="'+ref+'" class="'+cls.join(' ')+'">'+(d===""?"":String(d).replace(/</g,'&lt;'))+'</td>';
+      }
+      h+='</tr>';
+    }
+    h+='</table>'; grid.innerHTML=h;
+    fxref.textContent=active; fx.value=(raw(active)==null?"":raw(active));
+  }
+  function setActive(ref){ active=ref; render(); }
+  function moveActive(dr,dc){
+    var m=/^([A-E])([0-9]+)$/.exec(active); if(!m)return;
+    var ci=COLS.indexOf(m[1])+dc, ri=parseInt(m[2],10)+dr;
+    ci=Math.max(0,Math.min(COLS.length-1,ci)); ri=Math.max(1,Math.min(L.rows||6,ri));
+    setActive(COLS[ci]+ri);
+  }
+  function commit(){ var v=fx.value.trim(); if(v==="") delete cells[active]; else cells[active]=v; }
+  grid.addEventListener('click',function(e){ var td=e.target.closest('td[data-ref]'); if(td){ setActive(td.getAttribute('data-ref')); grid.focus(); } });
+  grid.addEventListener('keydown',function(e){
+    if(e.key==="ArrowUp"){moveActive(-1,0);e.preventDefault();}
+    else if(e.key==="ArrowDown"||e.key==="Enter"){moveActive(1,0);e.preventDefault();}
+    else if(e.key==="ArrowLeft"){moveActive(0,-1);e.preventDefault();}
+    else if(e.key==="ArrowRight"||e.key==="Tab"){moveActive(0,1);e.preventDefault();}
+    else if(e.key==="Delete"||e.key==="Backspace"){ delete cells[active]; render(); e.preventDefault(); }
+    else if(e.key==="="||(e.key.length===1&&!e.ctrlKey&&!e.metaKey&&!e.altKey)){ fx.value=e.key; fx.focus(); var el=fx.value.length; fx.setSelectionRange(el,el); e.preventDefault(); }
+  });
+  fx.addEventListener('keydown',function(e){
+    if(e.key==="Enter"){ commit(); moveActiveAfterCommit(); e.preventDefault(); }
+    else if(e.key==="Escape"){ fx.value=(raw(active)==null?"":raw(active)); grid.focus(); e.preventDefault(); }
+  });
+  function moveActiveAfterCommit(){ var prev=active; moveActive(1,0); if(active===prev) render(); grid.focus(); }
+  document.getElementById('check').onclick=function(){
+    var r; try{ r=X.evaluate(raw(L.target)||"", raw); }catch(e){ r=null; }
+    var ok = (raw(L.target)!=null) && X.sameResult(r, L.expect);
+    if(ok){ msg.textContent="✓ 정답이에요! 잘했어요."; msg.className="xl-msg ok"; document.getElementById('next').disabled=(li>=X.LESSONS.length-1); if(li>=X.LESSONS.length-1) msg.textContent="✓ 정답! 모든 문제를 끝냈어요. 잘했어요 🎉"; }
+    else { msg.textContent="✗ 아직이에요. "+(raw(L.target)?"결과가 맞지 않아요.":"노란 칸("+L.target+")에 수식을 입력하세요."); msg.className="xl-msg no"; }
+  };
+  document.getElementById('hint').onclick=function(){ hintbox.hidden=false; hintbox.textContent="💡 "+L.hint; };
+  document.getElementById('next').onclick=function(){ if(li<X.LESSONS.length-1) load(li+1); };
+  load(0);
+})();
+</script>
+</body>
+</html>
