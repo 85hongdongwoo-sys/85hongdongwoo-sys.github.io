@@ -62,7 +62,9 @@ async function route(p, url, lang, env, REQ) {
   if (p === '/robots.txt') return new Response(`User-agent: *\nAllow: /\nSitemap: ${url.origin}/sitemap.xml\n`, { headers: { 'content-type': 'text/plain' } });
   if (p === '/sitemap.xml') return sitemapIndex(url, env);
   if ((m = p.match(/^\/sitemaps\/(art|pages)-(en|ko)-(\d+)\.xml$/))) return sitemapPart(url, env, m[1], m[2], +m[3]);
-  if (p === '/api/art.json') return studioData(url, env);
+  if (p === '/api/art.json') return url.searchParams.get('all') ? libData(env) : studioData(url, env);
+  if (p === '/api/license' && REQ.method === 'POST') return license(REQ, env);
+  if (p === '/editor') return editor(lang, url);
   if (p.startsWith('/api/')) return api(p, REQ, env);
   if (p === '/studio') return studio(lang, env);
   if (p === '/account') return account(lang, env, REQ);
@@ -208,7 +210,7 @@ function productCard(p, lang) {
 function studio(lang, env) {
   const ko = lang === 'ko';
   const head = `<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/studio/studio.css">`;
-  const body = `<div id="app" data-lang="${lang}"><div class="wrap sec"><p class="small">${ko ? '불러오는 중…' : 'Loading…'}</p></div></div>
+  const body = `<div class="wrap edban"><a href="${L(lang, '/editor')}?new=1"><b>${ko ? '새로 나온 아트트립 에디터' : 'New: the Arttrip Editor'}</b><span>${ko ? '레이어, 내 사진, 글꼴 19종, 빈티지 효과, 달력 12개월 자동 만들기까지 — 아트페이퍼와 달력을 자유롭게 꾸며요' : 'Layers, your own photos, 19 fonts, vintage effects and 12-month calendars — design art papers and calendars freely'}</span><em>${ko ? '열기 →' : 'Open →'}</em></a></div><div id="app" data-lang="${lang}"><div class="wrap sec"><p class="small">${ko ? '불러오는 중…' : 'Loading…'}</p></div></div>
 <script src="/studio/studio.js"></script><script src="/studio/boot.js"></script>`;
   return html(layout(lang, { title: ko ? '스튜디오 — 명화로 달력·카드·포스터 만들기 | 아트트립 스튜디오' : 'Studio — Make Calendars, Cards and Posters from Masterpieces | Arttrip Studio',
     desc: ko ? '명화를 골라 달력, 카드, 포스터, 스티커, 배경화면을 만들고 인쇄용 파일로 내려받으세요. 회원은 작업을 저장할 수 있어요.' : 'Pick a masterpiece and make a calendar, card, poster, sticker sheet or wallpaper. Download a print-ready file. Members can save their work.',
@@ -247,6 +249,7 @@ function thanks(lang, url) {
     ? (ko ? '결제가 확인되면 결제할 때 남긴 연락처(문자 또는 이메일)로 24시간 안에 다운로드 링크를 보내 드려요.' : 'Once your payment is confirmed we will send the download link to the contact you gave within 24 hours.')
     : (ko ? '결제 확인 메일에 다운로드 링크가 들어 있어요. 메일이 안 보이면 스팸함도 확인해 주세요.' : 'Your download link is in the receipt email from our payment partner. Please check your spam folder if you cannot see it.');
   const body = `<section class="wrap sec narrow center"><span class="lbl">${ko ? '결제 완료' : 'Thank you'}</span><h1>${ko ? '구매해 주셔서 고마워요' : 'Thank you for your order'}</h1>${name ? `<p class="by">${esc(name)}</p>` : ''}<p class="sub">${msg}</p>
+<div class="dl" style="text-align:left;margin:22px 0"><b>${ko ? '편집기로 꾸미기' : 'Edit it in the Arttrip Editor'}</b><p>${ko ? '영수증에 있는 라이선스 키(ARTTRIP-로 시작)를 편집기의 [다운로드] 창에 한 번 넣으면, 워터마크 없는 300dpi 파일로 받을 수 있어요. 그림을 바꾸고 내 사진과 글도 넣을 수 있어요.' : 'Enter the license key from your receipt (it starts with ARTTRIP-) once in the editor’s Download window to get watermark-free 300 dpi files. Swap paintings and add your own photos and words.'}</p><a class="pill" href="${L(lang, '/editor')}${p && p.editor ? '?tpl=' + p.editor + '&new=1' : p && p.artist_slug ? '?cal=' + p.artist_slug + '&new=1' : ''}">${ko ? '편집기 열기' : 'Open the editor'}</a></div>
 <p class="small">${ko ? '문제가 있으면 hello@arttripstudio.com 으로 연락 주세요.' : 'Any problem? Write to hello@arttripstudio.com.'}</p><div class="row" style="justify-content:center;margin-top:20px"><a class="pill" href="${L(lang, '/studio')}">${t.nav.studio}</a><a class="pill ghost" href="${L(lang, '/shop')}">${t.nav.shop}</a></div></section>`;
   return html(layout(lang, { title: `${ko ? '결제 완료' : 'Thank you'} — ${t.site}`, desc: '', path: '/thanks', body, noindex: true }));
 }
@@ -296,6 +299,7 @@ ${groups.map(([id, h, list]) => `<div class="sh" id="${id}" style="margin-top:34
 function product(lang, env, slug) {
   const t = T[lang]; const p = PRODUCTS.find((x) => x.slug === slug); if (!p) return null; const c = p[lang];
   const link = env[p.checkout], kr = p.payapp && env[p.payapp];
+  const edUrl = p.editor ? L(lang, '/editor') + '?tpl=' + p.editor + '&new=1' : p.artist_slug ? L(lang, '/editor') + '?cal=' + p.artist_slug + '&new=1' : '';
   const btn = (href, label, note, cls) => href ? `<a class="paybtn ${cls}" href="${esc(href)}" rel="noopener"><b>${label}</b><span>${note}</span></a>` : `<span class="paybtn off" aria-disabled="true"><b>${label}</b><span>${t.soon}</span></span>`;
   const buy = lang === 'ko'
     ? `<div class="price">$${p.price}</div><div class="paybtns">${kr ? btn(kr, t.payKr, t.payKrNote, 'kr') : ''}${btn(link, t.payGlobal, t.payGlobalNote, 'gl')}</div><p class="small">✓ ${t.guest}</p>`
@@ -303,7 +307,7 @@ function product(lang, env, slug) {
   const body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a></nav><div class="agrid">
 <figure class="big"><img src="${p.img}" alt="${esc(c.name)}"></figure><div class="meta"><span class="lbl">${t.instant}</span><h1>${esc(c.name)}</h1>
 ${c.body.map((x) => `<p>${esc(x)}</p>`).join('')}<h2 class="h3">${t.whatYouGet}</h2><ul class="ul">${c.get.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
-<div class="buy">${buy}</div></div></div></section>`;
+<div class="buy">${buy}</div>${edUrl ? `<a class="pill ghost tryed" href="${edUrl}">${lang === 'ko' ? '편집기에서 미리 꾸며 보기 →' : 'Try it in the editor →'}</a><p class="small">${lang === 'ko' ? '구매 전에도 무료로 꾸며 볼 수 있어요. 구매하면 워터마크 없는 300dpi 파일로 받아요.' : 'Design for free before you buy. After purchase, download watermark-free 300 dpi files.'}</p>` : ''}</div></div></section>`;
   const jsonld = { '@context': 'https://schema.org', '@type': 'Product', name: p.en.name, image: p.img, description: p.en.short, offers: { '@type': 'Offer', price: p.price, priceCurrency: 'USD', availability: link ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder' } };
   return html(layout(lang, { title: `${c.name} — ${t.site}`, desc: c.short, path: '/shop/' + p.slug, body, img: p.img, jsonld }));
 }
@@ -354,6 +358,30 @@ async function sitemapPart(url, env, kind, lg, n) {
 }
 
 // ---------- studio data ----------
+async function libData(env) {
+  const rows = await all(env, 'SELECT id, title t, title_ko tk, artist a, artist_ko ak, artist_slug "as", w, h, theme FROM artworks ORDER BY rowid');
+  return new Response(JSON.stringify(rows), { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=600' } });
+}
+// License keys from Polar purchases unlock full-quality editor exports.
+async function license(req, env) {
+  let key = '';
+  try { key = String((await req.json()).key || '').trim().slice(0, 100); } catch { }
+  const J = (o) => new Response(JSON.stringify(o), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
+  if (!key) return J({ ok: false });
+  if (env.EDITOR_MASTER_KEY && key === env.EDITOR_MASTER_KEY) return J({ ok: true });
+  if (!env.POLAR_ORG_ID) return J({ ok: false, reason: 'not configured' });
+  try {
+    const r = await fetch('https://api.polar.sh/v1/customer-portal/license-keys/validate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ key, organization_id: env.POLAR_ORG_ID }) });
+    const j = await r.json().catch(() => ({}));
+    return J({ ok: r.ok && (j.status === 'granted' || j.status === undefined) && !!j.id });
+  } catch { return J({ ok: false }); }
+}
+function editor(lang, url) {
+  const ko = lang === 'ko';
+  const fams = ['Lora:ital,wght@0,400;0,600;1,400', 'Playfair+Display:ital,wght@0,400;0,600;1,400', 'Cormorant+Garamond:ital,wght@0,400;0,600;1,400', 'DM+Serif+Display', 'Libre+Baskerville:ital,wght@0,400;0,700;1,400', 'Special+Elite', 'Courier+Prime', 'Caveat:wght@400;700', 'Dancing+Script:wght@400;700', 'Homemade+Apple', 'Amatic+SC:wght@400;700', 'Josefin+Sans:wght@400;600', 'Inter:wght@400;600;700', 'Bebas+Neue', 'Noto+Serif+KR:wght@400;700', 'Gowun+Batang:wght@400;700', 'Noto+Sans+KR:wght@400;700', 'Nanum+Pen+Script', 'Gaegu:wght@400;700'];
+  const title = ko ? '아트트립 에디터 — 명화 달력·아트페이퍼 편집' : 'Arttrip Editor — Edit Masterpiece Calendars and Art Papers';
+  return new Response(`<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${title}</title><meta name="robots" content="noindex"><link rel="icon" href="/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?${fams.map((f) => 'family=' + f).join('&')}&display=swap" rel="stylesheet"><link rel="stylesheet" href="/editor/editor.css"></head><body><div id="ed" data-lang="${lang}"></div><script src="/editor/editor.js"></script></body></html>`, { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
+}
 async function studioData(url, env) {
   const want = (url.searchParams.get('art') || '').replace(/[^0-9]/g, '');
   const rows = await all(env, "SELECT id, title t, title_ko tk, artist a, artist_ko ak, w, h, theme FROM artworks WHERE title_ko <> '' ORDER BY rowid LIMIT 120");

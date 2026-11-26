@@ -106,6 +106,13 @@ export const PRODUCTS = [
     ko: { name: '코지 데이즈 2027 — 색연필 손그림 벽걸이 달력', short: '계절마다 다른 손그림 장면 12장, A4 인쇄용 PDF',
       body: ['1월 코코아, 4월 벚꽃, 8월 해바라기, 12월 크리스마스 트리까지, 색연필로 그린 포근한 1년이에요.', 'AI 도구의 도움을 받아 그린 뒤 손으로 다듬어 만든 달력이에요.'],
       get: ['14페이지 PDF (표지 + 12개월), A4, 300dpi', '일요일 시작', '즉시 다운로드'] } },
+  { slug: 'masterpiece-junk-journal-art-paper-kit', img: '/p/art-paper-kit.jpg', price: 8, checkout: 'POLAR_ART_PAPER_KIT', cat: 'planners', editor: 'botanical',
+    en: { name: 'Masterpiece Junk Journal Art Paper Kit + Editor', short: '14 vintage art papers, stamps, tickets, tags and washi strips. Edit every page online.',
+      body: ['Aged papers, museum tickets, postage stamps, tags, labels, postcards, journaling cards and printable washi strips, all made from public-domain masterpieces.', 'Every design opens in the Arttrip Editor: swap the paintings, add your own photos and words, change colours and paper, then download a print-ready PDF.'],
+      get: ['14 designs × A4 and US Letter (28 pages, 300 dpi PDF)', 'Full-quality Arttrip Editor access (license key in your receipt)', 'Add your own photos and text, change any painting', 'Personal use and small craft projects'] },
+    ko: { name: '명화 정크저널 아트페이퍼 키트 + 편집기', short: '빈티지 아트페이퍼, 우표, 티켓, 꼬리표, 마스킹 테이프 14종. 모든 페이지를 온라인에서 편집해요.',
+      body: ['오래된 종이 질감의 아트페이퍼, 미술관 티켓, 우표, 꼬리표, 라벨, 엽서, 저널링 카드, 인쇄용 마스킹 테이프까지 모두 퍼블릭 도메인 명화로 만들었어요.', '모든 디자인은 아트트립 에디터에서 열려요. 그림을 바꾸고, 내 사진과 글을 넣고, 색과 종이를 바꾼 뒤 인쇄용 PDF로 받으세요.'],
+      get: ['14가지 디자인 × A4·미국 레터 (28페이지, 300dpi PDF)', '아트트립 에디터 고화질 이용권 (영수증의 라이선스 키)', '내 사진·글 넣기, 그림 바꾸기 자유', '개인용·소규모 공예용'] } },
 ];
 
 const COLOR_NAMES = [

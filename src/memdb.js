@@ -18,6 +18,7 @@ function run(sql, a) {
   const pick = (r) => ({ id: r.id, t: r.title, tk: r.title_ko, a: r.artist, ak: r.artist_ko, w: r.w, h: r.h, theme: r.theme });
   if (s.startsWith("SELECT id, title t, title_ko tk, artist a, artist_ko ak, w, h, theme FROM artworks WHERE title_ko <> ''")) return ROWS.filter((r) => r.title_ko).slice(0, 120).map(pick);
   if (s.startsWith('SELECT id, title t, title_ko tk, artist a, artist_ko ak, w, h, theme FROM artworks WHERE id = ?')) return ROWS.filter((r) => r.id === a[0]).map(pick);
+  if (s === 'SELECT id, title t, title_ko tk, artist a, artist_ko ak, artist_slug "as", w, h, theme FROM artworks ORDER BY rowid') return ROWS.map((r) => ({ ...pick(r), as: r.artist_slug }));
   throw new Error('memdb: unsupported query: ' + s);
 }
 function filt(where, a) {
