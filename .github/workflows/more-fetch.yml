@@ -1,0 +1,19 @@
+name: more-fetch
+on:
+  push:
+    branches: [muse-data]
+    paths: ['scripts/fetch_more.py', '.github/workflows/more-fetch.yml']
+concurrency: { group: more-fetch, cancel-in-progress: true }
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: 'scripts' }
+      - run: python3 scripts/fetch_more.py
+      - run: |
+          git config user.name "arttrip-bot"; git config user.email "actions@users.noreply.github.com"
+          git add --sparse more && git commit -m "more: CC0 catalogue from Met, Cleveland, Chicago" && for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done || echo nothing
