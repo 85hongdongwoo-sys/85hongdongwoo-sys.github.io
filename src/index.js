@@ -74,6 +74,7 @@ async function route(p, url, lang, env, REQ) {
   if ((m = p.match(/^\/art\/theme\/([a-z-]+)$/)) && THEMES[m[1]]) return gallery(lang, env, url, { theme: m[1] });
   if ((m = p.match(/^\/artist\/([a-z0-9-]+)$/))) return gallery(lang, env, url, { artist: m[1] });
   if ((m = p.match(/^\/art\/([a-z0-9-]+)$/))) return artwork(lang, env, m[1]);
+  if (p === '/collections') return collections(lang);
   if (p === '/originals') return originals(lang);
   if (p === '/illustrations') return illus(lang, null);
   if ((m = p.match(/^\/illustrations\/([a-z-]+)$/)) && IL_CATS[m[1]]) return illus(lang, m[1]);
@@ -89,7 +90,7 @@ const L = (lang, p) => (lang === 'ko' ? '/ko' : '') + (p === '/' && lang === 'ko
 function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex = false }) {
   const t = T[lang]; const other = lang === 'ko' ? 'en' : 'ko';
   const enUrl = ORIGIN + path, koUrl = ORIGIN + '/ko' + (path === '/' ? '' : path);
-  const nav = [['art', '/art'], ['illus', '/originals'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
+  const nav = [['col', '/collections'], ['illus', '/originals'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
   return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${lang === 'ko' ? koUrl : enUrl}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="ko" href="${koUrl}"><link rel="alternate" hreflang="x-default" href="${enUrl}">
@@ -133,12 +134,14 @@ async function home(lang, env) {
     ['b3', L(lang, '/editor') + '?tpl=exhibit&new=1', `/img/${side[1].id}.jpg`, ko ? '명화 포스터' : 'Masterpiece posters', ko ? 'A3부터 24×36인치까지' : 'A3 up to 24×36 in'],
     ['b4', L(lang, '/originals'), '/p/cafe-girl-clipart.jpg', ko ? '아트트립 오리지널' : 'Arttrip Originals', ko ? '일러스트 · 패턴 · 글씨' : 'Illustration · pattern · lettering'],
   ].map(([c, href, img, h, d]) => `<a class="bx ${c}" href="${href}"><img src="${img}" alt="" loading="lazy"><span><b>${esc(h)}</b><i>${esc(d)}</i></span></a>`).join('');
-  const body = `<section class="hx"><div class="wrap hxg"><div class="hxt"><span class="eyebrow">${ko ? '퍼블릭 도메인 명화 · 저작권 걱정 없이' : 'Public-domain masterpieces · free to use'}</span><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
+  const body = `<section class="hx"><div class="wrap hxg"><div class="hxt"><span class="eyebrow">${ko ? '명화 · 사진 · 일러스트 · 글씨' : 'Art · Photography · Illustration · Lettering'}</span><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
 <div class="row"><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '편집기로 만들기' : 'Start designing'}</a><a class="pill gh" href="${L(lang, '/shop')}">${ko ? '상품 보기' : 'Shop products'}</a></div>
 <ul class="stats"><li><b>300<small>dpi</small></b><span>${ko ? '인쇄용 고화질' : 'print quality'}</span></li><li><b>A4<small>+Letter</small></b><span>${ko ? '두 가지 크기' : 'both sizes'}</span></li><li><b>0<small>${ko ? '초' : 's'}</small></b><span>${ko ? '결제 후 바로 다운로드' : 'wait to download'}</span></li></ul></div>
 <div class="hxa"><a class="ha1" href="${L(lang, '/art/' + hero.slug)}"><img src="/img/${hero.id}.jpg" alt="${esc(tl(hero, lang))}" width="${hero.w}" height="${hero.h}"></a>${side.map((a, i) => `<a class="ha${i + 2}" href="${L(lang, '/art/' + a.slug)}"><img src="/img/${a.id}.jpg" alt="${esc(tl(a, lang))}" loading="lazy"></a>`).join('')}<span class="hcap">${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></div></div></section>
-<section class="wrap sec"><div class="sh"><div><span class="eyebrow dk">${ko ? '무엇을 만들까요' : 'Make something'}</span><h2>${ko ? '명화로 만드는 네 가지' : 'Four ways to live with art'}</h2></div></div><div class="bento">${bento}</div></section>
-<section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div>${rail(PRODUCTS.filter((p) => !isOrig(p) && p.cat !== 'artist-calendars'))}</section>
+<section class="wrap sec"><div class="sh"><div><span class="eyebrow dk">${ko ? '무엇을 만들까요' : 'Make something'}</span><h2>${ko ? '바로 쓰는 네 가지' : 'Four ways to start'}</h2></div></div><div class="bento">${bento}</div></section>
+${colStrip(lang)}
+<section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div>${rail(PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles'].includes(p.cat)))}</section>
+<section class="wrap sec"><div class="sh"><h2>${ko ? '큰 글씨 퍼즐북' : 'Large-print puzzle books'}</h2><a href="${L(lang, '/shop')}#puzzles">${ko ? '영어 · 한국어 · 일본어 · 라틴어' : 'English · Korean · Japanese · Latin'} →</a></div>${rail(PRODUCTS.filter((p) => p.cat === 'puzzles'))}</section>
 <section class="wrap sec"><div class="sh"><h2>${ko ? '화가별 명화 달력 2027' : 'Artist calendars 2027'}</h2><a href="${L(lang, '/shop')}#calendars">${ko ? '15명 모두 보기' : 'All 15 artists'} →</a></div>${rail(PRODUCTS.filter((p) => p.cat === 'artist-calendars'))}</section>
 <section class="wrap sec"><div class="edcta"><div><span class="eyebrow">${ko ? '아트트립 편집기' : 'Arttrip Editor'}</span><h2>${ko ? '사고 나서도 내 마음대로' : 'Make it yours after you buy'}</h2><p>${ko ? '내 사진, 글꼴 19종, 빈티지 종이, 12개월 달력 자동 만들기. 브라우저에서 바로 꾸미고 인쇄용 PDF로 받아요.' : 'Your photos, 19 fonts, vintage paper and one-click 12-month calendars. Design in the browser, download a print-ready PDF.'}</p><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '무료로 열어 보기' : 'Try it free'}</a></div><img src="/p/art-paper-kit.jpg" alt="" loading="lazy"></div></section>
 <section class="wrap sec"><div class="sh"><h2>${ko ? '아트트립 오리지널' : 'Arttrip Originals'}</h2><a href="${L(lang, '/originals')}">${ko ? '모두 보기' : 'See all'} →</a></div>${rail(PRODUCTS.filter(isOrig))}</section>
@@ -267,6 +270,39 @@ function thanks(lang, url) {
 }
 
 
+
+// ---------- Collections: the big image categories ----------
+const COLS = [
+  ['art', { en: 'Masterpieces', ko: '명화' }, { en: 'Oil paintings, woodblock prints and drawings from the great museums.', ko: '세계 미술관의 유화, 판화, 드로잉' }, '/img/14598.jpg', '/art', true],
+  ['illustration', { en: 'Arttrip Illustration', ko: '아트트립 일러스트' }, { en: 'Our own hand-drawn characters, cozy scenes and seasons.', ko: '우리가 직접 그린 인물, 포근한 일상, 계절' }, '/p/cafe-girl-clipart.jpg', '/illustrations', true],
+  ['landscape', { en: 'Landscape Photography', ko: '풍경 사진' }, { en: 'Mountains, rivers, coasts and skies, from early albumen prints onward.', ko: '산, 강, 바다, 하늘. 초기 사진부터 모았어요.' }, '/img/63554.jpg', null, false],
+  ['architecture', { en: 'Architecture', ko: '건축물' }, { en: 'Real buildings, bridges, streets and interiors.', ko: '실제 건물, 다리, 거리, 실내' }, '/img/18075.jpg', null, false],
+  ['portraits', { en: 'Vintage Portraits', ko: '빈티지 인물' }, { en: 'Portrait photographs and faces from the 1800s and early 1900s.', ko: '1800년대부터 1900년대 초의 인물 사진' }, '/img/29230.jpg', null, false],
+  ['natural-history', { en: 'Vintage Natural History', ko: '빈티지 도감' }, { en: 'Botanical plates, birds, insects, old maps and science prints.', ko: '식물도감, 새, 곤충, 옛 지도, 과학 그림' }, '/img/127282.jpg', null, false],
+  ['lettering', { en: 'Lettering', ko: '글씨' }, { en: 'Scripture, Hangul, Latin and quotes set in beautiful type.', ko: '성경 말씀, 한글, 라틴어, 명언을 아름다운 글씨로' }, '/p/cat-lettering.jpg', '/originals#lettering', false],
+  ['patterns', { en: 'Patterns & Textures', ko: '패턴·질감' }, { en: 'Seamless repeats and paper textures for backgrounds and goods.', ko: '배경과 굿즈에 쓰는 반복 무늬와 종이 질감' }, '/p/patterns-flowers.jpg', '/shop/seamless-patterns-flowers', true],
+];
+function colTile(c, lang, big) {
+  const [k, n, d, img, href, live] = c, ko = lang === 'ko';
+  const tag = live ? '' : `<em class="soon">${ko ? '곧 공개' : 'Coming soon'}</em>`;
+  const inner = `<img src="${img}" alt="" loading="lazy"><span><b>${esc(n[lang])}</b>${big ? `<i>${esc(d[lang])}</i>` : ''}</span>${tag}`;
+  return href ? `<a class="ct" href="${L(lang, href)}">${inner}</a>` : `<div class="ct off">${inner}</div>`;
+}
+function colStrip(lang) {
+  const ko = lang === 'ko';
+  return `<section class="wrap sec"><div class="sh"><div><span class="eyebrow dk">${ko ? '8가지 컬렉션' : '8 collections'}</span><h2>${ko ? '무엇을 찾으세요?' : 'What are you looking for?'}</h2></div><a href="${L(lang, '/collections')}">${ko ? '모든 컬렉션' : 'All collections'} →</a></div><div class="cgrid">${COLS.map((c) => colTile(c, lang, false)).join('')}</div></section>`;
+}
+function collections(lang) {
+  const ko = lang === 'ko', t = T[lang];
+  const title = ko ? '컬렉션 — 명화, 사진, 일러스트, 글씨 | 아트트립 스튜디오' : 'Collections — Art, Photography, Illustration & Lettering | Arttrip Studio';
+  const desc = ko ? '명화, 아트트립 일러스트, 풍경 사진, 건축물, 빈티지 인물, 빈티지 도감, 글씨, 패턴까지 8가지 컬렉션.' : 'Eight collections: masterpieces, Arttrip illustration, landscape photography, architecture, vintage portraits, natural history, lettering and patterns.';
+  const body = `<section class="wrap sec"><span class="lbl">${t.nav.col}</span><h1>${ko ? '8가지 컬렉션' : 'Eight collections'}</h1>
+<p class="sub">${ko ? '공개된 명화와 사진을 정성껏 다듬은 것, 그리고 우리가 직접 만든 일러스트와 글씨와 패턴. 모두 인쇄와 굿즈에 바로 쓸 수 있어요.' : 'Carefully restored public-domain art and photography, plus illustration, lettering and patterns we make ourselves. All ready to print and use.'}</p>
+<div class="cgrid wide">${COLS.map((c) => colTile(c, lang, true)).join('')}</div>
+<div class="edban" style="margin-top:44px"><a href="${L(lang, '/editor')}?new=1"><b>${ko ? '내 사진으로 만들기' : 'Make it with your own photos'}</b><span>${ko ? '가족사진, 여행 사진을 올려 달력, 청첩장, 포스터로 꾸며 보세요. 컬렉션의 그림과 글씨를 함께 쓸 수 있어요.' : 'Upload family or travel photos and turn them into calendars, invitations and posters, mixed with anything from our collections.'}</span><em>${ko ? '편집기 열기 →' : 'Open the editor →'}</em></a></div></section>`;
+  return html(layout(lang, { title, desc, path: '/collections', body, img: '/img/14598.jpg', jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, description: desc } }));
+}
+
 // ---------- Arttrip Originals: our own illustrations, patterns and lettering ----------
 const isOrig = (p) => p.cat === 'illustrations' || p.cat === 'originals';
 const ORIG_LINES = [
@@ -325,7 +361,8 @@ function illus(lang, cat) {
 function shop(lang) {
   const t = T[lang], ko = lang === 'ko';
   const groups = [
-    ['planners', ko ? '플래너·인쇄물' : 'Planners & printables', PRODUCTS.filter((p) => !isOrig(p) && p.cat !== 'artist-calendars')],
+    ['planners', ko ? '플래너·인쇄물' : 'Planners & printables', PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles'].includes(p.cat))],
+    ['puzzles', ko ? '퍼즐북 · 4개 언어' : 'Puzzle books · 4 languages', PRODUCTS.filter((p) => p.cat === 'puzzles')],
     ['calendars', ko ? '화가별 명화 달력 2027' : 'Artist wall calendars 2027', PRODUCTS.filter((p) => p.cat === 'artist-calendars')],
     ['originals', ko ? '아트트립 오리지널' : 'Arttrip Originals', PRODUCTS.filter(isOrig)],
   ];
@@ -384,7 +421,7 @@ async function sitemapPart(url, env, kind, lg, n) {
   const alt = (p) => `<xhtml:link rel="alternate" hreflang="en" href="${url.origin}${p}"/><xhtml:link rel="alternate" hreflang="ko" href="${url.origin}/ko${p === '/' ? '' : p}"/>`;
   let paths = [];
   if (kind === 'pages') {
-    paths = ['/', '/art', '/studio', '/originals', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
+    paths = ['/', '/collections', '/art', '/studio', '/originals', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
     const artists = await all(env, 'SELECT artist_slug s, COUNT(*) c FROM artworks GROUP BY artist_slug HAVING c >= 2');
     paths.push(...artists.map((a) => '/artist/' + a.s));
   } else {
