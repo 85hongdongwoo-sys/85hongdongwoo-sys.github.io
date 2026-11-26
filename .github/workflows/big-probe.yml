@@ -1,0 +1,18 @@
+name: big-probe
+on:
+  push:
+    branches: [muse-data]
+    paths: ['scripts/probe_big.py', '.github/workflows/big-probe.yml']
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: "scripts\nmore" }
+      - run: python3 scripts/probe_big.py
+      - run: |
+          git config user.name "arttrip-bot"; git config user.email "actions@users.noreply.github.com"
+          git add --sparse big && git commit -m "big: poster-size originals" && git pull --rebase && git push || echo nothing
