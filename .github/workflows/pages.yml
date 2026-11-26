@@ -32,6 +32,7 @@ jobs:
           python3 build/patch_site.py _site
           python3 build/exams/gen_exams.py _site
           python3 build/exams/gen_exams_more.py _site || true
+          python3 build/exams/gen_exams_school.py _site || true
           python3 build/pwa/gen_pwa.py _site
           python3 build/deepen_pages.py _site || true   # 노출 있는 기존 페이지 보강 (목차·예시·표·FAQ)
           python3 build/unique/inject.py _site || true   # 서로 비슷한 페이지에 회사·프로그램별 고유 본문 (유사도 낮추기)
