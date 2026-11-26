@@ -4,7 +4,7 @@ export const LANGS = ['en', 'ko'];
 export const T = {
   en: {
     site: 'Arttrip Studio', tagline: 'Masterpieces, ready to use.',
-    nav: { art: 'Art', illus: 'Illustrations', studio: 'Studio', shop: 'Shop', account: 'Sign in', myAccount: 'My page', studio: 'Studio', pricing: 'Pricing' },
+    nav: { art: 'Art', illus: 'Originals', studio: 'Studio', shop: 'Shop', account: 'Sign in', myAccount: 'My page', studio: 'Studio', pricing: 'Pricing' },
     heroTitle: 'Live with the masters.', heroSub: 'Public-domain masterpieces turned into planners, calendars, prints and patterns you can use today.',
     browse: 'Browse the collection', shopNow: 'See the planners', themes: 'Themes', newIn: 'From the collection', allArt: 'All artworks',
     by: 'by', artworks: 'artworks', page: 'Page', prev: 'Previous', next: 'Next', related: 'More like this', sameArtist: 'More by',
@@ -22,7 +22,7 @@ export const T = {
   },
   ko: {
     site: '아트트립 스튜디오', tagline: '바로 쓰는 명화',
-    nav: { art: '명화', illus: '일러스트', studio: '스튜디오', shop: '상품', account: '로그인', myAccount: '내 정보', studio: '스튜디오', pricing: '구독' },
+    nav: { art: '명화', illus: '오리지널', studio: '스튜디오', shop: '상품', account: '로그인', myAccount: '내 정보', studio: '스튜디오', pricing: '구독' },
     heroTitle: '거장의 그림과 함께 사는 하루', heroSub: '저작권이 끝난 명화로 만든 플래너, 달력, 인쇄용 그림과 패턴을 지금 바로 쓰세요.',
     browse: '명화 둘러보기', shopNow: '플래너 보기', themes: '주제별 보기', newIn: '컬렉션에서', allArt: '전체 작품',
     by: '', artworks: '점', page: '페이지', prev: '이전', next: '다음', related: '비슷한 작품', sameArtist: '같은 화가의 작품',

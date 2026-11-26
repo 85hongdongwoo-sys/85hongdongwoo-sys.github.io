@@ -74,6 +74,7 @@ async function route(p, url, lang, env, REQ) {
   if ((m = p.match(/^\/art\/theme\/([a-z-]+)$/)) && THEMES[m[1]]) return gallery(lang, env, url, { theme: m[1] });
   if ((m = p.match(/^\/artist\/([a-z0-9-]+)$/))) return gallery(lang, env, url, { artist: m[1] });
   if ((m = p.match(/^\/art\/([a-z0-9-]+)$/))) return artwork(lang, env, m[1]);
+  if (p === '/originals') return originals(lang);
   if (p === '/illustrations') return illus(lang, null);
   if ((m = p.match(/^\/illustrations\/([a-z-]+)$/)) && IL_CATS[m[1]]) return illus(lang, m[1]);
   if (p === '/shop') return shop(lang);
@@ -88,7 +89,7 @@ const L = (lang, p) => (lang === 'ko' ? '/ko' : '') + (p === '/' && lang === 'ko
 function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex = false }) {
   const t = T[lang]; const other = lang === 'ko' ? 'en' : 'ko';
   const enUrl = ORIGIN + path, koUrl = ORIGIN + '/ko' + (path === '/' ? '' : path);
-  const nav = [['art', '/art'], ['illus', '/illustrations'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
+  const nav = [['art', '/art'], ['illus', '/originals'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
   return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${lang === 'ko' ? koUrl : enUrl}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="ko" href="${koUrl}"><link rel="alternate" hreflang="x-default" href="${enUrl}">
@@ -122,13 +123,13 @@ async function home(lang, env) {
   const cover = await all(env, "SELECT theme, id FROM artworks WHERE id IN (SELECT MIN(id) FROM artworks GROUP BY theme)");
   const covers = { ...Object.fromEntries(cover.map((c) => [c.theme, c.id])), birds: '222003', horses: '97890' };
   const total = counts.reduce((s, c) => s + c.n, 0);
-  const prods = PRODUCTS.filter((p) => !['illustrations', 'artist-calendars'].includes(p.cat)).slice(0, 4).map((p) => productCard(p, lang)).join('');
+  const prods = PRODUCTS.filter((p) => !isOrig(p) && p.cat !== 'artist-calendars').slice(0, 4).map((p) => productCard(p, lang)).join('');
   const body = `<section class="hero"><div class="wrap hgrid"><div class="htxt"><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
 <div class="row"><a class="pill" href="${L(lang, '/shop')}">${t.shopNow}</a><a class="pill ghost" href="${L(lang, '/art')}">${t.browse}</a></div></div>
 <a class="hart" href="${L(lang, '/art/' + hero.slug)}"><img src="/img/${hero.id}.jpg" alt="${esc(tl(hero, lang))}" width="${hero.w}" height="${hero.h}"><span>${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></a></div></section>
 <section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div><div class="pgrid">${prods}</div></section>
 <section class="wrap sec"><div class="sh"><h2>${lang === 'ko' ? '화가별 명화 달력 2027' : 'Artist calendars 2027'}</h2><a href="${L(lang, '/shop')}#calendars">${lang === 'ko' ? '15명 모두 보기' : 'All 15 artists'} →</a></div><div class="pgrid">${PRODUCTS.filter((p) => p.cat === 'artist-calendars').slice(0, 8).map((p) => productCard(p, lang)).join('')}</div></section>
-<section class="wrap sec"><div class="sh"><h2>${lang === 'ko' ? '손그림 일러스트' : 'Hand-drawn illustrations'}</h2><a href="${L(lang, '/illustrations')}">${t.nav.illus} →</a></div><div class="pgrid">${PRODUCTS.filter((p) => p.cat === 'illustrations').map((p) => productCard(p, lang)).join('')}</div></section>
+<section class="wrap sec"><div class="sh"><h2>${lang === 'ko' ? '아트트립 오리지널' : 'Arttrip Originals'}</h2><a href="${L(lang, '/originals')}">${lang === 'ko' ? '모두 보기' : 'See all'} →</a></div><div class="pgrid">${PRODUCTS.filter(isOrig).map((p) => productCard(p, lang)).join('')}</div></section>
 <section class="wrap sec"><div class="sh"><h2>${t.themes}</h2><a href="${L(lang, '/art')}">${t.allArt} (${total}) →</a></div>
 <div class="themes">${counts.map((c) => `<a class="theme" href="${L(lang, '/art/theme/' + c.theme)}"><img src="/img/${covers[c.theme]}.jpg" alt="" loading="lazy"><b>${esc(THEMES[c.theme]?.[lang] || c.theme)}</b><span>${c.n} ${lang === 'ko' ? '점' : 'artworks'}</span></a>`).join('')}</div></section>
 <section class="wrap sec"><div class="sh"><h2>${t.newIn}</h2></div><div class="masonry">${feat.map((a) => tile(a, lang)).join('')}</div></section>`;
@@ -254,6 +255,32 @@ function thanks(lang, url) {
   return html(layout(lang, { title: `${ko ? '결제 완료' : 'Thank you'} — ${t.site}`, desc: '', path: '/thanks', body, noindex: true }));
 }
 
+
+// ---------- Arttrip Originals: our own illustrations, patterns and lettering ----------
+const isOrig = (p) => p.cat === 'illustrations' || p.cat === 'originals';
+const ORIG_LINES = [
+  ['illustrations', { en: 'Illustration sets', ko: '일러스트 세트' }, { en: 'Characters, cozy scenes and seasons — clipart, stickers and calendars.', ko: '인물, 포근한 일상, 계절 장면 — 클립아트, 스티커, 달력' }],
+  ['patterns', { en: 'Patterns', ko: '패턴' }, { en: 'Seamless repeat tiles for wrapping paper, fabric, tumblers and backgrounds.', ko: '포장지, 원단, 텀블러, 배경에 쓰는 이어지는 반복 무늬' }],
+  ['lettering', { en: 'Lettering', ko: '글씨 디자인' }, { en: 'Quotes and celebration words set in beautiful type — for T-shirts, posters and cards.', ko: '명언과 축하 문구를 예쁜 글씨로 — 티셔츠, 포스터, 카드용' }],
+];
+function originals(lang) {
+  const ko = lang === 'ko', t = T[lang];
+  const line = (k) => PRODUCTS.filter((p) => isOrig(p) && (p.line || 'illustrations') === k);
+  const jump = ORIG_LINES.map(([k, n]) => `<a href="#${k}">${esc(n[lang])}</a>`).join('') + `<a href="${L(lang, '/illustrations')}">${ko ? '인물 일러스트 주제' : 'Character themes'}</a>`;
+  const secs = ORIG_LINES.map(([k, n, d]) => { const list = line(k);
+    return `<div class="sh" id="${k}" style="margin-top:38px"><h2>${esc(n[lang])}</h2><span class="small">${list.length ? list.length : ''}</span></div><p class="small">${esc(d[lang])}</p>` +
+      (list.length ? `<div class="pgrid">${list.map((p) => productCard(p, lang)).join('')}</div>` : `<p class="sub">${ko ? '첫 세트를 만들고 있어요. 곧 공개돼요.' : 'The first sets are in the studio now — coming soon.'}</p>`); }).join('');
+  const tiles = Object.entries(IL_CATS).filter(([k]) => IL_COVER[k]).map(([k, c]) => `<a class="ilcat" href="${L(lang, '/illustrations/' + k)}"><div class="ilimg">${IL_COVER[k] ? `<img src="${IL_COVER[k]}" alt="" loading="lazy">` : `<i>${esc(c[lang].slice(0, 1))}</i>`}</div><b>${esc(c[lang])}</b></a>`).join('');
+  const title = ko ? '아트트립 오리지널 — 자체 일러스트·패턴·글씨 디자인 | 아트트립 스튜디오' : 'Arttrip Originals — Our Own Illustrations, Patterns & Lettering | Arttrip Studio';
+  const desc = ko ? '아트트립 스튜디오가 직접 만든 일러스트, 반복 패턴, 글씨 디자인. 명화와 섞어 편집기에서 바로 꾸밀 수 있어요.' : 'Illustrations, seamless patterns and lettering made in-house by Arttrip Studio. Mix them with masterpieces in the online editor.';
+  const body = `<section class="wrap sec"><span class="lbl">${t.nav.illus}</span><h1>${ko ? '아트트립 오리지널' : 'Arttrip Originals'}</h1>
+<p class="sub">${ko ? '명화 컬렉션 옆에, 우리가 직접 그리고 다듬은 디자인을 모았어요. 일러스트, 반복 패턴, 글씨 디자인을 명화와 섞어 쓰면 어디에도 없는 작품이 돼요.' : 'Alongside the masterpiece collection, these are designs we draw and finish ourselves. Mix illustrations, patterns and lettering with old masters to make something no one else has.'}</p>
+<div class="chips wrapc">${jump}</div>${secs}
+<div class="sh" style="margin-top:38px"><h2>${ko ? '인물 일러스트 주제' : 'Character illustration themes'}</h2><a href="${L(lang, '/illustrations')}">${ko ? '10가지 주제 모두' : 'All 10 themes'} →</a></div><div class="ilgrid">${tiles}</div>
+<div class="edban" style="margin-top:40px"><a href="${L(lang, '/editor')}?new=1"><b>${ko ? '명화와 오리지널을 한 장에' : 'Masterpieces and Originals on one page'}</b><span>${ko ? '편집기에서 명화 배경 위에 일러스트와 글씨를 얹어 보세요.' : 'Layer our illustrations and lettering over a masterpiece in the editor.'}</span><em>${ko ? '편집기 열기 →' : 'Open the editor →'}</em></a></div></section>`;
+  return html(layout(lang, { title, desc, path: '/originals', body, img: '/p/cafe-girl-clipart.jpg', jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, description: desc } }));
+}
+
 // ---------- original illustrations ----------
 const IL_COVER = { everyday: '/il/everyday.png', seasons: '/il/seasons.jpg' };
 function illus(lang, cat) {
@@ -267,7 +294,7 @@ function illus(lang, cat) {
     path = '/illustrations';
     const tiles = Object.entries(IL_CATS).map(([k, c]) => { const n = sets(k).length; const cover = IL_COVER[k];
       return `<a class="ilcat" href="${L(lang, '/illustrations/' + k)}"><div class="ilimg">${cover ? `<img src="${cover}" alt="" loading="lazy">` : `<i>${esc(c[lang].slice(0, 1))}</i>`}</div><b>${esc(c[lang])}</b><span>${n ? (ko ? `상품 ${n}개` : `${n} ${n > 1 ? 'sets' : 'set'}`) : (ko ? '준비 중' : 'Coming soon')} · ${ko ? `주제 ${c.topics.length}가지` : `${c.topics.length} topics`}</span></a>`; }).join('');
-    body = `<section class="wrap sec"><span class="lbl">${t.nav.illus}</span><h1>${ko ? '손그림 인물 일러스트' : 'Hand-drawn character illustrations'}</h1>
+    body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/originals')}">${t.nav.illus}</a></nav><h1>${ko ? '손그림 인물 일러스트' : 'Hand-drawn character illustrations'}</h1>
 <p class="sub">${ko ? '한 인물을 여러 동작으로 그린 클립아트와 스티커 세트예요. 카드, 플래너, 블로그, 작은 가게 상품에 쓰세요.' : 'One character, many poses — clipart and sticker sets for cards, planners, blogs and small-shop products.'}</p>
 <p class="small">${esc(IL_STYLES[lang])}</p><div class="chips wrapc">${chips}</div><div class="ilgrid">${tiles}</div></section>`;
   } else {
@@ -276,7 +303,7 @@ function illus(lang, cat) {
     desc = ko ? `${c.ko} 주제의 손그림 인물 클립아트와 스티커: ${c.topics.map((x) => x[1]).join(', ')}.` : `Hand-drawn ${c.en.toLowerCase()} character clipart and stickers: ${c.topics.map((x) => x[0].toLowerCase()).join(', ')}.`;
     path = '/illustrations/' + cat;
     const topics = c.topics.map((x, i) => { const has = list.some((p) => p.topic === i); return `<li${has ? ' class="on"' : ''}>${esc(ko ? x[1] : x[0])}<em>${has ? (ko ? '판매 중' : 'Available') : (ko ? '준비 중' : 'Coming soon')}</em></li>`; }).join('');
-    body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/illustrations')}">${t.nav.illus}</a></nav><h1>${esc(c[lang])}</h1>
+    body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/originals')}">${t.nav.illus}</a> › <a href="${L(lang, '/illustrations')}">${ko ? '인물 일러스트' : 'Characters'}</a></nav><h1>${esc(c[lang])}</h1>
 <div class="chips wrapc">${chips}</div>${list.length ? `<div class="pgrid">${list.map((p) => productCard(p, lang)).join('')}</div>` : `<p class="sub">${ko ? '이 주제의 세트를 준비하고 있어요.' : 'Sets for this theme are on the way.'}</p>`}
 <h2 class="h3">${ko ? '이 카테고리의 주제' : 'Topics in this category'}</h2><ul class="iltopics">${topics}</ul></section>`;
   }
@@ -287,9 +314,9 @@ function illus(lang, cat) {
 function shop(lang) {
   const t = T[lang], ko = lang === 'ko';
   const groups = [
-    ['planners', ko ? '플래너·인쇄물' : 'Planners & printables', PRODUCTS.filter((p) => !['illustrations', 'artist-calendars'].includes(p.cat))],
+    ['planners', ko ? '플래너·인쇄물' : 'Planners & printables', PRODUCTS.filter((p) => !isOrig(p) && p.cat !== 'artist-calendars')],
     ['calendars', ko ? '화가별 명화 달력 2027' : 'Artist wall calendars 2027', PRODUCTS.filter((p) => p.cat === 'artist-calendars')],
-    ['illustrations', ko ? '손그림 일러스트' : 'Hand-drawn illustrations', PRODUCTS.filter((p) => p.cat === 'illustrations')],
+    ['originals', ko ? '아트트립 오리지널' : 'Arttrip Originals', PRODUCTS.filter(isOrig)],
   ];
   const body = `<section class="wrap sec"><span class="lbl">${t.nav.shop}</span><h1>${ko ? '바로 쓰는 디지털 상품' : 'Ready-to-use digital products'}</h1><p class="sub">${ko ? '명화와 손그림 일러스트로 만든 플래너, 달력, 클립아트를 바로 내려받으세요. 회원가입 없이 구매할 수 있어요.' : 'Planners, calendars and clipart made from masterpieces and hand-drawn illustrations. Instant download, no account needed.'}</p>
 <div class="chips wrapc">${groups.map(([id, h]) => `<a href="#${id}">${esc(h)}</a>`).join('')}</div>
@@ -346,7 +373,7 @@ async function sitemapPart(url, env, kind, lg, n) {
   const alt = (p) => `<xhtml:link rel="alternate" hreflang="en" href="${url.origin}${p}"/><xhtml:link rel="alternate" hreflang="ko" href="${url.origin}/ko${p === '/' ? '' : p}"/>`;
   let paths = [];
   if (kind === 'pages') {
-    paths = ['/', '/art', '/studio', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
+    paths = ['/', '/art', '/studio', '/originals', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
     const artists = await all(env, 'SELECT artist_slug s, COUNT(*) c FROM artworks GROUP BY artist_slug HAVING c >= 2');
     paths.push(...artists.map((a) => '/artist/' + a.s));
   } else {
