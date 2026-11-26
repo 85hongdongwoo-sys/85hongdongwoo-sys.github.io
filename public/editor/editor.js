@@ -180,7 +180,7 @@
     '<button class="ebtn ghost" id="bSave">' + T('Save', '저장') + '</button><button class="ebtn" id="bExport">' + T('Download', '다운로드') + '</button>' +
     '</header>' +
     '<div class="ebody">' +
-    '<nav class="erail">' + [['add', T('Add', '추가'), '+'], ['art', T('Art', '명화'), '❖'], ['word', T('Verses', '말씀'), '❝'], ['kit', T('Elements', '꾸미기'), '✂'], ['tpl', T('Templates', '템플릿'), '▦'], ['bg', T('Paper', '배경지'), '◧'], ['layers', T('Layers', '레이어'), '≡']].map(function (r, i) { return '<button data-tab="' + r[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>' + r[2] + '</i>' + r[1] + '</button>'; }).join('') + '</nav>' +
+    '<nav class="erail">' + [['add', T('Add', '추가'), '+'], ['art', T('Art', '명화'), '❖'], ['word', T('Verses', '말씀'), '❝'], ['quote', T('Quotes', '명언'), '“'], ['kit', T('Elements', '꾸미기'), '✂'], ['tpl', T('Templates', '템플릿'), '▦'], ['bg', T('Paper', '배경지'), '◧'], ['layers', T('Layers', '레이어'), '≡']].map(function (r, i) { return '<button data-tab="' + r[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>' + r[2] + '</i>' + r[1] + '</button>'; }).join('') + '</nav>' +
     '<aside class="epanel" id="ePanel"></aside>' +
     '<main class="estage" id="eStage"><div class="ecanvas" id="eWrap"><canvas id="eCv"></canvas><canvas id="eOv"></canvas><textarea id="eTx" class="etx" spellcheck="false"></textarea></div></main>' +
     '<aside class="eprops" id="eProps"></aside>' +
@@ -337,13 +337,77 @@
     }
     $('eWbook').onchange = fillCh; $('eWch').onchange = loadCh; fillBooks();
   }
+
+  // ---------- Quotes (명언) ----------
+  var QD = null, QL = ko ? 'ko' : 'en', QR = [], QN = 0;
+  function qWho(r) { var a = QD.authors[r[1]]; return QL === 'en' ? a[0] : a[1]; }
+  function qRef(r) {
+    var a = QD.authors[r[1]], name = QL === 'en' ? a[0] : a[1];
+    if (r[5] && QL !== 'en') return '— ' + name + ' · ' + r[5].replace(/\s*\(.*\)$/, '');
+    return '— ' + name;
+  }
+  function qText(r) { return QL === 'orig' ? r[4] + '\n' + r[3] : QL === 'ko' ? (r[3] || r[0]) : r[0]; }
+  function qShow(reset) {
+    var box = $('eQres'); if (reset) { QN = 0; box.innerHTML = ''; }
+    var list = QR.filter(function (r) { return QL === 'orig' ? !!r[4] : true; });
+    if (QL === 'ko') list = list.filter(function (r) { return r[3]; }).concat(list.filter(function (r) { return !r[3]; }));
+    var part = list.slice(QN, QN + 30); QN += part.length;
+    box.insertAdjacentHTML('beforeend', part.map(function (r) {
+      var a = QD.authors[r[1]], role = QL === 'en' ? a[2] : a[3], t = qText(r), en = QL === 'ko' && !r[3];
+      return '<button class="ewv eqv" data-i="' + QD.q.indexOf(r) + '"><span>' + esc2(t) + '</span><b>' + esc2(qRef(r)) + (role ? ' <i>' + esc2(role) + '</i>' : '') + (en ? ' <em>EN</em>' : '') + '</b></button>';
+    }).join(''));
+    box.querySelectorAll('.eqv:not([data-on])').forEach(function (b) { b.dataset.on = 1; b.onclick = function () { var r = QD.q[+b.dataset.i], L0 = QL; if (L0 === 'ko' && !r[3]) QL = 'en'; addVerse(qText(r), qRef(r)); QL = L0; }; });
+    $('eQmore').hidden = QN >= list.length;
+    if (!list.length) box.innerHTML = '<p class="esmall">' + T('No quotes found. Try other words.', '찾은 명언이 없어요. 다른 말로 찾아보세요.') + '</p>';
+    $('eQinfo').textContent = list.length ? (ko ? list.length.toLocaleString() + '개' : list.length.toLocaleString() + ' quotes') : '';
+  }
+  function qTopic(ids) {
+    var ix = ids.map(function (id) { return QD.topics.findIndex(function (t) { return t[0] === id; }); }).filter(function (i) { return i >= 0; });
+    $('eQtopics').querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', ids.indexOf(b.dataset.t) >= 0); });
+    var seen = {}, out = [];
+    ix.forEach(function (i) { QD.q.forEach(function (r, n) { if (!seen[n] && r[2].indexOf(i) >= 0) { seen[n] = 1; out.push(r); } }); });
+    return out;
+  }
+  function qSearch(q) {
+    var ql = q.toLowerCase().replace(/\s+/g, ' ').trim(), box = $('eQres');
+    var au = [], tx = [];
+    if (ql.length >= 2) {
+      QD.authors.forEach(function (a, i) { if (a[0].toLowerCase().indexOf(ql) >= 0 || (a[1] && a[1].replace(/\s/g, '').indexOf(ql.replace(/\s/g, '')) >= 0)) au.push(i); });
+      QD.q.forEach(function (r) { if (au.indexOf(r[1]) < 0 && (r[0].toLowerCase().indexOf(ql) >= 0 || (r[3] && r[3].indexOf(q) >= 0) || (r[4] && r[4].indexOf(q) >= 0))) tx.push(r); });
+    }
+    var hits = QD.q.filter(function (r) { return au.indexOf(r[1]) >= 0; }).concat(tx);
+    var wordy = /\s/.test(q) && q.length > 6;
+    if (hits.length >= 6 && !wordy) { QR = hits; $('eQtopics').querySelectorAll('button').forEach(function (b) { b.classList.remove('on'); }); return qShow(true); }
+    box.innerHTML = '<p class="esmall">' + T('Searching…', '찾는 중…') + '</p>';
+    fetch('/api/quotes?q=' + encodeURIComponent(q)).then(function (r) { return r.json(); }).then(function (d) {
+      QR = hits.concat(qTopic(d.topics || []).filter(function (r) { return hits.indexOf(r) < 0; })); qShow(true);
+    }).catch(function () { QR = hits; qShow(true); });
+  }
+  function quoteInit() {
+    var go = function () {
+      $('eQtopics').innerHTML = '<button data-t="_r">' + T('Random', '랜덤') + '</button>' + QD.topics.map(function (t) { return '<button data-t="' + t[0] + '">' + esc2(ko ? t[2] : t[1]) + '</button>'; }).join('');
+      $('eQtopics').querySelectorAll('button').forEach(function (b) { b.onclick = function () {
+        if (b.dataset.t === '_r') { QR = QD.q.slice().sort(function () { return Math.random() - 0.5; }).slice(0, 60); $('eQtopics').querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); }
+        else QR = qTopic([b.dataset.t]);
+        qShow(true);
+      }; });
+      $('eQgo').onclick = function () { var q = $('eQq').value.trim(); if (q) qSearch(q); };
+      $('eQq').onkeydown = function (e) { if (e.key === 'Enter') $('eQgo').onclick(); e.stopPropagation(); };
+      $('eQmore').onclick = function () { qShow(false); };
+      $('eQlang').querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', b.dataset.l === QL); b.onclick = function () { QL = b.dataset.l; $('eQlang').querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); if (QL === 'orig' && !QR.some(function (r) { return r[4]; })) QR = QD.q.filter(function (r) { return r[4]; }); qShow(true); }; });
+      if (!QR.length) QR = QD.q.slice(0, 120);
+      qShow(true);
+    };
+    $('eQres').innerHTML = '<p class="esmall">' + T('Loading…', '불러오는 중…') + '</p>';
+    if (QD) go(); else fetch('/quotes.json').then(function (r) { return r.json(); }).then(function (d) { QD = d; go(); });
+  }
   function addVerse(text, ref) {
     var kr = /[가-힣]/.test(text), len = text.length, size = kr ? (len < 30 ? 22 : len < 60 ? 17 : 13) : (len < 50 ? 22 : len < 110 ? 16 : 12);
     var o = { type: 'text', text: text, font: kr ? 'Gowun Batang' : 'Cormorant Garamond', italic: !kr, size: size, color: '#2c241c', align: 'center', lh: 1.4, x: doc.w * 0.12, y: doc.h * 0.36, w: doc.w * 0.76 };
     o.h = textHeight(cx, o); add(o, true);
     var r = { type: 'text', text: ref, font: kr ? 'Noto Sans KR' : 'Josefin Sans', size: 9, color: '#8a5a3c', align: 'center', ls: 0.12, x: o.x, y: o.y + o.h + 4, w: o.w };
     if (!kr) r.upper = true; r.h = textHeight(cx, r); add(r);
-    toast(T('Verse added', '말씀을 넣었어요'));
+    toast(tab === 'quote' ? T('Quote added', '명언을 넣었어요') : T('Verse added', '말씀을 넣었어요'));
   }
 
   // ---------- adding ----------
@@ -448,6 +512,10 @@
       '<div class="echips" id="eWtopics"></div><div id="eWres" class="ewres"></div>' +
       '<h3>' + T('Browse by book', '성경 펼쳐 보기') + '</h3><div class="ewbrowse"><select id="eWbook"></select><select id="eWch"></select></div><div id="eWch_v" class="ewres"></div>' +
       '<p class="esmall">' + T('Verses come word for word from the KJV and the 1961 Korean Revised Version, both in the public domain. The AI only finds them; it never writes Scripture.', '말씀은 개역한글판(1961)과 KJV 원문 그대로 가져와요. 둘 다 저작권이 끝난 공개 본문이에요. AI는 찾아 주기만 하고 말씀을 지어내지 않아요.') + '</p>';
+    if (tab === 'quote') h = '<h3>' + T('Find a quote', '명언 찾기') + '</h3><div class="ewq"><input class="esearch" id="eQq" placeholder="' + T('e.g. graduation card, Van Gogh, courage', '예: 졸업 축하 카드, 고흐, 용기, 공자') + '"><button id="eQgo">' + T('Find', '찾기') + '</button></div>' +
+      '<div class="eseg" id="eQlang"><button data-l="ko"' + (ko ? ' class="on"' : '') + '>한글</button><button data-l="en"' + (ko ? '' : ' class="on"') + '>English</button><button data-l="orig">' + T('Classical', '원문') + '</button></div>' +
+      '<div class="echips" id="eQtopics"></div><p class="esmall" id="eQinfo"></p><div id="eQres" class="ewres"></div><button class="eqmore" id="eQmore" hidden>' + T('Show more', '더 보기') + '</button>' +
+      '<p class="esmall">' + T('Every quote carries the name of the person it is attributed to. We only include people who died more than 70 years ago, so the words are in the public domain. Some famous sayings have disputed origins. The AI only picks topics; it never writes quotes.', '모든 명언에 말한 사람을 함께 적었어요. 세상을 떠난 지 70년이 넘은 인물만 모아 저작권 걱정이 없어요. 유명한 말 중 일부는 출처에 이견이 있을 수 있어요. AI는 주제만 골라 주고 명언을 지어내지 않아요. 한글 번역은 아트트립이 직접 옮겼어요.') + '</p>';
     if (tab === 'art') h = '<h3>' + T('Masterpieces', '명화') + '</h3><input class="esearch" id="eQ" placeholder="' + T('Search artist, title, theme', '화가·작품·주제 검색') + '"><div class="echips" id="eThemes"></div><div class="eart" id="eArt"></div><p class="esmall">' + T('All works are public domain (CC0). Click to add, then Alt+drag inside a picture to move it within its frame.', '모든 작품은 저작권이 끝난 퍼블릭 도메인이에요. 눌러서 넣고, 그림 안에서 Alt를 누른 채 끌면 틀 안에서 위치를 옮겨요.') + '</p>';
     if (tab === 'kit') h = '<h3>' + T('Journal elements', '저널 꾸미기') + '</h3><div class="ekit">' + [['stamp', T('Postage stamp', '우표')], ['ticket', T('Ticket', '티켓')], ['tape', T('Washi tape', '마스킹 테이프')], ['frame', T('Arch frame', '아치 액자')], ['oval', T('Oval cameo', '타원 액자')], ['torn', T('Torn scrap', '찢은 종이')], ['polaroid', T('Polaroid', '폴라로이드')], ['tag', T('Gift tag', '선물 꼬리표')], ['label', T('Specimen label', '표본 라벨')]].map(function (b) { return '<button data-el="' + b[0] + '"><span class="ek ek-' + b[0] + '"></span>' + b[1] + '</button>'; }).join('') + '</div><p class="esmall">' + T('Each element picks a random masterpiece. Change it in the panel on the right.', '꾸미기 요소는 명화를 하나 골라 채워요. 오른쪽 설정에서 다른 그림으로 바꿀 수 있어요.') + '</p>';
     if (tab === 'tpl') h = '<h3>' + T('Art papers', '아트페이퍼') + '</h3><div class="etpl">' + PAPER_TPL.map(function (t) { return '<button data-tpl="' + t.id + '"><canvas width="120" height="160" data-prev="' + t.id + '"></canvas><span>' + t.n + '</span></button>'; }).join('') + '</div><p class="esmall">' + T('Adds a new page with the design.', '디자인이 새 페이지로 추가돼요.') + '</p>' +
@@ -458,7 +526,7 @@
       '<h3>' + T('Masterpiece as paper', '명화를 배경으로') + '</h3><p class="esmall">' + T('Select a picture, then press “Make background” in its settings.', '그림을 고른 뒤 오른쪽 설정에서 [배경으로]를 누르세요.') + '</p>'; }
     if (tab === 'layers') h = '<h3>' + T('Layers on this page', '이 페이지의 레이어') + '</h3><div id="eLayers"></div>';
     P.innerHTML = h;
-    if (tab === 'word') wordInit(); if (tab === 'art') artGrid(); if (tab === 'layers') layersPanel(); if (tab === 'tpl') tplPrev();
+    if (tab === 'word') wordInit(); if (tab === 'quote') quoteInit(); if (tab === 'art') artGrid(); if (tab === 'layers') layersPanel(); if (tab === 'tpl') tplPrev();
   }
   function rng(id, lab, v, min, max, st) { return '<label class="erng"><span>' + lab + '</span><input type="range" data-r="' + id + '" min="' + (min == null ? 0 : min) + '" max="' + (max == null ? 1 : max) + '" step="' + (st || 0.01) + '" value="' + v + '"></label>'; }
   function artGrid() {

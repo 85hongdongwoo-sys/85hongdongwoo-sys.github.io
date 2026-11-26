@@ -61,7 +61,7 @@ button:hover{border-color:#cfc6b8}button.on{background:#1f1b16;color:#fff;border
  .etitle,#eSize,.egroup:nth-of-type(2){display:none}
 }
 @media (max-width:600px){
- .erail{width:56px;padding:4px}.erail button{font-size:10px}.epanel{left:56px;width:calc(100vw - 56px)}
+ .erail{width:56px;padding:4px;overflow-y:auto}.erail button{padding:6px 2px}.erail button{font-size:10px}.epanel{left:56px;width:calc(100vw - 56px)}
  .ebar{gap:6px;padding:6px 8px}.ebrand{font-size:15px}.elock{display:none}.ebtn{padding:7px 12px;font-size:13px}
 }
 
@@ -72,3 +72,9 @@ button:hover{border-color:#cfc6b8}button.on{background:#1f1b16;color:#fff;border
 .ewv{text-align:left;border:1px solid #e6dfd3;background:#fffdf9;border-radius:10px;padding:9px 10px;cursor:pointer;display:flex;flex-direction:column;gap:4px;font:14px/1.5 'Gowun Batang','Cormorant Garamond',serif;color:#2c241c}
 .ewv:hover{border-color:#a2483b;background:#fff}.ewv b{font:600 11px 'Noto Sans KR','Josefin Sans',sans-serif;color:#8a5a3c;letter-spacing:.04em}
 .ewbrowse{display:flex;gap:6px}.ewbrowse select{flex:1;min-width:0;padding:6px;border:1px solid #d9d2c6;border-radius:8px;background:#fff}
+
+.eqv b i{font-style:normal;opacity:.6;font-weight:400}
+.eqv b em{font-style:normal;font-size:9px;border:1px solid currentColor;border-radius:3px;padding:0 3px;margin-left:4px;opacity:.6}
+.eqv span{white-space:pre-line}
+.eqmore{width:100%;margin:8px 0;padding:8px;border:1px solid #d9cfc2;background:#fff;border-radius:8px;cursor:pointer;font:inherit}
+#eQinfo{margin:4px 0 0}

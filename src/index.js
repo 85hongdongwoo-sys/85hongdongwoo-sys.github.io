@@ -1,4 +1,5 @@
 import { VERSE_TOPICS } from './verses.js';
+import { QUOTE_TOPICS } from './quotes.js';
 // Arttrip Studio — pages are generated on request from D1 data, in English and Korean.
 import { T, THEMES, PRODUCTS, IL_CATS, IL_STYLES, colorName } from './i18n.js';
 import { memdb } from './memdb.js';
@@ -66,6 +67,7 @@ async function route(p, url, lang, env, REQ) {
   if (p === '/api/art.json') return url.searchParams.get('all') ? libData(env) : studioData(url, env);
   if (p === '/api/license' && REQ.method === 'POST') return license(REQ, env);
   if (p === '/api/verses') return verses(url, env);
+  if (p === '/api/quotes') return quotesApi(url, env);
   if (p === '/editor') return editor(lang, url);
   if (p.startsWith('/api/')) return api(p, REQ, env);
   if (p === '/studio') return studio(lang, env);
@@ -312,6 +314,34 @@ async function verses(url, env) {
     return J({ topics: [], verses: hits.slice(0, 14), via: 'text' });
   }
   return J({ topics: VERSE_TOPICS.filter((t) => ids.includes(t.id)).map(pub), verses: pack(ids), via });
+}
+
+// ---------- Quotes: AI only maps a request to topic ids; quotes come from /quotes.json ----------
+async function quotesApi(url, env) {
+  const J = (o) => new Response(JSON.stringify(o), { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300' } });
+  const q = (url.searchParams.get('q') || '').trim().slice(0, 200), ql = q.toLowerCase();
+  if (!q) return J({ topics: [] });
+  const score = QUOTE_TOPICS.map((t) => [t.id, t.kw.reduce((n, k) => n + (ql.includes(k) ? 2 : 0), 0) + (ql.includes(t.ko) || ql.includes(t.en.toLowerCase()) ? 3 : 0)]).filter((x) => x[1] > 0).sort((a, b) => b[1] - a[1]);
+  let ids = [], via = 'keywords';
+  if (env.AI) {
+    try {
+      const list = QUOTE_TOPICS.map((t) => `${t.id}: ${t.en} / ${t.ko}`).join('\n');
+      const msgs = [
+        { role: 'system', content: 'You map a request for a famous quote to topic ids. Think about the occasion and what the person wants to say (for example, a graduation card needs learning, hope and success). Reply with only a JSON array of 1 to 3 topic ids from this list, most relevant first. No other text.\n' + list },
+        { role: 'user', content: q } ];
+      let r = null, lastErr = '';
+      for (const model of (AI_MODEL ? [AI_MODEL] : AI_MODELS)) {
+        try { r = await env.AI.run(model, { max_tokens: 60, messages: msgs }); AI_MODEL = model; break; } catch (e) { lastErr = String(e && e.message || e); if (AI_MODEL) AI_MODEL = null; }
+      }
+      if (!r) throw new Error(lastErr || 'no model');
+      const txt = typeof r === 'string' ? r : (r.response ?? r.choices?.[0]?.message?.content ?? r.result?.response ?? '');
+      const m = String(typeof txt === 'string' ? txt : JSON.stringify(txt)).match(/\[[^\]]*\]/);
+      if (m) ids = JSON.parse(m[0]).filter((id) => QUOTE_TOPICS.some((t) => t.id === id)).slice(0, 3);
+      via = 'ai:' + AI_MODEL;
+    } catch (e) { ids = []; via = 'ai-error: ' + String(e && e.message || e).slice(0, 160); }
+  } else via = 'no-ai-binding';
+  if (!ids.length) ids = score.slice(0, 3).map((x) => x[0]);
+  return J({ topics: ids, via });
 }
 
 // ---------- Collections: the big image categories ----------
