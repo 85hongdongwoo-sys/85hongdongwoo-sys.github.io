@@ -577,7 +577,7 @@
     return c;
   }
   function marks(x, s, b) { x.save(); x.strokeStyle = '#000'; x.lineWidth = 0.25 * s; var W = (doc.w + 2 * b) * s, H = (doc.h + 2 * b) * s, o = b * s, L = 2.5 * s; [[o, 0, o, L], [0, o, L, o], [W - o, 0, W - o, L], [W, o, W - L, o], [o, H, o, H - L], [0, H - o, L, H - o], [W - o, H, W - o, H - L], [W, H - o, W - L, H - o]].forEach(function (l) { x.beginPath(); x.moveTo(l[0], l[1]); x.lineTo(l[2], l[3]); x.stroke(); }); x.restore(); }
-  function waitImgs() { var srcs = []; doc.pages.forEach(function (p) { if (p.bg && p.bg.src) srcs.push(p.bg.src); p.items.forEach(function (it) { if (it.src) srcs.push(it.src); if (it.hi && unlocked) srcs.push(it.hi); }); }); srcs.forEach(img); return new Promise(function (res) { var t0 = Date.now(); (function chk() { var left = srcs.filter(function (s) { var c = IMG[s]; return c && !c.ok && !c.bad; }); if (!left.length || Date.now() - t0 > 20000) res(); else setTimeout(chk, 200); })(); }); }
+  function waitImgs() { var srcs = []; doc.pages.forEach(function (p) { if (p.bg && p.bg.src) srcs.push(p.bg.src); if (p.bg && p.bg.hi && unlocked) srcs.push(p.bg.hi); p.items.forEach(function (it) { if (it.src) srcs.push(it.src); if (it.hi && unlocked) srcs.push(it.hi); }); }); srcs.forEach(img); return new Promise(function (res) { var t0 = Date.now(); (function chk() { var left = srcs.filter(function (s) { var c = IMG[s]; return c && !c.ok && !c.bad; }); if (!left.length || Date.now() - t0 > 20000) res(); else setTimeout(chk, 200); })(); }); }
   function doExport(f, bleed) {
     var dpi = unlocked ? fullDpi() : 100, prog = $('eProg'), name = (doc.title || 'arttrip').replace(/[^\w\-가-힣 ]+/g, '').trim().replace(/\s+/g, '_') || 'arttrip';
     prog.textContent = T('Preparing images…', '그림을 준비하는 중…');
