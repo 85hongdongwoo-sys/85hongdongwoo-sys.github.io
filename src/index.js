@@ -120,7 +120,7 @@ async function home(lang, env) {
   const hero = feat.find((a) => a.id === '89503') || feat[0];
   const counts = await all(env, 'SELECT theme, COUNT(*) n, MIN(id) id FROM artworks GROUP BY theme ORDER BY n DESC');
   const cover = await all(env, "SELECT theme, id FROM artworks WHERE id IN (SELECT MIN(id) FROM artworks GROUP BY theme)");
-  const covers = Object.fromEntries(cover.map((c) => [c.theme, c.id]));
+  const covers = { ...Object.fromEntries(cover.map((c) => [c.theme, c.id])), birds: '222003', horses: '97890' };
   const total = counts.reduce((s, c) => s + c.n, 0);
   const prods = PRODUCTS.filter((p) => !['illustrations', 'artist-calendars'].includes(p.cat)).slice(0, 4).map((p) => productCard(p, lang)).join('');
   const body = `<section class="hero"><div class="wrap hgrid"><div class="htxt"><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
