@@ -327,7 +327,7 @@ async function quotesApi(url, env) {
     try {
       const list = QUOTE_TOPICS.map((t) => `${t.id}: ${t.en} / ${t.ko}`).join('\n');
       const msgs = [
-        { role: 'system', content: 'You map a request for a famous quote to topic ids. Think about the occasion and what the person wants to say (for example, a graduation card needs learning, hope and success). Reply with only a JSON array of 1 to 3 topic ids from this list, most relevant first. No other text.\n' + list },
+        { role: 'system', content: 'You map a request for a famous quote to topic ids. Think about the occasion and what the person wants to say (for example, a graduation card needs learning, hope and success; comforting someone after a loss needs death first, then peace and hope). Reply with only a JSON array of 1 to 3 topic ids from this list, most relevant first. No other text.\n' + list },
         { role: 'user', content: q } ];
       let r = null, lastErr = '';
       for (const model of (AI_MODEL ? [AI_MODEL] : AI_MODELS)) {
