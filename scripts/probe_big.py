@@ -10,7 +10,7 @@ def req(url, method='GET'):
 os.makedirs('big', exist_ok=True)
 out = {'aic': [], 'cma': []}
 # Chicago: test the IIIF server at 6000px for works whose originals are >= 6000px
-aic = [x for x in json.load(open('more/aic.json')) if max(x.get('w', 0), x.get('h', 0)) >= 6000]
+aic = []  # Chicago's IIIF server caps public downloads at 3000px (403 above), checked 2026-11-26
 for i, x in enumerate(aic):
     base = x['img'].split('/full/')[0]
     got = None
@@ -31,7 +31,7 @@ for typ in ('Painting', 'Print', 'Drawing'):
             im = x.get('images') or {}
             pr, fu = im.get('print') or {}, im.get('full') or {}
             out['cma'].append({'id': x['id'], 'acc': x.get('accession_number'), 'title': x.get('title'), 'artist': ((x.get('creators') or [{}])[0] or {}).get('description'),
-                               'type': x.get('type'), 'print': [pr.get('url'), pr.get('width'), pr.get('height')], 'full': [fu.get('url'), fu.get('width'), fu.get('height'), fu.get('filesize')]})
+                               'type': x.get('type'), 'print': [pr.get('url'), int(pr.get('width') or 0), int(pr.get('height') or 0)], 'full': [fu.get('url'), int(fu.get('width') or 0), int(fu.get('height') or 0), fu.get('filesize')]})
         print('cma', typ, skip, len(d), file=sys.stderr)
         if len(d) < 1000 or skip >= 9000: break
         skip += 1000
