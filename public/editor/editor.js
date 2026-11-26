@@ -180,7 +180,7 @@
     '<button class="ebtn ghost" id="bSave">' + T('Save', '저장') + '</button><button class="ebtn" id="bExport">' + T('Download', '다운로드') + '</button>' +
     '</header>' +
     '<div class="ebody">' +
-    '<nav class="erail">' + [['add', T('Add', '추가'), '+'], ['art', T('Art', '명화'), '❖'], ['kit', T('Elements', '꾸미기'), '✂'], ['tpl', T('Templates', '템플릿'), '▦'], ['bg', T('Paper', '배경지'), '◧'], ['layers', T('Layers', '레이어'), '≡']].map(function (r, i) { return '<button data-tab="' + r[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>' + r[2] + '</i>' + r[1] + '</button>'; }).join('') + '</nav>' +
+    '<nav class="erail">' + [['add', T('Add', '추가'), '+'], ['art', T('Art', '명화'), '❖'], ['word', T('Verses', '말씀'), '❝'], ['kit', T('Elements', '꾸미기'), '✂'], ['tpl', T('Templates', '템플릿'), '▦'], ['bg', T('Paper', '배경지'), '◧'], ['layers', T('Layers', '레이어'), '≡']].map(function (r, i) { return '<button data-tab="' + r[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>' + r[2] + '</i>' + r[1] + '</button>'; }).join('') + '</nav>' +
     '<aside class="epanel" id="ePanel"></aside>' +
     '<main class="estage" id="eStage"><div class="ecanvas" id="eWrap"><canvas id="eCv"></canvas><canvas id="eOv"></canvas><textarea id="eTx" class="etx" spellcheck="false"></textarea></div></main>' +
     '<aside class="eprops" id="eProps"></aside>' +
@@ -298,6 +298,54 @@
   function order(dir) { var a = page().items, it = item(sel); if (!it) return; var i = a.indexOf(it); a.splice(i, 1); var j = dir === 'top' ? a.length : dir === 'bottom' ? 0 : Math.max(0, Math.min(a.length, i + dir)); a.splice(j, 0, it); commit(); refresh(); }
   function align(how) { var it = item(sel); if (!it) return; if (how === 'l') it.x = 0; if (how === 'c') it.x = (doc.w - it.w) / 2; if (how === 'r') it.x = doc.w - it.w; if (how === 't') it.y = 0; if (how === 'm') it.y = (doc.h - it.h) / 2; if (how === 'b') it.y = doc.h - it.h; commit(); refresh(); }
 
+
+  // ---------- Scripture (verses) ----------
+  var WL = ko ? 'ko' : 'en', BOOKS = null;
+  function esc2(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function verseCard(text, ref) { return '<button class="ewv" data-t="' + esc2(text) + '" data-r="' + esc2(ref) + '"><span>' + esc2(text) + '</span><b>' + esc2(ref) + '</b></button>'; }
+  function showVerses(list, box) {
+    box.innerHTML = list.length ? list.map(function (v) { return WL === 'ko' ? verseCard(v.tk, v.k) : verseCard(v.te, v.e); }).join('') : '<p class="esmall">' + T('No verses found. Try other words.', '찾은 말씀이 없어요. 다른 말로 찾아보세요.') + '</p>';
+    box.querySelectorAll('.ewv').forEach(function (b) { b.onclick = function () { addVerse(b.dataset.t, b.dataset.r); }; });
+  }
+  function wordFetch(qs) {
+    var box = $('eWres'); box.innerHTML = '<p class="esmall">' + T('Searching…', '찾는 중…') + '</p>';
+    fetch('/api/verses?' + qs).then(function (r) { return r.json(); }).then(function (d) {
+      wordFetch.last = d.verses || [];
+      if (d.topics && d.topics.length) $('eWtopics').querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', d.topics.some(function (t) { return t.id === b.dataset.t; })); });
+      showVerses(wordFetch.last, box);
+    }).catch(function () { box.innerHTML = '<p class="esmall">' + T('Could not search right now.', '지금은 찾을 수 없어요.') + '</p>'; });
+  }
+  function wordInit() {
+    fetch('/api/verses?list=1').then(function (r) { return r.json(); }).then(function (d) {
+      $('eWtopics').innerHTML = d.topics.map(function (t) { return '<button data-t="' + t.id + '">' + esc2(ko ? t.ko : t.en) + '</button>'; }).join('');
+      $('eWtopics').querySelectorAll('button').forEach(function (b) { b.onclick = function () { wordFetch('topic=' + b.dataset.t); }; });
+    });
+    $('eWgo').onclick = function () { var q = $('eWq').value.trim(); if (q) wordFetch('q=' + encodeURIComponent(q) + '&lang=' + WL); };
+    $('eWq').onkeydown = function (e) { if (e.key === 'Enter') $('eWgo').onclick(); e.stopPropagation(); };
+    $('eWlang').querySelectorAll('button').forEach(function (b) { b.onclick = function () { WL = b.dataset.l; $('eWlang').querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); if (wordFetch.last) showVerses(wordFetch.last, $('eWres')); fillBooks(); }; });
+    function fillBooks() {
+      var go = function () { $('eWbook').innerHTML = BOOKS[WL].map(function (n, i) { return '<option value="' + (i + 1) + '">' + esc2(n) + '</option>'; }).join(''); $('eWbook').value = String(fillBooks.b || 19); fillCh(); };
+      if (BOOKS) go(); else fetch('/bible/books.json').then(function (r) { return r.json(); }).then(function (d) { BOOKS = d; go(); });
+    }
+    function fillCh() { var b = +$('eWbook').value; fillBooks.b = b; var n = BOOKS.chapters[b - 1]; $('eWch').innerHTML = Array.from({ length: n }, function (_, i) { return '<option value="' + (i + 1) + '">' + (i + 1) + (ko ? '장' : '') + '</option>'; }).join(''); $('eWch').value = String(Math.min(fillCh.c || 23, n)); loadCh(); }
+    function loadCh() {
+      var b = +$('eWbook').value, c = +$('eWch').value; fillCh.c = c;
+      fetch('/bible/' + WL + '/' + b + '.json').then(function (r) { return r.json(); }).then(function (chs) {
+        var name = BOOKS[WL][b - 1]; if (WL === 'en' && name === 'Psalms') name = 'Psalm';
+        showVerses(chs[c - 1].map(function (t, i) { var r = name + ' ' + c + ':' + (i + 1); return WL === 'ko' ? { tk: t, k: r } : { te: t, e: r }; }), $('eWch_v'));
+      });
+    }
+    $('eWbook').onchange = fillCh; $('eWch').onchange = loadCh; fillBooks();
+  }
+  function addVerse(text, ref) {
+    var kr = /[가-힣]/.test(text), len = text.length, size = kr ? (len < 30 ? 22 : len < 60 ? 17 : 13) : (len < 50 ? 22 : len < 110 ? 16 : 12);
+    var o = { type: 'text', text: text, font: kr ? 'Gowun Batang' : 'Cormorant Garamond', italic: !kr, size: size, color: '#2c241c', align: 'center', lh: 1.4, x: doc.w * 0.12, y: doc.h * 0.36, w: doc.w * 0.76 };
+    o.h = textHeight(cx, o); add(o, true);
+    var r = { type: 'text', text: ref, font: kr ? 'Noto Sans KR' : 'Josefin Sans', size: 9, color: '#8a5a3c', align: 'center', ls: 0.12, x: o.x, y: o.y + o.h + 4, w: o.w };
+    if (!kr) r.upper = true; r.h = textHeight(cx, r); add(r);
+    toast(T('Verse added', '말씀을 넣었어요'));
+  }
+
   // ---------- adding ----------
   function add(o, noSel) { o.id = uid(); if (o.rot == null) o.rot = 0; page().items.push(o); if (!noSel) sel = o.id; commit(); refresh(); return o; }
   function addText(kind) {
@@ -395,6 +443,11 @@
       '<h3>' + T('Your photo', '내 사진') + '</h3><label class="eup"><input type="file" accept="image/*" id="eFile" multiple>' + T('Upload photos', '사진 올리기') + '<small>' + T('Stays on this device', '사진은 이 기기에만 저장돼요') + '</small></label>' +
       '<h3>' + T('Calendar grid', '달력') + '</h3><div class="egrid3">' + MONTHS[ko ? 'ko' : 'en'].map(function (m, i) { return '<button data-cal="' + i + '">' + (ko ? m : m.slice(0, 3)) + '</button>'; }).join('') + '</div>' +
       '<h3>' + T('Lines & shapes', '선과 도형') + '</h3><div class="egrid3">' + [['rule', T('Line', '선')], ['dashed', T('Dashed', '점선')], ['circle', T('Circle', '원')], ['rect', T('Block', '사각형')], ['label', T('Label', '라벨')], ['tag', T('Tag', '꼬리표')]].map(function (b) { return '<button data-el="' + b[0] + '">' + b[1] + '</button>'; }).join('') + '</div>';
+    if (tab === 'word') h = '<h3>' + T('Find a verse with AI', 'AI로 말씀 찾기') + '</h3><div class="ewq"><input class="esearch" id="eWq" placeholder="' + T('e.g. comfort for a hard week, wedding, thanks', '예: 힘든 친구를 위로하는 말씀, 결혼, 감사') + '"><button id="eWgo">' + T('Find', '찾기') + '</button></div>' +
+      '<div class="eseg" id="eWlang"><button data-l="ko"' + (ko ? ' class="on"' : '') + '>한글 (개역한글)</button><button data-l="en"' + (ko ? '' : ' class="on"') + '>English (KJV)</button></div>' +
+      '<div class="echips" id="eWtopics"></div><div id="eWres" class="ewres"></div>' +
+      '<h3>' + T('Browse by book', '성경 펼쳐 보기') + '</h3><div class="ewbrowse"><select id="eWbook"></select><select id="eWch"></select></div><div id="eWch_v" class="ewres"></div>' +
+      '<p class="esmall">' + T('Verses come word for word from the KJV and the 1961 Korean Revised Version, both in the public domain. The AI only finds them; it never writes Scripture.', '말씀은 개역한글판(1961)과 KJV 원문 그대로 가져와요. 둘 다 저작권이 끝난 공개 본문이에요. AI는 찾아 주기만 하고 말씀을 지어내지 않아요.') + '</p>';
     if (tab === 'art') h = '<h3>' + T('Masterpieces', '명화') + '</h3><input class="esearch" id="eQ" placeholder="' + T('Search artist, title, theme', '화가·작품·주제 검색') + '"><div class="echips" id="eThemes"></div><div class="eart" id="eArt"></div><p class="esmall">' + T('All works are public domain (CC0). Click to add, then Alt+drag inside a picture to move it within its frame.', '모든 작품은 저작권이 끝난 퍼블릭 도메인이에요. 눌러서 넣고, 그림 안에서 Alt를 누른 채 끌면 틀 안에서 위치를 옮겨요.') + '</p>';
     if (tab === 'kit') h = '<h3>' + T('Journal elements', '저널 꾸미기') + '</h3><div class="ekit">' + [['stamp', T('Postage stamp', '우표')], ['ticket', T('Ticket', '티켓')], ['tape', T('Washi tape', '마스킹 테이프')], ['frame', T('Arch frame', '아치 액자')], ['oval', T('Oval cameo', '타원 액자')], ['torn', T('Torn scrap', '찢은 종이')], ['polaroid', T('Polaroid', '폴라로이드')], ['tag', T('Gift tag', '선물 꼬리표')], ['label', T('Specimen label', '표본 라벨')]].map(function (b) { return '<button data-el="' + b[0] + '"><span class="ek ek-' + b[0] + '"></span>' + b[1] + '</button>'; }).join('') + '</div><p class="esmall">' + T('Each element picks a random masterpiece. Change it in the panel on the right.', '꾸미기 요소는 명화를 하나 골라 채워요. 오른쪽 설정에서 다른 그림으로 바꿀 수 있어요.') + '</p>';
     if (tab === 'tpl') h = '<h3>' + T('Art papers', '아트페이퍼') + '</h3><div class="etpl">' + PAPER_TPL.map(function (t) { return '<button data-tpl="' + t.id + '"><canvas width="120" height="160" data-prev="' + t.id + '"></canvas><span>' + t.n + '</span></button>'; }).join('') + '</div><p class="esmall">' + T('Adds a new page with the design.', '디자인이 새 페이지로 추가돼요.') + '</p>' +
@@ -405,7 +458,7 @@
       '<h3>' + T('Masterpiece as paper', '명화를 배경으로') + '</h3><p class="esmall">' + T('Select a picture, then press “Make background” in its settings.', '그림을 고른 뒤 오른쪽 설정에서 [배경으로]를 누르세요.') + '</p>'; }
     if (tab === 'layers') h = '<h3>' + T('Layers on this page', '이 페이지의 레이어') + '</h3><div id="eLayers"></div>';
     P.innerHTML = h;
-    if (tab === 'art') artGrid(); if (tab === 'layers') layersPanel(); if (tab === 'tpl') tplPrev();
+    if (tab === 'word') wordInit(); if (tab === 'art') artGrid(); if (tab === 'layers') layersPanel(); if (tab === 'tpl') tplPrev();
   }
   function rng(id, lab, v, min, max, st) { return '<label class="erng"><span>' + lab + '</span><input type="range" data-r="' + id + '" min="' + (min == null ? 0 : min) + '" max="' + (max == null ? 1 : max) + '" step="' + (st || 0.01) + '" value="' + v + '"></label>'; }
   function artGrid() {

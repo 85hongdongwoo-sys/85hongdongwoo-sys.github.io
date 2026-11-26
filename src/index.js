@@ -1,3 +1,4 @@
+import { VERSE_TOPICS } from './verses.js';
 // Arttrip Studio — pages are generated on request from D1 data, in English and Korean.
 import { T, THEMES, PRODUCTS, IL_CATS, IL_STYLES, colorName } from './i18n.js';
 import { memdb } from './memdb.js';
@@ -64,6 +65,7 @@ async function route(p, url, lang, env, REQ) {
   if ((m = p.match(/^\/sitemaps\/(art|pages)-(en|ko)-(\d+)\.xml$/))) return sitemapPart(url, env, m[1], m[2], +m[3]);
   if (p === '/api/art.json') return url.searchParams.get('all') ? libData(env) : studioData(url, env);
   if (p === '/api/license' && REQ.method === 'POST') return license(REQ, env);
+  if (p === '/api/verses') return verses(url, env);
   if (p === '/editor') return editor(lang, url);
   if (p.startsWith('/api/')) return api(p, REQ, env);
   if (p === '/studio') return studio(lang, env);
@@ -270,6 +272,39 @@ function thanks(lang, url) {
 }
 
 
+
+
+// ---------- Scripture search: keyword match first, then AI picks topics. The AI never writes verse text. ----------
+async function verses(url, env) {
+  const J = (o) => new Response(JSON.stringify(o), { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=300' } });
+  const pub = (t) => ({ id: t.id, ko: t.ko, en: t.en });
+  if (url.searchParams.get('list')) return J({ topics: VERSE_TOPICS.map(pub) });
+  const pack = (ids) => { const seen = new Set(), out = []; for (const id of ids) { const t = VERSE_TOPICS.find((x) => x.id === id); if (!t) continue; for (const v of t.v) if (!seen.has(v.k)) { seen.add(v.k); out.push(v); } } return out.slice(0, 14); };
+  const tp = url.searchParams.get('topic');
+  if (tp) return J({ topics: VERSE_TOPICS.filter((t) => t.id === tp).map(pub), verses: pack([tp]) });
+  const q = (url.searchParams.get('q') || '').trim().slice(0, 200), ql = q.toLowerCase();
+  if (!q) return J({ topics: [], verses: [] });
+  const score = VERSE_TOPICS.map((t) => [t.id, t.kw.reduce((n, k) => n + (ql.includes(k.toLowerCase()) ? 2 : 0), 0) + (ql.includes(t.ko) || ql.includes(t.en.toLowerCase()) ? 3 : 0)]).filter((x) => x[1] > 0).sort((a, b) => b[1] - a[1]);
+  const short = !/\s/.test(q) && q.length <= 12;
+  let ids = short ? score.slice(0, 3).map((x) => x[0]) : [], via = 'keywords';
+  if (!ids.length && env.AI) {
+    try {
+      const list = VERSE_TOPICS.map((t) => `${t.id}: ${t.en} / ${t.ko}`).join('\n');
+      const r = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', { max_tokens: 60, messages: [
+        { role: 'system', content: 'You map a request for a Bible verse to topic ids. Think about what the person needs (for example, someone whose friend lost a parent needs grief and comfort). Reply with only a JSON array of 1 to 3 topic ids from this list, most relevant first. No other text.\n' + list },
+        { role: 'user', content: q } ] });
+      const m = String(r.response || '').match(/\[[^\]]*\]/);
+      if (m) ids = JSON.parse(m[0]).filter((id) => VERSE_TOPICS.some((t) => t.id === id)).slice(0, 3);
+      via = 'ai';
+    } catch (e) { ids = []; }
+  }
+  if (!ids.length) { ids = score.slice(0, 3).map((x) => x[0]); via = 'keywords'; }
+  if (!ids.length) {
+    const hits = []; for (const t of VERSE_TOPICS) for (const v of t.v) if ((v.tk + ' ' + v.te).toLowerCase().includes(ql) && !hits.some((h) => h.k === v.k)) hits.push(v);
+    return J({ topics: [], verses: hits.slice(0, 14), via: 'text' });
+  }
+  return J({ topics: VERSE_TOPICS.filter((t) => ids.includes(t.id)).map(pub), verses: pack(ids), via });
+}
 
 // ---------- Collections: the big image categories ----------
 const COLS = [
