@@ -182,7 +182,8 @@ function list(){var st=R(),ol=$('list');var d=0;for(var i=1;i<st.length;i++)d+=k
  $('hint').textContent=mode=='edit'?(st.length?'지도를 누르면 '+(st.length+1)+'번 정류장이 추가돼요':'지도를 눌러 1번 정류장부터 차례로 찍어 주세요'):'빨간 핀이 다음 정류장이에요';
  if(!st.length){ol.innerHTML='<li class="em">아직 정류장이 없어요. 위 지도를 눌러 추가하세요.</li>';return}
  ol.innerHTML=st.map(function(p,i){return '<li><span class="no">'+(i+1)+'</span><input value="'+(p.n||'').replace(/"/g,'&quot;')+'" placeholder="정류장 '+(i+1)+' 이름" data-i="'+i+'" aria-label="'+(i+1)+'번 정류장 이름"><span class="ac"><button type="button" data-a="up" data-i="'+i+'" aria-label="위로"'+(i?'':' disabled')+'>↑</button><button type="button" data-a="dn" data-i="'+i+'" aria-label="아래로"'+(i<st.length-1?'':' disabled')+'>↓</button><button type="button" data-a="go" data-i="'+i+'" aria-label="지도에서 보기">◎</button><button type="button" data-a="rm" data-i="'+i+'" aria-label="삭제">✕</button></span></li>'}).join('');}
-$('list').addEventListener('input',function(e){var i=e.target.dataset.i;if(i==null)return;R()[+i].n=e.target.value.slice(0,40);save();draw()});
+$('list').addEventListener('input',function(e){var i=e.target.dataset.i;if(i==null)return;R()[+i].n=e.target.value.slice(0,40);save()});
+$('list').addEventListener('change',function(e){if(e.target.dataset.i!=null)draw()});
 $('list').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var i=+b.dataset.i,st=R(),a=b.dataset.a;
  if(a=='up'&&i>0){st.splice(i-1,0,st.splice(i,1)[0])}else if(a=='dn'&&i<st.length-1){st.splice(i+1,0,st.splice(i,1)[0])}else if(a=='rm'){st.splice(i,1)}else if(a=='go'){map.view(st[i].lat,st[i].lng,17);return}
  save();draw()});

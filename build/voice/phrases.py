@@ -10,12 +10,17 @@ for d, dt in DIST.items():
         P[f'd{d}-{key(m)}'] = f'{dt} 앞에서 {mt}입니다.'
 for m, mt in MAN.items():
     P[f'now-{key(m)}'] = f'{mt}하세요.' if m not in ('round', 'straight') else (f'{mt}입니다.')
-for n in range(1, 61):
-    P[f'soon-{n}'] = f'곧 {n}번 정류장입니다.'
-    P[f'arr-{n}'] = f'{n}번 정류장에 도착했습니다.'
-    P[f'next-{n}'] = f'다음은 {n}번 정류장입니다.'
-    P[f'first-{n}'] = f'안내를 시작합니다. 첫 정류장은 {n}번입니다.'
-P.update({'last': '마지막 정류장입니다. 수고하셨습니다.', 'reroute': '경로를 다시 탐색합니다.', 'start': '안내를 시작합니다.',
+def sk(n):
+    D = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구']
+    t, o = n // 10, n % 10
+    return ((D[t] if t > 1 else '') + '십' if t else '') + D[o]
+for n in range(1, 61):  # 숫자는 '일번 이번'처럼 한자어로 읽게 글자로 적는다
+    s = sk(n)
+    P[f'soon-{n}'] = f'곧 {s}번 경유지입니다.'
+    P[f'arr-{n}'] = f'{s}번 경유지에 도착했습니다.'
+    P[f'next-{n}'] = f'다음은 {s}번 경유지입니다.'
+    P[f'first-{n}'] = f'안내를 시작합니다. 첫 경유지는 {s}번입니다.'
+P.update({'last': '마지막 경유지입니다. 수고하셨습니다.', 'reroute': '경로를 다시 탐색합니다.', 'start': '안내를 시작합니다.',
           'try': '안녕하세요. 홍라이프 노선 내비입니다. 300미터 앞에서 우회전입니다.'})
 for sp in range(20, 130, 10):
     P[f'cam-{sp}'] = f'과속 단속 카메라가 있습니다. 제한속도 {sp}킬로미터입니다.'
