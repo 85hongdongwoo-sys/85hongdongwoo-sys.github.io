@@ -37,6 +37,7 @@ jobs:
           python3 build/deepen_pages.py _site || true   # 노출 있는 기존 페이지 보강 (목차·예시·표·FAQ)
           python3 build/unique/inject.py _site || true   # 서로 비슷한 페이지에 회사·프로그램별 고유 본문 (유사도 낮추기)
           python3 build/patch_datemod.py _site https://honglife.co.kr
+          python3 build/patch_track.py _site || true
       - name: Fetch public data (약국·응급실·충전소·주차장·화장실·대기질·축제·캠핑·주유소·휴게소)
         continue-on-error: true
         timeout-minutes: 25
@@ -64,7 +65,9 @@ jobs:
           if git fetch -q --depth 1 origin data-meal; then git archive FETCH_HEAD | tar -x -C _site/data/meal; fi
           python3 build/meal/render_meal.py _site
       - name: 잠시 숨기기 (여행 카테고리·유료 미대 컨설팅) — build/hide_sections.py 의 HIDE 로 켜고 꺼요
-        run: python3 build/hide_sections.py _site
+        run: |
+          python3 build/hide_sections.py _site
+          python3 build/patch_track.py _site || true
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

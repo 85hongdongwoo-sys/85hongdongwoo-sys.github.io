@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>방문 통계에서 내 기기 빼기 | 홍라이프 도구</title>
+<style>
+body{font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;margin:0;background:#F5F6F8;color:#191F28}
+main{max-width:520px;margin:40px auto;padding:0 18px}
+.card{background:#fff;border:1px solid #E5E8EB;border-radius:16px;padding:22px 20px}
+h1{font-size:21px;margin:0 0 10px}p{line-height:1.65;color:#4E5968;margin:8px 0}
+#st{font-size:17px;font-weight:800;margin:16px 0;color:#191F28}
+button{font:inherit;font-weight:700;padding:13px 18px;border-radius:12px;border:0;cursor:pointer;margin:4px 6px 4px 0}
+.on{background:#14286A;color:#fff}.off{background:#F2F4F6;color:#333D4B}
+a{color:#1D4ED8}
+</style>
+</head>
+<body>
+<main><div class="card">
+<h1>방문 통계에서 내 기기 빼기</h1>
+<p>사이트 주인이 자기 폰·PC에서 한 번 눌러 두면, 이 기기에서 연 페이지는 구글 애널리틱스 방문 숫자에 들어가지 않아요.</p>
+<p id="st">확인 중…</p>
+<button class="on" id="on" type="button">이 기기 빼기</button><button class="off" id="off" type="button">다시 세기</button>
+<p style="font-size:14px">브라우저마다 따로 저장돼요. 폰의 크롬·삼성인터넷, PC 크롬처럼 쓰는 브라우저마다 한 번씩 눌러 주세요. 방문 기록을 지우면 다시 눌러야 해요.</p>
+<p><a href="/">홍라이프 도구 첫 화면</a></p>
+</div></main>
+<script>
+(function(){var st=document.getElementById('st');
+function show(){var v=null;try{v=localStorage.getItem('hl-notrack')}catch(e){}st.textContent=v==='1'?'✔ 이 기기는 통계에서 빠져 있어요.':'이 기기도 통계에 세고 있어요.'}
+document.getElementById('on').onclick=function(){try{localStorage.setItem('hl-notrack','1')}catch(e){}show()};
+document.getElementById('off').onclick=function(){try{localStorage.removeItem('hl-notrack')}catch(e){}show()};show()})();
+</script>
+</body>
+</html>
