@@ -2,24 +2,18 @@
 (function(root){
   "use strict";
 
-  // ---- 셀 주소 ----
   function colToNum(c){ var n=0; for(var i=0;i<c.length;i++) n=n*26+(c.charCodeAt(i)-64); return n; }
+  function numToCol(n){ var s=""; while(n>0){ s=String.fromCharCode(65+(n-1)%26)+s; n=Math.floor((n-1)/26);} return s; }
   function parseRef(ref){ var m=/^([A-Z]+)([0-9]+)$/.exec(ref); if(!m) return null; return {c:colToNum(m[1]), r:parseInt(m[2],10), col:m[1]}; }
   function expandRange(a,b){ var A=parseRef(a),B=parseRef(b); if(!A||!B) return []; var out=[];
     var c0=Math.min(A.c,B.c),c1=Math.max(A.c,B.c),r0=Math.min(A.r,B.r),r1=Math.max(A.r,B.r);
-    for(var c=c0;c<=c1;c++){ var cl=""; var cc=c; while(cc>0){ cl=String.fromCharCode(65+(cc-1)%26)+cl; cc=Math.floor((cc-1)/26);} for(var r=r0;r<=r1;r++) out.push(cl+r); }
-    return out; }
+    for(var c=c0;c<=c1;c++){ for(var r=r0;r<=r1;r++) out.push(numToCol(c)+r); } return out; }
 
-  // ---- 토크나이저 ----
   function tokenize(s){
     var t=[], i=0, re=/\s*(?:(<=|>=|<>|[+\-*/(),<>=:])|([A-Za-z]+[0-9]+)|([A-Za-z]+)|([0-9]*\.?[0-9]+)|"([^"]*)")/g, m;
-    re.lastIndex=0;
     while(i<s.length){
       re.lastIndex=i; m=re.exec(s);
-      if(!m || m.index!==i){ // skip whitespace
-        if(/\s/.test(s[i])){ i++; continue; }
-        throw new Error("알 수 없는 문자: "+s[i]);
-      }
+      if(!m || m.index!==i){ if(/\s/.test(s[i])){ i++; continue; } throw new Error("알 수 없는 문자: "+s[i]); }
       if(m[1]!=null) t.push({t:"op",v:m[1]});
       else if(m[2]!=null) t.push({t:"ref",v:m[2].toUpperCase()});
       else if(m[3]!=null) t.push({t:"fn",v:m[3].toUpperCase()});
@@ -30,6 +24,19 @@
     return t;
   }
 
+  function toNum(x){ if(x&&x.__r) return FUNCS.SUM(x.flat); if(Array.isArray(x)) return FUNCS.SUM(x); return (typeof x==="number")?x:(parseFloat(x)||0); }
+  function flatten(x){ if(x&&x.__r) return x.flat.slice(); if(Array.isArray(x)) return x.slice(); return [x]; }
+  function matchCrit(v, crit){
+    if(typeof crit==="number") return toNum(v)===crit;
+    var s=String(crit), m=/^(>=|<=|<>|>|<|=)(.*)$/.exec(s);
+    if(m){ var op=m[1], rhs=m[2]; var rn=parseFloat(rhs);
+      if(!isNaN(rn) && /^-?[0-9.]+$/.test(rhs)){ var vn=toNum(v);
+        switch(op){case">":return vn>rn;case"<":return vn<rn;case">=":return vn>=rn;case"<=":return vn<=rn;case"=":return vn===rn;case"<>":return vn!==rn;} }
+      if(op==="=") return String(v)===rhs; if(op==="<>") return String(v)!==rhs;
+    }
+    return String(v)===s;
+  }
+
   var FUNCS={
     SUM:function(a){return a.reduce(function(x,y){return x+(typeof y==="number"?y:0);},0);},
     AVERAGE:function(a){var n=a.filter(function(y){return typeof y==="number";}); return n.length?n.reduce(function(x,y){return x+y;},0)/n.length:0;},
@@ -37,12 +44,17 @@
     MIN:function(a){var n=a.filter(function(y){return typeof y==="number";}); return n.length?Math.min.apply(null,n):0;},
     COUNT:function(a){return a.filter(function(y){return typeof y==="number";}).length;},
     COUNTA:function(a){return a.filter(function(y){return y!==""&&y!=null;}).length;},
-    ROUND:function(a){var x=a[0]||0,n=a[1]||0,p=Math.pow(10,n); return Math.round(x*p)/p;},
-    ABS:function(a){return Math.abs(a[0]||0);},
-    IF:function(a){return a[0]?a[1]:a[2];}
+    ROUND:function(a){var x=toNum(a[0]),n=toNum(a[1]||0),p=Math.pow(10,n); return Math.round(x*p)/p;},
+    ABS:function(a){return Math.abs(toNum(a[0]));},
+    IF:function(a){return a[0]?a[1]:a[2];},
+    COUNTIF:function(a){ var f=flatten(a[0]); var crit=a[1]; return f.filter(function(v){return matchCrit(v,crit);}).length; },
+    SUMIF:function(a){ var f=flatten(a[0]); var crit=a[1]; var s=a[2]?flatten(a[2]):f; var t=0;
+      for(var i=0;i<f.length;i++){ if(matchCrit(f[i],crit)) t+=(typeof s[i]==="number"?s[i]:(parseFloat(s[i])||0)); } return t; },
+    VLOOKUP:function(a){ var key=a[0], rng=a[1], col=toNum(a[2]); if(!rng||!rng.__r) throw new Error("VLOOKUP 두 번째 인자는 표(범위)여야 해요");
+      for(var i=0;i<rng.rows.length;i++){ if(String(rng.rows[i][0])===String(key)) return rng.rows[i][col-1]; } return "#N/A"; }
   };
+  var AGG={SUM:1,AVERAGE:1,MAX:1,MIN:1,COUNT:1,COUNTA:1};
 
-  // getVal(ref) → number|string ; 재귀 평가 지원
   function evaluate(formula, getRaw){
     var seen={};
     function cellVal(ref){
@@ -54,89 +66,71 @@
       var num=parseFloat(str.replace(/,/g,""));
       return (str!==""&&!isNaN(num)&&/^-?[0-9.,]+$/.test(str))?num:str;
     }
+    function range2D(a,b){ var A=parseRef(a),B=parseRef(b);
+      var c0=Math.min(A.c,B.c),c1=Math.max(A.c,B.c),r0=Math.min(A.r,B.r),r1=Math.max(A.r,B.r);
+      var rows=[],flat=[];
+      for(var r=r0;r<=r1;r++){ var row=[]; for(var c=c0;c<=c1;c++){ var v=cellVal(numToCol(c)+r); row.push(v); flat.push(v);} rows.push(row);}
+      return {__r:true, rows:rows, flat:flat};
+    }
     function parse(expr){
       var tk=tokenize(expr), pos=0;
       function peek(){return tk[pos];}
       function next(){return tk[pos++];}
       function eat(v){ var t=next(); if(!t||t.v!==v) throw new Error("'"+v+"' 필요"); }
       function args(){ var out=[]; if(peek()&&peek().v===")"){return out;} out.push(compare()); while(peek()&&peek().v===","){next(); out.push(compare());} return out; }
-      function flattenRange(){ /* handled in factor via ref:ref */ }
       function factor(){
-        var t=peek();
-        if(!t) throw new Error("수식이 끝났어요");
+        var t=peek(); if(!t) throw new Error("수식이 끝났어요");
         if(t.t==="num"){ next(); return t.v; }
         if(t.t==="str"){ next(); return t.v; }
-        if(t.v==="-"){ next(); return -factor(); }
+        if(t.v==="-"){ next(); return -toNum(factor()); }
         if(t.v==="+"){ next(); return factor(); }
         if(t.v==="("){ next(); var e=compare(); eat(")"); return e; }
-        if(t.t==="fn"){ var name=t.v; next(); eat("(");
-          var raw=args(); eat(")");
+        if(t.t==="fn"){ var name=t.v; next(); eat("("); var raw=args(); eat(")");
           var fn=FUNCS[name]; if(!fn) throw new Error(name+" 함수는 아직 지원 안 해요");
-          var AGG={SUM:1,AVERAGE:1,MAX:1,MIN:1,COUNT:1,COUNTA:1};
-          var argv = AGG[name] ? raw.reduce(function(acc,x){return acc.concat(Array.isArray(x)?x:[x]);},[]) : raw;
+          var argv = AGG[name] ? raw.reduce(function(acc,x){return acc.concat(flatten(x));},[]) : raw;
           return fn(argv);
         }
         if(t.t==="ref"){ next();
-          if(peek()&&peek().v===":"){ next(); var b=next(); if(!b||b.t!=="ref") throw new Error("범위 오류");
-            return expandRange(t.v,b.v).map(cellVal); // 배열 반환(함수 인자용)
-          }
+          if(peek()&&peek().v===":"){ next(); var b=next(); if(!b||b.t!=="ref") throw new Error("범위 오류"); return range2D(t.v,b.v); }
           return cellVal(t.v);
         }
         throw new Error("예상치 못한 '"+(t.v)+"'");
       }
-      function term(){ var v=factor(); while(peek()&&(peek().v==="*"||peek().v==="/")){ var op=next().v; var r=factor(); v=(op==="*")?num(v)*num(r):num(v)/num(r);} return v; }
-      function addsub(){ var v=term(); while(peek()&&(peek().v==="+"||peek().v==="-")){ var op=next().v; var r=term(); v=(op==="+")?num(v)+num(r):num(v)-num(r);} return v; }
+      function term(){ var v=factor(); while(peek()&&(peek().v==="*"||peek().v==="/")){ var op=next().v; var r=factor(); v=(op==="*")?toNum(v)*toNum(r):toNum(v)/toNum(r);} return v; }
+      function addsub(){ var v=term(); while(peek()&&(peek().v==="+"||peek().v==="-")){ var op=next().v; var r=term(); v=(op==="+")?toNum(v)+toNum(r):toNum(v)-toNum(r);} return v; }
       function compare(){ var v=addsub(); var t=peek(); if(t&&(t.v==="<"||t.v===">"||t.v==="<="||t.v===">="||t.v==="="||t.v==="<>")){ var op=next().v; var r=addsub();
-          switch(op){case">":return num(v)>num(r);case"<":return num(v)<num(r);case">=":return num(v)>=num(r);case"<=":return num(v)<=num(r);case"=":return v==r;case"<>":return v!=r;} }
+          switch(op){case">":return toNum(v)>toNum(r);case"<":return toNum(v)<toNum(r);case">=":return toNum(v)>=toNum(r);case"<=":return toNum(v)<=toNum(r);case"=":return v==r;case"<>":return v!=r;} }
         return v; }
-      function num(x){ if(Array.isArray(x)) return FUNCS.SUM(x); return (typeof x==="number")?x:(parseFloat(x)||0); }
       var result=compare();
       if(pos<tk.length) throw new Error("수식을 다 읽지 못했어요");
+      if(result&&result.__r) return FUNCS.SUM(result.flat);
       if(Array.isArray(result)) return FUNCS.SUM(result);
       return result;
     }
-    var f=String(formula).trim();
-    if(f[0]==="=") f=f.slice(1);
-    return parse(f);
+    var f=String(formula).trim(); if(f[0]==="=") f=f.slice(1); return parse(f);
   }
 
-  // 결과 비교(숫자 반올림 허용)
-  function sameResult(a,b){
-    if(typeof a==="number"&&typeof b==="number") return Math.abs(a-b)<1e-6;
-    return String(a)===String(b);
-  }
+  function sameResult(a,b){ if(typeof a==="number"&&typeof b==="number") return Math.abs(a-b)<1e-6; return String(a)===String(b); }
 
   var LESSONS=[
-    {id:"sum",title:"합계 — SUM",
-     grid:{A1:10,A2:20,A3:30,A4:40,A5:50},rows:6,
-     target:"B1",expect:150,
-     instruct:"B1 칸을 누르고 <b>=SUM(A1:A5)</b> 를 입력한 뒤 <b>Enter</b>를 눌러 보세요. 다섯 숫자의 합계가 나와요.",
-     hint:"= 를 먼저 치고, SUM( 을 쓴 뒤 A1:A5 처럼 범위를 넣어요."},
-    {id:"avg",title:"평균 — AVERAGE",
-     grid:{A1:80,A2:90,A3:100,A4:70},rows:5,
-     target:"B1",expect:85,
-     instruct:"B1 칸에 <b>=AVERAGE(A1:A4)</b> 를 입력해 네 점수의 평균을 구하세요.",
-     hint:"평균은 AVERAGE 함수예요. 범위는 A1:A4."},
-    {id:"max",title:"최댓값 — MAX",
-     grid:{A1:15,A2:42,A3:8,A4:33,A5:27},rows:6,
-     target:"B1",expect:42,
-     instruct:"B1 칸에 <b>=MAX(A1:A5)</b> 를 입력해 가장 큰 값을 찾으세요.",
-     hint:"가장 큰 값은 MAX, 가장 작은 값은 MIN 이에요."},
-    {id:"mul",title:"곱하기 — 단가 × 수량",
-     grid:{A1:"단가",B1:"수량",A2:1200,B2:3},rows:4,
-     target:"C2",expect:3600,
-     instruct:"C2 칸에 <b>=A2*B2</b> 를 입력해 금액(단가×수량)을 구하세요.",
-     hint:"곱하기는 * 기호예요. =A2*B2 처럼 셀 주소를 곱해요."},
-    {id:"if",title:"조건 — IF (합격/불합격)",
-     grid:{A1:"점수",A2:75},rows:4,
-     target:"B2",expect:"합격",
-     instruct:"B2 칸에 <b>=IF(A2>=60,\"합격\",\"불합격\")</b> 를 입력하세요. 60점 이상이면 합격이 나와요.",
-     hint:"IF(조건, 참일때, 거짓일때) 순서예요. 글자는 \"따옴표\" 안에 넣어요."},
-    {id:"round",title:"반올림 — ROUND",
-     grid:{A1:3.14159},rows:3,
-     target:"B1",expect:3.14,
-     instruct:"B1 칸에 <b>=ROUND(A1,2)</b> 를 입력해 소수점 둘째 자리까지 반올림하세요.",
-     hint:"ROUND(값, 자릿수) 예요. 2는 소수점 둘째 자리까지라는 뜻."}
+    {id:"sum",title:"합계 — SUM",grid:{A1:10,A2:20,A3:30,A4:40,A5:50},rows:6,target:"B1",expect:150,
+     instruct:"B1 칸을 누르고 <b>=SUM(A1:A5)</b> 를 입력한 뒤 <b>Enter</b>를 눌러 보세요. 다섯 숫자의 합계가 나와요.",hint:"= 를 먼저 치고, SUM( 뒤에 A1:A5 처럼 범위를 넣어요."},
+    {id:"avg",title:"평균 — AVERAGE",grid:{A1:80,A2:90,A3:100,A4:70},rows:5,target:"B1",expect:85,
+     instruct:"B1 칸에 <b>=AVERAGE(A1:A4)</b> 를 입력해 네 점수의 평균을 구하세요.",hint:"평균은 AVERAGE 함수예요. 범위는 A1:A4."},
+    {id:"max",title:"최댓값 — MAX",grid:{A1:15,A2:42,A3:8,A4:33,A5:27},rows:6,target:"B1",expect:42,
+     instruct:"B1 칸에 <b>=MAX(A1:A5)</b> 를 입력해 가장 큰 값을 찾으세요.",hint:"가장 큰 값은 MAX, 가장 작은 값은 MIN 이에요."},
+    {id:"mul",title:"곱하기 — 단가 × 수량",grid:{A1:"단가",B1:"수량",A2:1200,B2:3},rows:4,target:"C2",expect:3600,
+     instruct:"C2 칸에 <b>=A2*B2</b> 를 입력해 금액(단가×수량)을 구하세요.",hint:"곱하기는 * 기호예요. =A2*B2 처럼 셀 주소를 곱해요."},
+    {id:"if",title:"조건 — IF (합격/불합격)",grid:{A1:"점수",A2:75},rows:4,target:"B2",expect:"합격",
+     instruct:"B2 칸에 <b>=IF(A2>=60,\"합격\",\"불합격\")</b> 를 입력하세요. 60점 이상이면 합격이 나와요.",hint:"IF(조건, 참일때, 거짓일때) 순서예요. 글자는 \"따옴표\" 안에 넣어요."},
+    {id:"round",title:"반올림 — ROUND",grid:{A1:3.14159},rows:3,target:"B1",expect:3.14,
+     instruct:"B1 칸에 <b>=ROUND(A1,2)</b> 를 입력해 소수점 둘째 자리까지 반올림하세요.",hint:"ROUND(값, 자릿수) 예요. 2는 소수점 둘째 자리까지."},
+    {id:"countif",title:"조건 개수 — COUNTIF",grid:{A1:"사과",A2:"배",A3:"사과",A4:"포도",A5:"사과"},rows:6,target:"C1",expect:3,
+     instruct:"C1 칸에 <b>=COUNTIF(A1:A5,\"사과\")</b> 를 입력해 ‘사과’가 몇 개인지 세어 보세요.",hint:"COUNTIF(범위, 조건) 이에요. 조건 글자는 \"따옴표\" 안에."},
+    {id:"sumif",title:"조건 합계 — SUMIF",grid:{A1:"식비",B1:10000,A2:"교통",B2:5000,A3:"식비",B3:8000,A4:"교통",B4:3000},rows:5,target:"D1",expect:18000,
+     instruct:"D1 칸에 <b>=SUMIF(A1:A4,\"식비\",B1:B4)</b> 를 입력해 ‘식비’ 금액만 더해 보세요.",hint:"SUMIF(조건범위, 조건, 더할범위) 순서예요."},
+    {id:"vlookup",title:"표에서 찾기 — VLOOKUP",grid:{A1:"A01",B1:"사과",A2:"A02",B2:"배",A3:"A03",B3:"포도",C1:"찾을 코드",D1:"A02"},rows:4,target:"E1",expect:"배",
+     instruct:"E1 칸에 <b>=VLOOKUP(D1,A1:B3,2,0)</b> 를 입력해 코드 ‘A02’의 이름을 찾으세요.",hint:"VLOOKUP(찾을값, 표범위, 가져올열번호, 0) 이에요. 0은 정확히 일치."}
   ];
 
   var api={evaluate:evaluate, sameResult:sameResult, expandRange:expandRange, LESSONS:LESSONS, parseRef:parseRef};
