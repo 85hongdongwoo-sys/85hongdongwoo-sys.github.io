@@ -24,17 +24,20 @@
 <style>
 #tool .xl-fx{display:flex;align-items:center;gap:8px;margin-top:12px}
 #tool .xl-fx .fxb{font-weight:800;color:#1D4ED8;width:34px;text-align:center;border:1px solid #D9DDE3;border-radius:7px;padding:8px 0;background:#F7F8FA}
-#tool .xl-fx .fxeq{color:#8A94A6;font-weight:800}
+#tool .xl-fx .fxeq{font-style:italic;font-family:Georgia,'Times New Roman',serif;color:#1D7D46;font-weight:700;font-size:16px;padding:0 2px}
 #tool #fx{flex:1;box-sizing:border-box;padding:10px 11px;border:1px solid #1D4ED8;border-radius:8px;font:inherit;font-size:16px;font-family:ui-monospace,Menlo,Consolas,monospace}
 #tool .xl-wrap{margin-top:12px;overflow:auto;border:1px solid #C3CAD3;border-radius:8px}
 #tool table.xl{border-collapse:collapse;font-size:15px;min-width:320px;width:100%;background:#fff}
-#tool table.xl th{background:#217346;color:#fff;font-weight:700;border:1px solid #1B5E38;padding:6px 0;text-align:center;min-width:72px}
+#tool table.xl th{background:#F4F5F7;color:#5E6873;font-weight:600;border:1px solid #D4D7DC;padding:6px 0;text-align:center;min-width:72px}
 #tool table.xl th.rh{min-width:34px;width:34px}
-#tool table.xl td{border:1px solid #DCE0E6;padding:8px 10px;height:22px;cursor:cell;text-align:right;white-space:nowrap;color:#1F2937}
+#tool table.xl th.corner{background:#F4F5F7;position:relative}
+#tool table.xl th.corner::after{content:"";position:absolute;right:3px;bottom:3px;border:5px solid transparent;border-right-color:#B6BDC7;border-bottom-color:#B6BDC7}
+#tool table.xl th.hl{background:#217346;color:#fff;border-color:#1B5E38}
+#tool table.xl td{border:1px solid #E1E4E8;padding:8px 10px;height:22px;cursor:cell;text-align:right;white-space:nowrap;color:#1F2937}
 #tool table.xl td.txt{text-align:left;color:#3A4A5E}
-#tool table.xl td.sel{outline:2px solid #217346;outline-offset:-2px;background:#E6F4EA}
+#tool table.xl td.sel{outline:2px solid #217346;outline-offset:-1px}
 #tool table.xl td.tgt{background:#FFF7E6}
-#tool table.xl td.tgt.sel{background:#FDEFC9}
+#tool table.xl td.tgt.sel{background:#FFF7E6}
 #tool .xl-task{margin-top:14px;background:#EAF0FD;border:1px solid #BBD2F5;border-radius:12px;padding:14px 16px}
 #tool .xl-task .t{font-weight:800;color:#0B3D91;margin-bottom:4px}
 #tool .xl-task .i{line-height:1.7}
@@ -57,7 +60,7 @@
 
 <section class="card tool" id="tool" data-tool="excel-practice">
   <div class="xl-task"><div class="t" id="tk-title"></div><div class="i" id="tk-inst"></div></div>
-  <div class="xl-fx"><span class="fxb" id="fx-ref">A1</span><span class="fxeq">▾</span><input type="text" id="fx" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="셀을 누르고 여기(또는 바로 키보드)로 입력 → Enter"></div>
+  <div class="xl-fx"><span class="fxb" id="fx-ref">A1</span><span class="fxeq">fx</span><input type="text" id="fx" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="셀을 누르고 여기(또는 바로 키보드)로 입력 → Enter"></div>
   <div class="xl-wrap"><div id="grid" tabindex="0"></div></div>
   <div class="xl-msg" id="msg" aria-live="polite"></div>
   <div class="btns">
@@ -116,10 +119,12 @@
     render();
   }
   function render(){
-    var rows=L.rows||6, h='<table class="xl"><tr><th class="rh"></th>';
-    for(var c=0;c<COLS.length;c++) h+='<th>'+COLS[c]+'</th>';
+    var rows=L.rows||6;
+    var am=/^([A-E])([0-9]+)$/.exec(active), aCol=am?am[1]:"", aRow=am?parseInt(am[2],10):0;
+    var h='<table class="xl"><tr><th class="rh corner"></th>';
+    for(var c=0;c<COLS.length;c++) h+='<th'+(COLS[c]===aCol?' class="hl"':'')+'>'+COLS[c]+'</th>';
     h+='</tr>';
-    for(var r=1;r<=rows;r++){ h+='<tr><th class="rh">'+r+'</th>';
+    for(var r=1;r<=rows;r++){ h+='<tr><th class="rh'+(r===aRow?' hl':'')+'">'+r+'</th>';
       for(var c2=0;c2<COLS.length;c2++){ var ref=COLS[c2]+r; var d=disp(ref);
         var cls=[]; if(ref===active)cls.push('sel'); if(ref===L.target)cls.push('tgt');
         if(!isNum(ref)&&d!=="")cls.push('txt');
