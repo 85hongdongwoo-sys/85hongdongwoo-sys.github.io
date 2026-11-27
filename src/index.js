@@ -352,7 +352,7 @@ const COLS = [
   ['architecture', { en: 'Architecture', ko: '건축물' }, { en: 'Real buildings, bridges, streets and interiors.', ko: '실제 건물, 다리, 거리, 실내' }, '/img/18075.jpg', null, false],
   ['portraits', { en: 'Vintage Portraits', ko: '빈티지 인물' }, { en: 'Portrait photographs and faces from the 1800s and early 1900s.', ko: '1800년대부터 1900년대 초의 인물 사진' }, '/img/29230.jpg', null, false],
   ['natural-history', { en: 'Vintage Natural History', ko: '빈티지 도감' }, { en: 'Botanical plates, birds, insects, old maps and science prints.', ko: '식물도감, 새, 곤충, 옛 지도, 과학 그림' }, '/img/127282.jpg', null, false],
-  ['lettering', { en: 'Lettering', ko: '글씨' }, { en: 'Scripture, Hangul, Latin and quotes set in beautiful type.', ko: '성경 말씀, 한글, 라틴어, 명언을 아름다운 글씨로' }, '/p/cat-lettering.jpg', '/originals#lettering', true],
+  ['lettering', { en: 'Lettering', ko: '글씨' }, { en: 'Scripture, sutras, Hangul, Latin and famous quotes set in beautiful type.', ko: '성경 말씀, 불경, 한글, 라틴어, 명언을 아름다운 글씨로' }, '/p/cat-lettering.jpg', '/originals#lettering', true],
   ['patterns', { en: 'Patterns & Textures', ko: '패턴·질감' }, { en: 'Seamless repeats and paper textures for backgrounds and goods.', ko: '배경과 굿즈에 쓰는 반복 무늬와 종이 질감' }, '/p/patterns-flowers.jpg', '/shop/seamless-patterns-flowers', true],
 ];
 function colTile(c, lang, big) {
