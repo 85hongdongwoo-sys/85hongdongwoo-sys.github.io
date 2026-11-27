@@ -180,7 +180,7 @@
     '<button class="ebtn ghost" id="bSave">' + T('Save', '저장') + '</button><button class="ebtn" id="bExport">' + T('Download', '다운로드') + '</button>' +
     '</header>' +
     '<div class="ebody">' +
-    '<nav class="erail">' + [['add', T('Add', '추가'), '+'], ['art', T('Art', '명화'), '❖'], ['word', T('Verses', '말씀'), '❝'], ['quote', T('Quotes', '명언'), '“'], ['kit', T('Elements', '꾸미기'), '✂'], ['tpl', T('Templates', '템플릿'), '▦'], ['bg', T('Paper', '배경지'), '◧'], ['layers', T('Layers', '레이어'), '≡']].map(function (r, i) { return '<button data-tab="' + r[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>' + r[2] + '</i>' + r[1] + '</button>'; }).join('') + '</nav>' +
+    '<nav class="erail">' + [['add', T('Add', '추가'), '+'], ['art', T('Art', '명화'), '❖'], ['photo', T('Photos', '사진'), '◐'], ['word', T('Verses', '말씀'), '❝'], ['quote', T('Quotes', '명언'), '“'], ['kit', T('Elements', '꾸미기'), '✂'], ['tpl', T('Templates', '템플릿'), '▦'], ['bg', T('Paper', '배경지'), '◧'], ['layers', T('Layers', '레이어'), '≡']].map(function (r, i) { return '<button data-tab="' + r[0] + '"' + (i === 0 ? ' class="on"' : '') + '><i>' + r[2] + '</i>' + r[1] + '</button>'; }).join('') + '</nav>' +
     '<aside class="epanel" id="ePanel"></aside>' +
     '<main class="estage" id="eStage"><div class="ecanvas" id="eWrap"><canvas id="eCv"></canvas><canvas id="eOv"></canvas><textarea id="eTx" class="etx" spellcheck="false"></textarea></div></main>' +
     '<aside class="eprops" id="eProps"></aside>' +
@@ -402,6 +402,31 @@
     B.innerHTML = '<p class="esmall">' + T('Loading…', '불러오는 중…') + '</p>';
     Promise.all([fetch('/sutra.json').then(function (r) { return r.json(); }), QD ? Promise.resolve(QD) : fetch('/quotes.json').then(function (r) { return r.json(); })]).then(function (a) { SD = a[0]; QD = a[1]; SD.tp = QD.topics; go(); });
   }
+
+  // ---------- Photos (사진) ----------
+  var PHO = null;
+  function loadPhotos() { return PHO ? Promise.resolve(PHO) : fetch('/photos.json').then(function (r) { return r.json(); }).then(function (d) { PHO = d.map(function (r) { return { id: r[0], c: r[1], w: r[2], h: r[3], t: r[4], a: r[5], l: r[6] }; }); return PHO; }); }
+  function photoGrid() {
+    loadPhotos().then(function () {
+      var c = photoGrid.c || 'a';
+      $('ePcats').innerHTML = [['a', T('Architecture & light', '건축과 빛')], ['l', T('Landscapes', '풍경')]].map(function (k) { return '<button data-pc="' + k[0] + '"' + (k[0] === c ? ' class="on"' : '') + '>' + k[1] + '</button>'; }).join('');
+      $('ePcats').querySelectorAll('button').forEach(function (b) { b.onclick = function () { photoGrid.c = b.dataset.pc; photoGrid(); }; });
+      $('ePh').innerHTML = PHO.filter(function (r) { return r.c === c; }).map(function (r) { return '<button data-pho="' + r.id + '" title="' + esc(r.t + ' — ' + r.a) + '"><img src="/ph/' + r.id + '.jpg" loading="lazy" alt=""></button>'; }).join('');
+      $('ePh').querySelectorAll('[data-pho]').forEach(function (b) { b.onclick = function (e) { e.stopPropagation(); addPhoto(PHO.find(function (r) { return r.id === b.dataset.pho; })); }; });
+    });
+  }
+  function photoCredit(r) { return T('Photo: ', '사진: ') + r.a + (/^(CC0|Public)/i.test(r.l) ? '' : ' · ' + r.l) + ' · Wikimedia Commons'; }
+  function addPhoto(r, full) {
+    if (!r) return;
+    var ar = r.w / r.h, w, h, x, y;
+    if (full) { w = doc.w - 24; h = w / ar; if (h > doc.h - 44) { h = doc.h - 44; w = h * ar; } x = (doc.w - w) / 2; y = 12; }
+    else { w = Math.min(doc.w * 0.7, doc.h * 0.6 * ar); h = w / ar; x = (doc.w - w) / 2; y = (doc.h - h) / 2; }
+    var cr = photoCredit(r);
+    add({ type: 'text', text: cr, font: 'Inter', size: 5, color: '#6b6258', align: 'right', lh: 1.2, x: x, y: y + h + 1.5, w: w, h: 4 }, true);
+    var im = add({ type: 'image', src: '/ph/' + r.id + '.jpg', hi: '/ph/' + r.id + '-hi.jpg', x: x, y: y, w: w, h: h, crop: { z: 1, ox: 0, oy: 0 }, credit: r.t + ' — ' + cr });
+    toast(T('Photo added with its credit line', '사진과 출처 표기를 넣었어요'));
+    return im;
+  }
   // ---------- Quotes (명언) ----------
   var QD = null, QL = ko ? 'ko' : 'en', QR = [], QN = 0;
   function qWho(r) { var a = QD.authors[r[1]]; return QL === 'en' ? a[0] : a[1]; }
@@ -580,6 +605,7 @@
       '<div class="eseg" id="eQlang"><button data-l="ko"' + (ko ? ' class="on"' : '') + '>한글</button><button data-l="en"' + (ko ? '' : ' class="on"') + '>English</button><button data-l="orig">' + T('Classical', '원문') + '</button></div>' +
       '<div class="echips" id="eQtopics"></div><p class="esmall" id="eQinfo"></p><div id="eQres" class="ewres"></div><button class="eqmore" id="eQmore" hidden>' + T('Show more', '더 보기') + '</button>' +
       '<p class="esmall">' + T('Every quote carries the name of the person it is attributed to. We only include people who died more than 70 years ago, so the words are in the public domain. Some famous sayings have disputed origins. The AI only picks topics; it never writes quotes.', '모든 명언에 말한 사람을 함께 적었어요. 세상을 떠난 지 70년이 넘은 인물만 모아 저작권 걱정이 없어요. 유명한 말 중 일부는 출처에 이견이 있을 수 있어요. AI는 주제만 골라 주고 명언을 지어내지 않아요. 한글 번역은 아트트립이 직접 옮겼어요.') + '</p>';
+    if (tab === 'photo') h = '<h3>' + T('Photos', '사진') + '</h3><div class="echips" id="ePcats"></div><div class="eart" id="ePh"></div><p class="esmall">' + T('Real photographs shared by photographers under free licences. When you add one, a small credit line is added too: keep it when you print or share.', '사진가들이 자유 이용을 허락한 실제 사진이에요. 사진을 넣으면 작은 출처 표기도 함께 들어가요. 인쇄하거나 공유할 때 지우지 말고 함께 두세요.') + '</p>';
     if (tab === 'art') h = '<h3>' + T('Masterpieces', '명화') + '</h3><input class="esearch" id="eQ" placeholder="' + T('Search artist, title, theme', '화가·작품·주제 검색') + '"><div class="echips" id="eThemes"></div><div class="eart" id="eArt"></div><p class="esmall">' + T('All works are public domain (CC0). Click to add, then Alt+drag inside a picture to move it within its frame.', '모든 작품은 저작권이 끝난 퍼블릭 도메인이에요. 눌러서 넣고, 그림 안에서 Alt를 누른 채 끌면 틀 안에서 위치를 옮겨요.') + '</p>';
     if (tab === 'kit') h = '<h3>' + T('Journal elements', '저널 꾸미기') + '</h3><div class="ekit">' + [['stamp', T('Postage stamp', '우표')], ['ticket', T('Ticket', '티켓')], ['tape', T('Washi tape', '마스킹 테이프')], ['frame', T('Arch frame', '아치 액자')], ['oval', T('Oval cameo', '타원 액자')], ['torn', T('Torn scrap', '찢은 종이')], ['polaroid', T('Polaroid', '폴라로이드')], ['tag', T('Gift tag', '선물 꼬리표')], ['label', T('Specimen label', '표본 라벨')]].map(function (b) { return '<button data-el="' + b[0] + '"><span class="ek ek-' + b[0] + '"></span>' + b[1] + '</button>'; }).join('') + '</div><p class="esmall">' + T('Each element picks a random masterpiece. Change it in the panel on the right.', '꾸미기 요소는 명화를 하나 골라 채워요. 오른쪽 설정에서 다른 그림으로 바꿀 수 있어요.') + '</p>';
     if (tab === 'tpl') h = '<h3>' + T('Art papers', '아트페이퍼') + '</h3><div class="etpl">' + PAPER_TPL.map(function (t) { return '<button data-tpl="' + t.id + '"><canvas width="120" height="160" data-prev="' + t.id + '"></canvas><span>' + t.n + '</span></button>'; }).join('') + '</div><p class="esmall">' + T('Adds a new page with the design.', '디자인이 새 페이지로 추가돼요.') + '</p>' +
@@ -590,7 +616,7 @@
       '<h3>' + T('Masterpiece as paper', '명화를 배경으로') + '</h3><p class="esmall">' + T('Select a picture, then press “Make background” in its settings.', '그림을 고른 뒤 오른쪽 설정에서 [배경으로]를 누르세요.') + '</p>'; }
     if (tab === 'layers') h = '<h3>' + T('Layers on this page', '이 페이지의 레이어') + '</h3><div id="eLayers"></div>';
     P.innerHTML = h;
-    if (tab === 'word') { wordInit(); srcInit(); } if (tab === 'quote') quoteInit(); if (tab === 'art') artGrid(); if (tab === 'layers') layersPanel(); if (tab === 'tpl') tplPrev();
+    if (tab === 'word') { wordInit(); srcInit(); } if (tab === 'quote') quoteInit(); if (tab === 'art') artGrid(); if (tab === 'photo') photoGrid(); if (tab === 'layers') layersPanel(); if (tab === 'tpl') tplPrev();
   }
   function rng(id, lab, v, min, max, st) { return '<label class="erng"><span>' + lab + '</span><input type="range" data-r="' + id + '" min="' + (min == null ? 0 : min) + '" max="' + (max == null ? 1 : max) + '" step="' + (st || 0.01) + '" value="' + v + '"></label>'; }
   function artGrid() {
@@ -816,8 +842,10 @@
     if (saved && !q.get('new')) doc = saved;
     else if (q.get('cal')) calendarDoc(q.get('cal'), doc.size);
     else if (q.get('tpl')) { var t = PAPER_TPL.find(function (x) { return x.id === q.get('tpl'); }); if (t) doc.pages = [paperPage(t)]; }
+    else if (q.get('photo')) { var bp = blankPage(); bp.bg = { kind: 'color', color: '#ffffff' }; doc.pages = [bp]; doc.title = T('My photo poster', '나의 사진 포스터'); }
     else { var t2 = PAPER_TPL[0]; doc.pages = [paperPage(t2)]; doc.title = T('My art paper', '나의 아트페이퍼'); }
     lastSnap = JSON.stringify(doc); panel(); layout(); refresh(); docFonts().then(draw);
+    if (q.get('photo') && q.get('new')) loadPhotos().then(function () { addPhoto(PHO.find(function (r) { return r.id === q.get('photo'); }), true); });
   });
   if (q.get('build') && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) window.ATE = {
     list: PAPER_TPL.map(function (t) { return t.id; }),

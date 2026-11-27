@@ -1,5 +1,6 @@
 import { VERSE_TOPICS } from './verses.js';
 import { QUOTE_TOPICS } from './quotes.js';
+import { PHOTOS } from './photos.js';
 // Arttrip Studio — pages are generated on request from D1 data, in English and Korean.
 import { T, THEMES, PRODUCTS, IL_CATS, IL_STYLES, colorName } from './i18n.js';
 import { memdb } from './memdb.js';
@@ -34,13 +35,15 @@ export default {
     const rest = isKo ? (path.slice(3) || '/') : path;
 
     // first visit from a Korean browser → Korean page (people only, never crawlers)
-    if (!isKo && req.method === 'GET' && !/^\/(sitemap|robots|img|il|p|css|js|api|studio\/)/.test(rest)) {
+    if (!isKo && req.method === 'GET' && !/^\/(sitemap|robots|img|il|p|ph|css|js|api|studio\/)/.test(rest)) {
       const cookie = req.headers.get('cookie') || '';
       const ua = req.headers.get('user-agent') || '';
       if (!/(?:^|;\s*)lang=/.test(cookie) && !BOT.test(ua) && /^ko\b/i.test(req.headers.get('accept-language') || '')) {
         return new Response(null, { status: 302, headers: { location: '/ko' + (rest === '/' ? '' : rest) + url.search, 'set-cookie': 'lang=ko; Path=/; Max-Age=31536000; SameSite=Lax', vary: 'Accept-Language' } });
       }
     }
+
+    if (path.startsWith('/ph/')) return photoProxy(path, ctx);
 
     // cached HTML
     const cache = caches.default;
@@ -79,6 +82,7 @@ async function route(p, url, lang, env, REQ) {
   if ((m = p.match(/^\/artist\/([a-z0-9-]+)$/))) return gallery(lang, env, url, { artist: m[1] });
   if ((m = p.match(/^\/art\/([a-z0-9-]+)$/))) return artwork(lang, env, m[1]);
   if (p === '/collections') return collections(lang);
+  if ((m = p.match(/^\/collections\/(architecture|landscape)$/))) return photoGallery(lang, m[1]);
   if (p === '/originals') return originals(lang);
   if (p === '/illustrations') return illus(lang, null);
   if ((m = p.match(/^\/illustrations\/([a-z-]+)$/)) && IL_CATS[m[1]]) return illus(lang, m[1]);
@@ -348,8 +352,8 @@ async function quotesApi(url, env) {
 const COLS = [
   ['art', { en: 'Masterpieces', ko: '명화' }, { en: 'Oil paintings, woodblock prints and drawings from the great museums.', ko: '세계 미술관의 유화, 판화, 드로잉' }, '/img/14598.jpg', '/art', true],
   ['illustration', { en: 'Arttrip Illustration', ko: '아트트립 일러스트' }, { en: 'Our own hand-drawn characters, cozy scenes and seasons.', ko: '우리가 직접 그린 인물, 포근한 일상, 계절' }, '/p/cafe-girl-clipart.jpg', '/illustrations', true],
-  ['landscape', { en: 'Landscape Photography', ko: '풍경 사진' }, { en: 'Mountains, rivers, coasts and skies, from early albumen prints onward.', ko: '산, 강, 바다, 하늘. 초기 사진부터 모았어요.' }, '/img/63554.jpg', null, false],
-  ['architecture', { en: 'Architecture', ko: '건축물' }, { en: 'Real buildings, bridges, streets and interiors.', ko: '실제 건물, 다리, 거리, 실내' }, '/img/18075.jpg', null, false],
+  ['landscape', { en: 'Landscape Photography', ko: '풍경 사진' }, { en: 'Mountains, lakes, mist, dunes, coasts and night skies by award-winning photographers.', ko: '산, 호수, 안개, 사막, 바다, 밤하늘. 수상작 수준의 풍경 사진' }, '/ph/w956090e0.jpg', '/collections/landscape', true],
+  ['architecture', { en: 'Architecture & Light', ko: '건축과 빛' }, { en: 'Modern buildings, spiral stairs, glass and light.', ko: '현대 건축, 나선 계단, 유리와 빛' }, '/ph/we533e122.jpg', '/collections/architecture', true],
   ['portraits', { en: 'Vintage Portraits', ko: '빈티지 인물' }, { en: 'Portrait photographs and faces from the 1800s and early 1900s.', ko: '1800년대부터 1900년대 초의 인물 사진' }, '/img/29230.jpg', null, false],
   ['natural-history', { en: 'Vintage Natural History', ko: '빈티지 도감' }, { en: 'Botanical plates, birds, insects, old maps and science prints.', ko: '식물도감, 새, 곤충, 옛 지도, 과학 그림' }, '/img/127282.jpg', null, false],
   ['lettering', { en: 'Lettering', ko: '글씨' }, { en: 'Scripture, sutras, Hangul, Latin and famous quotes set in beautiful type.', ko: '성경 말씀, 불경, 한글, 라틴어, 명언을 아름다운 글씨로' }, '/p/cat-lettering.jpg', '/originals#lettering', true],
@@ -374,6 +378,45 @@ function collections(lang) {
 <div class="cgrid wide">${COLS.map((c) => colTile(c, lang, true)).join('')}</div>
 <div class="edban" style="margin-top:44px"><a href="${L(lang, '/editor')}?new=1"><b>${ko ? '내 사진으로 만들기' : 'Make it with your own photos'}</b><span>${ko ? '가족사진, 여행 사진을 올려 달력, 청첩장, 포스터로 꾸며 보세요. 컬렉션의 그림과 글씨를 함께 쓸 수 있어요.' : 'Upload family or travel photos and turn them into calendars, invitations and posters, mixed with anything from our collections.'}</span><em>${ko ? '편집기 열기 →' : 'Open the editor →'}</em></a></div></section>`;
   return html(layout(lang, { title, desc, path: '/collections', body, img: '/img/14598.jpg', jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, description: desc } }));
+}
+
+// ---------- Photography: real photos from Wikimedia Commons (CC0 / public domain / CC BY / CC BY-SA), served through our own cache ----------
+const PH = Object.fromEntries(PHOTOS.map((x) => [x.id, x]));
+const LIC_URL = (l) => /^CC0/.test(l) ? 'https://creativecommons.org/publicdomain/zero/1.0/' : /^Public domain/i.test(l) ? null
+  : 'https://creativecommons.org/licenses/' + (l.match(/BY-SA/) ? 'by-sa' : 'by') + '/' + ((l.match(/(\d\.\d)/) || [])[1] || '4.0') + '/';
+async function photoProxy(path, ctx) {
+  const m = path.match(/^\/ph\/(w[0-9a-f]{8})(-hi)?\.jpg$/); const ph = m && PH[m[1]];
+  if (!ph) return new Response('Not found', { status: 404 });
+  const cache = caches.default, key = new Request('https://arttripstudio.com' + path);
+  const hit = await cache.match(key); if (hit) return hit;
+  const file = ph.p.split('/').pop();
+  const sizes = m[2] ? [3840, 2560, 1920, 1280].filter((w) => w < ph.w) : [1280, 960];
+  let r = null;
+  for (const w of sizes.length ? sizes : [1280]) {
+    r = await fetch(`https://upload.wikimedia.org/wikipedia/commons/thumb/${ph.p}/${w}px-${file}`, { headers: { 'user-agent': 'ArttripStudio/1.0 (https://arttripstudio.com; hello@arttripstudio.com)' }, cf: { cacheTtl: 2592000, cacheEverything: true } });
+    if (r.ok) break;
+  }
+  if (!r || !r.ok) { r = await fetch(`https://upload.wikimedia.org/wikipedia/commons/${ph.p}`, { headers: { 'user-agent': 'ArttripStudio/1.0 (https://arttripstudio.com)' } }); if (!r.ok) return new Response('Upstream error', { status: 502 }); }
+  const res = new Response(r.body, { headers: { 'content-type': 'image/jpeg', 'cache-control': 'public, max-age=2592000, immutable', 'access-control-allow-origin': '*' } });
+  ctx.waitUntil(cache.put(key, res.clone()));
+  return res;
+}
+function photoGallery(lang, cat) {
+  const ko = lang === 'ko', t = T[lang], list = PHOTOS.filter((x) => x.c === cat);
+  const name = cat === 'architecture' ? (ko ? '건축과 빛' : 'Architecture & Light') : (ko ? '풍경 사진' : 'Landscape Photography');
+  const sub = cat === 'architecture'
+    ? (ko ? '빛이 머무는 현대 건축: 나선 계단, 유리 지붕, 콘크리트와 그림자. 세계 사진가들이 자유 이용을 허락한 사진만 골랐어요.' : 'Modern architecture where light lingers: spiral stairs, glass roofs, concrete and shadow, chosen only from photographers who share their work under free licences.')
+    : (ko ? '알프스와 로키의 호수, 안개 낀 숲, 사막의 모래 언덕, 오로라와 은하수. 위키미디어 공용의 우수 사진 가운데 골랐어요.' : 'Alpine and Rocky Mountain lakes, misty forests, desert dunes, auroras and the Milky Way, chosen from Wikimedia Commons featured pictures.');
+  const title = `${name} — ${ko ? '인쇄용 고화질 사진' : 'High-resolution photos to print'} | ${ko ? '아트트립 스튜디오' : 'Arttrip Studio'}`;
+  const tiles = list.map((x) => `<figure class="phc" data-id="${x.id}" data-t="${esc(x.t)}" data-a="${esc(x.a)}" data-l="${esc(x.l)}" data-lu="${esc(LIC_URL(x.l) || '')}" data-w="${x.w}" data-h="${x.h}" data-src="https://commons.wikimedia.org/wiki/File:${esc(x.p.split('/').pop())}"><img src="/ph/${x.id}.jpg" alt="${esc(x.t)}" loading="lazy" width="${x.w}" height="${x.h}"><figcaption>${esc(x.t)}<span>${esc(x.a)}</span></figcaption></figure>`).join('');
+  const other = cat === 'architecture' ? 'landscape' : 'architecture';
+  const body = `<section class="wrap sec"><a class="lbl" href="${L(lang, '/collections')}">${t.nav.col}</a><h1>${name}</h1><p class="sub">${sub}</p>
+<div class="chips"><a aria-current="true" href="${L(lang, '/collections/' + cat)}">${name} · ${list.length}</a><a href="${L(lang, '/collections/' + other)}">${other === 'architecture' ? (ko ? '건축과 빛' : 'Architecture & Light') : (ko ? '풍경 사진' : 'Landscape Photography')}</a><a href="${L(lang, '/art')}">${ko ? '명화' : 'Masterpieces'}</a></div>
+<div class="phgrid">${tiles}</div>
+<p class="small" style="margin-top:28px">${ko ? '사진마다 찍은 사람과 이용 허락(라이선스)을 적었어요. CC BY·CC BY-SA 사진은 인쇄하거나 공유할 때 사진가 이름과 라이선스를 함께 적어 주세요. 우리 편집기는 이 표기를 자동으로 넣어요.' : 'Every photo lists its photographer and licence. For CC BY and CC BY-SA photos, credit the photographer and licence when you print or share. Our editor adds this credit for you.'}</p></section>
+<div class="phbox" id="phbox" hidden><div class="phin"><button class="phx" aria-label="close">×</button><img id="phimg" alt=""><div class="phmeta"><b id="pht"></b><span id="pha"></span><div class="phbtn"><a id="phed" class="btn">${ko ? '편집기에서 쓰기' : 'Use in the editor'}</a><a id="phsrc" target="_blank" rel="noopener">${ko ? '원본 · 라이선스' : 'Source · licence'}</a></div></div></div></div>
+<script>(function(){var b=document.getElementById('phbox');document.querySelectorAll('.phc').forEach(function(f){f.onclick=function(){var d=f.dataset;document.getElementById('phimg').src='/ph/'+d.id+'.jpg';document.getElementById('pht').textContent=d.t;document.getElementById('pha').textContent='${ko ? '사진' : 'Photo'}: '+d.a+' · '+d.l;document.getElementById('phed').href='${L(lang, '/editor')}?new=1&photo='+d.id;document.getElementById('phsrc').href=d.src;b.hidden=false;};});b.onclick=function(e){if(e.target===b||e.target.classList.contains('phx'))b.hidden=true;};document.addEventListener('keydown',function(e){if(e.key==='Escape')b.hidden=true;});})();</script>`;
+  return html(layout(lang, { title, desc: sub, path: '/collections/' + cat, body, img: '/ph/' + list[0].id + '.jpg', jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name, description: sub } }));
 }
 
 // ---------- Arttrip Originals: our own illustrations, patterns and lettering ----------
@@ -494,7 +537,7 @@ async function sitemapPart(url, env, kind, lg, n) {
   const alt = (p) => `<xhtml:link rel="alternate" hreflang="en" href="${url.origin}${p}"/><xhtml:link rel="alternate" hreflang="ko" href="${url.origin}/ko${p === '/' ? '' : p}"/>`;
   let paths = [];
   if (kind === 'pages') {
-    paths = ['/', '/collections', '/art', '/studio', '/originals', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
+    paths = ['/', '/collections', '/collections/architecture', '/collections/landscape', '/art', '/studio', '/originals', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
     const artists = await all(env, 'SELECT artist_slug s, COUNT(*) c FROM artworks GROUP BY artist_slug HAVING c >= 2');
     paths.push(...artists.map((a) => '/artist/' + a.s));
   } else {
