@@ -706,10 +706,15 @@ if 'honglife.co.kr/drive/<' not in s:
     open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', '<url><loc>https://honglife.co.kr/drive/</loc><lastmod>2026-11-20</lastmod></url>\n</urlset>', 1)); print('sitemap + drive')
 
 # ── 상단 분류 줄 고정: 모든 한국어 페이지에 같은 분류 전체 목록(가로 스크롤 한 줄) ──
-CATBAR = [('excel', '엑셀 수식'), ('sheet', '엑셀 양식'), ('doc', '문서'), ('pdf', 'PDF'), ('image', '이미지'), ('convert', '파일 변환'),
-          ('text', '텍스트'), ('ai', 'AI'), ('calendar', '날짜·달력'), ('qr', 'QR'), ('life', '생활·행정'), ('gov', '공문서·민원'), ('drive', '자동차·지도'), ('driver', '드라이버'), ('medical', '병원·건강'),
-          ('legal', '법률'), ('study', '학생·공부'), ('ipsi', '입시'), ('trip', '여행'), ('test', '심리 테스트'), ('game', '게임 계산기'),
-          ('design', '디자인'), ('shop', '소상공인'), ('dev', '개발'), ('net', '인터넷')]
+# 2026-11-28: 상단/하단 카테고리 12개로 통합(사용자 요청). 접힌 카테고리는 아래 FOLD로 부모에 귀속, URL은 모두 유지. 여행(trip)은 바에서 제외.
+CATBAR = [('excel', '엑셀'), ('pdf', '한글·PDF'), ('doc', '문서·양식'), ('image', '이미지·디자인'), ('convert', '파일 변환'), ('ai', 'AI'),
+          ('life', '생활·행정'), ('gov', '공문서·민원'), ('drive', '자동차·내비'), ('medical', '건강'), ('ipsi', '시험·공부'), ('dev', '개발·인터넷')]
+# 접힌 하위 분류 → 상단 바에서 하이라이트될 부모 칩 (페이지·URL은 그대로 살아 있음)
+FOLD = {'sheet': 'excel', 'text': 'convert', 'calendar': 'life', 'qr': 'image', 'design': 'image',
+        'driver': 'drive', 'legal': 'ipsi', 'study': 'ipsi', 'test': 'life', 'game': 'life', 'shop': 'life', 'net': 'dev'}
+# 하단 '다른 분류' 타일 라벨을 새 이름으로 통일
+CANON_RENAME = {'/excel/': '엑셀', '/pdf/': '한글·PDF', '/doc/': '문서·양식', '/image/': '이미지·디자인',
+                '/drive/': '자동차·내비', '/ipsi/': '시험·공부', '/dev/': '개발·인터넷'}
 CATCSS = ('<style id="hl-catbar-css">.brandbar .in nav a:not(.srch):not(.lang){display:none!important}'
           '.catbar{border-top:1px solid rgba(0,0,0,.06)}.catbar .in2{max-width:1080px;margin:0 auto;padding:7px 12px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;'
           '-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}.catbar .in2::-webkit-scrollbar{display:none}'
@@ -731,6 +736,7 @@ for dp, dn, fn in os.walk(root):
         cur = rel[0] if rel[0] != '.' else ''
         if rel[0] == 'life' and f in ('route-navi.html', 'taxi-fare.html', 'midpoint.html'):
             cur = 'drive'
+        cur = FOLD.get(cur, cur)
         links = ''.join(f'<a href="/{c}/"' + (' aria-current="page"' if c == cur else '') + f'>{n}</a>' for c, n in CATBAR)
         s2 = NAV_RE.sub(lambda m: m.group(1) + f'<div class="catbar" role="navigation" aria-label="분류 전체"><div class="in2">{links}</div></div><script>(function(){{var a=document.querySelector(".catbar a[aria-current]");if(a)a.parentNode.scrollLeft=a.offsetLeft-a.parentNode.clientWidth/2+a.offsetWidth/2}})()</script>' + m.group(2), s, count=1)
         if s2 != s:
@@ -766,6 +772,10 @@ if '/drive/' not in canon:
 if '/trip/' not in canon:
     canon['/trip/'] = ('<li><a href="/trip/" style="--bg:linear-gradient(#D6ECF7 0 34%,#7CBDE3 34%)"><b>여행·패키지</b><span>출발확정 해외 패키지 특가, 여행 쇼츠</span>'
                        '<i style="background-image:url(/assets/art/hl/cs-trip.svg)"></i></a></li>')
+# 하단 '다른 분류' 타일 라벨을 새 이름으로 교체 (아이콘·그라데이션은 유지)
+for _u, _nm in CANON_RENAME.items():
+    if _u in canon:
+        canon[_u] = re.sub(r'<b>.*?</b>', '<b>' + _nm + '</b>', canon[_u], count=1)
 k = 0
 for c, _ in CATBAR:
     p = os.path.join(root, c, 'index.html')
