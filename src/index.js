@@ -390,7 +390,7 @@ async function lineart(url, env) {
   const prompt = `Coloring book page for children aged 8 to 12: ${subject}. Clean black outlines on pure white background, bold uniform line weight, large closed shapes to color, no shading, no gray, no hatching, no text, no border, whole subject in frame, simple fun cartoon style, high contrast line art.`;
   const model = url.searchParams.get('m') || '@cf/black-forest-labs/flux-1-schnell';
   let r;
-  try { r = await env.AI.run(model, model.includes('schnell') ? { prompt: prompt + ` (variation ${seed})`, steps: 8 } : { prompt: prompt + ` (variation ${seed})`, width: 1024, height: 1024, seed }); }
+  try { r = await env.AI.run(model, model.includes('schnell') ? { prompt, steps: 8 } : { prompt: prompt + ` (variation ${seed})`, width: 1024, height: 1024, seed }); }
   catch (e) { return new Response(String(e && e.message || e), { status: 500 }); }
   if (r instanceof ReadableStream) return new Response(r, { headers: { 'content-type': 'image/png', 'cache-control': 'no-store' } });
   const b64 = r.image || r; const bin = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
