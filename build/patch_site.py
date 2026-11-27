@@ -305,7 +305,15 @@ ul.hl-cards .ft a{position:relative}
         s = s[:a] + seg + s[b:]
     open(p, 'w', encoding='utf-8').write(s); print('home: flow hero + tool cards')
 
-# 홈: '분류별로 찾기'를 면 분할 색 카드(큰 장면 그림) 가로 줄로
+# 2026-11-28: 상단/하단 카테고리 12개로 통합(사용자 요청). 접힌 카테고리는 FOLD로 부모에 귀속, URL은 모두 유지. 여행(trip)은 제외.
+CATBAR = [('excel', '엑셀'), ('pdf', '한글·PDF'), ('doc', '문서·양식'), ('image', '이미지·디자인'), ('convert', '파일 변환'), ('ai', 'AI'),
+          ('life', '생활'), ('gov', '공문서·민원'), ('drive', '자동차·내비'), ('medical', '건강'), ('ipsi', '시험·공부'), ('dev', '개발·인터넷')]
+FOLD = {'sheet': 'excel', 'text': 'convert', 'calendar': 'life', 'qr': 'image', 'design': 'image',
+        'driver': 'drive', 'legal': 'ipsi', 'study': 'ipsi', 'test': 'life', 'game': 'life', 'shop': 'life', 'net': 'dev'}
+CANON_RENAME = {'/excel/': '엑셀', '/pdf/': '한글·PDF', '/doc/': '문서·양식', '/image/': '이미지·디자인',
+                '/drive/': '자동차·내비', '/ipsi/': '시험·공부', '/dev/': '개발·인터넷', '/life/': '생활'}
+
+# 홈: '분류별로 찾기'를 면 분할 색 카드(큰 장면 그림) 가로 줄로 — 12개 통합 카테고리로
 p = os.path.join(root, 'index.html')
 s = open(p, encoding='utf-8').read()
 if 'hl-catrow-css' not in s:
@@ -317,9 +325,18 @@ if 'hl-catrow-css' not in s:
         return '#%02X%02X%02X' % tuple(round(v + (255 - v) * t) for v in (r, g, b))
     m = re.search(r'<div class="cats">(.*?)</div>', s, flags=re.S)
     if m:
+        import glob as _glob
+        _cnt = {}
+        for _mm in re.finditer(r'<a href="/([a-z0-9-]+)/"><img[^>]*><b>.*?</b><em>(.*?)</em></a>', m.group(1)):
+            _sl, _em = _mm.groups(); _num = re.search(r'\d+', _em)
+            _cnt[_sl] = int(_num.group()) if _num else 0
+        for _ex in ('gov', 'drive', 'driver'):  # .cats에 없는 분류는 실제 파일 수로 집계
+            if _ex not in _cnt:
+                _cnt[_ex] = len(_glob.glob(os.path.join(root, _ex, '*.html')))
         out = []
-        for i, mm in enumerate(re.finditer(r'<a href="/([a-z0-9-]+)/"><img[^>]*><b>(.*?)</b><em>(.*?)</em></a>', m.group(1))):
-            cat, name, n = mm.groups()
+        for i, (cat, name) in enumerate(CATBAR):
+            tot = _cnt.get(cat, 0) + sum(_cnt.get(_k, 0) for _k, _pp in FOLD.items() if _pp == cat)
+            n = (str(tot) + '개') if tot else ''
             c = FC.get(cat, '#2563EB')
             a, b, d = mix(c, .80), mix(c, .45), mix(c, .62)
             v = i % 3
@@ -706,15 +723,7 @@ if 'honglife.co.kr/drive/<' not in s:
     open(p, 'w', encoding='utf-8').write(s.replace('</urlset>', '<url><loc>https://honglife.co.kr/drive/</loc><lastmod>2026-11-20</lastmod></url>\n</urlset>', 1)); print('sitemap + drive')
 
 # ── 상단 분류 줄 고정: 모든 한국어 페이지에 같은 분류 전체 목록(가로 스크롤 한 줄) ──
-# 2026-11-28: 상단/하단 카테고리 12개로 통합(사용자 요청). 접힌 카테고리는 아래 FOLD로 부모에 귀속, URL은 모두 유지. 여행(trip)은 바에서 제외.
-CATBAR = [('excel', '엑셀'), ('pdf', '한글·PDF'), ('doc', '문서·양식'), ('image', '이미지·디자인'), ('convert', '파일 변환'), ('ai', 'AI'),
-          ('life', '생활'), ('gov', '공문서·민원'), ('drive', '자동차·내비'), ('medical', '건강'), ('ipsi', '시험·공부'), ('dev', '개발·인터넷')]
-# 접힌 하위 분류 → 상단 바에서 하이라이트될 부모 칩 (페이지·URL은 그대로 살아 있음)
-FOLD = {'sheet': 'excel', 'text': 'convert', 'calendar': 'life', 'qr': 'image', 'design': 'image',
-        'driver': 'drive', 'legal': 'ipsi', 'study': 'ipsi', 'test': 'life', 'game': 'life', 'shop': 'life', 'net': 'dev'}
-# 하단 '다른 분류' 타일 라벨을 새 이름으로 통일
-CANON_RENAME = {'/excel/': '엑셀', '/pdf/': '한글·PDF', '/doc/': '문서·양식', '/image/': '이미지·디자인',
-                '/drive/': '자동차·내비', '/ipsi/': '시험·공부', '/dev/': '개발·인터넷', '/life/': '생활'}
+# (CATBAR·FOLD·CANON_RENAME 정의는 파일 앞쪽 '홈 분류별로 찾기' 블록 위로 이동 — 홈 그리드와 상단 바가 같은 정의 사용)
 CATCSS = ('<style id="hl-catbar-css">.brandbar .in nav a:not(.srch):not(.lang){display:none!important}'
           '.catbar{border-top:1px solid rgba(0,0,0,.06)}.catbar .in2{max-width:1080px;margin:0 auto;padding:7px 12px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;'
           '-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}.catbar .in2::-webkit-scrollbar{display:none}'
@@ -1110,15 +1119,38 @@ _SAFE_RE = re.compile(r'\s*<div class="safe">.*?파일은 서버로 전송되지
 _p = os.path.join(root, 'index.html')
 if os.path.exists(_p):
     s = open(_p, encoding='utf-8').read()
-    if 'hl-hero-art' not in s and '<section class="hero" id="search">' in s:
-        s = s.replace('<section class="hero" id="search"><h1>', '<section class="hero" id="search"><img class="hl-hero-art" src="/assets/art/hl/hero-tools.svg?v=2" alt="" width="360" height="200" fetchpriority="high"><h1>', 1)
+    if 'hl-hero-m' not in s and '<section class="hero" id="search">' in s:
+        # 히어로: 정적 일러스트 대신 모션그래픽(궤도 오브) — 2026-11-28 사용자 요청
+        HM = ('<div class="hl-hero-m" aria-hidden="true"><svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">'
+              '<defs><radialGradient id="hmO" cx="50%" cy="42%" r="60%"><stop offset="0" stop-color="#6E9BFF"/>'
+              '<stop offset="55%" stop-color="#4F7CFF" stop-opacity=".55"/><stop offset="100%" stop-color="#4F7CFF" stop-opacity="0"/></radialGradient>'
+              '<linearGradient id="hmR" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4F7CFF"/><stop offset="1" stop-color="#38BDF8"/></linearGradient></defs>'
+              '<g class="hm-orb"><circle cx="160" cy="90" r="50" fill="url(#hmO)"/></g>'
+              '<g class="hm-ring r1"><ellipse cx="160" cy="90" rx="86" ry="34" fill="none" stroke="url(#hmR)" stroke-opacity=".5" stroke-width="1.6"/></g>'
+              '<g class="hm-ring r2"><ellipse cx="160" cy="90" rx="52" ry="80" fill="none" stroke="#38BDF8" stroke-opacity=".4" stroke-width="1.4"/></g>'
+              '<g class="hm-ring r3"><circle cx="160" cy="90" r="30" fill="none" stroke="#A78BFA" stroke-opacity=".35" stroke-width="1.2" stroke-dasharray="3 6"/></g>'
+              '<g class="hm-orbit o1"><circle cx="246" cy="90" r="5.5" fill="#4F7CFF"/></g>'
+              '<g class="hm-orbit o2"><circle cx="160" cy="10" r="4.5" fill="#38BDF8"/></g>'
+              '<g class="hm-orbit o3"><circle cx="108" cy="90" r="4" fill="#A78BFA"/></g>'
+              '<g class="hm-spark"><circle cx="60" cy="40" r="2" fill="#4F7CFF"/><circle cx="262" cy="150" r="2.4" fill="#38BDF8"/><circle cx="250" cy="34" r="1.8" fill="#A78BFA"/></g>'
+              '</svg></div>')
+        s = s.replace('<section class="hero" id="search"><h1>', '<section class="hero" id="search">' + HM + '<h1>', 1)
         i = s.find('<section class="hero" id="search">'); j = s.find('</section>', i)
         s = s[:i] + _SAFE_RE.sub('', s[i:j], count=1) + s[j:]
-        css = ('<style>.hero .hl-hero-art{display:block;width:min(280px,76%);height:auto;margin:4px auto 10px}'
+        css = ('<style>.hero .hl-hero-m{display:block;width:min(300px,78%);height:auto;margin:2px auto 8px}'
+               '.hero .hl-hero-m svg{width:100%;height:auto;overflow:visible;display:block}'
                '.hero h1{font-size:clamp(26px,5.4vw,36px)!important;line-height:1.2;margin-top:0}'
-               '.hero>p{font-size:15px!important;line-height:1.6}@media(min-width:900px){.hero .hl-hero-art{width:300px}}</style>')
+               '.hero>p{font-size:15px!important;line-height:1.6}@media(min-width:900px){.hero .hl-hero-m{width:320px}}'
+               '.hm-orb{transform-box:fill-box;transform-origin:center;animation:hmBr 6s ease-in-out infinite}'
+               '.hm-ring,.hm-orbit{transform-box:view-box;transform-origin:160px 90px}'
+               '.hm-ring.r1{animation:hmSp 20s linear infinite}.hm-ring.r2{animation:hmSp 26s linear infinite reverse}.hm-ring.r3{animation:hmSp 16s linear infinite}'
+               '.hm-orbit.o1{animation:hmSp 9s linear infinite}.hm-orbit.o2{animation:hmSp 13s linear infinite reverse}.hm-orbit.o3{animation:hmSp 11s linear infinite}'
+               '.hm-spark circle{animation:hmTw 3s ease-in-out infinite}'
+               '@keyframes hmBr{0%,100%{transform:scale(1);opacity:.92}50%{transform:scale(1.09);opacity:1}}'
+               '@keyframes hmSp{to{transform:rotate(360deg)}}@keyframes hmTw{0%,100%{opacity:.3}50%{opacity:1}}'
+               '@media(prefers-reduced-motion:reduce){.hm-orb,.hm-ring,.hm-orbit,.hm-spark circle{animation:none!important}}</style>')
         s = s.replace('</head>', css + '</head>', 1)
-        open(_p, 'w', encoding='utf-8').write(s); print('home: hero art, smaller title, no safe badge')
+        open(_p, 'w', encoding='utf-8').write(s); print('home: hero motion graphic')
 _ART = {k: 'ln-' + k for k in ('ai', 'calendar', 'convert', 'design', 'dev', 'doc', 'excel', 'image', 'ipsi', 'legal', 'life', 'medical', 'net', 'pdf', 'qr', 'sheet', 'shop', 'study', 'text', 'drive')}  # 선 그림
 _HUBCSS = ('<style>.top.hub .hub-art{display:block;width:84px;height:63px;padding:16px 20px;box-sizing:content-box;background:#fff;'
            'border:1px solid rgba(20,30,60,.08);border-radius:24px;box-shadow:0 10px 24px -14px rgba(16,24,48,.28);margin:6px auto 12px}'
@@ -1254,3 +1286,28 @@ if os.path.exists(_p):
     _cnt = _extra
     if s2 != s:
         open(_h, 'w', encoding='utf-8').write(s2); print('home 한글·PDF count', _cnt)
+
+# 홈 '분류별로 찾기'를 정확히 12개(CATBAR)로 유지 — 다른 블록이 추가한 카드(드라이버·테스트·게임 등) 제거 (2026-11-28)
+_KEEP12 = ['/' + _c + '/' for _c, _ in CATBAR]
+for _rel in ('index.html', os.path.join('en', 'index.html')):
+    _fp = os.path.join(root, _rel)
+    if not os.path.exists(_fp):
+        continue
+    _s = open(_fp, encoding='utf-8').read()
+    _m = re.search(r'(<ul class="tlist hl-cards hl-catrow">)(.*?)(</ul>)', _s, re.S)
+    if not _m:
+        continue
+    _lis = re.findall(r'<li>.*?</li>', _m.group(2), re.S)
+    def _slug(_li):
+        _h = re.search(r'href="(/[a-z0-9-]+/)"', _li)
+        return _h.group(1) if _h else None
+    _bySlug = {}
+    for _li in _lis:
+        _sg = _slug(_li)
+        if _sg in _KEEP12 and _sg not in _bySlug:
+            _bySlug[_sg] = _li
+    _kept = [_bySlug[_u] for _u in _KEEP12 if _u in _bySlug]
+    if _kept and len(_kept) != len(_lis):
+        _s = _s[:_m.start(2)] + ''.join(_kept) + _s[_m.end(2):]
+        open(_fp, 'w', encoding='utf-8').write(_s)
+        print('home grid pruned ->', len(_kept), 'cards', _rel)
