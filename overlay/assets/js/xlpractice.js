@@ -53,7 +53,12 @@
     SUMIF:function(a){ var f=flatten(a[0]); var crit=a[1]; var s=a[2]?flatten(a[2]):f; var t=0;
       for(var i=0;i<f.length;i++){ if(matchCrit(f[i],crit)) t+=(typeof s[i]==="number"?s[i]:(parseFloat(s[i])||0)); } return t; },
     VLOOKUP:function(a){ var key=a[0], rng=a[1], col=toNum(a[2]); if(!rng||!rng.__r) throw new Error("VLOOKUP 두 번째 인자는 표(범위)여야 해요");
-      for(var i=0;i<rng.rows.length;i++){ if(String(rng.rows[i][0])===String(key)) return rng.rows[i][col-1]; } return "#N/A"; }
+      for(var i=0;i<rng.rows.length;i++){ if(String(rng.rows[i][0])===String(key)) return rng.rows[i][col-1]; } return "#N/A"; },
+    AVERAGEIF:function(a){ var f=flatten(a[0]); var crit=a[1]; var s=a[2]?flatten(a[2]):f; var sum=0,n=0;
+      for(var i=0;i<f.length;i++){ if(matchCrit(f[i],crit)){ var val=(typeof s[i]==="number"?s[i]:parseFloat(s[i])); if(!isNaN(val)){sum+=val;n++;} } } return n?sum/n:0; },
+    RANK:function(a){ var num=toNum(a[0]); var arr=flatten(a[1]).filter(function(y){return typeof y==="number";}); var asc=a[2]&&toNum(a[2])!==0; var r=1;
+      for(var i=0;i<arr.length;i++){ if(asc?arr[i]<num:arr[i]>num) r++; } return r; },
+    IFERROR:function(a){ var v=a[0]; var err=(typeof v==="number"&&!isFinite(v))||(typeof v==="string"&&v.charAt(0)==="#"); return err?a[1]:v; }
   };
   var AGG={SUM:1,AVERAGE:1,MAX:1,MIN:1,COUNT:1,COUNTA:1};
 
@@ -148,7 +153,19 @@
     {id:"concat",title:"문자 합치기 — &",grid:{A1:"홍길",B1:"동"},rows:3,target:"C1",expect:"홍길동",
      instruct:"C1 칸에 <b>=A1&B1</b> 를 입력해 두 글자를 하나로 합치세요.",hint:"& 기호는 글자를 이어 붙여요. =A1&B1."},
     {id:"roundup",title:"올림 — ROUNDUP",grid:{A1:2.1},rows:3,target:"B1",expect:3,
-     instruct:"B1 칸에 <b>=ROUNDUP(A1,0)</b> 를 입력해 올림하세요. 2.1이 3이 돼요.",hint:"ROUNDUP은 무조건 올려요. 0은 정수 자리까지."}
+     instruct:"B1 칸에 <b>=ROUNDUP(A1,0)</b> 를 입력해 올림하세요. 2.1이 3이 돼요.",hint:"ROUNDUP은 무조건 올려요. 0은 정수 자리까지."},
+    {id:"nestedif",title:"중첩 IF — 학점 매기기",grid:{A1:"점수",A2:85},rows:4,target:"B2",expect:"B",
+     instruct:"B2 칸에 <b>=IF(A2>=90,\"A\",IF(A2>=80,\"B\",\"C\"))</b> 를 입력하세요. 90↑은 A, 80↑은 B, 나머지는 C.",hint:"IF 안에 IF를 또 넣어요. 85점이면 B가 나와요."},
+    {id:"averageif",title:"조건 평균 — AVERAGEIF",grid:{A1:"국어",B1:80,A2:"수학",B2:90,A3:"국어",B3:70},rows:5,target:"C1",expect:75,
+     instruct:"C1 칸에 <b>=AVERAGEIF(A1:A3,\"국어\",B1:B3)</b> 를 입력해 국어 점수만 평균 내세요.",hint:"AVERAGEIF(조건범위, 조건, 평균낼범위) 순서예요. (80+70)÷2=75."},
+    {id:"percent",title:"백분율 — 달성률(%)",grid:{A1:"실적",B1:"목표",A2:80,B2:100},rows:4,target:"C2",expect:80,
+     instruct:"C2 칸에 <b>=ROUND(A2/B2*100,0)</b> 를 입력해 달성률(%)을 구하세요.",hint:"실적÷목표×100 이에요. 80/100×100=80."},
+    {id:"abs",title:"절댓값 — 차이 ABS",grid:{A1:30,A2:50},rows:3,target:"B1",expect:20,
+     instruct:"B1 칸에 <b>=ABS(A1-A2)</b> 를 입력해 두 값의 차이(부호 없이)를 구하세요.",hint:"ABS는 음수도 양수로 만들어요. 30−50=−20 → 20."},
+    {id:"rank",title:"순위 — RANK",grid:{A1:70,A2:90,A3:85,A4:60,A5:100},rows:6,target:"B2",expect:2,
+     instruct:"B2 칸에 <b>=RANK(A2,A1:A5)</b> 를 입력해 90점(A2)이 몇 등인지 구하세요.",hint:"RANK(값, 전체범위) 예요. 100 다음이라 2등."},
+    {id:"iferror",title:"오류 처리 — IFERROR",grid:{A1:10,B1:0},rows:3,target:"C1",expect:"오류",
+     instruct:"C1 칸에 <b>=IFERROR(A1/B1,\"오류\")</b> 를 입력하세요. 0으로 나눠 오류가 나면 ‘오류’로 보여줘요.",hint:"IFERROR(계산, 오류일때값) 이에요. 10/0은 오류라서 ‘오류’가 나와요."}
   ];
 
   var api={evaluate:evaluate, sameResult:sameResult, expandRange:expandRange, LESSONS:LESSONS, parseRef:parseRef};
