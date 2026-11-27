@@ -15,7 +15,7 @@
   window.addEventListener('appinstalled', function () { [].forEach.call(document.querySelectorAll('.hl-app,.hl-app2,#hl-ibar'), function (b) { b.remove(); }); try { localStorage.setItem('hl-ib:' + location.pathname, 'i'); } catch (e) {} });
   var CSS = '.brandbar nav a.hl-app{display:inline-flex!important;align-items:center;gap:6px;font-weight:700;color:#14286A;white-space:nowrap}'
     + '.hl-app img,.hl-app2 img{width:18px;height:18px;border-radius:5px;flex:none}'
-    + '.brandbar .catbar a.hl-app2{display:none!important;align-items:center;gap:6px;background:#EEF2FF;color:#14286A;font-weight:800;position:sticky;left:0;z-index:2;box-shadow:6px 0 8px -2px rgba(255,255,255,.95),-12px 0 0 #fff}'
+    + '.brandbar .catbar a.hl-app2{display:none!important;align-items:center;gap:6px;background:#EEF2FF;color:#14286A;font-weight:800;flex:none}'
     + '@media(max-width:640px){.brandbar nav a.hl-app{display:none!important}.brandbar .catbar a.hl-app2{display:inline-flex!important}}'
     + '#hl-sheet{position:fixed;inset:0;z-index:9999;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.35)}'
     + '#hl-sheet .p{width:100%;max-width:420px;margin:0 8px 8px;background:#fff;border-radius:18px;padding:18px 18px 14px;box-shadow:0 8px 30px rgba(0,0,0,.2);text-align:center;font-size:15px;line-height:1.6;color:#191F28}'
@@ -75,7 +75,7 @@
     var a = document.createElement('a'); a.className = 'lang hl-app'; a.href = '#app'; a.innerHTML = L; a.onclick = open;
     var srch = nav.querySelector('.srch'); if (srch && srch.nextSibling) nav.insertBefore(a, srch.nextSibling); else nav.appendChild(a);
     var cb = document.querySelector('.catbar .in2');
-    if (cb) { var b = document.createElement('a'); b.className = 'hl-app2'; b.href = '#app'; b.innerHTML = L; b.onclick = open; cb.insertBefore(b, cb.firstChild); }
+    if (cb) { var b = document.createElement('a'); b.className = 'hl-app2'; b.href = '#app'; b.innerHTML = L; b.onclick = open; cb.appendChild(b); }
   }
   function init() { add(); if (iosSafari) bar(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
