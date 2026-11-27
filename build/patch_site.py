@@ -1071,6 +1071,29 @@ _p = os.path.join(root, 'sitemap.xml'); s = open(_p, encoding='utf-8').read()
 if '/ipsi/hanneung.html<' not in s:
     open(_p, 'w', encoding='utf-8').write(s.replace('</urlset>', '<url><loc>https://honglife.co.kr/ipsi/hanneung.html</loc><lastmod>2026-11-24</lastmod></url>\n</urlset>', 1)); print('sitemap + hanneung')
 
+# 입시·시험 4종 (공무원 9급·검정고시·JLPT·토익 Part5, build/newpages/gen_exam4.py) — 입시 허브, 사이트맵
+_EXAM4 = [
+  ('/ipsi/gong9.html', '공무원 9급 기출문제', '국가직·지방직 기출 받는 법, 직렬별 전문과목', '공무원 9급 기출문제', '2026-11-27'),
+  ('/ipsi/gumjeong.html', '검정고시 기출·합격 계산', '초·중·고졸 기출, 평균 60점 합격 판정기', '검정고시 기출·합격 계산', '2026-11-27'),
+  ('/ipsi/jlpt.html', 'JLPT 공식 샘플·합격 판정', 'N1~N5 샘플문제, 영역별 합격점 계산기', 'JLPT 공식 샘플·합격 판정', '2026-11-27'),
+  ('/ipsi/toeic-part5.html', '토익 Part 5 연습 10문항', '문법·어휘 오리지널 문제, 해설·채점', '토익 Part 5 연습 10문항', '2026-11-27'),
+]
+_p = os.path.join(root, 'ipsi', 'index.html')
+if os.path.exists(_p):
+    s = open(_p, encoding='utf-8').read()
+    for _u, _t, _d, _nm, _lm in _EXAM4:
+        _m = re.search(r'<ul class="tlist[^"]*">', s)
+        if _u not in s and _m:
+            s = s[:_m.end()] + f'<li><a href="{_u}"><i class="th"><img src="/assets/art/hl/cs-ipsi.svg" alt="" width="200" height="140" loading="lazy"></i><img class="pg" src="/assets/art/hl/pg-ipsi.svg" alt="" width="26" height="26" loading="lazy"><b>{_t}</b><span>{_d}</span></a></li>' + s[_m.end():]
+            s = re.sub(r'입시 도구 (\d+)가지', lambda m: f'입시 도구 {int(m.group(1)) + 1}가지', s, count=1)
+            s = s.replace('"hasPart":[', f'"hasPart":[{{"@type":"WebApplication","name":"{_nm}","url":"https://honglife.co.kr{_u}"}},', 1)
+    open(_p, 'w', encoding='utf-8').write(s); print('ipsi hub: exam4 added')
+_p = os.path.join(root, 'sitemap.xml'); s = open(_p, encoding='utf-8').read()
+for _u, _t, _d, _nm, _lm in _EXAM4:
+    if f'{_u}<' not in s:
+        s = s.replace('</urlset>', f'<url><loc>https://honglife.co.kr{_u}</loc><lastmod>{_lm}</lastmod></url>\n</urlset>', 1)
+open(_p, 'w', encoding='utf-8').write(s); print('sitemap + exam4')
+
 # 홈·분류 첫 화면: 제목·소개 글 작게, 그림 하나, '파일은 서버로…' 문구 빼기 (2026-11-25 사용자 요청)
 _SAFE_RE = re.compile(r'\s*<div class="safe">.*?파일은 서버로 전송되지 않고 내 기기에서만 처리돼요</div>', re.S)
 _p = os.path.join(root, 'index.html')
