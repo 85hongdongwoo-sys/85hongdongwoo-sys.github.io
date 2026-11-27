@@ -338,6 +338,70 @@
     $('eWbook').onchange = fillCh; $('eWch').onchange = loadCh; fillBooks();
   }
 
+
+  // ---------- Buddhist sutras (불경) ----------
+  var WSRC = 'bible', SD = null, SL = ko ? 'ko' : 'en', SR = [];
+  function srcInit() {
+    $('eWsrc').querySelectorAll('button').forEach(function (b) { b.onclick = function () {
+      WSRC = b.dataset.s; $('eWsrc').querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      $('eWbody').hidden = WSRC !== 'bible'; $('eSbody').hidden = WSRC !== 'sutra'; if (WSRC === 'sutra') sutraInit();
+    }; });
+    if (WSRC === 'sutra') sutraInit();
+  }
+  function sRef(it) { return '— ' + (SL === 'en' ? it.re : it.rk); }
+  function sText(it) { if (SL === 'en') return it.e; if (SL === 'orig' && it.o) return it.o + '\n' + it.r; return it.k || it.e; }
+  function sShow(list) {
+    var box = $('eSres');
+    if (SL === 'orig') list = list.filter(function (it) { return it.o; });
+    if (SL === 'ko') list = list.filter(function (it) { return it.k; }).concat(list.filter(function (it) { return !it.k; }));
+    SR = list;
+    box.innerHTML = list.length ? list.slice(0, 80).map(function (it, i) {
+      var en = SL === 'ko' && !it.k;
+      return '<button class="ewv esv" data-i="' + i + '"><span>' + esc2(sText(it)) + '</span><b>' + esc2(sRef(it)) + (en ? ' <em>EN</em>' : '') + '</b></button>';
+    }).join('') : '<p class="esmall">' + T('Nothing found. Try other words.', '찾은 구절이 없어요. 다른 말로 찾아보세요.') + '</p>';
+    box.querySelectorAll('.esv').forEach(function (b) { b.onclick = function () { var it = SR[+b.dataset.i], L0 = SL; if (SL === 'ko' && !it.k) SL = 'en'; addVerse(sText(it), sRef(it)); SL = L0; }; });
+  }
+  function sTopic(ids) {
+    var ix = ids.map(function (id) { return SD.tp.findIndex(function (t) { return t[0] === id; }); });
+    $('eStopics').querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', ids.indexOf(b.dataset.t) >= 0); });
+    return SD.items.filter(function (it) { return it.tp.some(function (x) { return ix.indexOf(x) >= 0; }); });
+  }
+  function sSearch(q) {
+    var ql = q.toLowerCase(), hits = SD.items.filter(function (it) { return (it.k && it.k.indexOf(q) >= 0) || it.e.toLowerCase().indexOf(ql) >= 0 || (it.o && it.o.indexOf(q) >= 0) || (it.r && it.r.indexOf(q) >= 0) || it.rk.indexOf(q) >= 0; });
+    if (hits.length >= 4 && !(/\s/.test(q) && q.length > 6)) return sShow(hits);
+    $('eSres').innerHTML = '<p class="esmall">' + T('Searching…', '찾는 중…') + '</p>';
+    fetch('/api/quotes?q=' + encodeURIComponent(q)).then(function (r) { return r.json(); }).then(function (d) { var t = sTopic(d.topics || []); sShow(hits.concat(t.filter(function (x) { return hits.indexOf(x) < 0; }))); }).catch(function () { sShow(hits); });
+  }
+  function heartAdd(kind) {
+    var L = SD.heart.lines, i = kind === 'o' ? 0 : kind === 'r' ? 1 : 2, text = L.map(function (l) { return l[i]; }).join(kind === 'k' ? '\n' : ' ');
+    var o = { type: 'text', text: text, font: kind === 'o' ? 'Noto Serif KR' : 'Gowun Batang', size: kind === 'o' ? 13 : 10, color: '#2c241c', align: kind === 'k' ? 'left' : 'center', lh: kind === 'o' ? 1.9 : 1.6, x: doc.w * 0.12, y: doc.h * 0.14, w: doc.w * 0.76 };
+    o.h = textHeight(cx, o); add(o, true);
+    var r = { type: 'text', text: kind === 'o' ? '般若波羅蜜多心經' : '반야심경', font: kind === 'o' ? 'Noto Serif KR' : 'Gowun Batang', size: 18, color: '#8a5a3c', align: 'center', x: o.x, y: Math.max(4, o.y - 14), w: o.w }; r.h = textHeight(cx, r); add(r);
+    toast(T('Heart Sutra added', '반야심경을 넣었어요'));
+  }
+  function sutraInit() {
+    var B = $('eSbody');
+    var go = function () {
+      SD.tp = (QD && QD.topics) || SD.tp;
+      B.innerHTML = '<h3>' + T('Find a sutra verse', '불경 구절 찾기') + '</h3><div class="ewq"><input class="esearch" id="eSq" placeholder="' + T('e.g. letting go, anger, a calm mind', '예: 마음 내려놓기, 화, 고요한 마음, 무소의 뿔') + '"><button id="eSgo">' + T('Find', '찾기') + '</button></div>' +
+        '<div class="eseg" id="eSlang"><button data-l="ko">한글</button><button data-l="orig">' + T('Chinese + reading', '한문·독음') + '</button><button data-l="en">English</button></div>' +
+        '<div class="echips" id="eStopics">' + ['peace', 'thought', 'wisdom', 'kindness', 'love', 'happiness', 'life', 'death', 'courage', 'character', 'truth', 'friendship', 'time'].map(function (id) { var t = SD.tp.find(function (x) { return x[0] === id; }); return t ? '<button data-t="' + id + '">' + esc2(ko ? t[2] : t[1]) + '</button>' : ''; }).join('') + '</div>' +
+        '<div id="eSres" class="ewres"></div>' +
+        '<h3>' + T('Heart Sutra — full text', '반야심경 전문') + '</h3><div class="egrid3"><button data-h="o">' + T('Chinese', '한문') + '</button><button data-h="r">' + T('Korean reading', '한글 독음') + '</button><button data-h="k">' + T('Korean meaning', '우리말 풀이') + '</button></div>' +
+        '<h3>' + T('Browse', '경전 펼쳐 보기') + '</h3><div class="ewbrowse"><select id="eSbook"><option value="x">' + T('Diamond, Avatamsaka, Sutta Nipata…', '금강경·화엄경·숫타니파타 외') + '</option>' + SD.ch.map(function (c, i) { return '<option value="' + (i + 1) + '">' + T('Dhammapada ' + (i + 1) + '. ' + c, '법구경 ' + (i + 1) + '장') + '</option>'; }).join('') + '</select></div>' +
+        '<p class="esmall">' + T('Chinese texts are the classical translations (Xuanzang, Kumarajiva) and Uisang\'s ode, all public domain. The English Dhammapada is Max Müller\'s 1881 translation. Korean readings and meanings are by Arttrip. The AI only picks themes; it never writes scripture.', '한문은 현장·구마라집의 옛 번역과 의상 대사의 법성게, 영어 법구경은 막스 뮐러의 1881년 번역으로 모두 저작권이 끝났어요. 한글 독음과 우리말 풀이는 아트트립이 직접 옮겼어요. AI는 주제만 골라 주고 경전을 지어내지 않아요.') + '</p>';
+      $('eSlang').querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', b.dataset.l === SL); b.onclick = function () { SL = b.dataset.l; $('eSlang').querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); }); sShow(sutraInit.cur || SD.items); }; });
+      $('eStopics').querySelectorAll('button').forEach(function (b) { b.onclick = function () { sutraInit.cur = sTopic([b.dataset.t]); sShow(sutraInit.cur); }; });
+      $('eSgo').onclick = function () { var q = $('eSq').value.trim(); if (q) sSearch(q); };
+      $('eSq').onkeydown = function (e) { if (e.key === 'Enter') $('eSgo').onclick(); e.stopPropagation(); };
+      B.querySelectorAll('[data-h]').forEach(function (b) { b.onclick = function () { heartAdd(b.dataset.h); }; });
+      $('eSbook').onchange = function () { var v = $('eSbook').value; sutraInit.cur = SD.items.filter(function (it) { return v === 'x' ? !it.c : it.c === +v; }); sShow(sutraInit.cur); };
+      sutraInit.cur = SD.items.filter(function (it) { return it.k; }); sShow(sutraInit.cur);
+    };
+    if (SD) return go();
+    B.innerHTML = '<p class="esmall">' + T('Loading…', '불러오는 중…') + '</p>';
+    Promise.all([fetch('/sutra.json').then(function (r) { return r.json(); }), QD ? Promise.resolve(QD) : fetch('/quotes.json').then(function (r) { return r.json(); })]).then(function (a) { SD = a[0]; QD = a[1]; SD.tp = QD.topics; go(); });
+  }
   // ---------- Quotes (명언) ----------
   var QD = null, QL = ko ? 'ko' : 'en', QR = [], QN = 0;
   function qWho(r) { var a = QD.authors[r[1]]; return QL === 'en' ? a[0] : a[1]; }
@@ -407,7 +471,7 @@
     o.h = textHeight(cx, o); add(o, true);
     var r = { type: 'text', text: ref, font: kr ? 'Noto Sans KR' : 'Josefin Sans', size: 9, color: '#8a5a3c', align: 'center', ls: 0.12, x: o.x, y: o.y + o.h + 4, w: o.w };
     if (!kr) r.upper = true; r.h = textHeight(cx, r); add(r);
-    toast(tab === 'quote' ? T('Quote added', '명언을 넣었어요') : T('Verse added', '말씀을 넣었어요'));
+    toast(tab === 'quote' ? T('Quote added', '명언을 넣었어요') : WSRC === 'sutra' ? T('Verse added', '구절을 넣었어요') : T('Verse added', '말씀을 넣었어요'));
   }
 
   // ---------- adding ----------
@@ -507,11 +571,11 @@
       '<h3>' + T('Your photo', '내 사진') + '</h3><label class="eup"><input type="file" accept="image/*" id="eFile" multiple>' + T('Upload photos', '사진 올리기') + '<small>' + T('Stays on this device', '사진은 이 기기에만 저장돼요') + '</small></label>' +
       '<h3>' + T('Calendar grid', '달력') + '</h3><div class="egrid3">' + MONTHS[ko ? 'ko' : 'en'].map(function (m, i) { return '<button data-cal="' + i + '">' + (ko ? m : m.slice(0, 3)) + '</button>'; }).join('') + '</div>' +
       '<h3>' + T('Lines & shapes', '선과 도형') + '</h3><div class="egrid3">' + [['rule', T('Line', '선')], ['dashed', T('Dashed', '점선')], ['circle', T('Circle', '원')], ['rect', T('Block', '사각형')], ['label', T('Label', '라벨')], ['tag', T('Tag', '꼬리표')]].map(function (b) { return '<button data-el="' + b[0] + '">' + b[1] + '</button>'; }).join('') + '</div>';
-    if (tab === 'word') h = '<h3>' + T('Find a verse with AI', 'AI로 말씀 찾기') + '</h3><div class="ewq"><input class="esearch" id="eWq" placeholder="' + T('e.g. comfort for a hard week, wedding, thanks', '예: 힘든 친구를 위로하는 말씀, 결혼, 감사') + '"><button id="eWgo">' + T('Find', '찾기') + '</button></div>' +
+    if (tab === 'word') h = '<div class="eseg esrc" id="eWsrc"><button data-s="bible"' + (WSRC === 'bible' ? ' class="on"' : '') + '>' + T('Bible', '성경') + '</button><button data-s="sutra"' + (WSRC === 'sutra' ? ' class="on"' : '') + '>' + T('Buddhist sutras', '불경') + '</button></div><div id="eWbody"' + (WSRC === 'sutra' ? ' hidden' : '') + '>' + '<h3>' + T('Find a verse with AI', 'AI로 말씀 찾기') + '</h3><div class="ewq"><input class="esearch" id="eWq" placeholder="' + T('e.g. comfort for a hard week, wedding, thanks', '예: 힘든 친구를 위로하는 말씀, 결혼, 감사') + '"><button id="eWgo">' + T('Find', '찾기') + '</button></div>' +
       '<div class="eseg" id="eWlang"><button data-l="ko"' + (ko ? ' class="on"' : '') + '>한글 (개역한글)</button><button data-l="en"' + (ko ? '' : ' class="on"') + '>English (KJV)</button></div>' +
       '<div class="echips" id="eWtopics"></div><div id="eWres" class="ewres"></div>' +
       '<h3>' + T('Browse by book', '성경 펼쳐 보기') + '</h3><div class="ewbrowse"><select id="eWbook"></select><select id="eWch"></select></div><div id="eWch_v" class="ewres"></div>' +
-      '<p class="esmall">' + T('Verses come word for word from the KJV and the 1961 Korean Revised Version, both in the public domain. The AI only finds them; it never writes Scripture.', '말씀은 개역한글판(1961)과 KJV 원문 그대로 가져와요. 둘 다 저작권이 끝난 공개 본문이에요. AI는 찾아 주기만 하고 말씀을 지어내지 않아요.') + '</p>';
+      '<p class="esmall">' + T('Verses come word for word from the KJV and the 1961 Korean Revised Version, both in the public domain. The AI only finds them; it never writes Scripture.', '말씀은 개역한글판(1961)과 KJV 원문 그대로 가져와요. 둘 다 저작권이 끝난 공개 본문이에요. AI는 찾아 주기만 하고 말씀을 지어내지 않아요.') + '</p></div><div id="eSbody"' + (WSRC === 'sutra' ? '' : ' hidden') + '></div>';
     if (tab === 'quote') h = '<h3>' + T('Find a quote', '명언 찾기') + '</h3><div class="ewq"><input class="esearch" id="eQq" placeholder="' + T('e.g. graduation card, Van Gogh, courage', '예: 졸업 축하 카드, 고흐, 용기, 공자') + '"><button id="eQgo">' + T('Find', '찾기') + '</button></div>' +
       '<div class="eseg" id="eQlang"><button data-l="ko"' + (ko ? ' class="on"' : '') + '>한글</button><button data-l="en"' + (ko ? '' : ' class="on"') + '>English</button><button data-l="orig">' + T('Classical', '원문') + '</button></div>' +
       '<div class="echips" id="eQtopics"></div><p class="esmall" id="eQinfo"></p><div id="eQres" class="ewres"></div><button class="eqmore" id="eQmore" hidden>' + T('Show more', '더 보기') + '</button>' +
@@ -526,7 +590,7 @@
       '<h3>' + T('Masterpiece as paper', '명화를 배경으로') + '</h3><p class="esmall">' + T('Select a picture, then press “Make background” in its settings.', '그림을 고른 뒤 오른쪽 설정에서 [배경으로]를 누르세요.') + '</p>'; }
     if (tab === 'layers') h = '<h3>' + T('Layers on this page', '이 페이지의 레이어') + '</h3><div id="eLayers"></div>';
     P.innerHTML = h;
-    if (tab === 'word') wordInit(); if (tab === 'quote') quoteInit(); if (tab === 'art') artGrid(); if (tab === 'layers') layersPanel(); if (tab === 'tpl') tplPrev();
+    if (tab === 'word') { wordInit(); srcInit(); } if (tab === 'quote') quoteInit(); if (tab === 'art') artGrid(); if (tab === 'layers') layersPanel(); if (tab === 'tpl') tplPrev();
   }
   function rng(id, lab, v, min, max, st) { return '<label class="erng"><span>' + lab + '</span><input type="range" data-r="' + id + '" min="' + (min == null ? 0 : min) + '" max="' + (max == null ? 1 : max) + '" step="' + (st || 0.01) + '" value="' + v + '"></label>'; }
   function artGrid() {
