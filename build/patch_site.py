@@ -708,13 +708,13 @@ if 'honglife.co.kr/drive/<' not in s:
 # ── 상단 분류 줄 고정: 모든 한국어 페이지에 같은 분류 전체 목록(가로 스크롤 한 줄) ──
 # 2026-11-28: 상단/하단 카테고리 12개로 통합(사용자 요청). 접힌 카테고리는 아래 FOLD로 부모에 귀속, URL은 모두 유지. 여행(trip)은 바에서 제외.
 CATBAR = [('excel', '엑셀'), ('pdf', '한글·PDF'), ('doc', '문서·양식'), ('image', '이미지·디자인'), ('convert', '파일 변환'), ('ai', 'AI'),
-          ('life', '생활·행정'), ('gov', '공문서·민원'), ('drive', '자동차·내비'), ('medical', '건강'), ('ipsi', '시험·공부'), ('dev', '개발·인터넷')]
+          ('life', '투자·생활'), ('gov', '공문서·민원'), ('drive', '자동차·내비'), ('medical', '건강'), ('ipsi', '시험·공부'), ('dev', '개발·인터넷')]
 # 접힌 하위 분류 → 상단 바에서 하이라이트될 부모 칩 (페이지·URL은 그대로 살아 있음)
 FOLD = {'sheet': 'excel', 'text': 'convert', 'calendar': 'life', 'qr': 'image', 'design': 'image',
         'driver': 'drive', 'legal': 'ipsi', 'study': 'ipsi', 'test': 'life', 'game': 'life', 'shop': 'life', 'net': 'dev'}
 # 하단 '다른 분류' 타일 라벨을 새 이름으로 통일
 CANON_RENAME = {'/excel/': '엑셀', '/pdf/': '한글·PDF', '/doc/': '문서·양식', '/image/': '이미지·디자인',
-                '/drive/': '자동차·내비', '/ipsi/': '시험·공부', '/dev/': '개발·인터넷'}
+                '/drive/': '자동차·내비', '/ipsi/': '시험·공부', '/dev/': '개발·인터넷', '/life/': '투자·생활'}
 CATCSS = ('<style id="hl-catbar-css">.brandbar .in nav a:not(.srch):not(.lang){display:none!important}'
           '.catbar{border-top:1px solid rgba(0,0,0,.06)}.catbar .in2{max-width:1080px;margin:0 auto;padding:7px 12px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;'
           '-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}.catbar .in2::-webkit-scrollbar{display:none}'
