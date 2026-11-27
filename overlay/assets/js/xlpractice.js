@@ -10,7 +10,7 @@
     for(var c=c0;c<=c1;c++){ for(var r=r0;r<=r1;r++) out.push(numToCol(c)+r); } return out; }
 
   function tokenize(s){
-    var t=[], i=0, re=/\s*(?:(<=|>=|<>|[+\-*/(),<>=:])|([A-Za-z]+[0-9]+)|([A-Za-z]+)|([0-9]*\.?[0-9]+)|"([^"]*)")/g, m;
+    var t=[], i=0, re=/\s*(?:(<=|>=|<>|[+\-*/(),<>=:&])|([A-Za-z]+[0-9]+)|([A-Za-z]+)|([0-9]*\.?[0-9]+)|"([^"]*)")/g, m;
     while(i<s.length){
       re.lastIndex=i; m=re.exec(s);
       if(!m || m.index!==i){ if(/\s/.test(s[i])){ i++; continue; } throw new Error("알 수 없는 문자: "+s[i]); }
@@ -45,6 +45,8 @@
     COUNT:function(a){return a.filter(function(y){return typeof y==="number";}).length;},
     COUNTA:function(a){return a.filter(function(y){return y!==""&&y!=null;}).length;},
     ROUND:function(a){var x=toNum(a[0]),n=toNum(a[1]||0),p=Math.pow(10,n); return Math.round(x*p)/p;},
+    ROUNDUP:function(a){var x=toNum(a[0]),n=toNum(a[1]||0),p=Math.pow(10,n); return (x<0?-1:1)*Math.ceil(Math.abs(x)*p)/p;},
+    ROUNDDOWN:function(a){var x=toNum(a[0]),n=toNum(a[1]||0),p=Math.pow(10,n); return (x<0?-1:1)*Math.floor(Math.abs(x)*p)/p;},
     ABS:function(a){return Math.abs(toNum(a[0]));},
     IF:function(a){return a[0]?a[1]:a[2];},
     COUNTIF:function(a){ var f=flatten(a[0]); var crit=a[1]; return f.filter(function(v){return matchCrit(v,crit);}).length; },
@@ -98,7 +100,9 @@
       }
       function term(){ var v=factor(); while(peek()&&(peek().v==="*"||peek().v==="/")){ var op=next().v; var r=factor(); v=(op==="*")?toNum(v)*toNum(r):toNum(v)/toNum(r);} return v; }
       function addsub(){ var v=term(); while(peek()&&(peek().v==="+"||peek().v==="-")){ var op=next().v; var r=term(); v=(op==="+")?toNum(v)+toNum(r):toNum(v)-toNum(r);} return v; }
-      function compare(){ var v=addsub(); var t=peek(); if(t&&(t.v==="<"||t.v===">"||t.v==="<="||t.v===">="||t.v==="="||t.v==="<>")){ var op=next().v; var r=addsub();
+      function cstr(x){ if(typeof x==="number") return (Math.round(x*1e6)/1e6).toString(); if(x&&x.__r) return cstr(FUNCS.SUM(x.flat)); return String(x); }
+      function concat(){ var v=addsub(); while(peek()&&peek().v==="&"){ next(); var r=addsub(); v=cstr(v)+cstr(r); } return v; }
+      function compare(){ var v=concat(); var t=peek(); if(t&&(t.v==="<"||t.v===">"||t.v==="<="||t.v===">="||t.v==="="||t.v==="<>")){ var op=next().v; var r=concat();
           switch(op){case">":return toNum(v)>toNum(r);case"<":return toNum(v)<toNum(r);case">=":return toNum(v)>=toNum(r);case"<=":return toNum(v)<=toNum(r);case"=":return v==r;case"<>":return v!=r;} }
         return v; }
       var result=compare();
@@ -130,7 +134,21 @@
     {id:"sumif",title:"조건 합계 — SUMIF",grid:{A1:"식비",B1:10000,A2:"교통",B2:5000,A3:"식비",B3:8000,A4:"교통",B4:3000},rows:5,target:"D1",expect:18000,
      instruct:"D1 칸에 <b>=SUMIF(A1:A4,\"식비\",B1:B4)</b> 를 입력해 ‘식비’ 금액만 더해 보세요.",hint:"SUMIF(조건범위, 조건, 더할범위) 순서예요."},
     {id:"vlookup",title:"표에서 찾기 — VLOOKUP",grid:{A1:"A01",B1:"사과",A2:"A02",B2:"배",A3:"A03",B3:"포도",C1:"찾을 코드",D1:"A02"},rows:4,target:"E1",expect:"배",
-     instruct:"E1 칸에 <b>=VLOOKUP(D1,A1:B3,2,0)</b> 를 입력해 코드 ‘A02’의 이름을 찾으세요.",hint:"VLOOKUP(찾을값, 표범위, 가져올열번호, 0) 이에요. 0은 정확히 일치."}
+     instruct:"E1 칸에 <b>=VLOOKUP(D1,A1:B3,2,0)</b> 를 입력해 코드 ‘A02’의 이름을 찾으세요.",hint:"VLOOKUP(찾을값, 표범위, 가져올열번호, 0) 이에요. 0은 정확히 일치."},
+    {id:"min",title:"최솟값 — MIN",grid:{A1:15,A2:42,A3:8,A4:33,A5:27},rows:6,target:"B1",expect:8,
+     instruct:"B1 칸에 <b>=MIN(A1:A5)</b> 를 입력해 가장 작은 값을 찾으세요.",hint:"가장 작은 값은 MIN 이에요."},
+    {id:"sub",title:"빼기 — 수입 − 지출",grid:{A1:"수입",B1:"지출",A2:50000,B2:32000},rows:4,target:"C2",expect:18000,
+     instruct:"C2 칸에 <b>=A2-B2</b> 를 입력해 남은 돈(수입−지출)을 구하세요.",hint:"빼기는 - 기호예요. =A2-B2."},
+    {id:"count",title:"숫자 개수 — COUNT",grid:{A1:10,A2:20,A3:"없음",A4:40,A5:50},rows:6,target:"B1",expect:4,
+     instruct:"B1 칸에 <b>=COUNT(A1:A5)</b> 를 입력하세요. 글자(‘없음’)는 빼고 숫자만 세요.",hint:"COUNT는 숫자가 든 칸만 세요. 글자는 빼요."},
+    {id:"range",title:"범위 폭 — MAX−MIN",grid:{A1:15,A2:42,A3:8,A4:33,A5:27},rows:6,target:"B1",expect:34,
+     instruct:"B1 칸에 <b>=MAX(A1:A5)-MIN(A1:A5)</b> 를 입력해 가장 큰 값과 작은 값의 차이를 구하세요.",hint:"함수끼리도 빼기(-)로 이을 수 있어요."},
+    {id:"countif2",title:"합격자 수 — COUNTIF 조건",grid:{A1:55,A2:80,A3:40,A4:90,A5:70},rows:6,target:"B1",expect:3,
+     instruct:"B1 칸에 <b>=COUNTIF(A1:A5,\">=60\")</b> 를 입력해 60점 이상이 몇 명인지 세요.",hint:"조건에 부등호를 쓸 땐 \">=60\" 처럼 따옴표 안에 넣어요."},
+    {id:"concat",title:"문자 합치기 — &",grid:{A1:"홍길",B1:"동"},rows:3,target:"C1",expect:"홍길동",
+     instruct:"C1 칸에 <b>=A1&B1</b> 를 입력해 두 글자를 하나로 합치세요.",hint:"& 기호는 글자를 이어 붙여요. =A1&B1."},
+    {id:"roundup",title:"올림 — ROUNDUP",grid:{A1:2.1},rows:3,target:"B1",expect:3,
+     instruct:"B1 칸에 <b>=ROUNDUP(A1,0)</b> 를 입력해 올림하세요. 2.1이 3이 돼요.",hint:"ROUNDUP은 무조건 올려요. 0은 정수 자리까지."}
   ];
 
   var api={evaluate:evaluate, sameResult:sameResult, expandRange:expandRange, LESSONS:LESSONS, parseRef:parseRef};
