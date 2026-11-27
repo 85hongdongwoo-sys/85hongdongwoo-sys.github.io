@@ -71,6 +71,7 @@ async function route(p, url, lang, env, REQ) {
   if (p === '/api/license' && REQ.method === 'POST') return license(REQ, env);
   if (p === '/api/verses') return verses(url, env);
   if (p === '/api/quotes') return quotesApi(url, env);
+  if (p === '/api/lineart') return lineart(url, env);
   if (p === '/editor') return editor(lang, url);
   if (p.startsWith('/api/')) return api(p, REQ, env);
   if (p === '/studio') return studio(lang, env);
@@ -378,6 +379,18 @@ function collections(lang) {
 <div class="cgrid wide">${COLS.map((c) => colTile(c, lang, true)).join('')}</div>
 <div class="edban" style="margin-top:44px"><a href="${L(lang, '/editor')}?new=1"><b>${ko ? '내 사진으로 만들기' : 'Make it with your own photos'}</b><span>${ko ? '가족사진, 여행 사진을 올려 달력, 청첩장, 포스터로 꾸며 보세요. 컬렉션의 그림과 글씨를 함께 쓸 수 있어요.' : 'Upload family or travel photos and turn them into calendars, invitations and posters, mixed with anything from our collections.'}</span><em>${ko ? '편집기 열기 →' : 'Open the editor →'}</em></a></div></section>`;
   return html(layout(lang, { title, desc, path: '/collections', body, img: '/img/14598.jpg', jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, description: desc } }));
+}
+
+// ---------- Studio-only line-art generator (used to make our own coloring pages; token-protected, temporary) ----------
+async function lineart(url, env) {
+  const k = url.searchParams.get('k') || '';
+  const h = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(k)))).map((b) => b.toString(16).padStart(2, '0')).join('');
+  if (h !== 'fe6c93b862feb1ab753ab4692e7ff27969792bf99e903c101eb778845b7c924f' || Date.now() > Date.UTC(2027, 0, 31) || !env.AI) return new Response('no', { status: 403 });
+  const subject = (url.searchParams.get('q') || '').slice(0, 300), seed = +(url.searchParams.get('seed') || 1);
+  const prompt = `Coloring book page for children aged 8 to 12: ${subject}. Clean black outlines on pure white background, bold uniform line weight, large closed shapes to color, no shading, no gray, no hatching, no text, no border, whole subject in frame, simple fun cartoon style, high contrast line art.`;
+  const r = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', { prompt, steps: 8, seed });
+  const b64 = r.image || r; const bin = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  return new Response(bin, { headers: { 'content-type': 'image/jpeg', 'cache-control': 'no-store' } });
 }
 
 // ---------- Photography: real photos from Wikimedia Commons (CC0 / public domain / CC BY / CC BY-SA), served through our own cache ----------
