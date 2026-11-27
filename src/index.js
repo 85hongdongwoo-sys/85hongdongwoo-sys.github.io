@@ -388,7 +388,11 @@ async function lineart(url, env) {
   if (h !== 'fe6c93b862feb1ab753ab4692e7ff27969792bf99e903c101eb778845b7c924f' || Date.now() > Date.UTC(2027, 0, 31) || !env.AI) return new Response('no', { status: 403 });
   const subject = (url.searchParams.get('q') || '').slice(0, 300), seed = +(url.searchParams.get('seed') || 1);
   const prompt = `Coloring book page for children aged 8 to 12: ${subject}. Clean black outlines on pure white background, bold uniform line weight, large closed shapes to color, no shading, no gray, no hatching, no text, no border, whole subject in frame, simple fun cartoon style, high contrast line art.`;
-  const r = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', { prompt, steps: 8, seed });
+  const model = url.searchParams.get('m') || '@cf/black-forest-labs/flux-1-schnell';
+  let r;
+  try { r = await env.AI.run(model, model.includes('schnell') ? { prompt: prompt + ` (variation ${seed})`, steps: 8 } : { prompt: prompt + ` (variation ${seed})`, width: 1024, height: 1024, seed }); }
+  catch (e) { return new Response(String(e && e.message || e), { status: 500 }); }
+  if (r instanceof ReadableStream) return new Response(r, { headers: { 'content-type': 'image/png', 'cache-control': 'no-store' } });
   const b64 = r.image || r; const bin = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
   return new Response(bin, { headers: { 'content-type': 'image/jpeg', 'cache-control': 'no-store' } });
 }
