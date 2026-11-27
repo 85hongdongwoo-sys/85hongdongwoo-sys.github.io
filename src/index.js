@@ -145,7 +145,7 @@ async function home(lang, env) {
 <section class="wrap sec"><div class="sh"><div><span class="eyebrow dk">${ko ? '무엇을 만들까요' : 'Make something'}</span><h2>${ko ? '바로 쓰는 네 가지' : 'Four ways to start'}</h2></div></div><div class="bento">${bento}</div></section>
 ${colStrip(lang)}
 <section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div>${rail(PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles'].includes(p.cat)))}</section>
-<section class="wrap sec"><div class="sh"><h2>${ko ? '큰 글씨 퍼즐북' : 'Large-print puzzle books'}</h2><a href="${L(lang, '/shop')}#puzzles">${ko ? '영어 · 한국어 · 일본어 · 라틴어' : 'English · Korean · Japanese · Latin'} →</a></div>${rail(PRODUCTS.filter((p) => p.cat === 'puzzles'))}</section>
+<section class="wrap sec"><div class="sh"><h2>${ko ? '큰 글씨 퍼즐북 · 컬러링북' : 'Large-print puzzle & coloring books'}</h2><a href="${L(lang, '/shop')}#puzzles">${ko ? '어르신도 편하게' : 'Easy on the eyes'} →</a></div>${rail(PRODUCTS.filter((p) => p.cat === 'puzzles'))}</section>
 <section class="wrap sec"><div class="sh"><h2>${ko ? '화가별 명화 달력 2027' : 'Artist calendars 2027'}</h2><a href="${L(lang, '/shop')}#calendars">${ko ? '15명 모두 보기' : 'All 15 artists'} →</a></div>${rail(PRODUCTS.filter((p) => p.cat === 'artist-calendars'))}</section>
 <section class="wrap sec"><div class="edcta"><div><span class="eyebrow">${ko ? '아트트립 편집기' : 'Arttrip Editor'}</span><h2>${ko ? '사고 나서도 내 마음대로' : 'Make it yours after you buy'}</h2><p>${ko ? '내 사진, 글꼴 19종, 빈티지 종이, 12개월 달력 자동 만들기. 브라우저에서 바로 꾸미고 인쇄용 PDF로 받아요.' : 'Your photos, 19 fonts, vintage paper and one-click 12-month calendars. Design in the browser, download a print-ready PDF.'}</p><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '무료로 열어 보기' : 'Try it free'}</a></div><img src="/p/art-paper-kit.jpg" alt="" loading="lazy"></div></section>
 <section class="wrap sec"><div class="sh"><h2>${ko ? '아트트립 오리지널' : 'Arttrip Originals'}</h2><a href="${L(lang, '/originals')}">${ko ? '모두 보기' : 'See all'} →</a></div>${rail(PRODUCTS.filter(isOrig))}</section>
@@ -353,7 +353,7 @@ const COLS = [
   ['portraits', { en: 'Vintage Portraits', ko: '빈티지 인물' }, { en: 'Portrait photographs and faces from the 1800s and early 1900s.', ko: '1800년대부터 1900년대 초의 인물 사진' }, '/img/29230.jpg', null, false],
   ['natural-history', { en: 'Vintage Natural History', ko: '빈티지 도감' }, { en: 'Botanical plates, birds, insects, old maps and science prints.', ko: '식물도감, 새, 곤충, 옛 지도, 과학 그림' }, '/img/127282.jpg', null, false],
   ['lettering', { en: 'Lettering', ko: '글씨' }, { en: 'Scripture, sutras, Hangul, Latin and famous quotes set in beautiful type.', ko: '성경 말씀, 불경, 한글, 라틴어, 명언을 아름다운 글씨로' }, '/p/cat-lettering.jpg', '/originals#lettering', true],
-  ['patterns', { en: 'Patterns & Textures', ko: '패턴·질감' }, { en: 'Seamless repeats and paper textures for backgrounds and goods.', ko: '배경과 굿즈에 쓰는 반복 무늬와 종이 질감' }, '/p/patterns-flowers.jpg', '/shop/seamless-patterns-flowers', true],
+  ['patterns', { en: 'Patterns & Textures', ko: '패턴·질감' }, { en: 'Seamless repeats and paper textures for backgrounds and goods.', ko: '배경과 굿즈에 쓰는 반복 무늬와 종이 질감' }, '/p/patterns-originals.jpg', '/originals#patterns', true],
 ];
 function colTile(c, lang, big) {
   const [k, n, d, img, href, live] = c, ko = lang === 'ko';
@@ -435,7 +435,7 @@ function shop(lang) {
   const t = T[lang], ko = lang === 'ko';
   const groups = [
     ['planners', ko ? '플래너·인쇄물' : 'Planners & printables', PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles'].includes(p.cat))],
-    ['puzzles', ko ? '퍼즐북 · 4개 언어' : 'Puzzle books · 4 languages', PRODUCTS.filter((p) => p.cat === 'puzzles')],
+    ['puzzles', ko ? '퍼즐북 · 컬러링북' : 'Puzzle & coloring books', PRODUCTS.filter((p) => p.cat === 'puzzles')],
     ['calendars', ko ? '화가별 명화 달력 2027' : 'Artist wall calendars 2027', PRODUCTS.filter((p) => p.cat === 'artist-calendars')],
     ['originals', ko ? '아트트립 오리지널' : 'Arttrip Originals', PRODUCTS.filter(isOrig)],
   ];
