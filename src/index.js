@@ -64,7 +64,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv9', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv10', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -373,7 +373,7 @@ const COLS = [
   ['illustration', { en: 'Arttrip Illustration', ko: '아트트립 일러스트' }, { en: 'Our own hand-drawn characters, cozy scenes and seasons.', ko: '우리가 직접 그린 인물, 포근한 일상, 계절' }, '/p/cafe-girl-clipart.jpg', '/illustrations', true],
   ['landscape', { en: 'Landscape Photography', ko: '풍경 사진' }, { en: 'Mountains, lakes, mist, dunes, coasts and night skies by award-winning photographers.', ko: '산, 호수, 안개, 사막, 바다, 밤하늘. 수상작 수준의 풍경 사진' }, '/ph/w956090e0.jpg', '/collections/landscape', true],
   ['architecture', { en: 'Architecture & Light', ko: '건축과 빛' }, { en: 'Modern buildings, spiral stairs, glass and light.', ko: '현대 건축, 나선 계단, 유리와 빛' }, '/ph/we533e122.jpg', '/collections/architecture', true],
-  ['portraits', { en: 'Vintage Portraits', ko: '빈티지 인물' }, { en: 'Portrait photographs and faces from the 1800s and early 1900s.', ko: '1800년대부터 1900년대 초의 인물 사진' }, '/img/29230.jpg', null, false],
+  ['portraits', { en: 'Vintage Portraits', ko: '빈티지 인물' }, { en: 'Portrait photographs and faces from the 1800s and early 1900s.', ko: '1800년대부터 1900년대 초의 인물 사진' }, '/p/cat-family-street.jpg', null, false],
   ['natural-history', { en: 'Vintage Natural History', ko: '빈티지 도감' }, { en: 'Botanical plates, birds, insects, old maps and science prints.', ko: '식물도감, 새, 곤충, 옛 지도, 과학 그림' }, '/img/127282.jpg', null, false],
   ['lettering', { en: 'Lettering', ko: '글씨' }, { en: 'Scripture, sutras, Hangul, Latin and famous quotes set in beautiful type.', ko: '성경 말씀, 불경, 한글, 라틴어, 명언을 아름다운 글씨로' }, '/p/cat-lettering.jpg', '/originals#lettering', true],
   ['patterns', { en: 'Patterns & Textures', ko: '패턴·질감' }, { en: 'Seamless repeats and paper textures for backgrounds and goods.', ko: '배경과 굿즈에 쓰는 반복 무늬와 종이 질감' }, '/p/patterns-originals.jpg', '/originals#patterns', true],
