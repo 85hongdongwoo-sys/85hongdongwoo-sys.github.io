@@ -7,7 +7,7 @@ import { memdb } from './memdb.js';
 import { STORIES, STORY_BY } from './stories.js';
 const fillJa = (o, d = 0) => { if (!o || typeof o !== 'object' || d > 6) return; if (Array.isArray(o)) { o.forEach((x) => fillJa(x, d + 1)); return; } if ('en' in o && 'ko' in o && !('ja' in o)) o.ja = o.en; for (const k of Object.keys(o)) if (k !== 'ja') fillJa(o[k], d + 1); };
 import { api, currentUser, membersReady } from './auth.js';
-import { pkPut, pkImg, pkUnlock, pkList, pkPage, pkDownload, pkPaths, pkCover, pkBuy } from './catalog.js';
+import { pkPut, pkImg, pkUnlock, pkList, pkPage, pkDownload, pkPaths, pkCover, pkBuy, pkParis } from './catalog.js';
 
 const PER_PAGE = 48;
 let ORIGIN = '';
@@ -29,6 +29,7 @@ export default {
     { const bm = url.pathname.match(/^\/buy\/([a-z0-9-]+)$/); if (bm) { const r = await pkBuy(env, bm[1], url); if (r) return r; } }
     { const cm = url.pathname.match(/^\/pk\/svg\/([a-z0-9-]+)\.svg$/); if (cm) return pkCover(env, cm[1]); }
     if (url.pathname === '/api/pk/put') return pkPut(req, env);
+    if (url.pathname === '/api/pk/paris') return pkParis(req, env);
     // hero motion videos stored in KV (VIDS)
     if (url.pathname.startsWith('/v/') && env.VIDS) {
       const key = url.pathname.slice(3);

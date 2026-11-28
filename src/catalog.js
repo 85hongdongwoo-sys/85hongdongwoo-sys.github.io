@@ -55,6 +55,16 @@ export async function pkPut(req, env) {
   return J({ ok: true, n: puts.length, d: dels.length }, 200, CORS);
 }
 
+// ---------- Paris Musées GraphQL relay (token-protected, used for harvesting) ----------
+export async function pkParis(req, env) {
+  if (req.method === 'OPTIONS') return new Response(null, { headers: CORS });
+  let b; try { b = await req.json(); } catch { return J({ ok: false }, 400, CORS); }
+  if ((await sha(String(b.tok || ''))) !== env.PK_HASH) return J({ ok: false }, 403, CORS);
+  if (!env.PARIS_TOKEN) return J({ ok: false, err: 'no PARIS_TOKEN' }, 501, CORS);
+  const r = await fetch('https://apicollections.parismusees.paris.fr/graphql', { method: 'POST', headers: { 'content-type': 'application/json', 'auth-token': env.PARIS_TOKEN }, body: JSON.stringify({ query: b.query, variables: b.variables || {} }) });
+  return new Response(await r.text(), { status: r.status, headers: { 'content-type': 'application/json', ...CORS } });
+}
+
 // ---------- image proxy (allow-listed museum hosts only) ----------
 export async function pkImg(url, ctx) {
   const u = url.searchParams.get('u') || '';
