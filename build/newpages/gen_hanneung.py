@@ -31,7 +31,7 @@ TOOL = ("""<section class="card tool" id="tool"><style>#tool h2{margin:26px 0 10
 <h2>회차별 기출문제 (공식 시험 자료실)</h2>
 <p class="note">문제지와 정답표 PDF는 국사편찬위원회 시험 자료실에서 받아요. 아래는 자료실에 올라와 있는 회차예요 (2026년 11월 24일 확인).</p>
 <div class="hk-tbl"><table class="tbl"><thead><tr><th>회차</th><th>심화</th><th>기본</th><th>자료 올린 날</th></tr></thead><tbody>"""+rows+"""</tbody></table></div>
-<div class="btns"><a class="btn dl" href=\""""+DAT+"""\" target="_blank" rel="noopener">공식 시험 자료실 열기</a><a class="btn" href="https://www.historyexam.go.kr/answer/list.do" target="_blank" rel="noopener">공식 정답 보기</a></div>
+<div class="btns"><a class="btn dl" href="/ipsi/hanneung-gichul.html">▶ 기출 풀고 바로 채점 (44~81회)</a><a class="btn" href=\""""+DAT+"""\" target="_blank" rel="noopener">공식 자료실</a><a class="btn" href="https://www.historyexam.go.kr/answer/list.do" target="_blank" rel="noopener">공식 정답</a></div>
 </section>""", """<script>
 (function(){var $=HL.$;var EX=["""+ex_js+"""];
 var t=new Date();t.setHours(0,0,0,0);var nx=EX.filter(function(e){return new Date(e[1]+'T00:00:00')>=t}).slice(0,2);var W='일월화수목금토';
