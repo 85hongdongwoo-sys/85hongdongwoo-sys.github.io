@@ -163,25 +163,29 @@ function copy(it, lang) {
 
 
 // ---------- product mock-ups drawn in HTML/CSS (no stored images needed) ----------
-export const MOCK_CSS = `<style>.mk{position:relative;width:100%;aspect-ratio:1/1;background:#ece5d8;border-radius:12px;overflow:hidden;container-type:inline-size}.pimg .mk{height:100%;aspect-ratio:auto;border-radius:0}.mk img{display:block;width:100%;height:100%;object-fit:cover}
-.mk .cal{position:absolute;left:17%;right:17%;top:7%;bottom:5%;background:#fff;box-shadow:0 1.6cqw 4cqw rgba(0,0,0,.2);display:flex;flex-direction:column}
-.mk .cal:before{content:"";position:absolute;top:-2.2cqw;left:10%;right:10%;height:4cqw;background:radial-gradient(circle,#666 0 .9cqw,transparent 1cqw) 0 0/9% 100% repeat-x}
-.mk .pic{flex:0 0 56%;overflow:hidden}.mk .mo{font:700 3cqw/1 system-ui,sans-serif;letter-spacing:.08em;padding:2.6cqw 3cqw 1.2cqw;color:#222}
-.mk .gr{flex:1;display:grid;grid-template-columns:repeat(7,1fr);gap:.5cqw;padding:0 3cqw 2.4cqw;font:1.9cqw/1 system-ui,sans-serif;color:#555}.mk .gr i{border-top:.2cqw solid #ddd;padding-top:.6cqw;font-style:normal}
-.mk .pl{position:absolute;left:5%;right:5%;top:12%;bottom:10%;display:flex;box-shadow:0 1.6cqw 4cqw rgba(0,0,0,.2)}.mk .pl>div{flex:1;background:#fffdf8;display:flex;flex-direction:column;padding:2.4cqw}.mk .pl>div:first-child{border-right:.4cqw solid #d8cfbf}
-.mk .pl .pic{flex:0 0 62%}.mk .ln{flex:1;background:repeating-linear-gradient(#fffdf8 0 3.2cqw,#d9d2c4 3.2cqw 3.4cqw)}.mk .wk{font:700 2.4cqw/1.3 system-ui,sans-serif;color:#333;margin-bottom:1cqw}
-.mk .fr{position:absolute;background:#fff;padding:2.2cqw;box-shadow:0 1.4cqw 3.5cqw rgba(0,0,0,.25);border:1.3cqw solid #2b2622}
-.mk .pc{position:absolute;width:52%;aspect-ratio:3/2;background:#fff;padding:1.6cqw;box-shadow:0 1.2cqw 3cqw rgba(0,0,0,.22)}</style>`;
+export const MOCK_CSS = `<style>.mk{position:relative;width:100%;aspect-ratio:4/3;background:#e9e2d6;border-radius:14px;overflow:hidden;container-type:inline-size}.pimg .mk{height:100%;aspect-ratio:auto;border-radius:0}
+.mk img{display:block;width:100%;height:100%;object-fit:cover}
+.mk .cv,.mk .sp{position:absolute;background:#fffdf9;box-shadow:.6cqw 1.2cqw 2.6cqw rgba(60,45,25,.28)}
+.mk .cv{left:6%;top:14%;width:31%;height:72%;display:flex;flex-direction:column;padding:2.2cqw 2.2cqw 1.6cqw}
+.mk .cv .pic{flex:0 0 58%;overflow:hidden;border:.25cqw solid #e2dbcf}.mk .cv b{font:700 2.5cqw/1.15 Georgia,serif;color:#222;text-align:center;margin-top:1.6cqw;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.mk .cv small{font:1.4cqw/1.2 system-ui,sans-serif;color:#8a8175;text-align:center;margin-top:auto;letter-spacing:.06em;text-transform:uppercase}
+.mk .sp{left:41%;right:5%;top:19%;height:62%;display:flex}.mk .sp>div{flex:1;padding:1.8cqw;display:flex;flex-direction:column;gap:1cqw}.mk .sp>div+div{border-left:.3cqw solid #e6dfd2}
+.mk .sp .pic{flex:0 0 55%;overflow:hidden}.mk .t{font:700 1.5cqw/1 system-ui,sans-serif;color:#444;letter-spacing:.05em}
+.mk .gr{flex:1;display:grid;grid-template-columns:repeat(7,1fr);gap:.3cqw;font:1.1cqw/1 system-ui,sans-serif;color:#777}.mk .gr i{border-top:.15cqw solid #ddd;padding-top:.3cqw;font-style:normal}
+.mk .ln{flex:1;background:repeating-linear-gradient(transparent 0 2.2cqw,#ddd6c9 2.2cqw 2.4cqw)}.mk .q4{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:1cqw}.mk .q4 div{overflow:hidden}</style>`;
 function mock(it, lang) {
-  const ws = (it.w || []).map((w) => pi(w.v || w.u)), vs = ws.length ? ws : [pi(it.v)].concat(it.vs || []).map((u) => u);
+  const ws = (it.w || []).map((w) => pi(w.v || w.u)), vs = ws.length ? ws : [pi(it.v)].concat((it.vs || []).map(pi));
   const im = (i) => `<img src="${vs[i % vs.length]}" alt="" loading="lazy">`;
-  const mon = { en: 'JANUARY 2027', ko: '2027년 1월', ja: '2027年1月' }[lang] || 'JANUARY 2027';
+  const T = { en: ['JANUARY 2027', 'WEEK 1', 'NOTES'], ko: ['2027년 1월', '1주차', '메모'], ja: ['2027年1月', '第1週', 'メモ'] }[lang] || ['JANUARY 2027', 'WEEK 1', 'NOTES'];
   const days = Array.from({ length: 35 }, (_, i) => `<i>${i >= 5 && i - 4 <= 31 ? i - 4 : ''}</i>`).join('');
-  if (it.k === 'cal') return `<div class="mk"><div class="cal"><div class="pic">${im(0)}</div><div class="mo">${mon}</div><div class="gr">${days}</div></div></div>`;
-  if (it.k === 'planner') return `<div class="mk"><div class="pl"><div><div class="wk">${mon}</div><div class="pic">${im(0)}</div><div class="ln"></div></div><div><div class="wk">${{ en: 'WEEK 1', ko: '1주차', ja: '第1週' }[lang] || 'WEEK 1'}</div><div class="ln"></div></div></div></div>`;
-  if (it.k === 'prints') return `<div class="mk">${[[8, 30, 46, 0], [30, 14, 42, 1], [50, 34, 40, 2]].map(([l, t, w, i]) => `<div class="fr" style="left:${l}%;top:${t}%;width:${w}%;aspect-ratio:3/4">${im(i)}</div>`).join('')}</div>`;
-  if (it.k === 'cards') return `<div class="mk">${[[6, 14, -8, 0], [42, 10, 6, 1], [10, 52, 5, 2], [40, 50, -4, 3]].map(([l, t, r, i]) => `<div class="pc" style="left:${l}%;top:${t}%;transform:rotate(${r}deg)">${im(i)}</div>`).join('')}</div>`;
-  return `<div class="mk"><img src="${pi(it.v)}" alt="" loading="lazy"></div>`;
+  const nm = String((it[lang] || it.en).name || '').replace(/\s*[—–-]\s*\d+.*$/, '').replace(/\s*\(Vol\.[^)]*\)|\s*\d+집$|（第\d+集）/g, '');
+  const kind = (KIND[it.k] || {})[lang] || '';
+  const right = it.k === 'cal' ? `<div><div class="pic">${im(1)}</div><div class="t">${T[0]}</div><div class="gr">${days}</div></div>`
+    : it.k === 'planner' ? `<div><div class="t">${T[1]}</div><div class="ln"></div></div>`
+    : it.k === 'cards' ? `<div><div class="q4">${[2, 3, 4, 5].map((i) => `<div>${im(i)}</div>`).join('')}</div></div>`
+    : `<div><div class="pic" style="flex:1">${im(2)}</div></div>`;
+  const left = it.k === 'planner' ? `<div><div class="t">${T[0]}</div><div class="pic">${im(1)}</div><div class="gr">${days}</div></div>` : `<div><div class="pic" style="flex:1">${im(1)}</div></div>`;
+  return `<div class="mk"><div class="cv"><div class="pic">${im(0)}</div><b>${nm}</b><small>${kind}</small></div><div class="sp">${left}${right}</div></div>`;
 }
 
 const card = (it, lang, L, esc) => `<a class="pcard" href="${L(lang, '/shop/c/' + it.s)}"><div class="pimg">${["cal", "planner", "prints", "cards"].includes(it.k) ? mock(it, lang) : `<img src="${pi(it.v)}" alt="${esc((it[lang] || it.en).name)}" loading="lazy">`}</div><b>${esc((it[lang] || it.en).name)}</b><span>${esc(KIND[it.k][lang])}</span><em>$${it.p}</em></a>`;
