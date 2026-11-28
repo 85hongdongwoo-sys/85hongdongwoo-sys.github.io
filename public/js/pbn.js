@@ -130,5 +130,5 @@ var PBN = (function () {
     p.text(p.splitTextToSize('How to read the key: "1x A + 2x Titanium White" means 1 part A mixed with 2 parts white. Mix enough for every area with that number before you start. Paint one flat colour per area, light colours first. Print page 1 at 100% (no scaling) on 200 g/m² or heavier paper, or trace it onto canvas with graphite transfer paper. Liquitex and Winsor & Newton are trademarks of their owners; Arttrip Studio is not affiliated with them.', W - 2 * M), M, H - M - 18);
     return p;
   }
-  return { process: process, pack: pack, unpack: unpack, pdf: pdf, preview: preview, outline: outline, candidates: candidates };
+  return { process: process, pack: pack, unpack: unpack, pdf: pdf, preview: preview, outline: outline, recipe: recipe, candidates: candidates };
 })();
