@@ -1354,10 +1354,14 @@ for _dp, _dn, _fs in os.walk(root):
             open(_p, 'w', encoding='utf-8').write(o); _sc += 1
 print('svg title->aria-label:', _sc)
 
-# ── .co.kr 한국어 전용: 해외 더미 폴더 크롤 차단(robots) + 사이트맵에서 해외 URL 제거 (2026-11-28) ──
-# honglife.co.kr에 남아 있는 해외 언어 더미(각 페이지 noindex + honglifecalc.com 리다이렉트)가
-# 네이버·구글 크롤 예산을 잡아먹어 한국어 실페이지 색인을 늦추는 문제 해결. 한국어 페이지는 전부 유지.
+# ── .co.kr 크롤 예산 정리: 100% 더미 폴더만 크롤 차단 + 사이트맵에서 noindex 더미 URL 제거 (2026-11-28) ──
+# honglife.co.kr에는 honglifecalc.com으로 넘기는 noindex 리다이렉트 더미가 폴더째(해외 국가 ae·jp…,
+# 한국어 계산기 science·saju·math·mbti…) 또는 실폴더 안에 섞여 있어 크롤 예산을 잡아먹음.
+# 실페이지(한국어 전체 + 영어 en/ 162개)는 모두 유지하고, '실페이지가 하나도 없는(100% 더미) 폴더'만 차단.
+# 사이트맵에서는 혹시 끼어든 noindex 더미 URL만 제거(실페이지는 그대로).
 import glob as _glob2
+def _is_stub(_t):
+    return ('honglifecalc.com' in _t) and ('noindex' in _t)
 _foreign = []
 for _d in sorted(os.listdir(root)):
     _dp = os.path.join(root, _d)
@@ -1366,9 +1370,12 @@ for _d in sorted(os.listdir(root)):
     _hs = _glob2.glob(os.path.join(_dp, '**', '*.html'), recursive=True)
     if not _hs:
         continue
-    _sm = _hs[:12]
-    _dum = sum(1 for _h in _sm if 'Moved to honglifecalc.com' in open(_h, encoding='utf-8', errors='ignore').read())
-    if _dum >= max(1, int(len(_sm) * 0.9)):  # 샘플이 거의 전부 더미면 해외 폴더
+    _real = 0
+    for _h in _hs:
+        if not _is_stub(open(_h, encoding='utf-8', errors='ignore').read()):
+            _real += 1
+            break  # 실페이지 1개라도 있으면 폴더 차단 대상 아님
+    if _real == 0:  # 폴더 전체가 더미
         _foreign.append(_d)
 _rp = os.path.join(root, 'robots.txt')
 if _foreign and os.path.exists(_rp):
@@ -1380,16 +1387,28 @@ if _foreign and os.path.exists(_rp):
         else:
             _r = _r.replace('User-agent: *\n', 'User-agent: *\n' + _dis, 1)
         open(_rp, 'w', encoding='utf-8').write(_r)
-    print('robots: blocked foreign folders', len(_foreign))
-_fset = set(_foreign)
+    print('robots: blocked 100%-dummy folders', len(_foreign))
+# 사이트맵: 각 URL의 대상 파일이 noindex 더미면 제거(실페이지는 유지). 영어 en/ 실페이지는 더미가 아니라 유지됨.
 _smpath = os.path.join(root, 'sitemap.xml')
-if _foreign and os.path.exists(_smpath):
+if os.path.exists(_smpath):
     _s = open(_smpath, encoding='utf-8').read()
     _blocks = re.findall(r'<url>.*?</url>', _s, re.S)
-    _keep = [_b for _b in _blocks if not (re.search(r'honglife\.co\.kr/([a-z0-9-]+)/', _b) and re.search(r'honglife\.co\.kr/([a-z0-9-]+)/', _b).group(1) in _fset)]
+    def _loc_stub(_b):
+        _m = re.search(r'<loc>https?://honglife\.co\.kr(/[^<]*)</loc>', _b)
+        if not _m:
+            return False
+        _path = _m.group(1)
+        _fp = os.path.join(root, _path.lstrip('/'))
+        if _path.endswith('/'):
+            _fp = os.path.join(root, _path.strip('/'), 'index.html')
+        try:
+            return _is_stub(open(_fp, encoding='utf-8', errors='ignore').read())
+        except Exception:
+            return False
+    _keep = [_b for _b in _blocks if not _loc_stub(_b)]
     _rm = len(_blocks) - len(_keep)
     if _rm and _blocks:
         _i = _s.find('<url>'); _j = _s.rfind('</url>') + len('</url>')
         _s = _s[:_i] + ''.join(_keep) + _s[_j:]
         open(_smpath, 'w', encoding='utf-8').write(_s)
-    print('sitemap: removed foreign urls', _rm)
+    print('sitemap: removed noindex-dummy urls', _rm)
