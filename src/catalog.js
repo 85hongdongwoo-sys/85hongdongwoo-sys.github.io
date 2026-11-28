@@ -13,9 +13,10 @@ export const KIND = {
   color: { en: 'Coloring book', ko: '컬러링북', ja: 'ぬりえ', icon: '🖍' },
   puz: { en: 'Large-print puzzle book', ko: '큰 글씨 퍼즐북', ja: '大きな文字のパズル本', icon: '🧩' },
   pbn: { en: 'Acrylic paint-by-number pattern', ko: '아크릴화 도안키트(범용)', ja: 'アクリル画 数字ぬりえ図案', icon: '🎨' },
+  kids: { en: "Kids' coloring book", ko: '어린이 컬러링북', ja: '子ども向けぬりえ', icon: '🖍' },
   budget: { en: 'Budget planner spreadsheet (Excel & Google Sheets)', ko: '명화 가계부 (엑셀·구글 시트)', ja: '名画の家計簿（Excel・Googleスプレッドシート）', icon: '💰' },
 };
-const KIND_ORDER = ['cal', 'planner', 'budget', 'prints', 'cards', 'puz', 'pbn', 'color'];
+const KIND_ORDER = ['kids', 'cal', 'planner', 'prints', 'cards', 'puz', 'pbn', 'color'];
 
 export async function pkIndex(env) {
   if (IDX && Date.now() - IDX_AT < 300000) return IDX;
@@ -91,7 +92,7 @@ const passFor = async (env, slug) => { const exp = Date.now() + 365 * 864e5; ret
 async function passOk(env, slug, pass) { const [exp, sig] = String(pass || '').split('.'); return !!sig && +exp > Date.now() && sig === (await hmac(env, slug + '|' + exp)); }
 const polar = (env, path) => fetch('https://api.polar.sh/v1' + path, { headers: { authorization: 'Bearer ' + env.POLAR_TOKEN, accept: 'application/json' } }).then((r) => r.ok ? r.json() : null).catch(() => null);
 const tiers = (env) => { try { return JSON.parse(env.PK_TIERS || '{}'); } catch { return {}; } };
-export const tierFor = (env, it) => { const t = tiers(env); return it.k === 'puz' ? t['puz' + it.p] : it.k === 'budget' ? t.planner : t[it.k]; };
+export const tierFor = (env, it) => { const t = tiers(env); return it.k === 'puz' ? t['puz' + it.p] : it.k === 'budget' ? t.planner : it.k === 'kids' ? t.color : t[it.k]; };
 export async function pkBuy(env, slug, url) {
   const it = await pkItem(env, slug); if (!it) return null;
   if (it.c) return Response.redirect(it.c, 302);
@@ -158,6 +159,9 @@ function copy(it, lang) {
     cards: ko ? [`${who}의 그림 ${n}점으로 만든 엽서 세트예요. A4 한 장에 엽서 4장이 들어가고 자르는 선이 표시돼 있어요.`, `두꺼운 종이에 인쇄해 잘라서 카드, 초대장, 책갈피로 쓰세요.`]
       : ja ? [`${who}の作品${n}点でつくったポストカードセットです。A4用紙1枚に4枚分、切り取り線つきで入っています。`, `厚手の紙に印刷して切り取れば、メッセージカードや招待状、しおりとして使えます。`]
       : [`A set of ${n} postcards featuring ${who}, four cards per A4 or Letter page with crop marks.`, `Print on card stock and cut out for notes, invitations, party favours and scrapbooks.`],
+    kids: ko ? [`${who} 그림 ${n}장이 들어 있는 어린이 컬러링북이에요. 굵고 또렷한 선과 큼직한 모양이라 3~8살 아이도 쉽게 색칠할 수 있어요.`, `모두 아트트립 스튜디오가 새로 그린 오리지널 그림이에요. A4나 Letter로 인쇄해서 몇 번이든 다시 색칠할 수 있어요. 집, 어린이집, 생일 파티, 여행길에 좋아요.`]
+      : ja ? [`${who}の絵が${n}枚入った子ども向けぬりえです。太くはっきりした線と大きな形なので、3〜8歳の子どもでも塗りやすいです。`, `すべてArttrip Studioのオリジナルイラストです。A4やレターで何度でも印刷できます。おうち時間、保育園、誕生日会、旅行に。`]
+      : [`A kids' coloring book with ${n} pages of ${who}. Bold, clean outlines and big shapes that children aged 3–8 can colour easily.`, `Every picture is an original Arttrip Studio illustration. Print on A4 or Letter as many times as you like: for home, classrooms, birthday parties and road trips.`],
     color: ko ? [`${who}에서 고른 옛 판화와 드로잉 ${n}점을 색칠하기 좋은 선 그림으로 바꾼 어른용 컬러링북이에요.`, `한 장에 그림 하나씩, 원작 제목과 작가를 작게 적었어요. 몇 번이든 다시 인쇄해서 색칠할 수 있어요.`]
       : ja ? [`${who}の古版画や素描${n}点を、塗りやすい線画にした大人のぬりえです。`, `1ページに1作品、原作のタイトルと画家名を小さく記しています。何度でも印刷して楽しめます。`]
       : [`A grown-up coloring book of ${n} pages made from antique prints and drawings of ${who}, cleaned up into crisp line art.`, `One picture per page with the original title and artist. Print as many copies as you like.`],
@@ -200,9 +204,9 @@ export async function pkShopTop(lang, env, h) {
   const { L, esc } = h; const ko = lang === 'ko', ja = lang === 'ja';
   const all = await pkIndex(env); if (!all.length) return '';
   const S = [
+    ['kids', KIND.kids[lang], (x) => x.k === 'kids', '?k=kids'],
     ['korea', ko ? '한국 명화 (이중섭·김홍도·신윤복…)' : ja ? '韓国の名画（イ・ジュンソプ、キム・ホンド…）' : 'Korean masterpieces', (x) => x.s.startsWith('korean-'), '?c=korea'],
     ['paris', ko ? '파리 시립미술관 명화' : ja ? 'パリ市立美術館の名画' : 'Paris Musées masterpieces', (x) => x.s.startsWith('paris-'), '?c=paris'],
-    ['budget', KIND.budget[lang], (x) => x.k === 'budget', '?k=budget'],
     ['pbn', KIND.pbn[lang], (x) => x.k === 'pbn', '?k=pbn'],
     ['puz', ko ? '어르신 큰 글씨 퍼즐북' : ja ? '大きな文字のパズル本' : 'Large-print puzzle books', (x) => x.k === 'puz', '?k=puz'],
     ['cal', KIND.cal[lang], (x) => x.k === 'cal' && !/^(korean|paris)-/.test(x.s), '?k=cal'],

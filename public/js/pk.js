@@ -266,7 +266,7 @@ var PK = (function () {
           var wb = Budget.build(ExcelJS, { lang: lg, year: Y, currency: cur, images: imgs, works: j.works.slice(0, 12), name: j.title });
           return wb.xlsx.writeBuffer().then(function (buf) { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })); a.download = O.slug.replace(/2027-2030/, String(Y)) + '-' + lg + '.xlsx'; document.body.appendChild(a); a.click(); a.remove(); btn.disabled = false;
             say(O.ko ? '완료! 다운로드 폴더의 .xlsx 파일을 엑셀이나 구글 시트(파일 > 가져오기)로 여세요. 다른 해·화폐·언어도 같은 키로 받을 수 있어요.' : O.ja ? '完了しました！ダウンロードした.xlsxをExcelかGoogleスプレッドシート（ファイル > インポート）で開いてください。' : 'Done! Open the .xlsx in Excel, or in Google Sheets via File > Import. Other years, currencies and languages work with the same key.'); }); }); }
-      var done = 0, maxPx = j.k === 'cards' ? 1600 : j.k === 'color' ? 2200 : 2600;
+      var done = 0, maxPx = j.k === 'cards' ? 1600 : j.k === 'color' ? 2200 : j.k === 'kids' ? 2400 : 2600;
       return Promise.all(j.works.map(function (w) { return load(w.u, maxPx, j.k === 'color' ? 'line' : '').then(function (x) { done++; say((O.ko ? '그림 불러오는 중 ' : O.ja ? '画像を読み込み中 ' : 'Loading pictures ') + done + ' / ' + j.works.length); return x; }); })).then(function (imgs) {
         say(O.ko ? 'PDF 만드는 중…' : O.ja ? 'PDFを作成しています…' : 'Building the PDF…');
         var p = build(j.k, j.works, imgs, size, j.title, Y); p.save(O.slug.replace(/2027/, (j.k === 'cal' || j.k === 'planner') ? Y : 2027) + '-' + size + '.pdf'); btn.disabled = false;
