@@ -163,14 +163,29 @@ function copy(it, lang) {
 
 const card = (it, lang, L, esc) => `<a class="pcard" href="${L(lang, '/shop/c/' + it.s)}"><div class="pimg"><img src="${pi(it.v)}" alt="${esc((it[lang] || it.en).name)}" loading="lazy"></div><b>${esc((it[lang] || it.en).name)}</b><span>${esc(KIND[it.k][lang])}</span><em>$${it.p}</em></a>`;
 
+// ---------- shop front: catalogue sections ----------
+export async function pkShopTop(lang, env, h) {
+  const { L, esc } = h; const ko = lang === 'ko', ja = lang === 'ja';
+  const all = await pkIndex(env); if (!all.length) return '';
+  const S = [
+    ['korea', ko ? '한국 명화 (이중섭·김홍도·신윤복…)' : ja ? '韓国の名画（イ・ジュンソプ、キム・ホンド…）' : 'Korean masterpieces', (x) => x.s.startsWith('korean-'), '?c=korea'],
+    ['paris', ko ? '파리 시립미술관 명화' : ja ? 'パリ市立美術館の名画' : 'Paris Musées masterpieces', (x) => x.s.startsWith('paris-'), '?c=paris'],
+    ['pbn', KIND.pbn[lang], (x) => x.k === 'pbn', '?k=pbn'],
+    ['puz', ko ? '어르신 큰 글씨 퍼즐북' : ja ? '大きな文字のパズル本' : 'Large-print puzzle books', (x) => x.k === 'puz', '?k=puz'],
+    ['cal', KIND.cal[lang], (x) => x.k === 'cal' && !/^(korean|paris)-/.test(x.s), '?k=cal'],
+    ['prints', KIND.prints[lang], (x) => x.k === 'prints' && !/^(korean|paris)-/.test(x.s), '?k=prints'],
+  ];
+  return S.map(([id, h2, f, q]) => { const l = all.filter(f); if (!l.length) return ''; return `<div class="sh" id="c-${id}" style="margin-top:30px"><h2>${esc(h2)}</h2><a href="${L(lang, '/shop/c')}${q}">${ko ? `${l.length}종 모두 보기` : ja ? `全${l.length}点を見る` : `See all ${l.length}`} →</a></div><div class="pgrid">${l.slice(0, 8).map((x) => card(x, lang, L, esc)).join('')}</div>`; }).join('');
+}
+
 // ---------- catalogue listing ----------
 export async function pkList(lang, env, url, h) {
   const { layout, html, esc, L, T } = h; const ko = lang === 'ko', ja = lang === 'ja', t = T[lang];
   const all = await pkIndex(env); if (!all.length) return null;
-  const k = url.searchParams.get('k') || '', g = url.searchParams.get('g') || '', q = (url.searchParams.get('q') || '').toLowerCase().slice(0, 60);
-  let list = all.filter((x) => (!k || x.k === k) && (!g || x.g === g) && (!q || (x.en.name + ' ' + (x.ko && x.ko.name)).toLowerCase().includes(q)));
+  const k = url.searchParams.get('k') || '', g = url.searchParams.get('g') || '', cc = url.searchParams.get('c') || '', q = (url.searchParams.get('q') || '').toLowerCase().slice(0, 60);
+  let list = all.filter((x) => (!k || x.k === k) && (!g || x.g === g) && (!cc || (cc === 'korea' ? x.s.startsWith('korean-') : cc === 'paris' ? x.s.startsWith('paris-') : true)) && (!q || (x.en.name + ' ' + (x.ko && x.ko.name)).toLowerCase().includes(q)));
   const per = 48, pages = Math.max(1, Math.ceil(list.length / per)), page = Math.min(pages, Math.max(1, +(url.searchParams.get('p') || 1)));
-  const qs = (o) => { const s = new URLSearchParams(); const v = { k, g, q, ...o }; for (const [a, b] of Object.entries(v)) if (b && !(a === 'p' && b === 1)) s.set(a, b); const x = s.toString(); return L(lang, '/shop/c') + (x ? '?' + x : ''); };
+  const qs = (o) => { const s = new URLSearchParams(); const v = { k, g, c: cc, q, ...o }; for (const [a, b] of Object.entries(v)) if (b && !(a === 'p' && b === 1)) s.set(a, b); const x = s.toString(); return L(lang, '/shop/c') + (x ? '?' + x : ''); };
   const chip = (label, href, on) => `<a href="${href}"${on ? ' aria-current="true"' : ''}>${esc(label)}</a>`;
   const body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a></nav><span class="lbl">${ko ? `${all.length}종` : ja ? `${all.length}点` : `${all.length} products`}</span><h1>${ko ? '명화 달력·플래너·포스터·엽서·퍼즐북' : ja ? '名画カレンダー・プランナー・ポスター・ポストカード・パズル本' : 'Masterpiece calendars, planners, prints, postcards & puzzle books'}</h1>
 <p class="sub">${ko ? '세계 미술관이 공개한 명화로 만든 인쇄용 디지털 상품이에요. 결제 후 바로 PDF로 받아요.' : ja ? '世界の美術館が公開した名画でつくった、印刷して使えるデジタル商品です。お支払い後すぐにPDFをダウンロードできます。' : 'Printable digital products made from open-access museum masterpieces. Instant PDF download.'}</p>
@@ -179,7 +194,7 @@ export async function pkList(lang, env, url, h) {
 <div class="chips wrapc" style="margin-top:8px">${chip(ko ? '작가별' : ja ? '画家別' : 'By artist', qs({ g: g === 'artist' ? '' : 'artist', p: 1 }), g === 'artist')}${chip(ko ? '주제별' : ja ? 'テーマ別' : 'By theme', qs({ g: g === 'theme' ? '' : 'theme', p: 1 }), g === 'theme')}</div>
 <div class="pgrid" style="margin-top:22px">${list.slice((page - 1) * per, page * per).map((x) => card(x, lang, L, esc)).join('') || `<p>${ko ? '찾는 상품이 없어요.' : ja ? '該当する商品がありません。' : 'Nothing found.'}</p>`}</div>
 ${pages > 1 ? `<nav class="pager">${page > 1 ? `<a href="${qs({ p: page - 1 })}">←</a>` : ''}<span>${page} / ${pages}</span>${page < pages ? `<a href="${qs({ p: page + 1 })}">→</a>` : ''}</nav>` : ''}</section>`;
-  return html(layout(lang, { title: `${ko ? '명화 달력·플래너·포스터·엽서·퍼즐북' : ja ? '名画カレンダー・プランナー・ポスター・パズル本' : 'Masterpiece calendars, planners, prints, postcards & puzzle books'}${page > 1 ? ` (${page})` : ''} — ${t.site}`, desc: ko ? '세계 미술관 명화로 만든 인쇄용 달력, 플래너, 포스터, 엽서, 큰 글씨 퍼즐북.' : ja ? '世界の美術館の名画でつくった印刷用カレンダー、プランナー、ポスター、ポストカード、大きな文字のパズル本。' : 'Printable calendars, planners, art prints, postcards and large-print puzzle books from museum masterpieces.', path: '/shop/c', body, jaReady: true, noindex: !!(q || page > 1 && (k || g)) }));
+  return html(layout(lang, { title: `${ko ? '명화 달력·플래너·포스터·엽서·퍼즐북' : ja ? '名画カレンダー・プランナー・ポスター・パズル本' : 'Masterpiece calendars, planners, prints, postcards & puzzle books'}${page > 1 ? ` (${page})` : ''} — ${t.site}`, desc: ko ? '세계 미술관 명화로 만든 인쇄용 달력, 플래너, 포스터, 엽서, 큰 글씨 퍼즐북.' : ja ? '世界の美術館の名画でつくった印刷用カレンダー、プランナー、ポスター、ポストカード、大きな文字のパズル本。' : 'Printable calendars, planners, art prints, postcards and large-print puzzle books from museum masterpieces.', path: '/shop/c', body, jaReady: true, noindex: !!(q || page > 1 && (k || g || cc)) }));
 }
 
 // ---------- product page ----------

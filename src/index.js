@@ -7,7 +7,7 @@ import { memdb } from './memdb.js';
 import { STORIES, STORY_BY } from './stories.js';
 const fillJa = (o, d = 0) => { if (!o || typeof o !== 'object' || d > 6) return; if (Array.isArray(o)) { o.forEach((x) => fillJa(x, d + 1)); return; } if ('en' in o && 'ko' in o && !('ja' in o)) o.ja = o.en; for (const k of Object.keys(o)) if (k !== 'ja') fillJa(o[k], d + 1); };
 import { api, currentUser, membersReady } from './auth.js';
-import { pkPut, pkImg, pkUnlock, pkList, pkPage, pkDownload, pkPaths, pkCover, pkBuy, pkParis } from './catalog.js';
+import { pkPut, pkImg, pkUnlock, pkList, pkPage, pkDownload, pkPaths, pkCover, pkBuy, pkParis, pkShopTop } from './catalog.js';
 
 const PER_PAGE = 48;
 let ORIGIN = '';
@@ -119,7 +119,7 @@ async function route(p, url, lang, env, REQ) {
   if ((m = p.match(/^\/illustrations\/([a-z-]+)$/)) && IL_CATS[m[1]]) return illus(lang, m[1]);
   if (p === '/stories') return storiesIndex(lang);
   if ((m = p.match(/^\/stories\/([a-z0-9-]+)$/)) && STORY_BY[m[1]]) return story(lang, env, STORY_BY[m[1]]);
-  if (p === '/shop') return shop(lang);
+  if (p === '/shop') return shop(lang, await pkShopTop(lang, env, { L, esc }));
   if (p === '/shop/c') return pkList(lang, env, url, { layout, html, esc, L, T });
   if ((m = p.match(/^\/shop\/c\/([a-z0-9-]+)$/))) return pkPage(lang, env, m[1], { layout, html, esc, L, T });
   if ((m = p.match(/^\/dl\/([a-z0-9-]+)$/))) return pkDownload(lang, env, m[1], { layout, html, esc, L, T });
@@ -568,7 +568,7 @@ function illus(lang, cat) {
   return html(layout(lang, { title, desc, path, body, img: cat ? sets(cat)[0]?.img : '/p/cafe-girl-clipart.jpg', jsonld }));
 }
 
-function shop(lang) {
+function shop(lang, top = '') {
   const t = T[lang], ko = lang === 'ko', ja = lang === 'ja';
   const groups = [
     ['planners', ko ? '플래너·인쇄물' : ja ? 'プランナー・印刷物' : 'Planners & printables', PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles', 'coloring', 'paint-by-numbers'].includes(p.cat))],
@@ -581,7 +581,7 @@ function shop(lang) {
   const body = `<section class="wrap sec"><span class="lbl">${t.nav.shop}</span><h1>${ko ? '바로 쓰는 디지털 상품' : ja ? 'すぐに使えるデジタル商品' : 'Ready-to-use digital products'}</h1><p class="sub">${ko ? '명화와 손그림 일러스트로 만든 플래너, 달력, 클립아트를 바로 내려받으세요. 회원가입 없이 구매할 수 있어요.' : ja ? '名画と手描きイラストでつくったプランナー、カレンダー、クリップアートをすぐにダウンロード。会員登録なしで購入できます。' : 'Planners, calendars and clipart made from masterpieces and hand-drawn illustrations. Instant download, no account needed.'}</p>
 <div class="chips wrapc">${groups.map(([id, h]) => `<a href="#${id}">${esc(h)}</a>`).join('')}</div>
 <a class="dl" href="${L(lang, '/shop/c')}" style="display:block;margin-top:18px;text-decoration:none"><b>${ko ? '명화 달력·포스터·엽서·컬러링북 전체 보기 →' : ja ? '名画カレンダー・プランナー・ポスター・パズル本をすべて見る →' : 'Browse all masterpiece calendars, prints, postcards & coloring books →'}</b></a>
-${groups.map(([id, h, list]) => `<div class="sh" id="${id}" style="margin-top:34px"><h2>${esc(h)}</h2><span class="small">${list.length}</span></div><div class="pgrid">${list.map((p) => productCard(p, lang)).join('')}</div>`).join('')}</section>`;
+${top}${groups.map(([id, h, list]) => `<div class="sh" id="${id}" style="margin-top:34px"><h2>${esc(h)}</h2><span class="small">${list.length}</span></div><div class="pgrid">${list.map((p) => productCard(p, lang)).join('')}</div>`).join('')}</section>`;
   return html(layout(lang, { title: `${ko ? '상품' : ja ? 'ショップ' : 'Shop'} — ${t.site}`, desc: t.heroSub, path: '/shop', body }));
 }
 function product(lang, env, slug) {
