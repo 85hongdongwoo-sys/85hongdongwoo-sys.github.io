@@ -53,8 +53,10 @@ export async function pkPut(req, env) {
   for (const [k, v] of puts) if (/^pk:/.test(k)) await env.VIDS.put(k, /^pk:img:/.test(k) && typeof v === 'string' ? Uint8Array.from(atob(v), (ch) => ch.charCodeAt(0)) : typeof v === 'string' ? v : JSON.stringify(v));
   const dels = Array.isArray(b.dels) ? b.dels : [];
   for (const k of dels) if (/^pk:/.test(k)) await env.VIDS.delete(k);
+  const add = Array.isArray(b.idxAdd) ? b.idxAdd : [];
+  if (add.length) { const cur = (await env.VIDS.get('pk:index', { type: 'json' })) || []; const ss = new Set(add.map((x) => x.s)); await env.VIDS.put('pk:index', JSON.stringify(cur.filter((x) => !ss.has(x.s)).concat(add))); }
   IDX = null; CH.clear();
-  return J({ ok: true, n: puts.length, d: dels.length }, 200, CORS);
+  return J({ ok: true, n: puts.length, d: dels.length, a: add.length }, 200, CORS);
 }
 
 // ---------- Paris Musées GraphQL relay (token-protected, used for harvesting) ----------
