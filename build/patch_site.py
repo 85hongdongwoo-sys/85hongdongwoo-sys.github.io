@@ -1357,12 +1357,16 @@ print('svg title->aria-label:', _sc)
 # ── 기출 페이지: 문제 PDF를 '그 자리에서 바로' 풀고 채점 (2026-11-28) ──
 # 바로 풀 수 있는 것(직접 PDF 링크)만 인라인 '풀기' 버튼 → 누르면 페이지 안에서 좌 PDF+우 OMR 펼침(iframe embed).
 # 직접 PDF가 없는 시험(포털 링크)엔 아무 버튼도 넣지 않음.
-_SUBJ = [('국어', 45), ('수학', 30), ('영어', 45), ('한국사', 20), ('사회', 20), ('과학', 20), ('직업', 20), ('제2외국어', 30), ('한문', 30)]
-def _subj_of(_rowtext, _url):
-    for _nm, _n in _SUBJ:
-        if _nm in _rowtext:
-            return _nm, _n
-    return None, None
+def _suneung_n(_suf):
+    # 수능 파일명 접미사 → 문항수. _1 국어45, _2 수학30, _3 영어45, _41 한국사20,
+    # _42/_43/_44 사회·과학·직업탐구 각20, _5 제2외국어·한문 각30
+    if _suf == '1' or _suf == '3':
+        return 45
+    if _suf == '2':
+        return 30
+    if _suf.startswith('5'):
+        return 30
+    return 20  # 한국사·사회/과학/직업 탐구
 _DOCK = ('<section class="card omr-dock" id="omr-dock" hidden><style>'
          '.omr-dock{padding:10px 12px}.omr-dock-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}'
          '.omr-dock-bar b{font-size:16px}.omr-dock-bar .btn{margin-left:auto}'
@@ -1381,22 +1385,18 @@ for _ef in ['suneung-2027.html']:  # 현재 직접 PDF가 있는 시험
     if not os.path.exists(_p) or 'omr-dock' in open(_p, encoding='utf-8').read():
         continue
     s = open(_p, encoding='utf-8').read()
+    # 구조: <li><b>과목</b><span class="ql"><a ..>문제</a><a ..>정답</a>...</span></li>
+    _pat = re.compile(r'(<b>([가-힣0-9Ⅰ-Ⅻ·\s]{1,14})</b><span class="ql"><a href="https://cdn\.kice\.re\.kr/27dae-suneung/27DaeSuneung_([0-9_]+)\.pdf"[^>]*>문제</a><a href="[^"]*"[^>]*>정답</a>)')
     def _add_solve(_mm):
-        _blk = _mm.group(0)
-        _probl = re.search(r'href="([^"]+\.pdf)"[^>]*>문제</a>', _blk)
-        if not _probl:
-            return _blk
-        _u = _probl.group(1)
-        # 같은 <li>/행 안의 과목명으로 문항수 추정
-        _ctx = s[max(0, _mm.start() - 400):_mm.start()]
-        _nm, _n = _subj_of(_ctx, _u)
-        _data = 'data-pdf="%s" data-c="5"' % _u.replace('&', '&amp;')
-        if _n:
-            _data += ' data-n="%d"' % _n
-        if _nm:
-            _data += ' data-name="%s"' % _nm
-        return _blk + '<a class="btn omr-solve" %s title="이 문제지를 바로 풀고 채점">풀기</a>' % _data
-    s2 = re.sub(r'<a href="https://cdn\.kice\.re\.kr[^"]*\.pdf"[^>]*>문제</a><a href="[^"]*"[^>]*>정답</a>', _add_solve, s)
+        _label = re.sub(r'\s+', ' ', _mm.group(2)).strip()
+        _suf = _mm.group(3)
+        _u = 'https://cdn.kice.re.kr/27dae-suneung/27DaeSuneung_%s.pdf' % _suf
+        _n = _suneung_n(_suf)
+        _data = 'data-pdf="%s" data-c="5" data-n="%d"' % (_u, _n)
+        if _label:
+            _data += ' data-name="%s"' % _label
+        return _mm.group(0) + '<a class="btn omr-solve" %s title="이 문제지를 바로 풀고 채점">풀기</a>' % _data
+    s2 = _pat.sub(_add_solve, s)
     if s2 != s:
         # 다운로드 섹션(또는 lead) 뒤에 도크+스크립트 삽입
         _anchor = re.search(r'(<section class="card" id="exam">)', s2)
