@@ -223,23 +223,23 @@ var PK = (function () {
   }
   function go() {
     var key = document.getElementById('k').value.trim(), qs = new URLSearchParams(location.search), cid = qs.get('checkout_id') || '', pass = ''; try { pass = localStorage.getItem('pkpass:' + O.slug) || ''; } catch (e) { }
-    if (!key && !cid && !pass) { say(O.ko ? '라이선스 키를 넣어 주세요.' : 'Please enter your licence key.'); return; }
+    if (!key && !cid && !pass) { say(O.ko ? '라이선스 키를 넣어 주세요.' : O.ja ? 'ライセンスキーを入力してください。' : 'Please enter your licence key.'); return; }
     var size = (document.querySelector('input[name=sz]:checked') || {}).value || 'A4', Y = +((document.querySelector('input[name=yr]:checked') || {}).value || 2027), btn = document.getElementById('go'); btn.disabled = true;
-    say(O.ko ? '키를 확인하는 중…' : 'Checking your key…');
+    say(O.ko ? '키를 확인하는 중…' : O.ja ? 'キーを確認しています…' : 'Checking your key…');
     fetch('/api/pk/unlock', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: O.slug, key: key, cid: cid, pass: pass }) }).then(function (r) { return r.json(); }).then(function (j) {
       if (j.ok && j.pass) { try { localStorage.setItem('pkpass:' + O.slug, j.pass); } catch (e) { } }
-      if (!j.ok) { btn.disabled = false; say(O.ko ? '이 상품의 라이선스 키가 아니에요. 영수증 메일의 키를 다시 확인해 주세요.' : 'That key is not valid for this product. Please check the key in your receipt.'); return; }
-      if (j.k === 'pbn') { say(O.ko ? '도안 그리는 중…' : 'Drawing your pattern…'); PBN.unpack(j.pbn).then(function (r) { var pp = PBN.pdf(r, size, j.title, j.artist); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요. 다른 크기도 같은 키로 받을 수 있어요.' : 'Done! Check your downloads. Other sizes work with the same key.'); }); return; }
-      if (j.k === 'puz') { say(O.ko ? 'PDF 만드는 중…' : 'Building the PDF…'); setTimeout(function () { var pp = buildPuz(j.pz, size, j.title); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요.' : 'Done! Check your downloads.'); }, 30); return; }
+      if (!j.ok) { btn.disabled = false; say(O.ko ? '이 상품의 라이선스 키가 아니에요. 영수증 메일의 키를 다시 확인해 주세요.' : O.ja ? 'この商品のキーではありません。領収書メールのキーをご確認ください。' : 'That key is not valid for this product. Please check the key in your receipt.'); return; }
+      if (j.k === 'pbn') { say(O.ko ? '도안 그리는 중…' : O.ja ? '図案を描いています…' : 'Drawing your pattern…'); PBN.unpack(j.pbn).then(function (r) { var pp = PBN.pdf(r, size, j.title, j.artist); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요. 다른 크기도 같은 키로 받을 수 있어요.' : O.ja ? '完了しました！ダウンロードフォルダをご確認ください。同じキーで他のサイズも作れます。' : 'Done! Check your downloads. Other sizes work with the same key.'); }); return; }
+      if (j.k === 'puz') { say(O.ko ? 'PDF 만드는 중…' : O.ja ? 'PDFを作成しています…' : 'Building the PDF…'); setTimeout(function () { var pp = buildPuz(j.pz, size, j.title); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요.' : O.ja ? '完了しました！ダウンロードフォルダをご確認ください。' : 'Done! Check your downloads.'); }, 30); return; }
       var done = 0, maxPx = j.k === 'cards' ? 1600 : j.k === 'color' ? 2200 : 2600;
-      return Promise.all(j.works.map(function (w) { return load(w.u, maxPx, j.k === 'color' ? 'line' : '').then(function (x) { done++; say((O.ko ? '그림 불러오는 중 ' : 'Loading pictures ') + done + ' / ' + j.works.length); return x; }); })).then(function (imgs) {
-        say(O.ko ? 'PDF 만드는 중…' : 'Building the PDF…');
+      return Promise.all(j.works.map(function (w) { return load(w.u, maxPx, j.k === 'color' ? 'line' : '').then(function (x) { done++; say((O.ko ? '그림 불러오는 중 ' : O.ja ? '画像を読み込み中 ' : 'Loading pictures ') + done + ' / ' + j.works.length); return x; }); })).then(function (imgs) {
+        say(O.ko ? 'PDF 만드는 중…' : O.ja ? 'PDFを作成しています…' : 'Building the PDF…');
         var p = build(j.k, j.works, imgs, size, j.title, Y); p.save(O.slug.replace(/2027/, (j.k === 'cal' || j.k === 'planner') ? Y : 2027) + '-' + size + '.pdf'); btn.disabled = false;
-        say(O.ko ? '완료! 다운로드 폴더를 확인하세요. 다른 크기와 다른 해도 같은 키로 받을 수 있어요.' : 'Done! Check your downloads. You can get other sizes and years with the same key.');
+        say(O.ko ? '완료! 다운로드 폴더를 확인하세요. 다른 크기와 다른 해도 같은 키로 받을 수 있어요.' : O.ja ? '完了しました！ダウンロードフォルダをご確認ください。同じキーで他のサイズや年も作れます。' : 'Done! Check your downloads. You can get other sizes and years with the same key.');
       });
-    }).catch(function () { btn.disabled = false; say(O.ko ? '문제가 생겼어요. 잠시 후 다시 시도하거나 hello@arttripstudio.com 으로 연락 주세요.' : 'Something went wrong. Try again shortly or write to hello@arttripstudio.com.'); });
+    }).catch(function () { btn.disabled = false; say(O.ko ? '문제가 생겼어요. 잠시 후 다시 시도하거나 hello@arttripstudio.com 으로 연락 주세요.' : O.ja ? '問題が発生しました。少し待ってからもう一度お試しいただくか、hello@arttripstudio.com までご連絡ください。' : 'Something went wrong. Try again shortly or write to hello@arttripstudio.com.'); });
   }
   return { init: function (o) { O = o; st = document.getElementById('st'); document.getElementById('go').addEventListener('click', go);
       var has = false; try { has = !!localStorage.getItem('pkpass:' + O.slug); } catch (e) { }
-      if (has || new URLSearchParams(location.search).get('checkout_id')) { var kb = document.getElementById('k'); kb.placeholder = O.ko ? '결제가 확인되면 키 없이 바로 받을 수 있어요' : 'Paid just now? No key needed — press the button'; say(O.ko ? '결제해 주셔서 고마워요! 용지 크기를 고르고 버튼을 누르세요.' : 'Thank you for your purchase! Pick a paper size and press the button.'); } }, build: build, load: load, buildPuz: buildPuz };
+      if (has || new URLSearchParams(location.search).get('checkout_id')) { var kb = document.getElementById('k'); kb.placeholder = O.ko ? '결제가 확인되면 키 없이 바로 받을 수 있어요' : O.ja ? 'お支払い直後ならキーは不要です — ボタンを押してください' : 'Paid just now? No key needed — press the button'; say(O.ko ? '결제해 주셔서 고마워요! 용지 크기를 고르고 버튼을 누르세요.' : O.ja ? 'ご購入ありがとうございます！用紙サイズを選んでボタンを押してください。' : 'Thank you for your purchase! Pick a paper size and press the button.'); } }, build: build, load: load, buildPuz: buildPuz };
 })();

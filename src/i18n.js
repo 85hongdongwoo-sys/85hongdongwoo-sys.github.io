@@ -1,5 +1,5 @@
 // UI strings, themes and products in English and Korean.
-export const LANGS = ['en', 'ko'];
+export const LANGS = ['en', 'ko', 'ja'];
 
 export const T = {
   en: {
@@ -40,6 +40,24 @@ export const T = {
     payNote: '로그인 없이 바로 구매할 수 있어요. 해외 결제가 되는 국내 카드(비자·마스터)나 애플페이·구글페이로 결제하세요.',
     payKr: '국내 카드 결제', payKrNote: '국내 신용·체크카드 (원화)', payGlobal: '카드로 바로 구매', payGlobalNote: '비자·마스터 카드 · 애플페이 · 구글페이 (달러 결제)',
     guest: '회원가입 없이 구매 가능',
+  },
+  ja: {
+    site: 'Arttrip Studio', tagline: 'すぐに使える名画',
+    nav: { col: 'コレクション', stories: '画家の物語', art: '名画', illus: 'オリジナル', studio: 'スタジオ', shop: 'ショップ', account: 'ログイン', myAccount: 'マイページ', studio: 'スタジオ', pricing: '定額プラン' },
+    heroTitle: '印刷して、ずっと楽しむ美しいデザイン', heroSub: '名画、写真、文字、そしてオリジナルのイラストでつくったカレンダー、ポスター、プランナー、パズル本、テンプレートを今すぐお使いいただけます。',
+    browse: '名画を見る', shopNow: 'プランナーを見る', themes: 'テーマ', newIn: 'コレクションから', allArt: 'すべての作品',
+    by: '', artworks: '点', page: 'ページ', prev: '前へ', next: '次へ', related: '似ている作品', sameArtist: '同じ画家の作品',
+    palette: 'カラーパレット', paletteHint: '色をタップするとコードをコピーできます。', details: '作品情報', artist: '画家', date: '年', medium: '技法', source: '出典',
+    sourceText: 'シカゴ美術館、パブリックドメイン（CC0）', useIt: 'この作品でつくる', useItSub: 'スタジオでこの作品を印刷用の商品にできます。',
+    make: { calendar: 'カレンダー', card: 'カード', poster: 'ポスター', wallpaper: 'スマホ壁紙' },
+    download: '高解像度ダウンロード', downloadSub: '印刷用の原寸ファイルは定額プランに含まれています。', subscribe: '定額プランに登録',
+    buy: '今すぐ購入', guest: '会員登録なしで購入できます', soon: '近日公開', instant: 'すぐにダウンロード', price: '価格', whatYouGet: '内容', products: 'プランナー・印刷物',
+    pricingTitle: 'ひとつのプランで、すべての名画を', pricingSub: 'すべての作品と印刷物を印刷用ファイルでダウンロード。いつでも解約できます。',
+    monthly: '月額', yearly: '年額', perMonth: '/月', perYear: '/年', bestValue: 'いちばんお得',
+    planPerks: ['すべての作品を高解像度で', 'すべてのプランナー・カレンダー・印刷物', '個人利用と小規模な商用利用', '毎週新しい作品を追加'],
+    footer: '作品は美術館のオープンアクセス・コレクションのパブリックドメイン作品です。デザインとレイアウト © Arttrip Studio。',
+    langName: '日本語', switchTo: 'English', notFound: 'ページが見つかりません', back: 'ホームへ', copied: 'コピーしました',
+    kindLabel: (k) => ({ Painting: '絵画', Print: '版画', Drawing: '素描', Textile: '染織', Book: '本' }[k] || k), about: '概要', license: 'ご利用範囲', privacy: 'プライバシー', terms: '利用規約',
   },
 };
 

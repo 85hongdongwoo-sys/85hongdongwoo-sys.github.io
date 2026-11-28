@@ -5,6 +5,7 @@ import { PHOTOS } from './photos.js';
 import { T, THEMES, PRODUCTS, IL_CATS, IL_STYLES, colorName } from './i18n.js';
 import { memdb } from './memdb.js';
 import { STORIES, STORY_BY } from './stories.js';
+const fillJa = (o, d = 0) => { if (!o || typeof o !== 'object' || d > 6) return; if (Array.isArray(o)) { o.forEach((x) => fillJa(x, d + 1)); return; } if ('en' in o && 'ko' in o && !('ja' in o)) o.ja = o.en; for (const k of Object.keys(o)) if (k !== 'ja') fillJa(o[k], d + 1); };
 import { api, currentUser, membersReady } from './auth.js';
 import { pkPut, pkImg, pkUnlock, pkList, pkPage, pkDownload, pkPaths, pkCover, pkBuy } from './catalog.js';
 
@@ -47,22 +48,25 @@ export default {
 
     // explicit language choice: ?setlang=ko|en → remember and redirect
     const set = url.searchParams.get('setlang');
-    if (set === 'ko' || set === 'en') {
-      const base = path.replace(/^\/ko(?=\/|$)/, '') || '/';
-      const to = set === 'ko' ? '/ko' + (base === '/' ? '' : base) : base;
+    if (set === 'ko' || set === 'en' || set === 'ja') {
+      const base = path.replace(/^\/(ko|ja)(?=\/|$)/, '') || '/';
+      const to = set === 'en' ? base : '/' + set + (base === '/' ? '' : base);
       return new Response(null, { status: 302, headers: { location: to || '/', 'set-cookie': `lang=${set}; Path=/; Max-Age=31536000; SameSite=Lax` } });
     }
 
-    const isKo = path === '/ko' || path.startsWith('/ko/');
-    const lang = isKo ? 'ko' : 'en';
-    const rest = isKo ? (path.slice(3) || '/') : path;
+    const pre = (path.match(/^\/(ko|ja)(?=\/|$)/) || [])[1];
+    const isKo = !!pre;
+    const lang = pre || 'en';
+    const rest = pre ? (path.slice(3) || '/') : path;
+    if (lang === 'ja' && !JA_PAGES.test(rest)) return Response.redirect(url.origin + rest + url.search, 302);
 
     // first visit from a Korean browser → Korean page (people only, never crawlers)
     if (!isKo && req.method === 'GET' && !/^\/(sitemap|robots|img|il|p|ph|css|js|api|studio\/)/.test(rest)) {
       const cookie = req.headers.get('cookie') || '';
       const ua = req.headers.get('user-agent') || '';
-      if (!/(?:^|;\s*)lang=/.test(cookie) && !BOT.test(ua) && /^ko\b/i.test(req.headers.get('accept-language') || '')) {
-        return new Response(null, { status: 302, headers: { location: '/ko' + (rest === '/' ? '' : rest) + url.search, 'set-cookie': 'lang=ko; Path=/; Max-Age=31536000; SameSite=Lax', vary: 'Accept-Language' } });
+      const al = req.headers.get('accept-language') || '', bl = /^ko\b/i.test(al) ? 'ko' : (/^ja\b/i.test(al) && JA_PAGES.test(rest)) ? 'ja' : '';
+      if (!/(?:^|;\s*)lang=/.test(cookie) && !BOT.test(ua) && bl) {
+        return new Response(null, { status: 302, headers: { location: '/' + bl + (rest === '/' ? '' : rest) + url.search, 'set-cookie': `lang=${bl}; Path=/; Max-Age=31536000; SameSite=Lax`, vary: 'Accept-Language' } });
       }
     }
 
@@ -70,7 +74,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv26', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv27', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -89,7 +93,7 @@ async function route(p, url, lang, env, REQ) {
   let m;
   if (p === '/robots.txt') return new Response(`User-agent: *\nAllow: /\nSitemap: ${url.origin}/sitemap.xml\n`, { headers: { 'content-type': 'text/plain' } });
   if (p === '/sitemap.xml') return sitemapIndex(url, env);
-  if ((m = p.match(/^\/sitemaps\/(art|pages)-(en|ko)-(\d+)\.xml$/))) return sitemapPart(url, env, m[1], m[2], +m[3]);
+  if ((m = p.match(/^\/sitemaps\/(art|pages)-(en|ko|ja)-(\d+)\.xml$/))) return sitemapPart(url, env, m[1], m[2], +m[3]);
   if (p === '/api/art.json') return url.searchParams.get('all') ? libData(env) : studioData(url, env);
   if (p === '/api/license' && REQ.method === 'POST') return license(REQ, env);
   if (p === '/api/verses') return verses(url, env);
@@ -125,21 +129,25 @@ async function route(p, url, lang, env, REQ) {
 }
 
 // ---------- layout ----------
-const L = (lang, p) => (lang === 'ko' ? '/ko' : '') + (p === '/' && lang === 'ko' ? '' : p);
-function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex = false }) {
-  const t = T[lang]; const other = lang === 'ko' ? 'en' : 'ko';
-  const enUrl = ORIGIN + path, koUrl = ORIGIN + '/ko' + (path === '/' ? '' : path);
+const L = (lang, p) => (lang === 'en' ? p : '/' + lang + (p === '/' ? '' : p));
+const JA_INDEX = /^\/(shop\/c(\/[a-z0-9-]+)?)$/;
+const JA_PAGES = /^\/($|shop(\/c(\/[a-z0-9-]+)?)?$|dl\/[a-z0-9-]+$|pricing$|about$|license$|privacy$|terms$)/;
+function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex = false, jaReady = false }) {
+  const t = T[lang];
+  const enUrl = ORIGIN + path, koUrl = ORIGIN + '/ko' + (path === '/' ? '' : path), jaUrl = ORIGIN + '/ja' + (path === '/' ? '' : path), jaOk = jaReady || JA_INDEX.test(path);
+  if (lang === 'ja' && !jaOk) noindex = true;
+  const langs = [['en', 'English'], ['ko', '한국어'], ['ja', '日本語']].filter(([c]) => c !== lang);
   const nav = [['col', '/collections'], ['stories', '/stories'], ['illus', '/originals'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
   return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7XNEVZZ06X"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-7XNEVZZ06X');</script>
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}">
-<link rel="canonical" href="${lang === 'ko' ? koUrl : enUrl}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="ko" href="${koUrl}"><link rel="alternate" hreflang="x-default" href="${enUrl}">
+<link rel="canonical" href="${lang === 'ko' ? koUrl : lang === 'ja' ? jaUrl : enUrl}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="ko" href="${koUrl}">${jaOk ? `<link rel="alternate" hreflang="ja" href="${jaUrl}">` : ''}<link rel="alternate" hreflang="x-default" href="${enUrl}">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}">${img ? `<meta property="og:image" content="${esc(ORIGIN + img)}">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700${lang === 'ja' ? '&family=Noto+Sans+JP:wght@400;500;700' : ''}&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/site.css?v=hv9">${head}${noindex ? '<meta name="robots" content="noindex">' : ''}${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}</head>
 <body class="${lang}"><header class="top"><div class="wrap bar"><a class="logo" href="${L(lang, '/')}">Arttrip<span>Studio</span></a><nav>${nav}</nav>
-<a class="acct" href="${L(lang, '/account')}" aria-label="${t.nav.myAccount}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a><a class="lang" href="?setlang=${other}" hreflang="${other}">${t.switchTo}</a></div></header>
+<a class="acct" href="${L(lang, '/account')}" aria-label="${t.nav.myAccount}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>${langs.map(([c, n]) => `<a class="lang" href="?setlang=${c}" hreflang="${c}">${n}</a>`).join('')}</div></header>
 <main>${body}</main>
 <footer class="foot"><div class="wrap"><div class="fl"><a class="logo" href="${L(lang, '/')}">Arttrip<span>Studio</span></a><p>${esc(t.footer)}</p></div>
 <div class="fr">${['about', 'license', 'privacy', 'terms'].map((k) => `<a href="${L(lang, '/' + k)}">${t[k]}</a>`).join('')}</div></div></footer>
@@ -618,13 +626,15 @@ async function sitemapIndex(url, env) {
   const n = (await one(env, 'SELECT COUNT(*) n FROM artworks')).n; const parts = Math.max(1, Math.ceil(n / SITEMAP_SIZE));
   const locs = [];
   for (const lg of ['en', 'ko']) { locs.push(`${url.origin}/sitemaps/pages-${lg}-1.xml`); for (let i = 1; i <= parts; i++) locs.push(`${url.origin}/sitemaps/art-${lg}-${i}.xml`); }
+  locs.push(`${url.origin}/sitemaps/pages-ja-1.xml`);
   return xml(`<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${locs.map((l) => `<sitemap><loc>${l}</loc></sitemap>`).join('')}</sitemapindex>`);
 }
 async function sitemapPart(url, env, kind, lg, n) {
-  const pre = url.origin + (lg === 'ko' ? '/ko' : '');
-  const alt = (p) => `<xhtml:link rel="alternate" hreflang="en" href="${url.origin}${p}"/><xhtml:link rel="alternate" hreflang="ko" href="${url.origin}/ko${p === '/' ? '' : p}"/>`;
+  const pre = url.origin + (lg === 'en' ? '' : '/' + lg);
+  const alt = (p) => `<xhtml:link rel="alternate" hreflang="en" href="${url.origin}${p}"/><xhtml:link rel="alternate" hreflang="ko" href="${url.origin}/ko${p === '/' ? '' : p}"/>${p.startsWith('/shop/c') ? `<xhtml:link rel="alternate" hreflang="ja" href="${url.origin}/ja${p}"/>` : ''}`;
   let paths = [];
-  if (kind === 'pages') {
+  if (kind === 'pages' && lg === 'ja') { paths = await pkPaths(env); }
+  else if (kind === 'pages') {
     paths = ['/', '/stories', ...STORIES.map((x) => '/stories/' + x.slug), '/collections', '/collections/architecture', '/collections/landscape', '/art', '/studio', '/originals', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
     paths.push(...(await pkPaths(env)));
     const artists = await all(env, 'SELECT artist_slug s, COUNT(*) c FROM artworks GROUP BY artist_slug HAVING c >= 2');
@@ -668,3 +678,7 @@ async function studioData(url, env) {
   if (want && !rows.find((r) => r.id === want)) { const r = await one(env, 'SELECT id, title t, title_ko tk, artist a, artist_ko ak, w, h, theme FROM artworks WHERE id = ?', want); if (r) rows.unshift(r); }
   return new Response(JSON.stringify(rows), { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=600' } });
 }
+
+// Japanese pages fall back to English data wherever a Japanese text is not written yet
+Object.assign(T.ja, { ...T.en, ...T.ja });
+[PRODUCTS, THEMES, IL_CATS, IL_STYLES, STORIES, COLS, INFO, ORIG_LINES, PHOTOS].forEach((o) => fillJa(o));
