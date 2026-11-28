@@ -40,13 +40,14 @@ async function pkItem(env, slug) {
 
 const sha = async (s) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))).map((b) => b.toString(16).padStart(2, '0')).join('');
 const J = (o, st = 200, h = {}) => new Response(JSON.stringify(o), { status: st, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...h } });
-const CORS = { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'POST, OPTIONS', 'access-control-allow-headers': 'content-type' };
+const CORS = { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'POST, PUT, OPTIONS', 'access-control-allow-headers': 'content-type' };
 
 // ---------- private writer (token-protected) ----------
 export async function pkPut(req, env) {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS });
   if (req.method === 'GET') { const u = new URL(req.url); if ((await sha(u.searchParams.get('tok') || '')) !== env.PK_HASH) return J({ ok: false }, 403, CORS); const r = env.POLAR_TOKEN ? await fetch('https://api.polar.sh/v1/products/?limit=1', { headers: { authorization: 'Bearer ' + env.POLAR_TOKEN } }) : null; return J({ ok: true, token: !!env.POLAR_TOKEN, polar: r ? r.status : 0 }, 200, CORS); }
   if (!env.PK_HASH || !env.VIDS) return J({ ok: false }, 501, CORS);
+  if (req.method === 'PUT') { const u = new URL(req.url); if ((await sha(u.searchParams.get('tok') || '')) !== env.PK_HASH) return J({ ok: false }, 403, CORS); const k = u.searchParams.get('k') || ''; if (!/^pk:img:[\w-]+$/.test(k)) return J({ ok: false }, 400, CORS); await env.VIDS.put(k, await req.arrayBuffer()); return J({ ok: true }, 200, CORS); }
   let b; try { b = await req.json(); } catch { return J({ ok: false }, 400, CORS); }
   if ((await sha(String(b.tok || ''))) !== env.PK_HASH) return J({ ok: false }, 403, CORS);
   const puts = Array.isArray(b.puts) ? b.puts : [];
