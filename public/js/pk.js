@@ -222,10 +222,12 @@ var PK = (function () {
     p.setFontSize(Math.max(8, s * 1.4)); p.text('START', x, y - 2); p.text('FINISH', x + s * cols, y + s * rows + s * 0.9, { align: 'right' });
   }
   function go() {
-    var key = document.getElementById('k').value.trim(); if (!key) { say(O.ko ? '라이선스 키를 넣어 주세요.' : 'Please enter your licence key.'); return; }
+    var key = document.getElementById('k').value.trim(), qs = new URLSearchParams(location.search), cid = qs.get('checkout_id') || '', pass = ''; try { pass = localStorage.getItem('pkpass:' + O.slug) || ''; } catch (e) { }
+    if (!key && !cid && !pass) { say(O.ko ? '라이선스 키를 넣어 주세요.' : 'Please enter your licence key.'); return; }
     var size = (document.querySelector('input[name=sz]:checked') || {}).value || 'A4', Y = +((document.querySelector('input[name=yr]:checked') || {}).value || 2027), btn = document.getElementById('go'); btn.disabled = true;
     say(O.ko ? '키를 확인하는 중…' : 'Checking your key…');
-    fetch('/api/pk/unlock', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: O.slug, key: key }) }).then(function (r) { return r.json(); }).then(function (j) {
+    fetch('/api/pk/unlock', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: O.slug, key: key, cid: cid, pass: pass }) }).then(function (r) { return r.json(); }).then(function (j) {
+      if (j.ok && j.pass) { try { localStorage.setItem('pkpass:' + O.slug, j.pass); } catch (e) { } }
       if (!j.ok) { btn.disabled = false; say(O.ko ? '이 상품의 라이선스 키가 아니에요. 영수증 메일의 키를 다시 확인해 주세요.' : 'That key is not valid for this product. Please check the key in your receipt.'); return; }
       if (j.k === 'pbn') { say(O.ko ? '도안 그리는 중…' : 'Drawing your pattern…'); PBN.unpack(j.pbn).then(function (r) { var pp = PBN.pdf(r, size, j.title, j.artist); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요. 다른 크기도 같은 키로 받을 수 있어요.' : 'Done! Check your downloads. Other sizes work with the same key.'); }); return; }
       if (j.k === 'puz') { say(O.ko ? 'PDF 만드는 중…' : 'Building the PDF…'); setTimeout(function () { var pp = buildPuz(j.pz, size, j.title); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요.' : 'Done! Check your downloads.'); }, 30); return; }
@@ -237,5 +239,7 @@ var PK = (function () {
       });
     }).catch(function () { btn.disabled = false; say(O.ko ? '문제가 생겼어요. 잠시 후 다시 시도하거나 hello@arttripstudio.com 으로 연락 주세요.' : 'Something went wrong. Try again shortly or write to hello@arttripstudio.com.'); });
   }
-  return { init: function (o) { O = o; st = document.getElementById('st'); document.getElementById('go').addEventListener('click', go); }, build: build, load: load, buildPuz: buildPuz };
+  return { init: function (o) { O = o; st = document.getElementById('st'); document.getElementById('go').addEventListener('click', go);
+      var has = false; try { has = !!localStorage.getItem('pkpass:' + O.slug); } catch (e) { }
+      if (has || new URLSearchParams(location.search).get('checkout_id')) { var kb = document.getElementById('k'); kb.placeholder = O.ko ? '결제가 확인되면 키 없이 바로 받을 수 있어요' : 'Paid just now? No key needed — press the button'; say(O.ko ? '결제해 주셔서 고마워요! 용지 크기를 고르고 버튼을 누르세요.' : 'Thank you for your purchase! Pick a paper size and press the button.'); } }, build: build, load: load, buildPuz: buildPuz };
 })();

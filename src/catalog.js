@@ -37,6 +37,7 @@ const CORS = { 'access-control-allow-origin': '*', 'access-control-allow-methods
 // ---------- private writer (token-protected) ----------
 export async function pkPut(req, env) {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS });
+  if (req.method === 'GET') { const u = new URL(req.url); if ((await sha(u.searchParams.get('tok') || '')) !== env.PK_HASH) return J({ ok: false }, 403, CORS); const r = env.POLAR_TOKEN ? await fetch('https://api.polar.sh/v1/products/?limit=1', { headers: { authorization: 'Bearer ' + env.POLAR_TOKEN } }) : null; return J({ ok: true, token: !!env.POLAR_TOKEN, polar: r ? r.status : 0 }, 200, CORS); }
   if (!env.PK_HASH || !env.VIDS) return J({ ok: false }, 501, CORS);
   let b; try { b = await req.json(); } catch { return J({ ok: false }, 400, CORS); }
   if ((await sha(String(b.tok || ''))) !== env.PK_HASH) return J({ ok: false }, 403, CORS);
@@ -63,24 +64,43 @@ export async function pkImg(url, ctx) {
 }
 const pi = (u) => (u && u[0] === '/') ? u : '/pi?u=' + encodeURIComponent(u || '');
 
-// ---------- unlock: licence key must belong to this product's benefit (or an all-access benefit) ----------
+// ---------- unlock: (1) signed download pass, (2) Polar checkout id after payment, (3) licence key from the receipt ----------
+const enc = new TextEncoder();
+async function hmac(env, msg) {
+  const k = await crypto.subtle.importKey('raw', enc.encode('pk-pass:' + (env.POLAR_TOKEN || env.PK_HASH || 'x')), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  return Array.from(new Uint8Array(await crypto.subtle.sign('HMAC', k, enc.encode(msg)))).map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, 40);
+}
+const passFor = async (env, slug) => { const exp = Date.now() + 365 * 864e5; return exp + '.' + (await hmac(env, slug + '|' + exp)); };
+async function passOk(env, slug, pass) { const [exp, sig] = String(pass || '').split('.'); return !!sig && +exp > Date.now() && sig === (await hmac(env, slug + '|' + exp)); }
+const polar = (env, path) => fetch('https://api.polar.sh/v1' + path, { headers: { authorization: 'Bearer ' + env.POLAR_TOKEN, accept: 'application/json' } }).then((r) => r.ok ? r.json() : null).catch(() => null);
+async function paidByCheckout(env, it, cid) {
+  if (!env.POLAR_TOKEN || !it.pid || !/^[0-9a-f-]{36}$/.test(cid)) return false;
+  const c = await polar(env, '/checkouts/' + cid);
+  return !!c && ['succeeded', 'confirmed'].includes(c.status) && (c.product_id === it.pid || (c.products || []).some((p) => p.id === it.pid));
+}
+async function paidByKey(env, it, key) {
+  if (!env.POLAR_ORG_ID) return false;
+  const r = await fetch('https://api.polar.sh/v1/customer-portal/license-keys/validate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ key, organization_id: env.POLAR_ORG_ID }) }).catch(() => null);
+  const j = r && r.ok ? await r.json().catch(() => ({})) : {};
+  if (j.status !== 'granted') return false;
+  const all = String(env.PK_ALL_BENEFITS || '').split(',').filter(Boolean);
+  if (j.benefit_id === it.b || all.includes(j.benefit_id)) return true;
+  if (!env.POLAR_TOKEN || !it.pid || !j.customer_id) return false;
+  const o = await polar(env, '/orders/?customer_id=' + encodeURIComponent(j.customer_id) + '&product_id=' + encodeURIComponent(it.pid) + '&limit=5');
+  return !!o && (o.items || []).some((x) => x.paid !== false && x.status !== 'refunded');
+}
 export async function pkUnlock(req, env) {
   let b = {}; try { b = await req.json(); } catch { }
-  const slug = String(b.slug || ''), key = String(b.key || '').trim().slice(0, 100);
-  const it = await pkItem(env, slug); if (!it || !key) return J({ ok: false });
-  let ok = !!(env.EDITOR_MASTER_KEY && key === env.EDITOR_MASTER_KEY);
-  if (!ok && env.POLAR_ORG_ID) {
-    try {
-      const r = await fetch('https://api.polar.sh/v1/customer-portal/license-keys/validate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ key, organization_id: env.POLAR_ORG_ID }) });
-      const j = await r.json().catch(() => ({}));
-      const all = String(env.PK_ALL_BENEFITS || '').split(',').filter(Boolean);
-      ok = r.ok && j.status === 'granted' && (j.benefit_id === it.b || all.includes(j.benefit_id));
-    } catch { ok = false; }
-  }
+  const slug = String(b.slug || ''), key = String(b.key || '').trim().slice(0, 100), cid = String(b.cid || '').trim(), pass = String(b.pass || '');
+  const it = await pkItem(env, slug); if (!it) return J({ ok: false });
+  let ok = (await passOk(env, slug, pass)) || !!(env.EDITOR_MASTER_KEY && key && key === env.EDITOR_MASTER_KEY);
+  if (!ok && cid) ok = await paidByCheckout(env, it, cid);
+  if (!ok && key) ok = await paidByKey(env, it, key);
   if (!ok) return J({ ok: false });
-  if (it.k === 'puz') return J({ ok: true, k: 'puz', title: it.en.name, pz: it.pz });
-  if (it.k === 'pbn') { const ch = await env.VIDS.get('pk:pbnd:' + it.d, { type: 'json' }); const d = ch && ch[it.s]; if (!d) return J({ ok: false }); return J({ ok: true, k: 'pbn', title: it.w[0].t, artist: it.w[0].a, pbn: d }); }
-  return J({ ok: true, k: it.k, title: it.en.name, works: it.w.map((w) => ({ t: w.t, a: w.a, d: w.d, u: pi(w.u || w.v), W: w.W, H: w.H })) });
+  const out = { ok: true, k: it.k, title: it.en.name, pass: await passFor(env, slug) };
+  if (it.k === 'puz') return J({ ...out, pz: it.pz });
+  if (it.k === 'pbn') { const ch = await env.VIDS.get('pk:pbnd:' + it.d, { type: 'json' }); const d = ch && ch[it.s]; if (!d) return J({ ok: false }); return J({ ...out, title: it.w[0].t, artist: it.w[0].a, pbn: d }); }
+  return J({ ...out, works: it.w.map((w) => ({ t: w.t, a: w.a, d: w.d, u: pi(w.u || w.v), W: w.W, H: w.H })) });
 }
 
 // ---------- copy ----------
@@ -158,7 +178,7 @@ export async function pkDownload(lang, env, slug, h) {
 <label class="small">${ko ? '용지 크기' : 'Paper size'}</label><div class="row" id="sz" style="margin:6px 0 14px">${sizes.map((s, i) => `<label style="margin-right:14px"><input type="radio" name="sz" value="${s}"${i ? '' : ' checked'}> ${s}</label>`).join('')}</div>
 ${it.k === 'cal' || it.k === 'planner' ? `<label class="small">${ko ? '연도' : 'Year'}</label><div class="row" style="margin:6px 0 14px;flex-wrap:wrap">${[2027, 2028, 2029, 2030].map((y, i) => `<label style="margin-right:14px"><input type="radio" name="yr" value="${y}"${i ? '' : ' checked'}> ${y}</label>`).join('')}</div>` : ''}
 <button class="pill" id="go">${ko ? 'PDF 만들기' : 'Make my PDF'}</button><p class="small" id="st" style="margin-top:12px"></p></div></section>
-<script src="/editor/jspdf.umd.min.js"></script>${it.k === 'pbn' ? '<script src="/js/pbn.js?v=1"></script>' : ''}<script src="/js/pk.js?v=5"></script><script>PK.init(${JSON.stringify({ slug: it.s, lang, ko })})</script>`;
+<script src="/editor/jspdf.umd.min.js"></script>${it.k === 'pbn' ? '<script src="/js/pbn.js?v=1"></script>' : ''}<script src="/js/pk.js?v=6"></script><script>PK.init(${JSON.stringify({ slug: it.s, lang, ko })})</script>`;
   return html(layout(lang, { title: `${ko ? 'PDF 내려받기' : 'Download'} — ${t.site}`, desc: '', path: '/dl/' + it.s, body, noindex: true }));
 }
 
