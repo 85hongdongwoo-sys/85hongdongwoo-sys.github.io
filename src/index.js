@@ -64,7 +64,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv7', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv8', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -123,7 +123,7 @@ function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}">${img ? `<meta property="og:image" content="${esc(ORIGIN + img)}">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/site.css?v=hv3">${head}${noindex ? '<meta name="robots" content="noindex">' : ''}${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}</head>
+<link rel="stylesheet" href="/css/site.css?v=hv4">${head}${noindex ? '<meta name="robots" content="noindex">' : ''}${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}</head>
 <body class="${lang}"><header class="top"><div class="wrap bar"><a class="logo" href="${L(lang, '/')}">Arttrip<span>Studio</span></a><nav>${nav}</nav>
 <a class="acct" href="${L(lang, '/account')}" aria-label="${t.nav.myAccount}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a><a class="lang" href="?setlang=${other}" hreflang="${other}">${t.switchTo}</a></div></header>
 <main>${body}</main>
@@ -155,7 +155,7 @@ async function home(lang, env) {
   const pick = (id) => feat.find((a) => a.id === id) || feat[0];
   const side = [pick('87088'), pick('14598')];
   const bento = [
-    ['b1', L(lang, '/shop') + '#calendars', '/p/calendar-flowers.jpg', ko ? '명화 달력 2027' : '2027 art calendars', ko ? '화가 15명 · A4와 레터' : '15 artists · A4 and Letter'],
+    ['b1', L(lang, '/shop') + '#calendars', '/p/calendar-renoir-sisters.jpg', ko ? '명화 달력 2027' : '2027 art calendars', ko ? '화가 15명 · A4와 레터' : '15 artists · A4 and Letter'],
     ['b2', L(lang, '/shop/masterpiece-junk-journal-art-paper-kit'), '/p/art-paper-kit.jpg', ko ? '아트페이퍼 키트' : 'Art paper kit', ko ? '정크저널 14종 + 편집기' : '14 junk journal papers + editor'],
     ['b3', L(lang, '/editor') + '?tpl=exhibit&new=1', `/img/${side[1].id}.jpg`, ko ? '명화 포스터' : 'Masterpiece posters', ko ? 'A3부터 24×36인치까지' : 'A3 up to 24×36 in'],
     ['b4', L(lang, '/originals'), '/p/cafe-girl-clipart.jpg', ko ? '아트트립 오리지널' : 'Arttrip Originals', ko ? '일러스트 · 패턴 · 글씨' : 'Illustration · pattern · lettering'],
