@@ -65,7 +65,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv15', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv16', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -121,6 +121,7 @@ function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex
   const enUrl = ORIGIN + path, koUrl = ORIGIN + '/ko' + (path === '/' ? '' : path);
   const nav = [['col', '/collections'], ['stories', '/stories'], ['illus', '/originals'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
   return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7XNEVZZ06X"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-7XNEVZZ06X');</script>
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${lang === 'ko' ? koUrl : enUrl}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="ko" href="${koUrl}"><link rel="alternate" hreflang="x-default" href="${enUrl}">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}">${img ? `<meta property="og:image" content="${esc(ORIGIN + img)}">` : ''}
