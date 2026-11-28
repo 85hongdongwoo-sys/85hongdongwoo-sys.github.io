@@ -7,7 +7,7 @@ import { memdb } from './memdb.js';
 import { STORIES, STORY_BY } from './stories.js';
 const fillJa = (o, d = 0) => { if (!o || typeof o !== 'object' || d > 6) return; if (Array.isArray(o)) { o.forEach((x) => fillJa(x, d + 1)); return; } if ('en' in o && 'ko' in o && !('ja' in o)) o.ja = o.en; for (const k of Object.keys(o)) if (k !== 'ja') fillJa(o[k], d + 1); };
 import { api, currentUser, membersReady } from './auth.js';
-import { pkPut, pkImg, pkUnlock, pkList, pkPage, pkDownload, pkPaths, pkCover, pkBuy, pkParis, pkShopTop } from './catalog.js';
+import { pkPut, pkImg, pkUnlock, pkList, pkPage, pkDownload, pkPaths, pkCover, pkBuy, pkParis, pkShopTop, pkIndex } from './catalog.js';
 
 const PER_PAGE = 48;
 let ORIGIN = '';
@@ -31,6 +31,8 @@ export default {
     { const im = url.pathname.match(/^\/pk\/img\/([a-z0-9-]+)\.jpg$/); if (im) { const v = env.VIDS && await env.VIDS.get('pk:img:' + im[1], { type: 'arrayBuffer', cacheTtl: 86400 }); return v ? new Response(v, { headers: { 'content-type': 'image/jpeg', 'cache-control': 'public, max-age=604800' } }) : new Response('not found', { status: 404 }); } }
     if (url.pathname === '/naver621c71ca616c8bce33622a30cd4009ec.html') return new Response('naver-site-verification: naver621c71ca616c8bce33622a30cd4009ec.html', { headers: { 'content-type': 'text/html; charset=utf-8' } });
     if (url.pathname === '/18c26b608ca06adbb90a4027454a1b19.txt') return new Response('18c26b608ca06adbb90a4027454a1b19', { headers: { 'content-type': 'text/plain' } });
+    if (url.pathname === '/rss.xml' || url.pathname === '/ko/rss.xml' || url.pathname === '/ja/rss.xml') { const lg = url.pathname.startsWith('/ko') ? 'ko' : url.pathname.startsWith('/ja') ? 'ja' : 'en'; const pre = lg === 'en' ? '' : '/' + lg; const items = (await pkIndex(env)).slice(0, 200); const e = (x) => String(x || '').replace(/&/g, '&amp;').replace(/</g, '&lt;'); const now = new Date().toUTCString();
+      return new Response(`<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${lg === 'ko' ? '아트트립 스튜디오 새 상품' : lg === 'ja' ? 'Arttrip Studio 新着' : 'Arttrip Studio — new products'}</title><link>${url.origin}${pre || '/'}</link><description>${lg === 'ko' ? '명화 달력·플래너·가계부·아크릴화 도안·큰 글씨 퍼즐북' : 'Masterpiece calendars, planners, budget spreadsheets, paint-by-number patterns and large-print puzzle books'}</description><language>${lg}</language><lastBuildDate>${now}</lastBuildDate>${items.map((x) => `<item><title>${e((x[lg] || x.en).name)}</title><link>${url.origin}${pre}/shop/c/${x.s}</link><guid>${url.origin}${pre}/shop/c/${x.s}</guid><pubDate>${now}</pubDate></item>`).join('')}</channel></rss>`, { headers: { 'content-type': 'application/rss+xml; charset=utf-8', 'cache-control': 'public, max-age=3600' } }); }
     if (url.pathname === '/api/pk/indexnow' && req.method === 'POST') return indexNow(req, env, url);
     if (url.pathname === '/api/pk/put') return pkPut(req, env);
     if (url.pathname === '/api/pk/paris') return pkParis(req, env);
