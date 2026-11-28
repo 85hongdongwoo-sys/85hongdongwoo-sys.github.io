@@ -26,6 +26,15 @@ export default {
     if (url.pathname.startsWith('/v/') && env.VIDS) {
       const key = url.pathname.slice(3);
       if (req.method === 'OPTIONS') return new Response(null, { headers: { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'PUT', 'access-control-allow-headers': 'x-up' } });
+      if (req.method === 'POST' && key === 'up') {
+        const f = await req.formData();
+        const tok = String(f.get('tok') || '');
+        const d = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(tok)))).map((b) => b.toString(16).padStart(2, '0')).join('');
+        if (!env.VID_UP_HASH || d !== env.VID_UP_HASH) return new Response('no', { status: 403 });
+        const done = [];
+        for (const [k, v] of f.entries()) if (k !== 'tok' && typeof v !== 'string') { const b = await v.arrayBuffer(); await env.VIDS.put(k, b); done.push(k + ':' + b.byteLength); }
+        return new Response('UPLOADED ' + done.join(' '), { headers: { 'content-type': 'text/plain' } });
+      }
       if (req.method === 'PUT') {
         const tok = req.headers.get('x-up') || '';
         const d = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(tok)))).map((b) => b.toString(16).padStart(2, '0')).join('');
