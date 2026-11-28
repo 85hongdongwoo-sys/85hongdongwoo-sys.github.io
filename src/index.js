@@ -6,6 +6,7 @@ import { T, THEMES, PRODUCTS, IL_CATS, IL_STYLES, colorName } from './i18n.js';
 import { memdb } from './memdb.js';
 import { STORIES, STORY_BY } from './stories.js';
 import { api, currentUser, membersReady } from './auth.js';
+import { pkPut, pkImg, pkUnlock, pkList, pkPage, pkDownload, pkPaths } from './catalog.js';
 
 const PER_PAGE = 48;
 let ORIGIN = '';
@@ -23,6 +24,8 @@ export default {
     ORIGIN = env.SITE_ORIGIN || url.origin;
     let path = url.pathname.replace(/\/+$/, '') || '/';
 
+    if (url.pathname === '/pi') return pkImg(url, ctx);
+    if (url.pathname === '/api/pk/put') return pkPut(req, env);
     // hero motion videos stored in KV (VIDS)
     if (url.pathname.startsWith('/v/') && env.VIDS) {
       const key = url.pathname.slice(3);
@@ -65,7 +68,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv17', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv18', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -90,6 +93,8 @@ async function route(p, url, lang, env, REQ) {
   if (p === '/api/verses') return verses(url, env);
   if (p === '/api/quotes') return quotesApi(url, env);
   if (p === '/api/lineart') return lineart(url, env);
+  if (p === '/api/pk/put') return pkPut(REQ, env);
+  if (p === '/api/pk/unlock' && REQ.method === 'POST') return pkUnlock(REQ, env);
   if (p === '/editor') return editor(lang, url);
   if (p.startsWith('/api/')) return api(p, REQ, env);
   if (p === '/studio') return studio(lang, env);
@@ -108,6 +113,9 @@ async function route(p, url, lang, env, REQ) {
   if (p === '/stories') return storiesIndex(lang);
   if ((m = p.match(/^\/stories\/([a-z0-9-]+)$/)) && STORY_BY[m[1]]) return story(lang, env, STORY_BY[m[1]]);
   if (p === '/shop') return shop(lang);
+  if (p === '/shop/c') return pkList(lang, env, url, { layout, html, esc, L, T });
+  if ((m = p.match(/^\/shop\/c\/([a-z0-9-]+)$/))) return pkPage(lang, env, m[1], { layout, html, esc, L, T });
+  if ((m = p.match(/^\/dl\/([a-z0-9-]+)$/))) return pkDownload(lang, env, m[1], { layout, html, esc, L, T });
   if ((m = p.match(/^\/shop\/([a-z0-9-]+)$/))) return product(lang, env, m[1]);
   if (p === '/pricing') return pricing(lang, env);
   if (['/about', '/license', '/privacy', '/terms'].includes(p)) return info(lang, p.slice(1));
@@ -560,6 +568,7 @@ function shop(lang) {
   ];
   const body = `<section class="wrap sec"><span class="lbl">${t.nav.shop}</span><h1>${ko ? '바로 쓰는 디지털 상품' : 'Ready-to-use digital products'}</h1><p class="sub">${ko ? '명화와 손그림 일러스트로 만든 플래너, 달력, 클립아트를 바로 내려받으세요. 회원가입 없이 구매할 수 있어요.' : 'Planners, calendars and clipart made from masterpieces and hand-drawn illustrations. Instant download, no account needed.'}</p>
 <div class="chips wrapc">${groups.map(([id, h]) => `<a href="#${id}">${esc(h)}</a>`).join('')}</div>
+<a class="dl" href="${L(lang, '/shop/c')}" style="display:block;margin-top:18px;text-decoration:none"><b>${ko ? '명화 달력·포스터·엽서·컬러링북 전체 보기 →' : 'Browse all masterpiece calendars, prints, postcards & coloring books →'}</b></a>
 ${groups.map(([id, h, list]) => `<div class="sh" id="${id}" style="margin-top:34px"><h2>${esc(h)}</h2><span class="small">${list.length}</span></div><div class="pgrid">${list.map((p) => productCard(p, lang)).join('')}</div>`).join('')}</section>`;
   return html(layout(lang, { title: `${ko ? '상품' : 'Shop'} — ${t.site}`, desc: t.heroSub, path: '/shop', body }));
 }
@@ -614,6 +623,7 @@ async function sitemapPart(url, env, kind, lg, n) {
   let paths = [];
   if (kind === 'pages') {
     paths = ['/', '/stories', ...STORIES.map((x) => '/stories/' + x.slug), '/collections', '/collections/architecture', '/collections/landscape', '/art', '/studio', '/originals', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
+    paths.push(...(await pkPaths(env)));
     const artists = await all(env, 'SELECT artist_slug s, COUNT(*) c FROM artworks GROUP BY artist_slug HAVING c >= 2');
     paths.push(...artists.map((a) => '/artist/' + a.s));
   } else {
