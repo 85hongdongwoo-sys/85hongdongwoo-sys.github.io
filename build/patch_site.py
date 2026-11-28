@@ -734,7 +734,8 @@ CATCSS = ('<style id="hl-catbar-css">.brandbar .in nav a:not(.srch):not(.lang){d
           '-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}.catbar .in2::-webkit-scrollbar{display:none}'
           '.brandbar .catbar a{display:inline-block!important;flex:none;padding:6px 12px;border-radius:999px;font-size:14px;font-weight:600;line-height:1.35;color:#4E5968;text-decoration:none;white-space:nowrap}'
           '.catbar a:hover{background:rgba(0,0,0,.05);color:#191F28}.catbar a[aria-current]{background:#191F28;color:#fff}'
-          '@media(max-width:600px){.catbar .in2{padding:6px 10px}.catbar a{font-size:13.5px;padding:6px 11px}}</style>')
+          '@media(max-width:600px){.catbar .in2{padding:6px 10px}.catbar a{font-size:13.5px;padding:6px 11px}}'
+          '.xp-shot img{border-radius:0!important}</style>')  # 2026-11-28: 설명 스크린샷 모서리에 번호 배지(①②)가 잘리는 것 방지
 NAV_RE = re.compile(r'(<div class="brandbar"><div class="in">.*?</div>)(</div>)', re.S)
 k = 0
 for dp, dn, fn in os.walk(root):
