@@ -26,6 +26,15 @@ export const STORIES = [
         'He painted around 30 views of Rouen Cathedral at different times of day.',
         'His giant water lily murals were given to France after the First World War and still fill two oval rooms at the Musée de l\'Orangerie in Paris.',
       ],
+      faq: [
+        ['What is Claude Monet\'s most famous painting?', 'Two answers are usually given. Impression, Sunrise (1872) is the most important, because it gave Impressionism its name. The Water Lilies are the most loved: Monet painted his pond at Giverny about 250 times over some thirty years.'],
+        ['How many paintings did Monet make?', 'Nobody knows the exact number, but it is usually put at around 2,000 paintings over a career of about sixty years, plus drawings and pastels. Many of them belong to series of the same subject painted in different light.'],
+        ['Where is Impression, Sunrise today?', 'It hangs in the Musée Marmottan Monet in Paris, which has the largest collection of Monet\'s work in the world. Monet painted it in the harbour of Le Havre, the town where he grew up.'],
+        ['Where can I see Monet\'s paintings?', 'In Paris, the Musée Marmottan Monet, the Musée d\'Orsay and the Musée de l\'Orangerie (home of the giant Water Lilies). Outside France, large groups of his paintings are in the Art Institute of Chicago, the Metropolitan Museum of Art in New York and the National Gallery in London. His house and garden at Giverny are open to visitors from spring to autumn.'],
+        ['Did Monet go blind?', 'Not completely, but cataracts badly damaged his sight. He was diagnosed in 1912, and colours slowly looked browner and muddier to him. In 1923 he finally had surgery on one eye. When he could see clearly again he was unhappy with some late canvases and repainted them in brighter colours.'],
+        ['What is the most expensive Monet ever sold?', 'Meules (Haystacks), painted in 1890, sold at Sotheby\'s in New York in May 2019 for $110.7 million. It was the first Impressionist painting to sell for more than $100 million at auction.'],
+        ['What is the difference between Monet and Manet?', 'They were friends with very similar names. Édouard Manet (1832–1883) painted city life and people in strong, dark contrasts and shocked Paris with Olympia. Claude Monet (1840–1926) painted landscapes and water in light, broken colour and led the Impressionists.'],
+      ],
       works: {
         14598: 'A breezy summer day on the Normandy coast where Monet grew up. The fishing boats and bright sky show his early love of open air.',
         16571: 'Monet rented a small studio near the Paris railway station and painted the steam and glass roof again and again. Trains were the new modern subject.',
@@ -55,6 +64,15 @@ export const STORIES = [
         '모네가 처음 제대로 돈을 번 것은 풍경화가 아니라 풍자화였어요.',
         '루앙 대성당을 하루 중 다른 시간대로 30점쯤 그렸어요.',
         '커다란 수련 벽화는 제1차 세계대전이 끝난 뒤 프랑스에 기증되어, 지금도 파리 오랑주리 미술관의 타원형 방 두 곳을 채우고 있어요.',
+      ],
+      faq: [
+        ['모네의 가장 유명한 그림은 무엇인가요?', '보통 두 가지를 꼽아요. 「인상, 해돋이」(1872)는 인상주의라는 이름을 만든 그림이라 가장 중요한 작품이에요. 가장 사랑받는 작품은 「수련」이에요. 모네는 지베르니의 연못을 30년 가까이 약 250점이나 그렸어요.'],
+        ['모네는 그림을 몇 점이나 그렸나요?', '정확한 숫자는 아무도 몰라요. 보통 60년 동안 유화 약 2,000점을 그렸다고 하고, 여기에 드로잉과 파스텔화도 있어요. 많은 작품이 같은 장소를 빛에 따라 여러 번 그린 연작이에요.'],
+        ['「인상, 해돋이」는 지금 어디에 있나요?', '파리의 마르모탕 모네 미술관에 있어요. 모네 작품을 세계에서 가장 많이 가진 미술관이에요. 이 그림은 모네가 자란 도시 르아브르의 항구에서 그렸어요.'],
+        ['모네 그림은 어디에서 볼 수 있나요?', '파리에서는 마르모탕 모네 미술관, 오르세 미술관, 커다란 「수련」이 있는 오랑주리 미술관에서 볼 수 있어요. 해외에서는 시카고 미술관, 뉴욕 메트로폴리탄 미술관, 런던 내셔널 갤러리에 모네 작품이 많아요. 지베르니의 모네의 집과 정원은 봄부터 가을까지 문을 열어요.'],
+        ['모네는 눈이 멀었나요?', '완전히 멀지는 않았지만 백내장으로 시력이 많이 나빠졌어요. 1912년에 진단을 받았고, 점점 색이 누렇고 탁하게 보였어요. 1923년에야 한쪽 눈을 수술했어요. 다시 잘 보이게 되자 말년에 그린 그림 몇 점이 마음에 들지 않아 더 밝은 색으로 다시 칠했어요.'],
+        ['가장 비싸게 팔린 모네 그림은 무엇인가요?', '1890년에 그린 「건초더미(Meules)」예요. 2019년 5월 뉴욕 소더비 경매에서 1억 1,070만 달러에 팔렸어요. 인상주의 그림으로는 처음으로 경매에서 1억 달러를 넘었어요.'],
+        ['모네와 마네는 무엇이 다른가요?', '이름이 비슷한 친구 사이였어요. 에두아르 마네(1832–1883)는 도시와 사람을 강한 명암으로 그렸고 「올랭피아」로 파리를 놀라게 했어요. 클로드 모네(1840–1926)는 풍경과 물을 밝고 짧은 붓질로 그렸고 인상주의를 이끌었어요.'],
       ],
       works: {
         14598: '모네가 자란 노르망디 해안의 바람 부는 여름날이에요. 고기잡이배와 밝은 하늘에서 젊은 시절부터 바깥 풍경을 좋아한 마음이 보여요.',
