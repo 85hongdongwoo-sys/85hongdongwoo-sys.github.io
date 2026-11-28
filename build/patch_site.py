@@ -1367,6 +1367,19 @@ def _suneung_n(_suf):
     if _suf.startswith('5'):
         return 30
     return 20  # 한국사·사회/과학/직업 탐구
+def _suneung_t(_suf):
+    # 수능 과목별 제한 시간(분)
+    if _suf == '1':
+        return 80   # 국어
+    if _suf == '2':
+        return 100  # 수학
+    if _suf == '3':
+        return 70   # 영어
+    if _suf == '41':
+        return 30   # 한국사
+    if _suf.startswith('5'):
+        return 40   # 제2외국어·한문
+    return 30       # 사회/과학/직업 탐구 과목당
 _DOCK = ('<section class="card omr-dock" id="omr-dock" hidden><style>'
          '.omr-dock{padding:10px 12px}.omr-dock-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}'
          '.omr-dock-bar b{font-size:16px}.omr-dock-bar .btn{margin-left:auto}'
@@ -1377,7 +1390,7 @@ _DOCK = ('<section class="card omr-dock" id="omr-dock" hidden><style>'
          '<iframe id="omr-dock-frame" title="OMR 풀기" loading="lazy"></iframe></section>')
 _DOCK_JS = ('<script>(function(){var d=document.getElementById("omr-dock");if(!d)return;var fr=document.getElementById("omr-dock-frame");'
             'document.querySelectorAll(".omr-solve").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();'
-            'var p=new URLSearchParams();p.set("embed","1");["pdf","n","c","name"].forEach(function(k){if(a.dataset[k])p.set(k,a.dataset[k]);});'
+            'var p=new URLSearchParams();p.set("embed","1");["pdf","n","c","t","name"].forEach(function(k){if(a.dataset[k])p.set(k,a.dataset[k]);});'
             'fr.src="/ipsi/omr.html?"+p.toString();d.hidden=false;d.scrollIntoView({behavior:"smooth",block:"start"});});});'
             'var x=document.getElementById("omr-dock-x");if(x)x.addEventListener("click",function(){d.hidden=true;fr.src="about:blank";});})();</script>')
 for _ef in ['suneung-2027.html']:  # 현재 직접 PDF가 있는 시험
@@ -1392,7 +1405,7 @@ for _ef in ['suneung-2027.html']:  # 현재 직접 PDF가 있는 시험
         _suf = _mm.group(3)
         _u = 'https://cdn.kice.re.kr/27dae-suneung/27DaeSuneung_%s.pdf' % _suf
         _n = _suneung_n(_suf)
-        _data = 'data-pdf="%s" data-c="5" data-n="%d"' % (_u, _n)
+        _data = 'data-pdf="%s" data-c="5" data-n="%d" data-t="%d"' % (_u, _n, _suneung_t(_suf))
         if _label:
             _data += ' data-name="%s"' % _label
         return _mm.group(0) + '<a class="btn omr-solve" %s title="이 문제지를 바로 풀고 채점">풀기</a>' % _data
