@@ -19,7 +19,12 @@ binding = "ASSETS"
 # database_name = "arttrip"
 # database_id = "..."
 
+[[kv_namespaces]]
+binding = "VIDS"
+id = "99eba1388d09421f90eee56f9b8be273"
+
 [vars]
+VID_UP_HASH = "f5ff3bf8b324c6d4e2259f54cdce263c14a07d0acd3c5456094174f864827053"
 CACHE_HTML = "on"
 SITE_ORIGIN = "https://arttripstudio.com"
 # Polar checkout links (Merchant of Record, global cards)

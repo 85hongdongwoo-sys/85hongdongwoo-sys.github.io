@@ -22,6 +22,31 @@ export default {
     ORIGIN = env.SITE_ORIGIN || url.origin;
     let path = url.pathname.replace(/\/+$/, '') || '/';
 
+    // hero motion videos stored in KV (VIDS)
+    if (url.pathname.startsWith('/v/') && env.VIDS) {
+      const key = url.pathname.slice(3);
+      if (req.method === 'OPTIONS') return new Response(null, { headers: { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'PUT', 'access-control-allow-headers': 'x-up' } });
+      if (req.method === 'PUT') {
+        const tok = req.headers.get('x-up') || '';
+        const d = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(tok)))).map((b) => b.toString(16).padStart(2, '0')).join('');
+        if (!env.VID_UP_HASH || d !== env.VID_UP_HASH) return new Response('no', { status: 403, headers: { 'access-control-allow-origin': '*' } });
+        const buf = await req.arrayBuffer();
+        await env.VIDS.put(key, buf);
+        return new Response('ok ' + buf.byteLength, { headers: { 'access-control-allow-origin': '*' } });
+      }
+      const buf = await env.VIDS.get(key, 'arrayBuffer');
+      if (!buf) return new Response('not found', { status: 404 });
+      const type = key.endsWith('.webm') ? 'video/webm' : key.endsWith('.jpg') ? 'image/jpeg' : 'video/mp4';
+      const base = { 'content-type': type, 'accept-ranges': 'bytes', 'cache-control': 'public, max-age=604800' };
+      const m = /bytes=(\d*)-(\d*)/.exec(req.headers.get('range') || '');
+      if (m) {
+        const n = buf.byteLength; let a = m[1] ? +m[1] : n - +m[2]; let b = m[1] && m[2] ? +m[2] : n - 1;
+        if (!m[1]) b = n - 1; if (b >= n) b = n - 1;
+        return new Response(buf.slice(a, b + 1), { status: 206, headers: { ...base, 'content-range': `bytes ${a}-${b}/${n}`, 'content-length': String(b - a + 1) } });
+      }
+      return new Response(buf, { headers: { ...base, 'content-length': String(buf.byteLength) } });
+    }
+
     // explicit language choice: ?setlang=ko|en → remember and redirect
     const set = url.searchParams.get('setlang');
     if (set === 'ko' || set === 'en') {
