@@ -1354,6 +1354,33 @@ for _dp, _dn, _fs in os.walk(root):
             open(_p, 'w', encoding='utf-8').write(o); _sc += 1
 print('svg title->aria-label:', _sc)
 
+# ── 기출 페이지에 'OMR로 풀고 채점' 버튼 삽입 (2026-11-28) ──
+# 모든 시험 페이지: 상단 소개 아래에 버튼 하나 → OMR 풀기 뷰. 수능: 문제 PDF 링크마다 '풀기' 버튼(그 PDF가 왼쪽에 뜸).
+_exam_pages = ['gong9.html', 'gumjeong.html', 'hanneung.html', 'imyong.html', 'jlpt.html', 'toeic-part5.html', 'suneung-2027.html']
+_omr_cta = ('<p class="omr-cta" style="margin:14px 0 4px"><a class="btn dl" href="/ipsi/omr.html">⏱ 받은 문제 OMR로 풀고 채점하기</a>'
+            '<span class="note" style="margin:6px 0 0">기출 PDF를 받아서 시간 맞춰 풀고, OMR 마킹 → 자동 채점. 문제지를 왼쪽에 띄워 놓고 오른쪽에서 풀 수 있어요.</span></p>')
+for _ef in _exam_pages:
+    _p = os.path.join(root, 'ipsi', _ef)
+    if not os.path.exists(_p):
+        continue
+    s = open(_p, encoding='utf-8').read()
+    if 'omr-cta' in s:
+        continue
+    _m = re.search(r'(<p class="lead">.*?</p>)', s, re.S)
+    if _m:
+        s = s[:_m.end()] + _omr_cta + s[_m.end():]
+    # 수능: 각 문제 PDF 링크 묶음(<a>문제</a><a>정답</a>) 뒤에 '풀기' 버튼
+    if _ef == 'suneung-2027.html':
+        def _add_solve(_mm):
+            _probl = re.search(r'href="([^"]+)"[^>]*>문제</a>', _mm.group(0))
+            if not _probl:
+                return _mm.group(0)
+            _u = _probl.group(1).replace('&', '&amp;')
+            return _mm.group(0) + '<a class="btn" href="/ipsi/omr.html?pdf=%s&amp;c=5" title="이 문제지를 왼쪽에 띄우고 OMR로 풀기">풀기</a>' % _u
+        s = re.sub(r'<a href="https://cdn\.kice\.re\.kr[^"]*"[^>]*>문제</a><a href="[^"]*"[^>]*>정답</a>', _add_solve, s)
+    open(_p, 'w', encoding='utf-8').write(s)
+print('exam pages: OMR CTA added')
+
 # ── .co.kr 크롤 예산 정리: 100% 더미 폴더만 크롤 차단 + 사이트맵에서 noindex 더미 URL 제거 (2026-11-28) ──
 # honglife.co.kr에는 honglifecalc.com으로 넘기는 noindex 리다이렉트 더미가 폴더째(해외 국가 ae·jp…,
 # 한국어 계산기 science·saju·math·mbti…) 또는 실폴더 안에 섞여 있어 크롤 예산을 잡아먹음.

@@ -39,6 +39,15 @@ TOOL = ("""<section class="card tool" id="tool"><style>
 #omr-panel.float #omr-timebar{top:34px}
 #omr-panel.float h2,#omr-panel.float .note{font-size:14px}
 @media(max-width:560px){#omr-panel.float{left:8px;right:8px;width:auto;resize:none}}
+/* 좌측 문제지(PDF) + 우측 OMR 분할 뷰 */
+.omr-pdfbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 10px;padding:10px 12px;background:#F6F8FB;border:1px solid #E6EAF0;border-radius:12px}
+.omr-pdfbar .note{margin:0}
+.omr-split{display:flex;gap:16px;align-items:flex-start}
+.omr-pdf{flex:1 1 56%;min-width:0;position:sticky;top:8px}
+.omr-pdf iframe{width:100%;height:80vh;border:1px solid #D9DDE3;border-radius:12px;background:#fff;display:block}
+.omr-split.has-pdf #omr-panel{flex:1 1 44%;min-width:300px}
+#omr-name{font-weight:800;color:#1D4ED8}
+@media(max-width:820px){.omr-split{flex-direction:column}.omr-pdf{position:static;width:100%}.omr-pdf iframe{height:62vh}}
 </style>
 <h2 style="margin-top:0">시험 설정</h2>
 <div id="omr-set">
@@ -47,6 +56,9 @@ TOOL = ("""<section class="card tool" id="tool"><style>
 <div class="f"><label for="omr-t">제한 시간(분)</label><input id="omr-t" type="number" inputmode="numeric" min="0" max="600" value="25"></div>
 <button class="btn dl" id="omr-start" style="height:44px">시험 시작 ▶</button>
 </div>
+<div class="omr-pdfbar"><b>문제지</b><label class="btn" for="omr-file">📄 PDF 열기</label><input id="omr-file" type="file" accept="application/pdf" hidden><a class="btn" id="omr-newtab" target="_blank" rel="noopener" hidden>새 탭에서 열기</a><span class="note" id="omr-pdfhint">기출 PDF를 열면 <b>왼쪽에 문제지</b>, <b>오른쪽에 OMR</b>이 같이 떠요. (문제 창이 안 열리면 ‘새 탭에서 열기’)</span></div>
+<div class="omr-split" id="omr-split">
+<div class="omr-pdf" id="omr-pdfwrap" hidden><iframe id="omr-frame" title="문제지 PDF"></iframe></div>
 <div id="omr-panel">
 <div class="omr-head"><b>⏱ 답안카드</b><button class="btn dock" id="omr-dock">본문에 넣기</button></div>
 <div id="omr-timebar"><div id="omr-clock">00:00</div><button class="btn" id="omr-pause">일시정지</button><button class="btn" id="omr-reset">초기화</button><button class="btn" id="omr-float">⧉ 옆에 띄우기</button></div>
@@ -58,6 +70,7 @@ TOOL = ("""<section class="card tool" id="tool"><style>
 <textarea id="omr-key" placeholder="예: 3 1 2 4 2 ... (문항 수만큼)"></textarea>
 <div class="btns"><button class="btn dl" id="omr-grade">채점하기</button></div>
 <div id="omr-res"></div>
+</div>
 </div>
 </section>""", """<script>
 (function(){var $=HL.$;
@@ -125,6 +138,17 @@ $('#omr-dock').addEventListener('click',function(){setFloat(false);window.scroll
   panel.style.left=x+'px';panel.style.top=y+'px';});
  head.addEventListener('pointerup',function(e){drag=false;try{head.releasePointerCapture(e.pointerId);}catch(_){}});
 })();
+// URL 설정값 자동 적용 + 문제지 PDF 열기
+function qp(k){try{return new URLSearchParams(location.search).get(k);}catch(e){return null;}}
+var _vn=qp('n'),_vc=qp('c'),_vt=qp('t'),_vkey=qp('key'),_vname=qp('name');
+if(_vn)$('#omr-n').value=Math.max(1,Math.min(200,parseInt(_vn,10)||20));
+if(_vc==='4'||_vc==='5')$('#omr-c').value=_vc;
+if(_vt!==null&&_vt!=='')$('#omr-t').value=Math.max(0,Math.min(600,parseInt(_vt,10)||0));
+if(_vkey)$('#omr-key').value=_vkey.replace(/[^0-9 ,\\n]/g,'');
+if(_vname){var _h=document.querySelector('.lead')||document.querySelector('h1');if(_h&&_h.parentNode){var _s=document.createElement('p');_s.innerHTML='지금 푸는 시험: <span id="omr-name"></span>';_s.querySelector('#omr-name').textContent=_vname;_h.parentNode.insertBefore(_s,_h.nextSibling);}}
+function showPdf(url){if(!url)return;$('#omr-frame').src=url;$('#omr-pdfwrap').hidden=false;$('#omr-split').classList.add('has-pdf');var nt=$('#omr-newtab');nt.href=url;nt.hidden=false;$('#omr-pdfhint').textContent='문제 창이 비어 있으면 그 PDF가 사이트 안 열림을 막은 거예요 — ‘새 탭에서 열기’로 보면서 OMR로 푸세요.';}
+var _vpdf=qp('pdf');if(_vpdf)showPdf(_vpdf);
+$('#omr-file').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];if(f)showPdf(URL.createObjectURL(f));});
 buildGrid();
 })();
 </script>""")

@@ -61,6 +61,15 @@
 #omr-panel.float #omr-timebar{top:34px}
 #omr-panel.float h2,#omr-panel.float .note{font-size:14px}
 @media(max-width:560px){#omr-panel.float{left:8px;right:8px;width:auto;resize:none}}
+/* 좌측 문제지(PDF) + 우측 OMR 분할 뷰 */
+.omr-pdfbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 10px;padding:10px 12px;background:#F6F8FB;border:1px solid #E6EAF0;border-radius:12px}
+.omr-pdfbar .note{margin:0}
+.omr-split{display:flex;gap:16px;align-items:flex-start}
+.omr-pdf{flex:1 1 56%;min-width:0;position:sticky;top:8px}
+.omr-pdf iframe{width:100%;height:80vh;border:1px solid #D9DDE3;border-radius:12px;background:#fff;display:block}
+.omr-split.has-pdf #omr-panel{flex:1 1 44%;min-width:300px}
+#omr-name{font-weight:800;color:#1D4ED8}
+@media(max-width:820px){.omr-split{flex-direction:column}.omr-pdf{position:static;width:100%}.omr-pdf iframe{height:62vh}}
 </style>
 <h2 style="margin-top:0">시험 설정</h2>
 <div id="omr-set">
@@ -69,6 +78,9 @@
 <div class="f"><label for="omr-t">제한 시간(분)</label><input id="omr-t" type="number" inputmode="numeric" min="0" max="600" value="25"></div>
 <button class="btn dl" id="omr-start" style="height:44px">시험 시작 ▶</button>
 </div>
+<div class="omr-pdfbar"><b>문제지</b><label class="btn" for="omr-file">📄 PDF 열기</label><input id="omr-file" type="file" accept="application/pdf" hidden><a class="btn" id="omr-newtab" target="_blank" rel="noopener" hidden>새 탭에서 열기</a><span class="note" id="omr-pdfhint">기출 PDF를 열면 <b>왼쪽에 문제지</b>, <b>오른쪽에 OMR</b>이 같이 떠요. (문제 창이 안 열리면 ‘새 탭에서 열기’)</span></div>
+<div class="omr-split" id="omr-split">
+<div class="omr-pdf" id="omr-pdfwrap" hidden><iframe id="omr-frame" title="문제지 PDF"></iframe></div>
 <div id="omr-panel">
 <div class="omr-head"><b>⏱ 답안카드</b><button class="btn dock" id="omr-dock">본문에 넣기</button></div>
 <div id="omr-timebar"><div id="omr-clock">00:00</div><button class="btn" id="omr-pause">일시정지</button><button class="btn" id="omr-reset">초기화</button><button class="btn" id="omr-float">⧉ 옆에 띄우기</button></div>
@@ -80,6 +92,7 @@
 <textarea id="omr-key" placeholder="예: 3 1 2 4 2 ... (문항 수만큼)"></textarea>
 <div class="btns"><button class="btn dl" id="omr-grade">채점하기</button></div>
 <div id="omr-res"></div>
+</div>
 </div>
 </section>
 <section class="card guide"><h2>OMR 모의고사 채점기 자세히 알아보기</h2><p class="note">홍라이프 도구 · 2026-11-24 업데이트</p><nav class="xp-toc" aria-label="차례"><a href="#g-1">어떻게 쓰나요</a><a href="#g-2">실전처럼 푸는 게 왜 중요한가요</a><a href="#g-3">정답 입력은 어떻게 하나요</a><a href="#g-4">어떤 시험에 쓸 수 있나요</a></nav><h3 id="g-1">어떻게 쓰나요</h3><ol><li><b>시험 설정</b> — 문항 수, 선택지(4·5지선다), 제한 시간을 정해요. 예: 한국사능력검정 50문항 80분, 공무원 9급 한 과목 20문항 20분.</li><li><b>시험 시작</b>을 누르면 타이머가 돌아요. 기출 PDF를 다른 창(또는 종이)으로 보면서 문제를 풀어요.</li><li><b>OMR 마킹</b> — 답을 번호판에서 눌러 마킹해요. 다시 누르면 지워져요.</li><li>시간이 끝나면 <b>자동 채점</b>돼요. 끝나기 전에 다 풀었으면 정답을 넣고 ‘채점하기’를 눌러요.</li><li><b>정답 입력</b> — 기출 PDF 뒤쪽 정답표를 보고 순서대로 넣어요(숫자만 붙여 써도 됨).</li></ol><h3 id="g-2">실전처럼 푸는 게 왜 중요한가요</h3><p>기출은 그냥 눈으로 보는 것과, <b>시간을 재고 OMR에 마킹하며 푸는 것</b>이 완전히 달라요. 실제 시험은 시간 압박과 마킹 실수가 점수를 크게 좌우해요.</p><ul><li>제한 시간을 걸면 ‘한 문제에 몇 초’ 감각이 생겨요.</li><li>OMR 마킹을 연습하면 밀려 쓰는 실수를 줄여요.</li><li>채점 후 틀린 문항만 다시 보면 복습이 빨라져요.</li></ul><h3 id="g-3">정답 입력은 어떻게 하나요</h3><p>정답을 <b>순서대로</b> 넣으면 돼요. 세 가지 방식 다 인식해요.</p><ul><li>숫자만 붙여서: <b>31242…</b> (한 자리가 한 문항)</li><li>띄어쓰기: <b>3 1 2 4 2 …</b></li><li>줄바꿈·쉼표도 OK</li></ul><p>5지선다는 정답이 5(⑤)까지 나올 수 있어요. 입력한 정답 개수가 문항 수와 맞아야 채점돼요.</p><h3 id="g-4">어떤 시험에 쓸 수 있나요</h3><p>선택형(객관식) 시험이면 뭐든 가능해요. 한국사능력검정, 공무원 9급·7급, 검정고시, 토익, 각종 자격증 필기, 모의고사까지요. 문항 수와 선택지만 맞춰 설정하면 돼요.</p><p>기출 PDF는 <a href="/ipsi/">입시·시험 자료실</a>에서 공식 출처로 받을 수 있어요.</p><h3>참고한 자료</h3><ul class="src"><li>도구: 홍라이프 도구 자체 제작 OMR 채점기 (2026-11-28)</li></ul></section><section class="card faq"><h2>자주 묻는 질문</h2><details><summary>OMR 채점기는 무료인가요?</summary><p>네, 완전 무료예요. 가입도 필요 없어요. 문항 수·시간만 정하고 바로 쓰면 돼요.</p></details><details><summary>정답은 어디서 구하나요?</summary><p>기출문제 PDF 뒤쪽 정답표에 있어요. 그걸 보고 순서대로 입력하면 자동으로 채점돼요.</p></details><details><summary>5지선다도 되나요?</summary><p>네. 선택지를 5지선다로 바꾸면 ①~⑤까지 마킹과 채점이 돼요.</p></details><details><summary>시간이 끝나면 어떻게 되나요?</summary><p>제한 시간이 0이 되면 자동으로 채점돼요. 정답을 미리 입력해 두면 바로 점수가 나와요.</p></details><details><summary>몇 문항까지 되나요?</summary><p>1~200문항까지 설정할 수 있어서 공무원 100문항 같은 큰 시험도 한 번에 풀 수 있어요.</p></details></section><section class="card rel"><h2>이 도구로 풀기 좋은 기출</h2><ul><li><a href="/ipsi/hanneung.html"><b>한국사능력검정 기출</b><span>회차별 문제 받아서 OMR로 풀기</span></a></li><li><a href="/ipsi/gong9.html"><b>공무원 9급 기출</b><span>100문항 100분 실전처럼</span></a></li><li><a href="/ipsi/gumjeong.html"><b>검정고시 기출</b></a></li><li><a href="/ipsi/toeic-part5.html"><b>토익 Part5 연습 10문항</b></a></li></ul></section>
@@ -164,6 +177,17 @@ $('#omr-dock').addEventListener('click',function(){setFloat(false);window.scroll
   panel.style.left=x+'px';panel.style.top=y+'px';});
  head.addEventListener('pointerup',function(e){drag=false;try{head.releasePointerCapture(e.pointerId);}catch(_){}});
 })();
+// URL 설정값 자동 적용 + 문제지 PDF 열기
+function qp(k){try{return new URLSearchParams(location.search).get(k);}catch(e){return null;}}
+var _vn=qp('n'),_vc=qp('c'),_vt=qp('t'),_vkey=qp('key'),_vname=qp('name');
+if(_vn)$('#omr-n').value=Math.max(1,Math.min(200,parseInt(_vn,10)||20));
+if(_vc==='4'||_vc==='5')$('#omr-c').value=_vc;
+if(_vt!==null&&_vt!=='')$('#omr-t').value=Math.max(0,Math.min(600,parseInt(_vt,10)||0));
+if(_vkey)$('#omr-key').value=_vkey.replace(/[^0-9 ,\n]/g,'');
+if(_vname){var _h=document.querySelector('.lead')||document.querySelector('h1');if(_h&&_h.parentNode){var _s=document.createElement('p');_s.innerHTML='지금 푸는 시험: <span id="omr-name"></span>';_s.querySelector('#omr-name').textContent=_vname;_h.parentNode.insertBefore(_s,_h.nextSibling);}}
+function showPdf(url){if(!url)return;$('#omr-frame').src=url;$('#omr-pdfwrap').hidden=false;$('#omr-split').classList.add('has-pdf');var nt=$('#omr-newtab');nt.href=url;nt.hidden=false;$('#omr-pdfhint').textContent='문제 창이 비어 있으면 그 PDF가 사이트 안 열림을 막은 거예요 — ‘새 탭에서 열기’로 보면서 OMR로 푸세요.';}
+var _vpdf=qp('pdf');if(_vpdf)showPdf(_vpdf);
+$('#omr-file').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];if(f)showPdf(URL.createObjectURL(f));});
 buildGrid();
 })();
 </script>
