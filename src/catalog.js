@@ -163,7 +163,7 @@ function copy(it, lang) {
 
 
 // ---------- product mock-ups drawn in HTML/CSS (no stored images needed) ----------
-export const MOCK_CSS = `<style>.mk{position:relative;aspect-ratio:1/1;background:#ece5d8;border-radius:12px;overflow:hidden;container-type:inline-size}.mk img{display:block;width:100%;height:100%;object-fit:cover}
+export const MOCK_CSS = `<style>.mk{position:relative;width:100%;aspect-ratio:1/1;background:#ece5d8;border-radius:12px;overflow:hidden;container-type:inline-size}.pimg .mk{height:100%;aspect-ratio:auto;border-radius:0}.mk img{display:block;width:100%;height:100%;object-fit:cover}
 .mk .cal{position:absolute;left:17%;right:17%;top:7%;bottom:5%;background:#fff;box-shadow:0 1.6cqw 4cqw rgba(0,0,0,.2);display:flex;flex-direction:column}
 .mk .cal:before{content:"";position:absolute;top:-2.2cqw;left:10%;right:10%;height:4cqw;background:radial-gradient(circle,#666 0 .9cqw,transparent 1cqw) 0 0/9% 100% repeat-x}
 .mk .pic{flex:0 0 56%;overflow:hidden}.mk .mo{font:700 3cqw/1 system-ui,sans-serif;letter-spacing:.08em;padding:2.6cqw 3cqw 1.2cqw;color:#222}
