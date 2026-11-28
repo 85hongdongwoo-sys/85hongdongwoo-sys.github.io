@@ -130,6 +130,18 @@ var PBN = (function () {
     r.paints.forEach(function (c, i) { var yy = ty + 3 + rh * i; p.setFillColor(c.rgb[0], c.rgb[1], c.rgb[2]); p.rect(M + 7, yy, 11, rh * 0.8, 'F'); p.setTextColor(30); p.setFontSize(Math.min(8, rh * 1.6)); p.text(String(i + 1), M, yy + rh * 0.6); p.text(recipe(c.parts, 0), M + 22, yy + rh * 0.6); p.text(recipe(c.parts, 1), M + 22 + (W - 2 * M - 22) / 2, yy + rh * 0.6); });
     p.setFontSize(7.5); p.setTextColor(90);
     p.text(p.splitTextToSize('How to read the key: "1x A + 2x Titanium White" means 1 part A mixed with 2 parts white. Mix enough for every area with that number before you start. Paint one flat colour per area, light colours first. Print page 1 at 100% (no scaling) on 200 g/m² or heavier paper, or trace it onto canvas with graphite transfer paper. Liquitex and Winsor & Newton are trademarks of their owners; Arttrip Studio is not affiliated with them.', W - 2 * M), M, H - M - 18);
+    // page 3: printable colour key + shopping list (closest single tube and exact mix, by brand)
+    p.addPage([S[0], S[1]]); W = S[0]; H = S[1]; p.setTextColor(30); p.setFont('helvetica', 'bold'); p.setFontSize(16); p.text('Colour key & paint shopping list', M, M + 6);
+    p.setFont('helvetica', 'normal'); p.setFontSize(8.5); p.setTextColor(80); p.text(p.splitTextToSize(title + ' — ' + artist + '. Bold = the single tube closest to that colour (# = colour number printed on the tube). Second line = exact mix for a closer match.', W - 2 * M), M, M + 12);
+    var used = [{}, {}]; r.paints.forEach(function (c) { c.parts.forEach(function (q) { used[0][TUBES[q[0]][1] + code(TUBES[q[0]], 0)] = 1; used[1][TUBES[q[0]][3] + code(TUBES[q[0]], 1)] = 1; }); [0, 1].forEach(function (b) { used[b][nearest(c.rgb, b)] = 1; }); });
+    var cx = (W - 2 * M - 20) / 2, y3 = M + 24; p.setTextColor(30); p.setFont('helvetica', 'bold'); p.setFontSize(10); p.text('Shopping list — Liquitex BASICS', M, y3); p.text('Shopping list — Winsor & Newton Galeria', M + 20 + cx, y3);
+    p.setFont('helvetica', 'normal'); p.setFontSize(8.5); var L0 = Object.keys(used[0]).sort(), L1 = Object.keys(used[1]).sort(), lh = 4.2;
+    L0.forEach(function (t, i) { p.text('[  ] ' + t, M, y3 + 5 + i * lh); }); L1.forEach(function (t, i) { p.text('[  ] ' + t, M + 20 + cx, y3 + 5 + i * lh); });
+    var ky = y3 + 9 + Math.max(L0.length, L1.length) * lh, rh3 = Math.min(10, (H - M - 6 - ky) / r.paints.length);
+    p.setFont('helvetica', 'bold'); p.setFontSize(9); p.text('No.', M, ky); p.text('Liquitex BASICS', M + 22, ky); p.text('Winsor & Newton Galeria', M + 22 + cx, ky);
+    r.paints.forEach(function (c, i) { var yy = ky + 2 + rh3 * i, fs = Math.min(8.5, rh3 * 0.9); p.setFillColor(c.rgb[0], c.rgb[1], c.rgb[2]); p.rect(M + 7, yy, 11, rh3 * 0.85, 'F'); p.setTextColor(30); p.setFont('helvetica', 'bold'); p.setFontSize(fs);
+      p.text(String(i + 1), M, yy + fs * 0.4); p.text(nearest(c.rgb, 0), M + 22, yy + fs * 0.4); p.text(nearest(c.rgb, 1), M + 22 + cx, yy + fs * 0.4);
+      p.setFont('helvetica', 'normal'); p.setFontSize(fs * 0.85); p.setTextColor(90); p.text(recipe(c.parts, 0), M + 22, yy + fs * 0.4 + fs * 0.42); p.text(recipe(c.parts, 1), M + 22 + cx, yy + fs * 0.4 + fs * 0.42); });
     return p;
   }
   return { process: process, pack: pack, unpack: unpack, pdf: pdf, preview: preview, outline: outline, recipe: recipe, nearest: nearest, candidates: candidates };
