@@ -7,12 +7,13 @@ let IDX = null, IDX_AT = 0;
 
 export const KIND = {
   cal: { en: 'Wall calendar 2027–2030', ko: '벽걸이 달력 2027–2030', icon: '📅' },
+  planner: { en: 'Planner 2027–2030', ko: '플래너 2027–2030', icon: '📒' },
   prints: { en: 'Printable art prints set', ko: '인쇄용 명화 포스터 세트', icon: '🖼' },
   cards: { en: 'Printable postcard set', ko: '인쇄용 엽서 세트', icon: '✉' },
   color: { en: 'Coloring book', ko: '컬러링북', icon: '🖍' },
   puz: { en: 'Large-print puzzle book', ko: '큰 글씨 퍼즐북', icon: '🧩' },
 };
-const KIND_ORDER = ['cal', 'prints', 'cards', 'puz', 'color'];
+const KIND_ORDER = ['cal', 'planner', 'prints', 'cards', 'puz', 'color'];
 
 export async function pkIndex(env) {
   if (IDX && Date.now() - IDX_AT < 300000) return IDX;
@@ -90,6 +91,8 @@ function copy(it, lang) {
   const body = {
     cal: ko ? [`${who}의 그림 ${n}점으로 만든 벽걸이 달력이에요. 표지 1장과 1월부터 12월까지 달마다 그림 한 점, 그 아래 날짜 칸이 있어요. 한 번 사면 2027년부터 2030년까지 원하는 해의 달력을 모두 받을 수 있어요.`, `미술관이 저작권 없이 공개한 고해상도 원본으로 만들어 A4나 레터 용지에 바로 인쇄할 수 있어요. 결제 후 영수증의 라이선스 키로 PDF를 내려받아요.`]
       : [`A wall calendar with ${n} works by ${who}: a cover page plus one picture for every month from January to December, with a clean date grid below. One purchase covers every year from 2027 to 2030, so you can print a fresh one each January.`, `Made from high-resolution open-access museum files, ready to print on A4 or US Letter paper. Download the PDF with the licence key from your receipt.`],
+    planner: ko ? [`${who}의 그림 ${n}점으로 꾸민 인쇄용 플래너예요. 표지, 한눈에 보는 1년, 달마다 그림 한 장과 월간 달력·메모 칸, 그리고 매주 요일별로 적는 주간 페이지가 들어 있어요.`, `한 번 사면 2027년부터 2030년까지 원하는 해의 플래너를 모두 받을 수 있어요. A4나 레터 용지에 인쇄해 바인더에 끼우거나 제본해서 쓰세요.`]
+      : [`A printable planner decorated with ${n} works by ${who}: cover, year at a glance, a full-page picture and monthly calendar with notes for every month, plus a weekly page for every week.`, `One purchase covers every year from 2027 to 2030. Print on A4 or US Letter and keep it in a binder or have it bound.`],
     prints: ko ? [`${who}의 그림 ${n}점을 한 장에 한 점씩 담은 인쇄용 포스터 세트예요. 액자에 넣거나 벽에 붙이기 좋아요.`, `A4·레터·A3 크기로 내려받아 집이나 사무실 프린터, 인쇄소에서 뽑을 수 있어요.`]
       : [`${n} printable art prints of ${who}, one picture per page with a small caption, perfect for frames, gallery walls and gifts.`, `Download as A4, US Letter or A3 PDFs and print at home or at a print shop.`],
     cards: ko ? [`${who}의 그림 ${n}점으로 만든 엽서 세트예요. A4 한 장에 엽서 4장이 들어가고 자르는 선이 표시돼 있어요.`, `두꺼운 종이에 인쇄해 잘라서 카드, 초대장, 책갈피로 쓰세요.`]
@@ -148,9 +151,9 @@ export async function pkDownload(lang, env, slug, h) {
 <p class="sub">${ko ? '결제 영수증 메일에 있는 라이선스 키를 넣어 주세요. 파일은 이 브라우저에서 바로 만들어져요(그림이 많으면 1~2분 걸려요).' : 'Enter the licence key from your receipt email. The file is put together right here in your browser (large sets can take a minute or two).'}</p>
 <div class="dl" style="text-align:left"><label class="small">${ko ? '라이선스 키' : 'Licence key'}</label><input id="k" autocomplete="off" style="width:100%;padding:10px 12px;margin:6px 0 12px;border:1px solid #d9d1c3;border-radius:10px;font:inherit">
 <label class="small">${ko ? '용지 크기' : 'Paper size'}</label><div class="row" id="sz" style="margin:6px 0 14px">${sizes.map((s, i) => `<label style="margin-right:14px"><input type="radio" name="sz" value="${s}"${i ? '' : ' checked'}> ${s}</label>`).join('')}</div>
-${it.k === 'cal' ? `<label class="small">${ko ? '연도' : 'Year'}</label><div class="row" style="margin:6px 0 14px;flex-wrap:wrap">${[2027, 2028, 2029, 2030].map((y, i) => `<label style="margin-right:14px"><input type="radio" name="yr" value="${y}"${i ? '' : ' checked'}> ${y}</label>`).join('')}</div>` : ''}
+${it.k === 'cal' || it.k === 'planner' ? `<label class="small">${ko ? '연도' : 'Year'}</label><div class="row" style="margin:6px 0 14px;flex-wrap:wrap">${[2027, 2028, 2029, 2030].map((y, i) => `<label style="margin-right:14px"><input type="radio" name="yr" value="${y}"${i ? '' : ' checked'}> ${y}</label>`).join('')}</div>` : ''}
 <button class="pill" id="go">${ko ? 'PDF 만들기' : 'Make my PDF'}</button><p class="small" id="st" style="margin-top:12px"></p></div></section>
-<script src="/editor/jspdf.umd.min.js"></script><script src="/js/pk.js?v=2"></script><script>PK.init(${JSON.stringify({ slug: it.s, lang, ko })})</script>`;
+<script src="/editor/jspdf.umd.min.js"></script><script src="/js/pk.js?v=3"></script><script>PK.init(${JSON.stringify({ slug: it.s, lang, ko })})</script>`;
   return html(layout(lang, { title: `${ko ? 'PDF 내려받기' : 'Download'} — ${t.site}`, desc: '', path: '/dl/' + it.s, body, noindex: true }));
 }
 

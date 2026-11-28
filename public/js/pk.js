@@ -54,6 +54,35 @@ var PK = (function () {
         p.addImage(im.d, im.f, (W - ff[0]) / 2, M + (ih - ff[1]) / 2, ff[0], ff[1]); p.setFont('helvetica', 'italic'); p.setTextColor(110, 100, 90); caption(p, w0.t + (w0.a ? ' — ' + w0.a : ''), W / 2, M + ih + 5, W - 2 * M, 7.5); p.setTextColor(0, 0, 0);
         p.setFont('times', 'normal'); p.setFontSize(24); p.text(MON[m] + ' ' + Y, M, M + ih + 18); grid(p, m, M, M + ih + 22, W - 2 * M, H - (M + ih + 22) - M, Y);
       }
+
+    } else if (k === 'planner') {
+      var a0 = imgs[0], f0 = fit(a0.w, a0.h, W - 2 * M, H * 0.62);
+      p.addImage(a0.d, a0.f, (W - f0[0]) / 2, M + 6, f0[0], f0[1]); p.setFont('times', 'normal'); p.setFontSize(34); p.text(Y + ' Planner', W / 2, H * 0.8, { align: 'center' }); p.setFontSize(13); caption(p, title, W / 2, H * 0.86, W - 2 * M, 13);
+      // year at a glance
+      page(false); p.setFont('times', 'normal'); p.setFontSize(24); p.text(Y + ' at a glance', M, M + 8);
+      var gw = (W - 2 * M) / 3, gh = (H - 2 * M - 16) / 4;
+      for (var mm = 0; mm < 12; mm++) { var gx = M + gw * (mm % 3), gy = M + 16 + gh * Math.floor(mm / 3); p.setFont('helvetica', 'bold'); p.setFontSize(10); p.setTextColor(120, 60, 50); p.text(MON[mm], gx + 2, gy + 5); p.setTextColor(0);
+        var f1 = new Date(Y, mm, 1).getDay(), d1 = new Date(Y, mm + 1, 0).getDate(), cw2 = (gw - 6) / 7; p.setFont('helvetica', 'normal'); p.setFontSize(7);
+        for (var q = 0; q < 7; q++) p.text('SMTWTFS'[q], gx + 2 + cw2 * q + cw2 / 2, gy + 11, { align: 'center' });
+        for (var dd = 1; dd <= d1; dd++) { var kk = f1 + dd - 1; p.text(String(dd), gx + 2 + cw2 * (kk % 7) + cw2 / 2, gy + 16 + 5 * Math.floor(kk / 7), { align: 'center' }); } }
+      for (var m2 = 0; m2 < 12; m2++) {
+        page(false); var im2 = imgs[(m2 + 1) % imgs.length], w2 = works[(m2 + 1) % works.length], ff2 = fit(im2.w, im2.h, W - 2 * M, H - 2 * M - 22);
+        p.addImage(im2.d, im2.f, (W - ff2[0]) / 2, M + (H - 2 * M - 22 - ff2[1]) / 2, ff2[0], ff2[1]); p.setFont('times', 'normal'); p.setFontSize(26); p.text(MON[m2], W / 2, H - M - 8, { align: 'center' });
+        p.setFont('helvetica', 'italic'); p.setFontSize(8); p.setTextColor(110); caption(p, w2.t + (w2.a ? ' — ' + w2.a : ''), W / 2, H - M - 1, W - 2 * M, 8); p.setTextColor(0);
+        page(false); p.setFont('times', 'normal'); p.setFontSize(24); p.text(MON[m2] + ' ' + Y, M, M + 8); grid(p, m2, M, M + 14, W - 2 * M, H * 0.62, Y);
+        p.setFont('helvetica', 'bold'); p.setFontSize(10); p.setTextColor(120, 100, 80); p.text('NOTES & GOALS', M, M + 14 + H * 0.62 + 10); p.setTextColor(0); p.setDrawColor(215, 205, 190); p.setLineWidth(0.2);
+        for (var ln = M + 14 + H * 0.62 + 18; ln < H - M; ln += 8) p.line(M, ln, W - M, ln);
+        // weekly pages for this month (weeks that start in this month)
+        var d0 = new Date(Y, m2, 1); while (d0.getDay() !== 1) d0.setDate(d0.getDate() + 1);
+        for (; d0.getMonth() === m2; d0.setDate(d0.getDate() + 7)) {
+          page(false); p.setFont('times', 'normal'); p.setFontSize(18); var e0 = new Date(d0); e0.setDate(e0.getDate() + 6);
+          p.text('Week of ' + MON[d0.getMonth()].slice(0, 3) + ' ' + d0.getDate() + ' – ' + MON[e0.getMonth()].slice(0, 3) + ' ' + e0.getDate() + ', ' + Y, M, M + 8);
+          var rows2 = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Notes'], rh2 = (H - 2 * M - 14) / rows2.length;
+          rows2.forEach(function (nm, ri) { var yy = M + 14 + rh2 * ri; p.setDrawColor(190, 175, 155); p.setLineWidth(0.4); p.line(M, yy, W - M, yy); p.setFont('helvetica', 'bold'); p.setFontSize(10); p.setTextColor(120, 60, 50); p.text(nm.toUpperCase(), M, yy + 5); p.setTextColor(0);
+            if (ri < 7) { var dt = new Date(d0); dt.setDate(dt.getDate() + ri); p.setFont('helvetica', 'normal'); p.text(String(dt.getDate()), W - M, yy + 5, { align: 'right' }); }
+            p.setDrawColor(225, 218, 205); p.setLineWidth(0.15); for (var l2 = yy + 12; l2 < yy + rh2 - 2; l2 += 7) p.line(M, l2, W - M, l2); });
+        }
+      }
     } else if (k === 'prints') {
       imgs.forEach(function (im, i) { page(i === 0); var w0 = works[i], ff = fit(im.w, im.h, W - 2 * M, H - 2 * M - 14); p.addImage(im.d, im.f, (W - ff[0]) / 2, M + (H - 2 * M - 14 - ff[1]) / 2, ff[0], ff[1]); p.setFont('helvetica', 'normal'); p.setTextColor(90, 85, 80); caption(p, w0.t + (w0.d ? ', ' + w0.d : '') + (w0.a ? ' — ' + w0.a : ''), W / 2, H - M - 4, W - 2 * M, 8); p.setTextColor(0, 0, 0); });
     } else if (k === 'cards') {
@@ -171,7 +200,7 @@ var PK = (function () {
       var done = 0, maxPx = j.k === 'cards' ? 1600 : j.k === 'color' ? 2200 : 2600;
       return Promise.all(j.works.map(function (w) { return load(w.u, maxPx, j.k === 'color' ? 'line' : '').then(function (x) { done++; say((O.ko ? '그림 불러오는 중 ' : 'Loading pictures ') + done + ' / ' + j.works.length); return x; }); })).then(function (imgs) {
         say(O.ko ? 'PDF 만드는 중…' : 'Building the PDF…');
-        var p = build(j.k, j.works, imgs, size, j.title, Y); p.save(O.slug.replace(/2027/, j.k === 'cal' ? Y : 2027) + '-' + size + '.pdf'); btn.disabled = false;
+        var p = build(j.k, j.works, imgs, size, j.title, Y); p.save(O.slug.replace(/2027/, (j.k === 'cal' || j.k === 'planner') ? Y : 2027) + '-' + size + '.pdf'); btn.disabled = false;
         say(O.ko ? '완료! 다운로드 폴더를 확인하세요. 다른 크기와 다른 해도 같은 키로 받을 수 있어요.' : 'Done! Check your downloads. You can get other sizes and years with the same key.');
       });
     }).catch(function () { btn.disabled = false; say(O.ko ? '문제가 생겼어요. 잠시 후 다시 시도하거나 hello@arttripstudio.com 으로 연락 주세요.' : 'Something went wrong. Try again shortly or write to hello@arttripstudio.com.'); });
