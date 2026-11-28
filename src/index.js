@@ -25,15 +25,6 @@ export default {
     // hero motion videos stored in KV (VIDS)
     if (url.pathname.startsWith('/v/') && env.VIDS) {
       const key = url.pathname.slice(3);
-      if (req.method === 'POST' && key === 'up') {
-        const f = await req.formData();
-        const tok = String(f.get('tok') || '');
-        const d = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(tok)))).map((b) => b.toString(16).padStart(2, '0')).join('');
-        if (!env.VID_UP_HASH || d !== env.VID_UP_HASH) return new Response('no', { status: 403 });
-        const done = [];
-        for (const [k, v] of f.entries()) if (k !== 'tok' && typeof v !== 'string') { const b = await v.arrayBuffer(); await env.VIDS.put(k, b); done.push(k + ':' + b.byteLength); }
-        return new Response('UPLOADED ' + done.join(' '), { headers: { 'content-type': 'text/plain' } });
-      }
       if (req.method !== 'GET' && req.method !== 'HEAD') return new Response('method', { status: 405 });
       const buf = await env.VIDS.get(key, 'arrayBuffer');
       if (!buf) return new Response('not found', { status: 404 });
@@ -73,7 +64,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv6', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv7', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -172,7 +163,7 @@ async function home(lang, env) {
   const body = `<section class="hx"><div class="wrap hxg"><div class="hxt"><span class="eyebrow">${ko ? '명화 · 사진 · 일러스트 · 글씨' : 'Art · Photography · Illustration · Lettering'}</span><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
 <div class="row"><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '편집기로 만들기' : 'Start designing'}</a><a class="pill gh" href="${L(lang, '/shop')}">${ko ? '상품 보기' : 'Shop products'}</a></div>
 <ul class="stats"><li><b>300<small>dpi</small></b><span>${ko ? '인쇄용 고화질' : 'print quality'}</span></li><li><b>A4<small>+Letter</small></b><span>${ko ? '두 가지 크기' : 'both sizes'}</span></li><li><b>0<small>${ko ? '초' : 's'}</small></b><span>${ko ? '결제 후 바로 다운로드' : 'wait to download'}</span></li></ul></div>
-<div class="hxa"><a class="ha1" href="${L(lang, '/art/' + hero.slug)}"><img src="/img/${hero.id}.jpg" alt="${esc(tl(hero, lang))}" width="${hero.w}" height="${hero.h}"><video class="hv" data-src="/v/hero-wave.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></a>${side.map((a, i) => `<a class="ha${i + 2}" href="${L(lang, '/art/' + a.slug)}"><img src="/img/${a.id}.jpg" alt="${esc(tl(a, lang))}" loading="lazy"><video class="hv" data-src="/v/hero-${i ? 'beach' : 'bridge'}.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></a>`).join('')}<script>(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=navigator.connection&&navigator.connection.saveData;if(s)return;document.querySelectorAll('.hxa .hv').forEach(function(v,i){if(i&&innerWidth<600)return;v.src=v.dataset.src;v.addEventListener('playing',function(){v.classList.add('on')});var p=v.play();if(p&&p.catch)p.catch(function(){});});})();</script><span class="hcap">${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></div></div></section>
+<div class="hxa"><a class="ha1" href="${L(lang, '/artist/pierre-auguste-renoir')}"><img src="/v/hero-piano.jpg" alt="${ko ? '르누아르, 피아노 치는 소녀들' : 'Renoir, Two Young Girls at the Piano'}" width="1600" height="900"><video class="hv" data-src="/v/hero-piano.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></a>${side.map((a, i) => `<a class="ha${i + 2}" href="${L(lang, '/art/' + a.slug)}"><img src="/img/${a.id}.jpg" alt="${esc(tl(a, lang))}" loading="lazy"><video class="hv" data-src="/v/hero-${i ? 'beach' : 'bridge'}.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></a>`).join('')}<script>(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=navigator.connection&&navigator.connection.saveData;if(s)return;document.querySelectorAll('.hxa .hv').forEach(function(v,i){if(i&&innerWidth<600)return;v.src=v.dataset.src;v.addEventListener('playing',function(){v.classList.add('on')});var p=v.play();if(p&&p.catch)p.catch(function(){});});})();</script><span class="hcap">${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></div></div></section>
 <section class="wrap sec"><div class="sh"><div><span class="eyebrow dk">${ko ? '무엇을 만들까요' : 'Make something'}</span><h2>${ko ? '바로 쓰는 네 가지' : 'Four ways to start'}</h2></div></div><div class="bento">${bento}</div></section>
 ${colStrip(lang)}
 <section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div>${rail(PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles'].includes(p.cat)))}</section>
