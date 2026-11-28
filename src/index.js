@@ -172,30 +172,30 @@ async function home(lang, env) {
   const cover = await all(env, "SELECT theme, id FROM artworks WHERE id IN (SELECT MIN(id) FROM artworks GROUP BY theme)");
   const covers = { ...Object.fromEntries(cover.map((c) => [c.theme, c.id])), birds: '222003', horses: '97890' };
   const total = counts.reduce((s, c) => s + c.n, 0);
-  const ko = lang === 'ko';
+  const ko = lang === 'ko', ja = lang === 'ja';
   const rail = (list) => `<div class="rail">${list.map((p) => productCard(p, lang)).join('')}</div>`;
   const pick = (id) => feat.find((a) => a.id === id) || feat[0];
   const side = [pick('87088'), pick('14598')];
   const bento = [
-    ['b1', L(lang, '/shop') + '#calendars', '/p/calendar-renoir-sisters.jpg', ko ? '명화 달력 2027' : '2027 art calendars', ko ? '화가 15명 · A4와 레터' : '15 artists · A4 and Letter'],
-    ['b2', L(lang, '/shop/masterpiece-junk-journal-art-paper-kit'), '/p/art-paper-kit.jpg', ko ? '아트페이퍼 키트' : 'Art paper kit', ko ? '정크저널 14종 + 편집기' : '14 junk journal papers + editor'],
-    ['b3', L(lang, '/editor') + '?tpl=exhibit&new=1', `/img/${side[1].id}.jpg`, ko ? '명화 포스터' : 'Masterpiece posters', ko ? 'A3부터 24×36인치까지' : 'A3 up to 24×36 in'],
-    ['b4', L(lang, '/originals'), '/p/cafe-girl-clipart.jpg', ko ? '아트트립 오리지널' : 'Arttrip Originals', ko ? '일러스트 · 패턴 · 글씨' : 'Illustration · pattern · lettering'],
+    ['b1', L(lang, '/shop') + '#calendars', '/p/calendar-renoir-sisters.jpg', ko ? '명화 달력 2027' : ja ? '名画カレンダー2027' : '2027 art calendars', ko ? '화가 15명 · A4와 레터' : ja ? '画家15人 · A4とレター' : '15 artists · A4 and Letter'],
+    ['b2', L(lang, '/shop/masterpiece-junk-journal-art-paper-kit'), '/p/art-paper-kit.jpg', ko ? '아트페이퍼 키트' : ja ? 'アートペーパーキット' : 'Art paper kit', ko ? '정크저널 14종 + 편집기' : ja ? 'ジャンクジャーナル用紙14種＋エディター' : '14 junk journal papers + editor'],
+    ['b3', L(lang, '/editor') + '?tpl=exhibit&new=1', `/img/${side[1].id}.jpg`, ko ? '명화 포스터' : ja ? '名画ポスター' : 'Masterpiece posters', ko ? 'A3부터 24×36인치까지' : ja ? 'A3から24×36インチまで' : 'A3 up to 24×36 in'],
+    ['b4', L(lang, '/originals'), '/p/cafe-girl-clipart.jpg', ko ? '아트트립 오리지널' : ja ? 'Arttripオリジナル' : 'Arttrip Originals', ko ? '일러스트 · 패턴 · 글씨' : ja ? 'イラスト · パターン · 文字' : 'Illustration · pattern · lettering'],
   ].map(([c, href, img, h, d]) => `<a class="bx ${c}" href="${href}"><img src="${img}" alt="" loading="lazy"><span><b>${esc(h)}</b><i>${esc(d)}</i></span></a>`).join('');
-  const body = `<section class="hx"><div class="wrap hxg"><div class="hxt"><span class="eyebrow">${ko ? '명화 · 사진 · 일러스트 · 글씨' : 'Art · Photography · Illustration · Lettering'}</span><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
-<div class="row"><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '편집기로 만들기' : 'Start designing'}</a><a class="pill gh" href="${L(lang, '/shop')}">${ko ? '상품 보기' : 'Shop products'}</a></div>
-<ul class="stats"><li><b>300<small>dpi</small></b><span>${ko ? '인쇄용 고화질' : 'print quality'}</span></li><li><b>A4<small>+Letter</small></b><span>${ko ? '두 가지 크기' : 'both sizes'}</span></li><li><b>0<small>${ko ? '초' : 's'}</small></b><span>${ko ? '결제 후 바로 다운로드' : 'wait to download'}</span></li></ul></div>
-<div class="hxa"><a class="ha1" href="${L(lang, '/artist/pierre-auguste-renoir')}"><img src="/v/hero-piano.jpg" alt="${ko ? '르누아르, 피아노 치는 소녀들' : 'Renoir, Two Young Girls at the Piano'}" width="1600" height="900"><video class="hv" data-src="/v/hero-piano.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></a>${side.map((a, i) => `<a class="ha${i + 2}" href="${L(lang, '/art/' + a.slug)}"><img src="/img/${a.id}.jpg" alt="${esc(tl(a, lang))}" loading="lazy"><video class="hv" data-src="/v/hero-${i ? 'beach' : 'bridge'}.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></a>`).join('')}<script>(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=navigator.connection&&navigator.connection.saveData;if(s)return;document.querySelectorAll('.hxa .hv').forEach(function(v,i){if(i&&innerWidth<600)return;v.src=v.dataset.src;v.addEventListener('playing',function(){v.classList.add('on')});var p=v.play();if(p&&p.catch)p.catch(function(){});});})();</script><span class="hcap">${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></div></div></section>
-<section class="wrap sec"><div class="sh"><div><span class="eyebrow dk">${ko ? '무엇을 만들까요' : 'Make something'}</span><h2>${ko ? '바로 쓰는 네 가지' : 'Four ways to start'}</h2></div></div><div class="bento">${bento}</div></section>
+  const body = `<section class="hx"><div class="wrap hxg"><div class="hxt"><span class="eyebrow">${ko ? '명화 · 사진 · 일러스트 · 글씨' : ja ? '名画 · 写真 · イラスト · 文字' : 'Art · Photography · Illustration · Lettering'}</span><h1>${esc(t.heroTitle)}</h1><p class="sub">${esc(t.heroSub)}</p>
+<div class="row"><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '편집기로 만들기' : ja ? 'エディターでつくる' : 'Start designing'}</a><a class="pill gh" href="${L(lang, '/shop')}">${ko ? '상품 보기' : ja ? '商品を見る' : 'Shop products'}</a></div>
+<ul class="stats"><li><b>300<small>dpi</small></b><span>${ko ? '인쇄용 고화질' : ja ? '印刷用の高画質' : 'print quality'}</span></li><li><b>A4<small>+Letter</small></b><span>${ko ? '두 가지 크기' : ja ? '2つのサイズ' : 'both sizes'}</span></li><li><b>0<small>${ko ? '초' : ja ? '秒' : 's'}</small></b><span>${ko ? '결제 후 바로 다운로드' : ja ? 'お支払い後すぐダウンロード' : 'wait to download'}</span></li></ul></div>
+<div class="hxa"><a class="ha1" href="${L(lang, '/artist/pierre-auguste-renoir')}"><img src="/v/hero-piano.jpg" alt="${ko ? '르누아르, 피아노 치는 소녀들' : ja ? 'ルノワール《ピアノに寄る少女たち》' : 'Renoir, Two Young Girls at the Piano'}" width="1600" height="900"><video class="hv" data-src="/v/hero-piano.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></a>${side.map((a, i) => `<a class="ha${i + 2}" href="${L(lang, '/art/' + a.slug)}"><img src="/img/${a.id}.jpg" alt="${esc(tl(a, lang))}" loading="lazy"><video class="hv" data-src="/v/hero-${i ? 'beach' : 'bridge'}.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></a>`).join('')}<script>(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var s=navigator.connection&&navigator.connection.saveData;if(s)return;document.querySelectorAll('.hxa .hv').forEach(function(v,i){if(i&&innerWidth<600)return;v.src=v.dataset.src;v.addEventListener('playing',function(){v.classList.add('on')});var p=v.play();if(p&&p.catch)p.catch(function(){});});})();</script><span class="hcap">${esc(tl(hero, lang))} · ${esc(al(hero, lang))}</span></div></div></section>
+<section class="wrap sec"><div class="sh"><div><span class="eyebrow dk">${ko ? '무엇을 만들까요' : ja ? '何をつくりますか' : 'Make something'}</span><h2>${ko ? '바로 쓰는 네 가지' : ja ? 'すぐに使える4つのもの' : 'Four ways to start'}</h2></div></div><div class="bento">${bento}</div></section>
 ${colStrip(lang)}
 <section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div>${rail(PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles', 'coloring', 'paint-by-numbers'].includes(p.cat)))}</section>
-<section class="wrap sec"><div class="sh"><h2>${ko ? '큰 글씨 퍼즐북' : 'Large-print puzzle books'}</h2><a href="${L(lang, '/shop')}#puzzles">${ko ? '어르신도 편하게' : 'Easy on the eyes'} →</a></div><div class="vrow"><a class="vs" href="${L(lang, '/shop/masterpiece-word-search-large-print')}"><video data-src="/v/puzzle.mp4" poster="/v/puzzle.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></a><div class="vtx"><span class="eyebrow dk">${ko ? '낱말찾기' : 'Word search'}</span><h3>${ko ? '큰 글씨로, 둘이 함께 푸는 시간' : 'Big letters, time well spent together'}</h3><p>${ko ? '돋보기 없이 보이는 큰 글씨 낱말찾기. 퍼즐마다 명화 한 점이 함께 들어 있어요.' : 'Word searches you can read without glasses, each paired with a full-page masterpiece.'}</p></div></div>${rail(PRODUCTS.filter((p) => p.cat === 'puzzles' && !p.slug.includes('coloring')))}</section>
-<section class="wrap sec"><div class="sh"><h2>${ko ? '컬러링북' : 'Coloring books'}</h2><a href="${L(lang, '/shop')}#coloring">${ko ? '칠하면 살아나요' : 'Color it to life'} →</a></div><div class="vrow"><a class="vs" href="${L(lang, '/shop/christmas-coloring-book-for-kids')}"><video data-src="/v/coloring.mp4?v=2" poster="/v/coloring.jpg?v=2" muted loop playsinline preload="none" aria-hidden="true"></video></a><div class="vtx"><span class="eyebrow dk">${ko ? '아이와 함께' : 'For kids'}</span><h3>${ko ? '작은 손이 칠하면, 그림이 살아나요' : 'Little hands bring the picture to life'}</h3><p>${ko ? '산타, 루돌프, 눈사람… 아이가 칠하기 좋은 굵은 선 도안. 인쇄해서 바로 칠해요.' : 'Santa, reindeer, snowmen in thick, kid-friendly lines. Print and start coloring right away.'}</p></div></div>${rail(PRODUCTS.filter((p) => p.slug.includes('coloring')))}<script>(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(navigator.connection&&navigator.connection.saveData)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){if(!v.src)v.src=v.dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();});},{rootMargin:'200px'});document.querySelectorAll('.vrow video').forEach(function(v){io.observe(v);});})();</script></section>
-<section class="wrap sec"><div class="sh"><h2>${ko ? '화가별 명화 달력 2027' : 'Artist calendars 2027'}</h2><a href="${L(lang, '/shop')}#calendars">${ko ? '15명 모두 보기' : 'All 15 artists'} →</a></div>${rail(PRODUCTS.filter((p) => p.cat === 'artist-calendars'))}</section>
-<section class="wrap sec"><div class="edcta"><div><span class="eyebrow">${ko ? '아트트립 편집기' : 'Arttrip Editor'}</span><h2>${ko ? '사고 나서도 내 마음대로' : 'Make it yours after you buy'}</h2><p>${ko ? '내 사진, 글꼴 19종, 빈티지 종이, 12개월 달력 자동 만들기. 브라우저에서 바로 꾸미고 인쇄용 PDF로 받아요.' : 'Your photos, 19 fonts, vintage paper and one-click 12-month calendars. Design in the browser, download a print-ready PDF.'}</p><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '무료로 열어 보기' : 'Try it free'}</a></div><img src="/p/art-paper-kit.jpg" alt="" loading="lazy"></div></section>
-<section class="wrap sec"><div class="sh"><h2>${ko ? '아트트립 오리지널' : 'Arttrip Originals'}</h2><a href="${L(lang, '/originals')}">${ko ? '모두 보기' : 'See all'} →</a></div>${rail(PRODUCTS.filter(isOrig))}</section>
+<section class="wrap sec"><div class="sh"><h2>${ko ? '큰 글씨 퍼즐북' : ja ? '大きな文字のパズル本' : 'Large-print puzzle books'}</h2><a href="${L(lang, '/shop')}#puzzles">${ko ? '어르신도 편하게' : ja ? 'シニアにも見やすい' : 'Easy on the eyes'} →</a></div><div class="vrow"><a class="vs" href="${L(lang, '/shop/masterpiece-word-search-large-print')}"><video data-src="/v/puzzle.mp4" poster="/v/puzzle.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></a><div class="vtx"><span class="eyebrow dk">${ko ? '낱말찾기' : ja ? '文字さがし' : 'Word search'}</span><h3>${ko ? '큰 글씨로, 둘이 함께 푸는 시간' : ja ? '大きな文字で、いっしょに楽しむ時間' : 'Big letters, time well spent together'}</h3><p>${ko ? '돋보기 없이 보이는 큰 글씨 낱말찾기. 퍼즐마다 명화 한 점이 함께 들어 있어요.' : ja ? '老眼鏡なしでも読める大きな文字の文字さがし。パズルごとに名画が1点ついています。' : 'Word searches you can read without glasses, each paired with a full-page masterpiece.'}</p></div></div>${rail(PRODUCTS.filter((p) => p.cat === 'puzzles' && !p.slug.includes('coloring')))}</section>
+<section class="wrap sec"><div class="sh"><h2>${ko ? '컬러링북' : ja ? 'ぬりえ' : 'Coloring books'}</h2><a href="${L(lang, '/shop')}#coloring">${ko ? '칠하면 살아나요' : ja ? '塗ると絵が生きてくる' : 'Color it to life'} →</a></div><div class="vrow"><a class="vs" href="${L(lang, '/shop/christmas-coloring-book-for-kids')}"><video data-src="/v/coloring.mp4?v=2" poster="/v/coloring.jpg?v=2" muted loop playsinline preload="none" aria-hidden="true"></video></a><div class="vtx"><span class="eyebrow dk">${ko ? '아이와 함께' : ja ? '子どもと一緒に' : 'For kids'}</span><h3>${ko ? '작은 손이 칠하면, 그림이 살아나요' : ja ? '小さな手で塗れば、絵が生き生きと' : 'Little hands bring the picture to life'}</h3><p>${ko ? '산타, 루돌프, 눈사람… 아이가 칠하기 좋은 굵은 선 도안. 인쇄해서 바로 칠해요.' : ja ? 'サンタ、トナカイ、雪だるま…子どもが塗りやすい太い線の図案。印刷してすぐに塗れます。' : 'Santa, reindeer, snowmen in thick, kid-friendly lines. Print and start coloring right away.'}</p></div></div>${rail(PRODUCTS.filter((p) => p.slug.includes('coloring')))}<script>(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(navigator.connection&&navigator.connection.saveData)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){if(!v.src)v.src=v.dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();});},{rootMargin:'200px'});document.querySelectorAll('.vrow video').forEach(function(v){io.observe(v);});})();</script></section>
+<section class="wrap sec"><div class="sh"><h2>${ko ? '화가별 명화 달력 2027' : ja ? '画家別名画カレンダー2027' : 'Artist calendars 2027'}</h2><a href="${L(lang, '/shop')}#calendars">${ko ? '15명 모두 보기' : ja ? '15人すべて見る' : 'All 15 artists'} →</a></div>${rail(PRODUCTS.filter((p) => p.cat === 'artist-calendars'))}</section>
+<section class="wrap sec"><div class="edcta"><div><span class="eyebrow">${ko ? '아트트립 편집기' : ja ? 'Arttripエディター' : 'Arttrip Editor'}</span><h2>${ko ? '사고 나서도 내 마음대로' : ja ? '購入後も自由にアレンジ' : 'Make it yours after you buy'}</h2><p>${ko ? '내 사진, 글꼴 19종, 빈티지 종이, 12개월 달력 자동 만들기. 브라우저에서 바로 꾸미고 인쇄용 PDF로 받아요.' : ja ? '自分の写真、19種のフォント、ヴィンテージ紙、ワンクリックで12か月カレンダー。ブラウザでデザインして印刷用PDFをダウンロード。' : 'Your photos, 19 fonts, vintage paper and one-click 12-month calendars. Design in the browser, download a print-ready PDF.'}</p><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '무료로 열어 보기' : ja ? '無料で開いてみる' : 'Try it free'}</a></div><img src="/p/art-paper-kit.jpg" alt="" loading="lazy"></div></section>
+<section class="wrap sec"><div class="sh"><h2>${ko ? '아트트립 오리지널' : ja ? 'Arttripオリジナル' : 'Arttrip Originals'}</h2><a href="${L(lang, '/originals')}">${ko ? '모두 보기' : ja ? 'すべて見る' : 'See all'} →</a></div>${rail(PRODUCTS.filter(isOrig))}</section>
 <section class="wrap sec"><div class="sh"><h2>${t.themes}</h2><a href="${L(lang, '/art')}">${t.allArt} (${total}) →</a></div>
-<div class="themes">${counts.map((c) => `<a class="theme" href="${L(lang, '/art/theme/' + c.theme)}"><img src="/img/${covers[c.theme]}.jpg" alt="" loading="lazy"><b>${esc(THEMES[c.theme]?.[lang] || c.theme)}</b><span>${c.n} ${ko ? '점' : 'artworks'}</span></a>`).join('')}</div></section>`;
+<div class="themes">${counts.map((c) => `<a class="theme" href="${L(lang, '/art/theme/' + c.theme)}"><img src="/img/${covers[c.theme]}.jpg" alt="" loading="lazy"><b>${esc(THEMES[c.theme]?.[lang] || c.theme)}</b><span>${c.n} ${ko ? '점' : ja ? '点' : 'artworks'}</span></a>`).join('')}</div></section>`;
   return html(layout(lang, { title: `${t.site} — ${t.tagline}`, desc: t.heroSub, path: '/', body, img: `/img/${hero.id}.jpg` }));
 }
 
@@ -273,7 +273,7 @@ function productCard(p, lang) {
 
 // ---------- artist stories ----------
 function storiesIndex(lang) {
-  const ko = lang === 'ko';
+  const ko = lang === 'ko', ja = lang === 'ja';
   const title = ko ? '화가 이야기 — 모네, 세잔, 르누아르의 삶과 대표작 | 아트트립 스튜디오' : 'Artist Stories — The Lives and Famous Paintings of Great Artists | Arttrip Studio';
   const desc = ko ? '세계 미술관에 걸린 화가들의 삶과 대표작을 쉽고 재미있게 소개해요.' : 'Short, readable stories of the great painters and the masterpieces they left in museums around the world.';
   const cards = STORIES.map((x) => { const c = x[lang]; return `<a class="stc" href="${L(lang, '/stories/' + x.slug)}"><img src="${x.portrait}" alt="${esc(c.name)}" loading="lazy"><span><b>${esc(c.name)}</b><i>${esc(c.years)} · ${esc(c.tagline)}</i></span></a>`; }).join('');
@@ -281,7 +281,7 @@ function storiesIndex(lang) {
   return html(layout(lang, { title, desc, path: '/stories', body, img: STORIES[0].portrait, jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, description: desc } }));
 }
 async function story(lang, env, x) {
-  const ko = lang === 'ko', c = x[lang];
+  const ko = lang === 'ko', ja = lang === 'ja', c = x[lang];
   const ids = Object.keys(c.works);
   const rows = await all(env, `SELECT * FROM artworks WHERE id IN (${ids.filter((i) => /^\d+$/.test(i)).map((i) => `'${i}'`).join(',')})`);
   const byId = Object.fromEntries(rows.map((r) => [String(r.id), r]));
@@ -308,7 +308,7 @@ ${others ? `<p class="stmore">${ko ? '다른 화가 이야기: ' : 'More stories
 
 // ---------- studio, members, thanks ----------
 function studio(lang, env) {
-  const ko = lang === 'ko';
+  const ko = lang === 'ko', ja = lang === 'ja';
   const head = `<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/studio/studio.css">`;
   const body = `<div class="wrap edban"><a href="${L(lang, '/editor')}?new=1"><b>${ko ? '새로 나온 아트트립 에디터' : 'New: the Arttrip Editor'}</b><span>${ko ? '레이어, 내 사진, 글꼴 19종, 빈티지 효과, 달력 12개월 자동 만들기까지 — 아트페이퍼와 달력을 자유롭게 꾸며요' : 'Layers, your own photos, 19 fonts, vintage effects and 12-month calendars — design art papers and calendars freely'}</span><em>${ko ? '열기 →' : 'Open →'}</em></a></div><div id="app" data-lang="${lang}"><div class="wrap sec"><p class="small">${ko ? '불러오는 중…' : 'Loading…'}</p></div></div>
 <script src="/studio/studio.js"></script><script src="/studio/boot.js"></script>`;
@@ -317,7 +317,7 @@ function studio(lang, env) {
     path: '/studio', body, head }));
 }
 async function account(lang, env, req) {
-  const ko = lang === 'ko', t = T[lang];
+  const ko = lang === 'ko', ja = lang === 'ja', t = T[lang];
   if (!membersReady(env)) return html(layout(lang, { title: `${t.nav.myAccount} — ${t.site}`, desc: '', path: '/account', noindex: true,
     body: `<section class="wrap sec narrow center"><span class="lbl">${t.nav.account}</span><h1>${ko ? '회원 기능을 준비하고 있어요' : 'Member accounts are on the way'}</h1><p class="sub">${ko ? '지금은 로그인 없이 모든 상품을 구매할 수 있어요. 곧 구글 계정으로 가입해 스튜디오 작업을 저장할 수 있게 돼요.' : 'You can buy everything without an account today. Soon you will be able to sign in with Google and save your Studio work.'}</p><div class="row" style="justify-content:center"><a class="pill" href="${L(lang, '/shop')}">${t.nav.shop}</a><a class="pill ghost" href="${L(lang, '/studio')}">${t.nav.studio}</a></div></section>` }));
   const u = await currentUser(req, env);
@@ -342,7 +342,7 @@ ${ds.length ? `<ul class="iltopics">${ds.map((d) => `<li><a href="${L(lang, '/st
   return html(layout(lang, { title: `${t.nav.myAccount} — ${t.site}`, desc: '', path: '/account', body, head: gsi, noindex: true }));
 }
 function thanks(lang, url) {
-  const ko = lang === 'ko', t = T[lang], via = url.searchParams.get('via');
+  const ko = lang === 'ko', ja = lang === 'ja', t = T[lang], via = url.searchParams.get('via');
   const p = PRODUCTS.find((x) => x.slug === url.searchParams.get('p'));
   const name = p ? p[lang].name : '';
   const msg = via === 'kr'
@@ -443,11 +443,11 @@ function colTile(c, lang, big) {
   return href ? `<a class="ct" href="${L(lang, href)}">${inner}</a>` : `<div class="ct off">${inner}</div>`;
 }
 function colStrip(lang) {
-  const ko = lang === 'ko';
+  const ko = lang === 'ko', ja = lang === 'ja';
   return `<section class="wrap sec"><div class="sh"><div><span class="eyebrow dk">${ko ? '8가지 컬렉션' : '8 collections'}</span><h2>${ko ? '무엇을 찾으세요?' : 'What are you looking for?'}</h2></div><a href="${L(lang, '/collections')}">${ko ? '모든 컬렉션' : 'All collections'} →</a></div><div class="cgrid">${COLS.map((c) => colTile(c, lang, false)).join('')}</div></section>`;
 }
 function collections(lang) {
-  const ko = lang === 'ko', t = T[lang];
+  const ko = lang === 'ko', ja = lang === 'ja', t = T[lang];
   const title = ko ? '컬렉션 — 명화, 사진, 일러스트, 글씨 | 아트트립 스튜디오' : 'Collections — Art, Photography, Illustration & Lettering | Arttrip Studio';
   const desc = ko ? '명화, 아트트립 일러스트, 풍경 사진, 건축물, 빈티지 인물, 빈티지 도감, 글씨, 패턴까지 8가지 컬렉션.' : 'Eight collections: masterpieces, Arttrip illustration, landscape photography, architecture, vintage portraits, natural history, lettering and patterns.';
   const body = `<section class="wrap sec"><span class="lbl">${t.nav.col}</span><h1>${ko ? '8가지 컬렉션' : 'Eight collections'}</h1>
@@ -495,7 +495,7 @@ async function photoProxy(path, ctx) {
   return res;
 }
 function photoGallery(lang, cat) {
-  const ko = lang === 'ko', t = T[lang], list = PHOTOS.filter((x) => x.c === cat);
+  const ko = lang === 'ko', ja = lang === 'ja', t = T[lang], list = PHOTOS.filter((x) => x.c === cat);
   const name = cat === 'architecture' ? (ko ? '건축과 빛' : 'Architecture & Light') : (ko ? '풍경 사진' : 'Landscape Photography');
   const sub = cat === 'architecture'
     ? (ko ? '빛이 머무는 현대 건축: 나선 계단, 유리 지붕, 콘크리트와 그림자. 세계 사진가들이 자유 이용을 허락한 사진만 골랐어요.' : 'Modern architecture where light lingers: spiral stairs, glass roofs, concrete and shadow, chosen only from photographers who share their work under free licences.')
@@ -520,7 +520,7 @@ const ORIG_LINES = [
   ['lettering', { en: 'Lettering', ko: '글씨 디자인' }, { en: 'Quotes and celebration words set in beautiful type — for T-shirts, posters and cards.', ko: '명언과 축하 문구를 예쁜 글씨로 — 티셔츠, 포스터, 카드용' }],
 ];
 function originals(lang) {
-  const ko = lang === 'ko', t = T[lang];
+  const ko = lang === 'ko', ja = lang === 'ja', t = T[lang];
   const line = (k) => PRODUCTS.filter((p) => isOrig(p) && (p.line || 'illustrations') === k);
   const jump = ORIG_LINES.map(([k, n]) => `<a href="#${k}">${esc(n[lang])}</a>`).join('') + `<a href="${L(lang, '/illustrations')}">${ko ? '인물 일러스트 주제' : 'Character themes'}</a>`;
   const secs = ORIG_LINES.map(([k, n, d]) => { const list = line(k);
@@ -529,7 +529,7 @@ function originals(lang) {
   const tiles = Object.entries(IL_CATS).filter(([k]) => IL_COVER[k]).map(([k, c]) => `<a class="ilcat" href="${L(lang, '/illustrations/' + k)}"><div class="ilimg">${IL_COVER[k] ? `<img src="${IL_COVER[k]}" alt="" loading="lazy">` : `<i>${esc(c[lang].slice(0, 1))}</i>`}</div><b>${esc(c[lang])}</b></a>`).join('');
   const title = ko ? '아트트립 오리지널 — 자체 일러스트·패턴·글씨 디자인 | 아트트립 스튜디오' : 'Arttrip Originals — Our Own Illustrations, Patterns & Lettering | Arttrip Studio';
   const desc = ko ? '아트트립 스튜디오가 직접 만든 일러스트, 반복 패턴, 글씨 디자인. 명화와 섞어 편집기에서 바로 꾸밀 수 있어요.' : 'Illustrations, seamless patterns and lettering made in-house by Arttrip Studio. Mix them with masterpieces in the online editor.';
-  const body = `<section class="wrap sec"><span class="lbl">${t.nav.illus}</span><h1>${ko ? '아트트립 오리지널' : 'Arttrip Originals'}</h1>
+  const body = `<section class="wrap sec"><span class="lbl">${t.nav.illus}</span><h1>${ko ? '아트트립 오리지널' : ja ? 'Arttripオリジナル' : 'Arttrip Originals'}</h1>
 <p class="sub">${ko ? '명화 컬렉션 옆에, 우리가 직접 그리고 다듬은 디자인을 모았어요. 일러스트, 반복 패턴, 글씨 디자인을 명화와 섞어 쓰면 어디에도 없는 작품이 돼요.' : 'Alongside the masterpiece collection, these are designs we draw and finish ourselves. Mix illustrations, patterns and lettering with old masters to make something no one else has.'}</p>
 <div class="chips wrapc">${jump}</div>${secs}
 <div class="sh" style="margin-top:38px"><h2>${ko ? '인물 일러스트 주제' : 'Character illustration themes'}</h2><a href="${L(lang, '/illustrations')}">${ko ? '10가지 주제 모두' : 'All 10 themes'} →</a></div><div class="ilgrid">${tiles}</div>
@@ -540,7 +540,7 @@ function originals(lang) {
 // ---------- original illustrations ----------
 const IL_COVER = { everyday: '/il/everyday.png', seasons: '/il/seasons.jpg' };
 function illus(lang, cat) {
-  const ko = lang === 'ko'; const t = T[lang];
+  const ko = lang === 'ko', ja = lang === 'ja'; const t = T[lang];
   const sets = (k) => PRODUCTS.filter((p) => p.il === k);
   const chips = `<a href="${L(lang, '/illustrations')}" aria-current="${!cat}">${ko ? '전체' : 'All'}</a>` + Object.keys(IL_CATS).map((k) => `<a href="${L(lang, '/illustrations/' + k)}" aria-current="${cat === k}">${esc(IL_CATS[k][lang])}</a>`).join('');
   let body, title, desc, path;
@@ -568,20 +568,20 @@ function illus(lang, cat) {
 }
 
 function shop(lang) {
-  const t = T[lang], ko = lang === 'ko';
+  const t = T[lang], ko = lang === 'ko', ja = lang === 'ja';
   const groups = [
-    ['planners', ko ? '플래너·인쇄물' : 'Planners & printables', PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles', 'coloring', 'paint-by-numbers'].includes(p.cat))],
-    ['puzzles', ko ? '어르신 큰 글씨 퍼즐북' : 'Large-print puzzle books', PRODUCTS.filter((p) => p.cat === 'puzzles')],
-    ['coloring', ko ? '컬러링북' : 'Coloring books', PRODUCTS.filter((p) => p.cat === 'coloring')],
-    ['calendars', ko ? '화가별 명화 달력 2027' : 'Artist wall calendars 2027', PRODUCTS.filter((p) => p.cat === 'artist-calendars')],
-    ['paint-by-numbers', ko ? '아크릴화 도안키트(범용)' : 'Acrylic paint-by-number patterns (any paint)', PRODUCTS.filter((p) => p.cat === 'paint-by-numbers')],
-    ['originals', ko ? '아트트립 오리지널' : 'Arttrip Originals', PRODUCTS.filter(isOrig)],
+    ['planners', ko ? '플래너·인쇄물' : ja ? 'プランナー・印刷物' : 'Planners & printables', PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles', 'coloring', 'paint-by-numbers'].includes(p.cat))],
+    ['puzzles', ko ? '어르신 큰 글씨 퍼즐북' : ja ? '大きな文字のパズル本' : 'Large-print puzzle books', PRODUCTS.filter((p) => p.cat === 'puzzles')],
+    ['coloring', ko ? '컬러링북' : ja ? 'ぬりえ' : 'Coloring books', PRODUCTS.filter((p) => p.cat === 'coloring')],
+    ['calendars', ko ? '화가별 명화 달력 2027' : ja ? '画家別壁掛けカレンダー2027' : 'Artist wall calendars 2027', PRODUCTS.filter((p) => p.cat === 'artist-calendars')],
+    ['paint-by-numbers', ko ? '아크릴화 도안키트(범용)' : ja ? 'アクリル画 数字ぬりえ図案（どの絵の具でも）' : 'Acrylic paint-by-number patterns (any paint)', PRODUCTS.filter((p) => p.cat === 'paint-by-numbers')],
+    ['originals', ko ? '아트트립 오리지널' : ja ? 'Arttripオリジナル' : 'Arttrip Originals', PRODUCTS.filter(isOrig)],
   ];
-  const body = `<section class="wrap sec"><span class="lbl">${t.nav.shop}</span><h1>${ko ? '바로 쓰는 디지털 상품' : 'Ready-to-use digital products'}</h1><p class="sub">${ko ? '명화와 손그림 일러스트로 만든 플래너, 달력, 클립아트를 바로 내려받으세요. 회원가입 없이 구매할 수 있어요.' : 'Planners, calendars and clipart made from masterpieces and hand-drawn illustrations. Instant download, no account needed.'}</p>
+  const body = `<section class="wrap sec"><span class="lbl">${t.nav.shop}</span><h1>${ko ? '바로 쓰는 디지털 상품' : ja ? 'すぐに使えるデジタル商品' : 'Ready-to-use digital products'}</h1><p class="sub">${ko ? '명화와 손그림 일러스트로 만든 플래너, 달력, 클립아트를 바로 내려받으세요. 회원가입 없이 구매할 수 있어요.' : ja ? '名画と手描きイラストでつくったプランナー、カレンダー、クリップアートをすぐにダウンロード。会員登録なしで購入できます。' : 'Planners, calendars and clipart made from masterpieces and hand-drawn illustrations. Instant download, no account needed.'}</p>
 <div class="chips wrapc">${groups.map(([id, h]) => `<a href="#${id}">${esc(h)}</a>`).join('')}</div>
-<a class="dl" href="${L(lang, '/shop/c')}" style="display:block;margin-top:18px;text-decoration:none"><b>${ko ? '명화 달력·포스터·엽서·컬러링북 전체 보기 →' : 'Browse all masterpiece calendars, prints, postcards & coloring books →'}</b></a>
+<a class="dl" href="${L(lang, '/shop/c')}" style="display:block;margin-top:18px;text-decoration:none"><b>${ko ? '명화 달력·포스터·엽서·컬러링북 전체 보기 →' : ja ? '名画カレンダー・プランナー・ポスター・パズル本をすべて見る →' : 'Browse all masterpiece calendars, prints, postcards & coloring books →'}</b></a>
 ${groups.map(([id, h, list]) => `<div class="sh" id="${id}" style="margin-top:34px"><h2>${esc(h)}</h2><span class="small">${list.length}</span></div><div class="pgrid">${list.map((p) => productCard(p, lang)).join('')}</div>`).join('')}</section>`;
-  return html(layout(lang, { title: `${ko ? '상품' : 'Shop'} — ${t.site}`, desc: t.heroSub, path: '/shop', body }));
+  return html(layout(lang, { title: `${ko ? '상품' : ja ? 'ショップ' : 'Shop'} — ${t.site}`, desc: t.heroSub, path: '/shop', body }));
 }
 function product(lang, env, slug) {
   const t = T[lang]; const p = PRODUCTS.find((x) => x.slug === slug); if (!p) return null; const c = p[lang];
@@ -667,7 +667,7 @@ async function license(req, env) {
   } catch { return J({ ok: false }); }
 }
 function editor(lang, url) {
-  const ko = lang === 'ko';
+  const ko = lang === 'ko', ja = lang === 'ja';
   const fams = ['Lora:ital,wght@0,400;0,600;1,400', 'Playfair+Display:ital,wght@0,400;0,600;1,400', 'Cormorant+Garamond:ital,wght@0,400;0,600;1,400', 'DM+Serif+Display', 'Libre+Baskerville:ital,wght@0,400;0,700;1,400', 'Special+Elite', 'Courier+Prime', 'Caveat:wght@400;700', 'Dancing+Script:wght@400;700', 'Homemade+Apple', 'Amatic+SC:wght@400;700', 'Josefin+Sans:wght@400;600', 'Inter:wght@400;600;700', 'Bebas+Neue', 'Noto+Serif+KR:wght@400;700', 'Gowun+Batang:wght@400;700', 'Noto+Sans+KR:wght@400;700', 'Nanum+Pen+Script', 'Gaegu:wght@400;700'];
   const title = ko ? '아트트립 에디터 — 명화 달력·아트페이퍼 편집' : 'Arttrip Editor — Edit Masterpiece Calendars and Art Papers';
   return new Response(`<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${title}</title><meta name="robots" content="noindex"><link rel="icon" href="/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?${fams.map((f) => 'family=' + f).join('&')}&display=swap" rel="stylesheet"><link rel="stylesheet" href="/editor/editor.css"></head><body><div id="ed" data-lang="${lang}"></div><script src="/editor/editor.js"></script></body></html>`, { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
