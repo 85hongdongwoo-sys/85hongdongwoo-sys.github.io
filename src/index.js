@@ -30,6 +30,8 @@ export default {
     { const cm = url.pathname.match(/^\/pk\/svg\/([a-z0-9-]+)\.svg$/); if (cm) return pkCover(env, cm[1]); }
     { const im = url.pathname.match(/^\/pk\/img\/([a-z0-9-]+)\.jpg$/); if (im) { const v = env.VIDS && await env.VIDS.get('pk:img:' + im[1], { type: 'arrayBuffer', cacheTtl: 86400 }); return v ? new Response(v, { headers: { 'content-type': 'image/jpeg', 'cache-control': 'public, max-age=604800' } }) : new Response('not found', { status: 404 }); } }
     if (url.pathname === '/naver621c71ca616c8bce33622a30cd4009ec.html') return new Response('naver-site-verification: naver621c71ca616c8bce33622a30cd4009ec.html', { headers: { 'content-type': 'text/html; charset=utf-8' } });
+    if (url.pathname === '/18c26b608ca06adbb90a4027454a1b19.txt') return new Response('18c26b608ca06adbb90a4027454a1b19', { headers: { 'content-type': 'text/plain' } });
+    if (url.pathname === '/api/pk/indexnow' && req.method === 'POST') return indexNow(req, env, url);
     if (url.pathname === '/api/pk/put') return pkPut(req, env);
     if (url.pathname === '/api/pk/paris') return pkParis(req, env);
     // hero motion videos stored in KV (VIDS)
@@ -77,7 +79,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv44', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv45', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -625,6 +627,19 @@ async function notFound(lang) {
 }
 
 // ---------- sitemaps ----------
+// IndexNow: tell Bing, Yandex, Naver, Seznam and other participating engines about every page at once (token-protected)
+async function indexNow(req, env, url) {
+  let b; try { b = await req.json(); } catch { return new Response('bad', { status: 400 }); }
+  const h = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(b.tok || ''))))).map((x) => x.toString(16).padStart(2, '0')).join('');
+  if (h !== env.PK_HASH) return new Response('no', { status: 403 });
+  const urls = [];
+  for (const lg of ['en', 'ko', 'ja']) { const r = await sitemapPart(url, env, 'pages', lg, 1); const t = await r.text(); for (const m of t.matchAll(/<loc>([^<]+)<\/loc>/g)) urls.push(m[1].replace(/&amp;/g, '&')); }
+  const out = [];
+  for (const ep of ['https://api.indexnow.org/IndexNow', 'https://searchadvisor.naver.com/indexnow']) {
+    for (let i = 0; i < urls.length; i += 9000) { const r = await fetch(ep, { method: 'POST', headers: { 'content-type': 'application/json; charset=utf-8' }, body: JSON.stringify({ host: url.host, key: '18c26b608ca06adbb90a4027454a1b19', keyLocation: url.origin + '/18c26b608ca06adbb90a4027454a1b19.txt', urlList: urls.slice(i, i + 9000) }) }); out.push(ep.split('/')[2] + ' ' + r.status); }
+  }
+  return new Response(JSON.stringify({ urls: urls.length, out }), { headers: { 'content-type': 'application/json', 'access-control-allow-origin': '*' } });
+}
 async function sitemapIndex(url, env) {
   const n = (await one(env, 'SELECT COUNT(*) n FROM artworks')).n; const parts = Math.max(1, Math.ceil(n / SITEMAP_SIZE));
   const locs = [];
