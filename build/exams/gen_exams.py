@@ -96,6 +96,35 @@ r.addEventListener('click',function(){stop();left=min*60;show(left);s.textConten
 try{var o=JSON.parse(localStorage.getItem(K)||'null');if(o){bs.forEach(function(b){if(+b.dataset.m===o.min&&b.childNodes[0].textContent===o.name)pick(b)});if(o.end&&o.end>Date.now()){end=o.end;t=setInterval(tick,250);tick();s.textContent='멈춤';}else if(o.left>0&&o.left<o.min*60){left=o.left;show(left);s.textContent='이어서';}}}catch(e){}
 })();</script>'''
 
+# 과목별 OMR 설정(문항수·선택지·제한시간). 탐구/제2외국어는 묶음 PDF라 문항수는 비움(사용자가 과목 보고 지정)
+def omr_preset(area):
+    a = area or ''
+    if a.startswith(('국어', '언어')):
+        return (45, 5, 80)
+    if a.startswith(('수학', '수리')):
+        return (30, 5, 100)
+    if a.startswith(('영어', '외국어')):
+        return (45, 5, 70)
+    if a.startswith('한국사'):
+        return (20, 5, 30)
+    return (None, 5, None)
+
+# gichul 페이지에 '풀기'로 펼쳐지는 OMR 도크(그 자리에서 채점). 과거 연도 PDF는 정부 사이트 제한으로
+# 자동 임베드가 안 되므로 pdf는 넘기지 않고, 도크 안 '📄 PDF 열기'로 받은 파일을 열어 푸는 흐름.
+OMR_DOCK = ('<section class="card omr-dock" id="omr-dock" hidden><style>'
+            '.omr-dock{padding:10px 12px}.omr-dock-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}'
+            '.omr-dock-bar b{font-size:16px}.omr-dock-bar .btn{margin-left:auto}'
+            '#omr-dock-frame{width:100%;height:88vh;border:1px solid #D9DDE3;border-radius:12px;background:#fff;display:block}'
+            '@media(max-width:820px){#omr-dock-frame{height:150vh}}a.omr-solve{cursor:pointer}</style>'
+            '<div class="omr-dock-bar"><b>⏱ 문제 풀고 채점</b><button class="btn" id="omr-dock-x" type="button">닫기 ✕</button></div>'
+            '<p class="gc-src" style="margin:0 0 8px">받은 문제 PDF를 도크 안 <b>📄 PDF 열기</b>로 열면 왼쪽에 문제, 오른쪽에서 바로 풀고 채점돼요.</p>'
+            '<iframe id="omr-dock-frame" title="OMR 풀기" loading="lazy"></iframe></section>')
+OMR_DOCK_JS = ('<script>(function(){var d=document.getElementById("omr-dock");if(!d)return;var fr=document.getElementById("omr-dock-frame");'
+               'document.querySelectorAll(".omr-solve").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();'
+               'var p=new URLSearchParams();p.set("embed","1");["pdf","n","c","t","name"].forEach(function(k){if(a.dataset[k])p.set(k,a.dataset[k]);});'
+               'fr.src="/ipsi/omr.html?"+p.toString();d.hidden=false;d.scrollIntoView({behavior:"smooth",block:"start"});});});'
+               'var x=document.getElementById("omr-dock-x");if(x)x.addEventListener("click",function(){d.hidden=true;fr.src="about:blank";});})();</script>')
+
 
 def head(title, desc, url, ld):
     h = HEAD
@@ -162,7 +191,7 @@ def label(fn):
     return lab, cls
 
 
-def file_links(files):
+def file_links(files, area='', y=''):
     out = []
     order = {'': 0, 'a': 1, 'l': 2}
     items = []
@@ -173,6 +202,15 @@ def file_links(files):
     for _, lab, cls, name, seq in items:
         out.append(f'<a{" class=" + chr(34) + cls + chr(34) if cls else ""} href="{DL}{seq}" target="_blank" rel="noopener nofollow" '
                    f'title="{E(name)} (한국교육과정평가원 공식 파일)">{E(lab)}</a>')
+    # '풀기' 버튼 — 문제 링크 바로 뒤에. OMR을 과목 설정으로 열고, 받은 PDF를 열어 풀기
+    if area:
+        _n, _c, _t = omr_preset(area)
+        _data = 'data-c="%d"' % _c
+        if _n:
+            _data += ' data-n="%d" data-t="%d"' % (_n, _t)
+        _data += ' data-name="%s"' % E((str(y) + ' ' + sname(area)).strip())
+        _solve = '<a class="btn omr-solve" %s title="OMR로 풀고 채점">풀기</a>' % _data
+        out.insert(1 if len(out) > 1 else len(out), _solve)
     return '<span class="ql">' + ''.join(out) + '</span>'
 
 
@@ -348,7 +386,7 @@ def year_page(y, items, ys):
         lis = []
         for x in g:
             sub = f'평가원 게시 {fmt_date(x["date"])} · 조회 {man(x["views"])}회'
-            lis.append(f'<li><div><b>{E(x["area"])}</b><small>{sub}</small></div>{file_links(x["files"])}</li>')
+            lis.append(f'<li><div><b>{E(x["area"])}</b><small>{sub}</small></div>{file_links(x["files"], x["area"], y)}</li>')
         nm = MON_NAME.get(m, m)
         board = BOARD['su' if m == '수능' else 'mo']
         secs.append(f'<details class="qg"{" open" if m == mons[0] else ""}><summary>{y}학년도 {nm} <em>{len(g)}개 영역</em></summary>'
@@ -390,7 +428,7 @@ def year_page(y, items, ys):
             f'<p class="gc-ans">{ans}</p></header>'
             f'<section class="card"><h2>{y}학년도 문제지·정답표</h2>{"".join(secs)}'
             f'<p class="gc-src">파일은 홍라이프 서버에 없고 평가원 공식 주소로 열려요. 마지막 확인: {fmt_date(CHECKED)}. '
-            f'문제지 저작권은 한국교육과정평가원에 있어요.</p></section>' + gsec +
+            f'문제지 저작권은 한국교육과정평가원에 있어요.</p></section>' + OMR_DOCK + gsec +
             f'<section class="card"><h2>{y}학년도 시험 체제: {E(era_t)}</h2><p>{era_d}</p></section>'
             + TIMER_HTML + how + faq_html(qa) +
             f'<section class="card">{nav}</section>'
@@ -401,7 +439,7 @@ def year_page(y, items, ys):
     ld = [crld, faq_ld(qa), {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": SITE + path,
                              "description": desc, "inLanguage": "ko",
                              "isBasedOn": {"@type": "WebSite", "name": "한국교육과정평가원 대학수학능력시험", "url": "https://www.suneung.re.kr/"}}]
-    return page(path, title + ' | 홍라이프 도구', desc, main, ld, TIMER_JS)
+    return page(path, title + ' | 홍라이프 도구', desc, main, ld, TIMER_JS + OMR_DOCK_JS)
 
 
 def hub_page(ys, years, allp):
