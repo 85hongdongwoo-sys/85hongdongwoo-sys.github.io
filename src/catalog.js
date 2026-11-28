@@ -178,7 +178,7 @@ function mock(it, lang) {
   const im = (i) => `<img src="${vs[i % vs.length]}" alt="" loading="lazy">`;
   const T = { en: ['JANUARY 2027', 'WEEK 1', 'NOTES'], ko: ['2027년 1월', '1주차', '메모'], ja: ['2027年1月', '第1週', 'メモ'] }[lang] || ['JANUARY 2027', 'WEEK 1', 'NOTES'];
   const days = Array.from({ length: 35 }, (_, i) => `<i>${i >= 5 && i - 4 <= 31 ? i - 4 : ''}</i>`).join('');
-  const nm = String((it[lang] || it.en).name || '').replace(/\s*[—–-]\s*\d+.*$/, '').replace(/\s*\(Vol\.[^)]*\)|\s*\d+집$|（第\d+集）/g, '');
+  const nm = String((it[lang] || it.en).name || '').replace(/\s+—\s.*$/, '').replace(/\s*\(Vol\.[^)]*\)|\s*\d+집$|（第\d+集）/g, '');
   const kind = (KIND[it.k] || {})[lang] || '';
   const right = it.k === 'cal' ? `<div><div class="pic">${im(1)}</div><div class="t">${T[0]}</div><div class="gr">${days}</div></div>`
     : it.k === 'planner' ? `<div><div class="t">${T[1]}</div><div class="ln"></div></div>`
