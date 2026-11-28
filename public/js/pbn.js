@@ -107,8 +107,8 @@ var PBN = (function () {
   function outline(r, scale) {
     var W = r.w * scale, H = r.h * scale, cv = document.createElement('canvas'); cv.width = W; cv.height = H; var x = cv.getContext('2d'), id = x.createImageData(W, H), d = id.data, L = r.lbl, w = r.w;
     for (var Y = 0; Y < H; Y++) for (var X = 0; X < W; X++) { var sx = (X / scale) | 0, sy = (Y / scale) | 0, p = sy * w + sx, e = false;
-      if (X % scale === 0 && sx > 0 && L[p - 1] !== L[p]) e = true; if (Y % scale === 0 && sy > 0 && L[p - w] !== L[p]) e = true;
-      var o = (Y * W + X) * 4, v = e ? 140 : 255; d[o] = d[o + 1] = d[o + 2] = v; d[o + 3] = 255; }
+      var th = Math.max(1, Math.round(scale * 0.75)); if (X % scale < th && sx > 0 && L[p - 1] !== L[p]) e = true; if (Y % scale < th && sy > 0 && L[p - w] !== L[p]) e = true;
+      var o = (Y * W + X) * 4, v = e ? 55 : 255; d[o] = d[o + 1] = d[o + 2] = v; d[o + 3] = 255; }
     x.putImageData(id, 0, 0); return cv;
   }
   function preview(r) { var cv = document.createElement('canvas'); cv.width = r.w; cv.height = r.h; var x = cv.getContext('2d'), id = x.createImageData(r.w, r.h); for (var i = 0; i < r.lbl.length; i++) { var c = r.paints[r.lbl[i]].rgb; id.data[i * 4] = c[0]; id.data[i * 4 + 1] = c[1]; id.data[i * 4 + 2] = c[2]; id.data[i * 4 + 3] = 255; } x.putImageData(id, 0, 0); return cv; }
@@ -119,9 +119,9 @@ var PBN = (function () {
   function pdf(r, size, title, artist) {
     var S = SZ[size], land = r.w > r.h, W = land ? S[1] : S[0], H = land ? S[0] : S[1], M = 10, jp = window.jspdf.jsPDF, p = new jp({ unit: 'mm', format: [W, H] });
     var f = Math.min((W - 2 * M) / r.w, (H - 2 * M - 8) / r.h), iw = r.w * f, ih = r.h * f, x0 = (W - iw) / 2, y0 = M;
-    p.addImage(outline(r, 2).toDataURL('image/png'), 'PNG', x0, y0, iw, ih, undefined, 'FAST'); p.setTextColor(100); p.setFont('helvetica', 'normal');
+    p.addImage(outline(r, 3).toDataURL('image/png'), 'PNG', x0, y0, iw, ih, undefined, 'FAST'); p.setTextColor(45); p.setFont('helvetica', 'normal');
     r.marks.forEach(function (m) { var fs = Math.max(5, Math.min(11, m[2] * f * 2.4)); p.setFontSize(fs); p.text(String(m[3]), x0 + m[0] * f, y0 + m[1] * f + fs * 0.12, { align: 'center' }); });
-    p.setFontSize(7); p.setTextColor(140); p.text(title + ' — ' + artist + ' · Arttrip Studio paint-by-number pattern', W / 2, H - M + 2, { align: 'center' });
+    p.setFontSize(7); p.setTextColor(140); p.text(title + ' - ' + artist + ' - Arttrip Studio paint-by-number pattern', W / 2, H - M + 2, { align: 'center' });
     // key page (portrait)
     p.addPage([S[0], S[1]]); W = S[0]; H = S[1]; p.setTextColor(30); p.setFont('times', 'bold'); p.setFontSize(20); p.text(p.splitTextToSize(title, W - 2 * M), M, M + 8);
     p.setFont('helvetica', 'normal'); p.setFontSize(10); p.setTextColor(90); p.text(artist + ' · Paint by numbers colour key · ' + r.paints.length + ' colours', M, M + 16);
@@ -132,9 +132,9 @@ var PBN = (function () {
     p.text(p.splitTextToSize('How to read the key: "1x A + 2x Titanium White" means 1 part A mixed with 2 parts white. Mix enough for every area with that number before you start. Paint one flat colour per area, light colours first. Print page 1 at 100% (no scaling) on 200 g/m² or heavier paper, or trace it onto canvas with graphite transfer paper. Liquitex and Winsor & Newton are trademarks of their owners; Arttrip Studio is not affiliated with them.', W - 2 * M), M, H - M - 18);
     // page 3: printable colour key + shopping list (closest single tube and exact mix, by brand)
     p.addPage([S[0], S[1]]); W = S[0]; H = S[1]; p.setTextColor(30); p.setFont('helvetica', 'bold'); p.setFontSize(16); p.text('Colour key & paint shopping list', M, M + 6);
-    p.setFont('helvetica', 'normal'); p.setFontSize(8.5); p.setTextColor(80); p.text(p.splitTextToSize(title + ' — ' + artist + '. Bold = the single tube closest to that colour (# = colour number printed on the tube). Second line = exact mix for a closer match.', W - 2 * M), M, M + 12);
+    p.setFont('helvetica', 'normal'); p.setFontSize(8.5); p.setTextColor(80); p.text(p.splitTextToSize(title + ' - ' + artist + '. Bold = the single tube closest to that colour (# = colour number printed on the tube). Second line = exact mix for a closer match.', W - 2 * M), M, M + 12);
     var used = [{}, {}]; r.paints.forEach(function (c) { c.parts.forEach(function (q) { used[0][TUBES[q[0]][1] + code(TUBES[q[0]], 0)] = 1; used[1][TUBES[q[0]][3] + code(TUBES[q[0]], 1)] = 1; }); [0, 1].forEach(function (b) { used[b][nearest(c.rgb, b)] = 1; }); });
-    var cx = (W - 2 * M - 20) / 2, y3 = M + 24; p.setTextColor(30); p.setFont('helvetica', 'bold'); p.setFontSize(10); p.text('Shopping list — Liquitex BASICS', M, y3); p.text('Shopping list — Winsor & Newton Galeria', M + 20 + cx, y3);
+    var cx = (W - 2 * M - 20) / 2, y3 = M + 24; p.setTextColor(30); p.setFont('helvetica', 'bold'); p.setFontSize(10); p.text('Shopping list: Liquitex BASICS', M, y3); p.text('Shopping list: Winsor & Newton Galeria', M + 20 + cx, y3);
     p.setFont('helvetica', 'normal'); p.setFontSize(8.5); var L0 = Object.keys(used[0]).sort(), L1 = Object.keys(used[1]).sort(), lh = 4.2;
     L0.forEach(function (t, i) { p.text('[  ] ' + t, M, y3 + 5 + i * lh); }); L1.forEach(function (t, i) { p.text('[  ] ' + t, M + 20 + cx, y3 + 5 + i * lh); });
     var ky = y3 + 9 + Math.max(L0.length, L1.length) * lh, rh3 = Math.min(10, (H - M - 6 - ky) / r.paints.length);

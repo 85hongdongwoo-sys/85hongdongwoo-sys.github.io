@@ -254,7 +254,7 @@ export async function pkDownload(lang, env, slug, h) {
 <label class="small">${ko ? '용지 크기' : ja ? '用紙サイズ' : 'Paper size'}</label><div class="row" id="sz" style="margin:6px 0 14px">${sizes.map((s, i) => `<label style="margin-right:14px"><input type="radio" name="sz" value="${s}"${i ? '' : ' checked'}> ${s}</label>`).join('')}</div>
 ${it.k === 'cal' || it.k === 'planner' ? `<label class="small">${ko ? '연도' : ja ? '年' : 'Year'}</label><div class="row" style="margin:6px 0 14px;flex-wrap:wrap">${[2027, 2028, 2029, 2030].map((y, i) => `<label style="margin-right:14px"><input type="radio" name="yr" value="${y}"${i ? '' : ' checked'}> ${y}</label>`).join('')}</div>` : ''}
 <button class="pill" id="go">${ko ? 'PDF 만들기' : ja ? 'PDFを作成' : 'Make my PDF'}</button><p class="small" id="st" style="margin-top:12px"></p></div></section>
-<script src="/editor/jspdf.umd.min.js"></script>${it.k === 'pbn' ? '<script src="/js/pbn.js?v=4"></script>' : ''}<script src="/js/pk.js?v=7"></script><script>PK.init(${JSON.stringify({ slug: it.s, lang, ko, ja })})</script>`;
+<script src="/editor/jspdf.umd.min.js"></script>${it.k === 'pbn' ? '<script src="/js/pbn.js?v=5"></script>' : ''}<script src="/js/pk.js?v=7"></script><script>PK.init(${JSON.stringify({ slug: it.s, lang, ko, ja })})</script>`;
   return html(layout(lang, { title: `${ko ? 'PDF 내려받기' : ja ? 'ダウンロード' : 'Download'} — ${t.site}`, desc: '', path: '/dl/' + it.s, body, noindex: true }));
 }
 
