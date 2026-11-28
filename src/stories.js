@@ -1,0 +1,72 @@
+// Artist stories: short, original biographies that link to each artist's works and products.
+export const STORIES = [
+  {
+    slug: 'claude-monet',
+    artist: 'claude-monet',
+    product: '2027-claude-monet-wall-calendar',
+    portrait: '/v/story-monet.jpg',
+    pw: 1280, ph: 1615,
+    credit: { en: 'Claude Monet, Self-Portrait with a Beret, 1886. Public domain.', ko: '클로드 모네, 「베레모를 쓴 자화상」, 1886년. 퍼블릭 도메인.' },
+    en: {
+      name: 'Claude Monet',
+      years: '1840–1926',
+      tagline: 'The painter who chased light',
+      title: 'Claude Monet: Life, Famous Paintings and the Story of Impressionism',
+      desc: 'The story of Claude Monet, from teenage caricaturist in Le Havre to the water lilies of Giverny, with his most famous paintings explained.',
+      lead: 'Claude Monet spent sixty years trying to paint something that never stays still: light. He painted the same haystack, the same cathedral and the same pond again and again, because each hour of the day turned them into a new picture.',
+      story: [
+        ['A boy by the sea', 'Monet was born in Paris in 1840 and grew up in Le Havre, a busy port on the Normandy coast. As a teenager he was famous in town for his caricatures, which he sold for a few francs each. The landscape painter Eugène Boudin saw them and took the young man outdoors to paint. Monet later said that from that day his eyes were opened.'],
+        ['Painting outside', 'In the 1860s most artists painted in the studio. Monet carried his easel to beaches, gardens and riverbanks and worked quickly, with short strokes of pure colour, to catch the moment before the light changed. Critics found the paintings unfinished. Money was so short that he sometimes could not buy paint.'],
+        ['A name for a movement', 'In 1874 Monet and his friends held their own exhibition in Paris. One of his pictures, a hazy harbour at dawn, was called Impression, Sunrise. A critic mocked the whole group as "Impressionists", and the name stuck. The insult became one of the most loved words in art history.'],
+        ['Series and seasons', 'From the 1880s Monet began painting series: haystacks, poplars, Rouen Cathedral and, later, the Houses of Parliament in London. He worked on many canvases at once and switched between them as the sun moved. The real subject was no longer the building or the field, but the air and light around it.'],
+        ['The garden at Giverny', 'In 1883 Monet moved to Giverny, a village on the Seine. He dug a pond, planted water lilies and built a green Japanese bridge. For his last thirty years the garden was his studio. He painted the water lilies about 250 times, even as cataracts clouded his eyesight. He died at Giverny in 1926, aged 86.'],
+      ],
+      facts: [
+        'Monet earned his first real money from caricatures, not landscapes.',
+        'He painted around 30 views of Rouen Cathedral at different times of day.',
+        'His giant water lily murals were given to France after the First World War and still fill two oval rooms at the Musée de l\'Orangerie in Paris.',
+      ],
+      works: {
+        14598: 'A breezy summer day on the Normandy coast where Monet grew up. The fishing boats and bright sky show his early love of open air.',
+        16571: 'Monet rented a small studio near the Paris railway station and painted the steam and glass roof again and again. Trains were the new modern subject.',
+        14620: 'Two small figures on a clifftop, almost lost in wind, grass and sea. The quick strokes make you feel the weather.',
+        20535: 'The famous rock arches of Étretat, painted on a stormy coast he visited many times in the 1880s.',
+        16564: 'Part of his "Mornings on the Seine" series. Monet started work before dawn to catch the river while the mist was still rising.',
+        16584: 'Painted from a hospital window across the Thames. London fog fascinated Monet: he said that without it, London would not be beautiful.',
+        87088: 'His own pond at Giverny with the Japanese footbridge. The garden he built became the great subject of his last decades.',
+        14630: 'A palace on the Grand Canal, painted on his only trip to Venice in 1908, when he was nearly seventy.',
+      },
+    },
+    ko: {
+      name: '클로드 모네',
+      years: '1840–1926',
+      tagline: '빛을 쫓은 화가',
+      title: '클로드 모네: 생애와 대표작, 인상주의 이야기',
+      desc: '르아브르의 풍자화 소년에서 지베르니의 수련까지, 클로드 모네의 생애와 대표작 이야기를 쉽게 정리했어요.',
+      lead: '클로드 모네는 60년 동안 한순간도 가만히 있지 않는 것, 바로 빛을 그리려고 했어요. 같은 건초더미, 같은 성당, 같은 연못을 몇 번이고 다시 그렸어요. 시간마다 빛이 달라져서 매번 새로운 그림이 되었기 때문이에요.',
+      story: [
+        ['바닷가의 소년', '모네는 1840년 파리에서 태어나 노르망디 해안의 항구 도시 르아브르에서 자랐어요. 십대 때는 동네 사람들의 얼굴을 재미있게 그린 풍자화로 유명해져서 한 장에 몇 프랑씩 받고 팔았어요. 풍경화가 외젠 부댕이 그 그림을 보고 모네를 밖으로 데리고 나가 그림을 가르쳤어요. 모네는 훗날 그날 비로소 눈이 뜨였다고 말했어요.'],
+        ['밖에서 그린 그림', '1860년대에는 대부분 화가가 작업실 안에서 그림을 그렸어요. 모네는 이젤을 들고 바닷가, 정원, 강가로 나가서 빛이 바뀌기 전에 짧고 빠른 붓질로 순간을 담았어요. 평론가들은 그림이 덜 끝났다고 비웃었고, 돈이 없어 물감을 살 수 없는 날도 있었어요.'],
+        ['한 운동의 이름이 되다', '1874년 모네와 친구들은 파리에서 자기들끼리 전시회를 열었어요. 모네가 출품한 새벽 항구 그림의 제목은 「인상, 해돋이」였어요. 한 평론가가 이 무리를 "인상주의자들"이라고 놀렸는데, 그 이름이 그대로 굳어졌어요. 놀림말이 미술사에서 가장 사랑받는 이름이 된 거예요.'],
+        ['연작과 계절', '1880년대부터 모네는 같은 주제를 여러 장 그리는 연작을 시작했어요. 건초더미, 포플러 나무, 루앙 대성당, 그리고 런던 국회의사당까지요. 캔버스 여러 개를 함께 세워 두고 해가 움직일 때마다 바꿔 가며 그렸어요. 그림의 진짜 주인공은 건물이나 들판이 아니라 그 둘레의 공기와 빛이었어요.'],
+        ['지베르니의 정원', '1883년 모네는 센강 가의 작은 마을 지베르니로 이사했어요. 연못을 파서 수련을 심고 초록색 일본식 다리를 놓았어요. 마지막 30년 동안 이 정원이 곧 작업실이었어요. 백내장으로 눈이 흐려진 뒤에도 수련을 250점 가까이 그렸어요. 1926년 86세로 지베르니에서 세상을 떠났어요.'],
+      ],
+      facts: [
+        '모네가 처음 제대로 돈을 번 것은 풍경화가 아니라 풍자화였어요.',
+        '루앙 대성당을 하루 중 다른 시간대로 30점쯤 그렸어요.',
+        '커다란 수련 벽화는 제1차 세계대전이 끝난 뒤 프랑스에 기증되어, 지금도 파리 오랑주리 미술관의 타원형 방 두 곳을 채우고 있어요.',
+      ],
+      works: {
+        14598: '모네가 자란 노르망디 해안의 바람 부는 여름날이에요. 고기잡이배와 밝은 하늘에서 젊은 시절부터 바깥 풍경을 좋아한 마음이 보여요.',
+        16571: '모네는 파리 기차역 근처에 작은 작업실을 빌려 증기와 유리 지붕을 여러 번 그렸어요. 기차는 그 시대의 가장 새로운 주제였어요.',
+        14620: '절벽 위 두 사람이 바람, 풀, 바다 속에 거의 묻혀 있어요. 빠른 붓질 덕분에 그날의 날씨가 그대로 느껴져요.',
+        20535: '모네가 1880년대에 여러 번 찾은 에트르타의 유명한 아치 바위예요. 거친 해안의 날씨까지 담았어요.',
+        16564: '「센강의 아침」 연작 중 한 점이에요. 안개가 피어오르는 강을 담으려고 모네는 해 뜨기 전부터 그림을 그렸어요.',
+        16584: '템스강 건너편 병원 창문에서 그린 그림이에요. 모네는 런던의 안개에 반해서, 안개가 없으면 런던은 아름답지 않다고 말했어요.',
+        87088: '지베르니 정원의 연못과 일본식 다리예요. 모네가 직접 만든 이 정원이 마지막 수십 년 동안 가장 큰 주제가 되었어요.',
+        14630: '모네가 일흔을 앞둔 1908년, 단 한 번 떠난 베네치아 여행에서 그린 대운하의 궁전이에요.',
+      },
+    },
+  },
+];
+export const STORY_BY = Object.fromEntries(STORIES.map((s) => [s.slug, s]));

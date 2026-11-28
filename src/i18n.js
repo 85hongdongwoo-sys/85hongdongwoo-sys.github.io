@@ -4,7 +4,7 @@ export const LANGS = ['en', 'ko'];
 export const T = {
   en: {
     site: 'Arttrip Studio', tagline: 'Masterpieces, ready to use.',
-    nav: { col: 'Collections', art: 'Art', illus: 'Originals', studio: 'Studio', shop: 'Shop', account: 'Sign in', myAccount: 'My page', studio: 'Studio', pricing: 'Pricing' },
+    nav: { col: 'Collections', stories: 'Stories', art: 'Art', illus: 'Originals', studio: 'Studio', shop: 'Shop', account: 'Sign in', myAccount: 'My page', studio: 'Studio', pricing: 'Pricing' },
     heroTitle: 'Beautiful things to print and keep.', heroSub: 'Masterpieces, photographs, lettering and our own illustrations, made into calendars, posters, planners, puzzle books and templates you can use today.',
     browse: 'Browse the collection', shopNow: 'See the planners', themes: 'Themes', newIn: 'From the collection', allArt: 'All artworks',
     by: 'by', artworks: 'artworks', page: 'Page', prev: 'Previous', next: 'Next', related: 'More like this', sameArtist: 'More by',
@@ -22,7 +22,7 @@ export const T = {
   },
   ko: {
     site: '아트트립 스튜디오', tagline: '바로 쓰는 명화',
-    nav: { col: '컬렉션', art: '명화', illus: '오리지널', studio: '스튜디오', shop: '상품', account: '로그인', myAccount: '내 정보', studio: '스튜디오', pricing: '구독' },
+    nav: { col: '컬렉션', stories: '화가 이야기', art: '명화', illus: '오리지널', studio: '스튜디오', shop: '상품', account: '로그인', myAccount: '내 정보', studio: '스튜디오', pricing: '구독' },
     heroTitle: '인쇄하고 간직하는 아름다운 디자인', heroSub: '명화, 사진, 글씨, 그리고 우리가 직접 그린 일러스트로 만든 달력, 포스터, 플래너, 퍼즐북, 템플릿을 지금 바로 쓰세요.',
     browse: '명화 둘러보기', shopNow: '플래너 보기', themes: '주제별 보기', newIn: '컬렉션에서', allArt: '전체 작품',
     by: '', artworks: '점', page: '페이지', prev: '이전', next: '다음', related: '비슷한 작품', sameArtist: '같은 화가의 작품',

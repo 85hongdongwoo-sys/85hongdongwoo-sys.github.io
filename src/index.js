@@ -4,6 +4,7 @@ import { PHOTOS } from './photos.js';
 // Arttrip Studio — pages are generated on request from D1 data, in English and Korean.
 import { T, THEMES, PRODUCTS, IL_CATS, IL_STYLES, colorName } from './i18n.js';
 import { memdb } from './memdb.js';
+import { STORIES, STORY_BY } from './stories.js';
 import { api, currentUser, membersReady } from './auth.js';
 
 const PER_PAGE = 48;
@@ -73,7 +74,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv10', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv11', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -113,6 +114,8 @@ async function route(p, url, lang, env, REQ) {
   if (p === '/originals') return originals(lang);
   if (p === '/illustrations') return illus(lang, null);
   if ((m = p.match(/^\/illustrations\/([a-z-]+)$/)) && IL_CATS[m[1]]) return illus(lang, m[1]);
+  if (p === '/stories') return storiesIndex(lang);
+  if ((m = p.match(/^\/stories\/([a-z0-9-]+)$/)) && STORY_BY[m[1]]) return story(lang, env, STORY_BY[m[1]]);
   if (p === '/shop') return shop(lang);
   if ((m = p.match(/^\/shop\/([a-z0-9-]+)$/))) return product(lang, env, m[1]);
   if (p === '/pricing') return pricing(lang, env);
@@ -125,14 +128,14 @@ const L = (lang, p) => (lang === 'ko' ? '/ko' : '') + (p === '/' && lang === 'ko
 function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex = false }) {
   const t = T[lang]; const other = lang === 'ko' ? 'en' : 'ko';
   const enUrl = ORIGIN + path, koUrl = ORIGIN + '/ko' + (path === '/' ? '' : path);
-  const nav = [['col', '/collections'], ['illus', '/originals'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
+  const nav = [['col', '/collections'], ['stories', '/stories'], ['illus', '/originals'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
   return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${lang === 'ko' ? koUrl : enUrl}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="ko" href="${koUrl}"><link rel="alternate" hreflang="x-default" href="${enUrl}">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}">${img ? `<meta property="og:image" content="${esc(ORIGIN + img)}">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/site.css?v=hv5">${head}${noindex ? '<meta name="robots" content="noindex">' : ''}${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}</head>
+<link rel="stylesheet" href="/css/site.css?v=hv6">${head}${noindex ? '<meta name="robots" content="noindex">' : ''}${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}</head>
 <body class="${lang}"><header class="top"><div class="wrap bar"><a class="logo" href="${L(lang, '/')}">Arttrip<span>Studio</span></a><nav>${nav}</nav>
 <a class="acct" href="${L(lang, '/account')}" aria-label="${t.nav.myAccount}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a><a class="lang" href="?setlang=${other}" hreflang="${other}">${t.switchTo}</a></div></header>
 <main>${body}</main>
@@ -257,6 +260,38 @@ function productCard(p, lang) {
   const c = p[lang];
   return `<a class="pcard" href="${L(lang, '/shop/' + p.slug)}"><div class="pimg"><img src="${p.img}" alt="${esc(c.name)}" loading="lazy"></div><b>${esc(c.name)}</b><span>${esc(c.short)}</span><em>$${p.price}</em></a>`;
 }
+
+// ---------- artist stories ----------
+function storiesIndex(lang) {
+  const ko = lang === 'ko';
+  const title = ko ? '화가 이야기 — 모네, 세잔, 르누아르의 삶과 대표작 | 아트트립 스튜디오' : 'Artist Stories — The Lives and Famous Paintings of Great Artists | Arttrip Studio';
+  const desc = ko ? '세계 미술관에 걸린 화가들의 삶과 대표작을 쉽고 재미있게 소개해요.' : 'Short, readable stories of the great painters and the masterpieces they left in museums around the world.';
+  const cards = STORIES.map((x) => { const c = x[lang]; return `<a class="stc" href="${L(lang, '/stories/' + x.slug)}"><img src="${x.portrait}" alt="${esc(c.name)}" loading="lazy"><span><b>${esc(c.name)}</b><i>${esc(c.years)} · ${esc(c.tagline)}</i></span></a>`; }).join('');
+  const body = `<section class="wrap sec"><span class="lbl">${ko ? '화가 이야기' : 'Artist Stories'}</span><h1>${ko ? '그림 뒤에 있는 사람들' : 'The people behind the paintings'}</h1><p class="sub">${esc(desc)}</p><div class="stgrid">${cards}</div></section>`;
+  return html(layout(lang, { title, desc, path: '/stories', body, img: STORIES[0].portrait, jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: title, description: desc } }));
+}
+async function story(lang, env, x) {
+  const ko = lang === 'ko', c = x[lang];
+  const ids = Object.keys(c.works);
+  const rows = await all(env, `SELECT * FROM artworks WHERE id IN (${ids.map(() => '?').join(',')})`, ...ids);
+  const byId = Object.fromEntries(rows.map((r) => [String(r.id), r]));
+  const works = ids.map((id) => byId[id]).filter(Boolean).map((a) => `<figure class="stw"><a href="${L(lang, '/art/' + a.slug)}"><img src="/img/${a.id}.jpg" alt="${esc(tl(a, lang))} — ${esc(c.name)}" loading="lazy" width="${a.w}" height="${a.h}"></a><figcaption><b>${esc(tl(a, lang))}</b> <em>${esc(a.date || '')}</em><p>${esc(c.works[a.id])}</p></figcaption></figure>`).join('');
+  const prod = PRODUCTS.find((p) => p.slug === x.product);
+  const cta = prod ? `<div class="stcta"><div class="stcta-img"><img src="${prod.img}" alt="${esc(prod[lang].name)}" loading="lazy"></div><div><span class="eyebrow dk">${ko ? '이 화가의 그림으로 만든 상품' : 'Bring ' + esc(c.name) + ' home'}</span><h2>${esc(prod[lang].name)}</h2><p>${esc(prod[lang].short)}</p><a class="pill" href="${L(lang, '/shop/' + prod.slug)}">${ko ? '상품 보기' : 'See the calendar'} · $${prod.price}</a></div></div>` : '';
+  const others = STORIES.filter((o) => o.slug !== x.slug).map((o) => `<a href="${L(lang, '/stories/' + o.slug)}">${esc(o[lang].name)}</a>`).join(' · ');
+  const body = `<article class="wrap sec story"><nav class="crumb"><a href="${L(lang, '/stories')}">${ko ? '화가 이야기' : 'Artist Stories'}</a></nav>
+<header class="sthead"><figure class="stpor"><img src="${x.portrait}" alt="${esc(c.name)} ${ko ? '자화상' : 'self-portrait'}" width="${x.pw}" height="${x.ph}"><figcaption>${esc(x.credit[lang])}</figcaption></figure>
+<div class="sttx"><span class="lbl">${esc(c.tagline)}</span><h1>${esc(c.name)} <small>${esc(c.years)}</small></h1><p class="stlead">${esc(c.lead)}</p></div></header>
+<div class="stbody">${c.story.map(([h, t]) => `<h2>${esc(h)}</h2><p>${esc(t)}</p>`).join('')}</div>
+<h2 class="stsec">${ko ? '대표작으로 보는 ' + esc(c.name) : 'Famous paintings by ' + esc(c.name)}</h2><div class="stworks">${works}</div>
+<h2 class="stsec">${ko ? '알아두면 재미있는 이야기' : 'Did you know?'}</h2><ul class="stfacts">${c.facts.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>
+${cta}
+<p class="stmore"><a href="${L(lang, '/artist/' + x.artist)}">${ko ? esc(c.name) + '의 작품 모두 보기 →' : 'See all works by ' + esc(c.name) + ' →'}</a></p>
+${others ? `<p class="stmore">${ko ? '다른 화가 이야기: ' : 'More stories: '}${others}</p>` : ''}</article>`;
+  const jsonld = { '@context': 'https://schema.org', '@type': 'Article', headline: c.title, description: c.desc, image: ORIGIN + x.portrait, inLanguage: lang, author: { '@type': 'Organization', name: 'Arttrip Studio' }, about: { '@type': 'Person', name: x.en.name, birthDate: x.en.years.split('–')[0], deathDate: x.en.years.split('–')[1] } };
+  return html(layout(lang, { title: c.title + (ko ? ' | 아트트립 스튜디오' : ' | Arttrip Studio'), desc: c.desc, path: '/stories/' + x.slug, body, img: x.portrait, jsonld }));
+}
+
 // ---------- studio, members, thanks ----------
 function studio(lang, env) {
   const ko = lang === 'ko';
@@ -581,7 +616,7 @@ async function sitemapPart(url, env, kind, lg, n) {
   const alt = (p) => `<xhtml:link rel="alternate" hreflang="en" href="${url.origin}${p}"/><xhtml:link rel="alternate" hreflang="ko" href="${url.origin}/ko${p === '/' ? '' : p}"/>`;
   let paths = [];
   if (kind === 'pages') {
-    paths = ['/', '/collections', '/collections/architecture', '/collections/landscape', '/art', '/studio', '/originals', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
+    paths = ['/', '/stories', ...STORIES.map((x) => '/stories/' + x.slug), '/collections', '/collections/architecture', '/collections/landscape', '/art', '/studio', '/originals', '/illustrations', ...Object.keys(IL_CATS).map((k) => '/illustrations/' + k), '/shop', '/pricing', '/about', '/license', ...Object.keys(THEMES).map((k) => '/art/theme/' + k), ...PRODUCTS.map((p) => '/shop/' + p.slug)];
     const artists = await all(env, 'SELECT artist_slug s, COUNT(*) c FROM artworks GROUP BY artist_slug HAVING c >= 2');
     paths.push(...artists.map((a) => '/artist/' + a.s));
   } else {
