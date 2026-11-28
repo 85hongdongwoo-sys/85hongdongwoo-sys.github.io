@@ -164,7 +164,7 @@ function copy(it, lang) {
 
 // ---------- product mock-ups drawn in HTML/CSS (no stored images needed) ----------
 export const MOCK_CSS = `<style>.mk{position:relative;width:100%;aspect-ratio:4/3;background:#e9e2d6;border-radius:14px;overflow:hidden;container-type:inline-size}.pimg .mk{height:100%;aspect-ratio:auto;border-radius:0}
-.mk img{display:block;width:100%;height:100%;object-fit:cover}
+.mk img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}.mk .pic,.mk .q4 div{position:relative;overflow:hidden;background:#e7e0d3}
 .mk .cv,.mk .sp{position:absolute;background:#fffdf9;box-shadow:.6cqw 1.2cqw 2.6cqw rgba(60,45,25,.28)}
 .mk .cv{left:6%;top:14%;width:31%;height:72%;display:flex;flex-direction:column;padding:2.2cqw 2.2cqw 1.6cqw}
 .mk .cv .pic{flex:0 0 58%;overflow:hidden;border:.25cqw solid #e2dbcf}.mk .cv b{font:700 2.5cqw/1.15 Georgia,serif;color:#222;text-align:center;margin-top:1.6cqw;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
