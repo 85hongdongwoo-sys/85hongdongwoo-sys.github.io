@@ -141,12 +141,42 @@ var PK = (function () {
     var path = [], t = cols * rows - 1; while (t !== 0) { path.push(t); t = prev[t]; } path.push(0);
     return { cells: cells, path: path.reverse() };
   }
+
+  function scramble(w, R) { var a = w.split(''), t = 0, out; do { out = shuffle(a.slice(), R).join(''); t++; } while (out === w && t < 10); return out; }
+  function numSearch(size, R) {
+    var g = [], r, c; for (r = 0; r < size; r++) { g.push([]); for (c = 0; c < size; c++) g[r].push(''); }
+    var dirs = [[0, 1], [1, 0], [1, 1]], placed = [];
+    for (var t = 0; t < 400 && placed.length < 14; t++) { var L = 4 + Math.floor(R() * 4), n = ''; for (var i = 0; i < L; i++) n += Math.floor(R() * 10); var d = dirs[Math.floor(R() * 3)], r0 = Math.floor(R() * size), c0 = Math.floor(R() * size), rr = r0 + d[0] * (L - 1), cc = c0 + d[1] * (L - 1);
+      if (rr >= size || cc >= size) continue; var ok = true; for (i = 0; i < L; i++) { var x = g[r0 + d[0] * i][c0 + d[1] * i]; if (x && x !== n[i]) { ok = false; break; } } if (!ok) continue;
+      for (i = 0; i < L; i++) g[r0 + d[0] * i][c0 + d[1] * i] = n[i]; placed.push({ w: n, r: r0, c: c0, d: d }); }
+    for (r = 0; r < size; r++) for (c = 0; c < size; c++) if (!g[r][c]) g[r][c] = String(Math.floor(R() * 10)); return { g: g, placed: placed };
+  }
+  function cipher(R) { var A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), B; do { B = shuffle(A.slice(), R); } while (B.some(function (x, i) { return x === A[i]; })); var m = {}; A.forEach(function (x, i) { m[x] = B[i]; }); return m; }
   function buildPuz(pz, size, title) {
     var S = SIZES[size], W = S[0], H = S[1], p = new window.jspdf.jsPDF({ unit: 'mm', format: [W, H] }), M = 14, R = rng(pz.seed), n = pz.n || 30, ans = [];
     p.setFont('helvetica', 'bold'); p.setFontSize(30); caption(p, title, W / 2, H * 0.36, W - 2 * M, 30); p.setFont('helvetica', 'normal'); p.setFontSize(14); p.text('Large print · ' + n + ' puzzles · answers at the back', W / 2, H * 0.5, { align: 'center' }); p.text('Arttrip Studio', W / 2, H * 0.9, { align: 'center' });
     for (var k = 1; k <= n; k++) {
-      p.addPage([W, H]); p.setFont('helvetica', 'bold'); p.setFontSize(20); p.text((pz.type === 'ws' ? (pz.theme || 'Word search') : pz.type === 'sudoku' ? 'Sudoku' : 'Maze') + ' — ' + k, M, M + 6);
-      if (pz.type === 'ws') {
+      var ty = pz.type === 'mix' ? ['ws', 'sudoku', 'maze', 'scramble', 'numsearch', 'crypto'][(k - 1) % 6] : pz.type;
+      p.addPage([W, H]); p.setFont('helvetica', 'bold'); p.setFontSize(20); p.text(({ ws: pz.theme || 'Word Search', sudoku: 'Sudoku', maze: 'Maze', scramble: 'Word Scramble' + (pz.theme ? ': ' + pz.theme : ''), numsearch: 'Number Search', crypto: 'Cryptogram' })[ty] + ' — ' + k, M, M + 6);
+      if (ty === 'scramble') {
+        var wl = shuffle(pz.words.slice(), R).slice(0, 15); p.setFont('helvetica', 'normal'); p.setFontSize(12); p.text('Unscramble each word. Hint: they are all about ' + (pz.theme || 'everyday things').toLowerCase() + '.', M, M + 16);
+        wl.forEach(function (w, i) { var yy = M + 30 + i * ((H - M - 40) / 15); p.setFont('courier', 'bold'); p.setFontSize(20); p.text(scramble(w, R).split('').join(' '), M, yy); p.setDrawColor(150); p.setLineWidth(0.3); p.line(W / 2 + 5, yy + 1, W - M, yy + 1); });
+        ans.push({ k: k, t: 'list', d: wl });
+      } else if (ty === 'numsearch') {
+        var nsz = 12, ns = numSearch(nsz, R), ncell = Math.min((W - 2 * M) / nsz, (H * 0.6) / nsz), nx0 = (W - ncell * nsz) / 2, ny0 = M + 16;
+        p.setFont('courier', 'bold'); p.setFontSize(ncell * 2.0); for (var r3 = 0; r3 < nsz; r3++) for (var c4 = 0; c4 < nsz; c4++) p.text(ns.g[r3][c4], nx0 + ncell * c4 + ncell / 2, ny0 + ncell * r3 + ncell * 0.72, { align: 'center' });
+        p.setDrawColor(120); p.setLineWidth(0.4); p.rect(nx0 - 2, ny0 - 2, ncell * nsz + 4, ncell * nsz + 4); p.setFont('helvetica', 'bold'); p.setFontSize(15);
+        ns.placed.map(function (o) { return o.w; }).forEach(function (w, i) { p.text(w, M + (W - 2 * M) / 3 * (i % 3), ny0 + ncell * nsz + 14 + 9 * Math.floor(i / 3)); });
+        ans.push({ k: k, t: 'ws', d: ns });
+      } else if (ty === 'crypto') {
+        var qs = pz.quotes || ['A JOURNEY OF A THOUSAND MILES BEGINS WITH A SINGLE STEP|LAO TZU'], qq = qs[Math.floor(R() * qs.length)].split('|'), cm = cipher(R), enc = qq[0].replace(/[A-Z]/g, function (ch) { return cm[ch]; });
+        p.setFont('helvetica', 'normal'); p.setFontSize(12); p.text('Each letter stands for another letter. Crack the code to reveal a famous saying.', M, M + 16);
+        var lines = p.splitTextToSize(enc, W - 2 * M - 10), yq = M + 40; p.setFont('courier', 'bold'); p.setFontSize(20);
+        lines.forEach(function (ln) { p.text(ln.split('').join(' '), M, yq); p.setDrawColor(170); p.setLineWidth(0.3); p.line(M, yq + 10, W - M, yq + 10); yq += 26; });
+        p.setFont('helvetica', 'italic'); p.setFontSize(13); p.text('— ' + qq[1], W - M, yq + 4, { align: 'right' });
+        var hint = shuffle(Object.keys(cm).filter(function (x) { return qq[0].indexOf(x) >= 0; }), R)[0]; p.setFont('helvetica', 'normal'); p.text('Hint: ' + cm[hint] + ' = ' + hint, M, yq + 18);
+        ans.push({ k: k, t: 'text', d: qq[0] + '  — ' + qq[1] });
+      } else if (ty === 'ws') {
         var sz = 13, ws = wordSearch(pz.words, sz, R, pz.level === 'hard'); var cell = Math.min((W - 2 * M) / sz, (H * 0.62) / sz), x0 = (W - cell * sz) / 2, y0 = M + 16;
         p.setFont('courier', 'bold'); p.setFontSize(cell * 2.0);
         for (var r = 0; r < sz; r++) for (var c = 0; c < sz; c++) p.text(ws.g[r][c], x0 + cell * c + cell / 2, y0 + cell * r + cell * 0.72, { align: 'center' });
@@ -154,7 +184,7 @@ var PK = (function () {
         p.setFont('helvetica', 'bold'); p.setFontSize(15); var words = ws.placed.map(function (o) { return o.w; }).sort(), colW = (W - 2 * M) / 3, yy = y0 + cell * sz + 14;
         words.forEach(function (w, i) { p.text(w, M + colW * (i % 3), yy + 9 * Math.floor(i / 3)); });
         ans.push({ k: k, t: 'ws', d: ws, cell: cell });
-      } else if (pz.type === 'sudoku') {
+      } else if (ty === 'sudoku') {
         var giv = { easy: 40, medium: 33, hard: 28 }[pz.level] || 36, sd = sudoku(R, giv), cs = Math.min((W - 2 * M) / 9, (H - 60) / 9), sx = (W - cs * 9) / 2, sy = M + 20;
         drawSudoku(p, sd.p, null, sx, sy, cs); ans.push({ k: k, t: 'sudoku', d: sd });
       } else {
@@ -167,7 +197,8 @@ var PK = (function () {
       if (a % 4 === 0) { p.addPage([W, H]); p.setFont('helvetica', 'bold'); p.setFontSize(16); p.text('Answers', M, M + 4); }
       var o = ans[a], qx = M + (a % 2) * (W - 2 * M) / 2, qy = M + 12 + Math.floor((a % 4) / 2) * (H - M - 12) / 2, bw = (W - 2 * M) / 2 - 8, bh = (H - M - 12) / 2 - 14;
       p.setFont('helvetica', 'bold'); p.setFontSize(11); p.text('#' + o.k, qx, qy + 4);
-      if (o.t === 'sudoku') { var c2 = Math.min(bw, bh) / 9; drawSudoku(p, o.d.s, o.d.p, qx, qy + 7, c2); }
+      if (o.t === 'list' || o.t === 'text') { p.setFont('helvetica', 'normal'); p.setFontSize(10); var tl = o.t === 'list' ? o.d.join(', ') : o.d; p.text(p.splitTextToSize(tl, bw), qx, qy + 12); }
+      else if (o.t === 'sudoku') { var c2 = Math.min(bw, bh) / 9; drawSudoku(p, o.d.s, o.d.p, qx, qy + 7, c2); }
       else if (o.t === 'maze') { var s2 = Math.min(bw / o.mc, bh / o.mr); drawMaze(p, o.d, o.mc, o.mr, qx, qy + 7, s2, true); }
       else { var g = o.d.g, n2 = g.length, c3 = Math.min(bw, bh) / n2; p.setFont('courier', 'normal'); p.setFontSize(c3 * 2); p.setTextColor(150);
         for (var r2 = 0; r2 < n2; r2++) for (var cc2 = 0; cc2 < n2; cc2++) p.text(g[r2][cc2], qx + c3 * cc2 + c3 / 2, qy + 7 + c3 * r2 + c3 * 0.72, { align: 'center' });
