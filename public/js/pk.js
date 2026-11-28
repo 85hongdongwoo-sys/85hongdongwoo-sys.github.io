@@ -227,6 +227,7 @@ var PK = (function () {
     say(O.ko ? '키를 확인하는 중…' : 'Checking your key…');
     fetch('/api/pk/unlock', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ slug: O.slug, key: key }) }).then(function (r) { return r.json(); }).then(function (j) {
       if (!j.ok) { btn.disabled = false; say(O.ko ? '이 상품의 라이선스 키가 아니에요. 영수증 메일의 키를 다시 확인해 주세요.' : 'That key is not valid for this product. Please check the key in your receipt.'); return; }
+      if (j.k === 'pbn') { say(O.ko ? '도안 그리는 중…' : 'Drawing your pattern…'); PBN.unpack(j.pbn).then(function (r) { var pp = PBN.pdf(r, size, j.title, j.artist); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요. 다른 크기도 같은 키로 받을 수 있어요.' : 'Done! Check your downloads. Other sizes work with the same key.'); }); return; }
       if (j.k === 'puz') { say(O.ko ? 'PDF 만드는 중…' : 'Building the PDF…'); setTimeout(function () { var pp = buildPuz(j.pz, size, j.title); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요.' : 'Done! Check your downloads.'); }, 30); return; }
       var done = 0, maxPx = j.k === 'cards' ? 1600 : j.k === 'color' ? 2200 : 2600;
       return Promise.all(j.works.map(function (w) { return load(w.u, maxPx, j.k === 'color' ? 'line' : '').then(function (x) { done++; say((O.ko ? '그림 불러오는 중 ' : 'Loading pictures ') + done + ' / ' + j.works.length); return x; }); })).then(function (imgs) {

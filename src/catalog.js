@@ -12,8 +12,9 @@ export const KIND = {
   cards: { en: 'Printable postcard set', ko: '인쇄용 엽서 세트', icon: '✉' },
   color: { en: 'Coloring book', ko: '컬러링북', icon: '🖍' },
   puz: { en: 'Large-print puzzle book', ko: '큰 글씨 퍼즐북', icon: '🧩' },
+  pbn: { en: 'Acrylic paint-by-number pattern', ko: '아크릴화 도안키트(범용)', icon: '🎨' },
 };
-const KIND_ORDER = ['cal', 'planner', 'prints', 'cards', 'puz', 'color'];
+const KIND_ORDER = ['cal', 'planner', 'prints', 'cards', 'puz', 'pbn', 'color'];
 
 export async function pkIndex(env) {
   if (IDX && Date.now() - IDX_AT < 300000) return IDX;
@@ -78,12 +79,16 @@ export async function pkUnlock(req, env) {
   }
   if (!ok) return J({ ok: false });
   if (it.k === 'puz') return J({ ok: true, k: 'puz', title: it.en.name, pz: it.pz });
+  if (it.k === 'pbn') { const ch = await env.VIDS.get('pk:pbnd:' + it.d, { type: 'json' }); const d = ch && ch[it.s]; if (!d) return J({ ok: false }); return J({ ok: true, k: 'pbn', title: it.w[0].t, artist: it.w[0].a, pbn: d }); }
   return J({ ok: true, k: it.k, title: it.en.name, works: it.w.map((w) => ({ t: w.t, a: w.a, d: w.d, u: pi(w.u || w.v), W: w.W, H: w.H })) });
 }
 
 // ---------- copy ----------
 function copy(it, lang) {
   const ko = lang === 'ko', c = it[lang] || it.en, k = KIND[it.k], n = (it.w || []).length;
+  if (it.k === 'pbn') { const w = it.w[0], nc = it.nc || 20;
+    return { name: c.name, body: ko ? [`${w.a}의 「${w.t}」(${w.d})를 숫자 색칠 도안으로 만들었어요. 키트를 사지 않고 집에 있는 아크릴 물감으로 칠할 수 있게, 번호마다 리퀴텍스 베이직스와 윈저앤뉴튼 갤러리아 물감 이름(또는 두 물감과 흰색을 섞는 비율)을 적었어요. 모두 ${nc}가지 색이에요.`, `2장 한 세트예요. 1장은 번호 도안만, 2장은 완성작 미리보기와 색 번호표예요. A4·레터·A3·A2 크기로 받아 200g 이상 두꺼운 종이에 인쇄하거나, 먹지로 캔버스에 옮겨 그리세요.`]
+      : [`${w.t} by ${w.a} (${w.d}) as a paint-by-number pattern you can paint with the acrylics you already own: every number is matched to real Liquitex BASICS and Winsor & Newton Galeria tube colours, or a simple mix of two tubes and white. ${nc} colours in all.`, `A 2-page set: page 1 is the numbered outline only, page 2 shows the finished picture and the colour key. Download A4, US Letter, A3 or A2 and print on 200 g/m² paper, or trace onto canvas with graphite transfer paper.`] }; }
   if (it.k === 'puz') { const z = it.pz, lv = { easy: ko ? '쉬움' : 'easy', medium: ko ? '보통' : 'medium', hard: ko ? '어려움' : 'hard' }[z.level], nm = { ws: ko ? '낱말찾기' : 'word search', sudoku: ko ? '스도쿠' : 'sudoku', maze: ko ? '미로' : 'maze', scramble: ko ? '단어 섞기' : 'word scramble', numsearch: ko ? '숫자 찾기' : 'number search', crypto: ko ? '명언 암호 풀기' : 'cryptogram', mix: ko ? '두뇌 게임(낱말찾기·스도쿠·미로·단어 섞기·숫자 찾기·암호 풀기)' : 'mixed brain-game' }[z.type];
     return { name: c.name, body: ko ? [`어르신도 편하게 볼 수 있는 큰 글씨 ${nm} ${z.n}문제 모음이에요(난이도: ${lv}).${z.type === 'ws' ? ` 주제는 '${c.theme || z.theme}'이고 한 문제에 단어 10~14개가 숨어 있어요.` : z.type === 'scramble' ? ` 주제는 '${c.theme || z.theme}'이고 한 쪽에 섞인 단어 15개가 나와요.` : z.type === 'crypto' ? ' 셰익스피어, 프랭클린, 성경, 속담 같은 오래된 명언을 암호로 바꿨어요.' : ''} 한 장에 한 문제씩, 칸과 글자를 크게 만들었어요.`, `맨 뒤에 정답이 모두 들어 있어요. 결제 후 A4나 레터 용지 PDF로 받아 몇 번이든 다시 인쇄할 수 있어서 복지관, 요양원, 가족 모임에서 쓰기 좋아요.`]
       : [`${z.n} large-print ${nm} puzzles (${lv})${z.type === 'ws' ? ` on the theme '${z.theme}', each hiding 10 to 14 words` : ''}. One puzzle per page with big, clear letters and boxes that are easy on the eyes.`, `All answers are at the back. Download as A4 or US Letter PDF and print as many copies as you like, for yourself, a parent or grandparent, a care home or an activity group.`] }; }
@@ -135,7 +140,7 @@ export async function pkPage(lang, env, slug, h) {
 <figure class="big"><img src="${pi(it.v || it.w[0].v || it.w[0].u)}" alt="${esc(c.name)}"></figure><div class="meta"><span class="lbl">${t.instant} · ${esc(k[lang])}</span><h1>${esc(c.name)}</h1>
 ${c.body.map((x) => `<p>${esc(x)}</p>`).join('')}
 <div class="buy"><div class="price">$${it.p}</div><div class="paybtns">${btn}</div><p class="small">✓ ${t.guest}</p><p class="small"><a href="${L(lang, '/dl/' + it.s)}">${ko ? '이미 구매했어요 → 라이선스 키로 받기' : 'Already bought? Download with your licence key →'}</a></p></div></div></div>
-${it.k === 'puz' ? '' : `<h2 class="h3" style="margin-top:34px">${ko ? `들어 있는 그림 ${it.w.length}점` : `The ${it.w.length} works inside`}</h2>
+${it.k === 'puz' || it.k === 'pbn' ? '' : `<h2 class="h3" style="margin-top:34px">${ko ? `들어 있는 그림 ${it.w.length}점` : `The ${it.w.length} works inside`}</h2>
 <div class="stgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px">${it.w.map((w) => `<figure style="margin:0"><img src="${pi(w.v || w.u)}" alt="${esc(w.t)}" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#eee"><figcaption class="small" style="margin-top:6px;overflow-wrap:anywhere">${esc(w.t)}${w.d ? ', ' + esc(w.d) : ''}<br><span style="opacity:.7">${esc(w.a || '')}</span></figcaption></figure>`).join('')}</div>`}
 ${sibs.length ? `<h2 class="h3" style="margin-top:34px">${ko ? '같은 그림으로 만든 다른 상품' : 'Same pictures, other formats'}</h2><div class="pgrid">${sibs.map((x) => card(x, lang, L, esc)).join('')}</div>` : ''}</section>`;
   const jsonld = { '@context': 'https://schema.org', '@type': 'Product', name: it.en.name, image: 'https://arttripstudio.com' + pi(it.v || it.w[0].v || it.w[0].u), description: copy(it, 'en').body[0], offers: { '@type': 'Offer', price: it.p, priceCurrency: 'USD', availability: it.c ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder' } };
@@ -146,14 +151,14 @@ ${sibs.length ? `<h2 class="h3" style="margin-top:34px">${ko ? '같은 그림으
 export async function pkDownload(lang, env, slug, h) {
   const { layout, html, esc, L, T } = h; const ko = lang === 'ko', t = T[lang];
   const it = await pkItem(env, slug); if (!it) return null;
-  const sizes = it.k === 'prints' ? ['A4', 'Letter', 'A3'] : ['A4', 'Letter'];
+  const sizes = it.k === 'prints' ? ['A4', 'Letter', 'A3'] : it.k === 'pbn' ? ['A3', 'A2', 'A4', 'Letter'] : ['A4', 'Letter'];
   const body = `<section class="wrap sec narrow"><nav class="crumb"><a href="${L(lang, '/shop/c/' + it.s)}">${esc((it[lang] || it.en).name)}</a></nav><h1>${ko ? 'PDF 내려받기' : 'Download your PDF'}</h1>
 <p class="sub">${ko ? '결제 영수증 메일에 있는 라이선스 키를 넣어 주세요. 파일은 이 브라우저에서 바로 만들어져요(그림이 많으면 1~2분 걸려요).' : 'Enter the licence key from your receipt email. The file is put together right here in your browser (large sets can take a minute or two).'}</p>
 <div class="dl" style="text-align:left"><label class="small">${ko ? '라이선스 키' : 'Licence key'}</label><input id="k" autocomplete="off" style="width:100%;padding:10px 12px;margin:6px 0 12px;border:1px solid #d9d1c3;border-radius:10px;font:inherit">
 <label class="small">${ko ? '용지 크기' : 'Paper size'}</label><div class="row" id="sz" style="margin:6px 0 14px">${sizes.map((s, i) => `<label style="margin-right:14px"><input type="radio" name="sz" value="${s}"${i ? '' : ' checked'}> ${s}</label>`).join('')}</div>
 ${it.k === 'cal' || it.k === 'planner' ? `<label class="small">${ko ? '연도' : 'Year'}</label><div class="row" style="margin:6px 0 14px;flex-wrap:wrap">${[2027, 2028, 2029, 2030].map((y, i) => `<label style="margin-right:14px"><input type="radio" name="yr" value="${y}"${i ? '' : ' checked'}> ${y}</label>`).join('')}</div>` : ''}
 <button class="pill" id="go">${ko ? 'PDF 만들기' : 'Make my PDF'}</button><p class="small" id="st" style="margin-top:12px"></p></div></section>
-<script src="/editor/jspdf.umd.min.js"></script><script src="/js/pk.js?v=4"></script><script>PK.init(${JSON.stringify({ slug: it.s, lang, ko })})</script>`;
+<script src="/editor/jspdf.umd.min.js"></script>${it.k === 'pbn' ? '<script src="/js/pbn.js?v=1"></script>' : ''}<script src="/js/pk.js?v=5"></script><script>PK.init(${JSON.stringify({ slug: it.s, lang, ko })})</script>`;
   return html(layout(lang, { title: `${ko ? 'PDF 내려받기' : 'Download'} — ${t.site}`, desc: '', path: '/dl/' + it.s, body, noindex: true }));
 }
 
