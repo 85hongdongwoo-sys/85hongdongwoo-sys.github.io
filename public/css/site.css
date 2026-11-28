@@ -176,3 +176,4 @@ body.ko .h3{letter-spacing:0;text-transform:none;font-size:15px;color:var(--ink)
 @media (max-width:760px){.sthead,.stcta{grid-template-columns:1fr;gap:20px}.stpor{max-width:340px}.stworks{grid-template-columns:1fr}.stlead{font-size:17px}}
 .stfaq details{border-bottom:1px solid var(--line);padding:14px 0}.stfaq summary{cursor:pointer;font-weight:600;font-size:17px;line-height:1.5;list-style-position:outside}.stfaq details p{margin:10px 0 2px;font-size:16px;line-height:1.75;overflow-wrap:anywhere}
 @media(max-width:760px){.bar nav{flex-wrap:wrap;overflow:visible;white-space:normal;column-gap:16px;row-gap:8px}}
+.stspot{margin:28px 0;padding:22px 24px;border-radius:16px;background:var(--soft)}.stspot h3{margin:0 0 10px;font-size:20px}.stspot ul{margin:0;padding-left:1.2em;font-size:16px;line-height:1.75}

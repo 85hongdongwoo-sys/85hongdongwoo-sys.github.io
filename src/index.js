@@ -65,7 +65,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv14', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv15', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -126,7 +126,7 @@ function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}">${img ? `<meta property="og:image" content="${esc(ORIGIN + img)}">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/site.css?v=hv8">${head}${noindex ? '<meta name="robots" content="noindex">' : ''}${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}</head>
+<link rel="stylesheet" href="/css/site.css?v=hv9">${head}${noindex ? '<meta name="robots" content="noindex">' : ''}${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}</head>
 <body class="${lang}"><header class="top"><div class="wrap bar"><a class="logo" href="${L(lang, '/')}">Arttrip<span>Studio</span></a><nav>${nav}</nav>
 <a class="acct" href="${L(lang, '/account')}" aria-label="${t.nav.myAccount}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a><a class="lang" href="?setlang=${other}" hreflang="${other}">${t.switchTo}</a></div></header>
 <main>${body}</main>
@@ -274,6 +274,8 @@ async function story(lang, env, x) {
 <header class="sthead"><figure class="stpor"><img src="${x.portrait}" alt="${esc(c.name)} ${ko ? '자화상' : 'self-portrait'}" width="${x.pw}" height="${x.ph}"><figcaption>${esc(x.credit[lang])}</figcaption></figure>
 <div class="sttx"><span class="lbl">${esc(c.tagline)}</span><h1>${esc(c.name)} <small>${esc(c.years)}</small></h1><p class="stlead">${esc(c.lead)}</p></div></header>
 <div class="stbody">${c.story.map(([h, t]) => `<h2>${esc(h)}</h2><p>${esc(t)}</p>`).join('')}</div>
+${(c.technique || []).map(([h, ps]) => `<div class="stbody"><h2>${esc(h)}</h2>${ps.map((t, i) => { const m = i && t.match(/^([^.]{3,45}\.)\s(.+)$/); return m ? `<p><b>${esc(m[1])}</b> ${esc(m[2])}</p>` : `<p>${esc(t)}</p>`; }).join('')}</div>`).join('')}
+${c.spot ? `<div class="stspot"><h3>${ko ? '모네 그림 알아보는 법' : 'How to spot a Monet'}</h3><ul>${c.spot.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : ''}
 <h2 class="stsec">${ko ? '대표작으로 보는 ' + esc(c.name) : 'Famous paintings by ' + esc(c.name)}</h2><div class="stworks">${works}</div>
 <h2 class="stsec">${ko ? '알아두면 재미있는 이야기' : 'Did you know?'}</h2><ul class="stfacts">${c.facts.map((f) => `<li>${esc(f)}</li>`).join('')}</ul>
 ${c.faq ? `<h2 class="stsec">${ko ? '자주 묻는 질문' : 'Frequently asked questions'}</h2><div class="stfaq">${c.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>` : ''}
