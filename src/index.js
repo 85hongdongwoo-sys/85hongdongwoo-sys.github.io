@@ -25,15 +25,6 @@ export default {
     // hero motion videos stored in KV (VIDS)
     if (url.pathname.startsWith('/v/') && env.VIDS) {
       const key = url.pathname.slice(3);
-      if (req.method === 'POST' && key === 'up') {
-        const f = await req.formData();
-        const tok = String(f.get('tok') || '');
-        const d = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(tok)))).map((b) => b.toString(16).padStart(2, '0')).join('');
-        if (!env.VID_UP_HASH || d !== env.VID_UP_HASH) return new Response('no', { status: 403 });
-        const done = [];
-        for (const [k, v] of f.entries()) if (k !== 'tok' && typeof v !== 'string') { const b = await v.arrayBuffer(); await env.VIDS.put(k, b); done.push(k + ':' + b.byteLength); }
-        return new Response('UPLOADED ' + done.join(' '), { headers: { 'content-type': 'text/plain' } });
-      }
       if (req.method !== 'GET' && req.method !== 'HEAD') return new Response('method', { status: 405 });
       const buf = await env.VIDS.get(key, 'arrayBuffer');
       if (!buf) return new Response('not found', { status: 404 });
@@ -73,7 +64,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv3', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv4', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -177,7 +168,7 @@ async function home(lang, env) {
 ${colStrip(lang)}
 <section class="wrap sec"><div class="sh"><h2>${t.products}</h2><a href="${L(lang, '/shop')}">${t.nav.shop} →</a></div>${rail(PRODUCTS.filter((p) => !isOrig(p) && !['artist-calendars', 'puzzles'].includes(p.cat)))}</section>
 <section class="wrap sec"><div class="sh"><h2>${ko ? '큰 글씨 퍼즐북' : 'Large-print puzzle books'}</h2><a href="${L(lang, '/shop')}#puzzles">${ko ? '어르신도 편하게' : 'Easy on the eyes'} →</a></div><div class="vrow"><a class="vs" href="${L(lang, '/shop/masterpiece-word-search-large-print')}"><video data-src="/v/puzzle.mp4" poster="/v/puzzle.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></a><div class="vtx"><span class="eyebrow dk">${ko ? '낱말찾기' : 'Word search'}</span><h3>${ko ? '큰 글씨로, 둘이 함께 푸는 시간' : 'Big letters, time well spent together'}</h3><p>${ko ? '돋보기 없이 보이는 큰 글씨 낱말찾기. 퍼즐마다 명화 한 점이 함께 들어 있어요.' : 'Word searches you can read without glasses, each paired with a full-page masterpiece.'}</p></div></div>${rail(PRODUCTS.filter((p) => p.cat === 'puzzles' && !p.slug.includes('coloring')))}</section>
-<section class="wrap sec"><div class="sh"><h2>${ko ? '컬러링북' : 'Coloring books'}</h2><a href="${L(lang, '/shop')}#puzzles">${ko ? '칠하면 살아나요' : 'Color it to life'} →</a></div><div class="vrow"><a class="vs" href="${L(lang, '/shop/christmas-coloring-book-for-kids')}"><video data-src="/v/coloring.mp4" poster="/v/coloring.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></a><div class="vtx"><span class="eyebrow dk">${ko ? '아이와 함께' : 'For kids'}</span><h3>${ko ? '작은 손이 칠하면, 그림이 살아나요' : 'Little hands bring the picture to life'}</h3><p>${ko ? '크리스마스 컬러링북과 큰 그림 컬러링북. 인쇄해서 바로 칠할 수 있어요.' : 'Christmas and easy large-print coloring books. Print and start coloring right away.'}</p></div></div>${rail(PRODUCTS.filter((p) => p.slug.includes('coloring')))}<script>(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(navigator.connection&&navigator.connection.saveData)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){if(!v.src)v.src=v.dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();});},{rootMargin:'200px'});document.querySelectorAll('.vrow video').forEach(function(v){io.observe(v);});})();</script></section>
+<section class="wrap sec"><div class="sh"><h2>${ko ? '컬러링북' : 'Coloring books'}</h2><a href="${L(lang, '/shop')}#puzzles">${ko ? '칠하면 살아나요' : 'Color it to life'} →</a></div><div class="vrow"><a class="vs" href="${L(lang, '/shop/christmas-coloring-book-for-kids')}"><video data-src="/v/coloring.mp4?v=2" poster="/v/coloring.jpg?v=2" muted loop playsinline preload="none" aria-hidden="true"></video></a><div class="vtx"><span class="eyebrow dk">${ko ? '아이와 함께' : 'For kids'}</span><h3>${ko ? '작은 손이 칠하면, 그림이 살아나요' : 'Little hands bring the picture to life'}</h3><p>${ko ? '산타, 루돌프, 눈사람… 아이가 칠하기 좋은 굵은 선 도안. 인쇄해서 바로 칠해요.' : 'Santa, reindeer, snowmen in thick, kid-friendly lines. Print and start coloring right away.'}</p></div></div>${rail(PRODUCTS.filter((p) => p.slug.includes('coloring')))}<script>(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(navigator.connection&&navigator.connection.saveData)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){if(!v.src)v.src=v.dataset.src;var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();});},{rootMargin:'200px'});document.querySelectorAll('.vrow video').forEach(function(v){io.observe(v);});})();</script></section>
 <section class="wrap sec"><div class="sh"><h2>${ko ? '화가별 명화 달력 2027' : 'Artist calendars 2027'}</h2><a href="${L(lang, '/shop')}#calendars">${ko ? '15명 모두 보기' : 'All 15 artists'} →</a></div>${rail(PRODUCTS.filter((p) => p.cat === 'artist-calendars'))}</section>
 <section class="wrap sec"><div class="edcta"><div><span class="eyebrow">${ko ? '아트트립 편집기' : 'Arttrip Editor'}</span><h2>${ko ? '사고 나서도 내 마음대로' : 'Make it yours after you buy'}</h2><p>${ko ? '내 사진, 글꼴 19종, 빈티지 종이, 12개월 달력 자동 만들기. 브라우저에서 바로 꾸미고 인쇄용 PDF로 받아요.' : 'Your photos, 19 fonts, vintage paper and one-click 12-month calendars. Design in the browser, download a print-ready PDF.'}</p><a class="pill lt" href="${L(lang, '/editor')}?new=1">${ko ? '무료로 열어 보기' : 'Try it free'}</a></div><img src="/p/art-paper-kit.jpg" alt="" loading="lazy"></div></section>
 <section class="wrap sec"><div class="sh"><h2>${ko ? '아트트립 오리지널' : 'Arttrip Originals'}</h2><a href="${L(lang, '/originals')}">${ko ? '모두 보기' : 'See all'} →</a></div>${rail(PRODUCTS.filter(isOrig))}</section>
