@@ -56,6 +56,10 @@ TOOL = ("""<section class="card tool" id="tool"><style>
 .omr-split.has-pdf #omr-panel h2{font-size:15px}
 #omr-name{font-weight:800;color:#1D4ED8}
 @media(max-width:820px){.omr-split{flex-direction:column}.omr-pdf{position:static;width:100%}.omr-canvas,.omr-pdf iframe{height:64vh}}
+/* 임베드 모드(기출 페이지 안에서 바로 펼침): 사이트 머리글·설명·푸터 숨기고 도구만 */
+html.omr-embed .brandbar,html.omr-embed header.top,html.omr-embed .card.guide,html.omr-embed .card.faq,html.omr-embed .card.rel,html.omr-embed footer.site{display:none!important}
+html.omr-embed main.wrap{padding:6px 8px!important;max-width:none}
+html.omr-embed .card.tool{border:0;box-shadow:none;padding:0}
 </style>
 <h2 style="margin-top:0">시험 설정</h2>
 <div id="omr-set">
@@ -148,6 +152,7 @@ $('#omr-dock').addEventListener('click',function(){setFloat(false);window.scroll
 })();
 // URL 설정값 자동 적용 + 문제지 PDF 열기
 function qp(k){try{return new URLSearchParams(location.search).get(k);}catch(e){return null;}}
+if(qp('embed')==='1'){document.documentElement.classList.add('omr-embed');}
 var _vn=qp('n'),_vc=qp('c'),_vt=qp('t'),_vkey=qp('key'),_vname=qp('name');
 if(_vn)$('#omr-n').value=Math.max(1,Math.min(200,parseInt(_vn,10)||20));
 if(_vc==='4'||_vc==='5')$('#omr-c').value=_vc;
