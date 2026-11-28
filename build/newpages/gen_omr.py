@@ -44,10 +44,13 @@ TOOL = ("""<section class="card tool" id="tool"><style>
 .omr-pdfbar .note{margin:0}
 .omr-split{display:flex;gap:16px;align-items:flex-start}
 .omr-pdf{flex:1 1 56%;min-width:0;position:sticky;top:8px}
-.omr-pdf iframe{width:100%;height:80vh;border:1px solid #D9DDE3;border-radius:12px;background:#fff;display:block}
+.omr-canvas{height:82vh;overflow:auto;border:1px solid #D9DDE3;border-radius:12px;background:#53585F;padding:10px;text-align:center}
+.omr-canvas canvas{max-width:100%;margin:0 auto 10px;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.omr-canvas .omr-loading{color:#fff;padding:40px 0;font-size:14px}
+.omr-pdf iframe{width:100%;height:82vh;border:1px solid #D9DDE3;border-radius:12px;background:#fff;display:block}
 .omr-split.has-pdf #omr-panel{flex:1 1 44%;min-width:300px}
 #omr-name{font-weight:800;color:#1D4ED8}
-@media(max-width:820px){.omr-split{flex-direction:column}.omr-pdf{position:static;width:100%}.omr-pdf iframe{height:62vh}}
+@media(max-width:820px){.omr-split{flex-direction:column}.omr-pdf{position:static;width:100%}.omr-canvas,.omr-pdf iframe{height:64vh}}
 </style>
 <h2 style="margin-top:0">시험 설정</h2>
 <div id="omr-set">
@@ -58,7 +61,7 @@ TOOL = ("""<section class="card tool" id="tool"><style>
 </div>
 <div class="omr-pdfbar"><b>문제지</b><label class="btn" for="omr-file">📄 PDF 열기</label><input id="omr-file" type="file" accept="application/pdf" hidden><a class="btn" id="omr-newtab" target="_blank" rel="noopener" hidden>새 탭에서 열기</a><span class="note" id="omr-pdfhint">기출 PDF를 열면 <b>왼쪽에 문제지</b>, <b>오른쪽에 OMR</b>이 같이 떠요. (문제 창이 안 열리면 ‘새 탭에서 열기’)</span></div>
 <div class="omr-split" id="omr-split">
-<div class="omr-pdf" id="omr-pdfwrap" hidden><iframe id="omr-frame" title="문제지 PDF"></iframe></div>
+<div class="omr-pdf" id="omr-pdfwrap" hidden><div id="omr-canvas" class="omr-canvas"></div><iframe id="omr-frame" title="문제지 PDF" hidden></iframe></div>
 <div id="omr-panel">
 <div class="omr-head"><b>⏱ 답안카드</b><button class="btn dock" id="omr-dock">본문에 넣기</button></div>
 <div id="omr-timebar"><div id="omr-clock">00:00</div><button class="btn" id="omr-pause">일시정지</button><button class="btn" id="omr-reset">초기화</button><button class="btn" id="omr-float">⧉ 옆에 띄우기</button></div>
@@ -146,9 +149,22 @@ if(_vc==='4'||_vc==='5')$('#omr-c').value=_vc;
 if(_vt!==null&&_vt!=='')$('#omr-t').value=Math.max(0,Math.min(600,parseInt(_vt,10)||0));
 if(_vkey)$('#omr-key').value=_vkey.replace(/[^0-9 ,\\n]/g,'');
 if(_vname){var _h=document.querySelector('.lead')||document.querySelector('h1');if(_h&&_h.parentNode){var _s=document.createElement('p');_s.innerHTML='지금 푸는 시험: <span id="omr-name"></span>';_s.querySelector('#omr-name').textContent=_vname;_h.parentNode.insertBefore(_s,_h.nextSibling);}}
-function showPdf(url){if(!url)return;$('#omr-frame').src=url;$('#omr-pdfwrap').hidden=false;$('#omr-split').classList.add('has-pdf');var nt=$('#omr-newtab');nt.href=url;nt.hidden=false;$('#omr-pdfhint').textContent='문제 창이 비어 있으면 그 PDF가 사이트 안 열림을 막은 거예요 — ‘새 탭에서 열기’로 보면서 OMR로 푸세요.';}
+// PDF.js 내장 뷰어 — 받은 PDF를 페이지 안에 직접 렌더(기기·브라우저 무관)
+var PJS='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';var _pjs=null;
+function loadPjs(){if(_pjs)return _pjs;_pjs=new Promise(function(res,rej){var s=document.createElement('script');s.src=PJS+'pdf.min.js';s.onload=function(){try{window.pdfjsLib.GlobalWorkerOptions.workerSrc=PJS+'pdf.worker.min.js';}catch(e){}res(window.pdfjsLib);};s.onerror=rej;document.head.appendChild(s);});return _pjs;}
+function openWrap(){$('#omr-pdfwrap').hidden=false;$('#omr-split').classList.add('has-pdf');}
+function iframeFallback(url){var f=$('#omr-frame');$('#omr-canvas').hidden=true;if(url){f.src=url;f.hidden=false;}$('#omr-pdfhint').textContent='문제 창이 비면 ‘새 탭에서 열기’로 보면서 OMR로 푸세요.';}
+function renderPdf(src,fallbackUrl){openWrap();var wrap=$('#omr-canvas');wrap.hidden=false;$('#omr-frame').hidden=true;wrap.innerHTML='<div class="omr-loading">문제지 불러오는 중…</div>';
+ loadPjs().then(function(lib){return lib.getDocument(src).promise;}).then(function(pdf){wrap.innerHTML='';var chain=Promise.resolve();
+  for(var i=1;i<=pdf.numPages;i++){(function(p){chain=chain.then(function(){return pdf.getPage(p).then(function(page){
+    var w=(wrap.clientWidth-20)||600;var vp=page.getViewport({scale:1});var sc=Math.min(2,w/vp.width);var v2=page.getViewport({scale:sc});
+    var c=document.createElement('canvas');var dpr=Math.min(2,window.devicePixelRatio||1);c.width=v2.width*dpr;c.height=v2.height*dpr;c.style.width='100%';
+    wrap.appendChild(c);var ctx=c.getContext('2d');ctx.scale(dpr,dpr);return page.render({canvasContext:ctx,viewport:v2}).promise;});});})(i);}
+  return chain;}).catch(function(){iframeFallback(fallbackUrl);});}
+function showPdf(url){if(!url)return;var nt=$('#omr-newtab');nt.href=url;nt.hidden=false;renderPdf(url,url);}
 var _vpdf=qp('pdf');if(_vpdf)showPdf(_vpdf);
-$('#omr-file').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];if(f)showPdf(URL.createObjectURL(f));});
+$('#omr-file').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];if(!f)return;$('#omr-newtab').hidden=true;
+  var fr=new FileReader();fr.onload=function(){renderPdf({data:fr.result},null);};fr.readAsArrayBuffer(f);});
 buildGrid();
 })();
 </script>""")
