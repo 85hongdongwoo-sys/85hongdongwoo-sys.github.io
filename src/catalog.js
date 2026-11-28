@@ -18,7 +18,14 @@ export async function pkIndex(env) {
   const j = env.VIDS ? await env.VIDS.get('pk:index', { type: 'json', cacheTtl: 300 }) : null;
   IDX = Array.isArray(j) ? j : []; IDX_AT = Date.now(); return IDX;
 }
-async function pkItem(env, slug) { return env.VIDS ? env.VIDS.get('pk:item:' + slug, { type: 'json', cacheTtl: 300 }) : null; }
+const CH = new Map();
+async function pkItem(env, slug) {
+  if (!env.VIDS) return null;
+  const x = (await pkIndex(env)).find((i) => i.s === slug); if (!x) return null;
+  let c = CH.get(x.ch);
+  if (!c || Date.now() - c.at > 300000) { c = { at: Date.now(), d: (await env.VIDS.get('pk:ch:' + x.ch, { type: 'json', cacheTtl: 300 })) || {} }; CH.set(x.ch, c); }
+  return c.d[slug] || null;
+}
 
 const sha = async (s) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))).map((b) => b.toString(16).padStart(2, '0')).join('');
 const J = (o, st = 200, h = {}) => new Response(JSON.stringify(o), { status: st, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...h } });
@@ -34,7 +41,7 @@ export async function pkPut(req, env) {
   for (const [k, v] of puts) if (/^pk:/.test(k)) await env.VIDS.put(k, typeof v === 'string' ? v : JSON.stringify(v));
   const dels = Array.isArray(b.dels) ? b.dels : [];
   for (const k of dels) if (/^pk:/.test(k)) await env.VIDS.delete(k);
-  IDX = null;
+  IDX = null; CH.clear();
   return J({ ok: true, n: puts.length, d: dels.length }, 200, CORS);
 }
 
