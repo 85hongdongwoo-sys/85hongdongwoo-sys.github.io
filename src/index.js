@@ -28,6 +28,7 @@ export default {
     if (url.pathname === '/pi') return pkImg(url, ctx);
     { const bm = url.pathname.match(/^\/buy\/([a-z0-9-]+)$/); if (bm) { const r = await pkBuy(env, bm[1], url); if (r) return r; } }
     { const cm = url.pathname.match(/^\/pk\/svg\/([a-z0-9-]+)\.svg$/); if (cm) return pkCover(env, cm[1]); }
+    { const im = url.pathname.match(/^\/pk\/img\/([a-z0-9-]+)\.jpg$/); if (im) { const v = env.VIDS && await env.VIDS.get('pk:img:' + im[1], { type: 'arrayBuffer', cacheTtl: 86400 }); return v ? new Response(v, { headers: { 'content-type': 'image/jpeg', 'cache-control': 'public, max-age=604800' } }) : new Response('not found', { status: 404 }); } }
     if (url.pathname === '/api/pk/put') return pkPut(req, env);
     if (url.pathname === '/api/pk/paris') return pkParis(req, env);
     // hero motion videos stored in KV (VIDS)
