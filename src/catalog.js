@@ -73,10 +73,21 @@ async function hmac(env, msg) {
 const passFor = async (env, slug) => { const exp = Date.now() + 365 * 864e5; return exp + '.' + (await hmac(env, slug + '|' + exp)); };
 async function passOk(env, slug, pass) { const [exp, sig] = String(pass || '').split('.'); return !!sig && +exp > Date.now() && sig === (await hmac(env, slug + '|' + exp)); }
 const polar = (env, path) => fetch('https://api.polar.sh/v1' + path, { headers: { authorization: 'Bearer ' + env.POLAR_TOKEN, accept: 'application/json' } }).then((r) => r.ok ? r.json() : null).catch(() => null);
+const tiers = (env) => { try { return JSON.parse(env.PK_TIERS || '{}'); } catch { return {}; } };
+export const tierFor = (env, it) => { const t = tiers(env); return it.k === 'puz' ? t['puz' + it.p] : t[it.k]; };
+export async function pkBuy(env, slug, url) {
+  const it = await pkItem(env, slug); if (!it) return null;
+  if (it.c) return Response.redirect(it.c, 302);
+  const tid = tierFor(env, it); if (!tid || !env.POLAR_TOKEN) return null;
+  const r = await fetch('https://api.polar.sh/v1/checkouts/', { method: 'POST', headers: { authorization: 'Bearer ' + env.POLAR_TOKEN, 'content-type': 'application/json' }, body: JSON.stringify({ products: [tid], metadata: { slug }, success_url: url.origin + '/dl/' + slug + '?checkout_id={CHECKOUT_ID}', allow_discount_codes: true }) }).catch(() => null);
+  const j = r && r.ok ? await r.json().catch(() => null) : null;
+  return j && j.url ? Response.redirect(j.url, 303) : new Response('Checkout is temporarily unavailable. Please try again in a minute or write to hello@arttripstudio.com.', { status: 503 });
+}
 async function paidByCheckout(env, it, cid) {
-  if (!env.POLAR_TOKEN || !it.pid || !/^[0-9a-f-]{36}$/.test(cid)) return false;
-  const c = await polar(env, '/checkouts/' + cid);
-  return !!c && ['succeeded', 'confirmed'].includes(c.status) && (c.product_id === it.pid || (c.products || []).some((p) => p.id === it.pid));
+  if (!env.POLAR_TOKEN || !/^[0-9a-f-]{36}$/.test(cid)) return false;
+  const c = await polar(env, '/checkouts/' + cid); if (!c || !['succeeded', 'confirmed'].includes(c.status)) return false;
+  if (it.pid && (c.product_id === it.pid || (c.products || []).some((p) => p.id === it.pid))) return true;
+  return !!(c.metadata && c.metadata.slug === it.s && c.product_id === tierFor(env, it));
 }
 async function paidByKey(env, it, key) {
   if (!env.POLAR_ORG_ID) return false;
@@ -85,9 +96,10 @@ async function paidByKey(env, it, key) {
   if (j.status !== 'granted') return false;
   const all = String(env.PK_ALL_BENEFITS || '').split(',').filter(Boolean);
   if (j.benefit_id === it.b || all.includes(j.benefit_id)) return true;
-  if (!env.POLAR_TOKEN || !it.pid || !j.customer_id) return false;
-  const o = await polar(env, '/orders/?customer_id=' + encodeURIComponent(j.customer_id) + '&product_id=' + encodeURIComponent(it.pid) + '&limit=5');
-  return !!o && (o.items || []).some((x) => x.paid !== false && x.status !== 'refunded');
+  if (!env.POLAR_TOKEN || !j.customer_id) return false;
+  const pid = it.pid || tierFor(env, it); if (!pid) return false;
+  const o = await polar(env, '/orders/?customer_id=' + encodeURIComponent(j.customer_id) + '&product_id=' + encodeURIComponent(pid) + '&limit=100');
+  return !!o && (o.items || []).some((x) => x.paid !== false && x.status !== 'refunded' && (it.pid ? true : (x.metadata && x.metadata.slug === it.s)));
 }
 export async function pkUnlock(req, env) {
   let b = {}; try { b = await req.json(); } catch { }
@@ -155,7 +167,7 @@ export async function pkPage(lang, env, slug, h) {
   const it = await pkItem(env, slug); if (!it) return null;
   const c = copy(it, lang), k = KIND[it.k];
   const sibs = (await pkIndex(env)).filter((x) => x.f === it.f && x.s !== it.s).slice(0, 6);
-  const btn = it.c ? `<a class="paybtn gl" href="${esc(it.c)}" rel="noopener"><b>${ko ? '해외결제' : t.buy}</b><span>${ko ? '카드 · Apple Pay · Google Pay' : 'Card · Apple Pay · Google Pay'}</span></a>` : `<span class="paybtn off"><b>${t.buy}</b><span>${t.soon}</span></span>`;
+  const btn = (it.c || tierFor(env, it)) ? `<a class="paybtn gl" href="${esc(it.c || L(lang, '/buy/' + it.s).replace(/^\/ko/, ''))}" rel="nofollow noopener"><b>${ko ? '해외결제' : t.buy}</b><span>${ko ? '카드 · Apple Pay · Google Pay' : 'Card · Apple Pay · Google Pay'}</span></a>` : `<span class="paybtn off"><b>${t.buy}</b><span>${t.soon}</span></span>`;
   const body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a> › <a href="${L(lang, '/shop/c?k=' + it.k)}">${esc(k[lang])}</a></nav><div class="agrid">
 <figure class="big"><img src="${pi(it.v || it.w[0].v || it.w[0].u)}" alt="${esc(c.name)}"></figure><div class="meta"><span class="lbl">${t.instant} · ${esc(k[lang])}</span><h1>${esc(c.name)}</h1>
 ${c.body.map((x) => `<p>${esc(x)}</p>`).join('')}

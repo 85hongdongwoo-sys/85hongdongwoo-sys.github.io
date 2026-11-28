@@ -72,6 +72,7 @@ POLAR_COLORING_XMAS_STORY = "https://buy.polar.sh/polar_cl_X3kzEIR1TZJOIagkJyJrq
 POLAR_PATTERNS_ORIGINAL = "https://buy.polar.sh/polar_cl_TkaxUowdGeXwipUEdnZNiX6A8w07XDsvgIgDi2gkny7"
 POLAR_ART_PAPER_KIT = "https://buy.polar.sh/polar_cl_56FgqFPGaYgT7csRtrLUSZgNV2dMO1OO4aKuU27E4b0"
 POLAR_ORG_ID = "6aab9ce7-a0e3-4e08-a3da-115a5977fa3a"
+PK_TIERS = '{"cal":"ee0ad113-98f1-4554-a6db-c7c0ec95463a","planner":"eaa2c95b-362c-44c6-9f92-8b61d2263e18","prints":"4cfb0d1a-2c6b-4f4a-8f98-db815b4a0305","cards":"7858741c-30bc-4935-a365-c3ffdf8d3ee2","puz4":"fdbdb254-b30d-481f-be1a-68d4608d9b31","puz5":"6004b1df-34a9-4f35-a0f8-9e0c4473c55a","puz6":"0bb97be8-66d2-490e-9131-9f1d2a474575","pbn":"73d91d26-e4fa-4fde-a23f-1e5aa09e43c3","color":"e6e01c3a-ca43-4cca-aef7-25c116c886bb"}'
 PK_HASH = "4cba4c3eefdb5a04a82a2dd8f7999c67590dee61c6b5916782cbe7a98b528cfc"
 POLAR_SUB_MONTHLY = "https://buy.polar.sh/polar_cl_qXUDfHQ7NZWANADAAiXLdoByaiGjHGVc153L60MRKUW"
 POLAR_SUB_YEARLY = "https://buy.polar.sh/polar_cl_0qLWTxBWY7VkYO92rt3Svt9iK5pIVwktpHjDk3LAAc2"
