@@ -120,7 +120,7 @@ var PBN = (function () {
     var S = SZ[size], land = r.w > r.h, W = land ? S[1] : S[0], H = land ? S[0] : S[1], M = 10, jp = window.jspdf.jsPDF, p = new jp({ unit: 'mm', format: [W, H] });
     var f = Math.min((W - 2 * M) / r.w, (H - 2 * M - 8) / r.h), iw = r.w * f, ih = r.h * f, x0 = (W - iw) / 2, y0 = M;
     p.addImage(outline(r, 3).toDataURL('image/png'), 'PNG', x0, y0, iw, ih, undefined, 'FAST'); p.setTextColor(45); p.setFont('helvetica', 'normal');
-    r.marks.forEach(function (m) { var fs = Math.max(5, Math.min(11, m[2] * f * 2.4)); p.setFontSize(fs); p.text(String(m[3]), x0 + m[0] * f, y0 + m[1] * f + fs * 0.12, { align: 'center' }); });
+    r.marks.forEach(function (m) { var fs = Math.max(3.5, Math.min(8, m[2] * f * 1.7)); p.setFontSize(fs); p.text(String(m[3]), x0 + m[0] * f, y0 + m[1] * f + fs * 0.12, { align: 'center' }); });
     p.setFontSize(7); p.setTextColor(140); p.text(title + ' - ' + artist + ' - Arttrip Studio paint-by-number pattern', W / 2, H - M + 2, { align: 'center' });
     // key page (portrait)
     p.addPage([S[0], S[1]]); W = S[0]; H = S[1]; p.setTextColor(30); p.setFont('times', 'bold'); p.setFontSize(20); p.text(p.splitTextToSize(title, W - 2 * M), M, M + 8);
