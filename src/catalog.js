@@ -10,8 +10,9 @@ export const KIND = {
   prints: { en: 'Printable art prints set', ko: '인쇄용 명화 포스터 세트', icon: '🖼' },
   cards: { en: 'Printable postcard set', ko: '인쇄용 엽서 세트', icon: '✉' },
   color: { en: 'Coloring book', ko: '컬러링북', icon: '🖍' },
+  puz: { en: 'Large-print puzzle book', ko: '큰 글씨 퍼즐북', icon: '🧩' },
 };
-const KIND_ORDER = ['cal', 'prints', 'cards', 'color'];
+const KIND_ORDER = ['cal', 'prints', 'cards', 'puz', 'color'];
 
 export async function pkIndex(env) {
   if (IDX && Date.now() - IDX_AT < 300000) return IDX;
@@ -58,7 +59,7 @@ export async function pkImg(url, ctx) {
   ctx && ctx.waitUntil && ctx.waitUntil(caches.default.put(key, res.clone()));
   return res;
 }
-const pi = (u) => '/pi?u=' + encodeURIComponent(u || '');
+const pi = (u) => (u && u[0] === '/') ? u : '/pi?u=' + encodeURIComponent(u || '');
 
 // ---------- unlock: licence key must belong to this product's benefit (or an all-access benefit) ----------
 export async function pkUnlock(req, env) {
@@ -75,12 +76,16 @@ export async function pkUnlock(req, env) {
     } catch { ok = false; }
   }
   if (!ok) return J({ ok: false });
+  if (it.k === 'puz') return J({ ok: true, k: 'puz', title: it.en.name, pz: it.pz });
   return J({ ok: true, k: it.k, title: it.en.name, works: it.w.map((w) => ({ t: w.t, a: w.a, d: w.d, u: pi(w.u || w.v), W: w.W, H: w.H })) });
 }
 
 // ---------- copy ----------
 function copy(it, lang) {
-  const ko = lang === 'ko', c = it[lang] || it.en, k = KIND[it.k], n = it.w.length;
+  const ko = lang === 'ko', c = it[lang] || it.en, k = KIND[it.k], n = (it.w || []).length;
+  if (it.k === 'puz') { const z = it.pz, lv = { easy: ko ? '쉬움' : 'easy', medium: ko ? '보통' : 'medium', hard: ko ? '어려움' : 'hard' }[z.level], nm = { ws: ko ? '낱말찾기' : 'word search', sudoku: ko ? '스도쿠' : 'sudoku', maze: ko ? '미로' : 'maze' }[z.type];
+    return { name: c.name, body: ko ? [`어르신도 편하게 볼 수 있는 큰 글씨 ${nm} ${z.n}문제 모음이에요(난이도: ${lv}).${z.type === 'ws' ? ` 주제는 '${c.theme || z.theme}'이고 한 문제에 단어 10~14개가 숨어 있어요.` : ''} 한 장에 한 문제씩, 칸과 글자를 크게 만들었어요.`, `맨 뒤에 정답이 모두 들어 있어요. 결제 후 A4나 레터 용지 PDF로 받아 몇 번이든 다시 인쇄할 수 있어서 복지관, 요양원, 가족 모임에서 쓰기 좋아요.`]
+      : [`${z.n} large-print ${nm} puzzles (${lv})${z.type === 'ws' ? ` on the theme '${z.theme}', each hiding 10 to 14 words` : ''}. One puzzle per page with big, clear letters and boxes that are easy on the eyes.`, `All answers are at the back. Download as A4 or US Letter PDF and print as many copies as you like, for yourself, a parent or grandparent, a care home or an activity group.`] }; }
   const who = it.g === 'artist' ? (ko ? (it.ko.who || it.en.who) : it.en.who) : (ko ? (it.ko.theme || it.en.theme) : it.en.theme);
   const body = {
     cal: ko ? [`${who}의 그림 ${n}점으로 만든 2027년 벽걸이 달력이에요. 표지 1장과 1월부터 12월까지 달마다 그림 한 점, 그 아래 날짜 칸이 있어요.`, `미술관이 저작권 없이 공개한 고해상도 원본으로 만들어 A4나 레터 용지에 바로 인쇄할 수 있어요. 결제 후 영수증의 라이선스 키로 PDF를 내려받아요.`]
@@ -124,16 +129,15 @@ export async function pkPage(lang, env, slug, h) {
   const sibs = (await pkIndex(env)).filter((x) => x.f === it.f && x.s !== it.s).slice(0, 6);
   const btn = it.c ? `<a class="paybtn gl" href="${esc(it.c)}" rel="noopener"><b>${ko ? '해외결제' : t.buy}</b><span>${ko ? '카드 · Apple Pay · Google Pay' : 'Card · Apple Pay · Google Pay'}</span></a>` : `<span class="paybtn off"><b>${t.buy}</b><span>${t.soon}</span></span>`;
   const body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a> › <a href="${L(lang, '/shop/c?k=' + it.k)}">${esc(k[lang])}</a></nav><div class="agrid">
-<figure class="big"><img src="${pi(it.w[0].v || it.w[0].u)}" alt="${esc(c.name)}"></figure><div class="meta"><span class="lbl">${t.instant} · ${esc(k[lang])}</span><h1>${esc(c.name)}</h1>
+<figure class="big"><img src="${pi(it.v || it.w[0].v || it.w[0].u)}" alt="${esc(c.name)}"></figure><div class="meta"><span class="lbl">${t.instant} · ${esc(k[lang])}</span><h1>${esc(c.name)}</h1>
 ${c.body.map((x) => `<p>${esc(x)}</p>`).join('')}
 <div class="buy"><div class="price">$${it.p}</div><div class="paybtns">${btn}</div><p class="small">✓ ${t.guest}</p><p class="small"><a href="${L(lang, '/dl/' + it.s)}">${ko ? '이미 구매했어요 → 라이선스 키로 받기' : 'Already bought? Download with your licence key →'}</a></p></div></div></div>
-<h2 class="h3" style="margin-top:34px">${ko ? `들어 있는 그림 ${it.w.length}점` : `The ${it.w.length} works inside`}</h2>
-<div class="stgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px">${it.w.map((w) => `<figure style="margin:0"><img src="${pi(w.v || w.u)}" alt="${esc(w.t)}" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#eee"><figcaption class="small" style="margin-top:6px;overflow-wrap:anywhere">${esc(w.t)}${w.d ? ', ' + esc(w.d) : ''}<br><span style="opacity:.7">${esc(w.a || '')}</span></figcaption></figure>`).join('')}</div>
+${it.k === 'puz' ? '' : `<h2 class="h3" style="margin-top:34px">${ko ? `들어 있는 그림 ${it.w.length}점` : `The ${it.w.length} works inside`}</h2>
+<div class="stgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px">${it.w.map((w) => `<figure style="margin:0"><img src="${pi(w.v || w.u)}" alt="${esc(w.t)}" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#eee"><figcaption class="small" style="margin-top:6px;overflow-wrap:anywhere">${esc(w.t)}${w.d ? ', ' + esc(w.d) : ''}<br><span style="opacity:.7">${esc(w.a || '')}</span></figcaption></figure>`).join('')}</div>`}
 ${sibs.length ? `<h2 class="h3" style="margin-top:34px">${ko ? '같은 그림으로 만든 다른 상품' : 'Same pictures, other formats'}</h2><div class="pgrid">${sibs.map((x) => card(x, lang, L, esc)).join('')}</div>` : ''}</section>`;
-  const jsonld = { '@context': 'https://schema.org', '@type': 'Product', name: it.en.name, image: ORIGIN_IMG(it), description: copy(it, 'en').body[0], offers: { '@type': 'Offer', price: it.p, priceCurrency: 'USD', availability: it.c ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder' } };
-  return html(layout(lang, { title: `${c.name} — ${t.site}`, desc: c.body[0].slice(0, 155), path: '/shop/c/' + it.s, body, img: pi(it.w[0].v || it.w[0].u), jsonld }));
+  const jsonld = { '@context': 'https://schema.org', '@type': 'Product', name: it.en.name, image: 'https://arttripstudio.com' + pi(it.v || it.w[0].v || it.w[0].u), description: copy(it, 'en').body[0], offers: { '@type': 'Offer', price: it.p, priceCurrency: 'USD', availability: it.c ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder' } };
+  return html(layout(lang, { title: `${c.name} — ${t.site}`, desc: c.body[0].slice(0, 155), path: '/shop/c/' + it.s, body, img: pi(it.v || it.w[0].v || it.w[0].u), jsonld }));
 }
-const ORIGIN_IMG = (it) => 'https://arttripstudio.com' + pi(it.w[0].v || it.w[0].u);
 
 // ---------- download page (PDF built in the browser) ----------
 export async function pkDownload(lang, env, slug, h) {
@@ -151,3 +155,21 @@ export async function pkDownload(lang, env, slug, h) {
 
 // ---------- sitemap paths ----------
 export async function pkPaths(env) { return (await pkIndex(env)).map((x) => '/shop/c/' + x.s).concat(['/shop/c']); }
+
+// ---------- puzzle book cover (SVG) ----------
+export async function pkCover(env, slug) {
+  const it = await pkItem(env, slug); if (!it || it.k !== 'puz') return new Response('nf', { status: 404 });
+  const z = it.pz, e = (x) => String(x).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const pal = { ws: ['#f3e6c8', '#8a3b2b'], sudoku: ['#dfe8f1', '#23466b'], maze: ['#e3efd9', '#2f5d34'] }[z.type];
+  let R = z.seed >>> 0; const rnd = () => ((R = (R * 1664525 + 1013904223) >>> 0) / 4294967296);
+  let motif = '';
+  if (z.type === 'ws') { const L = 'ABCDEFGHIJKLMNOPRSTUW'; for (let r = 0; r < 7; r++) for (let c = 0; c < 7; c++) motif += `<text x="${330 + c * 64}" y="${560 + r * 64}" font-size="44" font-family="Courier New,monospace" font-weight="700" fill="${pal[1]}" opacity=".85" text-anchor="middle">${L[Math.floor(rnd() * L.length)]}</text>`; }
+  else if (z.type === 'sudoku') { for (let i = 0; i <= 9; i++) motif += `<line x1="280" y1="${500 + i * 50}" x2="730" y2="${500 + i * 50}" stroke="${pal[1]}" stroke-width="${i % 3 ? 2 : 6}"/><line x1="${280 + i * 50}" y1="500" x2="${280 + i * 50}" y2="950" stroke="${pal[1]}" stroke-width="${i % 3 ? 2 : 6}"/>`; for (let k = 0; k < 30; k++) motif += `<text x="${305 + Math.floor(rnd() * 9) * 50}" y="${538 + Math.floor(rnd() * 9) * 50}" font-size="34" font-family="Arial" font-weight="700" text-anchor="middle" fill="${pal[1]}">${1 + Math.floor(rnd() * 9)}</text>`; }
+  else { for (let k = 0; k < 90; k++) { const x = 280 + Math.floor(rnd() * 9) * 50, y = 500 + Math.floor(rnd() * 9) * 50; motif += rnd() < .5 ? `<line x1="${x}" y1="${y}" x2="${x + 50}" y2="${y}" stroke="${pal[1]}" stroke-width="7" stroke-linecap="round"/>` : `<line x1="${x}" y1="${y}" x2="${x}" y2="${y + 50}" stroke="${pal[1]}" stroke-width="7" stroke-linecap="round"/>`; } motif += `<rect x="280" y="500" width="450" height="450" fill="none" stroke="${pal[1]}" stroke-width="8"/>`; }
+  const t = e(it.en.name), lines = []; let cur = ''; for (const w of t.split(' ')) { if ((cur + ' ' + w).trim().length > 24) { lines.push(cur.trim()); cur = w; } else cur += ' ' + w; } lines.push(cur.trim());
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1200" width="1000" height="1200"><rect width="1000" height="1200" fill="${pal[0]}"/><rect x="40" y="40" width="920" height="1120" fill="none" stroke="${pal[1]}" stroke-width="4"/>
+${lines.slice(0, 3).map((l, i) => `<text x="500" y="${160 + i * 78}" font-size="66" font-family="Georgia,serif" font-weight="700" text-anchor="middle" fill="${pal[1]}">${l}</text>`).join('')}
+<text x="500" y="${180 + Math.min(3, lines.length) * 78}" font-size="34" font-family="Arial" text-anchor="middle" fill="#444">LARGE PRINT · ${z.n} PUZZLES · ANSWERS INCLUDED</text>${motif}
+<text x="500" y="1110" font-size="30" font-family="Georgia,serif" text-anchor="middle" fill="#555">Arttrip Studio</text></svg>`;
+  return new Response(svg, { headers: { 'content-type': 'image/svg+xml', 'cache-control': 'public, max-age=86400' } });
+}
