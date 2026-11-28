@@ -64,7 +64,7 @@ export async function pkImg(url, ctx) {
   const hit = await caches.default.match(key); if (hit) return hit;
   const r = await fetch(u, { headers: { 'user-agent': 'ArttripStudio/1.0 (+https://arttripstudio.com)' }, cf: { cacheTtl: 2592000, cacheEverything: true } });
   if (!r.ok) return new Response('upstream ' + r.status, { status: 502 });
-  const res = new Response(r.body, { headers: { 'content-type': r.headers.get('content-type') || 'image/jpeg', 'cache-control': 'public, max-age=2592000', 'access-control-allow-origin': '*' } });
+  const res = new Response(r.body, { headers: { 'content-type': (r.headers.get('content-type') || 'image/jpeg').replace('pjpeg', 'jpeg'), 'cache-control': 'public, max-age=2592000', 'access-control-allow-origin': '*' } });
   ctx && ctx.waitUntil && ctx.waitUntil(caches.default.put(key, res.clone()));
   return res;
 }
