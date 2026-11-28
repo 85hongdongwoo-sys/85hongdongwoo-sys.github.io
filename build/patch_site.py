@@ -1318,3 +1318,38 @@ for _rel in ('index.html', os.path.join('en', 'index.html')):
         _s = _s[:_m.start(2)] + ''.join(_kept) + _s[_m.end(2):]
         open(_fp, 'w', encoding='utf-8').write(_s)
         print('home grid pruned ->', len(_kept), 'cards', _rel)
+
+# ── 설명 삽화(인라인 SVG) 안의 <title>/<desc>를 svg의 aria-label로 이전 (2026-11-28) ──
+# 네이버 사이트진단이 SVG <title>을 페이지 제목으로 같이 세어 'title 2개 이상'으로 경고하는 문제 해결.
+# 접근성은 aria-label로 유지(스크린리더 동일), SVG 렌더링은 변화 없음.
+def _svg_aria(_block):
+    _mt = re.search(r'<title\b[^>]*>(.*?)</title>', _block, re.S)
+    if not _mt:
+        return _block
+    _md = re.search(r'<desc\b[^>]*>(.*?)</desc>', _block, re.S)
+    _lab = re.sub(r'<[^>]+>', '', _mt.group(1)).strip()
+    if _md:
+        _lab = (_lab + ' ' + re.sub(r'<[^>]+>', '', _md.group(1)).strip()).strip()
+    _lab = re.sub(r'\s+', ' ', _lab).replace('&', '&amp;').replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+    _block = re.sub(r'<title\b[^>]*>.*?</title>', '', _block, count=1, flags=re.S)
+    _block = re.sub(r'<desc\b[^>]*>.*?</desc>', '', _block, count=1, flags=re.S)
+    def _open(_m):
+        _t = re.sub(r'\s+aria-labelledby="[^"]*"', '', _m.group(0))
+        if 'aria-label=' not in _t:
+            _t = _t[:-1] + ' aria-label="' + _lab + '">'
+        return _t
+    return re.sub(r'<svg\b[^>]*>', _open, _block, count=1)
+_sc = 0
+for _dp, _dn, _fs in os.walk(root):
+    if '/assets' in _dp.replace(root, '', 1):
+        continue
+    for _f in _fs:
+        if not _f.endswith('.html'):
+            continue
+        _p = os.path.join(_dp, _f); s = open(_p, encoding='utf-8').read()
+        if '<svg' not in s or '<title' not in s:
+            continue
+        o = re.sub(r'<svg\b.*?</svg>', lambda m: _svg_aria(m.group(0)), s, flags=re.S)
+        if o != s:
+            open(_p, 'w', encoding='utf-8').write(o); _sc += 1
+print('svg title->aria-label:', _sc)
