@@ -154,9 +154,10 @@ var PK = (function () {
   function cipher(R) { var A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), B; do { B = shuffle(A.slice(), R); } while (B.some(function (x, i) { return x === A[i]; })); var m = {}; A.forEach(function (x, i) { m[x] = B[i]; }); return m; }
   function buildPuz(pz, size, title) {
     var S = SIZES[size], W = S[0], H = S[1], p = new window.jspdf.jsPDF({ unit: 'mm', format: [W, H] }), M = 14, R = rng(pz.seed), n = pz.n || 30, ans = [];
-    p.setFont('helvetica', 'bold'); p.setFontSize(30); caption(p, title, W / 2, H * 0.36, W - 2 * M, 30); p.setFont('helvetica', 'normal'); p.setFontSize(14); p.text('Large print · ' + n + ' puzzles · answers at the back', W / 2, H * 0.5, { align: 'center' }); p.text('Arttrip Studio', W / 2, H * 0.9, { align: 'center' });
+    p.setFont('helvetica', 'bold'); p.setFontSize(30); caption(p, title, W / 2, H * 0.36, W - 2 * M, 30); p.setFont('helvetica', 'normal'); p.setFontSize(14); p.text(pz.sub || ('Large print · ' + n + ' puzzles · answers at the back'), W / 2, H * 0.5, { align: 'center' }); p.text('Arttrip Studio', W / 2, H * 0.9, { align: 'center' });
+    if (pz.pre) pz.pre(p, W, H, M, ans);
     for (var k = 1; k <= n; k++) {
-      var ty = pz.type === 'mix' ? ['ws', 'sudoku', 'maze', 'scramble', 'numsearch', 'crypto'][(k - 1) % 6] : pz.type;
+      var ty = pz.seq ? pz.seq[(k - 1) % pz.seq.length] : pz.type === 'mix' ? ['ws', 'sudoku', 'maze', 'scramble', 'numsearch', 'crypto'][(k - 1) % 6] : pz.type;
       p.addPage([W, H]); p.setFont('helvetica', 'bold'); p.setFontSize(20); p.text(({ ws: pz.theme || 'Word Search', sudoku: 'Sudoku', maze: 'Maze', scramble: 'Word Scramble' + (pz.theme ? ': ' + pz.theme : ''), numsearch: 'Number Search', crypto: 'Cryptogram' })[ty] + ' — ' + k, M, M + 6);
       if (ty === 'scramble') {
         var wl = shuffle(pz.words.slice(), R).slice(0, 15); p.setFont('helvetica', 'normal'); p.setFontSize(12); p.text('Unscramble each word. Hint: they are all about ' + (pz.theme || 'everyday things').toLowerCase() + '.', M, M + 16);
@@ -196,7 +197,7 @@ var PK = (function () {
     for (var a = 0; a < ans.length; a++) {
       if (a % 4 === 0) { p.addPage([W, H]); p.setFont('helvetica', 'bold'); p.setFontSize(16); p.text('Answers', M, M + 4); }
       var o = ans[a], qx = M + (a % 2) * (W - 2 * M) / 2, qy = M + 12 + Math.floor((a % 4) / 2) * (H - M - 12) / 2, bw = (W - 2 * M) / 2 - 8, bh = (H - M - 12) / 2 - 14;
-      p.setFont('helvetica', 'bold'); p.setFontSize(11); p.text('#' + o.k, qx, qy + 4);
+      p.setFont('helvetica', 'bold'); p.setFontSize(11); p.text(typeof o.k === 'number' ? '#' + o.k : String(o.k), qx, qy + 4);
       if (o.t === 'list' || o.t === 'text') { p.setFont('helvetica', 'normal'); p.setFontSize(10); var tl = o.t === 'list' ? o.d.join(', ') : o.d; p.text(p.splitTextToSize(tl, bw), qx, qy + 12); }
       else if (o.t === 'sudoku') { var c2 = Math.min(bw, bh) / 9; drawSudoku(p, o.d.s, o.d.p, qx, qy + 7, c2); }
       else if (o.t === 'maze') { var s2 = Math.min(bw / o.mc, bh / o.mr); drawMaze(p, o.d, o.mc, o.mr, qx, qy + 7, s2, true); }
@@ -207,6 +208,33 @@ var PK = (function () {
         p.setLineWidth(0.2); p.setDrawColor(0); }
     }
     return p;
+  }
+  function buildAct(A, imgs, size, title) {
+    var lines = function (p, x, y, w, n, gap) { p.setDrawColor(170); p.setLineWidth(0.3); for (var i = 0; i < n; i++) p.line(x, y + i * gap, x + w, y + i * gap); };
+    var pz = { seed: A.seed, n: A.seq.length, seq: A.seq, words: A.words, theme: A.theme, level: 'easy', quotes: A.quotes, sub: 'Large-print activity pack · ' + (A.seq.length + 9) + ' activities · answers at the back',
+      pre: function (p, W, H, M, ans) {
+        // Memory Lane (2 pages)
+        for (var pg = 0; pg < 2; pg++) { p.addPage([W, H]); p.setFont('helvetica', 'bold'); p.setFontSize(24); p.text('Memory Lane' + (pg ? ' (continued)' : ''), M, M + 8); p.setFont('helvetica', 'normal'); p.setFontSize(12);
+          if (!pg) p.text(p.splitTextToSize('Take your time with each question. Write a few words, or talk it over with a friend or family member. There are no wrong answers.', W - 2 * M), M, M + 17);
+          A.memory.slice(pg * 5, pg * 5 + 5).forEach(function (q, i) { var y = M + 32 + i * ((H - M - 40) / 5); p.setFont('helvetica', 'bold'); p.setFontSize(16); p.text(p.splitTextToSize((pg * 5 + i + 1) + '. ' + q, W - 2 * M), M, y); lines(p, M, y + 14, W - 2 * M, 3, 10); }); }
+        // Quiz Time (2 pages)
+        var key = [];
+        for (pg = 0; pg < 2; pg++) { p.addPage([W, H]); p.setFont('helvetica', 'bold'); p.setFontSize(24); p.text('Quiz Time' + (pg ? ' (continued)' : ': ' + A.theme), M, M + 8); p.setFont('helvetica', 'normal'); p.setFontSize(12); if (!pg) p.text('Circle the right answer. Answers are at the back.', M, M + 17);
+          A.quiz.slice(pg * 5, pg * 5 + 5).forEach(function (q, i) { var y = M + 32 + i * ((H - M - 40) / 5); p.setFont('helvetica', 'bold'); p.setFontSize(16); var ql = p.splitTextToSize((pg * 5 + i + 1) + '. ' + q[0], W - 2 * M); p.text(ql, M, y); p.setFont('helvetica', 'normal'); p.setFontSize(15);
+            q[1].forEach(function (o, j) { p.text('ABC'[j] + ')  ' + o, M + 8, y + 8 * ql.length + 3 + j * 8); }); key.push((pg * 5 + i + 1) + ' ' + 'ABC'[q[2]]); }); }
+        ans.push({ k: 'Quiz Time', t: 'text', d: key.join('   ') });
+        // Finish the Saying
+        p.addPage([W, H]); p.setFont('helvetica', 'bold'); p.setFontSize(24); p.text('Finish the Saying', M, M + 8); p.setFont('helvetica', 'normal'); p.setFontSize(12); p.text('Complete each well-known saying.', M, M + 17);
+        A.sayings.forEach(function (s0, i) { var y = M + 32 + i * ((H - M - 40) / A.sayings.length); p.setFont('helvetica', 'bold'); p.setFontSize(17); p.text((i + 1) + '. ' + s0[0] + ' …', M, y); lines(p, M + 10, y + 9, W - 2 * M - 10, 1, 0); });
+        ans.push({ k: 'Finish the Saying', t: 'text', d: A.sayings.map(function (s0, i) { return (i + 1) + '. … ' + s0[1]; }).join('   ') });
+        // Art Talk (one page per painting)
+        (A.art || []).forEach(function (w, i) { var im = imgs[i]; if (!im) return; p.addPage([W, H]); p.setFont('helvetica', 'bold'); p.setFontSize(24); p.text('Art Talk', M, M + 8);
+          var f = fit(im.w, im.h, W - 2 * M, H * 0.5); p.addImage(im.d, im.f, (W - f[0]) / 2, M + 14, f[0], f[1]); var y = M + 22 + f[1];
+          p.setFont('helvetica', 'bold'); p.setFontSize(15); p.text(p.splitTextToSize(w.t + ' — ' + w.a + (w.d ? ', ' + w.d : ''), W - 2 * M), M, y); p.setFont('helvetica', 'normal'); p.setFontSize(14);
+          ['What is the first thing you notice in this picture?', 'What time of day or year do you think it is? Why?', 'If you could step into this painting, what would you hear or smell?', 'Does it remind you of a place or a person you know?'].forEach(function (q, j) { p.text('• ' + q, M, y + 12 + j * 16); lines(p, M + 6, y + 19 + j * 16, W - 2 * M - 6, 1, 0); }); });
+        // Colour-in the pattern pages use the same art works (outline only, simplified)
+      } };
+    return buildPuz(pz, size, title);
   }
   function drawSudoku(p, vals, giv, x, y, cs) {
     p.setDrawColor(0); for (var i = 0; i <= 9; i++) { p.setLineWidth(i % 3 === 0 ? 0.8 : 0.2); p.line(x, y + cs * i, x + cs * 9, y + cs * i); p.line(x + cs * i, y, x + cs * i, y + cs * 9); }
@@ -230,6 +258,7 @@ var PK = (function () {
       if (j.ok && j.pass) { try { localStorage.setItem('pkpass:' + O.slug, j.pass); } catch (e) { } }
       if (!j.ok) { btn.disabled = false; say(O.ko ? '이 상품의 라이선스 키가 아니에요. 영수증 메일의 키를 다시 확인해 주세요.' : O.ja ? 'この商品のキーではありません。領収書メールのキーをご確認ください。' : 'That key is not valid for this product. Please check the key in your receipt.'); return; }
       if (j.k === 'pbn') { say(O.ko ? '도안 그리는 중…' : O.ja ? '図案を描いています…' : 'Drawing your pattern…'); PBN.unpack(j.pbn).then(function (r) { var pp = PBN.pdf(r, size, j.title, j.artist); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요. 다른 크기도 같은 키로 받을 수 있어요.' : O.ja ? '完了しました！ダウンロードフォルダをご確認ください。同じキーで他のサイズも作れます。' : 'Done! Check your downloads. Other sizes work with the same key.'); }); return; }
+      if (j.k === 'act') { var n1 = 0; return Promise.all((j.act.art || []).map(function (w) { return load(w.u, 1800, '').then(function (x) { n1++; say((O.ko ? '그림 불러오는 중 ' : 'Loading pictures ') + n1); return x; }).catch(function () { return null; }); })).then(function (im2) { say(O.ko ? 'PDF 만드는 중…' : O.ja ? 'PDFを作成しています…' : 'Building the PDF…'); var pp = buildAct(j.act, im2, size, j.title); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요. 몇 번이든 다시 인쇄할 수 있어요.' : O.ja ? '完了しました！ダウンロードフォルダをご確認ください。' : 'Done! Check your downloads. Print as many copies as you like.'); }); }
       if (j.k === 'puz') { say(O.ko ? 'PDF 만드는 중…' : O.ja ? 'PDFを作成しています…' : 'Building the PDF…'); setTimeout(function () { var pp = buildPuz(j.pz, size, j.title); pp.save(O.slug + '-' + size + '.pdf'); btn.disabled = false; say(O.ko ? '완료! 다운로드 폴더를 확인하세요.' : O.ja ? '完了しました！ダウンロードフォルダをご確認ください。' : 'Done! Check your downloads.'); }, 30); return; }
       if (j.k === 'budget') { var lg = (document.querySelector('input[name=lg]:checked') || {}).value || 'en', cur = (document.getElementById('cur') || {}).value || '$', n0 = 0;
         return Promise.all(j.works.map(function (w) { return fetch(w.u).then(function (r) { return r.blob(); }).then(function (b) { return createImageBitmap(b); }).then(function (bm) { var s = Math.min(1, 900 / Math.max(bm.width, bm.height)), cv = document.createElement('canvas'); cv.width = Math.round(bm.width * s); cv.height = Math.round(bm.height * s); cv.getContext('2d').drawImage(bm, 0, 0, cv.width, cv.height); n0++; say((O.ko ? '그림 불러오는 중 ' : O.ja ? '画像を読み込み中 ' : 'Loading pictures ') + n0 + ' / ' + j.works.length); return { data: cv.toDataURL('image/jpeg', 0.82).split(',')[1] }; }).catch(function () { return null; }); })).then(function (imgs) {

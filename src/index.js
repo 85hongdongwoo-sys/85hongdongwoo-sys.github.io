@@ -29,6 +29,7 @@ export default {
     { const bm = url.pathname.match(/^\/buy\/([a-z0-9-]+)$/); if (bm) { const r = await pkBuy(env, bm[1], url); if (r) return r; } }
     { const cm = url.pathname.match(/^\/pk\/svg\/([a-z0-9-]+)\.svg$/); if (cm) return pkCover(env, cm[1]); }
     { const im = url.pathname.match(/^\/pk\/img\/([a-z0-9-]+)\.jpg$/); if (im) { const v = env.VIDS && await env.VIDS.get('pk:img:' + im[1], { type: 'arrayBuffer', cacheTtl: 86400 }); return v ? new Response(v, { headers: { 'content-type': 'image/jpeg', 'cache-control': 'public, max-age=604800' } }) : new Response('not found', { status: 404 }); } }
+    if (url.pathname === '/naver621c71ca616c8bce33622a30cd4009ec.html') return new Response('naver-site-verification: naver621c71ca616c8bce33622a30cd4009ec.html', { headers: { 'content-type': 'text/html; charset=utf-8' } });
     if (url.pathname === '/api/pk/put') return pkPut(req, env);
     if (url.pathname === '/api/pk/paris') return pkParis(req, env);
     // hero motion videos stored in KV (VIDS)
@@ -76,7 +77,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv43', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv44', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -140,7 +141,7 @@ function layout(lang, { title, desc, path, body, img, jsonld, head = '', noindex
   if (lang === 'ja' && !jaOk) noindex = true;
   const langs = [['en', 'English'], ['ko', '한국어'], ['ja', '日本語']].filter(([c]) => c !== lang);
   const nav = [['col', '/collections'], ['stories', '/stories'], ['illus', '/originals'], ['studio', '/studio'], ['shop', '/shop'], ['pricing', '/pricing']].map(([k, href]) => `<a href="${L(lang, href)}">${t.nav[k]}</a>`).join('');
-  return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  return `<!DOCTYPE html><html lang="${lang}"><head><meta charset="utf-8"><meta name="naver-site-verification" content="a74a8b4192ac3a91a0f6ae4348f92390c8987c8e"><meta name="viewport" content="width=device-width,initial-scale=1">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7XNEVZZ06X"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-7XNEVZZ06X');</script>
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${lang === 'ko' ? koUrl : lang === 'ja' ? jaUrl : enUrl}"><link rel="alternate" hreflang="en" href="${enUrl}"><link rel="alternate" hreflang="ko" href="${koUrl}">${jaOk ? `<link rel="alternate" hreflang="ja" href="${jaUrl}">` : ''}<link rel="alternate" hreflang="x-default" href="${enUrl}">
