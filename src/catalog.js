@@ -2,7 +2,7 @@
 // Data lives in KV (env.VIDS) under pk:index and pk:item:<slug>, written by the private /api/pk/put endpoint.
 // PDFs are built in the buyer's browser after the licence key from the receipt is checked against the product's benefit.
 
-const IMG_HOSTS = ['openaccess-cdn.clevelandart.org', 'images.metmuseum.org', 'www.parismuseescollections.paris.fr', 'parismuseescollections.paris.fr', 'api.nga.gov', 'media.nga.gov'];
+const IMG_HOSTS = ['openaccess-cdn.clevelandart.org', 'images.metmuseum.org', 'www.parismuseescollections.paris.fr', 'parismuseescollections.paris.fr', 'api.nga.gov', 'media.nga.gov', 'gongu.copyright.or.kr'];
 let IDX = null, IDX_AT = 0;
 
 export const KIND = {
