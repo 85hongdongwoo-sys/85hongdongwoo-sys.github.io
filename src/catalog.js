@@ -21,6 +21,12 @@ export async function pkIndex(env) {
   const j = env.VIDS ? await env.VIDS.get('pk:index', { type: 'json', cacheTtl: 300 }) : null;
   IDX = Array.isArray(j) ? j : []; IDX_AT = Date.now(); return IDX;
 }
+let RD = null, RD_AT = 0;
+async function pkRedir(env, slug, lang) {
+  if (!RD || Date.now() - RD_AT > 300000) { RD = (env.VIDS && await env.VIDS.get('pk:redir', { type: 'json', cacheTtl: 300 })) || {}; RD_AT = Date.now(); }
+  const to = RD[slug]; if (!to) return null;
+  return new Response(null, { status: 301, headers: { location: (lang === 'en' ? '' : '/' + lang) + '/shop/c/' + to } });
+}
 const CH = new Map();
 async function pkItem(env, slug) {
   if (!env.VIDS) return null;
@@ -169,7 +175,7 @@ ${pages > 1 ? `<nav class="pager">${page > 1 ? `<a href="${qs({ p: page - 1 })}"
 // ---------- product page ----------
 export async function pkPage(lang, env, slug, h) {
   const { layout, html, esc, L, T } = h; const ko = lang === 'ko', ja = lang === 'ja', t = T[lang];
-  const it = await pkItem(env, slug); if (!it) return null;
+  const it = await pkItem(env, slug); if (!it) return pkRedir(env, slug, lang);
   const c = copy(it, lang), k = KIND[it.k];
   const sibs = (await pkIndex(env)).filter((x) => x.f === it.f && x.s !== it.s).slice(0, 6);
   const btn = (it.c || tierFor(env, it)) ? `<a class="paybtn gl" href="${esc(it.c || '/buy/' + it.s)}" rel="nofollow noopener"><b>${ko ? '해외결제' : t.buy}</b><span>${ko ? '카드 · Apple Pay · Google Pay' : ja ? 'カード · Apple Pay · Google Pay（米ドル）' : 'Card · Apple Pay · Google Pay'}</span></a>` : `<span class="paybtn off"><b>${t.buy}</b><span>${t.soon}</span></span>`;
@@ -179,7 +185,7 @@ ${c.body.map((x) => `<p>${esc(x)}</p>`).join('')}
 <div class="buy"><div class="price">$${it.p}</div><div class="paybtns">${btn}</div><p class="small">✓ ${t.guest}</p><p class="small"><a href="${L(lang, '/dl/' + it.s)}">${ko ? '이미 구매했어요 → 라이선스 키로 받기' : ja ? '購入済みの方 → ライセンスキーでダウンロード' : 'Already bought? Download with your licence key →'}</a></p></div></div></div>
 ${it.k === 'puz' || it.k === 'pbn' ? '' : `<h2 class="h3" style="margin-top:34px">${ko ? `들어 있는 그림 ${it.w.length}점` : ja ? `収録作品 ${it.w.length}点` : `The ${it.w.length} works inside`}</h2>
 <div class="stgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px">${it.w.map((w) => `<figure style="margin:0"><img src="${pi(w.v || w.u)}" alt="${esc(w.t)}" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#eee"><figcaption class="small" style="margin-top:6px;overflow-wrap:anywhere">${esc(w.t)}${w.d ? ', ' + esc(w.d) : ''}<br><span style="opacity:.7">${esc(w.a || '')}</span></figcaption></figure>`).join('')}</div>`}
-${sibs.length ? `<h2 class="h3" style="margin-top:34px">${ko ? '같은 그림으로 만든 다른 상품' : ja ? '同じ作品でつくった他の商品' : 'Same pictures, other formats'}</h2><div class="pgrid">${sibs.map((x) => card(x, lang, L, esc)).join('')}</div>` : ''}</section>`;
+${sibs.length ? `<h2 class="h3" style="margin-top:34px">${ko ? '같은 작가의 다른 상품' : ja ? '同じ画家の他の商品' : 'More from this artist'}</h2><div class="pgrid">${sibs.map((x) => card(x, lang, L, esc)).join('')}</div>` : ''}</section>`;
   const jsonld = { '@context': 'https://schema.org', '@type': 'Product', name: it.en.name, image: 'https://arttripstudio.com' + pi(it.v || it.w[0].v || it.w[0].u), description: copy(it, 'en').body[0], offers: { '@type': 'Offer', price: it.p, priceCurrency: 'USD', availability: it.c ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder' } };
   return html(layout(lang, { title: `${c.name} — ${t.site}`, desc: c.body[0].slice(0, 155), path: '/shop/c/' + it.s, body, img: pi(it.v || it.w[0].v || it.w[0].u), jsonld }));
 }
@@ -187,7 +193,7 @@ ${sibs.length ? `<h2 class="h3" style="margin-top:34px">${ko ? '같은 그림으
 // ---------- download page (PDF built in the browser) ----------
 export async function pkDownload(lang, env, slug, h) {
   const { layout, html, esc, L, T } = h; const ko = lang === 'ko', ja = lang === 'ja', t = T[lang];
-  const it = await pkItem(env, slug); if (!it) return null;
+  const it = await pkItem(env, slug); if (!it) return pkRedir(env, slug, lang);
   const sizes = it.k === 'prints' ? ['A4', 'Letter', 'A3'] : it.k === 'pbn' ? ['A3', 'A2', 'A4', 'Letter'] : ['A4', 'Letter'];
   const body = `<section class="wrap sec narrow"><nav class="crumb"><a href="${L(lang, '/shop/c/' + it.s)}">${esc((it[lang] || it.en).name)}</a></nav><h1>${ko ? 'PDF 내려받기' : ja ? 'PDFをダウンロード' : 'Download your PDF'}</h1>
 <p class="sub">${ko ? '결제 영수증 메일에 있는 라이선스 키를 넣어 주세요. 파일은 이 브라우저에서 바로 만들어져요(그림이 많으면 1~2분 걸려요).' : ja ? 'お支払い直後はキーなしでそのままダウンロードできます。あとで再ダウンロードするときは、領収書メールのライセンスキーを入力してください。ファイルはこのブラウザで作成されます（1〜2分かかることがあります）。' : 'Enter the licence key from your receipt email. The file is put together right here in your browser (large sets can take a minute or two).'}</p>
