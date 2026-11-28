@@ -161,7 +161,30 @@ function copy(it, lang) {
   return { name: c.name, short: c.short || body[0], body };
 }
 
-const card = (it, lang, L, esc) => `<a class="pcard" href="${L(lang, '/shop/c/' + it.s)}"><div class="pimg"><img src="${pi(it.v)}" alt="${esc((it[lang] || it.en).name)}" loading="lazy"></div><b>${esc((it[lang] || it.en).name)}</b><span>${esc(KIND[it.k][lang])}</span><em>$${it.p}</em></a>`;
+
+// ---------- product mock-ups drawn in HTML/CSS (no stored images needed) ----------
+export const MOCK_CSS = `<style>.mk{position:relative;aspect-ratio:1/1;background:#ece5d8;border-radius:12px;overflow:hidden;container-type:inline-size}.mk img{display:block;width:100%;height:100%;object-fit:cover}
+.mk .cal{position:absolute;left:17%;right:17%;top:7%;bottom:5%;background:#fff;box-shadow:0 1.6cqw 4cqw rgba(0,0,0,.2);display:flex;flex-direction:column}
+.mk .cal:before{content:"";position:absolute;top:-2.2cqw;left:10%;right:10%;height:4cqw;background:radial-gradient(circle,#666 0 .9cqw,transparent 1cqw) 0 0/9% 100% repeat-x}
+.mk .pic{flex:0 0 56%;overflow:hidden}.mk .mo{font:700 3cqw/1 system-ui,sans-serif;letter-spacing:.08em;padding:2.6cqw 3cqw 1.2cqw;color:#222}
+.mk .gr{flex:1;display:grid;grid-template-columns:repeat(7,1fr);gap:.5cqw;padding:0 3cqw 2.4cqw;font:1.9cqw/1 system-ui,sans-serif;color:#555}.mk .gr i{border-top:.2cqw solid #ddd;padding-top:.6cqw;font-style:normal}
+.mk .pl{position:absolute;left:5%;right:5%;top:12%;bottom:10%;display:flex;box-shadow:0 1.6cqw 4cqw rgba(0,0,0,.2)}.mk .pl>div{flex:1;background:#fffdf8;display:flex;flex-direction:column;padding:2.4cqw}.mk .pl>div:first-child{border-right:.4cqw solid #d8cfbf}
+.mk .pl .pic{flex:0 0 62%}.mk .ln{flex:1;background:repeating-linear-gradient(#fffdf8 0 3.2cqw,#d9d2c4 3.2cqw 3.4cqw)}.mk .wk{font:700 2.4cqw/1.3 system-ui,sans-serif;color:#333;margin-bottom:1cqw}
+.mk .fr{position:absolute;background:#fff;padding:2.2cqw;box-shadow:0 1.4cqw 3.5cqw rgba(0,0,0,.25);border:1.3cqw solid #2b2622}
+.mk .pc{position:absolute;width:52%;aspect-ratio:3/2;background:#fff;padding:1.6cqw;box-shadow:0 1.2cqw 3cqw rgba(0,0,0,.22)}</style>`;
+function mock(it, lang) {
+  const ws = (it.w || []).map((w) => pi(w.v || w.u)), vs = ws.length ? ws : [pi(it.v)].concat(it.vs || []).map((u) => u);
+  const im = (i) => `<img src="${vs[i % vs.length]}" alt="" loading="lazy">`;
+  const mon = { en: 'JANUARY 2027', ko: '2027년 1월', ja: '2027年1月' }[lang] || 'JANUARY 2027';
+  const days = Array.from({ length: 35 }, (_, i) => `<i>${i >= 5 && i - 4 <= 31 ? i - 4 : ''}</i>`).join('');
+  if (it.k === 'cal') return `<div class="mk"><div class="cal"><div class="pic">${im(0)}</div><div class="mo">${mon}</div><div class="gr">${days}</div></div></div>`;
+  if (it.k === 'planner') return `<div class="mk"><div class="pl"><div><div class="wk">${mon}</div><div class="pic">${im(0)}</div><div class="ln"></div></div><div><div class="wk">${{ en: 'WEEK 1', ko: '1주차', ja: '第1週' }[lang] || 'WEEK 1'}</div><div class="ln"></div></div></div></div>`;
+  if (it.k === 'prints') return `<div class="mk">${[[8, 30, 46, 0], [30, 14, 42, 1], [50, 34, 40, 2]].map(([l, t, w, i]) => `<div class="fr" style="left:${l}%;top:${t}%;width:${w}%;aspect-ratio:3/4">${im(i)}</div>`).join('')}</div>`;
+  if (it.k === 'cards') return `<div class="mk">${[[6, 14, -8, 0], [42, 10, 6, 1], [10, 52, 5, 2], [40, 50, -4, 3]].map(([l, t, r, i]) => `<div class="pc" style="left:${l}%;top:${t}%;transform:rotate(${r}deg)">${im(i)}</div>`).join('')}</div>`;
+  return `<div class="mk"><img src="${pi(it.v)}" alt="" loading="lazy"></div>`;
+}
+
+const card = (it, lang, L, esc) => `<a class="pcard" href="${L(lang, '/shop/c/' + it.s)}"><div class="pimg">${["cal", "planner", "prints", "cards"].includes(it.k) ? mock(it, lang) : `<img src="${pi(it.v)}" alt="${esc((it[lang] || it.en).name)}" loading="lazy">`}</div><b>${esc((it[lang] || it.en).name)}</b><span>${esc(KIND[it.k][lang])}</span><em>$${it.p}</em></a>`;
 
 // ---------- shop front: catalogue sections ----------
 export async function pkShopTop(lang, env, h) {
@@ -175,7 +198,7 @@ export async function pkShopTop(lang, env, h) {
     ['cal', KIND.cal[lang], (x) => x.k === 'cal' && !/^(korean|paris)-/.test(x.s), '?k=cal'],
     ['prints', KIND.prints[lang], (x) => x.k === 'prints' && !/^(korean|paris)-/.test(x.s), '?k=prints'],
   ];
-  return S.map(([id, h2, f, q]) => { const l = all.filter(f); if (!l.length) return ''; return `<div class="sh" id="c-${id}" style="margin-top:30px"><h2>${esc(h2)}</h2><a href="${L(lang, '/shop/c')}${q}">${ko ? `${l.length}종 모두 보기` : ja ? `全${l.length}点を見る` : `See all ${l.length}`} →</a></div><div class="pgrid">${l.slice(0, 8).map((x) => card(x, lang, L, esc)).join('')}</div>`; }).join('');
+  return MOCK_CSS + S.map(([id, h2, f, q]) => { const l = all.filter(f); if (!l.length) return ''; return `<div class="sh" id="c-${id}" style="margin-top:30px"><h2>${esc(h2)}</h2><a href="${L(lang, '/shop/c')}${q}">${ko ? `${l.length}종 모두 보기` : ja ? `全${l.length}点を見る` : `See all ${l.length}`} →</a></div><div class="pgrid">${l.slice(0, 8).map((x) => card(x, lang, L, esc)).join('')}</div>`; }).join('');
 }
 
 // ---------- catalogue listing ----------
@@ -187,7 +210,7 @@ export async function pkList(lang, env, url, h) {
   const per = 48, pages = Math.max(1, Math.ceil(list.length / per)), page = Math.min(pages, Math.max(1, +(url.searchParams.get('p') || 1)));
   const qs = (o) => { const s = new URLSearchParams(); const v = { k, g, c: cc, q, ...o }; for (const [a, b] of Object.entries(v)) if (b && !(a === 'p' && b === 1)) s.set(a, b); const x = s.toString(); return L(lang, '/shop/c') + (x ? '?' + x : ''); };
   const chip = (label, href, on) => `<a href="${href}"${on ? ' aria-current="true"' : ''}>${esc(label)}</a>`;
-  const body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a></nav><span class="lbl">${ko ? `${all.length}종` : ja ? `${all.length}点` : `${all.length} products`}</span><h1>${ko ? '명화 달력·플래너·포스터·엽서·퍼즐북' : ja ? '名画カレンダー・プランナー・ポスター・ポストカード・パズル本' : 'Masterpiece calendars, planners, prints, postcards & puzzle books'}</h1>
+  const body = `${MOCK_CSS}<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a></nav><span class="lbl">${ko ? `${all.length}종` : ja ? `${all.length}点` : `${all.length} products`}</span><h1>${ko ? '명화 달력·플래너·포스터·엽서·퍼즐북' : ja ? '名画カレンダー・プランナー・ポスター・ポストカード・パズル本' : 'Masterpiece calendars, planners, prints, postcards & puzzle books'}</h1>
 <p class="sub">${ko ? '세계 미술관이 공개한 명화로 만든 인쇄용 디지털 상품이에요. 결제 후 바로 PDF로 받아요.' : ja ? '世界の美術館が公開した名画でつくった、印刷して使えるデジタル商品です。お支払い後すぐにPDFをダウンロードできます。' : 'Printable digital products made from open-access museum masterpieces. Instant PDF download.'}</p>
 <form class="row" action="${L(lang, '/shop/c')}" style="margin:14px 0"><input name="q" value="${esc(q)}" placeholder="${ko ? '작가나 주제 검색 (예: Monet, cats)' : ja ? '画家やテーマで検索（例：Monet, cats）' : 'Search an artist or theme (e.g. Monet, cats)'}" style="flex:1;min-width:0;padding:10px 14px;border:1px solid #d9d1c3;border-radius:999px;font:inherit">${k ? `<input type="hidden" name="k" value="${esc(k)}">` : ''}</form>
 <div class="chips wrapc">${chip(ko ? '전체' : ja ? 'すべて' : 'All', qs({ k: '', p: 1 }), !k)}${KIND_ORDER.map((x) => chip(KIND[x][lang], qs({ k: x, p: 1 }), k === x)).join('')}</div>
@@ -204,8 +227,8 @@ export async function pkPage(lang, env, slug, h) {
   const c = copy(it, lang), k = KIND[it.k];
   const sibs = (await pkIndex(env)).filter((x) => x.f === it.f && x.s !== it.s).slice(0, 6);
   const btn = (it.c || tierFor(env, it)) ? `<a class="paybtn gl" href="${esc(it.c || '/buy/' + it.s)}" rel="nofollow noopener"><b>${ko ? '해외결제' : t.buy}</b><span>${ko ? '카드 · Apple Pay · Google Pay' : ja ? 'カード · Apple Pay · Google Pay（米ドル）' : 'Card · Apple Pay · Google Pay'}</span></a>` : `<span class="paybtn off"><b>${t.buy}</b><span>${t.soon}</span></span>`;
-  const body = `<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a> › <a href="${L(lang, '/shop/c?k=' + it.k)}">${esc(k[lang])}</a></nav><div class="agrid">
-<figure class="big"><img src="${pi(it.v || it.w[0].v || it.w[0].u)}" alt="${esc(c.name)}"></figure><div class="meta"><span class="lbl">${t.instant} · ${esc(k[lang])}</span><h1>${esc(c.name)}</h1>
+  const body = `${it.k === 'cal' || it.k === 'planner' || it.k === 'prints' || it.k === 'cards' ? '' : MOCK_CSS}<section class="wrap sec"><nav class="crumb"><a href="${L(lang, '/shop')}">${t.nav.shop}</a> › <a href="${L(lang, '/shop/c?k=' + it.k)}">${esc(k[lang])}</a></nav><div class="agrid">
+<figure class="big">${["cal", "planner", "prints", "cards"].includes(it.k) ? MOCK_CSS + mock(it, lang) : `<img src="${pi(it.v || it.w[0].v || it.w[0].u)}" alt="${esc(c.name)}">`}</figure><div class="meta"><span class="lbl">${t.instant} · ${esc(k[lang])}</span><h1>${esc(c.name)}</h1>
 ${c.body.map((x) => `<p>${esc(x)}</p>`).join('')}
 <div class="buy"><div class="price">$${it.p}</div><div class="paybtns">${btn}</div><p class="small">✓ ${t.guest}</p><p class="small"><a href="${L(lang, '/dl/' + it.s)}">${ko ? '이미 구매했어요 → 라이선스 키로 받기' : ja ? '購入済みの方 → ライセンスキーでダウンロード' : 'Already bought? Download with your licence key →'}</a></p></div></div></div>
 ${it.k === 'puz' || it.k === 'pbn' ? '' : `<h2 class="h3" style="margin-top:34px">${ko ? `들어 있는 그림 ${it.w.length}점` : ja ? `収録作品 ${it.w.length}点` : `The ${it.w.length} works inside`}</h2>
