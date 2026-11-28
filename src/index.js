@@ -74,7 +74,7 @@ export default {
 
     // cached HTML
     const cache = caches.default;
-    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv11', { method: 'GET' });
+    const cacheKey = new Request(url.origin + path + url.search + (url.search ? '&' : '?') + '__cv=hv12', { method: 'GET' });
     const noCache = /^\/(api|account)/.test(rest);
     if (req.method === 'GET' && env.CACHE_HTML !== 'off' && !noCache) { const hit = await cache.match(cacheKey); if (hit) return hit; }
 
@@ -273,7 +273,7 @@ function storiesIndex(lang) {
 async function story(lang, env, x) {
   const ko = lang === 'ko', c = x[lang];
   const ids = Object.keys(c.works);
-  const rows = await all(env, `SELECT * FROM artworks WHERE id IN (${ids.map(() => '?').join(',')})`, ...ids);
+  const rows = await all(env, `SELECT * FROM artworks WHERE id IN (${ids.filter((i) => /^\d+$/.test(i)).map((i) => `'${i}'`).join(',')})`);
   const byId = Object.fromEntries(rows.map((r) => [String(r.id), r]));
   const works = ids.map((id) => byId[id]).filter(Boolean).map((a) => `<figure class="stw"><a href="${L(lang, '/art/' + a.slug)}"><img src="/img/${a.id}.jpg" alt="${esc(tl(a, lang))} — ${esc(c.name)}" loading="lazy" width="${a.w}" height="${a.h}"></a><figcaption><b>${esc(tl(a, lang))}</b> <em>${esc(a.date || '')}</em><p>${esc(c.works[a.id])}</p></figcaption></figure>`).join('');
   const prod = PRODUCTS.find((p) => p.slug === x.product);
