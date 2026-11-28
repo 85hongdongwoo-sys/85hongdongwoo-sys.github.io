@@ -5,7 +5,7 @@ var PBN = (function () {
     [432, 'Titanium White', 644, 'Titanium White', [246, 245, 240]], [434, 'Unbleached Titanium', 422, 'Naples Yellow', [232, 214, 172]],
     [159, 'Cadmium Yellow Light Hue', 114, 'Cadmium Yellow Pale Hue', [250, 214, 40]], [830, 'Cadmium Yellow Medium Hue', 120, 'Cadmium Yellow Medium Hue', [246, 178, 22]],
     [720, 'Cadmium Orange Hue', 90, 'Cadmium Orange Hue', [234, 108, 32]], [151, 'Cadmium Red Medium Hue', 95, 'Cadmium Red Hue', [198, 38, 36]],
-    [311, 'Alizarin Crimson Hue Permanent', 203, 'Crimson', [136, 22, 42]], [186, 'Dioxazine Purple', 728, 'Winsor Violet', [68, 32, 92]],
+    [116, 'Alizarin Crimson Hue Permanent', 203, 'Crimson', [136, 22, 42]], [186, 'Dioxazine Purple', 728, 'Winsor Violet', [68, 32, 92]],
     [680, 'Light Blue Violet', 444, 'Pale Violet', [168, 162, 214]], [380, 'Ultramarine Blue', 660, 'Ultramarine', [36, 46, 140]],
     [316, 'Phthalocyanine Blue', 706, 'Winsor Blue', [16, 40, 96]], [470, 'Cerulean Blue Hue', 138, 'Cerulean Blue Hue', [32, 112, 182]],
     [770, 'Light Blue Permanent', 446, 'Powder Blue', [142, 190, 224]], [46, 'Turquoise Blue', 232, 'Deep Turquoise', [0, 128, 140]],
@@ -112,7 +112,9 @@ var PBN = (function () {
     x.putImageData(id, 0, 0); return cv;
   }
   function preview(r) { var cv = document.createElement('canvas'); cv.width = r.w; cv.height = r.h; var x = cv.getContext('2d'), id = x.createImageData(r.w, r.h); for (var i = 0; i < r.lbl.length; i++) { var c = r.paints[r.lbl[i]].rgb; id.data[i * 4] = c[0]; id.data[i * 4 + 1] = c[1]; id.data[i * 4 + 2] = c[2]; id.data[i * 4 + 3] = 255; } x.putImageData(id, 0, 0); return cv; }
-  function recipe(parts, brand) { return parts.map(function (p) { var t = TUBES[p[0]]; return (p[1] > 1 ? p[1] + 'x ' : '1x ') + (brand ? t[3] : t[1]); }).join(' + '); }
+  function code(t, brand) { return brand ? ' #' + String(t[2]).padStart(3, '0') : ' #' + String(t[0]).padStart(3, '0'); }
+  function recipe(parts, brand) { if (parts.length === 1) { var t0 = TUBES[parts[0][0]]; return (brand ? t0[3] : t0[1]) + code(t0, brand); } return parts.map(function (p) { var t = TUBES[p[0]]; return (p[1] > 1 ? p[1] + 'x ' : '1x ') + (brand ? t[3] : t[1]) + code(t, brand); }).join(' + '); }
+  function nearest(rgb, brand) { var L = lab(rgb[0], rgb[1], rgb[2]), b = 0, bd = 1e9; TUBES.forEach(function (t, i) { var d = d2(L, lab(t[4][0], t[4][1], t[4][2])); if (d < bd) { bd = d; b = i; } }); var t = TUBES[b]; return (brand ? t[3] : t[1]) + code(t, brand); }
   var SZ = { A4: [210, 297], Letter: [215.9, 279.4], A3: [297, 420], A2: [420, 594] };
   function pdf(r, size, title, artist) {
     var S = SZ[size], land = r.w > r.h, W = land ? S[1] : S[0], H = land ? S[0] : S[1], M = 10, jp = window.jspdf.jsPDF, p = new jp({ unit: 'mm', format: [W, H] });
@@ -130,5 +132,5 @@ var PBN = (function () {
     p.text(p.splitTextToSize('How to read the key: "1x A + 2x Titanium White" means 1 part A mixed with 2 parts white. Mix enough for every area with that number before you start. Paint one flat colour per area, light colours first. Print page 1 at 100% (no scaling) on 200 g/m² or heavier paper, or trace it onto canvas with graphite transfer paper. Liquitex and Winsor & Newton are trademarks of their owners; Arttrip Studio is not affiliated with them.', W - 2 * M), M, H - M - 18);
     return p;
   }
-  return { process: process, pack: pack, unpack: unpack, pdf: pdf, preview: preview, outline: outline, recipe: recipe, candidates: candidates };
+  return { process: process, pack: pack, unpack: unpack, pdf: pdf, preview: preview, outline: outline, recipe: recipe, nearest: nearest, candidates: candidates };
 })();
