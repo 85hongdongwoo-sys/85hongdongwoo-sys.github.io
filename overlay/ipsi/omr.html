@@ -196,7 +196,11 @@ var _vn=qp('n'),_vc=qp('c'),_vt=qp('t'),_vkey=qp('key'),_vname=qp('name');
 if(_vn)$('#omr-n').value=Math.max(1,Math.min(200,parseInt(_vn,10)||20));
 if(_vc==='4'||_vc==='5')$('#omr-c').value=_vc;
 if(_vt!==null&&_vt!=='')$('#omr-t').value=Math.max(0,Math.min(600,parseInt(_vt,10)||0));
-if(_vkey)$('#omr-key').value=_vkey.replace(/[^0-9 ,\n]/g,'');
+if(_vkey){var _ta=$('#omr-key');_ta.value=_vkey.replace(/[^0-9 ,\n]/g,'');
+ // 정답 미리 세팅 시 입력칸을 숨겨 스포일러 방지(채점엔 그대로 사용)
+ _ta.style.display='none';
+ var _nt=_ta.previousElementSibling;if(_nt&&_nt.classList.contains('note'))_nt.innerHTML='정답이 미리 세팅돼 있어요. 풀고 <b>채점하기</b>만 누르면 점수가 바로 나와요.';
+ var _hh=_nt&&_nt.previousElementSibling;if(_hh&&_hh.tagName==='H2')_hh.textContent='채점';}
 if(_vname){var _h=document.querySelector('.lead')||document.querySelector('h1');if(_h&&_h.parentNode){var _s=document.createElement('p');_s.innerHTML='지금 푸는 시험: <span id="omr-name"></span>';_s.querySelector('#omr-name').textContent=_vname;_h.parentNode.insertBefore(_s,_h.nextSibling);}}
 // PDF.js 내장 뷰어 — 받은 PDF를 페이지 안에 직접 렌더(기기·브라우저 무관)
 var PJS='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';var _pjs=null;
